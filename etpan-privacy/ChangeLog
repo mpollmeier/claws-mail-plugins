@@ -1,3 +1,9 @@
+2004-07-19 [colin]	0.6
+	
+	* src/prefs_privacy.c
+	    Update functions name to sync with main.
+	    Thanks to Charles A Edwards for the patch.
+
 2003-12-16 [hoa]	0.5
 
 	* ChangeLog

@@ -240,9 +240,9 @@ void etpan_privacy_prefs_read_config(void)
 	apply_config();
 }
 
-void etpan_privacy_prefs_save_config(void)
+void etpan_privacy_prefs_write_config(void)
 {
-	prefs_save_config(param, "Privacy", ETPANPRIVACY_RC);
+	prefs_write_config(param, "Privacy", ETPANPRIVACY_RC);
 }
 
 
@@ -250,7 +250,7 @@ static void save_prefs(PrefsPage *page)
 {
 	prefs_set_data_from_dialog(param);
 	apply_config();
-	etpan_privacy_prefs_save_config();
+	etpan_privacy_prefs_write_config();
 }
 
 
