@@ -1,3 +1,9 @@
+2005-01-24 [hoa]	0.9
+
+	* src/etpan_privacy.c
+	* src/plugin.c
+	        changed API usage to sync with claws.
+	
 2005-01-23 [hoa]	0.8
 
 	* src/etpan_privacy.c

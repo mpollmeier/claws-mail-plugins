@@ -267,7 +267,8 @@ static int procmime_to_file(char * filename,
 	int enctype;
 	int col;
 	int r;
-	const char * dispfilename;
+	const char * storefilename;
+	int mapped;
 	
 	content_type = content_type_to_etpan(mimeinfo);
 	if (content_type == NULL)
@@ -300,20 +301,36 @@ static int procmime_to_file(char * filename,
 	mime_fields = mailmime_fields_new_encoding(enctype);
 	if (mime_fields == NULL)
 		goto free_content_type;
-	
-	dispfilename = procmime_mimeinfo_get_parameter(mimeinfo, "filename");
-	r = stat(dispfilename, &stat_info);
-	if (r < 0)
-		goto free_content_type;
 
-	fd = open(dispfilename, O_RDONLY);
-	if (fd < 0)
+	if (mimeinfo->content == MIMECONTENT_EMPTY) {
 		goto free_content_type;
+	}
 	
-	mapping = mmap(NULL, stat_info.st_size,
-		       PROT_READ, MAP_PRIVATE, fd, 0);
-	if (mapping == MAP_FAILED)
-		goto close;
+	if (mimeinfo->content == MIMECONTENT_FILE) {
+		storefilename = mimeinfo->data.filename;
+	}
+	
+	mapped = 0;
+	mapping = NULL;
+	if (storefilename != NULL) {
+		r = stat(storefilename, &stat_info);
+		if (r < 0)
+			goto free_content_type;
+		
+		fd = open(storefilename, O_RDONLY);
+		if (fd < 0)
+			goto free_content_type;
+		
+		mapping = mmap(NULL, stat_info.st_size,
+			       PROT_READ, MAP_PRIVATE, fd, 0);
+		if (mapping == MAP_FAILED)
+			goto close;
+		
+		mapped = 1;
+	}
+	else {
+		mapping = mimeinfo->data.mem;
+	}
 	
 	f_dest = fopen(filename, "w");
 	if (f_dest == NULL)
@@ -325,7 +342,9 @@ static int procmime_to_file(char * filename,
 	fprintf(f_dest, "\r\n");
 	fwrite(mapping + mimeinfo->offset, 1, mimeinfo->length, f_dest);
 	fclose(f_dest);
-	munmap(mapping, stat_info.st_size);
+	if (mapped) {
+		munmap(mapping, stat_info.st_size);
+	}
 	
 	close(fd);
 	mailmime_fields_free(mime_fields);
@@ -412,23 +431,23 @@ static MimeInfo * mime_to_sylpheed(struct mailmime * mime)
 	int col;
 	int r;
 	MimeInfo * mimeinfo;
+	GNode * main_node;
+	MimeInfo * main_mime;
 
 	f = mailprivacy_get_tmp_file(privacy, tmpfile, sizeof(tmpfile));
 	if (f == NULL)
 		goto err;
 	
 	col = 0;
-	if (mime->mm_content_type != NULL)
-		mailmime_content_write(f, &col, mime->mm_content_type);
-	if (mime->mm_mime_fields != NULL)
-		mailmime_fields_write(f, &col, mime->mm_mime_fields);
-	mailimf_string_write(f, &col, "\r\n", 2);
+	fprintf(f, "MIME-Version: 1.0\r\n");
 	mailmime_write(f, &col, mime);
 	fclose(f);
 	
 	mimeinfo = procmime_scan_file(tmpfile);
 	if (mimeinfo == NULL)
 		goto unlink;
+	
+	mimeinfo->tmp = 1;
 	
 	return mimeinfo;
 	
@@ -457,8 +476,10 @@ static int is_encrypted(MimeInfo *mimeinfo)
 	fclose(f);
 	
 	r = procmime_to_file(tmpfile, mimeinfo);
-	if (r < 0)
+	if (r < 0) {
+		fprintf(stderr, "could not procmime to file\n");
 		goto unlink;
+	}
 	
 	stat(tmpfile, &stat_info);
 	fd = open(tmpfile, O_RDONLY);
@@ -593,6 +614,13 @@ static PrivacySystem etpan_privacy_system = {
 
 	is_encrypted,		        /* is_encrypted(MimeInfo *) */
 	decrypt,		        /* decrypt(MimeInfo *) */
+	
+	0,
+	NULL,
+	
+	0,
+	NULL,
+	NULL,
 };
 
 int etpan_privacy_init(void)
