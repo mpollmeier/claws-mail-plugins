@@ -1,4 +1,10 @@
-2004-12-05 [thorsten]	0.4.3.0
+2004-12-06 [thorsten]	0.4.4
+
+	* src/fetchinfo_plugin.c
+	  src/fetchinfo_plugin_gtk.c
+	  	check sylpheed version >= 0.9.12
+
+2004-12-05 [thorsten]	0.4.3
 
 	* src/fetchinfo_plugin.c
 		better readability
