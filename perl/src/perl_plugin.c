@@ -1613,9 +1613,9 @@ static gboolean my_filtering_hook(gpointer source, gpointer data)
   mail_filtering_data = (MailFilteringData *) source;
   msginfo = mail_filtering_data->msginfo;
   stop_filtering = FALSE;
-  if(GPOINTER_TO_GUINT(data) == AUTO_FILTER)
+  if(GPOINTER_TO_UINT(data) == AUTO_FILTER)
     manual_filtering = FALSE;
-  else if(GPOINTER_TO_GUINT(data) == MANU_FILTER)
+  else if(GPOINTER_TO_UINT(data) == MANU_FILTER)
     manual_filtering = TRUE;
   else
     debug_print("Invalid user data ignored.\n");
