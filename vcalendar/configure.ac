@@ -36,11 +36,11 @@ AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 #
 # Check for GLib
 #
-AM_PATH_GLIB_2_0(2.4.0,,
+AM_PATH_GLIB(1.2.6,,
         AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
         gmodule gobject gthread)
 
-AM_PATH_GTK_2_0(2.4.0,,
+AM_PATH_GTK(1.2.6,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
 #

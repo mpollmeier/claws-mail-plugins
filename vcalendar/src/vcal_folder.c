@@ -202,6 +202,12 @@ static gint vcal_scan_tree(Folder *folder)
 	return 0;
 }
 
+static void hash_free(gpointer key, gpointer value, gpointer data)
+{
+	if (key) g_free(key);
+	if (value) g_free(value);
+}
+
 static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 				 MsgNumberList ** list, gboolean *old_uids_valid)
 {
@@ -217,11 +223,11 @@ debug_print("get_num_list\n");
 		return 0;
 	}
 
-	if (hash_uids != NULL)
+	if (hash_uids != NULL) {
+		g_hash_table_foreach(hash_uids, hash_free, NULL);
 		g_hash_table_destroy(hash_uids);
-		
-	hash_uids = g_hash_table_new_full(g_str_hash, g_str_equal,
-					  g_free, g_free);
+	}
+	hash_uids = g_hash_table_new(g_str_hash, g_str_equal);
 					  
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
@@ -236,9 +242,10 @@ debug_print("get_num_list\n");
 		if (event && event->method != ICAL_METHOD_CANCEL) {
 			PrefsAccount *account = vcal_manager_get_account_from_event(event);
 			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
-			status = vcal_manager_get_reply_for_attendee(event, account->address);
+			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
 
-			if (status != ICAL_PARTSTAT_DECLINED) {
+			if (status != ICAL_PARTSTAT_DECLINED
+			&&  status != ICAL_PARTSTAT_NEEDSACTION) {
 				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
 				debug_print("add %d:%s\n", n_msg, d->d_name);
 				n_msg++;

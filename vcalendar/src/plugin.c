@@ -59,7 +59,15 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return _("This plugin enables vCalendar messages handling.");
+	return _("This plugin enables vCalendar message handling like produced "
+		 "by Evolution or Outlook.\n\n"
+		 "When loaded, it will create a vCalendar mailbox in your folder "
+		 "list, which will be populated by meetings that you have accepted "
+		 "or created.\n"
+		 "Meeting requests that you receive will be presented in an "
+		 "appropriate form and you will be able to accept or decline them.\n"
+		 "Finally, to create a meeting right-click on the vCalendar or "
+		 "Meetings folder and choose \"New meeting...\".");
 }
 
 const gchar *plugin_type(void)

@@ -40,6 +40,7 @@
 #include "xml.h"
 #include "xmlprops.h"
 #include "alertpanel.h"
+#include "menu.h"
 
 MimeViewerFactory vcal_viewer_factory;
 
@@ -64,6 +65,7 @@ struct _VCalViewer
 	GtkWidget *answer;
 	GtkWidget *button;
 	GtkWidget *reedit;
+	GtkWidget *cancel;
 	GtkWidget *attendees;
 };
 
@@ -356,25 +358,32 @@ static PrefsAccount *get_account_from_attendees(VCalViewer *vcalviewer)
 
 static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *event, enum icalproperty_method method)
 {
-	int i = 0;
-	
-	gtk_widget_hide(vcalviewer->reedit);
+	GtkWidget *menu, *menu_item;
 
-	for (i = 0; i < 3; i++) 
-		gtk_combo_box_remove_text(GTK_COMBO_BOX(vcalviewer->answer), 0);
-	
+	gtk_widget_hide(vcalviewer->reedit);
+	gtk_widget_hide(vcalviewer->cancel);
+	gtk_widget_hide(vcalviewer->answer);
+	gtk_widget_hide(vcalviewer->button);
+
+	menu = gtk_menu_new();
+		
 	if (method == ICAL_METHOD_REQUEST) {
-		gtk_combo_box_append_text(GTK_COMBO_BOX(vcalviewer->answer), _("Accept"));
-		gtk_combo_box_append_text(GTK_COMBO_BOX(vcalviewer->answer), _("Tentatively accept"));
-		gtk_combo_box_append_text(GTK_COMBO_BOX(vcalviewer->answer), _("Decline"));
+		MENUITEM_ADD(menu, menu_item, _("Accept"), 1);
+		MENUITEM_ADD(menu, menu_item, _("Tentatively accept"), 2);
+		MENUITEM_ADD(menu, menu_item, _("Decline"), 3);
+		
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (vcalviewer->answer), menu);
+		
 		gtk_widget_set_sensitive(vcalviewer->answer, TRUE);
 		gtk_widget_set_sensitive(vcalviewer->button, TRUE);
+		gtk_widget_show_all(vcalviewer->answer);
+		gtk_widget_show(vcalviewer->button);
 	} else {
-		gtk_combo_box_append_text(GTK_COMBO_BOX(vcalviewer->answer), _("-"));
+		MENUITEM_ADD(menu, menu_item, _("-"), 0);
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (vcalviewer->answer), menu);
 		gtk_widget_set_sensitive(vcalviewer->answer, FALSE);
 		gtk_widget_set_sensitive(vcalviewer->button, FALSE);
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(vcalviewer->answer), 0);
 	
 	if (event && event->method == ICAL_METHOD_REQUEST) {
 		PrefsAccount *account = vcal_manager_get_account_from_event(event);
@@ -383,11 +392,11 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 				vcal_manager_get_reply_for_attendee(event, account->address);
 				
 			if (answer == ICAL_PARTSTAT_ACCEPTED)
-				gtk_combo_box_set_active(GTK_COMBO_BOX(vcalviewer->answer), 0);
+				gtk_option_menu_set_history(GTK_OPTION_MENU(vcalviewer->answer), 0);
 			if (answer == ICAL_PARTSTAT_TENTATIVE)
-				gtk_combo_box_set_active(GTK_COMBO_BOX(vcalviewer->answer), 1);
+				gtk_option_menu_set_history(GTK_OPTION_MENU(vcalviewer->answer), 1);
 			if (answer == ICAL_PARTSTAT_DECLINED)
-				gtk_combo_box_set_active(GTK_COMBO_BOX(vcalviewer->answer), 2);
+				gtk_option_menu_set_history(GTK_OPTION_MENU(vcalviewer->answer), 2);
 		}
 	}
 }
@@ -507,6 +516,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	else {
 		vcalviewer_answer_set_choices(vcalviewer, event, ICAL_METHOD_REPLY);
 		gtk_widget_show(vcalviewer->reedit);
+		gtk_widget_show(vcalviewer->cancel);
 	}
 }
 
@@ -818,15 +828,43 @@ static gboolean vcalviewer_reedit_cb(GtkButton *widget, gpointer data)
 	return TRUE;
 }
 
+static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
+{
+	VCalViewer *vcalviewer = (VCalViewer *)data;
+	gchar * uid = vcalviewer_get_uid_from_mimeinfo(vcalviewer->mimeinfo);
+	VCalEvent *event = NULL;
+	VCalMeeting *meet = NULL;
+	
+	gint val = alertpanel(_("Cancel meeting"), 
+			      _("Are you sure you want to cancel this meeting?\n"
+			        "A notification will be sent to attendees."),
+			      _("Yes"), _("+No"), NULL);
+	if (val != G_ALERTDEFAULT)
+		return TRUE;
+
+	event = vcal_manager_load_event(uid);
+	event->method = ICAL_METHOD_CANCEL;
+	
+	meet = vcal_meeting_create_hidden(event);
+	vcal_meeting_send(meet);
+	vcal_manager_save_event(event);
+	vcal_manager_free_event(event);
+	return TRUE;
+}
+
 static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 {
         VCalViewer *vcalviewer = (VCalViewer *)data;
 	VCalEvent *event = NULL;
 	icalproperty *iprop = NULL;
-	gint index = gtk_combo_box_get_active(GTK_COMBO_BOX(vcalviewer->answer));
+	gint index = 0;
 	enum icalparameter_partstat reply[3] = {ICAL_PARTSTAT_ACCEPTED, ICAL_PARTSTAT_TENTATIVE, ICAL_PARTSTAT_DECLINED};
 	PrefsAccount *account = NULL;
-	
+	GtkWidget *menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(vcalviewer->answer));
+	index = GPOINTER_TO_INT(gtk_object_get_user_data(
+                                   GTK_OBJECT(GTK_MENU_ITEM(gtk_menu_get_active(
+				   GTK_MENU(menu)))))) - 1;
+
 	debug_print("index chosen %d\n", index);
 	
 	if (index < 0 || index > 2) {
@@ -863,9 +901,7 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 };
 
 #define TABLE_ADD_LINE(label_text, widget) { 				\
-	GtkWidget *label = gtk_label_new(_("<span weight=\"bold\">" 	\
-						label_text "</span>")); \
-	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
+	GtkWidget *label = gtk_label_new(_(label_text)); 		\
 	gtk_misc_set_alignment (GTK_MISC(label), 1, 0);			\
 	gtk_table_attach (GTK_TABLE (vcalviewer->table), 		\
 			  label, 0, 1, i, i+1,				\
@@ -874,7 +910,6 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 			  widget, 1, 2, i, i+1,				\
 			  GTK_FILL, GTK_FILL, 6, 6);			\
 	if (GTK_IS_LABEL(widget)) {					\
-		gtk_label_set_use_markup(GTK_LABEL (widget), TRUE);	\
 		gtk_misc_set_alignment (GTK_MISC(widget),0, 0);		\
 		gtk_label_set_line_wrap(GTK_LABEL(widget), TRUE);	\
 	}								\
@@ -904,20 +939,25 @@ MimeViewer *vcal_viewer_create(void)
 	vcalviewer->summary = gtk_label_new("summary");
 	vcalviewer->description = gtk_label_new("description");
 	vcalviewer->attendees = gtk_label_new("attendees");
-	vcalviewer->answer = gtk_combo_box_new_text();
+	vcalviewer->answer = gtk_option_menu_new();
 	vcalviewer->button = gtk_button_new_with_label(_("Answer"));
 	vcalviewer->reedit = gtk_button_new_with_label(_("Edit meeting..."));
+	vcalviewer->cancel = gtk_button_new_with_label(_("Cancel meeting..."));
 	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_REQUEST);
 	hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->answer, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->button, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->reedit, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->cancel, FALSE, FALSE, 0);
 	
-	g_signal_connect(G_OBJECT(vcalviewer->button), "clicked",
-			 G_CALLBACK(vcalviewer_action_cb), vcalviewer);
+	gtk_signal_connect(GTK_OBJECT(vcalviewer->button), "clicked",
+			 GTK_SIGNAL_FUNC(vcalviewer_action_cb), vcalviewer);
 
-	g_signal_connect(G_OBJECT(vcalviewer->reedit), "clicked",
-			 G_CALLBACK(vcalviewer_reedit_cb), vcalviewer);
+	gtk_signal_connect(GTK_OBJECT(vcalviewer->reedit), "clicked",
+			 GTK_SIGNAL_FUNC(vcalviewer_reedit_cb), vcalviewer);
+
+	gtk_signal_connect(GTK_OBJECT(vcalviewer->cancel), "clicked",
+			 GTK_SIGNAL_FUNC(vcalviewer_cancel_cb), vcalviewer);
 
 	TABLE_ADD_LINE("Event:", vcalviewer->type);
 	TABLE_ADD_LINE("Organizer:", vcalviewer->who);
@@ -926,7 +966,7 @@ MimeViewer *vcal_viewer_create(void)
 	TABLE_ADD_LINE("Ending:", vcalviewer->end);
 	TABLE_ADD_LINE("Description:", vcalviewer->description);
 	TABLE_ADD_LINE("Attendees:", vcalviewer->attendees);
-	TABLE_ADD_LINE("Your decision:", hbox);
+	TABLE_ADD_LINE("Action:", hbox);
 	
 	vcalviewer->scrolledwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_add_with_viewport(
