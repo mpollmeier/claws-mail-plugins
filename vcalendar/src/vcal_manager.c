@@ -262,7 +262,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 			    gboolean 		 is_reply, 
 			    gboolean 		 is_pseudo_event);
 
-gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_pseudo_event)
+gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_pseudo_event,
+				icalcomponent *use_calendar)
 {
 	gchar *organizer = g_strdup_printf("MAILTO:%s", event->organizer);
 	PrefsAccount *account = vcal_manager_get_account_from_event(event);
@@ -291,16 +292,19 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	
 	tzset();
 	
-	calendar = 
-        	icalcomponent_vanew(
-        	    ICAL_VCALENDAR_COMPONENT,
-        	    icalproperty_new_version("2.0"),
-        	    icalproperty_new_prodid(
-                	 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
-		    icalproperty_new_calscale("GREGORIAN"),
-		    icalproperty_new_method(is_reply ? ICAL_METHOD_REPLY:event->method),
-        	    0
-        	    ); 	
+	if (use_calendar != NULL)
+		calendar = use_calendar;
+	else
+		calendar = 
+        		icalcomponent_vanew(
+        		    ICAL_VCALENDAR_COMPONENT,
+	        	    icalproperty_new_version("2.0"),
+        		    icalproperty_new_prodid(
+                		 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
+			    icalproperty_new_calscale("GREGORIAN"),
+			    icalproperty_new_method(is_reply ? ICAL_METHOD_REPLY:event->method),
+        		    0
+	        	    ); 	
 
 	if (!calendar) {
 		g_warning ("can't generate calendar");
@@ -384,6 +388,9 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 			cur = cur->next;
 		}
 	}
+
+	if (use_calendar)
+		return NULL;
 
 	headers = write_headers(account, event, is_pseudo_event, is_reply, is_pseudo_event);
 
@@ -847,7 +854,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 	gchar *msgpath;
 	Folder *folder = NULL;
 	
-	tmpfile = vcal_manager_event_dump(event, is_reply, FALSE);
+	tmpfile = vcal_manager_event_dump(event, is_reply, FALSE, NULL);
 
 	if (!tmpfile)
 		return FALSE;

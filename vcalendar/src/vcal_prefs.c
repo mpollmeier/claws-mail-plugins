@@ -147,13 +147,16 @@ static struct VcalendarPage vcal_prefs_page;
 
 void vcal_prefs_init(void)
 {
-	static gchar *path[3];
+	static gchar *path[2];
+	gchar *rcpath;
 
 	path[0] = _("vCalendar");
-	path[2] = NULL;
+	path[1] = NULL;
 
 	prefs_set_default(param);
-	prefs_read_config(param, PREFS_BLOCK_NAME, COMMON_RC);
+	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+	prefs_read_config(param, PREFS_BLOCK_NAME, rcpath, NULL);
+	g_free(rcpath);
 
 	vcal_prefs_page.page.path = path;
 	vcal_prefs_page.page.create_widget = vcal_prefs_create_widget_func;

@@ -325,7 +325,7 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 		debug_print("getting %s\n", uid);
 		debug_print("got event %p\n", event);
 		if (event)
-			filename = vcal_manager_event_dump(event, FALSE, TRUE);
+			filename = vcal_manager_event_dump(event, FALSE, TRUE, NULL);
 		debug_print("dumped to %s\n", filename);
 		if (filename) {
 			created_files = g_slist_append(created_files, g_strdup(filename));
