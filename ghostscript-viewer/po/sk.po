@@ -1,0 +1,126 @@
+# Slovak translation of Sylpheed-Claws Ghostscript-Viewer.
+# Copyright (C) 2004 Christoph Hohmann
+# This file is distributed under the same license as the Sylpheed-Claws Ghostscript-Viewer.
+# Andrej Kacian <andrej@kacian.sk>, 2004.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: Sylpheed-Claws Ghostscript-Viewer 0.7\n"
+"Report-Msgid-Bugs-To: reboot@gmx.ch\n"
+"POT-Creation-Date: 2004-06-30 17:45+0200\n"
+"PO-Revision-Date: 2004-07-08 20:41+0200\n"
+"Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
+"Language-Team: Slovak <sk-i18n@linux.sk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF=8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: src/libgtkgs/ggvutils.c:44
+msgid "Portrait"
+msgstr "Portrét"
+
+#: src/libgtkgs/ggvutils.c:45
+msgid "Landscape"
+msgstr "Krajina"
+
+#: src/libgtkgs/ggvutils.c:46
+msgid "Upside Down"
+msgstr "Hlavou nadol"
+
+#: src/libgtkgs/ggvutils.c:47
+msgid "Seascape"
+msgstr "Opačná krajina"
+
+#: src/libgtkgs/ggvutils.c:52
+msgid "inch"
+msgstr "inč"
+
+#: src/libgtkgs/ggvutils.c:53
+msgid "mm"
+msgstr "mm"
+
+#: src/libgtkgs/ggvutils.c:54
+msgid "cm"
+msgstr "cm"
+
+#: src/libgtkgs/ggvutils.c:55
+msgid "point"
+msgstr "bod"
+
+#: src/libgtkgs/gtkgs.c:950
+msgid "Broken pipe."
+msgstr "Prerušené potrubie."
+
+#: src/libgtkgs/gtkgs.c:1237
+#, c-format
+msgid "Error while decompressing file %s:\n"
+msgstr "Chyba pri dekompresii súboru %s:\n"
+
+#: src/libgtkgs/gtkgs.c:1314
+#, c-format
+msgid "Error while scanning pdf file %s:\n"
+msgstr "Chyba pri skenovaní pdf súboru %s:\n"
+
+#: src/libgtkgs/gtkgs.c:1623
+#, c-format
+msgid "Cannot open file %s\n"
+msgstr "Nemôžem otvoriť súbor"
+
+#: src/libgtkgs/gtkgs.c:1645
+#, c-format
+msgid "Error while scanning file %s\n"
+msgstr "Chyba pri scanovaní­ súboru %s\n"
+
+#: src/plugin.c:35
+msgid ""
+"Your sylpheed version is newer than the version the plugin was built with"
+msgstr "Vaša verzia Sylpheed-u je novšia ako verzia, s ktorou bol skompilovaný tento plugin"
+
+#: src/plugin.c:40
+msgid "Your sylpheed version is too old"
+msgstr "Vaša verzia Sylpheed-u je príliš stará"
+
+#: src/plugin.c:57
+msgid "Ghostscript Viewer"
+msgstr "Ghostscript Prehliadač"
+
+#: src/plugin.c:62
+msgid ""
+"This plugin provides a Viewer for Postscript and PDF documents for "
+"Sylpheed's MimeView"
+msgstr ""
+"Tento plugin umožňuje zobrazenie Postscript a PDF dokumentov"
+"v Sylpheede"
+
+#: src/viewer.c:249
+msgid "Prev Page"
+msgstr "Predch."
+
+#: src/viewer.c:254
+msgid "Next Page"
+msgstr "Ďalšia"
+
+#: src/viewer.c:259
+msgid "Zoom in"
+msgstr "Väčšie"
+
+#: src/viewer.c:264
+msgid "Zoom out"
+msgstr "Menšie"
+
+#: src/viewerprefs.c:78
+msgid "Antialiasing"
+msgstr "Antialiasing"
+
+#: src/viewerprefs.c:91
+msgid "Respect EOF"
+msgstr "Rešpektovať EOF"
+
+#: src/viewerprefs.c:140
+msgid "failed to write GhostscriptViewer configuration to file\n"
+msgstr "nepodarilo sa zapísať nastavenie do súboru\n"
+
+#: src/viewerprefs.c:156
+msgid "Message View/Ghostscript Viewer"
+msgstr "Zobrazenie Správy/Ghostscript Prehliadač"
+
