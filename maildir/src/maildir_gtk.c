@@ -1,8 +1,6 @@
 /*
- * mailmbox Plugin -- mbox support for Sylpheed
- * Copyright (C) 2003-2005 Christoph Hohmann, 
- *			   Hoa v. Dinh, 
- *			   Alfons Hoogervorst
+ * Maildir Plugin -- Maildir++ support for Sylpheed
+ * Copyright (C) 2003-2004 Christoph Hohmann
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +17,26 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <gtk/gtk.h>
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include "defs.h"
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include "plugin.h"
+
+#include <gtk/gtk.h>
+
+#include "utils.h"
 #include "folder.h"
-#include "mailmbox_folder.h"
-#include "mainwindow.h"
 #include "folderview.h"
-#include "inputdialog.h"
-#include "foldersel.h"
+#include "menu.h"
+#include "account.h"
 #include "alertpanel.h"
+#include "inputdialog.h"
+#include "maildir.h"
+#include "foldersel.h"
 
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -40,7 +46,7 @@ static void update_tree_cb(FolderView *folderview, guint action, GtkWidget *widg
 static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void add_mailbox(gpointer callback_data, guint callback_action, GtkWidget *widget);
 
-static GtkItemFactoryEntry mailmbox_popup_entries[] =
+static GtkItemFactoryEntry maildir_popup_entries[] =
 {
 	{N_("/Create _new folder..."),	 NULL, new_folder_cb,     0, NULL},
 	{N_("/_Rename folder..."),	 NULL, rename_folder_cb,  0, NULL},
@@ -56,68 +62,51 @@ static GtkItemFactoryEntry mailmbox_popup_entries[] =
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 
-static FolderViewPopup mailmbox_popup =
+static FolderViewPopup maildir_popup =
 {
-	"mailmbox",
-	"<MailmboxFolder>",
+	"maildir",
+	"<MaildirFolder>",
 	NULL,
 	set_sensitivity
 };
 
 static GtkItemFactoryEntry mainwindow_add_mailbox = {
-	N_("/File/Add mailbox/mbox (etPan!)..."),
+	N_("/File/Add mailbox/Maildir++..."),
 	NULL, 
 	add_mailbox, 
 	0, 
 	NULL
 };
 
-gint plugin_init(gchar **error)
+void maildir_gtk_init(void)
 {
 	guint i, n_entries;
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 
-	n_entries = sizeof(mailmbox_popup_entries) /
-		sizeof(mailmbox_popup_entries[0]);
+	n_entries = sizeof(maildir_popup_entries) /
+		sizeof(maildir_popup_entries[0]);
 	for (i = 0; i < n_entries; i++)
-		mailmbox_popup.entries = g_slist_append(mailmbox_popup.entries, &mailmbox_popup_entries[i]);
+		maildir_popup.entries = g_slist_append(maildir_popup.entries, &maildir_popup_entries[i]);
 
-	folderview_register_popup(&mailmbox_popup);
+	folderview_register_popup(&maildir_popup);
 
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifactory, &mainwindow_add_mailbox, mainwin, 1);
-
-	return 0;
 }
 
-void plugin_done(void)
+void maildir_gtk_done(void)
 {
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	GtkWidget *widget;
 	
-	folderview_unregister_popup(&mailmbox_popup);
+	folderview_unregister_popup(&maildir_popup);
 
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	widget = gtk_item_factory_get_widget(ifactory, mainwindow_add_mailbox.path);
 	gtk_widget_destroy(widget);
 	gtk_item_factory_delete_item(ifactory, mainwindow_add_mailbox.path);
-}
-
-const gchar *plugin_name(void)
-{
-	return _("mailmbox folder GTK (etPan!)");
-}
-
-const gchar *plugin_desc(void)
-{
-	return _("This is the user interface part of the plugin to handle mailboxes in mbox format.");
-}
-
-const gchar *plugin_type(void)
-{
-	return "GTK2";
 }
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
@@ -141,7 +130,7 @@ static void update_tree_cb(FolderView *folderview, guint action,
 {
 	FolderItem *item;
 
-	item = folderview_get_selected_item(folderview);
+	item = folderview_get_selected(folderview);
 	g_return_if_fail(item != NULL);
 
 	summary_show(folderview->summaryview, NULL);
@@ -158,7 +147,7 @@ static void add_mailbox(gpointer callback_data, guint callback_action,
                         GtkWidget *widget)
 {
 	MainWindow *mainwin = (MainWindow *) callback_data;
-	gchar *path, *basename;
+	gchar *path;
 	Folder *folder;
 
 	path = input_dialog(_("Add mailbox"),
@@ -172,11 +161,9 @@ static void add_mailbox(gpointer callback_data, guint callback_action,
 		g_free(path);
 		return;
 	}
-	basename = g_path_get_basename(path);
-	folder = folder_new(folder_get_class_from_string("mailmbox"), 
-			    !strcmp(path, "Mail") ? _("Mailbox") : basename,
+	folder = folder_new(folder_get_class_from_string("maildir"), 
+			    !strcmp(path, "Mail") ? _("Mailbox") : g_basename(path),
 			    path);
-	g_free(basename);			    
 	g_free(path);
 
 
@@ -256,7 +243,7 @@ static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *w
 	gchar *message;
 	AlertValue avalue;
 
-	item = folderview_get_selected_item(folderview);
+	item = folderview_get_selected(folderview);
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(item->folder != NULL);
 	if (folder_item_parent(item)) return;
@@ -287,7 +274,7 @@ static void delete_folder_cb(FolderView *folderview, guint action,
 	gchar *old_path;
 	gchar *old_id;
 
-	item = folderview_get_selected_item(folderview);
+	item = folderview_get_selected(folderview);
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(item->path != NULL);
 	g_return_if_fail(item->folder != NULL);
@@ -333,8 +320,8 @@ static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widg
 {
 	FolderItem *from_folder = NULL, *to_folder = NULL;
 
-	from_folder = folderview_get_selected_item(folderview);
-	if (!from_folder || from_folder->folder->klass != mailmbox_get_class())
+	from_folder = folderview_get_selected(folderview);
+	if (!from_folder || from_folder->folder->klass != maildir_get_class())
 		return;
 
 	to_folder = foldersel_folder_sel(from_folder->folder, FOLDER_SEL_MOVE, NULL);
@@ -356,7 +343,7 @@ static void rename_folder_cb(FolderView *folderview, guint action,
 	gchar *new_id;
 	gchar *p;
 
-	item = folderview_get_selected_item(folderview);
+	item = folderview_get_selected(folderview);
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(item->path != NULL);
 	g_return_if_fail(item->folder != NULL);
@@ -407,4 +394,3 @@ static void rename_folder_cb(FolderView *folderview, guint action,
 	folder_item_prefs_save_config(item);
 	folder_write_list();
 }
-

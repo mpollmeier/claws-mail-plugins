@@ -24,6 +24,7 @@
 #include "defs.h"
 
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -40,7 +41,6 @@
 #  include <sys/time.h>
 #endif
 
-#include "intl.h"
 #include "folder.h"
 #include "procmsg.h"
 #include "procheader.h"

@@ -24,9 +24,9 @@
 
 #include <ical.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "intl.h"
 #include "mimeview.h"
 #include "utils.h"
 #include "icaltime_as_local.h"

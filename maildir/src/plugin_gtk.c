@@ -1,7 +1,6 @@
 /*
- * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2004 Hiroyuki Yamamoto
- * This file (C) 2004 Colin Leroy <colino.net>
+ * Maildir Plugin -- Maildir++ support for Sylpheed
+ * Copyright (C) 2003-2004 Christoph Hohmann
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,18 +17,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
-#include <stddef.h>
+#include <gtk/gtk.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
-
+#include "plugin.h"
 #include "version.h"
-#include "vcalendar.h"
-#include "sylpheed.h"
+#include "maildir_gtk.h"
 
 gint plugin_init(gchar **error)
 {
@@ -38,40 +32,32 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 13, 0))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 10, 48))) {
 		*error = g_strdup("Your sylpheed version is too old");
 		return -1;
 	}
 
-	vcalendar_init();
-	
-	return 0;	
+	maildir_gtk_init();
+
+	return 0;
 }
 
-void plugin_done(void)
+void plugin_done()
 {
-	vcalendar_done();
+	maildir_gtk_done();
 }
 
-const gchar *plugin_name(void)
+const gchar *plugin_name()
 {
-	return _("vCalendar");
+	return "Maildir++ GTK";
 }
 
-const gchar *plugin_desc(void)
+const gchar *plugin_desc()
 {
-	return _("This plugin enables vCalendar message handling like produced "
-		 "by Evolution or Outlook.\n\n"
-		 "When loaded, it will create a vCalendar mailbox in your folder "
-		 "list, which will be populated by meetings that you have accepted "
-		 "or created.\n"
-		 "Meeting requests that you receive will be presented in an "
-		 "appropriate form and you will be able to accept or decline them.\n"
-		 "Finally, to create a meeting right-click on the vCalendar or "
-		 "Meetings folder and choose \"New meeting...\".");
+	return "";
 }
 
-const gchar *plugin_type(void)
+const gchar *plugin_type()
 {
-	return "GTK2";
+	return "GTK";
 }

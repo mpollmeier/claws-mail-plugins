@@ -26,10 +26,10 @@
 
 #include <ical.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "intl.h"
 #include "utils.h"
 #include "vcalendar.h"
 #include "vcal_folder.h"

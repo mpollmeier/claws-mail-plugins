@@ -22,10 +22,10 @@
 #  include "config.h"
 #endif
 
-#include "intl.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <ical.h>
 #include "utils.h"
 #include "vcalendar.h"

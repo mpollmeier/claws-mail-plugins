@@ -30,8 +30,8 @@
 #include <glob.h>
 #include <unistd.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 
-#include "intl.h"
 #include "utils.h"
 #include "procmsg.h"
 #include "procheader.h"
