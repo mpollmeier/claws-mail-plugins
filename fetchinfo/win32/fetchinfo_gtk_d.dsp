@@ -137,7 +137,7 @@ SOURCE=\dev\lib\intl.lib
 # End Source File
 # Begin Source File
 
-SOURCE=\dev\proj\sylpheed-claws\win32\sylpheed_dll_d___Win32_Debug\sylpheed_d.lib
+SOURCE="\dev\proj\sylpheed-claws\win32\sylpheed_dll_d___Win32_Debug\sylpheed_d.lib"
 # End Source File
 # Begin Source File
 

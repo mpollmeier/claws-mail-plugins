@@ -165,6 +165,8 @@ static struct FetchinfoPage fetchinfo_page;
 
 gint plugin_init(gchar **error)
 {
+	static gchar *path[3];
+
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
 		return -1;
@@ -175,7 +177,11 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	fetchinfo_page.page.path = _("Plugins/Fetchinfo");
+	path[0] = _("Plugins");
+	path[1] = _("Fetchinfo");
+	path[2] = NULL;
+
+	fetchinfo_page.page.path = path;
 	fetchinfo_page.page.create_widget = fetchinfo_create_widget_func;
 	fetchinfo_page.page.destroy_widget = fetchinfo_destroy_widget_func;
 	fetchinfo_page.page.save_page = fetchinfo_save_func;

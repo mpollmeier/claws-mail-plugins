@@ -21,26 +21,28 @@
 #  include "config.h"
 #endif
 
+#include <glib.h>
+#include "intl.h"
+
+/* common */
 #include "defs.h"
 #include "version.h"
 #include "sylpheed.h"
-
-#include <glib.h>
-
-#include "intl.h"
 #include "plugin.h"
 #include "utils.h"
 #include "hooks.h"
 #include "inc.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
-
+#include "fetchinfo_plugin.h"
+/* add headers */
 #include "pop.h"
 #include "quoted-printable.h"
+/* parse headers */
+#include "procheader.h"
 
-#include "fetchinfo_plugin.h"
 
-static guint hook_id;
+static guint mail_receive_hook_id;
 
 static FetchinfoConfig config;
 
@@ -160,8 +162,8 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	hook_id = hooks_register_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook, NULL);
-	if (hook_id == (guint)-1) {
+	mail_receive_hook_id = hooks_register_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook, NULL);
+	if (mail_receive_hook_id == (guint)-1) {
 		*error = g_strdup("Failed to register mail receive hook");
 		return -1;
 	}
@@ -176,8 +178,8 @@ gint plugin_init(gchar **error)
 
 void plugin_done(void)
 {
-	hooks_unregister_hook(MAIL_RECEIVE_HOOKLIST, hook_id);
-	
+	hooks_unregister_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook_id);
+
 	debug_print("Fetchinfo plugin unloaded\n");
 }
 
