@@ -1,0 +1,7 @@
+#!/bin/sh
+cd src && \
+../tools/insert_perl.pl perl_filter_action perl_filter_action.pl perl_plugin.c && \
+../tools/insert_perl.pl perl_filter_matcher perl_filter_matcher.pl perl_plugin.c && \
+../tools/insert_perl.pl perl_persistent perl_persistent.pl perl_plugin.c && \
+../tools/insert_perl.pl perl_utils perl_utils.pl perl_plugin.c
+make
