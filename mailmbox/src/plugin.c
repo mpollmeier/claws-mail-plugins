@@ -21,9 +21,15 @@
 #include "plugin.h"
 #include "folder.h"
 #include "mailmbox_folder.h"
+#include "common/version.h"
 
 gint plugin_init(gchar **error)
 {
+        if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 10, 1))) {
+		*error = g_strdup("Your sylpheed version is too old");
+		return -1;
+	}
+
 	folder_register_class(mailmbox_get_class());
 
 	return 0;

@@ -119,19 +119,16 @@ static FolderClass mailmbox_class =
 	/* FolderItem functions */
 	mailmbox_folder_item_new,
 	mailmbox_folder_item_destroy,
-	NULL,
-	NULL,
+	NULL, /* item_set_xml */
+	NULL, /* item_get_xml */
 	mailmbox_item_get_path,
 	mailmbox_create_folder,
 	mailmbox_rename_folder,
 	mailmbox_remove_folder,
-	NULL,
+	NULL, /* close */
 	mailmbox_get_num_list,
-	NULL,
-	NULL,
-	NULL,
 	mailmbox_scan_required,
-	
+
 	/* Message functions */
 	mailmbox_get_msginfo,
 	mailmbox_get_msginfos,
@@ -142,8 +139,9 @@ static FolderClass mailmbox_class =
 	mailmbox_copy_msgs,
 	mailmbox_remove_msg,
 	mailmbox_remove_all_msg,
-	NULL,
-	NULL,
+	NULL, /* is_msg_changed */
+	NULL, /* change_flags */
+	NULL  /* get_flags */	
 };
 
 static gchar * get_cache_dir(void)
