@@ -292,9 +292,11 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	
 	tzset();
 	
-	if (use_calendar != NULL)
+	if (use_calendar != NULL) {
 		calendar = use_calendar;
-	else
+		g_free(tmpfile);
+		tmpfile = NULL;
+	} else
 		calendar = 
         		icalcomponent_vanew(
         		    ICAL_VCALENDAR_COMPONENT,
