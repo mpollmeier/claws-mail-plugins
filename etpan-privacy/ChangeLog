@@ -1,0 +1,6 @@
+2003-12-10 [hoa]	0.1
+
+	* initial import
+	    version includes support for OpenPGP encrypted messages
+	    and signed messages, inline PGP signed and encrypted messages,
+	    S/MIME encrypted and signed messages.
