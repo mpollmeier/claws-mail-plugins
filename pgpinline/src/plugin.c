@@ -26,7 +26,6 @@
 #include "intl.h"
 
 #include "version.h"
-#include "sgpgme.h"
 #include "pgpinline.h"
 
 gint plugin_init(gchar **error)
@@ -41,7 +40,6 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	sgpgme_init();
 	pgpinline_init();
 
 	return 0;	
@@ -50,7 +48,6 @@ gint plugin_init(gchar **error)
 void plugin_done(void)
 {
 	pgpinline_done();
-	sgpgme_done();
 }
 
 const gchar *plugin_name(void)
