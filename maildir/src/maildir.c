@@ -71,6 +71,8 @@ static FolderItem *maildir_create_folder(Folder * folder,
 static gint maildir_create_tree(Folder *folder);
 static void remove_missing_folder_items(Folder *folder);
 static gint maildir_remove_folder(Folder *folder, FolderItem *item);
+static gint maildir_rename_folder(Folder *folder, FolderItem *item,
+			     const gchar *name);
 
 FolderClass maildir_class;
 
@@ -108,6 +110,7 @@ FolderClass *maildir_get_class()
 		maildir_class.item_get_path = maildir_item_get_path;
 		maildir_class.create_folder = maildir_create_folder;
 		maildir_class.remove_folder = maildir_remove_folder;
+		maildir_class.rename_folder = maildir_rename_folder;
 		maildir_class.get_num_list = maildir_get_num_list;
 
 		/* Message functions */
@@ -1036,4 +1039,82 @@ static gint maildir_remove_folder(Folder *folder, FolderItem *item)
 			remove_folder_func, &res);
 
 	return res;
+}
+
+struct RenameData
+{
+	gint	 oldprefixlen;
+	gchar	*newprefix;
+};
+
+static gboolean rename_folder_func(GNode *node, gpointer data)
+{
+	FolderItem *item;
+	gchar *oldpath, *newpath, *newitempath;
+	gchar *suffix;
+	struct RenameData *renamedata = data;
+
+	g_return_val_if_fail(node->data != NULL, FALSE);
+
+	if (G_NODE_IS_ROOT(node))
+		return FALSE;
+
+	item = FOLDER_ITEM(node->data);
+
+	if (item->stype != F_NORMAL)
+		return FALSE;
+
+	suffix = item->path + renamedata->oldprefixlen;
+
+	oldpath = folder_item_get_path(item);
+	newitempath = g_strconcat(renamedata->newprefix, suffix, NULL);
+	newpath = g_strconcat(LOCAL_FOLDER(item->folder)->rootpath, G_DIR_SEPARATOR_S, newitempath, NULL);
+
+	debug_print("renaming directory %s to %s\n", oldpath, newpath);
+
+	if (rename(oldpath, newpath) < 0) {
+		FILE_OP_ERROR(oldpath, "rename");
+		g_free(newitempath);
+	} else {
+		g_free(item->path);
+		item->path = newitempath;
+	}
+
+	g_free(oldpath);
+	g_free(newpath);
+
+	return FALSE;
+}
+
+static gint maildir_rename_folder(Folder *folder, FolderItem *item,
+			     const gchar *name)
+{
+	struct RenameData renamedata;
+	gchar *p;
+
+	g_return_val_if_fail(folder != NULL, -1);
+	g_return_val_if_fail(item != NULL, -1);
+	g_return_val_if_fail(item->path != NULL, -1);
+	g_return_val_if_fail(name != NULL, -1);
+
+	debug_print("renaming folder %s to %s\n", item->path, name);
+
+	g_free(item->name);
+	item->name = g_strdup(name);
+
+	renamedata.oldprefixlen = strlen(item->path);
+	p = strrchr(item->path, '.');
+	if (p)
+		p = g_strndup(item->path, p - item->path + 1);
+	else
+		p = g_strdup(".");
+	renamedata.newprefix = g_strconcat(p, name, NULL);
+	g_free(p);
+
+	g_node_traverse(item->node, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
+			rename_folder_func, &renamedata);
+
+	g_free(renamedata.newprefix);
+
+	return 0;
 }

@@ -40,9 +40,7 @@
 
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
-/*
 static void rename_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
-*/
 static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void update_tree_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -51,9 +49,7 @@ static void add_mailbox(gpointer callback_data, guint callback_action, GtkWidget
 static GtkItemFactoryEntry maildir_popup_entries[] =
 {
 	{N_("/Create _new folder..."),	 NULL, new_folder_cb,     0, NULL},
-/*
 	{N_("/_Rename folder..."),	 NULL, rename_folder_cb,  0, NULL},
-*/
 	{N_("/M_ove folder..."), 	 NULL, move_folder_cb,    0, NULL},
 	{N_("/_Delete folder"),		 NULL, delete_folder_cb,  0, NULL},
 	{N_("/---"),			 NULL, NULL,              0, "<Separator>"},
@@ -119,9 +115,7 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
 	menu_set_sensitive(factory, name, sens)
 
 	SET_SENS("/Create new folder...",   item->stype != F_INBOX);
-/*
 	SET_SENS("/Rename folder...",       item->stype == F_NORMAL && folder_item_parent(item) != NULL);
-*/
 	SET_SENS("/Move folder...", 	    item->stype == F_NORMAL && folder_item_parent(item) != NULL);
 	SET_SENS("/Delete folder", 	    item->stype == F_NORMAL && folder_item_parent(item) != NULL);
 	SET_SENS("/Check for new messages", folder_item_parent(item) == NULL);
@@ -223,7 +217,7 @@ static void new_folder_cb(FolderView *folderview, guint action,
 	AUTORELEASE_STR(name, {g_free(name); return;});
 
 	/* find whether the directory already exists */
-	p = g_strconcat(".", new_folder, NULL);
+	p = g_strconcat(item->path ? item->path : "", ".", new_folder, NULL);
 	if (folder_find_child_item_by_name(item, p)) {
 		g_free(p);
 		alertpanel_error(_("The folder `%s' already exists."), name);
@@ -335,4 +329,68 @@ static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widg
 		return;
 
 	folderview_move_folder(folderview, from_folder, to_folder);
+}
+
+static void rename_folder_cb(FolderView *folderview, guint action,
+			     GtkWidget *widget)
+{
+	FolderItem *item, *parent;
+	gchar *new_folder;
+	gchar *name;
+	gchar *message;
+	gchar *old_path;
+	gchar *old_id;
+	gchar *new_id;
+	gchar *p;
+
+	item = folderview_get_selected(folderview);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->path != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	name = trim_string(item->name, 32);
+	message = g_strdup_printf(_("Input new name for `%s':"), name);
+	new_folder = input_dialog(_("Rename folder"), message, item->name);
+	g_free(message);
+	g_free(name);
+	if (!new_folder) return;
+	AUTORELEASE_STR(new_folder, {g_free(new_folder); return;});
+
+	p = strchr(new_folder, G_DIR_SEPARATOR);
+	if (p == NULL)
+		p = strchr(new_folder, '.');
+	if (p) {
+		alertpanel_error(_("`%c' can't be included in folder name."),
+				 p[0]);
+		return;
+	}
+
+	parent = folder_item_parent(item);
+	p = g_strconcat(parent->path ? parent->path : "", ".", new_folder, NULL);
+	if (folder_find_child_item_by_name(parent, p)) {
+		name = trim_string(new_folder, 32);
+		alertpanel_error(_("The folder `%s' already exists."), name);
+		g_free(name);
+		return;
+	}
+
+	Xstrdup_a(old_path, item->path, {g_free(new_folder); return;});
+
+	old_id = folder_item_get_identifier(item);
+
+	if (folder_item_rename(item, new_folder) < 0) {
+		alertpanel_error(_("The folder could not be renamed.\n"
+				   "The new folder name is not allowed."));
+		g_free(old_id);
+		return;
+	}
+
+	new_id = folder_item_get_identifier(item);
+	prefs_filtering_rename_path(old_id, new_id);
+
+	g_free(old_id);
+	g_free(new_id);
+
+	folder_item_prefs_save_config(item);
+	folder_write_list();
 }
