@@ -95,7 +95,7 @@ static void ghostscript_viewer_show_mimepart(MimeViewer *_mimeviewer, const gcha
 
 	ghostscriptviewer->filename = procmime_get_tmp_file_name(mimeinfo);
 
-	if (!(procmime_get_part(ghostscriptviewer->filename, file, mimeinfo) < 0)) {
+	if (!(procmime_get_part(ghostscriptviewer->filename, mimeinfo) < 0)) {
 		GtkGS *gs = GTK_GS(ghostscriptviewer->gs);
 
 		gtk_gs_set_antialiasing(gs, ghostscriptviewerprefs.antialiasing);
