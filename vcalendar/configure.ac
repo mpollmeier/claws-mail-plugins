@@ -3,7 +3,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=1.2
+PLUGINVERSION=1.3
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(vcalendar, $PLUGINVERSION, no-define)
 
@@ -43,19 +43,30 @@ AM_PATH_GLIB_2_0(2.4.0,,
 AM_PATH_GTK_2_0(2.4.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
-#
-# Check for libical
-#
-AC_CHECK_HEADERS([ical.h])
-AC_CHECK_HEADERS([icalss.h], [], [],
-[#if HAVE_ICAL_H
-# include <ical.h>
-# endif
-])AC_CHECK_LIB(ical,icaltime_compare,,AC_MSG_ERROR("Cannot find libical. Please install it or set CPPFLAGS=-I<path-to-libical>. See http://softwarestudio.org/libical/"), $GTK_LIBS)
-AC_CHECK_LIB(icalss,icalfileset_new,,AC_MSG_ERROR("Cannot find libical. Please install it or set CPPFLAGS=-I<path-to-libical>. See http://softwarestudio.org/libical/"), $GTK_LIBS)
-# Libical v 0.23 is missing icaltime_as_local
-AC_REPLACE_FUNCS([icaltime_as_local])
+AC_DEFUN(AC_CHECK_ICAL, [
+    echo -n "Checking for libical version >= " $1 "... "
+    AC_TRY_RUN([
+        #include <stdio.h>
+        #include <ical.h>
+        int main()
+        {
+            int rmaj = 0, rmin = 0, amaj = 0, amin = 0;
+            sscanf("$1", "%d.%d", &rmaj, &rmin);
+            sscanf(ICAL_VERSION, "%d.%d", &amaj, &amin);
+            printf("(found %s) ", ICAL_VERSION);
+            return ((rmaj * 1000 + rmin) > (amaj * 1000 + amin)) ? 1 : 0;
+        }
+        ],
+        [AC_MSG_RESULT(yes)],
+        [
+            AC_MSG_RESULT(no)
+            echo "*** You need at least version " $1 " of libical"
+            echo "*** See http://sourceforge.net/projects/freeassociation/"
+            exit 1
+        ])
+    ])
 
+AC_CHECK_ICAL(0.24)
 AC_OUTPUT([
 Makefile
 config/Makefile
