@@ -1,3 +1,12 @@
+2004-08-26 [paul]
+
+	* autogen.sh
+	* configure.ac
+	* Makefile.am
+	* config/config.rpath	** REMOVED **
+	* src/Makefile.am
+		fix up autotools magick
+
 2004-08-25 [colin]	0.2
 	
 	* src/pgpinline.c
