@@ -1,0 +1,11 @@
+.deps
+.libs
+Makefile
+Makefile.in
+perl_plugin.la
+perl_plugin.lo
+perl_filter_action.pl
+perl_filter_matcher.pl
+perl_persistent.pl
+perl_utils.pl
+
