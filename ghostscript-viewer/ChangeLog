@@ -1,6 +1,7 @@
 2004-08-05 [christoph]
 
 	* configure.ac
+	* src/plugin.c
 	* src/viewerprefs.c
 		update for changes in 0.9.12cvs45
 
