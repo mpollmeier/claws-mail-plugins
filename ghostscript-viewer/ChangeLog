@@ -1,5 +1,14 @@
 2003-06-09 [christoph]
 
+	* .cvsignore
+	* Makefile.am
+	* configure.ac
+	* config/.cvsignore		** NEW **
+	* config/Makefile.am		** NEW **
+		add config directory
+
+2003-06-09 [christoph]
+
 	* .cvsignore			** NEW **
 	* src/.cvsignore		** NEW **
 	* src/libgtkgs/.cvsignore	** NEW **

@@ -1,5 +1,9 @@
-SUBDIRS = src
+SUBDIRS = config src
 
 EXTRA_DIST = \
+	AUTHORS \
 	COPYING \
-	INSTALL
+	ChangeLog \
+	INSTALL \
+	NEWS \
+	README

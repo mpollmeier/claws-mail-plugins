@@ -39,6 +39,7 @@ AC_MSG_RESULT(Antialiasing parameters for Ghostscript: $AA_PARMS)
 
 AC_OUTPUT([
 Makefile
+config/Makefile
 src/Makefile
 src/libgtkgs/Makefile
 ])
