@@ -2,6 +2,7 @@
 
 	* src/fetchinfo_plugin.c
 		update data_len (truncated messages)
+		Thanks to Colin Leroy for the hint
 
 2004-12-06 [thorsten]	0.4.4
 
