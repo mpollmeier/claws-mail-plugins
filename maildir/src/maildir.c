@@ -43,18 +43,24 @@ static gint maildir_scan_tree(Folder * folder);
 static FolderItem *maildir_item_new(Folder * folder);
 static void maildir_item_destroy(Folder * folder, FolderItem * item);
 static gchar *maildir_item_get_path(Folder * folder, FolderItem * item);
-static gint maildir_get_num_list(Folder * folder, FolderItem * item, MsgNumberList ** list,
-				 gboolean *old_uids_valid);
-static MsgInfo *maildir_get_msginfo(Folder * folder,
-				    FolderItem * item, gint num);
+static gint maildir_get_num_list(Folder * folder, FolderItem * item,
+				 MsgNumberList ** list,
+				 gboolean * old_uids_valid);
+static MsgInfo *maildir_get_msginfo(Folder * folder, FolderItem * item,
+				    gint num);
 static gchar *maildir_fetch_msg(Folder * folder, FolderItem * item,
 				gint num);
-static gint maildir_add_msg(Folder *folder, FolderItem *_dest,
-			    const gchar *file, MsgFlags *flags);
-static gint maildir_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *msginfo);
-static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num);
-static void maildir_change_flags(Folder *folder, FolderItem *item, MsgInfo *msginfo,
-				 MsgPermFlags newflags);
+static gint maildir_add_msg(Folder * folder, FolderItem * _dest,
+			    const gchar * file, MsgFlags * flags);
+static gint maildir_copy_msg(Folder * folder, FolderItem * dest,
+			     MsgInfo * msginfo);
+static gint maildir_remove_msg(Folder * folder, FolderItem * _item,
+			       gint num);
+static void maildir_change_flags(Folder * folder, FolderItem * item,
+				 MsgInfo * msginfo, MsgPermFlags newflags);
+static FolderItem *maildir_create_folder(Folder * folder,
+					 FolderItem * parent,
+					 const gchar * name);
 
 FolderClass maildir_class;
 
@@ -89,6 +95,7 @@ FolderClass *maildir_get_class()
 		maildir_class.item_new = maildir_item_new;
 		maildir_class.item_destroy = maildir_item_destroy;
 		maildir_class.item_get_path = maildir_item_get_path;
+		maildir_class.create_folder = maildir_create_folder;
 		maildir_class.get_num_list = maildir_get_num_list;
 
 		/* Message functions */
@@ -172,7 +179,7 @@ static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
 	folder_path = g_strdup(LOCAL_FOLDER(folder)->rootpath);
 	g_return_val_if_fail(folder_path != NULL, NULL);
 
-	if (folder_path[0] == G_DIR_SEPARATOR) {
+	if (g_path_is_absolute(folder_path)) {
                 if (item->path && strcmp(item->path, "INBOX"))
                         path = g_strconcat(folder_path, G_DIR_SEPARATOR_S,
                                            item->path, NULL);
@@ -756,4 +763,69 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 
 	g_free(oldname);
 	uiddb_free_msgdata(msgdata);
+}
+
+static FolderItem *maildir_create_folder(Folder * folder,
+					 FolderItem * parent,
+					 const gchar * name)
+{
+	gchar *folder_path, *path, *curpath, *newpath, *tmppath;
+	FolderItem *newitem = NULL;
+	gboolean failed = FALSE;
+
+	g_return_val_if_fail(folder != NULL, NULL);
+	g_return_val_if_fail(parent != NULL, NULL);
+	g_return_val_if_fail(name != NULL, NULL);
+
+	folder_path = g_strdup(LOCAL_FOLDER(folder)->rootpath);
+	g_return_val_if_fail(folder_path != NULL, NULL);
+
+	if (g_path_is_absolute(folder_path)) {
+    		path = g_strconcat(folder_path, G_DIR_SEPARATOR_S,
+                                   parent->path != NULL ? parent->path : "", 
+				   ".", name, NULL);
+        } else {
+                path = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S,
+                                   folder_path, G_DIR_SEPARATOR_S,
+                                   parent->path != NULL ? parent->path : "", 
+				   ".", name, NULL);
+        }
+	g_free(folder_path);
+
+	debug_print("creating new maildir folder: %s\n", path);
+
+	curpath = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", NULL);
+	newpath = g_strconcat(path, G_DIR_SEPARATOR_S, "new", NULL);
+	tmppath = g_strconcat(path, G_DIR_SEPARATOR_S, "tmp", NULL);
+
+	if (mkdir(path, 0777) != 0)
+		failed = TRUE;
+	if (mkdir(curpath, 0777) != 0)
+		failed = TRUE;
+	if (mkdir(newpath, 0777) != 0)
+		failed = TRUE;
+	if (mkdir(tmppath, 0777) != 0)
+		failed = TRUE;
+
+	if (failed) {
+		rmdir(tmppath);
+		rmdir(newpath);
+		rmdir(curpath);
+		rmdir(path);
+	}
+	    
+	g_free(tmppath);
+	g_free(newpath);
+	g_free(curpath);
+	g_free(path);
+
+	if (failed)
+		return NULL;		
+
+	path = g_strconcat(parent->path, ".", name);
+	newitem = folder_item_new(folder, name, path);
+	folder_item_append(parent, newitem);
+	g_free(path);
+
+	return newitem;
 }

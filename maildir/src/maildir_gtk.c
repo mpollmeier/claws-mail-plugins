@@ -38,8 +38,8 @@
 #include "mh.h"
 #include "foldersel.h"
 
-/*
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
+/*
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void rename_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -52,8 +52,8 @@ static void add_mailbox(gpointer callback_data, guint callback_action, GtkWidget
 
 static GtkItemFactoryEntry maildir_popup_entries[] =
 {
-/*
 	{N_("/Create _new folder..."),	 NULL, new_folder_cb,     0, NULL},
+/*
 	{N_("/_Rename folder..."),	 NULL, rename_folder_cb,  0, NULL},
 	{N_("/M_ove folder..."), 	 NULL, move_folder_cb,    0, NULL},
 	{N_("/_Delete folder"),		 NULL, delete_folder_cb,  0, NULL},
@@ -122,8 +122,8 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(factory, name, sens)
 
-/*
 	SET_SENS("/Create new folder...",   TRUE);
+/*
 	SET_SENS("/Rename folder...",       item->stype == F_NORMAL && folder_item_parent(item) != NULL);
 	SET_SENS("/Move folder...", 	    item->stype == F_NORMAL && folder_item_parent(item) != NULL);
 	SET_SENS("/Delete folder", 	    item->stype == F_NORMAL && folder_item_parent(item) != NULL);
@@ -194,3 +194,51 @@ static void add_mailbox(gpointer callback_data, guint callback_action,
 	return;
 }
 
+static void new_folder_cb(FolderView *folderview, guint action,
+		          GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	FolderItem *item;
+	FolderItem *new_item;
+	gchar *new_folder;
+	gchar *name;
+	gchar *p;
+
+	if (!folderview->selected) return;
+
+	item = gtk_ctree_node_get_row_data(ctree, folderview->selected);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	new_folder = input_dialog(_("New folder"),
+				  _("Input the name of new folder:"),
+				  _("NewFolder"));
+	if (!new_folder) return;
+	AUTORELEASE_STR(new_folder, {g_free(new_folder); return;});
+
+	p = strchr(new_folder, G_DIR_SEPARATOR);
+	if (p == NULL)
+		p = strchr(new_folder, '.');
+	if (p) {
+		alertpanel_error(_("`%c' can't be included in folder name."),
+				 p[0]);
+		return;
+	}
+
+	name = trim_string(new_folder, 32);
+	AUTORELEASE_STR(name, {g_free(name); return;});
+
+	/* find whether the directory already exists */
+	if (folder_find_child_item_by_name(item, new_folder)) {
+		alertpanel_error(_("The folder `%s' already exists."), name);
+		return;
+	}
+
+	new_item = folder_create_folder(item, new_folder);
+	if (!new_item) {
+		alertpanel_error(_("Can't create the folder `%s'."), name);
+		return;
+	}
+
+	folder_write_list();
+}
