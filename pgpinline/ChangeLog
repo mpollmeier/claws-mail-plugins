@@ -1,3 +1,10 @@
+2004-11-08 [colin]	0.4
+
+	* src/pgpinline.c
+		Fix decoding, optimize not to 
+		re-test signature each time,
+		fix gpg-returned strings 
+
 2004-11-08 [colin]
 
 	* src/pgpinline.[ch]
