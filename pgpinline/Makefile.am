@@ -1,6 +1,8 @@
 SUBDIRS = config src
 
-EXTRA_DIST = config/config.rpath  \
+EXTRA_DIST = config/config.rpath \
+	config/depcomp \
+	libtool \
 	AUTHORS \
 	COPYING \
 	ChangeLog \
