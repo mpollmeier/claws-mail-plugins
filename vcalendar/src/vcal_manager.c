@@ -335,6 +335,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_new_summary(event->summary),
 		icalproperty_new_sequence(event->sequence + 1),
 #if ICALPARAMETER_LAST_ENUM < 20087 /* stupid libical doesn't have a correct way to check version */
+#warning "Old ical version detected; in case of problems try with a newer one (>= 0.24-rc)"
 		icalproperty_new_class("PUBLIC"),
 		icalproperty_new_transp("OPAQUE"),
 #else

@@ -56,7 +56,6 @@ AC_CHECK_LIB(icalss,icalfileset_new,,AC_MSG_ERROR("Cannot find libical. Please i
 # Libical v 0.23 is missing icaltime_as_local
 AC_REPLACE_FUNCS([icaltime_as_local])
 
-
 AC_OUTPUT([
 Makefile
 config/Makefile
