@@ -1,0 +1,11 @@
+CacheSaver changes:
+
+* 0.6
+
+  * Save interval (in seconds) can be changed in sylpheedrc
+    (no GUI planned, set it using a texteditor), e.g.:
+      [CacheSaver]
+      cache_save_interval=300
+  
+  * Win32 makefiles added
+

@@ -21,15 +21,36 @@
 #include "common/plugin.h"
 
 #include "folder.h"
+#include "prefs.h"
+#include "prefs_gtk.h"
+#include "defs.h"
+#include "sylpheed.h"
+
+
+typedef struct _CacheSaverConfig CacheSaverConfig;
+
+struct _CacheSaverConfig
+{
+	gint		 cache_save_interval;
+};
+
+static CacheSaverConfig config;
+
+static PrefParam param[] = {
+	{"cache_save_interval", "60", &config.cache_save_interval, P_INT,
+	 NULL, NULL, NULL},
+	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
+};
 
 static guint tag = 0;
 
 static void save_all_caches(FolderItem *item, gpointer data)
 {
+	gchar *id;
 	
 	if (!item->cache)
 		return;
-	gchar *id = folder_item_get_identifier(item);
+	id = folder_item_get_identifier(item);
 	g_free(id);
 	folder_item_write_cache(item);
 }
@@ -54,8 +75,13 @@ gint plugin_init(gchar **error)
 		*error = g_strdup("Your sylpheed version is too old");
 		return -1;
 	}
-	if (tag == 0)
-		tag = gtk_timeout_add(60*1000, save_caches, NULL);
+	
+	prefs_set_default(param);
+	prefs_read_config(param, "CacheSaver", COMMON_RC);
+
+	if ((tag == 0) && (config.cache_save_interval > 0))
+		tag = gtk_timeout_add(config.cache_save_interval*1000,
+				      save_caches, NULL);
 	return 0;
 }
 

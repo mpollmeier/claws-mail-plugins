@@ -1,3 +1,15 @@
+2005-01-30 [thorsten]	0.6
+
+	* src/plugin.c
+		Read cache_save_interval from sylpheedrc
+
+	* win32/Makefile
+	  win32/cachesaver.def
+	  win32/cachesaver.dsp
+	  win32/cachesaver_d.dsp
+	  win32/version.rc
+	  	Makefiles for Win32 build
+
 2004-11-25 [colin]
 
 	Initial release
