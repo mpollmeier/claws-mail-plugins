@@ -37,7 +37,7 @@ static SockInfo *sock = NULL;
 /*
  * Shameless copy from lcdxmms.c by kuro :)
  */
-static void lcd_connect()
+static void lcd_connect(void)
 {
 	gint len, count = 0;
 	gchar buf[8192];
@@ -119,7 +119,7 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done()
+void plugin_done(void)
 {
 	if (sock != NULL)
 		sock_close(sock);
@@ -127,17 +127,17 @@ void plugin_done()
 	hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_id);	
 }
 
-const gchar *plugin_name()
+const gchar *plugin_name(void)
 {
 	return "LCDProc Plugin";
 }
 
-const gchar *plugin_type()
+const gchar *plugin_type(void)
 {
 	return "Common";
 }
 
-const gchar *plugin_desc()
+const gchar *plugin_desc(void)
 {
 	return "Shows currently unread/new message info in a LCDProc screen.\n"
 	       "\n"
