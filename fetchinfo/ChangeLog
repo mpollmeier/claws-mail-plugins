@@ -1,3 +1,10 @@
+2004-12-05 [thorsten]	0.4.3.0
+
+	* src/fetchinfo_plugin.c
+		better readability
+	* src/fetchinfo_plugin_gtk.c
+		fix crash at startup (new prefspage.path API)
+
 2003-10-19 [thorsten]	0.4.2.1
 
 	* Makefile.am
