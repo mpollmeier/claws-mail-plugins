@@ -1,6 +1,6 @@
 /*
- * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2003 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Sylpheed-Claws Ghostscript Viewer Plugin
+ * Copyright (C) 2003-2004 Christoph Hohmann
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
