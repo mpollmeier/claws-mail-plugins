@@ -1,3 +1,12 @@
+2004-11-06 [colin]
+
+	* src/pgpinline.c
+	* src/plugin.c
+	* src/Makefile.am
+	* src/sgpgme.c		** REMOVED **
+	* src/sgpgme.h		** REMOVED **
+		Implement sign and encrypt
+
 2004-10-18 [christoph]
 
 	* src/pgpinline.c
