@@ -275,6 +275,8 @@ void uiddb_insert_entry(UIDDB *uiddb, MessageData *msgdata)
 	ret = uiddb->db_uid->put(uiddb->db_uid, NULL, &key, &data, 0);
 	if (ret != 0)
 		debug_print("DB->put: %s\n", db_strerror(ret));
+
+	g_free(data.data);
 }
 
 void uiddb_delete_entries_not_in_list(UIDDB *uiddb, MsgNumberList *list)

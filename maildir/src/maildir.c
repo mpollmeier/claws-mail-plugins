@@ -266,7 +266,7 @@ static gchar *get_filename_for_msgdata(MessageData *msgdata)
 {
 	gchar *filename;
 
-	if (msgdata->info != NULL)
+	if (msgdata->info[0])
 		filename = g_strconcat(msgdata->dir, G_DIR_SEPARATOR_S, 
 				       msgdata->uniq, ":", msgdata->info, NULL);
 	else
@@ -304,7 +304,10 @@ static MessageData *get_msgdata_for_filename(const gchar *filename)
 
 	msgdata->dir = g_strdup(pathsplit[0]);
 	msgdata->uniq = g_strdup(namesplit[0]);
-	msgdata->info = g_strdup(namesplit[1]);
+	if (namesplit[1] != NULL)
+		msgdata->info = g_strdup(namesplit[1]);
+	else
+		msgdata->info = g_strdup("");
 
 	g_strfreev(namesplit);
 	g_strfreev(pathsplit);

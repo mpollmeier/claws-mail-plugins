@@ -1,3 +1,11 @@
+2004-04-26 [christoph]
+
+	* src/uiddb.c
+		fix memory leak in uiddb_insert_entry()
+
+	* src/maildir.c
+		fix crash then info part in filenames is missing
+
 2004-04-25 [christoph]
 
 	* src/Makefile.am
