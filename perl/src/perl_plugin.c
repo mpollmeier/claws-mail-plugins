@@ -54,6 +54,8 @@
 #include <perl.h>
 #include <XSUB.h>
 
+#include "perl_plugin.h"
+
 
 /* XSRETURN_UV was introduced in Perl 5.8.1,
    this fixes things for 5.8.0. */
@@ -126,36 +128,20 @@ static gint execute_detached(gchar **cmdline)
 
 /* Addressbook interface */
 
-typedef struct {
-  gchar *address;
-  gchar *bookname;
-} EmailEntry;
-
-typedef struct {
-  gchar *address;
-  gchar *value;
-  gchar *bookname;
-} AttributeEntry;
-
-typedef struct {
-  GSList *g_slist;
-  time_t mtime;
-} TimedSList;
-
-static TimedSList *email_slist     = NULL;
-static GHashTable *attribute_hash = NULL;
+static PerlPluginTimedSList *email_slist = NULL;
+static GHashTable *attribute_hash        = NULL;
 
 /* addressbook email collector callback */
 static gint add_to_email_slist(ItemPerson *person, const gchar *bookname)
 {
-  EmailEntry *ee;
-  GList     *nodeM;
+  PerlPluginEmailEntry *ee;
+  GList *nodeM;
 
   /* Process each E-Mail address */
   nodeM = person->listEMail;
   while(nodeM) {
     ItemEMail *email = nodeM->data;
-    ee = g_new0(EmailEntry,1);
+    ee = g_new0(PerlPluginEmailEntry,1);
     g_return_val_if_fail(ee != NULL, -1);
 
     if(email->address != NULL) ee->address  = g_strdup(email->address);
@@ -169,8 +155,8 @@ static gint add_to_email_slist(ItemPerson *person, const gchar *bookname)
   return 0;
 }
 
-/* free a GSList of EmailEntry's. */
-static void free_EmailEntry_slist(GSList *slist)
+/* free a GSList of PerlPluginEmailEntry's. */
+static void free_PerlPluginEmailEntry_slist(GSList *slist)
 {
   GSList *walk;
 
@@ -179,7 +165,7 @@ static void free_EmailEntry_slist(GSList *slist)
 
   walk = slist;
   for(; walk != NULL; walk = g_slist_next(walk)) {
-    EmailEntry *ee = (EmailEntry *) walk->data;
+    PerlPluginEmailEntry *ee = (PerlPluginEmailEntry *) walk->data;
     if(ee != NULL) {
       if(ee->address  != NULL) g_free(ee->address);
       if(ee->bookname != NULL) g_free(ee->bookname);
@@ -189,7 +175,7 @@ static void free_EmailEntry_slist(GSList *slist)
   }
   g_slist_free(slist);
 
-  debug_print("EmailEntry slist freed\n");
+  debug_print("PerlPluginEmailEntry slist freed\n");
 }
 
 /* free email_slist */
@@ -198,7 +184,7 @@ static void free_email_slist(void)
   if(email_slist == NULL)
     return;
 
-  free_EmailEntry_slist(email_slist->g_slist);
+  free_PerlPluginEmailEntry_slist(email_slist->g_slist);
   email_slist->g_slist = NULL;
 
   g_free(email_slist);
@@ -208,7 +194,7 @@ static void free_email_slist(void)
 }
 
 /* check if tl->g_slist exists and is recent enough */
-static gboolean update_TimedSList(TimedSList *tl)
+static gboolean update_PerlPluginTimedSList(PerlPluginTimedSList *tl)
 {
   gboolean retVal;
   gchar *indexfile;
@@ -234,7 +220,7 @@ static void init_email_slist(void)
   struct stat filestat;
 
   if(email_slist->g_slist != NULL) {
-    free_EmailEntry_slist(email_slist->g_slist);
+    free_PerlPluginEmailEntry_slist(email_slist->g_slist);
     email_slist->g_slist = NULL;
   }
 
@@ -254,17 +240,17 @@ static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
 
   /* check if email_list exists */
   if(email_slist == NULL) {
-    email_slist = g_new0(TimedSList,1);
+    email_slist = g_new0(PerlPluginTimedSList,1);
     email_slist->g_slist = NULL;
     debug_print("email_slist created\n");
   }
 
-  if(update_TimedSList(email_slist))
+  if(update_PerlPluginTimedSList(email_slist))
     init_email_slist();
 
   walk = email_slist->g_slist;
   for(; walk != NULL; walk = g_slist_next(walk)) {
-    EmailEntry *ee = (EmailEntry *) walk->data;
+    PerlPluginEmailEntry *ee = (PerlPluginEmailEntry *) walk->data;
     if((!g_strcasecmp(ee->address,addr)) &&
        ((bookname == NULL) || (!strcmp(ee->bookname,bookname))))
       return TRUE;
@@ -275,8 +261,8 @@ static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
 /* attribute hash collector callback */
 static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
 {
-  TimedSList *tl;
-  AttributeEntry *ae;
+  PerlPluginTimedSList *tl;
+  PerlPluginAttributeEntry *ae;
   GList *nodeA;
   GList *nodeM;
 
@@ -290,7 +276,7 @@ static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
       while(nodeM) {
 	ItemEMail *email = nodeM->data;
 
-	ae = g_new0(AttributeEntry,1);
+	ae = g_new0(PerlPluginAttributeEntry,1);
 	g_return_val_if_fail(ae != NULL, -1);
 	
 	if(email->address != NULL) ae->address  = g_strdup(email->address);
@@ -300,7 +286,7 @@ static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
 	if(bookname != NULL)       ae->bookname = g_strdup(bookname);
 	else                       ae->bookname = NULL;
 	
-	tl = (TimedSList *) g_hash_table_lookup(attribute_hash,attribute_key);
+	tl = (PerlPluginTimedSList *) g_hash_table_lookup(attribute_hash,attribute_key);
 	tl->g_slist = g_slist_prepend(tl->g_slist,ae);
 
 	nodeM = g_list_next(nodeM);
@@ -316,17 +302,17 @@ static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
 static gboolean free_attribute_hash_key(gpointer key, gpointer value, gpointer user_data)
 {
   GSList *walk;
-  TimedSList *tl;
+  PerlPluginTimedSList *tl;
 
   debug_print("Freeing key `%s' from attribute_hash\n",key?(char*)key:"");
 
-  tl = (TimedSList *) value;
+  tl = (PerlPluginTimedSList *) value;
 
   if(tl != NULL) {
     if(tl->g_slist != NULL) {
       walk = tl->g_slist;
       for(; walk != NULL; walk = g_slist_next(walk)) {
-	AttributeEntry *ae = (AttributeEntry *) walk->data;
+	PerlPluginAttributeEntry *ae = (PerlPluginAttributeEntry *) walk->data;
 	if(ae != NULL) {
 	  if(ae->address  != NULL) g_free(ae->address);
 	  if(ae->value    != NULL) g_free(ae->value);
@@ -366,7 +352,7 @@ static void free_attribute_hash(void)
 /* Free the key if it exists. Insert the new key. */
 static void insert_attribute_hash(gchar *attr)
 {
-  TimedSList *tl;
+  PerlPluginTimedSList *tl;
   gchar *indexfile;
   struct stat filestat;
 
@@ -380,7 +366,7 @@ static void insert_attribute_hash(gchar *attr)
     debug_print("Existing key `%s' freed.\n",attr);
   }
 
-  tl = g_new0(TimedSList,1);
+  tl = g_new0(PerlPluginTimedSList,1);
   tl->g_slist = NULL;
 
   attribute_key = g_strdup(attr);
@@ -399,21 +385,21 @@ static void insert_attribute_hash(gchar *attr)
 /* check if an update of the attribute hash entry is necessary */
 static gboolean update_attribute_hash(const gchar *attr)
 {
-  TimedSList *tl;
+  PerlPluginTimedSList *tl;
 
   /* check if key attr exists in the attribute hash */
-  if((tl = (TimedSList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
+  if((tl = (PerlPluginTimedSList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
     return TRUE;
 
   /* check if entry is recent enough */
-  return update_TimedSList(tl);
+  return update_PerlPluginTimedSList(tl);
 }
 
 /* given an email address, return attribute value of specific book */
 static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
 {
   GSList *walk;
-  TimedSList *tl;
+  PerlPluginTimedSList *tl;
 
   /* check if attribute hash exists */
   if(attribute_hash == NULL) {
@@ -426,12 +412,12 @@ static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
     insert_attribute_hash(attr);
   }
   
-  if((tl = (TimedSList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
+  if((tl = (PerlPluginTimedSList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
     return NULL;  
 
   walk = tl->g_slist;
   for(; walk != NULL; walk = g_slist_next(walk)) {
-    AttributeEntry *ae = (AttributeEntry *) walk->data;
+    PerlPluginAttributeEntry *ae = (PerlPluginAttributeEntry *) walk->data;
     if(!g_strcasecmp(ae->address,email)) {
       if((bookname == NULL) ||
 	 ((ae->bookname != NULL) && !strcmp(bookname,ae->bookname)))

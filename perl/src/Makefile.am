@@ -3,7 +3,7 @@ plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 plugin_LTLIBRARIES = perl_plugin.la
 
 perl_plugin_la_SOURCES = \
-	perl_plugin.c
+	perl_plugin.c perl_plugin.h
 
 perl_plugin_la_LDFLAGS = \
 	-avoid-version -module

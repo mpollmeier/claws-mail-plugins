@@ -1,3 +1,9 @@
+2005-03-22 [holger]	0.2cvs9
+
+	* src/perl_plugin.c
+	* src/perl_plugin.h			*** NEW FILE ***
+		Bring some structure to the source.
+
 2005-03-20 [holger]	0.2cvs8
 
 	* src/perl_plugin.c
