@@ -30,10 +30,12 @@
 #include "folder.h"
 #include "maildir.h"
 #include "localfolder.h"
+#include "uiddb.h"
+
+#define MAILDIR_FOLDERITEM(item) ((MaildirFolderItem *) item)
 
 typedef struct _MaildirFolder MaildirFolder;
 typedef struct _MaildirFolderItem MaildirFolderItem;
-typedef struct _MaildirUID MaildirUID;
 
 static Folder *maildir_folder_new(const gchar * name,
 				  const gchar * folder);
@@ -54,8 +56,6 @@ FolderClass maildir_class;
 struct _MaildirFolder
 {
 	LocalFolder folder;
-
-	DB_ENV *dbenv;
 };
 
 struct _MaildirFolderItem
@@ -63,8 +63,11 @@ struct _MaildirFolderItem
 	FolderItem item;
 
 	guint lastuid;
+	UIDDB *db;
+/*
 	DB *db_uidkey;
 	DB *db_uniqkey;
+*/
 };
 
 FolderClass *maildir_get_class()
@@ -104,9 +107,6 @@ static Folder *maildir_folder_new(const gchar * name,
         FOLDER(folder)->klass = &maildir_class;
         folder_local_folder_init(FOLDER(folder), name, path);
 
-	db_env_create(&folder->dbenv, 0);
-	folder->dbenv->open(folder->dbenv, get_tmp_dir(), DB_INIT_MPOOL | DB_INIT_CDB | DB_CREATE, 0600);
-
         return FOLDER(folder);
 }
 
@@ -114,60 +114,21 @@ static void maildir_folder_destroy(Folder *_folder)
 {
 	MaildirFolder *folder = (MaildirFolder *) _folder;
 
-	folder->dbenv->close(folder->dbenv, 0);
-
 	folder_local_folder_destroy(LOCAL_FOLDER(folder));
-}
-
-int getuniq(DB *dbp, const DBT *pkey, const DBT *pdata, DBT *skey)
-{
-	memset(skey, 0, sizeof(DBT));
-	skey->data = pdata->data;
-	skey->size = strlen((gchar *) pdata->data);
-
-	return 0;
 }
 
 static gint open_database(MaildirFolderItem *item)
 {
-	gint ret;
 	gchar *path, *database;
+
+	if (item->db != NULL)
+		return 0;
 
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
 	Xstrcat_a(database, path, "/sylpheed_uid.db", return -1);
 	g_free(path);
 
-	/* open uid key based database */
-	if ((ret = db_create(&item->db_uidkey, ((MaildirFolder *) FOLDER_ITEM(item)->folder)->dbenv, 0)) != 0) {
-		debug_print("db_create: %s\n", db_strerror(ret));
-		return -1;
-	}
-	if ((ret = item->db_uidkey->open(item->db_uidkey, NULL, database, "uidkey", DB_BTREE, DB_CREATE, 0600)) != 0) {
-		debug_print("DB->open: %s\n", db_strerror(ret));
-		item->db_uidkey->close(item->db_uidkey, 0);
-		return -1;
-	}
-	debug_print("UID based database opened\n");
-
-	/* open uniq key based database */
-	if ((ret = db_create(&item->db_uniqkey, ((MaildirFolder *) FOLDER_ITEM(item)->folder)->dbenv, 0)) != 0) {
-		debug_print("db_create: %s\n", db_strerror(ret));
-		return -1;
-	}
-	if ((ret = item->db_uniqkey->open(item->db_uniqkey, NULL, database, "uniqkey", DB_BTREE, DB_CREATE, 0600)) != 0) {
-		debug_print("DB->open: %s\n", db_strerror(ret));
-		item->db_uniqkey->close(item->db_uidkey, 0);
-		return -1;
-	}
-	debug_print("Uniq based database opened\n");
-
-	if ((ret = item->db_uidkey->associate(item->db_uidkey, NULL, item->db_uniqkey, getuniq, 0)) != 0) {
-		debug_print("DB->associate: %s\n", db_strerror(ret));
-		item->db_uidkey->close(item->db_uidkey, 0);
-		item->db_uniqkey->close(item->db_uidkey, 0);
-		return -1;
-	}
-	debug_print("Databases associated\n");
+	item->db = uiddb_open(database);
 
 	return 0;
 }
@@ -220,11 +181,10 @@ static void build_tree(GNode *node, glob_t *globbuf)
 static gint maildir_scan_tree(Folder *folder)
 {
         FolderItem *rootitem, *inboxitem;
-        gchar *rootpath;
 	GNode *rootnode, *inboxnode;
         glob_t globbuf;
         
-        g_return_if_fail(folder != NULL);
+        g_return_val_if_fail(folder != NULL, -1);
         
         rootitem = folder_item_new(folder, folder->name, NULL);
         rootitem->folder = folder;
@@ -254,8 +214,7 @@ static FolderItem *maildir_item_new(Folder *folder)
 
         item = g_new0(MaildirFolderItem, 1);
         item->lastuid = 0;
-	item->db_uidkey = NULL;
-	item->db_uniqkey = NULL;
+	item->db = NULL;
         
         return (FolderItem *) item;
 
@@ -267,10 +226,8 @@ static void maildir_item_destroy(Folder *folder, FolderItem *_item)
 
         g_return_if_fail(item != NULL);
 
-	if (item->db_uidkey != NULL)
-		item->db_uidkey->close(item->db_uidkey, 0);
-	if (item->db_uniqkey != NULL)
-		item->db_uniqkey->close(item->db_uniqkey, 0);
+	if (item->db != NULL)
+		uiddb_close(item->db);
 
         g_free(item);
 }
@@ -305,141 +262,119 @@ static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
 	return path;
 }
 
-static void find_lastuid_in_database(MaildirFolderItem *item)
+static gchar *get_filename_for_msgdata(MessageData *msgdata)
 {
-	DBC *cursor;
-	DBT key, data;
-	gint ret;
+	gchar *filename;
 
-	if (item->db_uidkey == NULL)
-		if (open_database(item) < 0) return;
+	if (msgdata->info != NULL)
+		filename = g_strconcat(msgdata->dir, G_DIR_SEPARATOR_S, 
+				       msgdata->uniq, ":", msgdata->info, NULL);
+	else
+		filename = g_strconcat(msgdata->dir, G_DIR_SEPARATOR_S, 
+				       msgdata->uniq, NULL);
 
-	ret = item->db_uidkey->cursor(item->db_uidkey, NULL, &cursor, 0);
-	if (ret != 0) {
-		debug_print("DB->cursor: %s\n", db_strerror(ret));
-		return;
+	return filename;
+}
+
+static MessageData *get_msgdata_for_filename(const gchar *filename)
+{
+	MessageData *msgdata;
+	const gchar *tmpfilename;
+	gchar **pathsplit, **namesplit;
+
+	tmpfilename = strrchr(filename, G_DIR_SEPARATOR);
+	if (tmpfilename == NULL || tmpfilename == filename)
+		return NULL;
+
+	tmpfilename--;
+	while (tmpfilename > filename && tmpfilename[0] != G_DIR_SEPARATOR)
+		tmpfilename--;
+	if (tmpfilename[0] == G_DIR_SEPARATOR)
+		tmpfilename++;
+
+    	pathsplit = g_strsplit(tmpfilename, G_DIR_SEPARATOR_S, 2);
+	if (pathsplit[1] == NULL) {
+	        g_strfreev(pathsplit);
+		return NULL;
 	}
 
-	memset(&key, 0, sizeof(key));
-	memset(&data, 0, sizeof(data));
-	while ((ret = cursor->c_get(cursor, &key, &data, DB_NEXT)) == 0) {
-		guint32 uid = *((guint32 *) key.data);
+	namesplit = g_strsplit(pathsplit[1], ":", 2);
 
-		if (uid > item->lastuid)
-			item->lastuid = uid;		
+	msgdata = g_new0(MessageData, 1);
 
-		memset(&key, 0, sizeof(key));
-		memset(&data, 0, sizeof(data));
-	}
+	msgdata->dir = g_strdup(pathsplit[0]);
+	msgdata->uniq = g_strdup(namesplit[0]);
+	msgdata->info = g_strdup(namesplit[1]);
 
-	cursor->c_close(cursor);
+	g_strfreev(namesplit);
+	g_strfreev(pathsplit);
+
+	return msgdata;
 }
 
 static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filename)
 {
-	MaildirUID *maildiruid;
-	GSList *elem;
-	gchar *tmpfilename, *uniq, *info;
-	DBT key, pkey, data;
-	gint ret;
+	gchar *uniq, *info;
+	MessageData *msgdata;
+	guint32 uid;
 
-	if (item->db_uidkey == NULL)
-		if (open_database(item) < 0) return 0;
+	g_return_val_if_fail(open_database(item) == 0, 0);
 
-	g_return_val_if_fail(item->db_uniqkey != NULL, 0);
+	uniq = strrchr(filename, G_DIR_SEPARATOR);
+	if (uniq == NULL)
+		return 0;
+	uniq++;
 
-	Xstrdup_a(tmpfilename, filename, return 0);
-	uniq = tmpfilename;
-	info = strchr(tmpfilename, ':');
-	if (info) {
+	Xstrdup_a(uniq, uniq, return 0);
+	info = strchr(uniq, ':');
+	if (info != NULL)
 		*info = '\0';
-		info++;
+
+	msgdata = uiddb_get_entry_for_uniq(item->db, uniq);
+	if (msgdata == NULL) {
+		msgdata = get_msgdata_for_filename(filename);
+		if (msgdata == NULL)
+			return 0;
+		msgdata->uid = uiddb_get_new_uid(item->db);
+
+		uiddb_insert_entry(item->db, msgdata);
 	}
 
-	memset(&key, 0, sizeof(key));
-	memset(&pkey, 0, sizeof(pkey));
-	memset(&data, 0, sizeof(data));
-	key.data = uniq;
-	key.size = strlen(uniq);
+	uid = msgdata->uid;
+	uiddb_free_msgdata(msgdata);
 
-	switch (ret = item->db_uniqkey->pget(item->db_uniqkey, NULL, &key, &pkey, &data, 0)) {
-	case 0:
-		return *((guint32 *) pkey.data);
-		break;
-	case DB_NOTFOUND:
-		memset(&key, 0, sizeof(key));
-		memset(&data, 0, sizeof(data));
-
-		if (item->lastuid == 0)
-			find_lastuid_in_database(item);
-
-		item->lastuid++;
-		key.size = sizeof(guint32);
-		key.data = &item->lastuid;
-
-		data.size = strlen(uniq) + strlen(info) + 2;
-		data.data = alloca(data.size);
-		strcpy(data.data, uniq);
-		strcpy(data.data + strlen(uniq) + 1, info);
-
-		debug_print("creating new database entry %d:%s\n", item->lastuid, uniq);
-
-		ret = item->db_uidkey->put(item->db_uidkey, NULL, &key, &data, 0);
-		if (ret != 0)
-			debug_print("DB->put: %s\n", db_strerror(ret));
-
-		/*
-		ret = item->db_uidkey->sync(item->db_uidkey, 0);
-		ret = item->db_uniqkey->sync(item->db_uniqkey, 0);
-		*/
-
-		return item->lastuid;
-	default:
-		debug_print("unexpected error: %s\n", db_strerror(ret));
-	}
-
-	return 0;
+	return uid;
 }
 
 static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
 {
-	GSList *elem;
-	DBT key, data;
-	gchar *uniq, *info, *path, *filename;
+	MessageData *msgdata;
+	gchar *path, *msgname, *filename;
 	glob_t globbuf;
-	gint ret;
 
-	if (item->db_uidkey == NULL)
-		if (open_database(item) < 0) return NULL;
+	g_return_val_if_fail(open_database(item) == 0, NULL);
 
-	memset(&key, 0, sizeof(key));
-	memset(&data, 0, sizeof(data));
-
-	key.size = sizeof(guint32);
-	key.data = &uid;
-
-	if (item->db_uidkey->get(item->db_uidkey, NULL, &key, &data, 0) != 0)
+	msgdata = uiddb_get_entry_for_uid(item->db, uid);
+	if (msgdata == NULL)
 		return NULL;
-	uniq = data.data;
-	info = data.data + strlen(uniq) + 1;
 
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	filename = g_strconcat(path, "/cur/", uniq, ":", info, NULL);
+	msgname = get_filename_for_msgdata(msgdata);
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, msgname, NULL);
+	g_free(msgname);
 	g_free(path);
-
+	
 	if (is_file_exist(filename))
 		return filename;
 
-	debug_print("researching for %s\n", uniq);
+	debug_print("researching for %s\n", msgdata->uniq);
 	/* delete old entry */
 	g_free(filename);
-	item->db_uidkey->del(item->db_uidkey, NULL, &key, 0);
-	if (ret != 0)
-		debug_print("DB->del: %s\n", db_strerror(ret));
+	uiddb_delete_entry(item->db, uid);
 
 	/* try to find file with same uniq and different info */
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	filename = g_strconcat(path, "/cur/", uniq, ":*", NULL);
+	filename = g_strconcat(path, "/cur/", msgdata->uniq, ":*", NULL);
 	debug_print("search pattern is %s\n", filename);
 	g_free(path);
 	globbuf.gl_offs = 0;
@@ -450,75 +385,41 @@ static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
 	if (globbuf.gl_pathc > 0)
 		filename = g_strdup(globbuf.gl_pathv[0]);
 	globfree(&globbuf);
+	uiddb_free_msgdata(msgdata);
 
 	/* if found: update database and return new entry */
 	if (filename != NULL) {
-		debug_print("found %s\n", filename);
-		info = strrchr(filename, ':') + 1;
-		
-		memset(&data, 0, sizeof(data));
-		data.size = strlen(uniq) + strlen(info) + 2;
-		data.data = alloca(data.size);
-		strcpy(data.data, uniq);
-		strcpy(data.data + strlen(uniq) + 1, info);
+		MessageData *msgdata;
 
-		ret = item->db_uidkey->put(item->db_uidkey, NULL, &key, &data, 0);
-		if (ret != 0)
-			debug_print("DB->put: %s\n", db_strerror(ret));
+		debug_print("found %s\n", filename);
+		
+		msgdata = get_msgdata_for_filename(filename);
+		msgdata->uid = uid;
+
+		uiddb_insert_entry(item->db, msgdata);
+		uiddb_free_msgdata(msgdata);
 	}
 
 	return filename;
 }
 
-static void cleanup_database(MaildirFolderItem *item, MsgNumberList *list)
-{
-	DBC *cursor;
-	DBT key, data;
-	gint ret;
-
-	if (item->db_uidkey == NULL)
-		if (open_database(item) < 0) return;
-
-	ret = item->db_uidkey->cursor(item->db_uidkey, NULL, &cursor, DB_WRITECURSOR);
-	if (ret != 0) {
-		debug_print("DB->cursor: %s\n", db_strerror(ret));
-		return;
-	}
-
-	memset(&key, 0, sizeof(key));
-	memset(&data, 0, sizeof(data));
-	while ((ret = cursor->c_get(cursor, &key, &data, DB_NEXT)) == 0) {
-		guint32 uid = *((guint32 *) key.data);
-
-		if (g_slist_find(list, GINT_TO_POINTER(uid)) == NULL) {
-			cursor->c_del(cursor, 0);
-			debug_print("removed old database entry %d:%s\n", uid, data.data);
-		}
-
-		memset(&key, 0, sizeof(key));
-		memset(&data, 0, sizeof(data));
-	}
-
-	cursor->c_close(cursor);
-}
-
-static gint maildir_get_num_list(Folder * folder, FolderItem * item,
+static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 				 MsgNumberList ** list, gboolean *old_uids_valid)
 {
-	gchar *path, *cur;
+	gchar *path, *globpattern;
 	glob_t globbuf;
 	int i;
+
+        g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
 
 	*old_uids_valid = TRUE;
 
 	path = maildir_item_get_path(folder, item);
-	cur = g_strconcat(path, "/cur", NULL);
+	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, "*", NULL);
 	g_free(path);
-	chdir(cur);
-	g_free(cur);
 
 	globbuf.gl_offs = 0;
-	glob("*", 0, NULL, &globbuf);
+	glob(globpattern, 0, NULL, &globbuf);
 	for (i = 0; i < globbuf.gl_pathc; i++) {
 		guint32 uid;
 
@@ -527,8 +428,9 @@ static gint maildir_get_num_list(Folder * folder, FolderItem * item,
 			*list = g_slist_append(*list, GINT_TO_POINTER(uid));
 	}
 	globfree(&globbuf);
+	g_free(globpattern);
 
-	cleanup_database((MaildirFolderItem *) item, *list);
+	uiddb_delete_entries_not_in_list(((MaildirFolderItem *) item)->db, *list);
 
 	return g_slist_length(*list);
 }

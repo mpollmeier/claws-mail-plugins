@@ -1,3 +1,13 @@
+2004-04-25 [christoph]
+
+	* src/Makefile.am
+	* src/maildir.c
+	* src/plugin.c
+	* src/uiddb.[ch]				** NEW **
+		restructure uid management
+		(old sylpheed_uid.db files in Maildir folders have to be
+		 removed, because the content is no longer valid)
+
 2004-01-13 [christoph]
 
 	* src/maildir.c

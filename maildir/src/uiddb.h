@@ -17,48 +17,37 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "common/version.h"
-#include "common/plugin.h"
-#include "folder.h"
+#ifndef UIDDB_H
+#define UIDDB_H 1
 
-#include "maildir.h"
-#include "uiddb.h"
+#include <glib.h>
 
-gint plugin_init(gchar **error)
+typedef struct _UIDDB UIDDB;
+typedef struct _MessageData MessageData;
+
+#include "procmsg.h"
+
+struct _MessageData
 {
-	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
-		return -1;
-	}
+	guint32	 uid;
+	gchar   *uniq;
+	gchar	*info;
+	gchar	*dir;
+};
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 4, 15))) {
-		*error = g_strdup("Your sylpheed version is too old");
-		return -1;
-	}
+void uiddb_init();
+void uiddb_done();
 
-	uiddb_init();
-	folder_register_class(maildir_get_class());
+void uiddb_free_msgdata(MessageData *);
 
-	return 0;
-}
+UIDDB *uiddb_open(const gchar *);
+void uiddb_close(UIDDB *);
+guint32 uiddb_get_new_uid(UIDDB *);
 
-void plugin_done()
-{
-	folder_unregister_class(maildir_get_class());
-	uiddb_done();
-}
+MessageData *uiddb_get_entry_for_uid(UIDDB *, guint32);
+MessageData *uiddb_get_entry_for_uniq(UIDDB *uiddb, gchar *);
+void uiddb_delete_entry(UIDDB *, guint32);
+void uiddb_insert_entry(UIDDB *, MessageData *);
+void uiddb_delete_entries_not_in_list(UIDDB *uiddb, MsgNumberList *list);
 
-const gchar *plugin_name()
-{
-	return "Maildir++";
-}
-
-const gchar *plugin_desc()
-{
-	return "";
-}
-
-const gchar *plugin_type()
-{
-	return "Common";
-}
+#endif /* UIDDB_H */

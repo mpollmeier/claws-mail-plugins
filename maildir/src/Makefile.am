@@ -6,7 +6,8 @@ plugin_LTLIBRARIES = maildir.la maildir_gtk.la
 
 maildir_la_SOURCES = \
 	plugin.c \
-	maildir.c maildir.h
+	maildir.c maildir.h \
+	uiddb.c uiddb.h
 
 maildir_la_LDFLAGS = \
 	-avoid-version -module
