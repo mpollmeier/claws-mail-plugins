@@ -1,0 +1,222 @@
+Perl Plugin
+===========
+
+Author: Holger Berndt <berndth@gmx.de>
+Feel free to mail comments, suggestions and bugreports to the
+address above.
+
+This program is licensed under the GNU General Public
+License. See the file `COPYING' for details.
+
+
+*** Be aware that the plugin is still experimental! ***
+
+
+INTRODUCTION
+============
+
+This plugin is intended to extend the filtering possibilities of
+Sylpheed-Claws. It provides a Perl interface to Sylpheed-Claws'
+filtering mechanism, allowing to use full Perl power in email
+filters.
+
+
+USAGE
+=====
+
+The plugin hooks into the MAIL_FILTERING_HOOK which gets executed
+every time mail is received (note that this will change to a hook
+that gets exectued every time the [filtering] rules from
+matcherrc are processed, once such a hook becomes available).  Be
+careful when using this plugin together with other filtering
+plugins, such as the SpamAssassin plugin, since they are
+registered on the same hook and the order in which they are
+executed is not guaranteed. You can use the `SA_is_spam' function
+as a replacement to the SpamAssassin plugin.
+
+The Perl script is searched in Sylpheed-Claws' config directory
+(usually $HOME/.sylpheed) and has to be named `perl_filter'. If no
+file is available on plugin init, an empty one is created. To get
+started, you can use the `matcherrc2perlfilter.pl' - script in
+the `tools'-directory to translate your matcherrc's [filtering]
+rules to Perl. Consider rewriting your rules though, since the
+produced Perl code is not exactly pretty.
+`perl_filter' doesn't need to start with a sha-bang, and it's Perl
+code is executed in a `use strict;' - environment.
+
+
+As a first step, Sylpheed-Claws' filtering tests and actions have
+been made available to the Perl scripter in the form of
+subroutines. These are:
+
+Matchers:
+---------
+* all
+* marked
+* unread
+* deleted
+* new
+* replied
+* forwarded
+* locked
+* colorlabel
+* match
+* matchcase
+* regexp
+* regexpcase
+* test
+* size_greater
+* size_smaller
+* size_equal
+* score_greater
+* score_lower
+* score_equal
+* age_greater
+* age_lower
+
+Actions:
+--------
+* mark
+* unmark
+* dele
+* mark_as_unread
+* mark_as_read
+* lock
+* unlock
+* move
+* copy
+* color
+* execute
+* hide
+* set_score
+* change_score
+* stop
+* hide
+* set_score
+* change_score
+* stop
+* forward
+* forward_as_attachment
+* redirect
+
+
+Remarks:
+--------
+
+Note the name change of `delete' into the Perl form
+`dele'. `delete' is one of Perl's built-in commands which cannot
+be redefined (if it can, tell me how).
+
+-------------------------------------------------------------------
+
+The argument to `color' and `colorlabel' can be either the
+numeric color or the (english) color name as it is introduced via
+the Claws UI.
+
+-------------------------------------------------------------------
+
+The matching commands `match', `matchcase', `regexp' and
+`regexpcase' have a special syntax. They expect two arguments:
+
+The first one tells the function where to look for a match. If it
+is any of `to_or_cc', `body_part', `headers_part', `message',
+`to', `from', `subject', `cc', `newsgroups', `inreplyto' or
+`references', the plugin emulates Sylpheed-Claws' built-in
+functionality. Otherwise, the argument (which must then be
+quoted) is supposed to be the name of a header field, thus
+emulating the `header' command of Sylpheed-Claws.
+
+The second argument is the string to look for.
+
+Be careful with the way you quote. When providing an email
+address, be aware that the `@' has a special meaning in Perl, and
+gets interpolated inside double quotes. This is most likely not
+what you want.
+
+-------------------------------------------------------------------
+
+After the `perl_filter' - file, the mail message undergoes the
+normal built-in filtering unless it has been `move'd or `dele'ted
+in the Perl filter.
+
+-------------------------------------------------------------------
+
+
+In addition to these commands, the following functions are
+available:
+
+Functions:
+----------
+
+header(arg)		  if `arg' is not given, returns a list
+			  of all header field names of the mail.
+			  If `arg' is given, returns:
+			  * in scalar context:
+			    the value of the header field `arg'.
+			  * in list context:
+			    a list of all available header fields
+			    `arg' (in case a field shows up
+			     several times in a mail's header).
+			  * `undef' if the header field does not
+			     exist
+
+body			  returns the mail's body in a scalar.
+
+filepath		  returns the filepath of the mail
+			  currently processed.
+
+addr_in_addressbook(addr) given an email address, returns true if
+                          addr is in an addressbook, false
+                          otherwise. This is currently
+                          implemented with address-completion
+                          functions, so if the given address
+                          equals the beginning of an address in
+                          the addressbook the function will
+                          return true.
+
+from_in_addressbook	  results in a call to
+			  addr_in_addressbook on the email
+			  address found in the `From' header.
+
+SA_is_spam                an alias to
+		          not test 'spamc -c < %F > /dev/null'
+
+-------------------------------------------------------------------
+
+The `exit' command has been redefined to do the same as the stop
+command. You shouldn't use Perl's own exit (which would exit the
+whole program). If you want to bail out of the script, use
+`stop'.
+
+-------------------------------------------------------------------
+
+Just as with the built-in filtering engine, the message body is
+searched and provided as is - no character-set analysis is
+done. Likewise, no HTML-tags are stripped. It should be possible
+to use external modules or programs for these tasks though. If
+you're doing that, drop me a message with your experiences.
+
+-------------------------------------------------------------------
+
+
+BUGS
+====
+
+- The filter script is not (yet) updated automatically when a
+  folder gets renamed.
+
+- This plugin has only be tested with POP3 accounts. If you have
+  experiences with IMAP or newsgroup accounts, drop me a
+  message.
+
+- Warning during compile time:
+
+  *** Warning: Linking the shared library perl_plugin.la against the
+  *** static library
+  /usr/lib/perl5/5.8.3/i586-linux-thread-multi/auto/DynaLoader/DynaLoader.a
+  is not portable!
+
+  Library/libtool experts help me on this one :-)
+
+
+Mail bug reports to the address above.

@@ -1,0 +1,9 @@
+2004-10-03 [holger]     0.1.1
+
+	* configure.ac
+	* src/perl_plugin.c
+	        fix missing XSRETURN_UV for Perl 5.8.0 (reported by wwp)
+	
+2004-10-01 [holger]	0.1
+
+	* initial release
