@@ -1,4 +1,4 @@
-SUBDIRS = src
+SUBDIRS = config src
 
 EXTRA_DIST = \
 	AUTHORS \
@@ -7,9 +7,3 @@ EXTRA_DIST = \
 	INSTALL \
 	NEWS \
 	README
-	
-release: distdir
-	-chmod -R a+r $(distdir)
-	GZIP=$(GZIP_ENV) $(AMTAR)$(TAR) chozf $(distdir).tar.gz $(distdir)
-	-rm -rf $(distdir)
-

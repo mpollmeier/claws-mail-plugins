@@ -1,5 +1,16 @@
 2004-08-26 [paul]
 
+	* config/		** ADDED **
+	* config/Makefile.am	** ADDED **
+	* config/.cvsignore	** ADDED **
+	* configure.ac
+	* Makefile.am
+	* src/Makefile.am
+		use pkg-config
+		fix up autotools magick
+
+2004-08-26 [paul]
+
 	* Makefile.am
 	* src/Makefile.am
 	  	fix install destination
