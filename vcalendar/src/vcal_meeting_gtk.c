@@ -308,7 +308,7 @@ static gchar *get_date(VCalMeeting *meet, int start)
 	lt->tm_mon  = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_m:meet->end_m))+0;
 	lt->tm_year = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_y:meet->end_y))+START_YEAR-1900;
 	lt->tm_hour = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_hh:meet->end_hh)));
-	lt->tm_min  = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_mm:meet->end_hh)));
+	lt->tm_min  = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_mm:meet->end_mm)));
 	
 	debug_print("%d %d %d, %d:%d\n", lt->tm_mday, lt->tm_mon, lt->tm_year, lt->tm_hour, lt->tm_min);
 	t = mktime(lt);
