@@ -122,8 +122,6 @@ static gchar *get_part_as_string(MimeInfo *mimeinfo, gint lines)
 		g_free(tmp);
 	}
 	
-	debug_print("returning '%s'\n", textdata);
-
 	if (mimeinfo->encoding_type == ENC_BASE64)
 		base64_decoder_free(decoder);
 
