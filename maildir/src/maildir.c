@@ -73,6 +73,8 @@ static void remove_missing_folder_items(Folder *folder);
 static gint maildir_remove_folder(Folder *folder, FolderItem *item);
 static gint maildir_rename_folder(Folder *folder, FolderItem *item,
 			     const gchar *name);
+static gint maildir_get_flags (Folder *folder,  FolderItem *item,
+			       MsgInfoList *msglist, GRelation *msgflags);
 
 FolderClass maildir_class;
 
@@ -120,6 +122,7 @@ FolderClass *maildir_get_class()
 		maildir_class.copy_msg = maildir_copy_msg;
 		maildir_class.remove_msg = maildir_remove_msg;
 		maildir_class.change_flags = maildir_change_flags;
+		maildir_class.get_flags = maildir_get_flags;
 	}
 
 	return &maildir_class;
@@ -407,7 +410,9 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 	Xstrdup_a(uniq, uniq, return 0);
 	info = strchr(uniq, ':');
 	if (info != NULL)
-		*info = '\0';
+		*info++ = '\0';
+	else
+		info = "";
 
 	msgdata = uiddb_get_entry_for_uniq(item->db, uniq);
 	if (msgdata == NULL) {
@@ -415,6 +420,13 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 		if (msgdata == NULL)
 			return 0;
 		msgdata->uid = uiddb_get_new_uid(item->db);
+
+		uiddb_insert_entry(item->db, msgdata);
+	} else if (strcmp(msgdata->info, info)) {
+		uiddb_delete_entry(item->db, msgdata->uid);
+
+		g_free(msgdata->info);
+		msgdata->info = g_strdup(info);
 
 		uiddb_insert_entry(item->db, msgdata);
 	}
@@ -576,6 +588,8 @@ static MsgInfo *maildir_parse_msg(const gchar *file, FolderItem *item)
 	msginfo->msgnum = atoi(file);
 	msginfo->folder = item;
 
+#if 0
+	/* this is already done by procheader_parse_file */
 	if (stat(file, &s) < 0) {
 		FILE_OP_ERROR(file, "stat");
 		msginfo->size = 0;
@@ -584,6 +598,7 @@ static MsgInfo *maildir_parse_msg(const gchar *file, FolderItem *item)
 		msginfo->size = s.st_size;
 		msginfo->mtime = s.st_mtime;
 	}
+#endif
 
 	return msginfo;
 }
@@ -1115,6 +1130,68 @@ static gint maildir_rename_folder(Folder *folder, FolderItem *item,
 			rename_folder_func, &renamedata);
 
 	g_free(renamedata.newprefix);
+
+	return 0;
+}
+
+static gint get_flags_for_msgdata(MessageData *msgdata, MsgPermFlags *flags)
+{
+	gint	i;
+
+	g_return_val_if_fail(msgdata != NULL, -1);
+	g_return_val_if_fail(msgdata->info != NULL, -1);
+
+	if ((msgdata->info[0] != '2') && (msgdata->info[1] != ','))
+		return -1;
+
+	*flags = MSG_UNREAD;
+	for (i = 2; i < strlen(msgdata->info); i++) {
+		switch (msgdata->info[i]) {
+			case 'F':
+				  *flags |= MSG_MARKED;
+				  break;
+			case 'P':
+				  *flags |= MSG_FORWARDED;
+				  break;
+			case 'R':
+				  *flags |= MSG_REPLIED;
+				  break;
+			case 'S':
+				  *flags &= ~MSG_UNREAD;
+				  break;
+		}
+	}
+
+	return 0;
+}
+
+static gint maildir_get_flags (Folder *folder,  FolderItem *item,
+			       MsgInfoList *msglist, GRelation *msgflags)
+{
+	MsgInfoList	*elem;
+	MsgInfo		*msginfo;
+	MessageData	*msgdata;
+	MsgPermFlags	flags;
+
+	g_return_val_if_fail(folder != NULL, -1);
+	g_return_val_if_fail(item != NULL, -1);
+	g_return_val_if_fail(msglist != NULL, -1);
+	g_return_val_if_fail(msgflags != NULL, -1);
+	g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
+
+	for (elem = msglist; elem != NULL; elem = g_slist_next(elem)) {
+		msginfo = (MsgInfo*) elem->data;
+		msgdata = uiddb_get_entry_for_uid(MAILDIR_FOLDERITEM(item)->db, msginfo->msgnum);
+		if (msgdata == NULL)
+			break;
+
+		if (get_flags_for_msgdata(msgdata, &flags) < 0)
+			break;
+
+		g_relation_insert(msgflags, msginfo, GINT_TO_POINTER(flags));
+
+		uiddb_free_msgdata(msgdata);
+	}
 
 	return 0;
 }

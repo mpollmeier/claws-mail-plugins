@@ -1,3 +1,10 @@
+2004-09-17 [christoph]
+
+	* src/maildir.c
+		Add maildir_get_flags()
+
+	Patch by Klaus Flittner <klaus_flittner@gmx.de>
+
 2004-06-08 [christoph]
 
 	Release Maildir Plugin 0.6
