@@ -1,0 +1,11 @@
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+config.*
+configure
+libtool
+pluginconfig.h
+pluginconfig.h.in
+stamp-h1
+ABOUT-NLS
