@@ -1,3 +1,9 @@
+Version 0.7
+
+* Add gettext support to plugin, so that texts used by the plugin
+  can now be translated
+  (will only work with Sylpheed-Claws >= 0.9.12cvs3)
+
 Version 0.6
 
 * update for changes in Sylpheed
