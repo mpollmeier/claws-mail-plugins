@@ -762,7 +762,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
 	
-	conv_encode_header(subject, 2047, event->summary, strlen(event->summary), FALSE);
+	conv_encode_header(subject, 511, event->summary, strlen(event->summary), FALSE);
 	
 	if (is_pseudo_display) {
 		struct icaltimetype itt = icaltime_as_local(icaltime_from_string(event->dtstart));

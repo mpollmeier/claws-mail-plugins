@@ -190,8 +190,40 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 {
 	gchar *compstr = NULL;
 	icalcomponent *comp = NULL;
-	
-	compstr = file_read_to_str(file);
+	FILE *fp;
+	GByteArray *array;
+	gchar buf[BUFSIZ];
+	gint n_read;
+	gchar *str;
+
+	g_return_val_if_fail(file != NULL, NULL);
+
+	if ((fp = fopen(file, "rb")) == NULL) {
+		FILE_OP_ERROR(file, "fopen");
+		return NULL;
+	}
+
+	array = g_byte_array_new();
+
+	while ((n_read = fread(buf, sizeof(gchar), sizeof(buf), fp)) > 0) {
+		if (n_read < sizeof(buf) && ferror(fp))
+			break;
+		g_byte_array_append(array, buf, n_read);
+	}
+
+	if (ferror(fp)) {
+		FILE_OP_ERROR("file stream", "fread");
+		g_byte_array_free(array, TRUE);
+		return NULL;
+	}
+
+	buf[0] = '\0';
+	g_byte_array_append(array, buf, 1);
+	compstr = (gchar *)array->data;
+	g_byte_array_free(array, FALSE);
+
+	fclose(fp);	
+
 	if (compstr) {
 		comp = icalcomponent_new_from_string(compstr);
 		g_free(compstr);
@@ -576,6 +608,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	gchar * uid = vcalviewer_get_uid_from_mimeinfo(mimeinfo);
 	gint sequence = 0;
 	
+	printf("charset %s\n", charset);
 	if (!charset)
 		charset=CS_ISO_8859_1;
 		
@@ -594,6 +627,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	/* see if we have it registered and more recent */
 	event = vcal_manager_load_event(uid);
 	if (event && event->sequence >= sequence) {
+		charset = CS_INTERNAL;
 		event->method = method;
 		vcalviewer_display_event(vcalviewer, event);
 		vcal_manager_free_event(event);
@@ -675,6 +709,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	if (iprop) {
 		VCalEvent *event = vcal_manager_load_event(icalproperty_get_uid(iprop));
 		if (event) {
+			charset = CS_INTERNAL;
 			event->method = ICAL_METHOD_REPLY;
 			vcalviewer_display_event(vcalviewer, event);
 			vcal_manager_free_event(event);
