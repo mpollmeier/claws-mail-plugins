@@ -42,7 +42,6 @@
 #include "codeconv.h"
 #include <time.h>
 #include "folder.h"
-#include "icaltime_as_local.h"
 #include "quoted-printable.h"
 
 typedef struct _Answer Answer;
@@ -327,9 +326,9 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	    icalcomponent_vanew(
                 ICAL_VEVENT_COMPONENT,
                 icalproperty_new_uid(event->uid),
-		icalproperty_vanew_dtstart(icaltime_as_local(icaltime_from_string(event->dtstart)),
+		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)),
 			icalparameter_new_tzid(tzname[1]), 0),
-		icalproperty_vanew_dtend(icaltime_as_local(icaltime_from_string(event->dtend)),
+		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)),
 			icalparameter_new_tzid(tzname[1]), 0),
 		icalproperty_new_description(event->description),
 		icalproperty_new_summary(event->summary),
@@ -458,15 +457,16 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->organizer 	= g_strdup(organizer?organizer:"");
 
 	if (dtend) {
-		time_t tmp = icaltime_as_timet(icaltime_as_local(icaltime_from_string(dtend)));
+		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
 		event->end	= g_strdup(ctime(&tmp));
 	}
 	
 	if (dtstart) {
-		time_t tmp = icaltime_as_timet(icaltime_as_local(icaltime_from_string(dtstart)));
+		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
+		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		event->start	= g_strdup(ctime(&tmp));
+printf("dtstart %s, as local %s\n", ctime(&tmp_utc), ctime(&tmp));
 	}
-
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
 	event->summary		= g_strdup(summary?summary:"");
@@ -790,8 +790,11 @@ static gchar *write_headers(PrefsAccount 	*account,
 	conv_encode_header(subject, 511, event->summary, strlen(event->summary), FALSE);
 	
 	if (is_pseudo_display) {
-		struct icaltimetype itt = icaltime_as_local(icaltime_from_string(event->dtstart));
+		struct icaltimetype itt = (icaltime_from_string(event->dtstart));
+		struct icaltimetype itt_utc = (icaltime_from_string(event->dtstart));
 		time_t t = icaltime_as_timet(itt);
+		time_t t_utc = icaltime_as_timet(itt_utc);
+		printf("itt %s, itt as local %s\n", ctime(&t_utc), ctime(&t));
 		get_rfc822_date_from_time_t(date, sizeof(date), t);
 	} else {
 		get_rfc822_date(date, sizeof(date));

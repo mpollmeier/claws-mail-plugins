@@ -41,7 +41,6 @@
 #include "filesel.h"
 #include "alertpanel.h"
 #include "addr_compl.h"
-#include "icaltime_as_local.h"
 
 #define START_YEAR 2004
 
@@ -156,7 +155,7 @@ static gint get_curdate(gint field)
 
 static gint get_dtdate(const gchar *str, gint field)
 {
-	time_t t = icaltime_as_timet(icaltime_as_local(icaltime_from_string(str)));
+	time_t t = icaltime_as_timet((icaltime_from_string(str)));
 	struct tm *lt = localtime(&t);
 
 	switch(field){
@@ -721,7 +720,7 @@ gint vcal_meeting_alert_check(gpointer data)
 		
 		if (start > current && start < (current + (vcalprefs.alert_delay*60))) {
 			if (!g_slist_find_string(alert_done, event->uid)) {
-				time_t tmpt = icaltime_as_timet(icaltime_as_local(icaltime_from_string(event->dtstart)));
+				time_t tmpt = icaltime_as_timet((icaltime_from_string(event->dtstart)));
 				gchar *estart = NULL;
 				
 				alert_done = g_slist_append(alert_done, g_strdup(event->uid));

@@ -29,7 +29,6 @@
 
 #include "mimeview.h"
 #include "utils.h"
-#include "icaltime_as_local.h"
 #include "vcalendar.h"
 #include "vcal_manager.h"
 #include "vcal_folder.h"
@@ -658,14 +657,15 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
 	if (iprop) {
-		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtstart(iprop));
+		struct icaltimetype itt = icalproperty_get_dtstart(iprop);
 		dtstart = g_strdup(icaltime_as_ical_string(itt));
+		printf("values: %s, as local\n", dtstart);
 		icalproperty_free(iprop);
 	} 
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
 	if (iprop) {
-		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtend(iprop));
+		struct icaltimetype itt = icalproperty_get_dtend(iprop);
 		dtend = g_strdup(icaltime_as_ical_string(itt));
 		icalproperty_free(iprop);
 	} 
@@ -751,7 +751,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
 	if (iprop) {
-		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtstart(iprop));
+		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
 		time_t tmp = icaltime_as_timet(itt);
 		gtk_label_set_text(GTK_LABEL(vcalviewer->start), ctime(&tmp));
 		icalproperty_free(iprop);
@@ -760,7 +760,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
 	if (iprop) {
-		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtstart(iprop));
+		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
 		time_t tmp = icaltime_as_timet(itt);
 		gtk_label_set_text(GTK_LABEL(vcalviewer->end), ctime(&tmp));
 		icalproperty_free(iprop);
