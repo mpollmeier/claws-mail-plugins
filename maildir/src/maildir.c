@@ -53,6 +53,8 @@ static gint maildir_add_msg(Folder *folder, FolderItem *_dest,
 			    const gchar *file, MsgFlags *flags);
 static gint maildir_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *msginfo);
 static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num);
+static void maildir_change_flags(Folder *folder, FolderItem *item, MsgInfo *msginfo,
+				 MsgPermFlags newflags);
 
 FolderClass maildir_class;
 
@@ -95,6 +97,7 @@ FolderClass *maildir_get_class()
 		maildir_class.add_msg = maildir_add_msg;
 		maildir_class.copy_msg = maildir_copy_msg;
 		maildir_class.remove_msg = maildir_remove_msg;
+		maildir_class.change_flags = maildir_change_flags;
 	}
 
 	return &maildir_class;
@@ -351,12 +354,11 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 	return uid;
 }
 
-static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
+static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 {
 	MessageData *msgdata;
 	gchar *path, *msgname, *filename;
 	glob_t globbuf;
-
 	g_return_val_if_fail(open_database(item) == 0, NULL);
 
 	msgdata = uiddb_get_entry_for_uid(item->db, uid);
@@ -364,13 +366,15 @@ static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
 		return NULL;
 
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
+
 	msgname = get_filename_for_msgdata(msgdata);
 	filename = g_strconcat(path, G_DIR_SEPARATOR_S, msgname, NULL);
 	g_free(msgname);
-	g_free(path);
 	
-	if (is_file_exist(filename))
-		return filename;
+	if (is_file_exist(filename)) {
+		g_free(path);
+		return msgdata;
+	}
 
 	debug_print("researching for %s\n", msgdata->uniq);
 	/* delete old entry */
@@ -378,19 +382,23 @@ static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
 	uiddb_delete_entry(item->db, uid);
 
 	/* try to find file with same uniq and different info */
-	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
-	debug_print("search pattern is %s\n", filename);
-	g_free(path);
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "new", G_DIR_SEPARATOR_S, msgdata->uniq, NULL);
 	globbuf.gl_offs = 0;
 	glob(filename, 0, NULL, &globbuf);
 	g_free(filename);
+
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
+	glob(filename, GLOB_APPEND, NULL, &globbuf);
+	g_free(filename);
+
+	g_free(path);
 	
 	filename = NULL;
 	if (globbuf.gl_pathc > 0)
 		filename = g_strdup(globbuf.gl_pathv[0]);
 	globfree(&globbuf);
 	uiddb_free_msgdata(msgdata);
+	msgdata = NULL;
 
 	/* if found: update database and return new entry */
 	if (filename != NULL) {
@@ -402,8 +410,37 @@ static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
 		msgdata->uid = uid;
 
 		uiddb_insert_entry(item->db, msgdata);
-		uiddb_free_msgdata(msgdata);
 	}
+
+	return msgdata;
+}
+
+static gchar *get_filepath_for_msgdata(MaildirFolderItem *item, MessageData *msgdata)
+{
+	gchar *path, *msgname, *filename;
+
+	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
+	msgname = get_filename_for_msgdata(msgdata);
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, msgname, NULL);
+	g_free(msgname);
+	g_free(path);
+	
+	return filename;
+}
+
+static gchar *get_filepath_for_uid(MaildirFolderItem *item, guint32 uid)
+{
+	MessageData *msgdata;
+	gchar *filename;
+
+	g_return_val_if_fail(open_database(item) == 0, NULL);
+
+	msgdata = get_msgdata_for_uid(item, uid);
+	if (msgdata == NULL)
+		return NULL;
+
+	filename = get_filepath_for_msgdata(item, msgdata);
+	uiddb_free_msgdata(msgdata);
 
 	return filename;
 }
@@ -419,12 +456,19 @@ static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 
 	*old_uids_valid = TRUE;
 
+	globbuf.gl_offs = 0;
 	path = maildir_item_get_path(folder, item);
+
 	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, "*", NULL);
+	glob(globpattern, 0, NULL, &globbuf);
+	g_free(globpattern);
+
+	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "new", G_DIR_SEPARATOR_S, "*", NULL);
+	glob(globpattern, GLOB_APPEND, NULL, &globbuf);
+	g_free(globpattern);
+
 	g_free(path);
 
-	globbuf.gl_offs = 0;
-	glob(globpattern, 0, NULL, &globbuf);
 	for (i = 0; i < globbuf.gl_pathc; i++) {
 		guint32 uid;
 
@@ -433,7 +477,6 @@ static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 			*list = g_slist_append(*list, GINT_TO_POINTER(uid));
 	}
 	globfree(&globbuf);
-	g_free(globpattern);
 
 	uiddb_delete_entries_not_in_list(((MaildirFolderItem *) item)->db, *list);
 
@@ -502,7 +545,7 @@ static gchar *maildir_fetch_msg(Folder * folder, FolderItem * item,
 {
 	gchar *filename;
 
-	filename = get_filename_for_uid((MaildirFolderItem *) item, num);
+	filename = get_filepath_for_uid((MaildirFolderItem *) item, num);
 	return filename;
 }
 
@@ -545,15 +588,11 @@ static gchar *get_infostr(MsgPermFlags permflags)
 static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgFlags *flags)
 {
 	MessageData *msgdata;
-	gchar *tmp, *path, *tmpname, *destname;
+	gchar *tmpname, *destname;
 	gint uid = 0;
 
 	g_return_val_if_fail(item != NULL, -1);
         g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
-
-	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	if (path == NULL)
-		return -1;
 
 	msgdata = g_new0(MessageData, 1);
 	msgdata->uniq = generate_uniq();
@@ -561,22 +600,17 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 	msgdata->uid = uiddb_get_new_uid(item->db);
 
 	msgdata->dir = "tmp";
-	tmp = get_filename_for_msgdata(msgdata);
-	tmpname = g_strconcat(path, G_DIR_SEPARATOR_S, tmp, NULL);
-	g_free(tmp);
-	msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? "new" : "cur");	
+	tmpname = get_filepath_for_msgdata(item, msgdata);
+
+	msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? "new" : "cur");
 
 	if (copy_file(file, tmpname, FALSE) < 0) {
 		uiddb_free_msgdata(msgdata);
 		g_free(tmpname);
-		g_free(path);
 		return -1;
 	}
 
-	tmp = get_filename_for_msgdata(msgdata);
-	destname = g_strconcat(path, G_DIR_SEPARATOR_S, tmp, NULL);
-	g_free(tmp);
-	g_free(path);
+	destname = get_filepath_for_msgdata(item, msgdata);
 	if (rename(tmpname, destname) < 0) {
 		uiddb_free_msgdata(msgdata);
 		g_free(tmpname);
@@ -651,7 +685,7 @@ static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num)
 	g_return_val_if_fail(item != NULL, -1);
 	g_return_val_if_fail(num > 0, -1);
 
-	filename = get_filename_for_uid(item, num);
+	filename = get_filepath_for_uid(item, num);
 	if (filename == NULL)
 		return -1;
 
@@ -661,4 +695,51 @@ static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num)
 
 	g_free(filename);
 	return ret;
+}
+
+static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags)
+{
+	MaildirFolderItem *item = MAILDIR_FOLDERITEM(_item);
+	MessageData *msgdata;
+	gchar *oldname, *newinfo, *newdir;
+	gboolean renamefile = FALSE;
+
+	msgdata = get_msgdata_for_uid(item, msginfo->msgnum);
+	if (msgdata == NULL)
+		return;
+
+	oldname = get_filepath_for_msgdata(item, msgdata);
+
+	newinfo = get_infostr(newflags);
+	if (strcmp(msgdata->info, newinfo)) {
+		g_free(msgdata->info);
+		msgdata->info = newinfo;
+		renamefile = TRUE;
+	} else
+		g_free(newinfo);
+
+	newdir = g_strdup(newflags & MSG_NEW ? "new" : "cur");
+	if (strcmp(msgdata->dir, newdir)) {
+		g_free(msgdata->dir);
+		msgdata->dir = newdir;
+		renamefile = TRUE;
+	} else
+		g_free(newdir);
+
+	if (renamefile) {
+		gchar *newname;
+
+		newname = get_filepath_for_msgdata(item, msgdata);
+		if (rename(oldname, newname) == 0) {
+			uiddb_delete_entry(item->db, msgdata->uid);
+			uiddb_insert_entry(item->db, msgdata);
+			msginfo->flags.perm_flags = newflags;
+		}
+		g_free(newname);
+	} else {
+		msginfo->flags.perm_flags = newflags;
+	}
+
+	g_free(oldname);
+	uiddb_free_msgdata(msgdata);
 }
