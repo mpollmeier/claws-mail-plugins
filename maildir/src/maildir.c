@@ -199,7 +199,7 @@ static gint maildir_scan_tree(Folder *folder)
 	rootitem->node = rootnode;
 
 	/* Add inbox folder */
-	inboxitem = folder_item_new(folder, "inbox", "");
+	inboxitem = folder_item_new(folder, "inbox", "INBOX");
 	inboxitem->folder = folder;
 	inboxitem->stype = F_INBOX;
 	inboxnode = g_node_new(inboxitem);
@@ -249,13 +249,13 @@ static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
 	g_return_val_if_fail(folder_path != NULL, NULL);
 
 	if (folder_path[0] == G_DIR_SEPARATOR) {
-                if (item->path)
+                if (item->path && strcmp(item->path, "INBOX"))
                         path = g_strconcat(folder_path, G_DIR_SEPARATOR_S,
                                            item->path, NULL);
                 else
                         path = g_strdup(folder_path);
         } else {
-                if (item->path)
+                if (item->path && strcmp(item->path, "INBOX"))
                         path = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S,
                                            folder_path, G_DIR_SEPARATOR_S,
                                            item->path, NULL);

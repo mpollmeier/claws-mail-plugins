@@ -22,7 +22,8 @@ maildir_la_CPPFLAGS = \
 ## Maildir GTK GUI support
 
 maildir_gtk_la_SOURCES = \
-	plugin_gtk.c
+	plugin_gtk.c \
+	maildir_gtk.c maildir_gtk.h
 
 maildir_gtk_la_LDFLAGS = \
 	-avoid-version -module

@@ -1,6 +1,6 @@
 /*
- * Maildir Plugin -- Maildir++ support for Sylpheed
- * Copyright (C) 2003 Christoph Hohmann
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Sylpheed-Claws Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,34 +17,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <gtk/gtk.h>
+#ifndef MAILDIR_GTK_H
+#define MAILDIR_GTK_H
 
-#include "intl.h"
-#include "plugin.h"
-#include "maildir_gtk.h"
+void maildir_gtk_init(void);
+void maildir_gtk_done(void);
 
-gint plugin_init(gchar **error)
-{
-	maildir_gtk_init();
-
-	return 0;
-}
-
-void plugin_done()
-{
-}
-
-const gchar *plugin_name()
-{
-	return "Maildir++ GTK";
-}
-
-const gchar *plugin_desc()
-{
-	return "";
-}
-
-const gchar *plugin_type()
-{
-	return "GTK";
-}
+#endif /* MH_GTK_H */
