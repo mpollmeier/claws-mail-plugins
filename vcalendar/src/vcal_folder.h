@@ -18,18 +18,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __VCAL_MEETING_GTK_H__
-#define __VCAL_MEETING_GTK_H__
+#ifndef __VCAL_FOLDER_H__
+#define __VCAL_FOLDER_H__
 
 #include <glib.h>
-#include <gtk/gtk.h>
-#include "vcal_manager.h"
+#include "folder.h"
 
-typedef struct _VCalMeeting VCalMeeting;
-
-VCalMeeting *vcal_meeting_create(VCalEvent *event);
-VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event);
-gboolean vcal_meeting_send(VCalMeeting *meet);
-gint vcal_meeting_alert_check(gpointer data);
+FolderClass *vcal_folder_get_class();
+void vcal_folder_gtk_init(void);
+void vcal_folder_gtk_done(void);
+GSList *vcal_folder_get_waiting_events(void);
 
 #endif

@@ -78,6 +78,7 @@ static gint vcal_remove_folder(Folder *folder, FolderItem *item);
 static gboolean vcal_scan_required(Folder *folder, FolderItem *item);
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags);
 static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget);
+/*static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);*/
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 
 FolderClass vcal_class;
@@ -99,6 +100,7 @@ struct _VCalFolderItem
 static GtkItemFactoryEntry vcal_popup_entries[] =
 {
 	{N_("/_New meeting..."), NULL, new_meeting_cb,	0, NULL},
+/*	{N_("/_Export calendar..."), NULL, export_cal_cb,	0, NULL},*/
 	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
 };
 
@@ -207,11 +209,11 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 {
 	DIR *dp;
 	struct dirent *d;
-	dp = opendir(vcal_manager_get_event_path());
 	int n_msg = 1;
 	gchar *snmsg = NULL;
+	dp = opendir(vcal_manager_get_event_path());
 	
-debug_print("get_num_list\n");
+	debug_print("get_num_list\n");
 	if (!dp) {
 		FILE_OP_ERROR(vcal_manager_get_event_path(), "opendir");
 		return 0;
@@ -238,8 +240,7 @@ debug_print("get_num_list\n");
 			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
 			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
 
-			if (status != ICAL_PARTSTAT_DECLINED
-			&&  status != ICAL_PARTSTAT_NEEDSACTION) {
+			if (status != ICAL_PARTSTAT_DECLINED) {
 				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
 				debug_print("add %d:%s\n", n_msg, d->d_name);
 				n_msg++;
@@ -476,3 +477,45 @@ static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widg
 	debug_print("new_meeting_cb\n");
 	vcal_meeting_create(NULL);
 }
+
+GSList * vcal_folder_get_waiting_events(void)
+{
+	DIR *dp;
+	struct dirent *d;
+	GSList *list = NULL;
+
+	dp = opendir(vcal_manager_get_event_path());
+
+	if (!dp) {
+		FILE_OP_ERROR(vcal_manager_get_event_path(), "opendir");
+		return 0;
+	}
+
+	while ((d = readdir(dp)) != NULL) {
+		VCalEvent *event = NULL;
+		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")) 
+			continue;
+
+		event = vcal_manager_load_event(d->d_name);
+
+		if (event && event->method != ICAL_METHOD_CANCEL) {
+			PrefsAccount *account = vcal_manager_get_account_from_event(event);
+			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
+			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
+
+			if (status != ICAL_PARTSTAT_DECLINED) {
+				list = g_slist_append(list, event);
+			}
+		}
+
+	}
+
+	closedir(dp);
+		
+	return list;
+}
+/*
+static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+
+}*/
