@@ -41,6 +41,7 @@
 #include "vcal_folder.h"
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
+#include "prefs_account.h"
 
 #include <gtk/gtk.h>
 #include <dirent.h>
@@ -223,15 +224,29 @@ debug_print("get_num_list\n");
 					  g_free, g_free);
 					  
 	while ((d = readdir(dp)) != NULL) {
+		VCalEvent *event = NULL;
 		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")) 
 			continue;
 
 		snmsg = g_strdup_printf("%d",n_msg);
 		g_hash_table_insert(hash_uids, snmsg, g_strdup(d->d_name));
+		
+		event = vcal_manager_load_event(d->d_name);
 
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-		debug_print("add %d:%s\n", n_msg, d->d_name);
-		n_msg++;
+		if (event && event->method != ICAL_METHOD_CANCEL) {
+			PrefsAccount *account = vcal_manager_get_account_from_event(event);
+			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
+			status = vcal_manager_get_reply_for_attendee(event, account->address);
+
+			if (status != ICAL_PARTSTAT_DECLINED) {
+				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
+				debug_print("add %d:%s\n", n_msg, d->d_name);
+				n_msg++;
+			}
+		}
+		if (event)
+			vcal_manager_free_event(event);
+
 	}
 
 	closedir(dp);

@@ -156,6 +156,9 @@ static icalproperty *vcalviewer_get_property(VCalViewer *vcalviewer, icalpropert
 {
 	icalproperty *iprop = NULL;
 	
+	if (!vcalviewer->icomp || !vcalviewer->comp)
+		return NULL;
+
 	iprop = icalcomponent_get_first_property(vcalviewer->icomp, kind);
 	if (!iprop)
 		iprop = icalcomponent_get_first_property(vcalviewer->comp, kind);
@@ -168,6 +171,9 @@ static GSList *vcalviewer_get_properties(VCalViewer *vcalviewer, icalproperty_ki
 	GSList *list = NULL;
 	icalproperty *iprop = NULL;
 	
+	if (!vcalviewer->icomp || !vcalviewer->comp)
+		return NULL;
+
 	iprop = icalcomponent_get_first_property(vcalviewer->icomp, kind);
 	if (!iprop) {
 		return NULL;
@@ -194,11 +200,13 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 
 static void vcalviewer_reset(VCalViewer *vcalviewer) 
 {
+	gtk_label_set_text(GTK_LABEL(vcalviewer->type), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->who), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->summary), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->description), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->start), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->end), "-");
+	gtk_label_set_text(GTK_LABEL(vcalviewer->attendees), "-");
 }
 
 static gchar *get_attendee_replying(VCalViewer *vcalviewer)
@@ -426,6 +434,14 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		}
 			
 		g_free(label);
+	} else if (event->method == ICAL_METHOD_CANCEL) {
+		Folder *folder = NULL;
+		gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
+			_("A meeting to which you had been invited has been cancelled. Details follow:"));
+		vcal_manager_save_event(event);
+		folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+		if (folder)
+			folder_item_scan(folder->inbox);
 	} else 
 		gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
 			_("You have been forwarded an appointment. Details follow:"));
@@ -723,9 +739,17 @@ static void vcalviewer_get_info(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 	
 	gchar *tmpfile = get_tmpfile(vcalviewer);
 	
-	if (vcalviewer->comp)
+	if (vcalviewer->comp) {
 		icalcomponent_free(vcalviewer->comp);
+		vcalviewer->comp = NULL;
+		vcalviewer->icomp = NULL;
+	}
 	
+	if (!tmpfile) {
+		vcalviewer_reset(vcalviewer);
+		return;
+	}
+
 	vcalviewer->comp = vcalviewer_get_component(tmpfile);
 	if (vcalviewer->comp)
 		vcalviewer->icomp= icalcomponent_get_inner(vcalviewer->comp);
@@ -738,7 +762,8 @@ static void vcalviewer_get_info(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 	
 	if (icalcomponent_isa(vcalviewer->comp) == ICAL_VCALENDAR_COMPONENT) {
 		if (icalproperty_get_method(method) == ICAL_METHOD_REQUEST
-		||  icalproperty_get_method(method) == ICAL_METHOD_PUBLISH)
+		||  icalproperty_get_method(method) == ICAL_METHOD_PUBLISH
+		||  icalproperty_get_method(method) == ICAL_METHOD_CANCEL)
 			vcalviewer_get_request_values(vcalviewer, mimeinfo);
 		else if (icalproperty_get_method(method) == ICAL_METHOD_REPLY)
 			vcalviewer_get_reply_values(vcalviewer, mimeinfo);
