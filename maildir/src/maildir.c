@@ -58,6 +58,8 @@ FolderClass maildir_class =
 	/* Folder functions */
 	maildir_folder_new,
 	maildir_folder_destroy,
+	folder_local_set_xml,
+	folder_local_get_xml,
 	maildir_scan_tree,
 	NULL,
 
