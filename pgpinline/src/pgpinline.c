@@ -293,7 +293,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	if (!textdata)
 		return NULL;
 
-	printf("decrypting '%s'\n", textdata);
+	debug_print("decrypting '%s'\n", textdata);
 	gpgme_data_new(&cipher);
 	
 	gpgme_data_write(cipher, textdata, strlen(textdata));
