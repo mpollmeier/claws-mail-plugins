@@ -371,7 +371,8 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 		if (data->ctx)
 			gpgme_release(data->ctx);
 		data->ctx = ctx;
-	}
+	} else
+		 gpgme_release(ctx);
 
 	return decinfo;
 }
