@@ -138,81 +138,6 @@ static gint open_database(MaildirFolderItem *item)
 	return 0;
 }
 
-static void build_tree(GNode *node, glob_t *globbuf)
-{
-        int i;
-	FolderItem *parent = FOLDER_ITEM(node->data);
-	gchar *prefix = parent->path ?  parent->path : "";
-
-        for (i = 0; i < globbuf->gl_pathc; i++) {
-		FolderItem *newitem;
-		GNode *newnode;
-		gchar *tmpstr;
-		gboolean res;
-
-                if (globbuf->gl_pathv[i][0] == '.' && globbuf->gl_pathv[i][1] == '\0')
-                        continue;
-
-                if (strncmp(globbuf->gl_pathv[i], prefix, strlen(prefix)))
-                        continue;
-
-                if (globbuf->gl_pathv[i][strlen(prefix)] != '.')
-                        continue;
-
-                if (strchr(&(globbuf->gl_pathv[i][strlen(prefix) + 1]), '.') != NULL)
-                        continue;
-
-                if (!is_dir_exist(globbuf->gl_pathv[i]))
-                        continue;
-
-		tmpstr = g_strconcat(globbuf->gl_pathv[i], "/cur", NULL);
-                res = is_dir_exist(tmpstr);
-		g_free(tmpstr);
-		if (!res)
-			continue;
-
-		newitem = folder_item_new(parent->folder, &(globbuf->gl_pathv[i][strlen(prefix) + 1]), globbuf->gl_pathv[i]);
-		newitem->folder = parent->folder;
-
-		newnode = g_node_new(newitem);
-		newitem->node = newnode;
-		g_node_append(node, newnode);
-
-                debug_print("added item %s\n", newitem->path);
-                build_tree(newnode, globbuf);
-        }
-}
-
-static gint maildir_scan_tree(Folder *folder)
-{
-        FolderItem *rootitem, *inboxitem;
-	GNode *rootnode, *inboxnode;
-        glob_t globbuf;
-        
-        g_return_val_if_fail(folder != NULL, -1);
-        
-        rootitem = folder_item_new(folder, folder->name, NULL);
-        rootitem->folder = folder;
-	rootnode = g_node_new(rootitem);
-        folder->node = rootnode;
-	rootitem->node = rootnode;
-
-	/* Add inbox folder */
-	inboxitem = folder_item_new(folder, "inbox", "INBOX");
-	inboxitem->folder = folder;
-	inboxitem->stype = F_INBOX;
-	inboxnode = g_node_new(inboxitem);
-	inboxitem->node = inboxnode;
-	g_node_append(rootnode, inboxnode);
-
-	chdir(LOCAL_FOLDER(folder)->rootpath);
-	globbuf.gl_offs = 0;
-	glob(".*", 0, NULL, &globbuf);
-	build_tree(rootnode, &globbuf);
-
-	return 0;
-}
-
 static FolderItem *maildir_item_new(Folder *folder)
 {
         MaildirFolderItem *item;
@@ -265,6 +190,91 @@ static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
 	g_free(folder_path);
 
 	return path;
+}
+
+static void build_tree(GNode *node, glob_t *globbuf)
+{
+        int i;
+	FolderItem *parent = FOLDER_ITEM(node->data);
+	gchar *prefix = parent->path ?  parent->path : "";
+
+        for (i = 0; i < globbuf->gl_pathc; i++) {
+		FolderItem *newitem;
+		GNode *newnode;
+		gchar *dirname, *tmpstr;
+		gboolean res;
+
+		if ((dirname = strrchr(globbuf->gl_pathv[i], G_DIR_SEPARATOR)) == NULL)
+			dirname = globbuf->gl_pathv[i];
+		else
+			dirname++;
+
+                if (dirname[0] == '.' && dirname[1] == '\0')
+                        continue;
+
+                if (strncmp(dirname, prefix, strlen(prefix)))
+                        continue;
+
+                if (dirname[strlen(prefix)] != '.')
+                        continue;
+
+                if (strchr(&(dirname[strlen(prefix) + 1]), '.') != NULL)
+                        continue;
+
+                if (!is_dir_exist(globbuf->gl_pathv[i]))
+                        continue;
+
+		tmpstr = g_strconcat(globbuf->gl_pathv[i], "/cur", NULL);
+                res = is_dir_exist(tmpstr);
+		g_free(tmpstr);
+		if (!res)
+			continue;
+
+		newitem = folder_item_new(parent->folder, &(dirname[strlen(prefix) + 1]), dirname);
+		newitem->folder = parent->folder;
+
+		newnode = g_node_new(newitem);
+		newitem->node = newnode;
+		g_node_append(node, newnode);
+
+                debug_print("added item %s\n", newitem->path);
+                build_tree(newnode, globbuf);
+        }
+}
+
+static gint maildir_scan_tree(Folder *folder)
+{
+        FolderItem *rootitem, *inboxitem;
+	GNode *rootnode, *inboxnode;
+        glob_t globbuf;
+	gchar *path, *globpat;
+        
+        g_return_val_if_fail(folder != NULL, -1);
+        
+        rootitem = folder_item_new(folder, folder->name, NULL);
+        rootitem->folder = folder;
+	rootnode = g_node_new(rootitem);
+        folder->node = rootnode;
+	rootitem->node = rootnode;
+
+	/* Add inbox folder */
+	inboxitem = folder_item_new(folder, "inbox", "INBOX");
+	inboxitem->folder = folder;
+	inboxitem->stype = F_INBOX;
+	inboxnode = g_node_new(inboxitem);
+	inboxitem->node = inboxnode;
+	g_node_append(rootnode, inboxnode);
+
+	path = maildir_item_get_path(folder, inboxitem);
+	globpat = g_strconcat(path, G_DIR_SEPARATOR_S ".*", NULL);
+	g_free(path);;
+	globbuf.gl_offs = 0;
+	glob(globpat, 0, NULL, &globbuf);
+	g_free(globpat);
+	build_tree(rootnode, &globbuf);
+	globfree(&globbuf);
+
+	return 0;
 }
 
 static gchar *get_filename_for_msgdata(MessageData *msgdata)
@@ -383,20 +393,20 @@ static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 
 	/* try to find file with same uniq and different info */
 	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "new", G_DIR_SEPARATOR_S, msgdata->uniq, NULL);
-	globbuf.gl_offs = 0;
-	glob(filename, 0, NULL, &globbuf);
-	g_free(filename);
+	if (!is_file_exist(filename)) {
+		g_free(filename);
 
-	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
-	glob(filename, GLOB_APPEND, NULL, &globbuf);
-	g_free(filename);
+		filename = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
+		glob(filename, 0, NULL, &globbuf);
+		g_free(filename);
 
-	g_free(path);
+		g_free(path);
 	
-	filename = NULL;
-	if (globbuf.gl_pathc > 0)
-		filename = g_strdup(globbuf.gl_pathv[0]);
-	globfree(&globbuf);
+		filename = NULL;
+		if (globbuf.gl_pathc > 0)
+			filename = g_strdup(globbuf.gl_pathv[0]);
+		globfree(&globbuf);
+	}
 	uiddb_free_msgdata(msgdata);
 	msgdata = NULL;
 

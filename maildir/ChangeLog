@@ -1,3 +1,8 @@
+2004-05-05 [christoph]
+
+	* src/maildir.c
+		fix rebuilding of folder tree
+
 2004-05-02 [christoph]
 
 	* src/maildir.c
