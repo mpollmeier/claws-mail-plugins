@@ -31,6 +31,6 @@ VCalMeeting *vcal_meeting_create(VCalEvent *event);
 VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event);
 gboolean vcal_meeting_send(VCalMeeting *meet);
 gint vcal_meeting_alert_check(gpointer data);
-void vcal_meeting_export_calendar(void);
+gboolean vcal_meeting_export_calendar(const gchar *path);
 
 #endif

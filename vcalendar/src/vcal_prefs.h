@@ -27,8 +27,11 @@ typedef struct _VcalendarPrefs VcalendarPrefs;
 
 struct _VcalendarPrefs
 {
-	gboolean	alert_enable;
-	gboolean	alert_delay;
+	gboolean	 alert_enable;
+	gint		 alert_delay;
+	gboolean	 export_enable;
+	gchar 		*export_path;	
+	gchar 		*export_command;	
 };
 
 extern VcalendarPrefs vcalprefs;

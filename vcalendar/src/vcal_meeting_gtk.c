@@ -771,7 +771,7 @@ gint vcal_meeting_alert_check(gpointer data)
 	return TRUE;
 }
 
-void vcal_meeting_export_calendar(void)
+gboolean vcal_meeting_export_calendar(const gchar *path)
 {
 	GSList *list = vcal_folder_get_waiting_events();
 	GSList *cur;
@@ -780,11 +780,17 @@ void vcal_meeting_export_calendar(void)
 	
 	if (g_slist_length(list) == 0) {
 		g_slist_free(list);
-		alertpanel_with_type(_("Empty calendar"),
+		if (path == NULL) {
+			alertpanel_with_type(_("Empty calendar"),
 				     _("There is nothing to export."),
 				     _("Ok"), NULL, NULL,
 				     NULL, ALERT_NOTICE);
-		return;
+			return FALSE;
+		} else {
+			str_write_to_file("", path);
+			return TRUE;
+		}
+		
 	}
 	
 	calendar = 
@@ -803,14 +809,23 @@ void vcal_meeting_export_calendar(void)
 		vcal_manager_free_event(event);
 	}
 
-	file = filesel_select_file_save("Export calendar to ICS", NULL);
+	if (!path)
+		file = filesel_select_file_save("Export calendar to ICS", NULL);
+	else
+		file = g_strdup(path);
 
 	if (file) {
-		if (str_write_to_file(icalcomponent_as_ical_string(calendar), file) < 0)
-			alertpanel_error(_("Could not save the file."));
+		if (str_write_to_file(icalcomponent_as_ical_string(calendar), file) < 0) {
+			alertpanel_error(_("Could not export the calendar."));
+			g_free(file);
+			icalcomponent_free(calendar);
+			g_slist_free(list);
+			return FALSE;
+		}
 
 		g_free(file);
 	}
 	icalcomponent_free(calendar);
 	g_slist_free(list);
+	return TRUE;
 }

@@ -31,6 +31,8 @@
 #include "vcalendar.h"
 #include "vcal_folder.h"
 #include "vcal_manager.h"
+#include "vcal_meeting_gtk.h"
+#include "vcal_prefs.h"
 #include "xml.h"
 #include "xmlprops.h"
 #include "prefs.h"
@@ -569,17 +571,30 @@ void vcal_manager_save_event (VCalEvent *event)
 					
 	if ((pfile = prefs_write_open(path)) == NULL) {
 		make_dir(vcal_manager_get_event_path());
-		if ((pfile = prefs_write_open(path)) == NULL)
+		if ((pfile = prefs_write_open(path)) == NULL) {
+			free(path);
 			return;
+		}
 	}
 	
 	free(path);
 	xml_file_put_xml_decl(pfile->fp);
 	xml_write_tree(rootnode, pfile->fp);
-	if (prefs_file_close(pfile) < 0)
-		g_warning("failed to write event.\n");
-		
 	xml_free_tree(rootnode);
+
+	if (prefs_file_close(pfile) < 0) {
+		g_warning("failed to write event.\n");
+		return;
+	}
+ 
+	if (vcalprefs.export_enable) {
+		if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
+			if (vcalprefs.export_command &&
+			    strlen(vcalprefs.export_command))
+				execute_command_line(
+					vcalprefs.export_command, TRUE);
+		}
+	}
 }
 
 static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)

@@ -43,14 +43,24 @@ struct VcalendarPage
 	
 	GtkWidget *alert_enable_btn;
 	GtkWidget *alert_delay_entry;
+	GtkWidget *export_enable_btn;
+	GtkWidget *export_path_entry;
+	GtkWidget *export_command_entry;
 };
 
 VcalendarPrefs vcalprefs;
+static struct VcalendarPage vcal_prefs_page;
 
 static PrefParam param[] = {
 	{"alert_delay", "10", &vcalprefs.alert_delay, P_INT,
 	 NULL, NULL, NULL},
 	{"alert_enable", "FALSE", &vcalprefs.alert_enable, P_BOOL,
+	 NULL, NULL, NULL},
+	{"export_enable", "FALSE", &vcalprefs.export_enable, P_BOOL,
+	 NULL, NULL, NULL},
+	{"export_path", NULL, &vcalprefs.export_path, P_STRING,
+	 NULL, NULL, NULL},
+	{"export_command", NULL, &vcalprefs.export_command, P_STRING,
 	 NULL, NULL, NULL},
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
@@ -66,15 +76,19 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *hbox;
 	GtkWidget *alert_enable_btn;
 	GtkWidget *alert_delay_entry;
+	GtkWidget *export_enable_btn;
+	GtkWidget *export_path_entry;
+	GtkWidget *export_command_entry;
 	GtkWidget *label;
 	gchar *delay = NULL;
 	
-	table = gtk_table_new(1, 1, FALSE);
+	table = gtk_table_new(3, 1, FALSE);
 	gtk_widget_show(table);
 	gtk_container_set_border_width(GTK_CONTAINER(table), 8);
 	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
 
+/* alert stuff */
 	alert_enable_btn = gtk_check_button_new_with_label("Alert me ");
 	gtk_widget_show(alert_enable_btn);
 	
@@ -99,14 +113,70 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			 (GtkAttachOptions) (0), 0, 0);
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(alert_enable_btn), vcalprefs.alert_enable);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(alert_enable_btn), 
+			vcalprefs.alert_enable);
 	delay = g_strdup_printf("%d", vcalprefs.alert_delay);
 	gtk_entry_set_text(GTK_ENTRY(alert_delay_entry), delay);
 	g_free(delay);
 	
-
 	page->alert_enable_btn = alert_enable_btn;
 	page->alert_delay_entry = alert_delay_entry;
+
+/* export stuff */
+	export_enable_btn = gtk_check_button_new_with_label("Automatically export calendar to ");
+	gtk_widget_show(export_enable_btn);
+	
+	export_path_entry = gtk_entry_new();
+		
+	gtk_widget_show(export_path_entry);
+	
+	hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox), export_enable_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), export_path_entry, FALSE, FALSE, 0);
+
+	gtk_widget_show(hbox);
+
+	gtk_table_attach(GTK_TABLE(table), hbox, 0, 1, 1, 2,
+			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			 (GtkAttachOptions) (0), 0, 0);
+
+	label = gtk_label_new(_("Command to run after export: "));
+
+	gtk_widget_show(label);
+
+	export_command_entry = gtk_entry_new();
+		
+	gtk_widget_show(export_command_entry);
+	
+	hbox = gtk_hbox_new(FALSE, 6);	
+	
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), export_command_entry, FALSE, FALSE, 0);
+	
+	gtk_widget_show(hbox);
+
+	gtk_table_attach(GTK_TABLE(table), hbox, 0, 1, 2, 3,
+			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			 (GtkAttachOptions) (0), 0, 0);
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_enable_btn), 
+			vcalprefs.export_enable);
+	
+	if (vcalprefs.export_path == NULL)
+		vcalprefs.export_path = g_strconcat(get_rc_dir(), 
+					G_DIR_SEPARATOR_S,
+                                        "sylpheed-claws.ics", NULL);
+	if (vcalprefs.export_command == NULL)
+		vcalprefs.export_command = g_strdup("");
+
+	gtk_entry_set_text(GTK_ENTRY(export_path_entry), 
+			vcalprefs.export_path);
+	gtk_entry_set_text(GTK_ENTRY(export_command_entry), 
+			vcalprefs.export_command);
+	
+	page->export_enable_btn = export_enable_btn;
+	page->export_path_entry = export_path_entry;
+	page->export_command_entry = export_command_entry;
 
 	page->page.widget = table;
 }
@@ -127,6 +197,18 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	vcalprefs.alert_delay =
 	    atoi(gtk_entry_get_text(GTK_ENTRY(page->alert_delay_entry)));
 
+	vcalprefs.export_enable = 
+	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+					 (page->export_enable_btn));
+	
+	g_free(vcalprefs.export_path);
+	vcalprefs.export_path =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_path_entry), 0, -1);
+
+	g_free(vcalprefs.export_command);
+	vcalprefs.export_command =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_command_entry), 0, -1);
+	
 	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
 	pfile = prefs_write_open(rcpath);
 	g_free(rcpath);
@@ -142,8 +224,6 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 
 	prefs_file_close(pfile);
 }
-
-static struct VcalendarPage vcal_prefs_page;
 
 void vcal_prefs_init(void)
 {
