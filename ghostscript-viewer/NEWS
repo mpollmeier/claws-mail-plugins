@@ -1,3 +1,8 @@
+Version 0.5
+
+* update to use new Sylpheed Plugin build system with installed
+  header files and pkg-config
+
 Version 0.4
 
 * Added preferences for antialiasing and respect eof
