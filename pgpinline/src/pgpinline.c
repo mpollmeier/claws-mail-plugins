@@ -389,7 +389,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	return decinfo;
 }
 
-gboolean pgpinline_sign(MimeInfo *mimeinfo)
+static gboolean pgpinline_sign(MimeInfo *mimeinfo)
 {
 	MimeInfo *msgcontent;
 	gchar *textstr, *tmp;
@@ -461,12 +461,12 @@ gboolean pgpinline_sign(MimeInfo *mimeinfo)
 	return TRUE;
 }
 
-gchar *pgpinline_get_encrypt_data(GSList *recp_names)
+static gchar *pgpinline_get_encrypt_data(GSList *recp_names)
 {
 	return sgpgme_get_encrypt_data(recp_names);
 }
 
-gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
+static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 {
 	MimeInfo *msgcontent;
 	FILE *fp;
