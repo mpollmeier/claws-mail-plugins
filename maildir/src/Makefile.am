@@ -1,4 +1,4 @@
-plugindir = $(libdir)/sylpheed/plugins
+plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 
 plugin_LTLIBRARIES = maildir.la maildir_gtk.la
 
