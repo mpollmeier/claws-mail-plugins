@@ -24,11 +24,11 @@
 
 #include "folder.h"
 
-typedef struct _MBOXFolder	MBOXFolder;
+typedef struct _MAILMBOXFolder	MAILMBOXFolder;
 
-#define MBOX_FOLDER(obj)		((MBOXFolder *)obj)
+#define MAILMBOX_FOLDER(obj)		((MAILMBOXFolder *)obj)
 
-struct _MBOXFolder
+struct _MAILMBOXFolder
 {
 	LocalFolder lfolder;
 };

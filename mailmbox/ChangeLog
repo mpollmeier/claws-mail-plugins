@@ -1,3 +1,8 @@
+2003-10-25 [hoa]	0.2
+
+	* src/mailmbox_folder.[ch]
+	    change some global variable names
+
 2003-10-24 [hoa]	0.1
 
 	* initial import

@@ -169,7 +169,7 @@ static Folder *s_mailmbox_folder_new(const gchar *name, const gchar *path)
 {
 	Folder *folder;
 
-	folder = (Folder *)g_new0(MBOXFolder, 1);
+	folder = (Folder *)g_new0(MAILMBOXFolder, 1);
 	folder->klass = &mailmbox_class;
         mailmbox_folder_init(folder, name, path);
         
@@ -181,8 +181,8 @@ static void mailmbox_folder_destroy(Folder *folder)
 	folder_local_folder_destroy(LOCAL_FOLDER(folder));
 }
 
-typedef struct _MBOXFolderItem	MBOXFolderItem;
-struct _MBOXFolderItem
+typedef struct _MAILMBOXFolderItem	MAILMBOXFolderItem;
+struct _MAILMBOXFolderItem
 {
 	FolderItem item;
         guint old_max_uid;
@@ -191,9 +191,9 @@ struct _MBOXFolderItem
 
 static FolderItem *mailmbox_folder_item_new(Folder *folder)
 {
-	MBOXFolderItem *item;
+	MAILMBOXFolderItem *item;
 	
-	item = g_new0(MBOXFolderItem, 1);
+	item = g_new0(MAILMBOXFolderItem, 1);
 	item->mbox = NULL;
         item->old_max_uid = 0;
 
@@ -202,7 +202,7 @@ static FolderItem *mailmbox_folder_item_new(Folder *folder)
 
 #define MAX_UID_FILE "max-uid"
 
-void read_max_uid_value(FolderItem *item, guint * pmax_uid)
+static void read_max_uid_value(FolderItem *item, guint * pmax_uid)
 {
         gchar * path;
         gchar * file;
@@ -229,7 +229,7 @@ void read_max_uid_value(FolderItem *item, guint * pmax_uid)
         * pmax_uid = max_uid;
 }
 
-void write_max_uid_value(FolderItem *item, guint max_uid)
+static void write_max_uid_value(FolderItem *item, guint max_uid)
 {
         gchar * path;
         gchar * file;
@@ -255,7 +255,7 @@ void write_max_uid_value(FolderItem *item, guint max_uid)
 
 static void mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item)
 {
-	MBOXFolderItem *item = (MBOXFolderItem *)_item;
+	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
 
 	g_return_if_fail(item != NULL);
         
@@ -323,7 +323,7 @@ static gchar * mailmbox_folder_get_path(Folder *folder, FolderItem *item)
 
 static int mailmbox_item_sync(FolderItem *_item, int validate_uid)
 {
-	MBOXFolderItem *item = (MBOXFolderItem *)_item;
+	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
         int r;
 
         if (item->mbox == NULL) {
@@ -371,7 +371,7 @@ static int mailmbox_item_sync(FolderItem *_item, int validate_uid)
 
 static struct mailmbox_folder * get_mbox(FolderItem *_item, int validate_uid)
 {
-	MBOXFolderItem *item = (MBOXFolderItem *)_item;
+	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
         
         mailmbox_item_sync(_item, validate_uid);
         
@@ -584,8 +584,6 @@ static GSList *mailmbox_get_msginfos(Folder *folder, FolderItem *item,
  err:
         return NULL;
 }
-
-/* ok */
 
 static gint mailmbox_add_msg(Folder *folder, FolderItem *dest,
     const gchar *file, MsgFlags *flags)
@@ -877,7 +875,7 @@ static FolderItem *mailmbox_create_folder(Folder *folder, FolderItem *parent,
 static gboolean mailmbox_scan_required(Folder *folder, FolderItem *_item)
 {
         struct mailmbox_folder * mbox;
-	MBOXFolderItem *item = (MBOXFolderItem *)_item;
+	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
         int scan_required;
         
 	g_return_val_if_fail(folder != NULL, FALSE);
