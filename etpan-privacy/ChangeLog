@@ -1,3 +1,8 @@
+2004-08-22 [hoa]	0.7
+	
+	* src/prefs_privacy.c
+	    Update API calls.
+
 2004-07-19 [colin]	0.6
 	
 	* src/prefs_privacy.c
