@@ -645,21 +645,16 @@ static gint maildir_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *msginfo)
 static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num)
 {
 	MaildirFolderItem *item = MAILDIR_FOLDERITEM(_item);
-	gchar *path, *tmp, *filename;
+	gchar *filename;
 	gint ret;
 
 	g_return_val_if_fail(folder != NULL, -1);
 	g_return_val_if_fail(item != NULL, -1);
 	g_return_val_if_fail(num > 0, -1);
 
-	tmp = get_filename_for_uid(item, num);
-	if (tmp == NULL)
+	filename = get_filename_for_uid(item, num);
+	if (filename == NULL)
 		return -1;
-
-	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	filename = g_strconcat(path, G_DIR_SEPARATOR_S, tmp, NULL);
-	g_free(tmp);
-	g_free(path);
 
 	ret = unlink(filename);	
 	if (ret == 0)
