@@ -1681,7 +1681,8 @@ static gboolean my_filtering_hook(gpointer source, gpointer data)
   else
     debug_print("Invalid user data ignored.\n");
 
-  statusbar_print_all("Perl plugin: filtering message...");
+  if(!manual_filtering)
+    statusbar_print_all("Perl plugin: filtering message...");
 
   /* Process Skript File */
   retry = perl_load_file();
