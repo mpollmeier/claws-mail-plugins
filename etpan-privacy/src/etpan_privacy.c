@@ -221,7 +221,7 @@ static struct mailmime_content * content_type_to_etpan(MimeInfo * mimeinfo)
 		goto err;
 	}
 	
-	parameters = parameters_to_etpan(mimeinfo->parameters);
+	parameters = parameters_to_etpan(mimeinfo->typeparameters);
 	if (parameters == NULL)
 		goto free_type;
 
@@ -267,6 +267,7 @@ static int procmime_to_file(char * filename,
 	int enctype;
 	int col;
 	int r;
+	const char * dispfilename;
 	
 	content_type = content_type_to_etpan(mimeinfo);
 	if (content_type == NULL)
@@ -300,11 +301,12 @@ static int procmime_to_file(char * filename,
 	if (mime_fields == NULL)
 		goto free_content_type;
 	
-	r = stat(mimeinfo->filename, &stat_info);
+	dispfilename = procmime_mimeinfo_get_parameter(mimeinfo, "filename");
+	r = stat(dispfilename, &stat_info);
 	if (r < 0)
 		goto free_content_type;
 
-	fd = open(mimeinfo->filename, O_RDONLY);
+	fd = open(dispfilename, O_RDONLY);
 	if (fd < 0)
 		goto free_content_type;
 	
@@ -427,8 +429,6 @@ static MimeInfo * mime_to_sylpheed(struct mailmime * mime)
 	mimeinfo = procmime_scan_file(tmpfile);
 	if (mimeinfo == NULL)
 		goto unlink;
-	
-	mimeinfo->tmpfile = TRUE;
 	
 	return mimeinfo;
 	
