@@ -1,8 +1,13 @@
+2004-05-02 [christoph]
+
+	* src/maildir.c
+		fix searching for messages when the file nas been renamed
+
 2004-05-01 [christoph]
 
 	* src/maildir.c
-		o scan new and cur folders when scanning the folder and searching
-		  for a message
+		o search in new and cur directories when scanning the folder
+		  or searching for a message
 		o rename files on flag changes
 
 2004-04-28 [christoph]

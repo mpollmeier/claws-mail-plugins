@@ -402,8 +402,6 @@ static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 
 	/* if found: update database and return new entry */
 	if (filename != NULL) {
-		MessageData *msgdata;
-
 		debug_print("found %s\n", filename);
 		
 		msgdata = get_msgdata_for_filename(filename);
