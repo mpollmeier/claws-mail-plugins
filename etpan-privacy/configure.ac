@@ -1,7 +1,9 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
-AM_INIT_AUTOMAKE(etpan-privacy, 0.7, no-define)
+PLUGINVERSION=0.7
+AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
+AM_INIT_AUTOMAKE(etpan-privacy, $PLUGINVERSION, no-define)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -29,19 +31,6 @@ AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
-AC_ARG_WITH(sylpheed-dir, [  --with-sylpheed-dir=DIR     Directory of the sylpheed source directory],
-            sylpheed_dir="$withval", sylpheed_dir="/usr/src/sylpheed")
-AC_SUBST(sylpheed_dir)
-AC_SUBST(VERSION)
-AC_SUBST(MAJOR_VERSION)
-AC_SUBST(MINOR_VERSION)
-AC_SUBST(MICRO_VERSION)
-AC_SUBST(EXTRA_VERSION)
-AC_SUBST(SYLPHEED_MAJOR)
-AC_SUBST(SYLPHEED_MINOR)
-AC_SUBST(SYLPHEED_MICRO)
-AC_SUBST(SYLPHEED_EXTRA)
-
 AM_PATH_GLIB(1.2.6,,
         AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
         gthread)
@@ -65,5 +54,6 @@ test "x$libetpan" = "xno" && AC_MSG_ERROR([libetpan support required])
 
 AC_OUTPUT([
 Makefile
+config/Makefile
 src/Makefile
 ])
