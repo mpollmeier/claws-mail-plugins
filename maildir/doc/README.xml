@@ -19,10 +19,12 @@
     <sect1>
     	<title>What's the Maildir++ Plugin?</title>
 	<para>
-	    The Maildir++ plugin for Sylpheed-Claws provides direct access
-	    to Maildir++ Mailboxes used by IMAP-Servers like Courier-IMAP,
-	    BincIMAP or Dovecot without having all the IMAP overhead of
-	    a connection to 'localhost'.
+	    The Maildir++ plugin for Sylpheed-Claws provides direct
+	    access to Maildir++ Mailboxes used by IMAP-Servers
+	    like <application>Courier-IMAP</application>,
+	    <application>BincIMAP</application> or
+	    <application>Dovecot</application> without having all the
+	    IMAP overhead of a connection to 'localhost'.
 	</para>
     </sect1>
 
@@ -86,6 +88,31 @@
 	    a new Maildir++ folder with the 'File/Add mailbox/Maildir++'
 	    entry in the main menu. After that the folder should appear
 	    in the folder tree and is useable just like any other folder.
+	</para>
+    </sect1>
+
+    <sect1>
+	<title>ToDo</title>
+	<para>
+	    Things that still have to be completed:
+	    <itemizedlist mark='opencircle'>
+		<listitem>
+		    <para>
+			Folder renaming
+		    </para>
+		</listitem>
+		<listitem>
+		    <para>
+			Automatic updating of folder contents, when
+			changed by other program
+		    </para>
+		</listitem>
+		<listitem>
+		    <para>
+			Syncronize flags with folder content
+		    </para>
+		</listitem>
+	    </itemizedlist>
 	</para>
     </sect1>
 </article>
