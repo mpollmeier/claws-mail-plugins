@@ -1,4 +1,3 @@
-#define MAIL_MANUAL_FILTERING_HOOKLIST "blah"
 /*
  * perl_plugin -- Perl Support for Sylpheed-Claws
  *
