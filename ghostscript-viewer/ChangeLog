@@ -1,3 +1,9 @@
+2003-07-07 [christoph]
+
+	* src/libgtkgs/gtkgs.c
+		apply patch for GhostScript 8 by
+		Charles Philip Chan <cpchan@sympatico.ca>
+
 2003-06-09 [christoph]
 
 	* .cvsignore

@@ -1018,11 +1018,14 @@ start_interpreter (GtkGS *gs)
         argv[argc++] = "-dQUIET";
         /* I assume we do _not_ want to change this... (: */
         argv[argc++] = "-dSAFER";
+        argv[argc++] = "-dPARANOIDSAFER";
+        argv[argc++] = "-dDELAYSAFER";
+
 
         /* set up the pipes */
         if (gs->send_filename_to_gs) {
                 argv[argc++] = GTK_GS_GET_PS_FILE(gs);
-                argv[argc++] = "-c";
+                argv[argc++] = "-c << /PermitFileReading [ InputFile ] /PermitFileWriting [] /PermitFileControl [] >> setuserparams .locksafe -";
                 argv[argc++] = "quit";
         }
         else 
