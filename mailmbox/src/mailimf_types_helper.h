@@ -29,6 +29,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: mailimf_types_helper.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ */
+
 #ifndef MAILIMF_TYPES_HELPER
 
 #define MAILIMF_TYPES_HELPER

@@ -472,7 +472,12 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
 {
 	MsgInfo *msginfo;
 	MsgFlags flags;
-
+        struct mailmbox_folder * mbox;
+        chashdatum key;
+        chashdatum value;
+        struct mailmbox_msg_info * info;
+        int r;
+        
 	flags.perm_flags = MSG_NEW|MSG_UNREAD;
 	flags.tmp_flags = 0;
 
@@ -485,11 +490,23 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
 		MSG_SET_TMP_FLAGS(flags, MSG_DRAFT);
 	}
 
+        mbox = get_mbox(item, 0);
+        
+        key.data = (char *) &uid;
+        key.len = sizeof(uid);
+        
+        r = chash_get(mbox->hash, &key, &value);
+        if (r < 0)
+                return NULL;
+        
+        info = (struct mailmbox_msg_info *) value.data;
+        
         msginfo = procheader_parse_str(data, flags, FALSE, FALSE);
 	if (!msginfo) return NULL;
 
 	msginfo->msgnum = uid;
 	msginfo->folder = item;
+        msginfo->size = info->size - info->start_len;
 
 	return msginfo;
 }
@@ -521,8 +538,6 @@ static MsgInfo *mailmbox_get_msginfo(Folder *folder,
 	msginfo = mailmbox_parse_msg(num, data, len, item);
 	if (!msginfo)
                 goto unlock;
-
-        msginfo->msgnum = num;
 
         mailmbox_read_unlock(mbox);
 
@@ -569,8 +584,6 @@ static GSList *mailmbox_get_msginfos(Folder *folder, FolderItem *item,
                 msginfo = mailmbox_parse_msg(num, data, len, item);
                 if (!msginfo)
                         continue;
-                
-                msginfo->msgnum = num;
                 
                 ret = g_slist_append(ret, msginfo);
         }

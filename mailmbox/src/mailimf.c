@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimf.c,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: mailimf.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
  */
 
 #include "mailimf.h"
@@ -1131,7 +1131,9 @@ static inline int is_atext(char ch)
 #endif
   case '<':
   case '>':
+#if 0
   case '@':
+#endif
   case ',':
   case '"':
   case ':':
@@ -3144,6 +3146,10 @@ static int mailimf_addr_spec_parse(char * message, size_t length,
   size_t begin;
   size_t end;
   int final;
+  size_t count;
+  char * src;
+  char * dest;
+  size_t i;
   
   cur_token = * index;
   
@@ -3194,9 +3200,23 @@ static int mailimf_addr_spec_parse(char * message, size_t length,
     res = MAILIMF_ERROR_MEMORY;
     goto err;
   }
-
+  
+  count = end - cur_token;
+  src = message + cur_token;
+  dest = addr_spec;
+  for(i = 0 ; i < count ; i ++) {
+    if ((* src != ' ') && (* src != '\t')) {
+      * dest = * src;
+      dest ++;
+    }
+    src ++;
+  }
+  * dest = '\0';
+  
+#if 0
   strncpy(addr_spec, message + cur_token, end - cur_token);
   addr_spec[end - cur_token] = '\0';
+#endif
 
   cur_token = end;
 
@@ -3264,6 +3284,7 @@ static int mailimf_addr_spec_parse(char * message, size_t length,
 local-part      =       dot-atom / quoted-string / obs-local-part
 */
 
+#if 0
 static int mailimf_local_part_parse(char * message, size_t length,
 				    size_t * index,
 				    char ** result)
@@ -3286,11 +3307,13 @@ static int mailimf_local_part_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 /*
 domain          =       dot-atom / domain-literal / obs-domain
 */
 
+#if 0
 static int mailimf_domain_parse(char * message, size_t length,
 				size_t * index,
 				char ** result)
@@ -3313,6 +3336,7 @@ static int mailimf_domain_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 /*
 [FWS] dcontent
@@ -5253,6 +5277,20 @@ int mailimf_msg_id_parse(char * message, size_t length,
     goto err;
   }
 
+  r = mailimf_addr_spec_parse(message, length, &cur_token, &msg_id);
+  if (r != MAILIMF_NO_ERROR) {
+    res = r;
+    goto err;
+  }
+  
+  r = mailimf_greater_parse(message, length, &cur_token);
+  if (r != MAILIMF_NO_ERROR) {
+    free(msg_id);
+    res = r;
+    goto err;
+  }
+
+#if 0
   r = mailimf_id_left_parse(message, length, &cur_token, &id_left);
   if (r != MAILIMF_NO_ERROR) {
     res = r;
@@ -5288,16 +5326,19 @@ int mailimf_msg_id_parse(char * message, size_t length,
 
   mailimf_id_left_free(id_left);
   mailimf_id_right_free(id_right);
+#endif
 
   * result = msg_id;
   * index = cur_token;
 
   return MAILIMF_NO_ERROR;
 
+#if 0
  free_id_right:
   mailimf_id_right_free(id_right);
  free_id_left:
   mailimf_id_left_free(id_left);
+#endif
   /*
  free:
   mailimf_atom_free(msg_id);

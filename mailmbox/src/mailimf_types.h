@@ -31,7 +31,7 @@
 
 
 /*
- * $Id: mailimf_types.h,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: mailimf_types.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
  */
 
 #ifndef MAILIMF_TYPES_H
@@ -350,6 +350,8 @@ enum {
 
   - optional_field is an other field and is not parsed
 */
+
+#define LIBETPAN_MAILIMF_FIELD_UNION
 
 struct mailimf_field {
   int type;

@@ -187,7 +187,10 @@ static int lock_common(char * filename, int fd, short locktype)
       close(fd);
       break;
     }
-
+    
+    /* libEtPan! - adds a delay of 5 seconds between each tries */
+    sleep(5);
+    
     if (stat(lockfilename, &st) < 0) {
       if (statfailed++ > 5) {
 	res = -1;
@@ -207,7 +210,13 @@ static int lock_common(char * filename, int fd, short locktype)
       goto unlock;
     }
 
+    /*
+      libEtPan! - removes this delay of 5 seconds,
+       maybe it was misplaced ?
+    */
+#if 0
     sleep(5);
+#endif
   }
 
   return 0;

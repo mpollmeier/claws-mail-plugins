@@ -33,6 +33,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: clist.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ */
+
 #include <stdlib.h>
 #include "clist.h"
 
@@ -224,7 +228,8 @@ void clist_concat(clist * dest, clist * src)
     src->first->previous = dest->last;
     dest->last = src->last;
   }
-
+  
+  dest->count += src->count;
   src->last = src->first = NULL;
 }
 

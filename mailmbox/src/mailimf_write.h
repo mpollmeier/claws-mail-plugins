@@ -29,6 +29,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: mailimf_write.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ */
+
 #ifndef MAILIMF_WRITE_H
 
 #define MAILIMF_WRITE_H

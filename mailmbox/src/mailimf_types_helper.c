@@ -1308,7 +1308,7 @@ struct mailimf_date_time * mailimf_get_current_date(void)
 
 
 /* mkgmtime.c - make time corresponding to a GMT timeval struct
- $Id: mailimf_types_helper.c,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ $Id: mailimf_types_helper.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
  
  * Copyright (c) 1998-2000 Carnegie Mellon University.  All rights reserved.
  *

@@ -35,9 +35,7 @@ static void mailmbox_add_mailbox(gpointer callback_data, guint callback_action,
 	Folder *folder;
 
 	path = input_dialog(_("Add mailbox"),
-			    _("Input the location of mailbox.\n"
-			      "If the existing mailbox is specified, it will be\n"
-			      "scanned automatically."),
+			    _("Input the location of mailbox."),
 			    "Mail");
 	if (!path) return;
 

@@ -29,6 +29,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: mailimf_write.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ */
+
 #include "mailimf_write.h"
 
 #include <time.h>
@@ -367,6 +371,7 @@ int mailimf_header_string_write(FILE * f, int * col,
 }
 #endif
 
+#if 0
 enum {
   STATE_LOWER_72,
   STATE_LOWER_72_CUT,
@@ -469,7 +474,9 @@ int mailimf_header_string_write(FILE * f, int * col,
             return r;
           p ++;
           length --;
-          block_begin = cut + 1;
+          block_begin = cut;
+          if ((* block_begin == ' ') || (* block_begin == '\t'))
+            block_begin ++;
           size = p - block_begin + * col;
           state = STATE_LOWER_72;
         }
@@ -608,6 +615,117 @@ int mailimf_header_string_write(FILE * f, int * col,
   r = mailimf_string_write(f, col, block_begin, p - block_begin);
   if (r != MAILIMF_NO_ERROR)
     return r;
+  
+  return MAILIMF_NO_ERROR;
+}
+#endif
+
+enum {
+  STATE_BEGIN,
+  STATE_WORD,
+  STATE_SPACE,
+};
+
+int mailimf_header_string_write(FILE * f, int * col,
+    char * str, size_t length)
+{
+  int state;
+  char * p;
+  char * word_begin;
+  char * word_end;
+  char * next_word;
+  size_t size;
+  int r;
+  int first;
+  
+  state = STATE_BEGIN;
+  
+  p = str;
+  word_begin = p;
+  word_end = p;
+  next_word = p;
+  first = 1;
+  
+  while (length > 0) {
+    switch (state) {
+    case STATE_BEGIN:
+      switch (* p) {
+      case '\r':
+      case '\n':
+      case ' ':
+      case '\t':
+        p ++;
+        length --;
+        break;
+      
+      default:
+        word_begin = p;
+        state = STATE_WORD;
+        break;
+      }
+      break;
+      
+    case STATE_SPACE:
+      switch (* p) {
+      case '\r':
+      case '\n':
+      case ' ':
+      case '\t':
+        p ++;
+        length --;
+        break;
+      
+      default:
+        word_begin = p;
+        state = STATE_WORD;
+        break;
+      }
+      break;
+
+    case STATE_WORD:
+      switch (* p) {
+      case '\r':
+      case '\n':
+      case ' ':
+      case '\t':
+        if (p - word_begin + (* col) + 1 > MAX_MAIL_COL)
+          mailimf_string_write(f, col, HEADER_FOLD,
+              sizeof(HEADER_FOLD) - 1);
+        else {
+          if (!first)
+            mailimf_string_write(f, col, " ", 1);
+        }
+        first = 0;
+        mailimf_string_write(f, col, word_begin, p - word_begin);
+        state = STATE_SPACE;
+        break;
+        
+      default:
+        if (p - word_begin + (* col) >= MAX_VALID_IMF_LINE) {
+          mailimf_string_write(f, col, word_begin, p - word_begin);
+          mailimf_string_write(f, col, HEADER_FOLD,
+              sizeof(HEADER_FOLD) - 1);
+          word_begin = p;
+        }
+        p ++;
+        length --;
+        break;
+      }
+      break;
+    }
+  }
+  
+  if (state == STATE_WORD) {
+    if (p - word_begin + (* col) >= MAX_MAIL_COL)
+      mailimf_string_write(f, col, HEADER_FOLD,
+          sizeof(HEADER_FOLD) - 1);
+    else {
+      if (!first)
+        mailimf_string_write(f, col, " ", 1);
+    }
+    first = 0;
+    mailimf_string_write(f, col, word_begin, p - word_begin);
+  }
   
   return MAILIMF_NO_ERROR;
 }
@@ -1024,22 +1142,28 @@ static int mailimf_msg_id_list_write(FILE * f, int * col, clist * list)
 
     msgid = cur->data;
     len = strlen(msgid);
-
-    if (* col > 1) {
-      
-      if (* col + len >= MAX_MAIL_COL) {
-	r = mailimf_string_write(f, col, "\r\n ", 3);
-	if (r != MAILIMF_NO_ERROR)
-	  return r;
+    
+    /*
+      XXX - if this is the first message ID, don't fold.
+      This is a workaround for a bug of old versions of INN.
+    */
+    if (!first) {
+      if (* col > 1) {
+        
+        if (* col + len >= MAX_MAIL_COL) {
+          r = mailimf_string_write(f, col, "\r\n ", 3);
+          if (r != MAILIMF_NO_ERROR)
+            return r;
 #if 0
-	* col = 1;
+          * col = 1;
 #endif
-	first = TRUE;
+          first = TRUE;
+        }
       }
     }
-
+    
     if (!first) {
-      r = mailimf_header_string_write(f, col, " ", 1);
+      r = mailimf_string_write(f, col, " ", 1);
       if (r != MAILIMF_NO_ERROR)
 	return r;
     }
@@ -1347,7 +1471,8 @@ static int mailimf_mailbox_write(FILE * f, int * col,
 				 struct mailimf_mailbox * mb)
 {
   int r;
-
+  int do_fold;
+  
 #if 0
   if (* col > 1) {
     
@@ -1389,7 +1514,8 @@ static int mailimf_mailbox_write(FILE * f, int * col,
       if (r != MAILIMF_NO_ERROR)
         return r;
     }
-
+    
+    do_fold = 0;
     if (* col > 1) {
       
       if (* col + strlen(mb->addr_spec) + 3 >= MAX_MAIL_COL) {
@@ -1399,10 +1525,14 @@ static int mailimf_mailbox_write(FILE * f, int * col,
 #if 0
 	* col = 1;
 #endif
+        do_fold = 1;
       }
     }
     
-    r = mailimf_string_write(f, col, " <", 2);
+    if (do_fold)
+      r = mailimf_string_write(f, col, "<", 1);
+    else
+      r = mailimf_string_write(f, col, " <", 2);
     if (r != MAILIMF_NO_ERROR)
       return r;
 
@@ -1415,6 +1545,12 @@ static int mailimf_mailbox_write(FILE * f, int * col,
       return r;
   }
   else {
+    if (* col + strlen(mb->addr_spec) >= MAX_MAIL_COL) {
+      r = mailimf_string_write(f, col, "\r\n ", 3);
+      if (r != MAILIMF_NO_ERROR)
+        return r;
+    }
+    
     r = mailimf_string_write(f, col,
         mb->addr_spec, strlen(mb->addr_spec));
     if (r != MAILIMF_NO_ERROR)

@@ -1,3 +1,26 @@
+2003-11-30 [hoa]	0.3
+
+	* clist.c
+	* clist.h
+	* mailimf.c
+	* mailimf.h
+	* mailimf_types.c
+	* mailimf_types.h
+	* mailimf_types_helper.c
+	* mailimf_types_helper.h
+	* mailimf_write.c
+	* mailimf_write.h
+	* maillock.c
+	* maillock.h
+	    sync with libEtPan!
+	
+	* mailmbox_folder.c
+	    fixed size of messages.
+	
+	* plugin_gtk.c
+	    fixed notice about scanning since scanning 
+	    is not implemented yet.
+
 2003-10-25 [hoa]	0.2
 
 	* src/mailmbox_folder.[ch]

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: maillock.h,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: maillock.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
  */
 
 #ifndef MAILLOCK_H

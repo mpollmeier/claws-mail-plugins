@@ -33,6 +33,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: clist.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ */
+
 #ifndef CLIST_H
 #define CLIST_H
 
