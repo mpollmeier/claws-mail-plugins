@@ -29,21 +29,21 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done()
+void plugin_done(void)
 {
 }
 
-const gchar *plugin_name()
+const gchar *plugin_name(void)
 {
 	return _("mailmbox folder (etPan!)");
 }
 
-const gchar *plugin_desc()
+const gchar *plugin_desc(void)
 {
-	return _("This is a plugin to handle mailboxes file in mbox format.");
+	return _("This is a plugin to handle mailboxes in mbox format.");
 }
 
-const gchar *plugin_type()
+const gchar *plugin_type(void)
 {
 	return "Common";
 }

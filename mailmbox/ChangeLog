@@ -1,3 +1,13 @@
+2003-11-30 [hoa]	0.5
+
+	* src/plugin.c
+	* src/plugin_gtk.c
+	    fixed grammer in description.
+	    C language conformance.
+
+	* src/mailmbox_folder.c
+	    fixed double lock.
+
 2003-11-30 [hoa]	0.4
 
 	* src/Makefile.am

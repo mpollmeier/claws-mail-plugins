@@ -87,7 +87,7 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done()
+void plugin_done(void)
 {
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
@@ -101,17 +101,17 @@ void plugin_done()
 	gtk_item_factory_delete_item(ifactory, item_path);
 }
 
-const gchar *plugin_name()
+const gchar *plugin_name(void)
 {
 	return _("mailmbox folder GTK (etPan!)");
 }
 
-const gchar *plugin_desc()
+const gchar *plugin_desc(void)
 {
-	return _("This is the user interface part of the plugin to handle mailboxes file in mbox format.");
+	return _("This is the user interface part of the plugin to handle mailboxes in mbox format.");
 }
 
-const gchar *plugin_type()
+const gchar *plugin_type(void)
 {
 	return "GTK";
 }

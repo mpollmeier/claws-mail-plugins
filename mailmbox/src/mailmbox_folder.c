@@ -468,7 +468,7 @@ static gchar *s_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num)
 }
 
 static MsgInfo *mailmbox_parse_msg(guint uid,
-    char * data, size_t len, FolderItem *item)
+    char * data, size_t len, FolderItem *_item)
 {
 	MsgInfo *msginfo;
 	MsgFlags flags;
@@ -477,6 +477,7 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
         chashdatum value;
         struct mailmbox_msg_info * info;
         int r;
+	MAILMBOXFolderItem * item = (MAILMBOXFolderItem *)_item;
         
 	flags.perm_flags = MSG_NEW|MSG_UNREAD;
 	flags.tmp_flags = 0;
@@ -484,13 +485,13 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
 	g_return_val_if_fail(item != NULL, NULL);
 	g_return_val_if_fail(data != NULL, NULL);
 
-	if (item->stype == F_QUEUE) {
+	if (_item->stype == F_QUEUE) {
 		MSG_SET_TMP_FLAGS(flags, MSG_QUEUED);
-	} else if (item->stype == F_DRAFT) {
+	} else if (_item->stype == F_DRAFT) {
 		MSG_SET_TMP_FLAGS(flags, MSG_DRAFT);
 	}
 
-        mbox = get_mbox(item, 0);
+        mbox = item->mbox;
         
         key.data = (char *) &uid;
         key.len = sizeof(uid);
@@ -505,7 +506,7 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
 	if (!msginfo) return NULL;
 
 	msginfo->msgnum = uid;
-	msginfo->folder = item;
+	msginfo->folder = _item;
         msginfo->size = info->size - info->start_len;
 
 	return msginfo;
