@@ -1,3 +1,10 @@
+2005-02-13 [holger]	0.2cvs2
+
+	* src/perl_plugin.c
+		Replace the strncpy calls with strncpy2 calls
+		to make sure string is always null terminated
+		(fix by Alfons Hoogervorst)
+	
 2005-02-12 [holger]	0.2cvs1
 
 	* src/perl_plugin.c

@@ -493,7 +493,7 @@ static XS(XS_SylpheedClaws_filter_init)
     msginfo->hidden     ? XSRETURN_IV(msginfo->hidden)     : XSRETURN_UNDEF;
   case 20:
     if((charp = procmsg_get_message_file_path(msginfo)) != NULL) {
-      strncpy(buf,charp,sizeof(buf));
+      strncpy2(buf,charp,sizeof(buf));
       g_free(charp);
       XSRETURN_PV(buf);
     }
@@ -533,7 +533,7 @@ static XS(XS_SylpheedClaws_open_mail_file)
   file = procmsg_get_message_file_path(msginfo);
   if(!file)
     XSRETURN_UNDEF;
-  strncpy(buf,file,sizeof(buf));
+  strncpy2(buf,file,sizeof(buf));
   g_free(file);
   if((message_file = fopen(buf, "rb")) == NULL) {
     debug_print("File open error in SylpheedClaws::C::open_mail_file\n");
