@@ -54,7 +54,7 @@
 
 
 /* XSRETURN_UV was introduced in Perl 5.8.1,
-   this fixes things for 5.8.0.    */
+   this fixes things for 5.8.0. */
 #ifndef XSRETURN_UV
 #  ifndef XST_mUV
 #    define XST_mUV(i,v)  (ST(i) = sv_2mortal(newSVuv(v))  )
@@ -81,7 +81,7 @@ static MailFilteringData *mail_filtering_data = NULL;
 static MsgInfo           *msginfo             = NULL;
 static gboolean          stop_filtering       = FALSE;
 static FILE              *message_file        = NULL;
-static gchar             *attribute_key;
+static gchar             *attribute_key       = NULL;
 
 
 /* Addressbook interface */
@@ -659,7 +659,7 @@ static XS(XS_SylpheedClaws_colorlabel)
   }
   color = SvIV(ST(0));
 
-  (MSG_GET_COLORLABEL_VALUE(msginfo->flags) == color) ?
+  (MSG_GET_COLORLABEL_VALUE(msginfo->flags) == (guint32)color) ?
     XSRETURN_YES : XSRETURN_NO;
 }
 
@@ -1621,7 +1621,8 @@ gint plugin_init(gchar **error)
     *error = g_strdup("Your sylpheed version is too old");
     return -1;
   }
-  if((filtering_hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST, my_filtering_hook, NULL)) == -1) {
+  if((filtering_hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST, my_filtering_hook, NULL))
+     == (guint) -1) {
     *error = g_strdup("Failed to register mail filtering hook");
     return -1;
   }
