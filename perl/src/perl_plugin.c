@@ -569,7 +569,7 @@ static XS(XS_SylpheedClaws_filter_init)
 
     /* general */
   case 100:
-    if(manual_filtering == TRUE)
+    if(manual_filtering)
       XSRETURN_YES;
     else
       XSRETURN_NO;
@@ -1088,6 +1088,10 @@ static XS(XS_SylpheedClaws_abort)
   if(items != 0) {
     debug_print("Wrong number of arguments to SylpheedClaws::C::abort\n");
     XSRETURN_UNDEF;
+  }
+  if(manual_filtering) {
+    stop_filtering = TRUE;
+    XSRETURN_YES;
   }
   inbox_folder = folder_get_default_inbox();
   if (!inbox_folder) {
