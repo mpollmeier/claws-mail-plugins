@@ -1,3 +1,10 @@
+2005-03-18 [holger]	0.2cvs5
+
+	* src/perl_plugin.c
+	* sc_perl.pod
+		Add support for manual filtering invocation,
+		update documentation.
+
 2005-02-19 [holger]	0.2cvs4
 
 	* src/perl_plugin.c

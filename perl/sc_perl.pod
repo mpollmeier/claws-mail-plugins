@@ -26,12 +26,13 @@ should give you enough information to do fancy stuff.
 =head1 USAGE
 
 The Perl plugin expects a Perl script file called B<perl_filter>
-in Sylpheed-Claws' config directory (usually $HOME/.sylpheed). If
-that file doesn't exist on plugin start, an empty one is created.
-This file, which doesn't need to start with a sha-bang
-(!#/bin/perl), holds the Perl instructions for your email
-filters. To encourage some good manners, the code is executed in
-a C<use strict;> environment.
+in Sylpheed-Claws' config directory (usually $HOME/.sylpheed --
+try `sylpheed --config-dir' if you're unsure). If that file
+doesn't exist on plugin start, an empty one is created.  This
+file, which doesn't need to start with a sha-bang (!#/bin/perl),
+holds the Perl instructions for your email filters. To encourage
+some good manners, the code is executed in a C<use strict;>
+environment.
 
 Both Sylpheed-Claws' filtering B<conditions> and B<actions> are
 mapped to Perl functions with corresponding names, wherever this
@@ -61,8 +62,10 @@ C<forward_as_attachment>, C<redirect>
 
 =item Fun stuff
 
-C<SA_is_spam>, C<extract_addresses>, C<move_to_trash>, C<abort>,
-C<addr_in_addressbook>, C<from_in_addressbook>, C<get_attribute_value>,
+C<header>, C<body>, C<filepath>, C<extract_addresses>,
+C<move_to_trash>, C<abort>, C<addr_in_addressbook>,
+C<from_in_addressbook>, C<get_attribute_value>, C<SA_is_spam>,
+C<exit>, C<manual>
 
 =back
 
@@ -418,7 +421,7 @@ In contrast to 'stop', this is a I<final> rule.
 
 =item addr_in_addressbook EMAIL
 
-Returns true if the email address EMAIL is in the addressbook
+Returns a true value if the email address EMAIL is in the addressbook
 with the name ADDRESSBOOK. If ADDRESSBOOK is not given, returns
 true if the email address is in any addressbook.
 
@@ -457,6 +460,11 @@ not test 'spamc -c < %F > /dev/null'
 
 Has been redefined to be an alias to 'stop'. You shouldn't use
 Perl's own 'exit' command, since it would exit Sylpheed-Claws.
+
+=item manual
+
+Returns a true value if the filter script was invoked manually,
+that is, via the Tools menu.
 
 =back
 
@@ -556,11 +564,6 @@ Do B<not> use this plugin together with other filtering plugins,
 especially the B<Spamassassin> and B<ClamAV> plugins. They are
 registered on the same hook and the order in which the plugins
 are executed is not guaranteed.
-
-The plugin hooks into the MAIL_FILTERING_HOOK which gets executed
-every time mail is received, so manual filtering with this plugin
-is not yet possible. This will change once a fitting hook is
-available.
 
 =item *
 

@@ -1,3 +1,4 @@
+#define MAIL_MANUAL_FILTERING_HOOKLIST "blah"
 /*
  * perl_plugin -- Perl Support for Sylpheed-Claws
  *
@@ -70,6 +71,10 @@
    even if it hasn't changed */
 #define DO_CLEAN "0"
 
+/* distinguish between automatic and manual filtering */
+#define AUTO_FILTER 0
+#define MANU_FILTER 1
+
 /* embedded Perl stuff */
 static PerlInterpreter *my_perl = NULL;
 EXTERN_C void xs_init(pTHX);
@@ -77,9 +82,11 @@ EXTERN_C void boot_DynaLoader (pTHX_ CV* cv);
 
 /* plugin stuff */
 static guint             filtering_hook_id;
+static guint             manual_filtering_hook_id;
 static MailFilteringData *mail_filtering_data = NULL;
 static MsgInfo           *msginfo             = NULL;
 static gboolean          stop_filtering       = FALSE;
+static gboolean          manual_filtering     = FALSE;
 static FILE              *message_file        = NULL;
 static gchar             *attribute_key       = NULL;
 
@@ -421,7 +428,10 @@ static void free_all_lists(void)
 static XS(XS_SylpheedClaws_filter_init)
 {
   int flag;
-  /* flags:   1 size
+  /* flags:
+   *
+   *    msginfo
+   *          1 size
    *          2 date
    *          3 from
    *          4 to
@@ -441,6 +451,14 @@ static XS(XS_SylpheedClaws_filter_init)
    *         18 not used anymore
    *         19 hidden
    *         20 message file path
+   *         21 partial_recv
+   *         22 total_size
+   *         23 account_server
+   *         24 account_login
+   *         25 planned_download
+   *
+   *    general
+   *       100 manual
    */
   char *charp;
   gchar buf[BUFFSIZE];
@@ -452,6 +470,8 @@ static XS(XS_SylpheedClaws_filter_init)
   }
   flag = SvIV(ST(0));
   switch(flag) {
+
+    /* msginfo */
   case  1:
     msginfo->size       ? XSRETURN_UV(msginfo->size)       : XSRETURN_UNDEF;
   case  2:
@@ -513,6 +533,13 @@ static XS(XS_SylpheedClaws_filter_init)
   case 25:
     msginfo->planned_download ?
       XSRETURN_IV(msginfo->planned_download)               : XSRETURN_UNDEF;
+
+    /* general */
+  case 100:
+    if(manual_filtering == TRUE)
+      XSRETURN_YES;
+    else
+      XSRETURN_NO;
   default:
     debug_print("Wrong argument to SylpheedClaws::C::init\n");
     XSRETURN_UNDEF;    
@@ -1218,7 +1245,7 @@ static int perl_init(void)
 "use locale;\n"
 "use base qw(Exporter);\n"
 "use strict;\n"
-"our @EXPORT =   (qw(filepath header body),\n"
+"our @EXPORT =   (qw(header body filepath manual),\n"
 "		 qw(all marked unread deleted new replied),\n"
 "		 qw(forwarded locked colorlabel match matchcase),\n"
 "		 qw(regexp regexpcase test),\n"
@@ -1228,7 +1255,7 @@ static int perl_init(void)
 "		 qw(score_greater score_lower score_equal),\n"
 "		 qw(age_greater age_lower partial $permanent));\n"
 "# Global Variables\n"
-"our(%header,$body,%msginfo,$mail_done);\n"
+"our(%header,$body,%msginfo,$mail_done,$manual);\n"
 "our %colors = ('none'     =>  0,'orange'   =>  1,'red'  =>  2,\n"
 "   	       'pink'     =>  3,'sky blue' =>  4,'blue' =>  5,\n"
 "    	       'green'    =>  6,'brown'    =>  7);\n"
@@ -1260,6 +1287,7 @@ static int perl_init(void)
 "}\n"
 "sub body {init_();return $body;}\n"
 "sub filepath {return $msginfo{\"filepath\"};}\n"
+"sub manual {return $manual;}\n"
 "# Public Matcher Tests\n"
 "sub all           { return 1; }\n"
 "sub marked        { return SylpheedClaws::C::check_flag(1);}\n"
@@ -1346,6 +1374,7 @@ static int perl_init(void)
 "    $header{$key} = [] unless exists $header{$key};\n"
 "    push @{$header{$key}},@values;\n"
 "}\n"
+"# read whole mail\n"
 "sub init_ {\n"
 "    return 0 if $mail_done;\n"
 "    SylpheedClaws::C::open_mail_file();\n"
@@ -1356,7 +1385,8 @@ static int perl_init(void)
 "}\n"
 "sub filter_init_ {\n"
 "    %header = (); %msginfo = (); undef $body; $mail_done = 0;\n"
-"    $msginfo{\"size\"}               = SylpheedClaws::C::filter_init( 1);\n"
+"    $manual                        = SylpheedClaws::C::filter_init(100);\n"
+"    $msginfo{\"size\"}               = SylpheedClaws::C::filter_init( 1) ;\n"
 "    add_header_entries_(\"date\",      SylpheedClaws::C::filter_init( 2));\n"
 "    add_header_entries_(\"from\",      SylpheedClaws::C::filter_init( 3));\n"
 "    add_header_entries_(\"to\",        SylpheedClaws::C::filter_init( 4));\n"
@@ -1584,6 +1614,12 @@ static gboolean my_filtering_hook(gpointer source, gpointer data)
   mail_filtering_data = (MailFilteringData *) source;
   msginfo = mail_filtering_data->msginfo;
   stop_filtering = FALSE;
+  if(GPOINTER_TO_GUINT(data) == AUTO_FILTER)
+    manual_filtering = FALSE;
+  else if(GPOINTER_TO_GUINT(data) == MANU_FILTER)
+    manual_filtering = TRUE;
+  else
+    debug_print("Invalid user data ignored.\n");
 
   statusbar_print_all("Perl plugin: filtering message...");
 
@@ -1613,17 +1649,31 @@ gint plugin_init(gchar **error)
   *argv = NULL;
   *env  = NULL;
 
+  /* version check */
   if((sylpheed_get_version() > VERSION_NUMERIC)) {
-    *error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
+    *error = g_strdup("Your sylpheed version is newer than the version "
+		      "the plugin was built with");
     return -1;
   }
-  if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 12, 103))) {
+  if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 0, 3, 4))) {
     *error = g_strdup("Your sylpheed version is too old");
     return -1;
   }
-  if((filtering_hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST, my_filtering_hook, NULL))
-     == (guint) -1) {
+
+  /* register hook for automatic and manual filtering */
+  filtering_hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST,
+					  my_filtering_hook,
+					  GUINT_TO_POINTER(AUTO_FILTER));
+  if(filtering_hook_id == (guint) -1) {
     *error = g_strdup("Failed to register mail filtering hook");
+    return -1;
+  }
+  manual_filtering_hook_id = hooks_register_hook(MAIL_MANUAL_FILTERING_HOOKLIST,
+						 my_filtering_hook,
+						 GUINT_TO_POINTER(MANU_FILTER));
+  if(manual_filtering_hook_id == (guint) -1) {
+    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
+    *error = g_strdup("Failed to register manual mail filtering hook");
     return -1;
   }
 
@@ -1632,7 +1682,10 @@ gint plugin_init(gchar **error)
   if((fp = fopen(perlfilter,"a")) == NULL) {
     *error = g_strdup("Failed to create blank scriptfile");
     g_free(perlfilter);
-    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
+    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST,
+			  filtering_hook_id);
+    hooks_unregister_hook(MAIL_MANUAL_FILTERING_HOOKLIST,
+			  manual_filtering_hook_id);
     return -1;
   }
   g_free(perlfilter);
@@ -1644,7 +1697,10 @@ gint plugin_init(gchar **error)
     status = perl_init();
   if(status) {
     *error = g_strdup("Failed to load Perl Interpreter\n");
-    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
+    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST,
+			  filtering_hook_id);
+    hooks_unregister_hook(MAIL_MANUAL_FILTERING_HOOKLIST,
+			  manual_filtering_hook_id);
     return -1;
   }
 
@@ -1654,7 +1710,10 @@ gint plugin_init(gchar **error)
 
 void plugin_done(void)
 {
-  hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
+  hooks_unregister_hook(MAIL_FILTERING_HOOKLIST,
+			filtering_hook_id);
+  hooks_unregister_hook(MAIL_MANUAL_FILTERING_HOOKLIST,
+			manual_filtering_hook_id);
   
   free_all_lists();
 
