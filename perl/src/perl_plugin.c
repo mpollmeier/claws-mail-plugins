@@ -21,8 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define HBPRINT printf
-
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -151,7 +149,7 @@ static void free_EmailEntry_list(GList *list)
   }
   g_list_free(list);
 
-  HBPRINT("EmailEntry list freed\n");
+  debug_print("EmailEntry list freed\n");
 }
 
 /* free email_list */
@@ -166,7 +164,7 @@ static void free_email_list(void)
   g_free(email_list);
   email_list = NULL;
 
-  HBPRINT("email_list freed\n");
+  debug_print("email_list freed\n");
 }
 
 /* check if tl->g_list exists and is recent enough */
@@ -206,7 +204,7 @@ static void init_email_list(void)
   if(stat(indexfile,&filestat) == 0)
     email_list->mtime = filestat.st_mtime;
   g_free(indexfile);
-  HBPRINT("Initialisation of email list completed\n");
+  debug_print("Initialisation of email list completed\n");
 }
 
 /* check if given address is in given addressbook */
@@ -218,7 +216,7 @@ static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
   if(email_list == NULL) {
     email_list = g_new0(TimedList,1);
     email_list->g_list = NULL;
-    HBPRINT("email_list created\n");
+    debug_print("email_list created\n");
   }
 
   if(update_TimedList(email_list))
@@ -280,7 +278,7 @@ static gboolean free_attribute_hash_key(gpointer key, gpointer value, gpointer u
   GList *walk;
   TimedList *tl;
 
-  HBPRINT("Freeing key `%s' from attribute_hash\n",key?(char*)key:"");
+  debug_print("Freeing key `%s' from attribute_hash\n",key?(char*)key:"");
 
   tl = (TimedList *) value;
 
@@ -322,7 +320,7 @@ static void free_attribute_hash(void)
   g_hash_table_destroy(attribute_hash);
   attribute_hash = NULL;
 
-  HBPRINT("attribute_hash freed\n");
+  debug_print("attribute_hash freed\n");
 }
 
 /* Free the key if it exists. Insert the new key. */
@@ -339,7 +337,7 @@ static void insert_attribute_hash(gchar *attr)
     g_hash_table_lookup_extended(attribute_hash,attr,&origkey,&value);
     g_hash_table_remove(attribute_hash,origkey);
     free_attribute_hash_key(origkey,value,NULL);
-    HBPRINT("Existing key `%s' freed.\n",attr);
+    debug_print("Existing key `%s' freed.\n",attr);
   }
 
   tl = g_new0(TimedList,1);
@@ -355,7 +353,7 @@ static void insert_attribute_hash(gchar *attr)
     tl->mtime = filestat.st_mtime;
   g_free(indexfile);
 
-  HBPRINT("added key `%s' to attribute_hash\n",attribute_key?attribute_key:"");
+  debug_print("added key `%s' to attribute_hash\n",attribute_key?attribute_key:"");
 }
 
 /* check if an update of the attribute hash entry is necessary */
@@ -380,11 +378,11 @@ static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
   /* check if attribute hash exists */
   if(attribute_hash == NULL) {
     attribute_hash = g_hash_table_new(g_str_hash,g_str_equal);
-    HBPRINT("attribute_hash created\n");
+    debug_print("attribute_hash created\n");
   }
 
   if(update_attribute_hash(attr)) {
-    HBPRINT("Initialisation of attribute hash entry `%s' is necessary\n",attr);
+    debug_print("Initialisation of attribute hash entry `%s' is necessary\n",attr);
     insert_attribute_hash(attr);
   }
   
@@ -1142,7 +1140,7 @@ static int perl_load_file(void)
 
     if(strstr(SvPV(ERRSV,n_a),"intended"))
       return 0;
-    HBPRINT("%s", SvPV(ERRSV,n_a));
+    debug_print("%s", SvPV(ERRSV,n_a));
     message = g_strdup_printf("Error processing Perl script file: "
 			      "(line numbers may not be valid)\n%s",
 			      SvPV(ERRSV,n_a));
@@ -1592,11 +1590,11 @@ static gboolean my_filtering_hook(gpointer source, gpointer data)
   /* Process Skript File */
   retry = perl_load_file();
   while(retry == 1) {
-    HBPRINT("Error processing Perl script file. Retrying..\n");
+    debug_print("Error processing Perl script file. Retrying..\n");
     retry = perl_load_file();
   }
   if(retry == 2) {
-    HBPRINT("Error processing Perl script file. Aborting..\n");
+    debug_print("Error processing Perl script file. Aborting..\n");
     stop_filtering = FALSE;
   }
   return stop_filtering;

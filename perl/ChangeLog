@@ -1,3 +1,11 @@
+2005-02-11 [holger]	0.1.1cvs2
+
+	* INSTALL NEWS configure.ac src/perl_plugin.c
+	* NEWS
+	* configure.ac
+	* src/perl_plugin.c
+		Code cleanups
+
 2005-02-06 [holger]	0.1.1cvs1
 
 	* AUTHORS
