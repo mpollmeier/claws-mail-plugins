@@ -1,0 +1,700 @@
+/*
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Sylpheed-Claws team
+ * This file (C) 2004 Colin Leroy <colin@colino.net>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include "defs.h"
+
+#include <ical.h>
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+
+#include "intl.h"
+#include "utils.h"
+#include "vcalendar.h"
+#include "vcal_folder.h"
+#include "vcal_manager.h"
+#include "vcal_meeting_gtk.h"
+#include "prefs_account.h"
+#include "account.h"
+#include "alertpanel.h"
+#include "addr_compl.h"
+
+#define START_YEAR 2004
+
+struct _VCalMeeting
+{
+	gchar     *uid;
+	gint       sequence;
+	gint 	   method;
+	GtkWidget *window;
+	GtkWidget *table;
+	GtkWidget *type;
+	GtkWidget *who;
+	GtkWidget *start_d;
+	GtkWidget *start_m;
+	GtkWidget *start_y;
+	GtkWidget *start_hh;
+	GtkWidget *start_mm;
+	GtkWidget *end_d;
+	GtkWidget *end_m;
+	GtkWidget *end_y;
+	GtkWidget *end_hh;
+	GtkWidget *end_mm;
+	GtkWidget *summary;
+	GtkWidget *description;
+	GSList 	  *attendees;
+	GtkWidget *attendees_vbox;
+	GtkWidget *save_btn;
+	GSList 	  *avail_accounts;
+	PrefsAccount *account;
+};
+
+typedef struct _VCalAttendee VCalAttendee;
+
+struct _VCalAttendee {
+	GtkWidget *address;
+	GtkWidget *remove_btn;
+	GtkWidget *add_btn;
+	GtkWidget *cutype;
+	GtkWidget *hbox;
+	VCalMeeting *meet;
+	gchar *status;
+};
+
+VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
+
+#define TABLE_ADD_LINE(label_text, widget) { 				\
+	GtkWidget *label = gtk_label_new(_("<span weight=\"bold\">" 	\
+						label_text "</span>")); \
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
+	gtk_misc_set_alignment (GTK_MISC(label), 1, 0);			\
+	gtk_table_attach (GTK_TABLE (meet->table), 			\
+			  label, 0, 1, i, i+1,				\
+			  GTK_FILL, GTK_FILL, 6, 6);			\
+	gtk_table_attach (GTK_TABLE (meet->table), 			\
+			  widget, 1, 2, i, i+1,				\
+			  GTK_FILL|GTK_EXPAND, GTK_FILL, 6, 6);		\
+	if (GTK_IS_LABEL(widget)) {					\
+		gtk_label_set_use_markup(GTK_LABEL (widget), TRUE);	\
+		gtk_misc_set_alignment (GTK_MISC(widget),0, 0);		\
+		gtk_label_set_line_wrap(GTK_LABEL(widget), TRUE);	\
+	}								\
+	i++;								\
+}
+
+enum {
+	DAY,
+	MONTH,
+	YEAR,
+	HOUR,
+	MINUTE
+};
+
+static gchar *get_month_name(gint i)
+{
+	struct tm *lt;
+	time_t t;
+	gchar day[4], mon[4];
+	gint dd, hh, mm, ss, yyyy;
+
+	t = time(NULL);
+	lt = localtime(&t);
+	lt->tm_mon = i;
+	
+	sscanf(asctime(lt), "%3s %3s %d %d:%d:%d %d\n",
+	       day, mon, &dd, &hh, &mm, &ss, &yyyy);
+	
+	return g_strdup(mon);
+}
+
+static gint get_curdate(gint field)
+{
+	struct tm *lt;
+	time_t t;
+
+	t = time(NULL);
+	lt = localtime(&t);
+
+	switch(field){
+	case DAY:
+		return lt->tm_mday;
+	case MONTH:
+		return lt->tm_mon + 1;
+	case YEAR:
+		return lt->tm_year + 1900;
+	case HOUR:
+		return lt->tm_hour;
+	case MINUTE:
+		return lt->tm_min;
+	}
+	return -1;
+}
+
+static gint get_dtdate(const gchar *str, gint field)
+{
+	gchar *tmp = g_strdup(str);
+	gchar *orig_tmp = tmp;
+	int res = -1;
+
+	switch(field){
+	case DAY:
+		tmp += 6;
+		tmp[2] = '\0';
+		break;
+	case MONTH:
+		tmp += 4;
+		tmp[2] = '\0';
+		break;
+	case YEAR:
+		tmp[4] = '\0';
+		break;
+	case HOUR:
+		tmp += 9;
+		tmp[2] = '\0';
+		break;
+	case MINUTE:
+		tmp += 11;
+		tmp[2] = '\0';
+		break;
+	}
+	res = atoi(tmp);
+	g_free(orig_tmp);
+	return res;
+}
+
+static gboolean add_btn_cb(GtkButton *widget, gpointer data)
+{
+	VCalAttendee *attendee = (VCalAttendee *)data;
+	attendee_add(attendee->meet, NULL, NULL, NULL, NULL, FALSE);
+	return TRUE;
+}
+
+static gboolean remove_btn_cb(GtkButton *widget, gpointer data)
+{
+	VCalAttendee *attendee = (VCalAttendee *)data;
+	gtk_container_remove(GTK_CONTAINER(attendee->meet->attendees_vbox), attendee->hbox);
+	attendee->meet->attendees = g_slist_remove(attendee->meet->attendees, attendee);
+	
+	g_free(attendee->status);
+
+	/* resizing doesn't work :-( */
+	gtk_widget_set_size_request(attendee->meet->window, -1, -1);
+	gtk_widget_show_all(attendee->meet->window);
+	return TRUE;
+}
+
+VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first)
+{
+	GtkWidget *att_hbox = gtk_hbox_new(FALSE, 6);
+	VCalAttendee *attendee 	= g_new0(VCalAttendee, 1);
+	attendee->address	= gtk_entry_new();
+	attendee->cutype	= gtk_combo_box_new_text();
+
+	if (address) {
+		gchar *str = g_strdup_printf("%s%s%s%s",
+				name?name:"",
+				name?" <":"",
+				address,
+				name?">":"");
+		gtk_entry_set_text(GTK_ENTRY(attendee->address), str);
+		g_free(str);
+	}
+
+	if (partstat)
+		attendee->status = g_strdup(partstat);
+
+	gtk_combo_box_append_text(GTK_COMBO_BOX(attendee->cutype), _("Individual"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(attendee->cutype), _("Group"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(attendee->cutype), _("Resource"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(attendee->cutype), _("Room"));
+	
+	gtk_combo_box_set_active(GTK_COMBO_BOX(attendee->cutype), 0);
+	
+	if (cutype) {
+		if (!strcmp(cutype, "group"))
+			gtk_combo_box_set_active(GTK_COMBO_BOX(attendee->cutype), 1);
+		if (!strcmp(cutype, "resource"))
+			gtk_combo_box_set_active(GTK_COMBO_BOX(attendee->cutype), 2);
+		if (!strcmp(cutype, "room"))
+			gtk_combo_box_set_active(GTK_COMBO_BOX(attendee->cutype), 3);
+	}
+	
+	attendee->add_btn	= gtk_button_new_with_label(_("Add..."));
+	attendee->remove_btn	= gtk_button_new_with_label(_("Remove"));
+	attendee->meet		= meet;
+	attendee->hbox		= att_hbox;
+
+	gtk_widget_set_sensitive(attendee->remove_btn, !first);
+	meet->attendees 	= g_slist_append(meet->attendees, attendee);
+	
+	g_signal_connect(G_OBJECT(attendee->remove_btn), "clicked",
+			 G_CALLBACK(remove_btn_cb), attendee);
+	g_signal_connect(G_OBJECT(attendee->add_btn), "clicked",
+			 G_CALLBACK(add_btn_cb), attendee);
+	
+	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->address, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->cutype, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->add_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->remove_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(meet->attendees_vbox), att_hbox, FALSE, FALSE, 0);
+	address_completion_register_entry(GTK_ENTRY(attendee->address));
+	gtk_widget_set_size_request(attendee->address, 320, -1);
+	gtk_widget_show_all(meet->attendees_vbox);
+	return attendee;
+}
+
+static gchar *get_organizer(VCalMeeting *meet)
+{
+	int index = gtk_combo_box_get_active(GTK_COMBO_BOX(meet->who));
+	int i = 0;
+	GSList *cur = meet->avail_accounts;
+	while (i < index && cur && cur->data) {
+		debug_print("%d:skipping %s\n",i,((PrefsAccount *)(cur->data))->address);
+		cur = cur->next;
+		i++;
+	}
+	if (cur)
+		return g_strdup(((PrefsAccount *)(cur->data))->address);
+	else
+		return g_strdup("");
+}
+
+static gchar *get_organizer_name(VCalMeeting *meet)
+{
+	int index = gtk_combo_box_get_active(GTK_COMBO_BOX(meet->who));
+	int i = 0;
+	GSList *cur = meet->avail_accounts;
+	while (i < index && cur && cur->data) {
+		debug_print("%d:skipping %s\n",i,((PrefsAccount *)(cur->data))->address);
+		cur = cur->next;
+		i++;
+	}
+	if (cur)
+		return g_strdup(((PrefsAccount *)(cur->data))->name);
+	else
+		return g_strdup("");
+}
+
+static gchar *get_date(VCalMeeting *meet, int start) 
+{
+	struct tm *lt;
+	time_t t;
+
+	t = time(NULL);
+	lt = localtime(&t);
+
+	lt->tm_mday = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_d:meet->end_d))+1;
+	lt->tm_mon  = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_m:meet->end_m))+0;
+	lt->tm_year = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_y:meet->end_y))+START_YEAR-1900;
+	lt->tm_hour = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_hh:meet->end_hh)));
+	lt->tm_min  = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_mm:meet->end_hh)));
+	
+	debug_print("%d %d %d, %d:%d\n", lt->tm_mday, lt->tm_mon, lt->tm_year, lt->tm_hour, lt->tm_min);
+	t = mktime(lt);
+	debug_print("%s\n", ctime(&t));
+	return g_strdup(icaltime_as_ical_string(icaltime_from_timet(t, FALSE)));
+}
+
+static gchar *get_summary(VCalMeeting *meet) 
+{
+	return gtk_editable_get_chars(GTK_EDITABLE(meet->summary),0, -1);
+}
+
+static gchar *get_description(VCalMeeting *meet) 
+{
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(meet->description));
+	GtkTextIter start, end;
+	
+	gtk_text_buffer_get_start_iter(buffer, &start);
+	gtk_text_buffer_get_end_iter(buffer, &end);
+	return gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+}
+
+void vcal_meeting_free(VCalMeeting *meet)
+{
+	debug_print("freeing meeting\n");
+	g_free(meet->uid);
+	address_completion_end(meet->window);
+	g_slist_free(meet->avail_accounts);
+	g_slist_free(meet->attendees);
+	g_free(meet);
+}
+
+static void destroy_meeting_cb(GtkWidget *widget, gpointer data)
+{
+	VCalMeeting *meet = (VCalMeeting *)data;
+	vcal_meeting_free(meet);
+}
+
+static gboolean meeting_key_pressed(GtkWidget *widget,
+				    GdkEventKey *event,
+				    gpointer data)
+{
+	VCalMeeting *meet = (VCalMeeting *)data;
+	
+	if (event && event->keyval == GDK_Escape) {
+		gtk_widget_destroy(meet->window);
+	}
+	return FALSE;
+}
+
+static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
+{
+	VCalMeeting *meet = (VCalMeeting *)data;
+	gchar *uid = NULL;
+	gchar *organizer = NULL;
+	gchar *organizer_name = NULL;
+	gchar *start = NULL;
+	gchar *end = NULL;
+	gchar *dtstart = NULL;
+	gchar *dtend = NULL;
+	gchar *tzid = NULL;
+	gchar *summary = NULL;
+	gchar *description = NULL;
+	VCalEvent *event = NULL;
+	gchar buf[256];
+	GSList *cur;
+	PrefsAccount *account = NULL;
+	gboolean res = FALSE;
+	
+	generate_msgid(organizer, buf, 256);
+	if (meet->uid) {
+		uid 	= g_strdup(meet->uid);
+	} else {
+		uid 	= g_strdup(buf);
+	}
+	organizer	= get_organizer(meet);
+	organizer_name	= get_organizer_name(meet);
+	account		= account_find_from_address(organizer);
+	dtstart		= get_date(meet, TRUE);
+	dtend		= get_date(meet, FALSE);
+	summary		= get_summary(meet);
+	description	= get_description(meet);
+	
+	event = vcal_manager_new_event(uid, organizer, start, end, summary, description,
+					dtstart, dtend, tzid, meet->method, 
+					meet->sequence);
+	
+	vcal_manager_update_answer(event, organizer, organizer_name, 
+				   ICAL_PARTSTAT_ACCEPTED,
+				   ICAL_CUTYPE_INDIVIDUAL);
+	
+	for (cur = meet->attendees; cur && cur->data; cur = cur->next) {
+		VCalAttendee *attendee = (VCalAttendee *)cur->data;
+		gchar *email = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
+		gint index = 0;
+		gchar *orig_email = email;
+		gchar *name = NULL;
+		enum icalparameter_cutype cutype = ICAL_CUTYPE_INDIVIDUAL;
+		enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
+		
+		index = gtk_combo_box_get_active(GTK_COMBO_BOX(attendee->cutype));
+		
+		cutype = ICAL_CUTYPE_INDIVIDUAL + index;
+		if (attendee->status) {
+			if(!strcmp(attendee->status, "accepted"))
+				status = ICAL_PARTSTAT_ACCEPTED;
+			if(!strcmp(attendee->status, "tentatively accepted"))
+				status = ICAL_PARTSTAT_TENTATIVE;
+			if(!strcmp(attendee->status, "declined"))
+				status = ICAL_PARTSTAT_DECLINED;
+			g_free(attendee->status);			
+		}
+		if (strlen(email)) {
+			if (strstr(email, "<")) {
+				name = email;
+				email = strstr(email,"<") + 1;
+				*(strstr(name,"<")) = '\0';
+			} if (strstr(email, ">"))
+				*(strstr(email, ">")) = '\0';
+			
+			vcal_manager_update_answer(event, email, name, 
+					status,	cutype);
+		}
+		g_free(orig_email);
+	}
+	
+	vcal_manager_event_print(event);
+	res = vcal_manager_request(account, event);
+	g_free(uid);
+	g_free(organizer);
+	g_free(organizer_name);
+	g_free(dtstart);
+	g_free(dtend);
+	g_free(description);
+	g_free(summary);
+	vcal_manager_free_event(event);
+
+	if (res) {
+		gtk_widget_destroy(meet->window);
+	} else {
+		alertpanel_error(_("Could not send the meeting invitation.\n"
+				   "Check the recipients."));
+	}
+	
+	return TRUE;
+}
+
+
+static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
+{
+	VCalMeeting *meet = g_new0(VCalMeeting, 1);
+	GtkTextBuffer *buffer = NULL;
+	GtkWidget *start_hbox, *end_hbox, *save_hbox;
+	gchar *s = NULL;
+	int i = 0, decs = -1, dece = -1, num = 0;
+	
+	GList *accounts;
+	
+	meet->window 		= gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	meet->table  		= gtk_table_new(7, 2, FALSE);
+	meet->who    		= gtk_combo_box_new_text();
+	
+	meet->start_d		= gtk_combo_box_new_text();
+	meet->start_m		= gtk_combo_box_new_text();
+	meet->start_y		= gtk_combo_box_new_text();
+	meet->start_mm		= gtk_entry_new();
+	meet->start_hh		= gtk_entry_new();
+	
+	meet->end_d		= gtk_combo_box_new_text();
+	meet->end_m		= gtk_combo_box_new_text();
+	meet->end_y		= gtk_combo_box_new_text();
+	meet->end_mm		= gtk_entry_new();
+	meet->end_hh		= gtk_entry_new();
+	
+	meet->summary		= gtk_entry_new();
+	meet->description	= gtk_text_view_new();
+        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(meet->description));
+        gtk_text_view_set_editable(GTK_TEXT_VIEW(meet->description), TRUE);
+        gtk_text_buffer_add_selection_clipboard(buffer, gtk_clipboard_get(GDK_SELECTION_PRIMARY));
+	
+	if (event) {
+		meet->uid = g_strdup(event->uid);
+		meet->sequence = event->sequence + 1;
+		meet->method = (event->method == ICAL_METHOD_CANCEL ?
+				ICAL_METHOD_CANCEL:ICAL_METHOD_REQUEST);
+
+		gtk_entry_set_text(GTK_ENTRY(meet->summary), event->summary);	
+		gtk_text_buffer_set_text(buffer, event->description, -1);	
+	}
+	
+	meet->save_btn		= gtk_button_new_with_label(_("Save & Send"));
+
+	g_signal_connect(G_OBJECT(meet->save_btn), "clicked",
+			 G_CALLBACK(send_meeting_cb), meet);
+
+	g_signal_connect(G_OBJECT(meet->window), "destroy",
+			 G_CALLBACK(destroy_meeting_cb), meet);
+	g_signal_connect(G_OBJECT(meet->window), "key_press_event",
+			 G_CALLBACK(meeting_key_pressed), meet);
+
+
+	gtk_widget_set_size_request(meet->description, -1, 100);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(meet->description), GTK_WRAP_WORD);
+
+	for (i = 1; i < 32; i++) {
+		s = g_strdup_printf("%d", i);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->start_d), s);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->end_d), s);
+		g_free(s);
+	}
+	if (get_curdate(HOUR) + 2 > 23)
+		dece = 0;
+	else if (get_curdate(HOUR) + 1 > 23)
+		decs = dece = 0;
+
+	for (i = 0; i < 12; i++) {
+		s = get_month_name(i);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->start_m), s);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->end_m), s);
+		g_free(s);
+	}
+	for (i = START_YEAR; i < START_YEAR+20; i++) { /* yeah I know, the Y2K24 bug */
+		s = g_strdup_printf("%d", i);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->start_y), s);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->end_y), s);
+		g_free(s);
+	}
+	
+	if (!event) {
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_d), 
+					 get_curdate(DAY)+decs);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_d), 
+					 get_curdate(DAY)+dece);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_m), 
+					 get_curdate(MONTH)-1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_m), 
+					 get_curdate(MONTH)-1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_y), 
+					 get_curdate(YEAR)-START_YEAR);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_y), 
+					 get_curdate(YEAR)-START_YEAR);
+		s = g_strdup_printf("%02d", (get_curdate(HOUR)+1)%24);
+		gtk_entry_set_text(GTK_ENTRY(meet->start_hh), s);
+		g_free(s);
+		s = g_strdup_printf("%02d", (get_curdate(HOUR)+2)%24);
+		gtk_entry_set_text(GTK_ENTRY(meet->end_hh), s);
+		g_free(s);
+		gtk_entry_set_text(GTK_ENTRY(meet->start_mm), "00");
+		gtk_entry_set_text(GTK_ENTRY(meet->end_mm), "00");
+	} else {
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_d), 
+					 get_dtdate(event->dtstart, DAY)-1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_d), 
+					 get_dtdate(event->dtend, DAY)-1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_m), 
+					 get_dtdate(event->dtstart, MONTH)-1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_m), 
+					 get_dtdate(event->dtend, MONTH)-1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_y), 
+					 get_dtdate(event->dtstart, YEAR)-START_YEAR);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_y), 
+					 get_dtdate(event->dtend, YEAR)-START_YEAR);
+		s = g_strdup_printf("%02d", get_dtdate(event->dtstart, HOUR));
+		gtk_entry_set_text(GTK_ENTRY(meet->start_hh), s);
+		g_free(s);
+		s = g_strdup_printf("%02d", get_dtdate(event->dtend, HOUR));
+		gtk_entry_set_text(GTK_ENTRY(meet->end_hh), s);
+		g_free(s);
+		s = g_strdup_printf("%02d", get_dtdate(event->dtstart, MINUTE));
+		gtk_entry_set_text(GTK_ENTRY(meet->start_mm), s);
+		g_free(s);
+		s = g_strdup_printf("%02d", get_dtdate(event->dtend, MINUTE));
+		gtk_entry_set_text(GTK_ENTRY(meet->end_mm), s);
+		g_free(s);
+	}
+
+	gtk_widget_set_size_request(meet->start_mm, 30, -1);
+	gtk_widget_set_size_request(meet->start_hh, 30, -1);
+	gtk_widget_set_size_request(meet->end_mm, 30, -1);
+	gtk_widget_set_size_request(meet->end_hh, 30, -1);
+	
+	start_hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_m, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_d, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_y, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new("  "), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_hh, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new(":"), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_mm, FALSE, FALSE, 0);
+
+	end_hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_m, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_d, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_y, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new("  "), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_hh, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new(":"), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_mm, FALSE, FALSE, 0);
+	
+	meet->attendees_vbox = gtk_vbox_new(FALSE, 6);
+	if (!event) {
+		attendee_add(meet, NULL, NULL, NULL, NULL, TRUE);
+	} else {
+		gboolean firstadd = TRUE;
+		GSList *list = vcal_manager_get_answers_emails(event);
+		while (list && list->data) {
+			gchar *address = (gchar *)list->data;
+			gchar *name = vcal_manager_get_attendee_name(event, address);
+			gchar *answer = vcal_manager_get_reply_text_for_attendee(event, address);
+			gchar *type = vcal_manager_get_cutype_text_for_attendee(event, address);
+			if (strcmp(event->organizer, address)) {
+				attendee_add(meet, address, name, answer, type, firstadd);
+				firstadd = FALSE;
+			}
+			g_free(name);
+			g_free(answer);
+			g_free(type);
+			list = list->next;
+		}
+	}
+
+	gtk_window_set_title(GTK_WINDOW(meet->window), _("New meeting"));
+	address_completion_start(meet->window);
+	
+	accounts = account_get_list();
+	g_return_val_if_fail(accounts != NULL, NULL);
+
+	for (i = 0; accounts != NULL; accounts = accounts->next, i++) {
+		PrefsAccount *ac = (PrefsAccount *)accounts->data;
+		
+		if (ac->protocol == A_NNTP)
+			continue;
+			
+		if (!event && ac == cur_account) 
+			num = i;
+		else if (event && !strcmp(ac->address, event->organizer))
+			num = i;
+
+		meet->avail_accounts = g_slist_append(meet->avail_accounts, ac);
+		
+		if (ac->name)
+			s = g_strdup_printf("%s: %s <%s>",
+					       ac->account_name,
+					       ac->name, ac->address);
+		else
+			s = g_strdup_printf("%s: %s",
+					       ac->account_name, ac->address);
+
+		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->who), s);
+		g_free(s);
+	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(meet->who), num);
+	
+	save_hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
+	TABLE_ADD_LINE("Organizer:", meet->who);
+	TABLE_ADD_LINE("Start date:", start_hbox);
+	TABLE_ADD_LINE("End date:", end_hbox);
+	TABLE_ADD_LINE("Summary:", meet->summary);
+	TABLE_ADD_LINE("Description:", meet->description);
+	TABLE_ADD_LINE("Attendees:", meet->attendees_vbox);
+	TABLE_ADD_LINE("", save_hbox);
+	
+	gtk_widget_set_size_request(meet->window, -1, -1);
+	gtk_container_add(GTK_CONTAINER(meet->window), meet->table);
+	if (visible)
+		gtk_widget_show_all(meet->window);
+	
+	return meet;
+}
+
+VCalMeeting *vcal_meeting_create(VCalEvent *event)
+{
+	return vcal_meeting_create_real(event, TRUE);
+}
+
+VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event)
+{
+	return vcal_meeting_create_real(event, FALSE);
+}
+
+gboolean vcal_meeting_send(VCalMeeting *meet)
+{
+	return send_meeting_cb(NULL, meet);
+}
