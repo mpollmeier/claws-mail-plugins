@@ -919,13 +919,17 @@ static gint mailmbox_rename_folder(Folder *folder,
 {
 	gchar * path;
 	gchar * foldername;
+	FolderItem *parent;
 
 	g_return_val_if_fail(folder != NULL, -1);
 	g_return_val_if_fail(item != NULL, -1);
 	g_return_val_if_fail(item->path != NULL, -1);
 	g_return_val_if_fail(name != NULL, -1);
-
-	path = mailmbox_get_new_path(item->parent, (gchar *) name);
+	
+	parent = folder_item_parent(item);
+	g_return_val_if_fail(parent, -1);
+	
+	path = mailmbox_get_new_path(parent, (gchar *) name);
 	foldername = mailmbox_get_folderitem_name((gchar *) name);
 
 	if (rename(item->path, path) == -1) {
