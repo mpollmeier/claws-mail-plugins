@@ -1,4 +1,4 @@
-plugindir = $(libdir)/sylpheed/plugins
+plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 
 plugin_LTLIBRARIES = mailmbox.la mailmbox_gtk.la
 
@@ -44,12 +44,6 @@ mailmbox_gtk_la_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
-
-INCLUDES = \
-	-I$(sylpheed_dir)/ \
-	-I$(sylpheed_dir)/src/ \
-	-I$(sylpheed_dir)/src/common \
-	-I$(sylpheed_dir)/src/gtk
 
 AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \

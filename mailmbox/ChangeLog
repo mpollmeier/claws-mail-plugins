@@ -1,3 +1,12 @@
+2003-12-11 [paul]	0.8
+
+	* Makefile.am
+		add 'distdir' and 'release'
+		
+	* configure.ac
+	  src/Makefile.am
+	  	update
+
 2003-12-10 [hoa]	0.7
 
 	* src/carray.c
