@@ -1,3 +1,8 @@
+2003-02-12 [christoph]
+
+	* src/mailmbox_folder.[ch]
+		sync with changes in Sylpheed's FolderClass >= 0.9.7claws10
+
 2003-11-30 [hoa]	0.5
 
 	* src/plugin.c

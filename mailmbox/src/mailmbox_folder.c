@@ -45,6 +45,7 @@
 #include "procmsg.h"
 #include "procheader.h"
 #include "utils.h"
+#include "localfolder.h"
 #include "mailmbox.h"
 #include "mailmbox_folder.h"
 #include "mailmbox_parse.h"
@@ -116,6 +117,8 @@ static FolderClass mailmbox_class =
 	/* FolderItem functions */
 	mailmbox_folder_item_new,
 	mailmbox_folder_item_destroy,
+	NULL,
+	NULL,
 	mailmbox_item_get_path,
 	mailmbox_create_folder,
 	mailmbox_rename_folder,
