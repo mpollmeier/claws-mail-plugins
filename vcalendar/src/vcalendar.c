@@ -489,16 +489,17 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		gchar *type = vcal_manager_get_cutype_text_for_attendee(event, attendee);
 		if (firstatt) {
 			attendees = g_strdup_printf("%s%s<%s> (%s, %s)", 
-					name?name:"",
-					name?" ":"",
+					(name && strlen(name))?name:"",
+					(name && strlen(name))?" ":"",
 					attendee, type, answer);
 			firstatt = FALSE;
 		} else {
 			gchar *tmp = g_strdup(attendees);
 			g_free(attendees);
 			attendees = g_strdup_printf("%s\n%s%s<%s> (%s, %s)", 
-					tmp, name?name:"",
-					name?" ":"", attendee, type, answer);
+					tmp, (name && strlen(name))?name:"",
+					(name && strlen(name))?" ":"", 
+					attendee, type, answer);
 			g_free(tmp);
 		}
 		g_free(answer);
@@ -568,7 +569,7 @@ gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
 {
 	icalproperty *iprop = NULL;
-	gchar *org = NULL, *start = NULL, *end = NULL, *summary = NULL, *description = NULL;
+	gchar *org = NULL, *summary = NULL, *description = NULL;
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
 	VCalEvent *event = NULL;
@@ -627,7 +628,6 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
 	if (iprop) {
 		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtstart(iprop));
-		start = g_strdup(icaltime_as_ctime(itt));
 		dtstart = g_strdup(icaltime_as_ical_string(itt));
 		icalproperty_free(iprop);
 	} 
@@ -635,7 +635,6 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
 	if (iprop) {
 		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtend(iprop));
-		end = g_strdup(icaltime_as_ctime(itt));
 		dtend = g_strdup(icaltime_as_ical_string(itt));
 		icalproperty_free(iprop);
 	} 
@@ -653,14 +652,12 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	}
 	
 	event = vcal_manager_new_event( uid,
-					org, start, end, summary, description,
+					org, summary, description,
 					dtstart, dtend, tzid, method, sequence);
 	vcalviewer_get_attendees(vcalviewer, event);
 	vcal_manager_save_event(event);
 
 	g_free(org); 
-	g_free(start);
-	g_free(end);
 	g_free(summary);
 	g_free(description);
 	g_free(uid);
@@ -801,8 +798,10 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 
 void vcalviewer_reload(void)
 {
-	if (s_vcalviewer)
+	if (s_vcalviewer) {
+		debug_print("reload: %p, %p\n", (MimeViewer *)s_vcalviewer, s_vcalviewer->mimeinfo);
 		vcal_viewer_show_mimepart((MimeViewer *)s_vcalviewer, NULL, s_vcalviewer->mimeinfo);
+	}
 }
 
 static void vcal_viewer_destroy_viewer(MimeViewer *_mimeviewer)

@@ -427,8 +427,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 
 VCalEvent * vcal_manager_new_event	(const gchar 	*uid, 
 					 const gchar	*organizer,
-					 const gchar	*start,
-					 const gchar	*end,
 					 const gchar	*summary,
 					 const gchar	*description,
 					 const gchar	*dtstart,
@@ -441,8 +439,13 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	
 	event->uid 		= g_strdup(uid?uid:"");
 	event->organizer 	= g_strdup(organizer?organizer:"");
-	event->start		= g_strdup(start?start:"");
-	event->end		= g_strdup(end?end:"");
+
+	if (dtend) 
+		event->end	= g_strdup(icaltime_as_ctime(icaltime_as_local(icaltime_from_string(dtend))));
+	
+	if (dtstart)
+		event->start	= g_strdup(icaltime_as_ctime(icaltime_as_local(icaltime_from_string(dtstart))));
+
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
 	event->summary		= g_strdup(summary?summary:"");
@@ -514,8 +517,6 @@ void vcal_manager_save_event (VCalEvent *event)
 	
 	tag = xml_tag_new("event");
 	xml_tag_add_attr(tag, xml_attr_new("organizer", event->organizer));
-	xml_tag_add_attr(tag, xml_attr_new("start", event->start));
-	xml_tag_add_attr(tag, xml_attr_new("end", event->end));
 	xml_tag_add_attr(tag, xml_attr_new("summary", event->summary));
 	xml_tag_add_attr(tag, xml_attr_new("description", event->description));
 	xml_tag_add_attr(tag, xml_attr_new("dtstart", event->dtstart));
@@ -576,7 +577,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 {
 	XMLNode *xmlnode;
 	GList *list;
-	gchar *org = NULL, *start = NULL, *end = NULL, *summary = NULL;
+	gchar *org = NULL, *summary = NULL;
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *description = NULL;
 	VCalEvent *event = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
@@ -597,10 +598,6 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 		if (!attr || !attr->name || !attr->value) continue;
 		if (!strcmp(attr->name, "organizer"))
 			org = g_strdup(attr->value);
-		if (!strcmp(attr->name, "start"))
-			start = g_strdup(attr->value);
-		if (!strcmp(attr->name, "end"))
-			end = g_strdup(attr->value);
 		if (!strcmp(attr->name, "summary"))
 			summary = g_strdup(attr->value);
 		if (!strcmp(attr->name, "description"))
@@ -616,10 +613,17 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 		if (!strcmp(attr->name, "sequence"))
 			sequence = atoi(attr->value);
 	}
-	
-	event = vcal_manager_new_event(uid, org, start, end, summary, description,
+
+	event = vcal_manager_new_event(uid, org, summary, description,
 					dtstart, dtend, tzid, method, sequence);
 	
+	g_free(org); 
+	g_free(summary); 
+	g_free(description); 
+	g_free(dtstart); 
+	g_free(dtend);
+	g_free(tzid);
+
 	node = node->children;
 	while (node != NULL) {
 		gchar *attendee = NULL;

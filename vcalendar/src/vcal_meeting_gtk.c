@@ -40,6 +40,7 @@
 #include "alertpanel.h"
 #include "addr_compl.h"
 #include "menu.h"
+#include "icaltime_as_local.h"
 
 #define START_YEAR 2004
 
@@ -151,34 +152,23 @@ static gint get_curdate(gint field)
 
 static gint get_dtdate(const gchar *str, gint field)
 {
-	gchar *tmp = g_strdup(str);
-	gchar *orig_tmp = tmp;
-	int res = -1;
+	time_t t = icaltime_as_timet(icaltime_as_local(icaltime_from_string(str)));
+	struct tm *lt = localtime(&t);
 
 	switch(field){
 	case DAY:
-		tmp += 6;
-		tmp[2] = '\0';
-		break;
+		return lt->tm_mday;
 	case MONTH:
-		tmp += 4;
-		tmp[2] = '\0';
-		break;
+		return lt->tm_mon + 1;
 	case YEAR:
-		tmp[4] = '\0';
-		break;
+		return lt->tm_year + 1900;
 	case HOUR:
-		tmp += 9;
-		tmp[2] = '\0';
-		break;
+		return lt->tm_hour;
 	case MINUTE:
-		tmp += 11;
-		tmp[2] = '\0';
-		break;
+		return lt->tm_min;
 	}
-	res = atoi(tmp);
-	g_free(orig_tmp);
-	return res;
+	return -1;
+
 }
 
 static gboolean add_btn_cb(GtkButton *widget, gpointer data)
@@ -214,10 +204,10 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 
 	if (address) {
 		gchar *str = g_strdup_printf("%s%s%s%s",
-				name?name:"",
-				name?" <":"",
+				(name && strlen(name))?name:"",
+				(name && strlen(name))?" <":"",
 				address,
-				name?">":"");
+				(name && strlen(name))?">":"");
 		gtk_entry_set_text(GTK_ENTRY(attendee->address), str);
 		g_free(str);
 	}
@@ -383,8 +373,6 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	gchar *uid = NULL;
 	gchar *organizer = NULL;
 	gchar *organizer_name = NULL;
-	gchar *start = NULL;
-	gchar *end = NULL;
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
 	gchar *tzid = NULL;
@@ -410,7 +398,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	summary		= get_summary(meet);
 	description	= get_description(meet);
 	
-	event = vcal_manager_new_event(uid, organizer, start, end, summary, description,
+	event = vcal_manager_new_event(uid, organizer, summary, description,
 					dtstart, dtend, tzid, meet->method, 
 					meet->sequence);
 	
@@ -443,10 +431,10 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 			g_free(attendee->status);			
 		}
 		if (strlen(email)) {
-			if (strstr(email, "<")) {
+			if (strstr(email, " <")) {
 				name = email;
-				email = strstr(email,"<") + 1;
-				*(strstr(name,"<")) = '\0';
+				email = strstr(email," <") + 2;
+				*(strstr(name," <")) = '\0';
 			} if (strstr(email, ">"))
 				*(strstr(email, ">")) = '\0';
 			
@@ -456,7 +444,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 		g_free(orig_email);
 	}
 	
-	vcal_manager_event_print(event);
+	/* vcal_manager_event_print(event); */
 	res = vcal_manager_request(account, event);
 	g_free(uid);
 	g_free(organizer);

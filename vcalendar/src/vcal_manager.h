@@ -45,8 +45,6 @@ struct _VCalEvent
 
 VCalEvent *vcal_manager_new_event	(const gchar 	*uid, 
 					 const gchar	*organizer,
-					 const gchar	*start,
-					 const gchar	*end,
 					 const gchar	*summary,
 					 const gchar	*description,
 					 const gchar	*dtstart,
