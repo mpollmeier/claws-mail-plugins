@@ -23,7 +23,6 @@
 
 #include "defs.h"
 #include <glib.h>
-#include <gpgme.h>
 
 #include "utils.h"
 #include "privacy.h"

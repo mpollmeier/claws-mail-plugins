@@ -283,6 +283,8 @@ static void set_default_dir(gchar ** p_dirname, char * default_basename)
 
 void etpan_privacy_prefs_init(void)
 {
+	static gchar *path[3];
+	
         prefs_set_default(param);
 	
 	etpan_privacy_prefs_read_config();
@@ -294,7 +296,11 @@ void etpan_privacy_prefs_init(void)
 	set_default_dir(&etpan_privacy_prefs.smime_private_keys_dir,
 			PREFS_PRIVACY_DEFAULT_PRIVATE_KEYS_DIR);
         
-        etpan_privacy_page.page.path = "Message/Privacy";
+	path[0] = _("Message");
+	path[1] = _("Privacy");
+	path[2] = NULL;
+	
+        etpan_privacy_page.page.path = path;
         etpan_privacy_page.page.create_widget = create_widget;
         etpan_privacy_page.page.destroy_widget = destroy_widget;
         etpan_privacy_page.page.save_page = save_prefs;
