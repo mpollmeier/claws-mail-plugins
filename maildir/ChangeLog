@@ -1,0 +1,7 @@
+2003-12-02 [christoph]
+
+	* src/maildir.c
+		sync with changes in Sylpheed'd FolderClass >= 0.9.7claws10
+
+	* src/plugin.c
+		add version checks

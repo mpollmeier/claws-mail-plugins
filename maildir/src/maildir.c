@@ -29,6 +29,7 @@
 #include "procheader.h"
 #include "folder.h"
 #include "maildir.h"
+#include "localfolder.h"
 
 typedef struct _MaildirFolder MaildirFolder;
 typedef struct _MaildirFolderItem MaildirFolderItem;
@@ -37,7 +38,7 @@ typedef struct _MaildirUID MaildirUID;
 static Folder *maildir_folder_new(const gchar * name,
 				  const gchar * folder);
 static void maildir_folder_destroy(Folder * folder);
-static void maildir_scan_tree(Folder * folder);
+static gint maildir_scan_tree(Folder * folder);
 static FolderItem *maildir_item_new(Folder * folder);
 static void maildir_item_destroy(Folder * folder, FolderItem * item);
 static gchar *maildir_item_get_path(Folder * folder, FolderItem * item);
@@ -63,6 +64,8 @@ FolderClass maildir_class =
 	/* FolderItem functions */
 	maildir_item_new,
 	maildir_item_destroy,
+	NULL,
+	NULL,
 	maildir_item_get_path,
 	NULL,
 	NULL,
@@ -85,6 +88,7 @@ FolderClass maildir_class =
 	NULL,
 	NULL,
 	NULL,
+	NULL
 };
 
 struct _MaildirFolder
@@ -208,7 +212,7 @@ static void build_tree(GNode *node, glob_t *globbuf)
         }
 }
 
-static void maildir_scan_tree(Folder *folder)
+static gint maildir_scan_tree(Folder *folder)
 {
         FolderItem *rootitem, *inboxitem;
         gchar *rootpath;
@@ -233,6 +237,8 @@ static void maildir_scan_tree(Folder *folder)
 	globbuf.gl_offs = 0;
 	glob(".*", 0, NULL, &globbuf);
 	build_tree(rootnode, &globbuf);
+
+	return 0;
 }
 
 static FolderItem *maildir_item_new(Folder *folder)

@@ -17,12 +17,24 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "plugin.h"
+#include "common/version.h"
+#include "common/plugin.h"
 #include "folder.h"
+
 #include "maildir.h"
 
 gint plugin_init(gchar **error)
 {
+	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
+		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
+		return -1;
+	}
+
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 4, 15))) {
+		*error = g_strdup("Your sylpheed version is too old");
+		return -1;
+	}
+
 	folder_register_class(maildir_get_class());
 
 	return 0;
