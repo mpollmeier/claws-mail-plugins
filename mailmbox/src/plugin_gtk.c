@@ -103,12 +103,12 @@ void plugin_done()
 
 const gchar *plugin_name()
 {
-	return "mailmbox folder GTK (etPan!)";
+	return _("mailmbox folder GTK (etPan!)");
 }
 
 const gchar *plugin_desc()
 {
-	return "";
+	return _("This is the user interface part of the plugin to handle mailboxes file in mbox format.");
 }
 
 const gchar *plugin_type()

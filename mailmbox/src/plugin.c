@@ -17,6 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include "intl.h"
 #include "plugin.h"
 #include "folder.h"
 #include "mailmbox_folder.h"
@@ -34,12 +35,12 @@ void plugin_done()
 
 const gchar *plugin_name()
 {
-	return "mailmbox folder (etPan!)";
+	return _("mailmbox folder (etPan!)");
 }
 
 const gchar *plugin_desc()
 {
-	return "";
+	return _("This is a plugin to handle mailboxes file in mbox format.");
 }
 
 const gchar *plugin_type()

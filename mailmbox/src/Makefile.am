@@ -23,8 +23,7 @@ mailmbox_la_SOURCES = \
 mailmbox_la_LDFLAGS = \
 	-avoid-version -module
 
-mailmbox_la_LIBADD = \
-	-ldb
+mailmbox_la_LIBADD = 
 
 mailmbox_la_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
