@@ -87,14 +87,14 @@ static gchar *get_part_as_string(MimeInfo *mimeinfo, gint lines)
 
 	g_return_val_if_fail(mimeinfo != NULL, 0);
 
-	tmpfp = fopen(mimeinfo->filename, "rb");
+	tmpfp = fopen(mimeinfo->data.filename, "rb");
 	if (!tmpfp)
 		return NULL;
 
 	fseek(tmpfp, mimeinfo->offset, SEEK_SET);
 	
 	debug_print("enc_type: %d for %s\n", mimeinfo->encoding_type,
-			mimeinfo->filename);
+			mimeinfo->data.filename);
 
 	if (mimeinfo->encoding_type == ENC_BASE64)
 		decoder = base64_decoder_new();

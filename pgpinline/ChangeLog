@@ -1,3 +1,9 @@
+2004-10-18 [christoph]
+
+	* src/pgpinline.c
+	* src/sgpgme.c
+		update for changes in Sylpheed's procmime.h
+
 2004-10-14 [christoph]
 
 	* src/pgpinline.c
