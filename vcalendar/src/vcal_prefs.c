@@ -147,10 +147,10 @@ static struct VcalendarPage vcal_prefs_page;
 
 void vcal_prefs_init(void)
 {
-	static gchar *path[3];
+	static gchar *path[2];
 
 	path[0] = _("vCalendar");
-	path[2] = NULL;
+	path[1] = NULL;
 
 	prefs_set_default(param);
 	prefs_read_config(param, PREFS_BLOCK_NAME, COMMON_RC);
