@@ -51,9 +51,12 @@ struct _GhostscriptViewer
 	gfloat zoom;
 
 	GtkWidget *viewer;
+	GtkWidget *popupmenu;
 	GtkWidget *gs;
 	GtkWidget *nextpage_btn;
 	GtkWidget *prevpage_btn;
+	GtkWidget *nextpage_menu;
+	GtkWidget *prevpage_menu;
 };
 
 static void update_page_buttons(GhostscriptViewer *ghostscriptviewer)
@@ -76,6 +79,8 @@ static void update_page_buttons(GhostscriptViewer *ghostscriptviewer)
 
 	gtk_widget_set_sensitive(ghostscriptviewer->nextpage_btn, next);
 	gtk_widget_set_sensitive(ghostscriptviewer->prevpage_btn, prev);
+	gtk_widget_set_sensitive(ghostscriptviewer->nextpage_menu, next);
+	gtk_widget_set_sensitive(ghostscriptviewer->prevpage_menu, prev);
 }
 
 static GtkWidget *ghostscript_viewer_get_widget(MimeViewer *_mimeviewer)
@@ -180,6 +185,10 @@ void button_release_callback(GtkWidget * widget, GdkEventButton * event,
 			gtk_gs_end_scroll(gs);
 		}
 		break;
+	case 3:
+		gtk_menu_popup(GTK_MENU(ghostscriptviewer->popupmenu),
+			       NULL, NULL, NULL, NULL,
+			       button, event->time);
 	default:
 		break;
 	}
@@ -204,7 +213,7 @@ void interpreter_message(GtkGS *gs, gchar *msg, gpointer user_data)
 	debug_print("%s\n", msg);
 }
 
-void nextpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+void nextpage(GhostscriptViewer *ghostscriptviewer)
 {
 	gtk_gs_goto_page(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->page + 1);
 	ghostscriptviewer->page = gtk_gs_get_current_page(GTK_GS(ghostscriptviewer->gs));
@@ -212,7 +221,7 @@ void nextpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
 	update_page_buttons(ghostscriptviewer);
 }
 
-void prevpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+void prevpage(GhostscriptViewer *ghostscriptviewer)
 {
 	gtk_gs_goto_page(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->page - 1);
 	ghostscriptviewer->page = gtk_gs_get_current_page(GTK_GS(ghostscriptviewer->gs));
@@ -220,17 +229,69 @@ void prevpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
 	update_page_buttons(ghostscriptviewer);
 }
 
-void zoomin_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+void zoomin(GhostscriptViewer *ghostscriptviewer)
 {
 	ghostscriptviewer->zoom = ghostscriptviewer->zoom * 1.2;
 
 	gtk_gs_set_zoom(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->zoom);
 }
 
-void zoomout_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+void zoomout(GhostscriptViewer *ghostscriptviewer)
 {
 	ghostscriptviewer->zoom = ghostscriptviewer->zoom / 1.2;
 
+	gtk_gs_set_zoom(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->zoom);
+}
+
+void nextpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+{
+	nextpage(ghostscriptviewer);
+}
+
+void prevpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+{
+	prevpage(ghostscriptviewer);
+}
+
+void zoomin_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+{
+	zoomin(ghostscriptviewer);
+}
+
+void zoomout_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+{
+	zoomout(ghostscriptviewer);
+}
+
+void on_next_page_activate(GtkMenuItem *menuitem, GhostscriptViewer *ghostscriptviewer)
+{
+	nextpage(ghostscriptviewer);
+}
+
+void on_prev_page_activate(GtkMenuItem *menuitem, GhostscriptViewer *ghostscriptviewer)
+{
+	prevpage(ghostscriptviewer);
+}
+
+void on_zoom_in_activate(GtkMenuItem *menuitem, GhostscriptViewer *ghostscriptviewer)
+{
+	zoomin(ghostscriptviewer);
+}
+
+void on_zoom_out_activate(GtkMenuItem *menuitem, GhostscriptViewer *ghostscriptviewer)
+{
+	zoomout(ghostscriptviewer);
+}
+
+void on_fit_page_activate(GtkMenuItem *menuitem, GhostscriptViewer *ghostscriptviewer)
+{
+	ghostscriptviewer->zoom = gtk_gs_zoom_to_fit(GTK_GS(ghostscriptviewer->gs), FALSE);
+	gtk_gs_set_zoom(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->zoom);
+}
+
+void on_fit_width_activate(GtkMenuItem *menuitem, GhostscriptViewer *ghostscriptviewer)
+{
+	ghostscriptviewer->zoom = gtk_gs_zoom_to_fit(GTK_GS(ghostscriptviewer->gs), TRUE);
 	gtk_gs_set_zoom(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->zoom);
 }
 
@@ -249,6 +310,16 @@ MimeViewer *ghostscript_viewer_create(void)
 	GtkWidget *zoomin_btn;
 	GtkWidget *zoomout_btn;
 	GtkWidget *gsframe;
+
+	GtkWidget *popupmenu;
+	GtkAccelGroup *popupmenu_accels;
+	GtkWidget *next_page;
+	GtkWidget *prev_page;
+	GtkWidget *item1;
+	GtkWidget *zoom_in;
+	GtkWidget *zoom_out;
+	GtkWidget *fit_page;
+	GtkWidget *fit_width;
 
 	viewer = gtk_vbox_new(FALSE, 0);
 	gtk_widget_show(viewer);
@@ -287,6 +358,39 @@ MimeViewer *ghostscript_viewer_create(void)
 	gtk_widget_show(gsframe);
 	gtk_box_pack_start(GTK_BOX(viewer), gsframe, TRUE, TRUE, 0);
 	gtk_frame_set_shadow_type(GTK_FRAME(gsframe), GTK_SHADOW_IN);
+
+	popupmenu = gtk_menu_new();
+	popupmenu_accels =
+	    gtk_menu_ensure_uline_accel_group(GTK_MENU(popupmenu));
+
+	next_page = gtk_menu_item_new_with_label(_("Next Page"));
+	gtk_widget_show(next_page);
+	gtk_container_add(GTK_CONTAINER(popupmenu), next_page);
+
+	prev_page = gtk_menu_item_new_with_label(_("Prev Page"));
+	gtk_widget_show(prev_page);
+	gtk_container_add(GTK_CONTAINER(popupmenu), prev_page);
+
+	item1 = gtk_menu_item_new();
+	gtk_widget_show(item1);
+	gtk_container_add(GTK_CONTAINER(popupmenu), item1);
+	gtk_widget_set_sensitive(item1, FALSE);
+
+	zoom_in = gtk_menu_item_new_with_label(_("Zoom in"));
+	gtk_widget_show(zoom_in);
+	gtk_container_add(GTK_CONTAINER(popupmenu), zoom_in);
+
+	zoom_out = gtk_menu_item_new_with_label(_("Zoom out"));
+	gtk_widget_show(zoom_out);
+	gtk_container_add(GTK_CONTAINER(popupmenu), zoom_out);
+
+	fit_page = gtk_menu_item_new_with_label(_("Fit page"));
+	gtk_widget_show(fit_page);
+	gtk_container_add(GTK_CONTAINER(popupmenu), fit_page);
+
+	fit_width = gtk_menu_item_new_with_label(_("Fit width"));
+	gtk_widget_show(fit_width);
+	gtk_container_add(GTK_CONTAINER(popupmenu), fit_width);
 	/*
 	 *  end of glade code
 	 */
@@ -315,16 +419,20 @@ MimeViewer *ghostscript_viewer_create(void)
 //	gtk_range_set_adjustment(GTK_RANGE(vscrollbar), GTK_ADJUSTMENT(vadj));
 
 	ghostscriptviewer->viewer = viewer;
+	ghostscriptviewer->popupmenu = popupmenu;
 	ghostscriptviewer->gs = gs;
 	ghostscriptviewer->nextpage_btn = nextpage_btn;
 	ghostscriptviewer->prevpage_btn = prevpage_btn;
+	ghostscriptviewer->nextpage_menu = next_page;
+	ghostscriptviewer->prevpage_menu = prev_page;
 	ghostscriptviewer->zoom = 1.0;
 
-	gtk_signal_connect(GTK_OBJECT(gs), "button_press_event",
+	/* viewer callbacks */
+	gtk_signal_connect(GTK_OBJECT(gsframe), "button_press_event",
                 	   GTK_SIGNAL_FUNC(button_press_callback), ghostscriptviewer);
-	gtk_signal_connect(GTK_OBJECT(gs), "button_release_event",
+	gtk_signal_connect(GTK_OBJECT(gsframe), "button_release_event",
                 	   GTK_SIGNAL_FUNC(button_release_callback), ghostscriptviewer);
-	gtk_signal_connect(GTK_OBJECT(gs), "motion_notify_event",
+	gtk_signal_connect(GTK_OBJECT(gsframe), "motion_notify_event",
                 	   GTK_SIGNAL_FUNC(motion_callback), ghostscriptviewer);
 	gtk_signal_connect(GTK_OBJECT(gs), "interpreter_message",
                 	   GTK_SIGNAL_FUNC(interpreter_message), ghostscriptviewer);
@@ -336,6 +444,20 @@ MimeViewer *ghostscript_viewer_create(void)
                            GTK_SIGNAL_FUNC(zoomin_cb), ghostscriptviewer);
         gtk_signal_connect(GTK_OBJECT(zoomout_btn), "released",
                            GTK_SIGNAL_FUNC(zoomout_cb), ghostscriptviewer);
+
+	/* menu callbacks */
+	gtk_signal_connect(GTK_OBJECT(next_page), "activate",
+			   GTK_SIGNAL_FUNC(on_next_page_activate), ghostscriptviewer);
+	gtk_signal_connect(GTK_OBJECT(prev_page), "activate",
+			   GTK_SIGNAL_FUNC(on_prev_page_activate), ghostscriptviewer);
+	gtk_signal_connect(GTK_OBJECT(zoom_in), "activate",
+			   GTK_SIGNAL_FUNC(on_zoom_in_activate), ghostscriptviewer);
+	gtk_signal_connect(GTK_OBJECT(zoom_out), "activate",
+			   GTK_SIGNAL_FUNC(on_zoom_out_activate), ghostscriptviewer);
+	gtk_signal_connect(GTK_OBJECT(fit_page), "activate",
+			   GTK_SIGNAL_FUNC(on_fit_page_activate), ghostscriptviewer);
+	gtk_signal_connect(GTK_OBJECT(fit_width), "activate",
+			   GTK_SIGNAL_FUNC(on_fit_width_activate), ghostscriptviewer);
 
 	return (MimeViewer *) ghostscriptviewer;
 }

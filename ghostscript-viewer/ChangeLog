@@ -1,3 +1,10 @@
+2004-07-26 [christoph]
+
+	* src/viewer.c
+	* src/viewer.glade
+		add a popup menu with additional functions "Fit Page" and
+		"Fit width"
+
 2004-07-13 [christoph]
 
 	* src/viewer.c
