@@ -75,7 +75,7 @@ enum icalparameter_partstat vcal_manager_get_reply_for_attendee(VCalEvent *event
 enum icalparameter_partstat vcal_manager_get_cutype_for_attendee(VCalEvent *event, const gchar *att);
 gchar *vcal_manager_get_event_path(void);
 gchar *vcal_manager_get_event_file(const gchar *uid);
-gchar *vcal_manager_event_dump(VCalEvent *event, gboolean change_date, gboolean change_from);
+gchar *vcal_manager_event_dump(VCalEvent *event, gboolean change_date, gboolean change_from, icalcomponent *use_calendar);
 
 gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans);
 gchar *vcal_manager_cutype_get_text(enum icalparameter_cutype type);
