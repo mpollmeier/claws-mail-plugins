@@ -236,7 +236,7 @@ debug_print("get_num_list\n");
 		if (event && event->method != ICAL_METHOD_CANCEL) {
 			PrefsAccount *account = vcal_manager_get_account_from_event(event);
 			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
-			status = vcal_manager_get_reply_for_attendee(event, account->address);
+			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
 
 			if (status != ICAL_PARTSTAT_DECLINED
 			&&  status != ICAL_PARTSTAT_NEEDSACTION) {
