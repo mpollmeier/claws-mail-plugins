@@ -22,7 +22,6 @@
 #include <glob.h>
 #include <unistd.h>
 #include <glib.h>
-#include <db.h>
 
 #include "utils.h"
 #include "procmsg.h"
@@ -50,6 +49,10 @@ static MsgInfo *maildir_get_msginfo(Folder * folder,
 				    FolderItem * item, gint num);
 static gchar *maildir_fetch_msg(Folder * folder, FolderItem * item,
 				gint num);
+static gint maildir_add_msg(Folder *folder, FolderItem *_dest,
+			    const gchar *file, MsgFlags *flags);
+static gint maildir_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *msginfo);
+static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num);
 
 FolderClass maildir_class;
 
@@ -93,6 +96,9 @@ FolderClass *maildir_get_class()
 		/* Message functions */
 		maildir_class.get_msginfo = maildir_get_msginfo;
 		maildir_class.fetch_msg = maildir_fetch_msg;
+		maildir_class.add_msg = maildir_add_msg;
+		maildir_class.copy_msg = maildir_copy_msg;
+		maildir_class.remove_msg = maildir_remove_msg;
 	}
 
 	return &maildir_class;
@@ -502,4 +508,163 @@ static gchar *maildir_fetch_msg(Folder * folder, FolderItem * item,
 
 	filename = get_filename_for_uid((MaildirFolderItem *) item, num);
 	return filename;
+}
+
+static gchar *generate_uniq()
+{
+	gchar hostname[32], *strptr;
+	static gint q = 1;
+
+	gethostname(hostname, 32);
+	hostname[31] = '\0';
+
+	strptr = &hostname[0];
+	while (*strptr != '\0') {
+		if (*strptr == '/')
+			*strptr = '\057';
+		if (*strptr == ':')
+			*strptr = '\072';
+		strptr++;
+	}
+
+	return g_strdup_printf("%d.P%dQ%d.%s", (int) time(NULL), getpid(), q++, hostname);
+}
+
+static gchar *get_infostr(MsgPermFlags permflags)
+{
+	if (permflags & MSG_NEW)
+		return g_strdup("");
+
+	return g_strconcat("2,",
+		  permflags & MSG_MARKED    ? "F" : "",
+		  permflags & MSG_FORWARDED ? "P" : "",
+		  permflags & MSG_REPLIED   ? "R" : "",
+		!(permflags & MSG_UNREAD)   ? "S" : "",
+		NULL);
+}
+
+static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgFlags *flags)
+{
+	MessageData *msgdata;
+	gchar *tmp, *path, *tmpname, *destname;
+	gint uid = 0;
+
+	g_return_val_if_fail(item != NULL, -1);
+        g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
+
+	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
+	if (path == NULL)
+		return -1;
+
+	msgdata = g_new0(MessageData, 1);
+	msgdata->uniq = generate_uniq();
+	msgdata->info = get_infostr(flags->perm_flags);
+	msgdata->uid = uiddb_get_new_uid(item->db);
+
+	msgdata->dir = "tmp";
+	tmp = get_filename_for_msgdata(msgdata);
+	tmpname = g_strconcat(path, G_DIR_SEPARATOR_S, tmp, NULL);
+	g_free(tmp);
+	msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? "new" : "cur");	
+
+	if (copy_file(file, tmpname, FALSE) < 0) {
+		uiddb_free_msgdata(msgdata);
+		g_free(tmpname);
+		g_free(path);
+		return -1;
+	}
+
+	tmp = get_filename_for_msgdata(msgdata);
+	destname = g_strconcat(path, G_DIR_SEPARATOR_S, tmp, NULL);
+	g_free(tmp);
+	g_free(path);
+	if (rename(tmpname, destname) < 0) {
+		uiddb_free_msgdata(msgdata);
+		g_free(tmpname);
+		g_free(destname);
+		return -1;
+	}
+
+	uiddb_insert_entry(item->db, msgdata);
+
+	uid = msgdata->uid;
+	uiddb_free_msgdata(msgdata);
+	
+	return uid;
+}
+
+static gint maildir_add_msg(Folder *folder, FolderItem *_dest, const gchar *file, MsgFlags *flags)
+{
+	MaildirFolderItem *dest = MAILDIR_FOLDERITEM(_dest);
+
+	g_return_val_if_fail(folder != NULL, -1);
+	g_return_val_if_fail(dest != NULL, -1);
+	g_return_val_if_fail(file != NULL, -1);
+
+	return add_file_to_maildir(dest, file, flags);
+}
+
+static gint maildir_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *msginfo)
+{
+	gchar *srcfile;
+	gint ret = -1;
+	gboolean delsrc = FALSE;
+
+	g_return_val_if_fail(folder != NULL, -1);
+	g_return_val_if_fail(dest != NULL, -1);
+	g_return_val_if_fail(msginfo != NULL, -1);
+
+	srcfile = procmsg_get_message_file(msginfo);
+	if (srcfile == NULL)
+		return -1;
+
+	if ((MSG_IS_QUEUED(msginfo->flags) || MSG_IS_DRAFT(msginfo->flags))
+	    && dest->stype != F_QUEUE && dest->stype != F_DRAFT) {
+		gchar *tmpfile;
+
+		tmpfile = get_tmp_file();
+		if (procmsg_remove_special_headers(srcfile, tmpfile) != 0) {
+			g_free(srcfile);
+			g_free(tmpfile);
+			return -1;
+		}		
+		g_free(srcfile);
+		srcfile = tmpfile;
+		delsrc = TRUE;
+	}
+
+	ret = add_file_to_maildir(MAILDIR_FOLDERITEM(dest), srcfile, &msginfo->flags);
+
+	if (delsrc)
+		unlink(srcfile);
+	g_free(srcfile);
+
+	return ret;
+}
+
+static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num)
+{
+	MaildirFolderItem *item = MAILDIR_FOLDERITEM(_item);
+	gchar *path, *tmp, *filename;
+	gint ret;
+
+	g_return_val_if_fail(folder != NULL, -1);
+	g_return_val_if_fail(item != NULL, -1);
+	g_return_val_if_fail(num > 0, -1);
+
+	tmp = get_filename_for_uid(item, num);
+	if (tmp == NULL)
+		return -1;
+
+	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, tmp, NULL);
+	g_free(tmp);
+	g_free(path);
+
+	ret = unlink(filename);	
+	if (ret == 0)
+		uiddb_delete_entry(item->db, num);
+
+	g_free(filename);
+	return ret;
 }

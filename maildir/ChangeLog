@@ -1,5 +1,10 @@
 2004-04-26 [christoph]
 
+	* src/maildir.c
+		implement add, copy and remove functions for Maildir
+
+2004-04-26 [christoph]
+
 	* src/uiddb.c
 		fix memory leak in uiddb_insert_entry()
 
