@@ -444,9 +444,9 @@ static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginf
 	}
 
 	if (msginfo->date_t > time(NULL))
-		msginfo->flags.perm_flags |=MSG_UNREAD;
+		msginfo->flags.perm_flags |= MSG_COLORLABEL_TO_FLAGS(2); /* Red */
 	else
-		msginfo->flags.perm_flags = 0;
+		msginfo->flags.perm_flags &= ~MSG_COLORLABEL_TO_FLAGS(2); /* Red */
 }
 
 void vcal_folder_gtk_init(void)
