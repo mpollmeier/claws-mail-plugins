@@ -1,3 +1,8 @@
+2004-05-07 [christoph]
+
+	* src/maildir.c
+		fix segfault when adding mails to a maildir folder
+
 2004-05-05 [christoph]
 
 	* src/maildir.c

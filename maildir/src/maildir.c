@@ -604,13 +604,19 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 
 	msgdata = g_new0(MessageData, 1);
 	msgdata->uniq = generate_uniq();
-	msgdata->info = get_infostr(flags->perm_flags);
+	if (flags != NULL)
+		msgdata->info = get_infostr(flags->perm_flags);
+	else
+		msgdata->info = g_strdup("");
 	msgdata->uid = uiddb_get_new_uid(item->db);
 
 	msgdata->dir = "tmp";
 	tmpname = get_filepath_for_msgdata(item, msgdata);
 
-	msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? "new" : "cur");
+	if (flags != NULL)
+		msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? "new" : "cur");
+	else
+		msgdata->dir = g_strdup("new");
 
 	if (copy_file(file, tmpname, FALSE) < 0) {
 		uiddb_free_msgdata(msgdata);
