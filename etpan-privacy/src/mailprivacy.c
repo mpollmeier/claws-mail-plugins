@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy.c,v 1.2 2003-12-15 15:52:08 hoa Exp $
+ * $Id: mailprivacy.c,v 1.3 2003-12-16 16:03:56 hoa Exp $
  */
 
 #include "mailprivacy.h"
@@ -941,14 +941,4 @@ void mailprivacy_debug(struct mailprivacy * privacy, FILE * f)
   fprintf(f, "registered MMAPStr: %i\n", chash_count(privacy->mmapstr));
   fprintf(f, "registered mailmime: %i\n", chash_count(privacy->mime_ref));
   fprintf(f, "privacy debug -- end\n");
-}
-
-
-/* decrypt part without adding mime/alternative things */
-
-int mailprivacy_decrypt(struct mailprivacy * privacy,
-    mailmessage * msg,
-    struct mailmime * mime, struct mailmime ** result)
-{
-  return privacy_handler(privacy, msg, mime, result);
 }

@@ -1,7 +1,7 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
-AM_INIT_AUTOMAKE(etpan-privacy, 0.3, no-define)
+AM_INIT_AUTOMAKE(etpan-privacy, 0.5, no-define)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -53,7 +53,7 @@ libetpan=no
 AC_PATH_PROG(libetpanconfig, [libetpan-config])
 if test "x$libetpanconfig" != "x"; then
   CPPFLAGS="$CPPFLAGS `$libetpanconfig --cflags 2>/dev/null`"
-  AC_CHECK_HEADER(libetpan.h, [libetpan=yes])
+  AC_CHECK_HEADER(libetpan/libetpan.h, [libetpan=yes])
   if test "x$libetpan" = "xyes"; then
     AC_MSG_CHECKING([whether libetpan-config hints compiles and links fine])
     LDFLAGS="$LDFLAGS `$libetpanconfig --libs 2>/dev/null`"

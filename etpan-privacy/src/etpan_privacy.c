@@ -506,6 +506,7 @@ static MimeInfo * decrypt(MimeInfo *mimeinfo)
 {
 	MimeInfo * decrypted_mimeinfo;
 	struct mailmime * decrypted_mime;
+	struct mailmime * child_mime;
 	struct mailmime * mime;
 	int r;
 	mailmessage * msg;
@@ -539,6 +540,20 @@ static MimeInfo * decrypt(MimeInfo *mimeinfo)
 				 &decrypted_mime);
 	if (r != MAIL_NO_ERROR)
 		goto unmap;
+	
+	if (decrypted_mime->mm_type != MAILMIME_MESSAGE)
+		goto free_decrypted;
+	
+	child_mime = decrypted_mime->mm_data.mm_message.mm_msg_mime;
+	
+	if (child_mime->mm_content_type->ct_subtype == NULL)
+		goto free_decrypted;
+	
+	if ((strcasecmp(child_mime->mm_content_type->ct_subtype,
+		       "x-verified") != 0) && 
+	    (strcasecmp(child_mime->mm_content_type->ct_subtype,
+			"x-decrypted") != 0))
+		goto free_decrypted;
 	
 	decrypted_mimeinfo = mime_to_sylpheed(decrypted_mime);
 	if (decrypted_mimeinfo == NULL)
