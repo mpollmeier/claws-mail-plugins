@@ -1,3 +1,9 @@
+2004-04-28 [christoph]
+
+	* src/maildir.c
+		o add microseconds to unique part of Maildir filenames
+		o replace all "/" with G_DIR_SEPARATOR
+
 2004-04-27 [christoph]
 
 	* src/Makefile.am

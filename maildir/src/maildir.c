@@ -67,10 +67,6 @@ struct _MaildirFolderItem
 
 	guint lastuid;
 	UIDDB *db;
-/*
-	DB *db_uidkey;
-	DB *db_uniqkey;
-*/
 };
 
 FolderClass *maildir_get_class()
@@ -131,7 +127,7 @@ static gint open_database(MaildirFolderItem *item)
 		return 0;
 
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	Xstrcat_a(database, path, "/sylpheed_uid.db", return -1);
+	Xstrcat_a(database, path, G_DIR_SEPARATOR_S "sylpheed_uid.db", return -1);
 	g_free(path);
 
 	item->db = uiddb_open(database);
@@ -383,7 +379,7 @@ static gchar *get_filename_for_uid(MaildirFolderItem *item, guint32 uid)
 
 	/* try to find file with same uniq and different info */
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
-	filename = g_strconcat(path, "/cur/", msgdata->uniq, ":*", NULL);
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
 	debug_print("search pattern is %s\n", filename);
 	g_free(path);
 	globbuf.gl_offs = 0;
@@ -514,6 +510,7 @@ static gchar *generate_uniq()
 {
 	gchar hostname[32], *strptr;
 	static gint q = 1;
+	struct timeval tv;
 
 	gethostname(hostname, 32);
 	hostname[31] = '\0';
@@ -527,7 +524,9 @@ static gchar *generate_uniq()
 		strptr++;
 	}
 
-	return g_strdup_printf("%d.P%dQ%d.%s", (int) time(NULL), getpid(), q++, hostname);
+	gettimeofday(&tv, NULL);
+
+	return g_strdup_printf("%d.P%dQ%dM%d.%s", (int) tv.tv_sec, getpid(), q++, (int) tv.tv_usec, hostname);
 }
 
 static gchar *get_infostr(MsgPermFlags permflags)
