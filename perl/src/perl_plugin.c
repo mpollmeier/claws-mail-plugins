@@ -95,7 +95,6 @@ static gboolean          manual_filtering      = FALSE;
 static gboolean          wrote_filter_log_head = FALSE;
 static gint              filter_log_verbosity;
 static FILE              *message_file         = NULL;
-static FILE              *filter_log_file      = NULL;
 static gchar             *attribute_key        = NULL;
 
 /* configuration */
@@ -150,28 +149,42 @@ static gint execute_detached(gchar **cmdline)
 #define LOG_MATCH  3
 
 static void filter_log_write(gint type, gchar *text) {
+  FILE *fp;
+  gchar *perlfilter_log;
+
   if(filter_log_verbosity >= type) {
+
+    perlfilter_log = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				 PERLFILTER, ".log", NULL);
+    if((fp = fopen(perlfilter_log, "a")) == NULL) {
+	debug_print("Error opening filter logfile, could not log message\n");
+	g_free(perlfilter_log);
+	return;
+    }
+    g_free(perlfilter_log);
+
     if(!wrote_filter_log_head) {
-      fprintf(filter_log_file,"From: %s || Subject: %s || Message-ID: %s\n",
+      fprintf(fp,"From: %s || Subject: %s || Message-ID: %s\n",
 	      msginfo->from    ? msginfo->from    : "<no From header>",
 	      msginfo->subject ? msginfo->subject : "<no Subject header>",
 	      msginfo->msgid   ? msginfo->msgid   : "<no message id>");
       wrote_filter_log_head = TRUE;
     }
+
     switch(type) {
     case LOG_MANUAL:
-      fprintf(filter_log_file, "    MANUAL: %s\n", text?text:"<no text specified>");
+      fprintf(fp, "    MANUAL: %s\n", text?text:"<no text specified>");
       break;
     case LOG_ACTION:
-      fprintf(filter_log_file, "    ACTION: %s\n", text?text:"<no text specified>");
+      fprintf(fp, "    ACTION: %s\n", text?text:"<no text specified>");
       break;
     case LOG_MATCH:
-      fprintf(filter_log_file, "    MATCH:  %s\n", text?text:"<no text specified>");
+      fprintf(fp, "    MATCH:  %s\n", text?text:"<no text specified>");
       break;
     default:
       debug_print("Wrong use of filter_log_write\n");
     }
-    fflush(filter_log_file);
+    fclose(fp);
   }
 }
 
@@ -2058,7 +2071,7 @@ gint plugin_init(gchar **error)
 
   /* make sure we have at least an empty scriptfile */
   perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
-  if((fp = fopen(perlfilter,"a")) == NULL) {
+  if((fp = fopen(perlfilter, "a")) == NULL) {
     *error = g_strdup("Failed to create blank scriptfile");
     g_free(perlfilter);
     hooks_unregister_hook(MAIL_FILTERING_HOOKLIST,
@@ -2067,20 +2080,30 @@ gint plugin_init(gchar **error)
 			  manual_filtering_hook_id);
     return -1;
   }
+  /* chmod for security */
+  if (change_file_mode_rw(fp, perlfilter) < 0) {
+    FILE_OP_ERROR(perlfilter, "chmod");
+    g_warning("can't change file mode\n");
+  }
   fclose(fp);
 
   /* if logging is enabled, prepare logfile */
   if(config.filter_log_verbosity > 0) {
     perlfilter_log = g_strconcat(perlfilter, ".log", NULL);
-    if(config.truncate_filter_logfile_on_plugin_load)
-      filter_log_file = fopen(perlfilter_log, "w");
-    else
-      filter_log_file = fopen(perlfilter_log, "a");
-    g_free(perlfilter_log);
-    if(filter_log_file == NULL) {
-      debug_print("Error opening filter logfile. Logging disabled\n");
-      config.filter_log_verbosity = 0;
+    if(config.truncate_filter_logfile_on_plugin_load) {
+      if((fp = fopen(perlfilter_log, "w")) == NULL) {
+	debug_print("Error opening filter logfile. Logging disabled\n");
+	config.filter_log_verbosity = 0;
+      }
+      else {
+	if (change_file_mode_rw(fp, perlfilter_log) < 0) {
+	  FILE_OP_ERROR(perlfilter_log, "chmod");
+	  g_warning("can't change file mode\n");
+	}
+	fclose(fp);
+      }
     }
+    g_free(perlfilter_log);
   }
   g_free(perlfilter);
 

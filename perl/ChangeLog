@@ -1,3 +1,10 @@
+2005-04-06 [holger]	0.2cvs11
+
+	* src/perl_plugin.c
+		Open logfile only as needed.
+		Set permissions for filter script file and
+		logfile to 0600.
+
 2005-04-02 [holger]	0.2cvs10
 
 	* src/perl_plugin.c
