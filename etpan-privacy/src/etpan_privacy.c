@@ -38,8 +38,6 @@
 #include <libetpan.h>
 #include <limits.h>
 
-#include "mailprivacy.h"
-
 static struct mailprivacy * privacy = NULL;
 
 struct mailprivacy * get_etpan_privacy(void)
