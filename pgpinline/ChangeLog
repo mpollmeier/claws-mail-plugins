@@ -1,0 +1,6 @@
+2004-08-25 [colin]	0.2
+	
+	* src/pgpinline.c
+	* src/sgpgme.c
+	* src/sgpgme.h
+		Handle combined encryption/signature
