@@ -384,73 +384,39 @@ MimeViewer *ghostscript_viewer_create(void)
 	    gtk_menu_ensure_uline_accel_group(GTK_MENU(popupmenu));
 
 	next_page = gtk_menu_item_new_with_label(_("Next Page"));
-	gtk_widget_ref(next_page);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "next_page",
-				 next_page,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(next_page);
 	gtk_container_add(GTK_CONTAINER(popupmenu), next_page);
 
 	prev_page = gtk_menu_item_new_with_label(_("Prev Page"));
-	gtk_widget_ref(prev_page);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "prev_page",
-				 prev_page,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(prev_page);
 	gtk_container_add(GTK_CONTAINER(popupmenu), prev_page);
 
 	first_page = gtk_menu_item_new_with_label(_("First Page"));
-	gtk_widget_ref(first_page);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "first_page",
-				 first_page,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(first_page);
 	gtk_container_add(GTK_CONTAINER(popupmenu), first_page);
 
 	last_page = gtk_menu_item_new_with_label(_("Last Page"));
-	gtk_widget_ref(last_page);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "last_page",
-				 last_page,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(last_page);
 	gtk_container_add(GTK_CONTAINER(popupmenu), last_page);
 
 	item1 = gtk_menu_item_new();
-	gtk_widget_ref(item1);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "item1", item1,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(item1);
 	gtk_container_add(GTK_CONTAINER(popupmenu), item1);
 	gtk_widget_set_sensitive(item1, FALSE);
 
 	zoom_in = gtk_menu_item_new_with_label(_("Zoom in"));
-	gtk_widget_ref(zoom_in);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "zoom_in", zoom_in,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(zoom_in);
 	gtk_container_add(GTK_CONTAINER(popupmenu), zoom_in);
 
 	zoom_out = gtk_menu_item_new_with_label(_("Zoom out"));
-	gtk_widget_ref(zoom_out);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "zoom_out",
-				 zoom_out,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(zoom_out);
 	gtk_container_add(GTK_CONTAINER(popupmenu), zoom_out);
 
 	fit_page = gtk_menu_item_new_with_label(_("Fit page"));
-	gtk_widget_ref(fit_page);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "fit_page",
-				 fit_page,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(fit_page);
 	gtk_container_add(GTK_CONTAINER(popupmenu), fit_page);
 
 	fit_width = gtk_menu_item_new_with_label(_("Fit width"));
-	gtk_widget_ref(fit_width);
-	gtk_object_set_data_full(GTK_OBJECT(popupmenu), "fit_width",
-				 fit_width,
-				 (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show(fit_width);
 	gtk_container_add(GTK_CONTAINER(popupmenu), fit_width);
 	/*
