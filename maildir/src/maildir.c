@@ -17,6 +17,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include "defs.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <glob.h>
@@ -61,6 +67,8 @@ static void maildir_change_flags(Folder * folder, FolderItem * item,
 static FolderItem *maildir_create_folder(Folder * folder,
 					 FolderItem * parent,
 					 const gchar * name);
+static gint maildir_create_tree(Folder *folder);
+static void remove_missing_folder_items(Folder *folder);
 
 FolderClass maildir_class;
 
@@ -90,6 +98,7 @@ FolderClass *maildir_get_class()
 		maildir_class.set_xml = folder_local_set_xml;
 		maildir_class.get_xml = folder_local_get_xml;
 		maildir_class.scan_tree = maildir_scan_tree;
+		maildir_class.create_tree = maildir_create_tree;
 
 		/* FolderItem functions */
 		maildir_class.item_new = maildir_item_new;
@@ -204,17 +213,20 @@ static void build_tree(GNode *node, glob_t *globbuf)
         int i;
 	FolderItem *parent = FOLDER_ITEM(node->data);
 	gchar *prefix = parent->path ?  parent->path : "";
+	Folder *folder = parent->folder;
 
         for (i = 0; i < globbuf->gl_pathc; i++) {
 		FolderItem *newitem;
 		GNode *newnode;
-		gchar *dirname, *tmpstr;
+		gchar *dirname, *tmpstr, *foldername;
 		gboolean res;
 
 		if ((dirname = strrchr(globbuf->gl_pathv[i], G_DIR_SEPARATOR)) == NULL)
 			dirname = globbuf->gl_pathv[i];
 		else
 			dirname++;
+
+		foldername = &(dirname[strlen(prefix) + 1]);
 
                 if (dirname[0] == '.' && dirname[1] == '\0')
                         continue;
@@ -225,7 +237,7 @@ static void build_tree(GNode *node, glob_t *globbuf)
                 if (dirname[strlen(prefix)] != '.')
                         continue;
 
-                if (strchr(&(dirname[strlen(prefix) + 1]), '.') != NULL)
+                if (strchr(foldername, '.') != NULL)
                         continue;
 
                 if (!is_dir_exist(globbuf->gl_pathv[i]))
@@ -237,15 +249,36 @@ static void build_tree(GNode *node, glob_t *globbuf)
 		if (!res)
 			continue;
 
-		newitem = folder_item_new(parent->folder, &(dirname[strlen(prefix) + 1]), dirname);
-		newitem->folder = parent->folder;
+		/* don't add items that already exist in the tree */
+		newitem = folder_find_child_item_by_name(parent, dirname);
+		if (newitem == NULL) {
+			newitem = folder_item_new(parent->folder, foldername, dirname);
+			newitem->folder = folder;
 
-		newnode = g_node_new(newitem);
-		newitem->node = newnode;
-		g_node_append(node, newnode);
+			newnode = g_node_new(newitem);
+			newitem->node = newnode;
+			g_node_append(node, newnode);
 
-                debug_print("added item %s\n", newitem->path);
-                build_tree(newnode, globbuf);
+            		debug_print("added item %s\n", newitem->path);
+		}
+
+		if (!parent->path) {
+			if (!folder->outbox && !strcmp(dirname, "." OUTBOX_DIR)) {
+				newitem->stype = F_OUTBOX;
+				folder->outbox = newitem;
+			} else if (!folder->draft && !strcmp(dirname, "." DRAFT_DIR)) {
+				newitem->stype = F_DRAFT;
+				folder->draft = newitem;
+			} else if (!folder->queue && !strcmp(dirname, "." QUEUE_DIR)) {
+				newitem->stype = F_QUEUE;
+				folder->queue = newitem;
+			} else if (!folder->trash && !strcmp(dirname, "." TRASH_DIR)) {
+				newitem->stype = F_TRASH;
+				folder->trash = newitem;
+			}
+		}
+
+                build_tree(newitem->node, globbuf);
         }
 }
 
@@ -254,27 +287,46 @@ static gint maildir_scan_tree(Folder *folder)
         FolderItem *rootitem, *inboxitem;
 	GNode *rootnode, *inboxnode;
         glob_t globbuf;
-	gchar *path, *globpat;
+	gchar *rootpath, *globpat;
         
         g_return_val_if_fail(folder != NULL, -1);
-        
-        rootitem = folder_item_new(folder, folder->name, NULL);
-        rootitem->folder = folder;
-	rootnode = g_node_new(rootitem);
-        folder->node = rootnode;
-	rootitem->node = rootnode;
+
+	if (!folder->node) {
+		rootitem = folder_item_new(folder, folder->name, NULL);
+		rootitem->folder = folder;
+		rootnode = g_node_new(rootitem);
+		folder->node = rootnode;
+		rootitem->node = rootnode;
+	} else {
+		rootitem = FOLDER_ITEM(folder->node->data);
+		rootnode = folder->node;
+	}
 
 	/* Add inbox folder */
-	inboxitem = folder_item_new(folder, "inbox", "INBOX");
-	inboxitem->folder = folder;
-	inboxitem->stype = F_INBOX;
-	inboxnode = g_node_new(inboxitem);
-	inboxitem->node = inboxnode;
-	g_node_append(rootnode, inboxnode);
+	if (!folder->inbox) {
+		inboxitem = folder_item_new(folder, "inbox", "INBOX");
+		inboxitem->folder = folder;
+		inboxitem->stype = F_INBOX;
+		inboxnode = g_node_new(inboxitem);
+		inboxitem->node = inboxnode;
+		folder->inbox = inboxitem;
+		g_node_append(rootnode, inboxnode);
+	}
 
-	path = maildir_item_get_path(folder, inboxitem);
-	globpat = g_strconcat(path, G_DIR_SEPARATOR_S ".*", NULL);
-	g_free(path);;
+	rootpath = folder_item_get_path(rootitem);
+
+	/* clear special folders to make sure we don't have invalid references
+	   after remove_missing_folder_items */
+	folder->outbox = NULL;
+	folder->draft = NULL;
+	folder->queue = NULL;
+	folder->trash = NULL;
+
+	debug_print("scanning tree %s\n", rootpath);
+	maildir_create_tree(folder);
+	remove_missing_folder_items(folder);
+
+	globpat = g_strconcat(rootpath, G_DIR_SEPARATOR_S ".*", NULL);
 	globbuf.gl_offs = 0;
 	glob(globpat, 0, NULL, &globbuf);
 	g_free(globpat);
@@ -765,47 +817,27 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 	uiddb_free_msgdata(msgdata);
 }
 
-static FolderItem *maildir_create_folder(Folder * folder,
-					 FolderItem * parent,
-					 const gchar * name)
+static gboolean setup_new_folder(const gchar * path)
 {
-	gchar *folder_path, *path, *curpath, *newpath, *tmppath;
-	FolderItem *newitem = NULL;
+	gchar *curpath, *newpath, *tmppath;
 	gboolean failed = FALSE;
-
-	g_return_val_if_fail(folder != NULL, NULL);
-	g_return_val_if_fail(parent != NULL, NULL);
-	g_return_val_if_fail(name != NULL, NULL);
-
-	folder_path = g_strdup(LOCAL_FOLDER(folder)->rootpath);
-	g_return_val_if_fail(folder_path != NULL, NULL);
-
-	if (g_path_is_absolute(folder_path)) {
-    		path = g_strconcat(folder_path, G_DIR_SEPARATOR_S,
-                                   parent->path != NULL ? parent->path : "", 
-				   ".", name, NULL);
-        } else {
-                path = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S,
-                                   folder_path, G_DIR_SEPARATOR_S,
-                                   parent->path != NULL ? parent->path : "", 
-				   ".", name, NULL);
-        }
-	g_free(folder_path);
-
-	debug_print("creating new maildir folder: %s\n", path);
 
 	curpath = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", NULL);
 	newpath = g_strconcat(path, G_DIR_SEPARATOR_S, "new", NULL);
 	tmppath = g_strconcat(path, G_DIR_SEPARATOR_S, "tmp", NULL);
 
-	if (mkdir(path, 0777) != 0)
-		failed = TRUE;
-	if (mkdir(curpath, 0777) != 0)
-		failed = TRUE;
-	if (mkdir(newpath, 0777) != 0)
-		failed = TRUE;
-	if (mkdir(tmppath, 0777) != 0)
-		failed = TRUE;
+	if (!is_dir_exist(path))
+		if (mkdir(path, 0777) != 0)
+			failed = TRUE;
+	if (!is_dir_exist(curpath))
+		if (mkdir(curpath, 0777) != 0)
+			failed = TRUE;
+	if (!is_dir_exist(newpath))
+		if (mkdir(newpath, 0777) != 0)
+			failed = TRUE;
+	if (!is_dir_exist(tmppath))
+		if (mkdir(tmppath, 0777) != 0)
+			failed = TRUE;
 
 	if (failed) {
 		rmdir(tmppath);
@@ -817,15 +849,130 @@ static FolderItem *maildir_create_folder(Folder * folder,
 	g_free(tmppath);
 	g_free(newpath);
 	g_free(curpath);
+
+	return failed;
+}
+
+static FolderItem *maildir_create_folder(Folder * folder,
+					 FolderItem * parent,
+					 const gchar * name)
+{
+	gchar *folder_path, *path;
+	FolderItem *newitem = NULL;
+	gboolean failed = FALSE;
+
+	g_return_val_if_fail(folder != NULL, NULL);
+	g_return_val_if_fail(parent != NULL, NULL);
+	g_return_val_if_fail(name != NULL, NULL);
+
+	folder_path = g_strdup(LOCAL_FOLDER(folder)->rootpath);
+	g_return_val_if_fail(folder_path != NULL, NULL);
+
+	if (g_path_is_absolute(folder_path)) {
+		path = g_strconcat(folder_path, G_DIR_SEPARATOR_S,
+                                   parent->path != NULL ? parent->path : "",
+				   ".", name, NULL);
+        } else {
+                path = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S,
+                                   folder_path, G_DIR_SEPARATOR_S,
+                                   parent->path != NULL ? parent->path : "",
+				   ".", name, NULL);
+        }
+	g_free(folder_path);
+
+	debug_print("creating new maildir folder: %s\n", path);
+
+	failed = setup_new_folder(path);
 	g_free(path);
 
 	if (failed)
-		return NULL;		
+		return NULL;
 
-	path = g_strconcat(parent->path, ".", name);
+	path = g_strconcat((parent->path != NULL) ? parent->path : "", ".", name, NULL);
 	newitem = folder_item_new(folder, name, path);
 	folder_item_append(parent, newitem);
 	g_free(path);
 
 	return newitem;
+}
+
+static gint maildir_create_tree(Folder *folder)
+{
+	gchar *rootpath, *folder_path;
+
+	g_return_val_if_fail(folder != NULL, -1);
+
+	folder_path = g_strdup(LOCAL_FOLDER(folder)->rootpath);
+	g_return_val_if_fail(folder_path != NULL, -1);
+
+	if (g_path_is_absolute(folder_path)) {
+		rootpath = g_strdup(folder_path);
+        } else {
+                rootpath = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S,
+                                   folder_path, NULL);
+        }
+	g_free(folder_path);
+
+	debug_print("creating new maildir tree: %s\n", rootpath);
+	if (!is_dir_exist(rootpath)) {
+		if (is_file_exist(rootpath)) {
+			g_warning("File `%s' already exists.\n"
+				    "Can't create folder.", rootpath);
+			return -1;
+		}
+		if (make_dir(rootpath) < 0)
+			return -1;
+	}
+
+	if (setup_new_folder(rootpath)) /* create INBOX */
+		return -1;
+	if (folder->outbox == NULL)
+		if (maildir_create_folder(folder, folder->node->data, OUTBOX_DIR) == NULL)
+			return -1;
+	if (folder->queue == NULL)
+		if (maildir_create_folder(folder, folder->node->data, QUEUE_DIR) == NULL)
+			return -1;
+	if (folder->draft == NULL)
+		if (maildir_create_folder(folder, folder->node->data, DRAFT_DIR) == NULL)
+			return -1;
+	if (folder->trash == NULL)
+		if (maildir_create_folder(folder, folder->node->data, TRASH_DIR) == NULL)
+			return -1;
+
+	return 0;
+}
+
+static gboolean remove_missing_folder_items_func(GNode *node, gpointer data)
+{
+	FolderItem *item;
+	gchar *path;
+
+	g_return_val_if_fail(node->data != NULL, FALSE);
+
+	if (G_NODE_IS_ROOT(node))
+		return FALSE;
+
+	item = FOLDER_ITEM(node->data);
+
+	if (item->stype == F_INBOX)
+		return FALSE;
+
+	path = folder_item_get_path(item);
+	if (!is_dir_exist(path)) {
+		debug_print("folder '%s' not found. removing...\n", path);
+		folder_item_remove(item);
+	}
+	g_free(path);
+
+	return FALSE;
+}
+
+static void remove_missing_folder_items(Folder *folder)
+{
+	g_return_if_fail(folder != NULL);
+
+	debug_print("searching missing folders...\n");
+
+	g_node_traverse(folder->node, G_POST_ORDER, G_TRAVERSE_ALL, -1,
+			remove_missing_folder_items_func, folder);
 }

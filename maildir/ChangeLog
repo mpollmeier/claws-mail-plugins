@@ -1,3 +1,11 @@
+2004-05-21 [christoph]
+
+	* src/maildir.c
+	* src/maildir_gtk.c
+		apply patch by Klaus Flittner <klaus_flittner@gmx.de> for
+		improved Maildir++ scanning and creating new Maildir
+		folders
+
 2004-05-18 [christoph]
 
 	* src/maildir.c

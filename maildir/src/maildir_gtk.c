@@ -57,8 +57,8 @@ static GtkItemFactoryEntry maildir_popup_entries[] =
 	{N_("/_Rename folder..."),	 NULL, rename_folder_cb,  0, NULL},
 	{N_("/M_ove folder..."), 	 NULL, move_folder_cb,    0, NULL},
 	{N_("/_Delete folder"),		 NULL, delete_folder_cb,  0, NULL},
-	{N_("/---"),			 NULL, NULL,              0, "<Separator>"},
 */
+	{N_("/---"),			 NULL, NULL,              0, "<Separator>"},
 	{N_("/_Check for new messages"), NULL, update_tree_cb,    0, NULL},
 	{N_("/R_ebuild folder tree"),	 NULL, update_tree_cb,    1, NULL},
 	{N_("/---"),			 NULL, NULL, 		  0, "<Separator>"},
@@ -178,14 +178,14 @@ static void add_mailbox(gpointer callback_data, guint callback_action,
 			    path);
 	g_free(path);
 
-/*
+
 	if (folder->klass->create_tree(folder) < 0) {
 		alertpanel_error(_("Creation of the mailbox failed.\n"
 				   "Maybe some files already exist, or you don't have the permission to write there."));
 		folder_destroy(folder);
 		return;
 	}
-*/
+
 	folder_add(folder);
 	folder_scan_tree(folder);
 
