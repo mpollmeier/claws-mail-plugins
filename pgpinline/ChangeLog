@@ -1,3 +1,9 @@
+2004-09-27 [colin]
+	
+	* src/pgpinline.c
+		Look a bit deeper in the mail to find
+		the "BEGIN PGP MESSAGE" boundary
+
 2004-09-14 [colin]
 	
 	* src/pgpinline.c
