@@ -59,5 +59,5 @@ const gchar *plugin_desc()
 
 const gchar *plugin_type()
 {
-	return "GTK";
+	return "GTK2";
 }

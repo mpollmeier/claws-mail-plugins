@@ -1,3 +1,18 @@
+2004-12-06 [christoph]
+
+	* src/Makefile.am
+		update for changed dependencies in Sylpheed
+
+	Release Maildir Plugin 0.7
+
+2004-11-21 [christoph]
+
+	* src/maildir.c
+		remove printfs
+
+	* src/maildir_gtk.c
+		update for changed function name in sylpheed
+
 2004-09-24 [christoph]
 
 	* src/maildir.c
