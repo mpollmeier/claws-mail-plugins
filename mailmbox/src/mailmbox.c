@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox.c,v 1.2 2003-12-10 04:23:01 hoa Exp $
+ * $Id: mailmbox.c,v 1.3 2004-03-17 00:41:05 alfons Exp $
  */
 
 #include "mailmbox.h"
@@ -440,8 +440,12 @@ static size_t get_fixed_message_size(const char * message, size_t size,
 
   if (!force_no_uid) {
     /* UID header */
-    
+
+#if CRLF_BADNESS    
     fixed_size += strlen(UID_HEADER " \r\n");
+#else
+    fixed_size += strlen(UID_HEADER " \n");
+#endif
     
     tmp_uid = uid;
     while (tmp_uid >= 10) {
@@ -553,7 +557,11 @@ static char * write_fixed_message(char * str,
     
     memcpy(str, UID_HEADER " ", strlen(UID_HEADER " "));
     str += strlen(UID_HEADER " ");
+#if CRLF_BADNESS    
     numlen = snprintf(str, 20, "%i\r\n", uid);
+#else
+    numlen = snprintf(str, 20, "%i\n", uid);
+#endif
     str += numlen;
   }
 
@@ -615,7 +623,11 @@ mailmbox_append_message_list_no_lock(struct mailmbox_folder * folder,
     extra_size += get_fixed_message_size(info->ai_message, info->ai_size,
         folder->mb_max_uid + i + 1,
         folder->mb_no_uid);
+#if CRLF_BADNESS
     extra_size += 2; /* CR LF */
+#else
+    extra_size += 1; /* CR LF */
+#endif    
   }
 
   left = folder->mb_mapping_size;
@@ -625,9 +637,11 @@ mailmbox_append_message_list_no_lock(struct mailmbox_folder * folder,
       crlf_count ++;
       left --;
     }
+#if CRLF_BADNESS    
     else if (folder->mb_mapping[left - 1] == '\r') {
       left --;
     }
+#endif
     else
       break;
 
@@ -640,7 +654,12 @@ mailmbox_append_message_list_no_lock(struct mailmbox_folder * folder,
 
   if (old_size != 0) {
     if (crlf_count != 2)
+#if CRLF_BADNESS
       extra_size += (2 - crlf_count) * 2;
+#else
+      /* Need the number of LFs, not CRLFs */
+      extra_size += (2 - crlf_count) * 1; /* 2 */
+#endif      
   }
 
   r = ftruncate(folder->mb_fd, extra_size + old_size);
@@ -660,8 +679,10 @@ mailmbox_append_message_list_no_lock(struct mailmbox_folder * folder,
 
   if (old_size != 0) {
     for(i = 0 ; i < 2 - crlf_count ; i ++) {
+#if CRLF_BADNESS    
       * str = '\r';
       str ++;
+#endif      
       * str = '\n';
       str ++;
     }
@@ -680,8 +701,10 @@ mailmbox_append_message_list_no_lock(struct mailmbox_folder * folder,
         folder->mb_max_uid + i + 1,
         folder->mb_no_uid);
 
+#if CRLF_BADNESS
     * str = '\r';
     str ++;
+#endif    
     * str = '\n';
     str ++;
   }
@@ -1126,9 +1149,12 @@ static int mailmbox_expunge_to_file_no_lock(char * dest_filename, int dest_fd,
       if (!folder->mb_no_uid) {
 	if (!info->msg_written_uid) {
 	  uint32_t uid;
-	  
+	 
+#if CRLF_BADNESS
 	  size += strlen(UID_HEADER " \r\n");
-	  
+#else
+	  size += strlen(UID_HEADER " \n");
+#endif	  
 	  uid = info->msg_uid;
 	  while (uid >= 10) {
 	    uid /= 10;
@@ -1169,8 +1195,13 @@ static int mailmbox_expunge_to_file_no_lock(char * dest_filename, int dest_fd,
 	  
 	  memcpy(dest + cur_offset, UID_HEADER " ", strlen(UID_HEADER " "));
 	  cur_offset += strlen(UID_HEADER " ");
-	  numlen = snprintf(dest + cur_offset, size - cur_offset,
+#if CRLF_BADNESS
+ 	  numlen = snprintf(dest + cur_offset, size - cur_offset,
 			    "%i\r\n", info->msg_uid);
+#else
+	  numlen = snprintf(dest + cur_offset, size - cur_offset,
+			    "%i\n", info->msg_uid);
+#endif			    
 	  cur_offset += numlen;
 	}
       }

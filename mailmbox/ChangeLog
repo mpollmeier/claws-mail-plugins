@@ -1,3 +1,9 @@
+2004-03-17 [alfons]	0.11
+
+	* src/mailmbox.c
+		hack at CRLF badness; definitely need some verifying
+		by hoa, but it seems to WFM, finally
+
 2004-03-16 [alfons]	0.10
 
 	lend hoa a hand and fix Folder interface breakage
