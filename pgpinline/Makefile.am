@@ -1,13 +1,9 @@
 SUBDIRS = config src
 
-EXTRA_DIST = config/config.rpath \
-	config/depcomp \
-	libtool \
+EXTRA_DIST =  \
 	AUTHORS \
 	COPYING \
 	ChangeLog \
 	INSTALL \
 	NEWS \
 	README
-
-ACLOCAL_AMFLAGS = 

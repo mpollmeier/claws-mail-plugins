@@ -6,5 +6,3 @@ aclocal \
   && automake --add-missing --foreign --copy \
   && autoconf \
   && ./configure --enable-maintainer-mode $@
-
-[ -x ./libtool ] || cp `which libtool` .

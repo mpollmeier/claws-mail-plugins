@@ -1,4 +1,4 @@
-plugindir = $(libdir)/sylpheed-claws/plugins
+plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 
 plugin_LTLIBRARIES = pgpinline.la
 
@@ -8,15 +8,11 @@ pgpinline_la_SOURCES = \
 	sgpgme.c sgpgme.h
 
 pgpinline_la_LDFLAGS = \
-	-avoid-version -module
-
-INCLUDES = \
-        -I$(sylpheed_dir)/ \
-        -I$(sylpheed_dir)/src/ \
-        -I$(sylpheed_dir)/src/common \
-        -I$(sylpheed_dir)/src/gtk
+	-avoid-version -module \
+	$(GTK_LIBS)
 
 AM_CPPFLAGS = \
+	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GPGME_CFLAGS)

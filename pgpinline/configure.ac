@@ -2,7 +2,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=02.
+PLUGINVERSION=0.2
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(pgpinline, $PLUGINVERSION, no-define)
 
@@ -24,6 +24,15 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 #
+# Check for sylpheed-claws
+#
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.12.80)
+AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
+AC_SUBST(SYLPHEED_CLAWS_LIBS)
+SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
+
+#
 # Check for GLib
 #
 AM_PATH_GLIB(1.2.6,,
@@ -37,10 +46,6 @@ AM_PATH_GTK(1.2.6,,
 #
 AM_PATH_GPGME(0.3.10,,
 	AC_MSG_ERROR(Test for gpgme failed. See the file 'INSTALL' for help.),)
-
-AC_ARG_WITH(sylpheed-dir, [  --with-sylpheed-dir=DIR     Directory of the sylpheed source directory],
-            sylpheed_dir="$withval", sylpheed_dir="/usr/src/sylpheed")
-AC_SUBST(sylpheed_dir)
 
 AC_OUTPUT([
 Makefile
