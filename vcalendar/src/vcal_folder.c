@@ -39,6 +39,7 @@
 #include "folderview.h"
 #include "vcalendar.h"
 #include "vcal_folder.h"
+#include "vcal_prefs.h"
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
 #include "prefs_account.h"
@@ -427,7 +428,15 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 			g_free(uid);
 			unlink(file);
 			g_free(file);
-			return;
+		}
+	}
+
+	if (vcalprefs.export_enable) {
+		if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
+			if (vcalprefs.export_command &&
+			    strlen(vcalprefs.export_command))
+				execute_command_line(
+					vcalprefs.export_command, TRUE);
 		}
 	}
 }
@@ -523,5 +532,5 @@ GSList * vcal_folder_get_waiting_events(void)
 
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
-	vcal_meeting_export_calendar();
+	vcal_meeting_export_calendar(NULL);
 }
