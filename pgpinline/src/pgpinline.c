@@ -78,7 +78,7 @@ static void pgpinline_free_privacydata(PrivacyData *_data)
 	g_free(data);
 }
 
-static gchar *get_part_as_string(MimeInfo *mimeinfo, gint lines)
+static gchar *get_part_as_string(MimeInfo *mimeinfo)
 {
 	FILE *tmpfp;
 	gchar buf[BUFFSIZE];
@@ -87,49 +87,11 @@ static gchar *get_part_as_string(MimeInfo *mimeinfo, gint lines)
 	gint i = 0;
 
 	g_return_val_if_fail(mimeinfo != NULL, 0);
-
-	tmpfp = fopen(mimeinfo->data.filename, "rb");
-	if (!tmpfp)
-		return NULL;
-
-	fseek(tmpfp, mimeinfo->offset, SEEK_SET);
-	
-	debug_print("enc_type: %d for %s\n", mimeinfo->encoding_type,
-			mimeinfo->data.filename);
-
-	if (mimeinfo->encoding_type == ENC_BASE64)
-		decoder = base64_decoder_new();
-
-	while (fgets(buf, sizeof(buf), tmpfp) != NULL
-		&& (lines < 0 || i++ < lines)) {
-		gchar *tmp = NULL;
-		if (textdata) {
-			tmp = g_strdup(textdata);
-			g_free(textdata);
-		} else {
-			tmp = g_strdup("");
-		}
-		
-		if (mimeinfo->encoding_type == ENC_BASE64) {
-			gchar outbuf[BUFFSIZE];
-			int len = 0;
-			
-			len = base64_decoder_decode(decoder, buf, outbuf);
-			if (len >= 0) {
-				strcpy(buf, outbuf);
-			}
-		} else if (mimeinfo->encoding_type == ENC_QUOTED_PRINTABLE) {
-			qp_decode_line(buf);
-		}
-		
-		textdata = g_strdup_printf("%s%s",tmp, buf);
-		g_free(tmp);
-	}
-	
-	if (mimeinfo->encoding_type == ENC_BASE64)
-		base64_decoder_free(decoder);
-
-	fclose(tmpfp);
+	procmime_decode_content(mimeinfo);
+	if (mimeinfo->content == MIMECONTENT_MEM)
+		textdata = g_strdup(mimeinfo->data.mem);
+	else
+		textdata = file_read_to_str(mimeinfo->data.filename);
 
 	return textdata;	
 }
@@ -154,9 +116,16 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 			return data->is_signed;
 	}
 	
-	textdata = get_part_as_string(mimeinfo, 30);
+	textdata = get_part_as_string(mimeinfo);
 	if (!textdata)
 		return FALSE;
+	
+	if (data == NULL) {
+		data = pgpinline_new_privacydata();
+		mimeinfo->privacy = (PrivacyData *) data;
+	}
+	data->done_sigtest = TRUE;
+	data->is_signed = FALSE;
 
 	if ((sigpos = strstr(textdata, sig_indicator)) == NULL) {
 		g_free(textdata);
@@ -169,13 +138,7 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 	}
 
 	g_free(textdata);
-	
-	if (data == NULL) {
-		data = pgpinline_new_privacydata();
-		mimeinfo->privacy = (PrivacyData *) data;
-	}
-	
-	data->done_sigtest = TRUE;
+
 	data->is_signed = TRUE;
 
 	return TRUE;
@@ -197,7 +160,7 @@ static gint pgpinline_check_signature(MimeInfo *mimeinfo)
 	g_return_val_if_fail(mimeinfo->privacy != NULL, 0);
 	data = (PrivacyDataPGP *) mimeinfo->privacy;
 
-	textdata = get_part_as_string(mimeinfo, -1);
+	textdata = get_part_as_string(mimeinfo);
 	if (!textdata)
 		return 0;
 
@@ -267,7 +230,7 @@ static gboolean pgpinline_is_encrypted(MimeInfo *mimeinfo)
 	if (mimeinfo->type != MIMETYPE_TEXT)
 		return FALSE;
 	
-	textdata = get_part_as_string(mimeinfo, 30);
+	textdata = get_part_as_string(mimeinfo);
 	if (!textdata)
 		return FALSE;
 	
@@ -308,7 +271,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 		return NULL;
 	
 
-	textdata = get_part_as_string(mimeinfo, -1);
+	textdata = get_part_as_string(mimeinfo);
 	if (!textdata)
 		return NULL;
 
@@ -441,6 +404,7 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo)
 
 	gpgme_release(ctx);
 	sigcontent = gpgme_data_release_and_get_mem(gpgsig, &len);
+	sigcontent[len] = '\0';
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
 
@@ -520,6 +484,7 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 
 	gpgme_release(ctx);
 	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
+	enccontent[len] = '\0';
 	gpgme_recipients_release(recp);
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
