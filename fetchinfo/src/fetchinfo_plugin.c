@@ -119,6 +119,7 @@ static gboolean mail_receive_hook(gpointer source, gpointer data)
 	g_free(newheaders);
 	g_free(mail_receive_data->data);
 	mail_receive_data->data = newdata;
+	mail_receive_data->data_len = strlen(newdata);
 	return FALSE;
 }
 
@@ -157,7 +158,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 12, 0))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 13, 25))) {
 		*error = g_strdup("Your sylpheed version is too old");
 		return -1;
 	}
