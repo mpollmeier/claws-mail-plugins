@@ -48,6 +48,7 @@ struct _GhostscriptViewer
 	gdouble prev_x, prev_y;
 	gint page;
 	gint pages;
+	gfloat zoom;
 
 	GtkWidget *viewer;
 	GtkWidget *gs;
@@ -100,6 +101,7 @@ static void ghostscript_viewer_show_mimepart(MimeViewer *_mimeviewer, const gcha
 
 		gtk_gs_set_antialiasing(gs, ghostscriptviewerprefs.antialiasing);
 		gtk_gs_set_respect_eof(gs, ghostscriptviewerprefs.respect_eof);
+		gtk_gs_set_zoom(gs, ghostscriptviewer->zoom);
 		gtk_gs_load(gs, ghostscriptviewer->filename);
 		gtk_gs_set_page_size(gs, -1, 0);
 
@@ -118,6 +120,7 @@ static void ghostscript_viewer_clear_viewer(MimeViewer *_mimeviewer)
 	unlink(ghostscriptviewer->filename);
 	g_free(ghostscriptviewer->filename);
 	ghostscriptviewer->filename = NULL;
+	ghostscriptviewer->zoom = 1.0;
 }
 
 static void ghostscript_viewer_destroy_viewer(MimeViewer *_mimeviewer)
@@ -217,6 +220,20 @@ void prevpage_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
 	update_page_buttons(ghostscriptviewer);
 }
 
+void zoomin_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+{
+	ghostscriptviewer->zoom = ghostscriptviewer->zoom * 1.2;
+
+	gtk_gs_set_zoom(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->zoom);
+}
+
+void zoomout_cb(GtkWidget *widget, GhostscriptViewer *ghostscriptviewer)
+{
+	ghostscriptviewer->zoom = ghostscriptviewer->zoom / 1.2;
+
+	gtk_gs_set_zoom(GTK_GS(ghostscriptviewer->gs), ghostscriptviewer->zoom);
+}
+
 MimeViewer *ghostscript_viewer_create(void)
 {
 	GhostscriptViewer *ghostscriptviewer;
@@ -297,13 +314,11 @@ MimeViewer *ghostscript_viewer_create(void)
 //	gtk_range_set_adjustment(GTK_RANGE(hscrollbar), GTK_ADJUSTMENT(hadj));
 //	gtk_range_set_adjustment(GTK_RANGE(vscrollbar), GTK_ADJUSTMENT(vadj));
 
-	gtk_widget_set_sensitive(zoomin_btn, FALSE);
-	gtk_widget_set_sensitive(zoomout_btn, FALSE);
-
 	ghostscriptviewer->viewer = viewer;
 	ghostscriptviewer->gs = gs;
 	ghostscriptviewer->nextpage_btn = nextpage_btn;
 	ghostscriptviewer->prevpage_btn = prevpage_btn;
+	ghostscriptviewer->zoom = 1.0;
 
 	gtk_signal_connect(GTK_OBJECT(gs), "button_press_event",
                 	   GTK_SIGNAL_FUNC(button_press_callback), ghostscriptviewer);
@@ -317,6 +332,10 @@ MimeViewer *ghostscript_viewer_create(void)
                            GTK_SIGNAL_FUNC(nextpage_cb), ghostscriptviewer);
         gtk_signal_connect(GTK_OBJECT(prevpage_btn), "released",
                            GTK_SIGNAL_FUNC(prevpage_cb), ghostscriptviewer);
+        gtk_signal_connect(GTK_OBJECT(zoomin_btn), "released",
+                           GTK_SIGNAL_FUNC(zoomin_cb), ghostscriptviewer);
+        gtk_signal_connect(GTK_OBJECT(zoomout_btn), "released",
+                           GTK_SIGNAL_FUNC(zoomout_cb), ghostscriptviewer);
 
 	return (MimeViewer *) ghostscriptviewer;
 }
