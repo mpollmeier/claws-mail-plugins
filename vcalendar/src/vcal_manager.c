@@ -334,8 +334,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 			icalproperty_new_description(event->description),
 			icalproperty_new_summary(event->summary),
 			icalproperty_new_sequence(event->sequence + 1),
-			icalproperty_new_class("PUBLIC"),
-			icalproperty_new_transp("OPAQUE"),
+			icalproperty_new_class(ICAL_CLASS_PUBLIC),
+			icalproperty_new_transp(ICAL_TRANSP_OPAQUE),
                 	orgprop,
                 	0
                 	);
@@ -451,11 +451,15 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->uid 		= g_strdup(uid?uid:"");
 	event->organizer 	= g_strdup(organizer?organizer:"");
 
-	if (dtend) 
-		event->end	= g_strdup(icaltime_as_ctime(icaltime_as_local(icaltime_from_string(dtend))));
+	if (dtend) {
+		time_t tmp = icaltime_as_timet(icaltime_as_local(icaltime_from_string(dtend)));
+		event->end	= g_strdup(ctime(&tmp));
+	}
 	
-	if (dtstart)
-		event->start	= g_strdup(icaltime_as_ctime(icaltime_as_local(icaltime_from_string(dtstart))));
+	if (dtstart) {
+		time_t tmp = icaltime_as_timet(icaltime_as_local(icaltime_from_string(dtstart)));
+		event->start	= g_strdup(ctime(&tmp));
+	}
 
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");

@@ -752,8 +752,8 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
 	if (iprop) {
 		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtstart(iprop));
-		gtk_label_set_text(GTK_LABEL(vcalviewer->start), 
-			icaltime_as_ctime(itt));
+		time_t tmp = icaltime_as_timet(itt);
+		gtk_label_set_text(GTK_LABEL(vcalviewer->start), ctime(&tmp));
 		icalproperty_free(iprop);
 	} else
 		gtk_label_set_text(GTK_LABEL(vcalviewer->start), "-");
@@ -761,8 +761,8 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
 	if (iprop) {
 		struct icaltimetype itt = icaltime_as_local(icalproperty_get_dtstart(iprop));
-		gtk_label_set_text(GTK_LABEL(vcalviewer->end), 
-			icaltime_as_ctime(itt));
+		time_t tmp = icaltime_as_timet(itt);
+		gtk_label_set_text(GTK_LABEL(vcalviewer->end), ctime(&tmp));
 		icalproperty_free(iprop);
 	} else
 		gtk_label_set_text(GTK_LABEL(vcalviewer->end), "-");
