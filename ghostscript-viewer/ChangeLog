@@ -1,3 +1,8 @@
+2003-08-23 [christoph]
+
+	* src/plugin.c
+		add version checks
+
 2003-08-05 [christoph]
 
 	* src/Makefile.am
