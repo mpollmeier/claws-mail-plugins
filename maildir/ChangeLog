@@ -1,3 +1,11 @@
+2004-11-21 [christoph]
+
+	* src/maildir.c
+		remove printfs
+
+	* src/maildir_gtk.c
+		update for changed function name in sylpheed
+
 2004-09-24 [christoph]
 
 	* src/maildir.c
