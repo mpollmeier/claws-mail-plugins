@@ -608,7 +608,6 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	gchar * uid = vcalviewer_get_uid_from_mimeinfo(mimeinfo);
 	gint sequence = 0;
 	
-	printf("charset %s\n", charset);
 	if (!charset)
 		charset=CS_ISO_8859_1;
 		
