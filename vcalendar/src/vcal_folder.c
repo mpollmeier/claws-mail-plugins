@@ -1,7 +1,7 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Sylpheed-Claws team
- * This file (C) 2004 Colin Leroy <colin@colino.net>
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto & the Sylpheed-Claws team
+ * This file (C) 2004-2005 Colin Leroy <colin@colino.net>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ static gint vcal_remove_folder(Folder *folder, FolderItem *item);
 static gboolean vcal_scan_required(Folder *folder, FolderItem *item);
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags);
 static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget);
-/*static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);*/
+static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 
 FolderClass vcal_class;
@@ -100,7 +100,7 @@ struct _VCalFolderItem
 static GtkItemFactoryEntry vcal_popup_entries[] =
 {
 	{N_("/_New meeting..."), NULL, new_meeting_cb,	0, NULL},
-/*	{N_("/_Export calendar..."), NULL, export_cal_cb,	0, NULL},*/
+	{N_("/_Export calendar..."), NULL, export_cal_cb,	0, NULL},
 	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
 };
 
@@ -514,8 +514,8 @@ GSList * vcal_folder_get_waiting_events(void)
 		
 	return list;
 }
-/*
+
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
-
-}*/
+	vcal_meeting_export_calendar();
+}

@@ -38,6 +38,7 @@
 #include "vcal_prefs.h"
 #include "prefs_account.h"
 #include "account.h"
+#include "filesel.h"
 #include "alertpanel.h"
 #include "addr_compl.h"
 #include "icaltime_as_local.h"
@@ -768,4 +769,48 @@ gint vcal_meeting_alert_check(gpointer data)
 	g_slist_free(events);
 
 	return TRUE;
+}
+
+void vcal_meeting_export_calendar(void)
+{
+	GSList *list = vcal_folder_get_waiting_events();
+	GSList *cur;
+	icalcomponent *calendar = NULL;
+	gchar *file = NULL;
+	
+	if (g_slist_length(list) == 0) {
+		g_slist_free(list);
+		alertpanel_with_type(_("Empty calendar"),
+				     _("There is nothing to export."),
+				     _("Ok"), NULL, NULL,
+				     NULL, ALERT_NOTICE);
+		return;
+	}
+	
+	calendar = 
+        	icalcomponent_vanew(
+        	    ICAL_VCALENDAR_COMPONENT,
+	            icalproperty_new_version("2.0"),
+        	    icalproperty_new_prodid(
+                	 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
+		    icalproperty_new_calscale("GREGORIAN"),
+        	    0
+            ); 	
+
+	for (cur = list; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+		vcal_manager_event_dump(event, FALSE, FALSE, calendar);
+		vcal_manager_free_event(event);
+	}
+
+	file = filesel_select_file_save("Export calendar to ICS", NULL);
+
+	if (file) {
+		if (str_write_to_file(icalcomponent_as_ical_string(calendar), file) < 0)
+			alertpanel_error(_("Could not save the file."));
+
+		g_free(file);
+	}
+	icalcomponent_free(calendar);
+	g_slist_free(list);
 }
