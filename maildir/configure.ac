@@ -1,7 +1,8 @@
 AC_INIT(src/plugin.c)
+AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-AM_INIT_AUTOMAKE(maildir, 0.2, no-define)
+AM_INIT_AUTOMAKE(maildir, 0.3, no-define)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -39,4 +40,5 @@ AM_PATH_GTK(1.2.6,,
 AC_OUTPUT([
 Makefile
 src/Makefile
+config/Makefile
 ])

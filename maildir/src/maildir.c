@@ -157,21 +157,35 @@ static gint open_database(MaildirFolderItem *item)
 	g_free(path);
 
 	/* open uid key based database */
-	if ((ret = db_create(&item->db_uidkey, ((MaildirFolder *) FOLDER_ITEM(item)->folder)->dbenv, 0)) != 0)
+	if ((ret = db_create(&item->db_uidkey, ((MaildirFolder *) FOLDER_ITEM(item)->folder)->dbenv, 0)) != 0) {
+		debug_print("db_create: %s\n", db_strerror(ret));
 		return -1;
-	if ((ret = item->db_uidkey->open(item->db_uidkey, NULL, database, "uidkey", DB_BTREE, DB_CREATE, 0600)) != 0)
+	}
+	if ((ret = item->db_uidkey->open(item->db_uidkey, NULL, database, "uidkey", DB_BTREE, DB_CREATE, 0600)) != 0) {
+		debug_print("DB->open: %s\n", db_strerror(ret));
+		item->db_uidkey->close(item->db_uidkey, 0);
 		return -1;
+	}
 	debug_print("UID based database opened\n");
 
 	/* open uniq key based database */
-	if ((ret = db_create(&item->db_uniqkey, ((MaildirFolder *) FOLDER_ITEM(item)->folder)->dbenv, 0)) != 0)
+	if ((ret = db_create(&item->db_uniqkey, ((MaildirFolder *) FOLDER_ITEM(item)->folder)->dbenv, 0)) != 0) {
+		debug_print("db_create: %s\n", db_strerror(ret));
 		return -1;
-	if ((ret = item->db_uniqkey->open(item->db_uniqkey, NULL, database, "uniqkey", DB_BTREE, DB_CREATE, 0600)) != 0)
+	}
+	if ((ret = item->db_uniqkey->open(item->db_uniqkey, NULL, database, "uniqkey", DB_BTREE, DB_CREATE, 0600)) != 0) {
+		debug_print("DB->open: %s\n", db_strerror(ret));
+		item->db_uniqkey->close(item->db_uidkey, 0);
 		return -1;
+	}
 	debug_print("Uniq based database opened\n");
 
-	if ((ret = item->db_uidkey->associate(item->db_uidkey, NULL, item->db_uniqkey, getuniq, 0)) != 0)
+	if ((ret = item->db_uidkey->associate(item->db_uidkey, NULL, item->db_uniqkey, getuniq, 0)) != 0) {
+		debug_print("DB->associate: %s\n", db_strerror(ret));
+		item->db_uidkey->close(item->db_uidkey, 0);
+		item->db_uniqkey->close(item->db_uidkey, 0);
 		return -1;
+	}
 	debug_print("Databases associated\n");
 
 	return 0;
@@ -186,6 +200,8 @@ static void build_tree(GNode *node, glob_t *globbuf)
         for (i = 0; i < globbuf->gl_pathc; i++) {
 		FolderItem *newitem;
 		GNode *newnode;
+		gchar *tmpstr;
+		gboolean res;
 
                 if (globbuf->gl_pathv[i][0] == '.' && globbuf->gl_pathv[i][1] == '\0')
                         continue;
@@ -201,6 +217,12 @@ static void build_tree(GNode *node, glob_t *globbuf)
 
                 if (!is_dir_exist(globbuf->gl_pathv[i]))
                         continue;
+
+		tmpstr = g_strconcat(globbuf->gl_pathv[i], "/cur", NULL);
+                res = is_dir_exist(tmpstr);
+		g_free(tmpstr);
+		if (!res)
+			continue;
 
 		newitem = folder_item_new(parent->folder, &(globbuf->gl_pathv[i][strlen(prefix) + 1]), globbuf->gl_pathv[i]);
 		newitem->folder = parent->folder;
@@ -342,6 +364,8 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 
 	if (item->db_uidkey == NULL)
 		if (open_database(item) < 0) return 0;
+
+	g_return_val_if_fail(item->db_uniqkey != NULL, 0);
 
 	Xstrdup_a(tmpfilename, filename, return 0);
 	uniq = tmpfilename;

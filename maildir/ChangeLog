@@ -1,3 +1,8 @@
+2004-01-12 [christoph]
+
+	* src/maildir.c
+		ignore folders without cur directory
+
 2004-01-01 [christoph]
 
 	* src/maildir.c
