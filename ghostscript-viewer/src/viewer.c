@@ -137,8 +137,8 @@ static void ghostscript_viewer_destroy_viewer(MimeViewer *_mimeviewer)
 	g_free(ghostscriptviewer);
 }
 
-void button_press_callback(GtkWidget * widget, GdkEventButton * event,
-			   gpointer data)
+gboolean button_press_callback(GtkWidget * widget, GdkEventButton * event,
+	   		       gpointer data)
 {
 	GhostscriptViewer *ghostscriptviewer = (GhostscriptViewer *) data;
 	GtkGS *gs = GTK_GS(ghostscriptviewer->gs);
@@ -163,14 +163,16 @@ void button_press_callback(GtkWidget * widget, GdkEventButton * event,
 			ghostscriptviewer->prev_y = wy;
 			gtk_gs_start_scroll(gs);
 		}
-		break;
+		return TRUE;
 	default:
 		break;
 	}
+
+	return FALSE;
 }
 
-void button_release_callback(GtkWidget * widget, GdkEventButton * event,
-			     gpointer data)
+gboolean button_release_callback(GtkWidget * widget, GdkEventButton * event,
+			         gpointer data)
 {
 	GhostscriptViewer *ghostscriptviewer = (GhostscriptViewer *) data;
 	GtkGS *gs = GTK_GS(ghostscriptviewer->gs);
@@ -184,14 +186,17 @@ void button_release_callback(GtkWidget * widget, GdkEventButton * event,
 			gtk_grab_remove(widget);
 			gtk_gs_end_scroll(gs);
 		}
-		break;
+		return TRUE;
 	case 3:
 		gtk_menu_popup(GTK_MENU(ghostscriptviewer->popupmenu),
 			       NULL, NULL, NULL, NULL,
 			       button, event->time);
+		return TRUE;
 	default:
 		break;
 	}
+
+	return FALSE;
 }
 
 void motion_callback(GtkWidget * widget, GdkEventMotion * event,

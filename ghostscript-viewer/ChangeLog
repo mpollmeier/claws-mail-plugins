@@ -1,6 +1,11 @@
 2004-07-26 [christoph]
 
 	* src/viewer.c
+		use correct callback prototypes
+
+2004-07-26 [christoph]
+
+	* src/viewer.c
 	* src/viewer.glade
 		add a popup menu with additional functions "Fit Page" and
 		"Fit width"
