@@ -1,3 +1,9 @@
+2005-03-19 [holger]	0.2cvs6
+
+	* src/perl_plugin.c
+		Add button to open filter scriptfile in
+		an external editor upon filter script errors.
+
 2005-03-18 [holger]	0.2cvs5
 
 	* src/perl_plugin.c

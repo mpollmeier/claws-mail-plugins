@@ -42,10 +42,12 @@
 #include "statusbar.h"
 #include "alertpanel.h"
 #include "hooks.h"
+#include "prefs_common.h"
 
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 #include <EXTERN.h>
@@ -89,6 +91,38 @@ static gboolean          manual_filtering     = FALSE;
 static FILE              *message_file        = NULL;
 static gchar             *attribute_key       = NULL;
 
+
+/* Utility functions */
+
+/* fire and forget */
+static gint execute_detached(gchar **cmdline)
+{
+  pid_t pid;
+  
+  if((pid = fork()) < 0) { /* fork error */
+    perror("fork");
+    return 0;
+  }
+  else if(pid > 0) {       /* parent */
+    waitpid(pid, NULL, 0);
+    return 1;
+  }
+  else {                   /* child */
+    if((pid = fork()) < 0) { /* fork error */
+      perror("fork");
+      return 0;
+    }
+    else if(pid > 0) {       /* child */
+      /* make grand child an orphan */
+      _exit(0);
+    }
+    else {                   /* grand child */
+      execvp(cmdline[0], cmdline);
+      perror("execvp");
+      _exit(1);
+    }
+  }
+}
 
 /* Addressbook interface */
 
@@ -1137,15 +1171,19 @@ EXTERN_C void xs_init(pTHX)
 /*
  * The workhorse.
  * Returns: 0 on success
- *          1 error in scriptfile -> retry
+ *          1 error in scriptfile or invocation of external
+ *            editor              -> retry
  *          2 error in scriptfile -> abort
  * (Yes, I know..)
  */
 static int perl_load_file(void)
 {
-  char *args[] = {"", DO_CLEAN, NULL};
-  char *noargs[] = { NULL };
-  char *perlfilter;
+  gchar *args[] = {"", DO_CLEAN, NULL};
+  gchar *noargs[] = { NULL };
+  gchar *perlfilter;
+  gchar **cmdline;
+  gchar buf[1024];
+  gchar *pp;
   STRLEN n_a;
 
   call_argv("SylpheedClaws::Filter::Matcher::filter_init_",
@@ -1166,17 +1204,40 @@ static int perl_load_file(void)
 
     if(strstr(SvPV(ERRSV,n_a),"intended"))
       return 0;
+
     debug_print("%s", SvPV(ERRSV,n_a));
     message = g_strdup_printf("Error processing Perl script file: "
 			      "(line numbers may not be valid)\n%s",
 			      SvPV(ERRSV,n_a));
-    val = alertpanel("Perl plugin error",message,"Retry","Abort",NULL);
+    val = alertpanel("Perl plugin error",message,"Retry","Abort","Edit");
     g_free(message);
-    if(val == G_ALERTDEFAULT)
+
+    if(val == G_ALERTOTHER) {
+      /* Open PERLFILTER in an external editor */
+      perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
+      if (prefs_common.ext_editor_cmd &&
+	  (pp = strchr(prefs_common.ext_editor_cmd, '%')) &&
+	  *(pp + 1) == 's' && !strchr(pp + 2, '%')) {
+	g_snprintf(buf, sizeof(buf), prefs_common.ext_editor_cmd, perlfilter);
+      }
+      else {
+	if (prefs_common.ext_editor_cmd)
+	  g_warning("External editor command line is invalid: `%s'\n",
+		    prefs_common.ext_editor_cmd);
+	g_snprintf(buf, sizeof(buf), "emacs %s", perlfilter);
+      }
+      g_free(perlfilter);
+      cmdline = strsplit_with_quote(buf, " ", 1024);
+      execute_detached(cmdline);
+      g_strfreev(cmdline);
+      return 1;
+    }
+    else if(val == G_ALERTDEFAULT)
       return 1;
     else
       return 2;
   }
+
   return 0;
 }
 
