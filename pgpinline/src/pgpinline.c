@@ -352,7 +352,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	return decinfo;
 }
 
-static gboolean pgpinline_sign(MimeInfo *mimeinfo)
+static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 {
 	MimeInfo *msgcontent;
 	gchar *textstr, *tmp;
@@ -392,7 +392,9 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo)
 	gpgme_new(&ctx);
 	gpgme_set_textmode(ctx, 1);
 	gpgme_set_armor(ctx, 1);
-	gpgme_signers_clear(ctx);
+
+	if (!sgpgme_setup_signers(ctx, account))
+		return FALSE;
 
 	if (!getenv("GPG_AGENT_INFO")) {
     		info.c = ctx;
