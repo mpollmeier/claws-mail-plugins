@@ -31,7 +31,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.4claws1)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.12cvs45)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
