@@ -568,6 +568,7 @@ static MimeInfo * decrypt(MimeInfo *mimeinfo)
 
 
 static PrivacySystem etpan_privacy_system = {
+	"etpan-privacy",
 	"etPan! Privacy",               /* name */
 
 	free_privacydata,	        /* free_privacydata */
