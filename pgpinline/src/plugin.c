@@ -64,7 +64,8 @@ const gchar *plugin_desc(void)
 		 "digitally signed messages, and decryption of "
 		 "encrypted messages. \n"
 		 "\n"
-		 "You don't need it to send signed or encrypted emails.");
+		 "It also lets you send signed and encrypted "
+		 "messages.");
 }
 
 const gchar *plugin_type(void)

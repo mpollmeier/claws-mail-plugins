@@ -4,8 +4,7 @@ plugin_LTLIBRARIES = pgpinline.la
 
 pgpinline_la_SOURCES = \
 	plugin.c \
-	pgpinline.c pgpinline.h \
-	sgpgme.c sgpgme.h
+	pgpinline.c pgpinline.h 
 
 pgpinline_la_LDFLAGS = \
 	-avoid-version -module \

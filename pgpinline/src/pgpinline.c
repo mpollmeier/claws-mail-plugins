@@ -32,8 +32,9 @@
 #include "privacy.h"
 #include "procmime.h"
 #include "pgpinline.h"
-#include "sgpgme.h"
+#include "plugins/pgpmime/sgpgme.h"
 #include "plugins/pgpmime/prefs_gpg.h"
+#include "plugins/pgpmime/passphrase.h"
 #include "quoted-printable.h"
 #include "base64.h"
 #include "codeconv.h"
@@ -388,6 +389,153 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	return decinfo;
 }
 
+gboolean pgpinline_sign(MimeInfo *mimeinfo)
+{
+	MimeInfo *msgcontent;
+	gchar *textstr, *tmp;
+	FILE *fp;
+	gchar *sigcontent;
+	GpgmeCtx ctx;
+	GpgmeData gpgtext, gpgsig;
+	guint len;
+	struct passphrase_cb_info_s info;
+  
+	memset (&info, 0, sizeof info);
+
+	/* get content node from message */
+	msgcontent = (MimeInfo *) mimeinfo->node->children->data;
+
+	/* get rid of quoted-printable or anything */
+	procmime_decode_content(msgcontent);
+
+	fp = my_tmpfile();
+	procmime_write_mimeinfo(msgcontent, fp);
+	rewind(fp);
+
+	/* read temporary file into memory */
+	textstr = file_read_stream_to_str(fp);
+	
+	/* gtk2: convert back from utf8 */
+	tmp = conv_codeset_strdup(textstr, CS_UTF_8, 
+			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
+	g_free(textstr);
+	textstr = tmp;
+
+	fclose(fp);
+		
+	gpgme_data_new_from_mem(&gpgtext, textstr, strlen(textstr), 0);
+	gpgme_data_new(&gpgsig);
+	gpgme_new(&ctx);
+	gpgme_set_textmode(ctx, 1);
+	gpgme_set_armor(ctx, 1);
+	gpgme_signers_clear(ctx);
+
+	if (!getenv("GPG_AGENT_INFO")) {
+    		info.c = ctx;
+    		gpgme_set_passphrase_cb (ctx, gpgmegtk_passphrase_cb, &info);
+	}
+
+	if (gpgme_op_sign(ctx, gpgtext, gpgsig, GPGME_SIG_MODE_CLEAR) 
+	    != GPGME_No_Error)
+		return FALSE;
+
+	gpgme_release(ctx);
+	sigcontent = gpgme_data_release_and_get_mem(gpgsig, &len);
+	gpgme_data_release(gpgtext);
+	g_free(textstr);
+
+	if (msgcontent->content == MIMECONTENT_FILE &&
+	    msgcontent->data.filename != NULL) {
+		unlink(msgcontent->data.filename);
+		g_free(msgcontent->data.filename);
+	}
+	msgcontent->data.mem = g_strdup(sigcontent);
+	msgcontent->content = MIMECONTENT_MEM;
+	g_free(sigcontent);
+
+	/* avoid all sorts of clear-signing problems with non ascii
+	 * chars
+	 */
+	procmime_encode_content(msgcontent, ENC_BASE64);
+			
+	return TRUE;
+}
+
+gchar *pgpinline_get_encrypt_data(GSList *recp_names)
+{
+	return sgpgme_get_encrypt_data(recp_names);
+}
+
+gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
+{
+	MimeInfo *msgcontent;
+	FILE *fp;
+	gchar *enccontent;
+	guint len;
+	gchar *textstr, *tmp;
+	GpgmeData gpgtext, gpgenc;
+	gchar **recipients, **nextrecp;
+	GpgmeRecipients recp;
+	GpgmeCtx ctx;
+
+	/* build GpgmeRecipients from encrypt_data */
+	recipients = g_strsplit(encrypt_data, " ", 0);
+	gpgme_recipients_new(&recp);
+	for (nextrecp = recipients; *nextrecp != NULL; nextrecp++) {
+		gpgme_recipients_add_name_with_validity(recp, *nextrecp,
+							GPGME_VALIDITY_FULL);
+	}
+	g_strfreev(recipients);
+
+	debug_print("Encrypting message content\n");
+
+	/* get content node from message */
+	msgcontent = (MimeInfo *) mimeinfo->node->children->data;
+
+	/* get rid of quoted-printable or anything */
+	procmime_decode_content(msgcontent);
+
+	fp = my_tmpfile();
+	procmime_write_mimeinfo(msgcontent, fp);
+	rewind(fp);
+
+	/* read temporary file into memory */
+	textstr = file_read_stream_to_str(fp);
+	
+	/* gtk2: convert back from utf8 */
+	tmp = conv_codeset_strdup(textstr, CS_UTF_8, 
+			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
+	g_free(textstr);
+	textstr = tmp;
+
+	fclose(fp);
+
+	/* encrypt data */
+	gpgme_data_new_from_mem(&gpgtext, textstr, strlen(textstr), 0);
+	gpgme_data_new(&gpgenc);
+	gpgme_new(&ctx);
+	gpgme_set_armor(ctx, 1);
+
+	gpgme_op_encrypt(ctx, recp, gpgtext, gpgenc);
+
+	gpgme_release(ctx);
+	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
+	gpgme_recipients_release(recp);
+	gpgme_data_release(gpgtext);
+	g_free(textstr);
+
+	if (msgcontent->content == MIMECONTENT_FILE &&
+	    msgcontent->data.filename != NULL) {
+		unlink(msgcontent->data.filename);
+		g_free(msgcontent->data.filename);
+	}
+	msgcontent->data.mem = g_strdup(enccontent);
+	msgcontent->content = MIMECONTENT_MEM;
+	g_free(enccontent);
+
+	return TRUE;
+}
+
 static PrivacySystem pgpinline_system = {
 	"pgpinline",			/* id */
 	"PGP Inline",			/* name */
@@ -403,12 +551,12 @@ static PrivacySystem pgpinline_system = {
 	pgpinline_is_encrypted,		/* is_encrypted(MimeInfo *) */
 	pgpinline_decrypt,		/* decrypt(MimeInfo *) */
 
-	FALSE,
-	NULL,
+	TRUE,
+	pgpinline_sign,
 
-	FALSE,
-	NULL,
-	NULL,
+	TRUE,
+	pgpinline_get_encrypt_data,
+	pgpinline_encrypt,
 };
 
 void pgpinline_init()
