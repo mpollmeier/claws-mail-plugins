@@ -1,0 +1,123 @@
+# Copyright (C) 2004 Christoph Hohmann
+msgid ""
+msgstr ""
+"Project-Id-Version: Sylpheed-Claws Ghostscript-Viewer 0.6\n"
+"Report-Msgid-Bugs-To: reboot@gmx.ch\n"
+"POT-Creation-Date: 2004-06-30 17:45+0200\n"
+"PO-Revision-Date: 2004-06-30 16:33+2\n"
+"Last-Translator: Christoph Hohmann <reboot@gmx.ch>\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/libgtkgs/ggvutils.c:44
+msgid "Portrait"
+msgstr "Hochformat"
+
+#: src/libgtkgs/ggvutils.c:45
+msgid "Landscape"
+msgstr "Querformat"
+
+#: src/libgtkgs/ggvutils.c:46
+msgid "Upside Down"
+msgstr "Kopfstehend"
+
+#: src/libgtkgs/ggvutils.c:47
+msgid "Seascape"
+msgstr "Umgekehrtes Querformat"
+
+#: src/libgtkgs/ggvutils.c:52
+msgid "inch"
+msgstr "Inch"
+
+#: src/libgtkgs/ggvutils.c:53
+msgid "mm"
+msgstr "mm"
+
+#: src/libgtkgs/ggvutils.c:54
+msgid "cm"
+msgstr "cm"
+
+#: src/libgtkgs/ggvutils.c:55
+msgid "point"
+msgstr "Punkt"
+
+#: src/libgtkgs/gtkgs.c:950
+msgid "Broken pipe."
+msgstr "Datenstrom abgebrochen"
+
+#: src/libgtkgs/gtkgs.c:1237
+#, c-format
+msgid "Error while decompressing file %s:\n"
+msgstr "Fehler beim dekomprimieren der Datei %s:\n"
+
+#: src/libgtkgs/gtkgs.c:1314
+#, c-format
+msgid "Error while scanning pdf file %s:\n"
+msgstr "Fehler beim analysieren der PDF Datei %s:\n"
+
+#: src/libgtkgs/gtkgs.c:1623
+#, c-format
+msgid "Cannot open file %s\n"
+msgstr "Kann Datei %s nicht öffnen\n"
+
+#: src/libgtkgs/gtkgs.c:1645
+#, c-format
+msgid "Error while scanning file %s\n"
+msgstr "Fehler beim analysieren der Datei %s\n"
+
+#: src/plugin.c:35
+msgid ""
+"Your sylpheed version is newer than the version the plugin was built with"
+msgstr ""
+"Ihre Sylpheed Version ist neuer als die Version mit der das Plugin gebaut "
+"wurde"
+
+#: src/plugin.c:40
+msgid "Your sylpheed version is too old"
+msgstr "Ihre Sylpheed Version ist zu alt"
+
+#: src/plugin.c:57
+msgid "Ghostscript Viewer"
+msgstr "Ghostscript Betrachter"
+
+#: src/plugin.c:62
+msgid ""
+"This plugin provides a Viewer for Postscript and PDF documents for "
+"Sylpheed's MimeView"
+msgstr ""
+"Dieses Plugin bietet einen Betrachter für Postscript und PDF Dokumente in "
+"der Sylpheed MIME Ansicht"
+
+#: src/viewer.c:249
+msgid "Prev Page"
+msgstr "Vorherige Seite"
+
+#: src/viewer.c:254
+msgid "Next Page"
+msgstr "Nächste Seite"
+
+#: src/viewer.c:259
+msgid "Zoom in"
+msgstr "Vergrößern"
+
+#: src/viewer.c:264
+msgid "Zoom out"
+msgstr "Verkleinern"
+
+#: src/viewerprefs.c:78
+msgid "Antialiasing"
+msgstr "Kantenglättung"
+
+#: src/viewerprefs.c:91
+msgid "Respect EOF"
+msgstr "EOF beachten"
+
+#: src/viewerprefs.c:140
+msgid "failed to write GhostscriptViewer configuration to file\n"
+msgstr "Konnte Ghostscript Betrachter Konfiguration nicht in Datei schreiben\n"
+
+#: src/viewerprefs.c:156
+msgid "Message View/Ghostscript Viewer"
+msgstr "Nachrichtenanzeige/Ghostscript Betrachter"

@@ -137,7 +137,7 @@ static void ghostscriptviewer_save_func(PrefsPage * _page)
 		return;
 
 	if (prefs_write_param(param, pfile->fp) < 0) {
-		g_warning("failed to write GhostscriptViewer configuration to file\n");
+		g_warning(_("failed to write GhostscriptViewer configuration to file\n"));
 		prefs_file_close_revert(pfile);
 		return;
 	}
@@ -153,7 +153,7 @@ void ghostscript_viewer_prefs_init(void)
 	prefs_set_default(param);
 	prefs_read_config(param, PREFS_BLOCK_NAME, COMMON_RC);
 
-	ghostscriptviewer_page.page.path = "Message View/Ghostscript Viewer";
+	ghostscriptviewer_page.page.path = _("Message View/Ghostscript Viewer");
 	ghostscriptviewer_page.page.create_widget = ghostscriptviewer_create_widget_func;
 	ghostscriptviewer_page.page.destroy_widget = ghostscriptviewer_destroy_widget_func;
 	ghostscriptviewer_page.page.save_page = ghostscriptviewer_save_func;

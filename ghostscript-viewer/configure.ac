@@ -2,7 +2,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=0.6
+PLUGINVERSION=0.7
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(ghostscript-viewer, $PLUGINVERSION, no-define)
 
@@ -14,6 +14,11 @@ AM_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
+
+ALL_LINGUAS="de"
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.12.1)
+AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 #
 # Find pkg-config
@@ -27,9 +32,9 @@ fi
 # Check for sylpheed-claws
 #
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.4claws1)
-SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
+SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
 #
@@ -59,6 +64,8 @@ AC_DEFINE_UNQUOTED(ALPHA_PARAMS, "$AA_PARMS", [Ghostscript antialiasing paramete
 AC_MSG_RESULT(Antialiasing parameters for Ghostscript: $AA_PARMS)
 
 AC_OUTPUT([
+po/Makefile.in
+m4/Makefile 
 Makefile
 config/Makefile
 src/Makefile
