@@ -1,4 +1,9 @@
-2004-11-06 [colin]
+2004-11-08 [colin]
+
+	* src/pgpinline.[ch]
+		Fix missing statics, header file
+
+2004-11-06 [colin]	0.3
 
 	* src/pgpinline.c
 	* src/plugin.c

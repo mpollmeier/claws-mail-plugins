@@ -17,10 +17,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PGPMIME_H
-#define PGPMIME_H 1
+#ifndef PGPINLINE_H
+#define PGPINLINE_H 1
 
-void pgpmime_init(void);
-void pgpmime_done(void);
+void pgpinline_init(void);
+void pgpinline_done(void);
 
-#endif /* PGPMIME_H */
+#endif /* PGPINLINE_H */
