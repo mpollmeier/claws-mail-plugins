@@ -218,7 +218,7 @@ static SignatureStatus pgpinline_get_sig_status(MimeInfo *mimeinfo)
 
 	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
 	    prefs_common.auto_check_signatures)
-		pgpmime_check_signature(mimeinfo);
+		pgpinline_check_signature(mimeinfo);
 
 	return sgpgme_sigstat_gpgme_to_privacy(data->ctx, data->sigstatus);
 }
@@ -231,7 +231,7 @@ static gchar *pgpinline_get_sig_info_short(MimeInfo *mimeinfo)
 
 	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
 	    prefs_common.auto_check_signatures)
-		pgpmime_check_signature(mimeinfo);
+		pgpinline_check_signature(mimeinfo);
 	
 	return sgpgme_sigstat_info_short(data->ctx, data->sigstatus);
 }

@@ -1,3 +1,13 @@
+2004-09-14 [colin]
+	
+	* src/pgpinline.c
+		Fix unresolved symbol
+
+2004-08-27 [colin]
+
+	* src/plugin.c
+		Fix plugin type
+
 2004-08-26 [paul]
 
 	* autogen.sh
