@@ -1,3 +1,10 @@
+2004-10-11 [colin]
+
+	* src/pgpinline.c
+	  src/sgpgme.c
+		Make pgp/inline work with the new privacy system
+		Patch by Christoph
+
 2004-09-29 [paul]
 
 	* src/pgpinline.c
