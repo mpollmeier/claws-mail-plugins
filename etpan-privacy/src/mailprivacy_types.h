@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_types.h,v 1.1 2003-12-10 04:31:50 hoa Exp $
+ * $Id: mailprivacy_types.h,v 1.1.1.1 2003-12-10 04:31:50 hoa Exp $
  */
 
 #ifndef MAIL_PRIVACY_TYPES_H

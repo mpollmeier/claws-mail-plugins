@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_gnupg.c,v 1.1 2003-12-10 04:31:37 hoa Exp $
+ * $Id: mailprivacy_gnupg.c,v 1.1.1.1 2003-12-10 04:31:37 hoa Exp $
  */
 
 #include "mailprivacy_gnupg.h"

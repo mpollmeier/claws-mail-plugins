@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_smime.h,v 1.1 2003-12-10 04:31:50 hoa Exp $
+ * $Id: mailprivacy_smime.h,v 1.1.1.1 2003-12-10 04:31:50 hoa Exp $
  */
 
 #ifndef MAILPRIVACY_SMIME_H

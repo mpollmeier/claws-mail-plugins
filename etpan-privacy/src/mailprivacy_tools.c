@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_tools.c,v 1.1 2003-12-10 04:31:43 hoa Exp $
+ * $Id: mailprivacy_tools.c,v 1.1.1.1 2003-12-10 04:31:43 hoa Exp $
  */
 
 #include "mailprivacy_tools.h"
