@@ -5,6 +5,7 @@ etPan! privacy plugin for sylpheed-claws
 
   This allow to use the privacy architecture of etPan!, so that drivers 
 implemented for etPan! can be immediately used in sylpheed-claws.
+This depends on libEtPan! 0.31 that can be found on http://libetpan.sf.net
 
 2. Limitation
 
