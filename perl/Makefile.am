@@ -4,4 +4,5 @@ EXTRA_DIST = \
 	COPYING \
 	INSTALL \
 	README \
-	ChangeLog
+	ChangeLog \
+	sc_perl.pod

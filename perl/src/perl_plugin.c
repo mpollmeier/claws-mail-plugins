@@ -1,10 +1,10 @@
 /*
  * perl_plugin -- Perl Support for Sylpheed-Claws
  *
- * Copyright (C) 2004   Holger Berndt <berndth@gmx.de>
+ * Copyright (C) 2004-2005   Holger Berndt
  *
  * Sylpheed is a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2003 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Sylpheed-Claws Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,31 +21,42 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#define HBPRINT printf
+
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 #include "pluginconfig.h"
 
-#include <string.h>
 #include <glib.h>
 
 #include "common/version.h"
 #include "common/defs.h"
 #include "common/utils.h"
+#include "common/sylpheed.h"
 #include "procmsg.h"
 #include "procheader.h"
 #include "folder.h"
 #include "account.h"
 #include "compose.h"
-#include "addr_compl.h"
+#include "addrindex.h"
+#include "addritem.h"
 #include "statusbar.h"
+#include "alertpanel.h"
+#include "hooks.h"
+
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include <EXTERN.h>
 #include <perl.h>
 #include <XSUB.h>
 
+
 /* XSRETURN_UV was introduced in Perl 5.8.1,
-   this hopefully fixes things for 5.8.0.    */
+   this fixes things for 5.8.0.    */
 #ifndef XSRETURN_UV
 #  ifndef XST_mUV
 #    define XST_mUV(i,v)  (ST(i) = sv_2mortal(newSVuv(v))  )
@@ -53,20 +64,358 @@
 #  define XSRETURN_UV(v) STMT_START { XST_mUV(0,v);  XSRETURN(1); } STMT_END
 #endif /* XSRETURN_UV */
 
-#define DO_CLEAN "0"
+
+/* the name of the filtering Perl script file */
 #define PERLFILTER "perl_filter"
 
+/* set this to "1" to recompile the Perl script for every mail,
+   even if it hasn't changed */
+#define DO_CLEAN "0"
+
+/* embedded Perl stuff */
 static PerlInterpreter *my_perl = NULL;
-static void xs_init(pTHX);
+EXTERN_C void xs_init(pTHX);
 EXTERN_C void boot_DynaLoader (pTHX_ CV* cv);
 
-static guint hook_id;
+/* plugin stuff */
+static guint             filtering_hook_id;
 static MailFilteringData *mail_filtering_data = NULL;
-static MsgInfo *msginfo = NULL;
-static gboolean stop_filtering = FALSE;
-static FILE *message_file = NULL;
+static MsgInfo           *msginfo             = NULL;
+static gboolean          stop_filtering       = FALSE;
+static FILE              *message_file        = NULL;
+static gchar             *attribute_key;
 
 
+/* Addressbook interface */
+
+typedef struct {
+  gchar *address;
+  gchar *bookname;
+} EmailEntry;
+
+typedef struct {
+  gchar *address;
+  gchar *value;
+  gchar *bookname;
+} AttributeEntry;
+
+typedef struct {
+  GList *g_list;
+  time_t mtime;
+} TimedList;
+
+static TimedList  *email_list     = NULL;
+static GHashTable *attribute_hash = NULL;
+
+/* addressbook email collector callback */
+static gint add_to_email_list(ItemPerson *person, const gchar *bookname)
+{
+  EmailEntry *ee;
+  GList      *nodeM;
+
+  /* Process each E-Mail address */
+  nodeM = person->listEMail;
+  while(nodeM) {
+    ItemEMail *email = nodeM->data;
+    ee = g_new0(EmailEntry,1);
+    g_return_val_if_fail(ee != NULL, -1);
+
+    if(email->address != NULL) ee->address  = g_strdup(email->address);
+    else                       ee->address  = NULL;
+    if(bookname != NULL)       ee->bookname = g_strdup(bookname);
+    else                       ee->bookname = NULL;
+
+    email_list->g_list = g_list_prepend(email_list->g_list,ee);
+    nodeM = g_list_next(nodeM);
+  }
+  return 0;
+}
+
+/* free a GList of EmailEntry's. */
+static void free_EmailEntry_list(GList *list)
+{
+  GList *walk;
+
+  if(list == NULL)
+    return;
+
+  walk = g_list_first(list);
+  for(; walk != NULL; walk = g_list_next(walk)) {
+    EmailEntry *ee = (EmailEntry *) walk->data;
+    if(ee != NULL) {
+      if(ee->address  != NULL) g_free(ee->address);
+      if(ee->bookname != NULL) g_free(ee->bookname);
+      g_free(ee);
+      ee = NULL;
+    }
+  }
+  g_list_free(list);
+
+  HBPRINT("EmailEntry list freed\n");
+}
+
+/* free email_list */
+static void free_email_list(void)
+{
+  if(email_list == NULL)
+    return;
+
+  free_EmailEntry_list(email_list->g_list);
+  email_list->g_list = NULL;
+
+  g_free(email_list);
+  email_list = NULL;
+
+  HBPRINT("email_list freed\n");
+}
+
+/* check if tl->g_list exists and is recent enough */
+static gboolean update_TimedList(TimedList *tl)
+{
+  gboolean retVal;
+  gchar *indexfile;
+  struct stat filestat;
+
+  if(tl->g_list == NULL)
+    return TRUE;
+
+  indexfile = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, ADDRESSBOOK_INDEX_FILE, NULL);
+  if((stat(indexfile,&filestat) == 0) && filestat.st_mtime <= tl->mtime)
+     retVal = FALSE;
+  else
+    retVal = TRUE;
+
+  g_free(indexfile);
+  return retVal;
+}
+
+/* (re)initialize email list */
+static void init_email_list(void)
+{
+  gchar *indexfile;
+  struct stat filestat;
+
+  if(email_list->g_list != NULL) {
+    free_EmailEntry_list(email_list->g_list);
+    email_list->g_list = NULL;
+  }
+
+  addrindex_load_person_attribute(NULL,add_to_email_list);
+
+  indexfile = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, ADDRESSBOOK_INDEX_FILE, NULL);
+  if(stat(indexfile,&filestat) == 0)
+    email_list->mtime = filestat.st_mtime;
+  g_free(indexfile);
+  HBPRINT("Initialisation of email list completed\n");
+}
+
+/* check if given address is in given addressbook */
+static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
+{
+  GList *walk;	
+
+  /* check if email_list exists */
+  if(email_list == NULL) {
+    email_list = g_new0(TimedList,1);
+    email_list->g_list = NULL;
+    HBPRINT("email_list created\n");
+  }
+
+  if(update_TimedList(email_list))
+    init_email_list();
+
+  walk = g_list_first(email_list->g_list);
+  for(; walk != NULL; walk = g_list_next(walk)) {
+    EmailEntry *ee = (EmailEntry *) walk->data;
+    if((!g_strcasecmp(ee->address,addr)) &&
+       ((bookname == NULL) || (!strcmp(ee->bookname,bookname))))
+      return TRUE;
+  }
+  return FALSE;
+}
+
+/* attribute hash collector callback */
+static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
+{
+  TimedList *tl;
+  AttributeEntry *ae;
+  GList *nodeA;
+  GList *nodeM;
+
+  nodeA = person->listAttrib;
+  /* Process each User Attribute */
+  while(nodeA) {
+    UserAttribute *attrib = nodeA->data;
+    if(attrib->name && !strcmp(attrib->name,attribute_key) ) {
+      /* Process each E-Mail address */
+      nodeM = person->listEMail;
+      while(nodeM) {
+	ItemEMail *email = nodeM->data;
+
+	ae = g_new0(AttributeEntry,1);
+	g_return_val_if_fail(ae != NULL, -1);
+	
+	if(email->address != NULL) ae->address  = g_strdup(email->address);
+	else                       ae->address  = NULL;
+	if(attrib->value  != NULL) ae->value    = g_strdup(attrib->value);
+	else                       ae->value    = NULL;
+	if(bookname != NULL)       ae->bookname = g_strdup(bookname);
+	else                       ae->bookname = NULL;
+	
+	tl = (TimedList *) g_hash_table_lookup(attribute_hash,attribute_key);
+	tl->g_list = g_list_prepend(tl->g_list,ae);
+
+	nodeM = g_list_next(nodeM);
+      }
+    }
+    nodeA = g_list_next(nodeA);
+  }
+  
+  return 0;
+}
+
+/* free a key of the attribute hash */
+static gboolean free_attribute_hash_key(gpointer key, gpointer value, gpointer user_data)
+{
+  GList *walk;
+  TimedList *tl;
+
+  HBPRINT("Freeing key `%s' from attribute_hash\n",key?(char*)key:"");
+
+  tl = (TimedList *) value;
+
+  if(tl != NULL) {
+    if(tl->g_list != NULL) {
+      walk = g_list_first(tl->g_list);
+      for(; walk != NULL; walk = g_list_next(walk)) {
+	AttributeEntry *ae = (AttributeEntry *) walk->data;
+	if(ae != NULL) {
+	  if(ae->address  != NULL) g_free(ae->address);
+	  if(ae->value    != NULL) g_free(ae->value);
+	  if(ae->bookname != NULL) g_free(ae->bookname);
+	  g_free(ae);
+	  ae = NULL;
+	}
+      }
+      g_list_free(tl->g_list);
+      tl->g_list = NULL;
+    }
+    g_free(tl);
+    tl = NULL;
+  }
+
+  if(key != NULL) {
+    g_free(key);
+    key = NULL;
+  }
+
+  return TRUE;
+}
+
+/* free whole attribute hash */
+static void free_attribute_hash(void)
+{
+  if(attribute_hash == NULL)
+    return;
+
+  g_hash_table_foreach_remove(attribute_hash,free_attribute_hash_key,NULL);
+  g_hash_table_destroy(attribute_hash);
+  attribute_hash = NULL;
+
+  HBPRINT("attribute_hash freed\n");
+}
+
+/* Free the key if it exists. Insert the new key. */
+static void insert_attribute_hash(gchar *attr)
+{
+  TimedList *tl;
+  gchar *indexfile;
+  struct stat filestat;
+
+  /* Check if key exists. Free it if it does. */
+  if((tl = g_hash_table_lookup(attribute_hash,attr)) != NULL) {
+    gpointer origkey;
+    gpointer value;
+    g_hash_table_lookup_extended(attribute_hash,attr,&origkey,&value);
+    g_hash_table_remove(attribute_hash,origkey);
+    free_attribute_hash_key(origkey,value,NULL);
+    HBPRINT("Existing key `%s' freed.\n",attr);
+  }
+
+  tl = g_new0(TimedList,1);
+  tl->g_list = NULL;
+
+  attribute_key = g_strdup(attr);
+  g_hash_table_insert(attribute_hash,attribute_key,tl);  
+
+  addrindex_load_person_attribute(attribute_key,add_to_attribute_hash);
+
+  indexfile = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, ADDRESSBOOK_INDEX_FILE, NULL);
+  if(stat(indexfile,&filestat) == 0)
+    tl->mtime = filestat.st_mtime;
+  g_free(indexfile);
+
+  HBPRINT("added key `%s' to attribute_hash\n",attribute_key?attribute_key:"");
+}
+
+/* check if an update of the attribute hash entry is necessary */
+static gboolean update_attribute_hash(const gchar *attr)
+{
+  TimedList *tl;
+
+  /* check if key attr exists in the attribute hash */
+  if((tl = (TimedList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
+    return TRUE;
+
+  /* check if entry is recent enough */
+  return update_TimedList(tl);
+}
+
+/* given an email address, return attribute value of specific book */
+static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
+{
+  GList *walk;
+  TimedList *tl;
+
+  /* check if attribute hash exists */
+  if(attribute_hash == NULL) {
+    attribute_hash = g_hash_table_new(g_str_hash,g_str_equal);
+    HBPRINT("attribute_hash created\n");
+  }
+
+  if(update_attribute_hash(attr)) {
+    HBPRINT("Initialisation of attribute hash entry `%s' is necessary\n",attr);
+    insert_attribute_hash(attr);
+  }
+  
+  if((tl = (TimedList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
+    return NULL;  
+
+  walk = g_list_first(tl->g_list);
+  for(; walk != NULL; walk = g_list_next(walk)) {
+    AttributeEntry *ae = (AttributeEntry *) walk->data;
+    if(!g_strcasecmp(ae->address,email)) {
+      if((bookname == NULL) ||
+	 ((ae->bookname != NULL) && !strcmp(bookname,ae->bookname)))
+	return ae->value;
+    }
+  }
+  return NULL;
+}
+
+/* free up all memory allocated with lists */
+static void free_all_lists(void)
+{
+  /* email list */
+  free_email_list();
+
+  /* attribute hash */
+  free_attribute_hash();
+}
+
+
+
+/* SylpheedClaws::C module */
 
 /* Initialization */
 
@@ -145,7 +494,7 @@ static XS(XS_SylpheedClaws_filter_init)
   case 19:
     msginfo->hidden     ? XSRETURN_IV(msginfo->hidden)     : XSRETURN_UNDEF;
   case 20:
-    if(charp = procmsg_get_message_file_path(msginfo)) {
+    if((charp = procmsg_get_message_file_path(msginfo)) != NULL) {
       strncpy(buf,charp,sizeof(buf));
       g_free(charp);
       XSRETURN_PV(buf);
@@ -354,23 +703,29 @@ static XS(XS_SylpheedClaws_age_lower)
     XSRETURN_NO;
 }
 
-
-/* SylpheedClaws::C::addr_in_addressbook(char*) */
+/* SylpheedClaws::C::addr_in_addressbook(char* [, char*]) */
 static XS(XS_SylpheedClaws_addr_in_addressbook)
 {
-  char *addr;
+  gchar *addr;
+  gchar *bookname;
   gboolean found;
 
   dXSARGS;
-  if(items != 1) {
+  if(items != 1 && items != 2) {
     debug_print("Wrong number of arguments to SylpheedClaws::C::addr_in_addressbook\n");
-    XSRETURN_NO;
+    XSRETURN_UNDEF;
   }
 
   addr = SvPV_nolen(ST(0));
-  start_address_completion();
-  found = complete_address(addr);
-  end_address_completion();
+
+  if(items == 1) {
+    found = addr_in_addressbook(addr,NULL);
+  }
+  else {
+    bookname = SvPV_nolen(ST(1));
+    found = addr_in_addressbook(addr,bookname);
+  }
+
   if(found)
     XSRETURN_YES;
   XSRETURN_NO;
@@ -391,7 +746,7 @@ static XS(XS_SylpheedClaws_set_flag)
   dXSARGS;
   if(items != 1) {
     debug_print("Wrong number of arguments to SylpheedClaws::C::set_flag\n");
-    XSRETURN_NO;
+    XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
 
@@ -418,7 +773,8 @@ static XS(XS_SylpheedClaws_set_flag)
 static XS(XS_SylpheedClaws_unset_flag)
 {
   int flag;
-  /* flags:  1 unmark
+  /*
+   * flags:  1 unmark
    *         2 mark as read
    *         7 unlock
    */
@@ -426,7 +782,7 @@ static XS(XS_SylpheedClaws_unset_flag)
   dXSARGS;
   if(items != 1) {
     debug_print("Wrong number of arguments to SylpheedClaws::C::unset_flag\n");
-    XSRETURN_NO;
+    XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
 
@@ -458,7 +814,7 @@ static XS(XS_SylpheedClaws_move)
   dXSARGS;
   if(items != 1) {
     debug_print("Wrong number of arguments to SylpheedClaws::C::move\n");
-    XSRETURN_NO;
+    XSRETURN_UNDEF;
   }
 
   targetfolder = SvPV_nolen(ST(0));
@@ -606,7 +962,7 @@ static XS(XS_SylpheedClaws_forward)
 		       COMPOSE_NEWSGROUPS : COMPOSE_TO);
   val = compose_send(compose);
   gtk_widget_destroy(compose->window);
-  val == 0 ? XSRETURN_YES : XSRETURN_NO;
+  val == 0 ? XSRETURN_YES : XSRETURN_UNDEF;
 }
 
 /* SylpheedClaws::C::redirect(int,char*) */
@@ -637,13 +993,90 @@ static XS(XS_SylpheedClaws_redirect)
   val = compose_send(compose);
   gtk_widget_destroy(compose->window);
   
-  val == 0 ? XSRETURN_YES : XSRETURN_NO;
+  val == 0 ? XSRETURN_YES : XSRETURN_UNDEF;
 }
 
 
-static void xs_init(pTHX)
+/* Utilities */
+
+/* SylpheedClaws::C::move_to_trash */
+static XS(XS_SylpheedClaws_move_to_trash)
+{
+  FolderItem *dest_folder;
+  
+  dXSARGS;
+  if(items != 0) {
+    debug_print("Wrong number of arguments to SylpheedClaws::C::move_to_trash\n");
+    XSRETURN_UNDEF;
+  }
+  dest_folder = folder_get_default_trash();
+  if (!dest_folder) {
+    debug_print("*** trash folder not found\n");
+    XSRETURN_UNDEF;
+  }
+  if (folder_item_move_msg(dest_folder, msginfo) == -1) {
+    debug_print("*** could not move message to trash\n");
+    XSRETURN_UNDEF;
+  }
+  stop_filtering = TRUE;
+  XSRETURN_YES;
+}
+
+/* SylpheedClaws::C::abort */
+static XS(XS_SylpheedClaws_abort)
+{
+  FolderItem *inbox_folder;
+  dXSARGS;
+  if(items != 0) {
+    debug_print("Wrong number of arguments to SylpheedClaws::C::abort\n");
+    XSRETURN_UNDEF;
+  }
+  inbox_folder = folder_get_default_inbox();
+  if (!inbox_folder) {
+    debug_print("*** inbox folder not found\n");
+    XSRETURN_UNDEF;
+  }
+  if (folder_item_move_msg(inbox_folder, msginfo) == -1) {
+    debug_print("*** could not move message to default inbox\n");
+    XSRETURN_UNDEF;
+  }
+  stop_filtering = TRUE;
+  XSRETURN_YES;
+}
+
+/* SylpheedClaws::C::get_attribute_value(char*,char*[,char*]) */
+static XS(XS_SylpheedClaws_get_attribute_value)
+{
+  char *addr;
+  char *attr;
+  char *attribute_value;
+  char *bookname;
+
+  dXSARGS;
+  if(items != 2 && items != 3) {
+    debug_print("Wrong number of arguments to SylpheedClaws::C::get_attribute_value\n");
+    XSRETURN_UNDEF;
+  }
+  addr = SvPV_nolen(ST(0));
+  attr = SvPV_nolen(ST(1));
+  ;
+  if(items == 2)
+    attribute_value = get_attribute_value(addr,attr,NULL);
+  else {
+    bookname = SvPV_nolen(ST(2));
+    attribute_value = get_attribute_value(addr,attr,bookname);
+  }
+
+  if(attribute_value)
+    XSRETURN_PV(attribute_value);
+  XSRETURN_PV("");
+}
+
+/* register extensions */ 
+EXTERN_C void xs_init(pTHX)
 {
   char *file = __FILE__;
+  dXSUB_SYS;
   newXS("DynaLoader::boot_DynaLoader",    boot_DynaLoader,               file);
   newXS("SylpheedClaws::C::filter_init",  XS_SylpheedClaws_filter_init,  "SylpheedClaws::C");
   newXS("SylpheedClaws::C::check_flag",   XS_SylpheedClaws_check_flag,   "SylpheedClaws::C");
@@ -671,11 +1104,21 @@ static void xs_init(pTHX)
 	XS_SylpheedClaws_get_next_header,"SylpheedClaws::C");
   newXS("SylpheedClaws::C::get_next_body_line",
 	XS_SylpheedClaws_get_next_body_line,"SylpheedClaws::C");
+  newXS("SylpheedClaws::C::move_to_trash",XS_SylpheedClaws_move_to_trash,"SylpheedClaws::C");
+  newXS("SylpheedClaws::C::abort",        XS_SylpheedClaws_abort,        "SylpheedClaws::C");
+  newXS("SylpheedClaws::C::get_attribute_value",
+	XS_SylpheedClaws_get_attribute_value,"SylpheedClaws::C");
 }
 
+/*
+ * The workhorse.
+ * Returns: 0 on success
+ *          1 error in scriptfile -> retry
+ *          2 error in scriptfile -> abort
+ * (Yes, I know..)
+ */
 static int perl_load_file(void)
 {
-  int status;
   char *args[] = {"", DO_CLEAN, NULL};
   char *noargs[] = { NULL };
   char *perlfilter;
@@ -694,19 +1137,32 @@ static int perl_load_file(void)
 	    G_DISCARD | G_EVAL, args);
   g_free(perlfilter);
   if(SvTRUE(ERRSV)) {
+    AlertValue val;
+    gchar *message;
+
     if(strstr(SvPV(ERRSV,n_a),"intended"))
       return 0;
-    debug_print("%s", SvPV(ERRSV,n_a));
-    return 1; 
+    HBPRINT("%s", SvPV(ERRSV,n_a));
+    message = g_strdup_printf("Error processing Perl script file: "
+			      "(line numbers may not be valid)\n%s",
+			      SvPV(ERRSV,n_a));
+    val = alertpanel("Perl plugin error",message,"Retry","Abort",NULL);
+    g_free(message);
+    if(val == G_ALERTDEFAULT)
+      return 1;
+    else
+      return 2;
   }
   return 0;
 }
 
+
+/* let there be magic */
 static int perl_init(void)
 {
   int exitstatus;
   char *initialize[] = { "", "-w", "-e", "1;"};
-  /* the `persistent' module is taken from the Perl documentation
+  /* The `persistent' module is taken from the Perl documentation
      and has only slightly been modified. */
   const char perl_persistent[] = {
 "package SylpheedClaws::Persistent;\n"
@@ -772,7 +1228,7 @@ static int perl_init(void)
 "		 qw(references body_part headers_part message),\n"
 "		 qw(size_greater size_smaller size_equal),\n"
 "		 qw(score_greater score_lower score_equal),\n"
-"		 qw(age_greater age_lower));\n"
+"		 qw(age_greater age_lower partial $permanent));\n"
 "# Global Variables\n"
 "our(%header,$body,%msginfo,$mail_done);\n"
 "our %colors = ('none'     =>  0,'orange'   =>  1,'red'  =>  2,\n"
@@ -854,6 +1310,12 @@ static int perl_init(void)
 "    my $my_size = shift;\n"
 "    return 0 unless (defined($msginfo{\"size\"}) and defined($my_size));\n"
 "    $msginfo{\"size\"} == $my_size ? return 1 : return 0;\n"
+"}\n"
+"sub partial {\n"
+"    return 0 unless defined($msginfo{\"total_size\"})\n"
+"	and defined($msginfo{\"size\"});\n"
+"    return ($msginfo{\"total_size\"} != 0\n"
+"	    && $msginfo{\"size\"} != $msginfo{\"total_size\"});\n"
 "}\n"
 "sub test {\n"
 "   $_ = shift; my $command = \"\"; my $hl=\"\"; my $re=\"\";\n"
@@ -1007,6 +1469,7 @@ static int perl_init(void)
 "    }\n"
 "    return $headerstring;\n"
 "}\n"
+"our $permanent = \"\";\n"
 "1;\n"
   };
   const char perl_filter_action[] = {
@@ -1059,20 +1522,43 @@ static int perl_init(void)
 "package SylpheedClaws::Utils;\n"
 "use base qw(Exporter);\n"
 "our @EXPORT = (\n"
-"    	       qw(SA_is_spam),\n"
+"    	       qw(SA_is_spam extract_addresses move_to_trash abort),\n"
 "    	       qw(addr_in_addressbook from_in_addressbook),\n"
+"    	       qw(get_attribute_value),\n"
 "    	       );\n"
 "# Spam\n"
 "sub SA_is_spam {\n"
-"    return not SylpheedClaws::Filter::Matcher::test\n"
-"	('spamc -c < %F > /dev/null');\n"
+"    return not SylpheedClaws::Filter::Matcher::test('spamc -c < %F > /dev/null');\n"
 "}\n"
+"# simple extract email addresses from a header field\n"
+"sub extract_addresses {\n"
+"    my $hf = shift; return undef unless defined($hf);\n"
+"    my @addr = ();\n"
+"    while($hf =~ m/[-.+\\w]+\\@[-.+\\w]+/) {\n"
+"	$hf =~ s/^.*?([-.+\\w]+\\@[-.+\\w]+)//;\n"
+"	push @addr,$1;\n"
+"    }\n"
+"    push @addr,\"\" unless @addr;\n"
+"    return @addr;\n"
+"}\n"
+"# move to trash\n"
+"sub move_to_trash {SylpheedClaws::C::move_to_trash();SylpheedClaws::Filter::Action::stop();}\n"
+"# abort: stop() and do not continue with built-in filtering\n"
+"sub abort {SylpheedClaws::C::abort();SylpheedClaws::Filter::Action::stop();}\n"
 "# addressbook query\n"
-"sub addr_in_addressbook {return SylpheedClaws::C::addr_in_addressbook(@_);}\n"
+"sub addr_in_addressbook {\n"
+"    return SylpheedClaws::C::addr_in_addressbook(@_) if @_;\n"
+"    return 0;\n"
+"}\n"
 "sub from_in_addressbook {\n"
-"    my $from = SylpheedClaws::Filter::Matcher::header(\"from\");\n"
-"    $from =~ s/.*?([\\w.-]+\\@[\\w.-]+).*/$1/;\n"
-"    return addr_in_addressbook($from);\n"
+"    my ($from) = extract_addresses(SylpheedClaws::Filter::Matcher::header(\"from\"));\n"
+"    return 0 unless $from;\n"
+"    return addr_in_addressbook($from,@_);\n"
+"}\n"
+"sub get_attribute_value {\n"
+"    my $email = shift; my $key = shift;\n"
+"    return \"\" unless ($email and $key);\n"
+"    return SylpheedClaws::C::get_attribute_value($email,$key,@_);\n"
 "}\n"
 "1;\n"
   };
@@ -1095,28 +1581,39 @@ static int perl_init(void)
 
 static gboolean my_filtering_hook(gpointer source, gpointer data)
 {
-  int status;
+  int retry;
 
   mail_filtering_data = (MailFilteringData *) source;
   msginfo = mail_filtering_data->msginfo;
   stop_filtering = FALSE;
-  statusbar_print_all("Perl plugin: filtering message..");
+
+  statusbar_print_all("Perl plugin: filtering message...");
 
   /* Process Skript File */
-  status = perl_load_file();
-  if(status)
-    debug_print("*** error processing filter skript\n");
+  retry = perl_load_file();
+  while(retry == 1) {
+    HBPRINT("Error processing Perl script file. Retrying..\n");
+    retry = perl_load_file();
+  }
+  if(retry == 2) {
+    HBPRINT("Error processing Perl script file. Aborting..\n");
+    stop_filtering = FALSE;
+  }
   return stop_filtering;
 }
 
 gint plugin_init(gchar **error)
 {
-  int argc = 1;
-  char *argv[] = {""};
-  char *env[]  = {""};
+  int argc;
+  char *argv[1];
+  char *env[1];
   int status = 0;
   FILE *fp;
   char *perlfilter;
+
+  argc = 1;
+  *argv = NULL;
+  *env  = NULL;
 
   if((sylpheed_get_version() > VERSION_NUMERIC)) {
     *error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
@@ -1126,7 +1623,7 @@ gint plugin_init(gchar **error)
     *error = g_strdup("Your sylpheed version is too old");
     return -1;
   }
-  if((hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST, my_filtering_hook, NULL)) == -1) {
+  if((filtering_hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST, my_filtering_hook, NULL)) == -1) {
     *error = g_strdup("Failed to register mail filtering hook");
     return -1;
   }
@@ -1136,7 +1633,7 @@ gint plugin_init(gchar **error)
   if((fp = fopen(perlfilter,"a")) == NULL) {
     *error = g_strdup("Failed to create blank scriptfile");
     g_free(perlfilter);
-    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, hook_id);
+    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
     return -1;
   }
   g_free(perlfilter);
@@ -1148,7 +1645,7 @@ gint plugin_init(gchar **error)
     status = perl_init();
   if(status) {
     *error = g_strdup("Failed to load Perl Interpreter\n");
-    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, hook_id);
+    hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
     return -1;
   }
 
@@ -1158,13 +1655,17 @@ gint plugin_init(gchar **error)
 
 void plugin_done(void)
 {
-  hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, hook_id);
+  hooks_unregister_hook(MAIL_FILTERING_HOOKLIST, filtering_hook_id);
+  
+  free_all_lists();
+
   if(my_perl != NULL) {
     PL_perl_destruct_level = 1;
     perl_destruct(my_perl);
     perl_free(my_perl);
   }
   PERL_SYS_TERM();
+
   debug_print("Perl plugin unloaded\n");
 }
 
@@ -1176,9 +1677,8 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
   return "This plugin provides a Perl scripting "
-    "interface for mail filters. Be aware that it is experimental "
-    "and subject to change. Feedback "
-    "to berndth@gmx.de is very welcome.\n\nVersion: "
+    "interface for mail filters.\nFeedback "
+    "to berndth@gmx.de is welcome.\n\nVersion: "
     PLUGINVERSION;
 }
 

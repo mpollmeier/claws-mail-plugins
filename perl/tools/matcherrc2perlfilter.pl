@@ -105,6 +105,7 @@ sub convert {
 	   $token eq "locked"        or
 	   $token eq "unread"        or
 	   $token eq "new"           or
+	   $token eq "partial"       or
 	   $token eq "ignore_thread" or
 	   $token eq "mark"          or
 	   $token eq "unmark"        or

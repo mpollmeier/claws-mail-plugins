@@ -10,8 +10,7 @@ perl_plugin_la_LDFLAGS = \
 
 perl_plugin_la_LIBADD = \
 	$(PERL_LDFLAGS) \
-	$(GTK_LIBS) \
-	$(XOSD_LIBS)
+	$(GTK_LIBS)
 
 INCLUDES = \
 	-I$(sylpheed_dir)/ \

@@ -1,13 +1,21 @@
 AC_INIT(src/perl_plugin.c)
 AM_MAINTAINER_MODE
 
+PACKAGE=perl_plugin
+
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=1
 MICRO_VERSION=1
-VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
+EXTRA_VERSION=1
 
-AM_INIT_AUTOMAKE(perl_plugin, $VERSION, no-define)
+if test \( $EXTRA_VERSION -eq 0 \); then
+    VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
+else
+    VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
+fi
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AM_CONFIG_HEADER(pluginconfig.h)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
@@ -25,7 +33,7 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 dnl check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.12.103)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.0.0.3)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
@@ -70,30 +78,11 @@ AC_MSG_RESULT(ok)
 AC_SUBST(PERL_CFLAGS)
 AC_SUBST(PERL_LDFLAGS)
 
-dnl xosd
-dnl AC_ARG_ENABLE(xosd,
-dnl 	[  --disable-xosd          Do not use xosd],
-dnl 	[ac_cv_enable_xosd=$enableval], [ac_cv_enable_xosd=yes])
-dnl AC_MSG_CHECKING([whether to use xosd])
-dnl if test x"$ac_cv_enable_xosd" = xyes; then
-dnl 	AC_MSG_RESULT(yes)
-dnl 	AC_CHECK_LIB(xosd, xosd_init, 
-dnl 		[AC_DEFINE(HAVE_XOSD, 1, Define if you want xosd support.)],
-dnl 		[ac_cv_enable_xosd=no])
-dnl 	if test x"$ac_cv_enable_xosd" = xyes; then
-dnl 		XOSD_LIBS="-lxosd"
-dnl 	else
-dnl 		XOSD_LIBS=""
-dnl 	fi
-dnl 	AC_SUBST(XOSD_LIBS)
-dnl else
-dnl 	AC_MSG_RESULT(no)
-dnl fi
-
 AC_SUBST(VERSION)
 AC_SUBST(MAJOR_VERSION)
 AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
+AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
 Makefile

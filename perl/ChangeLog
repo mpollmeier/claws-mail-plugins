@@ -1,8 +1,22 @@
-2004-10-03 [holger]     0.1.1
+2005-02-06 [holger]	0.1.1cvs1
+
+	* AUTHORS
+	* INSTALL
+	* Makefile.am
+	* README
+	* configure.ac
+	* src/Makefile.am
+	* src/perl_plugin.c
+	* tools/matcherrc2perlfilter.pl
+	* NEWS					*** NEW FILE ***
+	* sc_perl.pod				*** NEW FILE ***
+		Update cvs repository to current project status.
+
+2004-10-03 [holger]	0.1.1
 
 	* configure.ac
 	* src/perl_plugin.c
-	        fix missing XSRETURN_UV for Perl 5.8.0 (reported by wwp)
+		Fix missing XSRETURN_UV for Perl 5.8.0 (reported by wwp)
 	
 2004-10-01 [holger]	0.1
 
