@@ -1,3 +1,10 @@
+2005-02-19 [holger]	0.2cvs4
+
+	* src/perl_plugin.c
+		Replace most GLists with GSLists, because I
+		iterate in one direction only anyways.
+		(hint by Alfons Hoogervorst)
+
 2005-02-18 [holger]	0.2cvs3
 
 	* src/perl_plugin.c

@@ -98,18 +98,18 @@ typedef struct {
 } AttributeEntry;
 
 typedef struct {
-  GList *g_list;
+  GSList *g_slist;
   time_t mtime;
-} TimedList;
+} TimedSList;
 
-static TimedList  *email_list     = NULL;
+static TimedSList *email_slist     = NULL;
 static GHashTable *attribute_hash = NULL;
 
 /* addressbook email collector callback */
-static gint add_to_email_list(ItemPerson *person, const gchar *bookname)
+static gint add_to_email_slist(ItemPerson *person, const gchar *bookname)
 {
   EmailEntry *ee;
-  GList      *nodeM;
+  GList     *nodeM;
 
   /* Process each E-Mail address */
   nodeM = person->listEMail;
@@ -123,22 +123,22 @@ static gint add_to_email_list(ItemPerson *person, const gchar *bookname)
     if(bookname != NULL)       ee->bookname = g_strdup(bookname);
     else                       ee->bookname = NULL;
 
-    email_list->g_list = g_list_prepend(email_list->g_list,ee);
+    email_slist->g_slist = g_slist_prepend(email_slist->g_slist,ee);
     nodeM = g_list_next(nodeM);
   }
   return 0;
 }
 
-/* free a GList of EmailEntry's. */
-static void free_EmailEntry_list(GList *list)
+/* free a GSList of EmailEntry's. */
+static void free_EmailEntry_slist(GSList *slist)
 {
-  GList *walk;
+  GSList *walk;
 
-  if(list == NULL)
+  if(slist == NULL)
     return;
 
-  walk = g_list_first(list);
-  for(; walk != NULL; walk = g_list_next(walk)) {
+  walk = slist;
+  for(; walk != NULL; walk = g_slist_next(walk)) {
     EmailEntry *ee = (EmailEntry *) walk->data;
     if(ee != NULL) {
       if(ee->address  != NULL) g_free(ee->address);
@@ -147,34 +147,34 @@ static void free_EmailEntry_list(GList *list)
       ee = NULL;
     }
   }
-  g_list_free(list);
+  g_slist_free(slist);
 
-  debug_print("EmailEntry list freed\n");
+  debug_print("EmailEntry slist freed\n");
 }
 
-/* free email_list */
-static void free_email_list(void)
+/* free email_slist */
+static void free_email_slist(void)
 {
-  if(email_list == NULL)
+  if(email_slist == NULL)
     return;
 
-  free_EmailEntry_list(email_list->g_list);
-  email_list->g_list = NULL;
+  free_EmailEntry_slist(email_slist->g_slist);
+  email_slist->g_slist = NULL;
 
-  g_free(email_list);
-  email_list = NULL;
+  g_free(email_slist);
+  email_slist = NULL;
 
-  debug_print("email_list freed\n");
+  debug_print("email_slist freed\n");
 }
 
-/* check if tl->g_list exists and is recent enough */
-static gboolean update_TimedList(TimedList *tl)
+/* check if tl->g_slist exists and is recent enough */
+static gboolean update_TimedSList(TimedSList *tl)
 {
   gboolean retVal;
   gchar *indexfile;
   struct stat filestat;
 
-  if(tl->g_list == NULL)
+  if(tl->g_slist == NULL)
     return TRUE;
 
   indexfile = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, ADDRESSBOOK_INDEX_FILE, NULL);
@@ -187,43 +187,43 @@ static gboolean update_TimedList(TimedList *tl)
   return retVal;
 }
 
-/* (re)initialize email list */
-static void init_email_list(void)
+/* (re)initialize email slist */
+static void init_email_slist(void)
 {
   gchar *indexfile;
   struct stat filestat;
 
-  if(email_list->g_list != NULL) {
-    free_EmailEntry_list(email_list->g_list);
-    email_list->g_list = NULL;
+  if(email_slist->g_slist != NULL) {
+    free_EmailEntry_slist(email_slist->g_slist);
+    email_slist->g_slist = NULL;
   }
 
-  addrindex_load_person_attribute(NULL,add_to_email_list);
+  addrindex_load_person_attribute(NULL,add_to_email_slist);
 
   indexfile = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, ADDRESSBOOK_INDEX_FILE, NULL);
   if(stat(indexfile,&filestat) == 0)
-    email_list->mtime = filestat.st_mtime;
+    email_slist->mtime = filestat.st_mtime;
   g_free(indexfile);
-  debug_print("Initialisation of email list completed\n");
+  debug_print("Initialisation of email slist completed\n");
 }
 
 /* check if given address is in given addressbook */
 static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
 {
-  GList *walk;	
+  GSList *walk;	
 
   /* check if email_list exists */
-  if(email_list == NULL) {
-    email_list = g_new0(TimedList,1);
-    email_list->g_list = NULL;
-    debug_print("email_list created\n");
+  if(email_slist == NULL) {
+    email_slist = g_new0(TimedSList,1);
+    email_slist->g_slist = NULL;
+    debug_print("email_slist created\n");
   }
 
-  if(update_TimedList(email_list))
-    init_email_list();
+  if(update_TimedSList(email_slist))
+    init_email_slist();
 
-  walk = g_list_first(email_list->g_list);
-  for(; walk != NULL; walk = g_list_next(walk)) {
+  walk = email_slist->g_slist;
+  for(; walk != NULL; walk = g_slist_next(walk)) {
     EmailEntry *ee = (EmailEntry *) walk->data;
     if((!g_strcasecmp(ee->address,addr)) &&
        ((bookname == NULL) || (!strcmp(ee->bookname,bookname))))
@@ -235,7 +235,7 @@ static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
 /* attribute hash collector callback */
 static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
 {
-  TimedList *tl;
+  TimedSList *tl;
   AttributeEntry *ae;
   GList *nodeA;
   GList *nodeM;
@@ -260,8 +260,8 @@ static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
 	if(bookname != NULL)       ae->bookname = g_strdup(bookname);
 	else                       ae->bookname = NULL;
 	
-	tl = (TimedList *) g_hash_table_lookup(attribute_hash,attribute_key);
-	tl->g_list = g_list_prepend(tl->g_list,ae);
+	tl = (TimedSList *) g_hash_table_lookup(attribute_hash,attribute_key);
+	tl->g_slist = g_slist_prepend(tl->g_slist,ae);
 
 	nodeM = g_list_next(nodeM);
       }
@@ -275,17 +275,17 @@ static gint add_to_attribute_hash(ItemPerson *person, const gchar *bookname)
 /* free a key of the attribute hash */
 static gboolean free_attribute_hash_key(gpointer key, gpointer value, gpointer user_data)
 {
-  GList *walk;
-  TimedList *tl;
+  GSList *walk;
+  TimedSList *tl;
 
   debug_print("Freeing key `%s' from attribute_hash\n",key?(char*)key:"");
 
-  tl = (TimedList *) value;
+  tl = (TimedSList *) value;
 
   if(tl != NULL) {
-    if(tl->g_list != NULL) {
-      walk = g_list_first(tl->g_list);
-      for(; walk != NULL; walk = g_list_next(walk)) {
+    if(tl->g_slist != NULL) {
+      walk = tl->g_slist;
+      for(; walk != NULL; walk = g_slist_next(walk)) {
 	AttributeEntry *ae = (AttributeEntry *) walk->data;
 	if(ae != NULL) {
 	  if(ae->address  != NULL) g_free(ae->address);
@@ -295,8 +295,8 @@ static gboolean free_attribute_hash_key(gpointer key, gpointer value, gpointer u
 	  ae = NULL;
 	}
       }
-      g_list_free(tl->g_list);
-      tl->g_list = NULL;
+      g_slist_free(tl->g_slist);
+      tl->g_slist = NULL;
     }
     g_free(tl);
     tl = NULL;
@@ -326,7 +326,7 @@ static void free_attribute_hash(void)
 /* Free the key if it exists. Insert the new key. */
 static void insert_attribute_hash(gchar *attr)
 {
-  TimedList *tl;
+  TimedSList *tl;
   gchar *indexfile;
   struct stat filestat;
 
@@ -340,8 +340,8 @@ static void insert_attribute_hash(gchar *attr)
     debug_print("Existing key `%s' freed.\n",attr);
   }
 
-  tl = g_new0(TimedList,1);
-  tl->g_list = NULL;
+  tl = g_new0(TimedSList,1);
+  tl->g_slist = NULL;
 
   attribute_key = g_strdup(attr);
   g_hash_table_insert(attribute_hash,attribute_key,tl);  
@@ -359,21 +359,21 @@ static void insert_attribute_hash(gchar *attr)
 /* check if an update of the attribute hash entry is necessary */
 static gboolean update_attribute_hash(const gchar *attr)
 {
-  TimedList *tl;
+  TimedSList *tl;
 
   /* check if key attr exists in the attribute hash */
-  if((tl = (TimedList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
+  if((tl = (TimedSList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
     return TRUE;
 
   /* check if entry is recent enough */
-  return update_TimedList(tl);
+  return update_TimedSList(tl);
 }
 
 /* given an email address, return attribute value of specific book */
 static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
 {
-  GList *walk;
-  TimedList *tl;
+  GSList *walk;
+  TimedSList *tl;
 
   /* check if attribute hash exists */
   if(attribute_hash == NULL) {
@@ -386,11 +386,11 @@ static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
     insert_attribute_hash(attr);
   }
   
-  if((tl = (TimedList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
+  if((tl = (TimedSList*) g_hash_table_lookup(attribute_hash,attr)) == NULL)
     return NULL;  
 
-  walk = g_list_first(tl->g_list);
-  for(; walk != NULL; walk = g_list_next(walk)) {
+  walk = tl->g_slist;
+  for(; walk != NULL; walk = g_slist_next(walk)) {
     AttributeEntry *ae = (AttributeEntry *) walk->data;
     if(!g_strcasecmp(ae->address,email)) {
       if((bookname == NULL) ||
@@ -405,7 +405,7 @@ static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
 static void free_all_lists(void)
 {
   /* email list */
-  free_email_list();
+  free_email_slist();
 
   /* attribute hash */
   free_attribute_hash();
