@@ -1,3 +1,11 @@
+2005-02-18 [holger]	0.2cvs3
+
+	* src/perl_plugin.c
+		Remove wrong use of compose struct after
+		compose_send(). See version 1.0.1cvs5
+		of HEAD.
+		(reported by Alfons Hoogervorst)
+	
 2005-02-13 [holger]	0.2cvs2
 
 	* src/perl_plugin.c

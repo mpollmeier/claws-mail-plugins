@@ -958,8 +958,9 @@ static XS(XS_SylpheedClaws_forward)
   compose_entry_append(compose, dest,
 		       compose->account->protocol == A_NNTP ?
 		       COMPOSE_NEWSGROUPS : COMPOSE_TO);
+
   val = compose_send(compose);
-  gtk_widget_destroy(compose->window);
+
   val == 0 ? XSRETURN_YES : XSRETURN_UNDEF;
 }
 
@@ -989,7 +990,6 @@ static XS(XS_SylpheedClaws_redirect)
     compose_entry_append(compose, dest, COMPOSE_TO);
 
   val = compose_send(compose);
-  gtk_widget_destroy(compose->window);
   
   val == 0 ? XSRETURN_YES : XSRETURN_UNDEF;
 }
