@@ -286,9 +286,11 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	
 	gpgme_data_release(cipher);
 	
-	if (plain == NULL)
+	if (plain == NULL) {
+		gpgme_release(ctx);
 		return NULL;
-	
+	}
+
     	fname = g_strdup_printf("%s%cplaintext.%08x",
 		get_mime_tmp_dir(), G_DIR_SEPARATOR, ++id);
 
@@ -296,6 +298,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
         	FILE_OP_ERROR(fname, "fopen");
         	g_free(fname);
         	gpgme_data_release(plain);
+		gpgme_release(ctx);
 		return NULL;
     	}
 
@@ -322,13 +325,17 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	parseinfo = procmime_scan_file(fname);
 	g_free(fname);
 	
-	if (parseinfo == NULL)
+	if (parseinfo == NULL) {
+		gpgme_release(ctx);
 		return NULL;
+	}
 	decinfo = g_node_first_child(parseinfo->node) != NULL ?
 		g_node_first_child(parseinfo->node)->data : NULL;
 		
-	if (decinfo == NULL)
+	if (decinfo == NULL) {
+		gpgme_release(ctx);
 		return NULL;
+	}
 
 	g_node_unlink(decinfo->node);
 	procmime_mimeinfo_free_all(parseinfo);
