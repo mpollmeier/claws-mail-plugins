@@ -203,10 +203,10 @@ static void build_tree(GNode *node, glob_t *globbuf)
                         continue;
 
 		newitem = folder_item_new(parent->folder, &(globbuf->gl_pathv[i][strlen(prefix) + 1]), globbuf->gl_pathv[i]);
-		newitem->parent = parent;
 		newitem->folder = parent->folder;
 
 		newnode = g_node_new(newitem);
+		newitem->node = newnode;
 		g_node_append(node, newnode);
 
                 debug_print("added item %s\n", newitem->path);
@@ -218,7 +218,7 @@ static gint maildir_scan_tree(Folder *folder)
 {
         FolderItem *rootitem, *inboxitem;
         gchar *rootpath;
-	GNode *rootnode;
+	GNode *rootnode, *inboxnode;
         glob_t globbuf;
         
         g_return_if_fail(folder != NULL);
@@ -227,13 +227,15 @@ static gint maildir_scan_tree(Folder *folder)
         rootitem->folder = folder;
 	rootnode = g_node_new(rootitem);
         folder->node = rootnode;
+	rootitem->node = rootnode;
 
 	/* Add inbox folder */
 	inboxitem = folder_item_new(folder, "inbox", "");
-	inboxitem->parent = rootitem;
 	inboxitem->folder = folder;
 	inboxitem->stype = F_INBOX;
-	g_node_append(rootnode, g_node_new(inboxitem));
+	inboxnode = g_node_new(inboxitem);
+	inboxitem->node = inboxnode;
+	g_node_append(rootnode, inboxnode);
 
 	chdir(LOCAL_FOLDER(folder)->rootpath);
 	globbuf.gl_offs = 0;
