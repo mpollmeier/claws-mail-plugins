@@ -35,19 +35,17 @@
 #include "account.h"
 #include "alertpanel.h"
 #include "inputdialog.h"
-#include "mh.h"
+#include "maildir.h"
 #include "foldersel.h"
 
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
-/*
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void rename_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
-*/
-static void update_tree_cb(FolderView *folderview, guint action, GtkWidget *widget);
 /*
-static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void rename_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 */
+static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void update_tree_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void add_mailbox(gpointer callback_data, guint callback_action, GtkWidget *widget);
 
 static GtkItemFactoryEntry maildir_popup_entries[] =
@@ -55,17 +53,15 @@ static GtkItemFactoryEntry maildir_popup_entries[] =
 	{N_("/Create _new folder..."),	 NULL, new_folder_cb,     0, NULL},
 /*
 	{N_("/_Rename folder..."),	 NULL, rename_folder_cb,  0, NULL},
+*/
 	{N_("/M_ove folder..."), 	 NULL, move_folder_cb,    0, NULL},
 	{N_("/_Delete folder"),		 NULL, delete_folder_cb,  0, NULL},
-*/
 	{N_("/---"),			 NULL, NULL,              0, "<Separator>"},
 	{N_("/_Check for new messages"), NULL, update_tree_cb,    0, NULL},
 	{N_("/R_ebuild folder tree"),	 NULL, update_tree_cb,    1, NULL},
 	{N_("/---"),			 NULL, NULL, 		  0, "<Separator>"},
-/*
 	{N_("/Remove _mailbox"),	 NULL, remove_mailbox_cb, 0, NULL},
 	{N_("/---"),			 NULL, NULL, 		  0, "<Separator>"},
-*/
 };
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
@@ -122,17 +118,15 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(factory, name, sens)
 
-	SET_SENS("/Create new folder...",   TRUE);
+	SET_SENS("/Create new folder...",   item->stype != F_INBOX);
 /*
 	SET_SENS("/Rename folder...",       item->stype == F_NORMAL && folder_item_parent(item) != NULL);
+*/
 	SET_SENS("/Move folder...", 	    item->stype == F_NORMAL && folder_item_parent(item) != NULL);
 	SET_SENS("/Delete folder", 	    item->stype == F_NORMAL && folder_item_parent(item) != NULL);
-*/
 	SET_SENS("/Check for new messages", folder_item_parent(item) == NULL);
 	SET_SENS("/Rebuild folder tree",    folder_item_parent(item) == NULL);
-/*
 	SET_SENS("/Remove mailbox",         folder_item_parent(item) == NULL);
-*/
 
 #undef SET_SENS
 }
@@ -229,10 +223,13 @@ static void new_folder_cb(FolderView *folderview, guint action,
 	AUTORELEASE_STR(name, {g_free(name); return;});
 
 	/* find whether the directory already exists */
-	if (folder_find_child_item_by_name(item, new_folder)) {
+	p = g_strconcat(".", new_folder, NULL);
+	if (folder_find_child_item_by_name(item, p)) {
+		g_free(p);
 		alertpanel_error(_("The folder `%s' already exists."), name);
 		return;
 	}
+	g_free(p);
 
 	new_item = folder_create_folder(item, new_folder);
 	if (!new_item) {
@@ -241,4 +238,101 @@ static void new_folder_cb(FolderView *folderview, guint action,
 	}
 
 	folder_write_list();
+}
+
+static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	GtkCTreeNode *node;
+	FolderItem *item;
+	gchar *name;
+	gchar *message;
+	AlertValue avalue;
+
+	item = folderview_get_selected(folderview);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->folder != NULL);
+	if (folder_item_parent(item)) return;
+
+	name = trim_string(item->folder->name, 32);
+	message = g_strdup_printf
+		(_("Really remove the mailbox `%s' ?\n"
+		   "(The messages are NOT deleted from the disk)"), name);
+	avalue = alertpanel(_("Remove mailbox"), message,
+			    _("Yes"), _("+No"), NULL);
+	g_free(message);
+	g_free(name);
+	if (avalue != G_ALERTDEFAULT) return;
+
+	folderview_unselect(folderview);
+	summary_clear_all(folderview->summaryview);
+
+	folder_destroy(item->folder);
+}
+
+static void delete_folder_cb(FolderView *folderview, guint action,
+			     GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	FolderItem *item;
+	gchar *message, *name;
+	AlertValue avalue;
+	gchar *old_path;
+	gchar *old_id;
+
+	item = folderview_get_selected(folderview);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->path != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	name = trim_string(item->name, 32);
+	AUTORELEASE_STR(name, {g_free(name); return;});
+	message = g_strdup_printf
+		(_("All folder(s) and message(s) under `%s' will be deleted.\n"
+		   "Do you really want to delete?"), name);
+	avalue = alertpanel(_("Delete folder"), message,
+			    _("Yes"), _("+No"), NULL);
+	g_free(message);
+	if (avalue != G_ALERTDEFAULT) return;
+
+	Xstrdup_a(old_path, item->path, return);
+	old_id = folder_item_get_identifier(item);
+
+	if (folderview->opened == folderview->selected ||
+	    gtk_ctree_is_ancestor(ctree,
+				  folderview->selected,
+				  folderview->opened)) {
+		summary_clear_all(folderview->summaryview);
+		folderview->opened = NULL;
+	}
+
+	if (item->folder->klass->remove_folder(item->folder, item) < 0) {
+		alertpanel_error(_("Can't remove the folder `%s'."), name);
+		if (folderview->opened == folderview->selected)
+			summary_show(folderview->summaryview,
+				     folderview->summaryview->folder_item);
+		g_free(old_id);
+		return;
+	}
+
+	folder_write_list();
+
+	prefs_filtering_delete_path(old_id);
+	g_free(old_id);
+
+}
+
+static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+	FolderItem *from_folder = NULL, *to_folder = NULL;
+
+	from_folder = folderview_get_selected(folderview);
+	if (!from_folder || from_folder->folder->klass != maildir_get_class())
+		return;
+
+	to_folder = foldersel_folder_sel(from_folder->folder, FOLDER_SEL_MOVE, NULL);
+	if (!to_folder)
+		return;
+
+	folderview_move_folder(folderview, from_folder, to_folder);
 }

@@ -25,6 +25,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <glob.h>
 #include <unistd.h>
 #include <glib.h>
@@ -69,6 +70,7 @@ static FolderItem *maildir_create_folder(Folder * folder,
 					 const gchar * name);
 static gint maildir_create_tree(Folder *folder);
 static void remove_missing_folder_items(Folder *folder);
+static gint maildir_remove_folder(Folder *folder, FolderItem *item);
 
 FolderClass maildir_class;
 
@@ -105,6 +107,7 @@ FolderClass *maildir_get_class()
 		maildir_class.item_destroy = maildir_item_destroy;
 		maildir_class.item_get_path = maildir_item_get_path;
 		maildir_class.create_folder = maildir_create_folder;
+		maildir_class.remove_folder = maildir_remove_folder;
 		maildir_class.get_num_list = maildir_get_num_list;
 
 		/* Message functions */
@@ -221,11 +224,7 @@ static void build_tree(GNode *node, glob_t *globbuf)
 		gchar *dirname, *tmpstr, *foldername;
 		gboolean res;
 
-		if ((dirname = strrchr(globbuf->gl_pathv[i], G_DIR_SEPARATOR)) == NULL)
-			dirname = globbuf->gl_pathv[i];
-		else
-			dirname++;
-
+		dirname = g_basename(globbuf->gl_pathv[i]);
 		foldername = &(dirname[strlen(prefix) + 1]);
 
                 if (dirname[0] == '.' && dirname[1] == '\0')
@@ -817,10 +816,12 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 	uiddb_free_msgdata(msgdata);
 }
 
-static gboolean setup_new_folder(const gchar * path)
+static gboolean setup_new_folder(const gchar * path, gboolean subfolder)
 {
-	gchar *curpath, *newpath, *tmppath;
+	gchar *curpath, *newpath, *tmppath, *maildirfolder;
 	gboolean failed = FALSE;
+
+	g_return_val_if_fail(path != NULL, TRUE);
 
 	curpath = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", NULL);
 	newpath = g_strconcat(path, G_DIR_SEPARATOR_S, "new", NULL);
@@ -838,6 +839,17 @@ static gboolean setup_new_folder(const gchar * path)
 	if (!is_dir_exist(tmppath))
 		if (mkdir(tmppath, 0777) != 0)
 			failed = TRUE;
+
+	if (subfolder) {
+		int res;
+		maildirfolder = g_strconcat(path, G_DIR_SEPARATOR_S, "maildirfolder", NULL);
+		res = open(maildirfolder, O_WRONLY | O_CREAT | O_NONBLOCK | O_NOCTTY,
+			   S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		if (res != -1)
+			close(res);
+		else
+			failed = TRUE;
+	}
 
 	if (failed) {
 		rmdir(tmppath);
@@ -882,7 +894,7 @@ static FolderItem *maildir_create_folder(Folder * folder,
 
 	debug_print("creating new maildir folder: %s\n", path);
 
-	failed = setup_new_folder(path);
+	failed = setup_new_folder(path, TRUE);
 	g_free(path);
 
 	if (failed)
@@ -924,7 +936,7 @@ static gint maildir_create_tree(Folder *folder)
 			return -1;
 	}
 
-	if (setup_new_folder(rootpath)) /* create INBOX */
+	if (setup_new_folder(rootpath, FALSE)) /* create INBOX */
 		return -1;
 	if (folder->outbox == NULL)
 		if (maildir_create_folder(folder, folder->node->data, OUTBOX_DIR) == NULL)
@@ -975,4 +987,53 @@ static void remove_missing_folder_items(Folder *folder)
 
 	g_node_traverse(folder->node, G_POST_ORDER, G_TRAVERSE_ALL, -1,
 			remove_missing_folder_items_func, folder);
+}
+
+static gboolean remove_folder_func(GNode *node, gpointer data)
+{
+	FolderItem *item;
+	gchar *path;
+
+	g_return_val_if_fail(node->data != NULL, FALSE);
+
+	if (G_NODE_IS_ROOT(node))
+		return FALSE;
+
+	item = FOLDER_ITEM(node->data);
+
+	if (item->stype != F_NORMAL)
+		return FALSE;
+
+	path = folder_item_get_path(item);
+	debug_print("removing directory %s\n", path);
+	if (remove_dir_recursive(path) < 0) {
+		g_warning("can't remove directory `%s'\n", path);
+		g_free(path);
+		*(gint*)data = -1;
+		return TRUE;
+	}
+	g_free(path);
+
+	folder_item_remove(item);
+
+	return FALSE;
+}
+
+static gint maildir_remove_folder(Folder *folder, FolderItem *item)
+{
+	gchar *folder_path, *path, *globpat;
+	glob_t	globbuf;
+	gint res=0;
+
+	g_return_val_if_fail(folder != NULL, -1);
+	g_return_val_if_fail(item != NULL, -1);
+	g_return_val_if_fail(item->path != NULL, -1);
+	g_return_val_if_fail(item->stype == F_NORMAL, -1);
+
+	debug_print("removing folder %s\n", item->path);
+
+	g_node_traverse(item->node, G_POST_ORDER, G_TRAVERSE_ALL, -1,
+			remove_folder_func, &res);
+
+	return res;
 }
