@@ -102,6 +102,8 @@ static gint mailmbox_remove_folder(Folder *folder, FolderItem *item);
 
 static gint mailmbox_create_tree(Folder *folder);
 
+static gint mailmbox_folder_item_close(Folder *folder, FolderItem *item);
+
 static FolderClass mailmbox_class =
 {
 	F_MBOX,
@@ -125,7 +127,7 @@ static FolderClass mailmbox_class =
 	mailmbox_create_folder,
 	mailmbox_rename_folder,
 	mailmbox_remove_folder,
-	NULL, /* close */
+	mailmbox_folder_item_close,
 	mailmbox_get_num_list,
 	mailmbox_scan_required,
 
@@ -267,6 +269,17 @@ static void mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item)
                 mailmbox_done(item->mbox);
         }
 	g_free(_item);
+}
+
+static gint mailmbox_folder_item_close(Folder *folder, FolderItem *item_)
+{
+	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)item_;
+
+	g_return_val_if_fail(folder->klass->type == F_MBOX, -1);
+	g_return_val_if_fail(item != NULL, -1);
+	g_return_val_if_fail(item->mbox != NULL, -1);
+
+	return -mailmbox_expunge(item->mbox);
 }
 
 static void mailmbox_folder_create_parent(const gchar * path)
