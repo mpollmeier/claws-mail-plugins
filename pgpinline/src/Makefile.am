@@ -1,4 +1,4 @@
-plugindir = $(pkglibdir)/plugins
+plugindir = $(libdir)/sylpheed-claws/plugins
 
 plugin_LTLIBRARIES = pgpinline.la
 
