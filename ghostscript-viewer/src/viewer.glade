@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<GTK-Interface>
+
+<project>
+  <name>sylpheed-claws</name>
+  <program_name>sylpheed-claws</program_name>
+  <directory></directory>
+  <source_directory>src</source_directory>
+  <pixmaps_directory>pixmaps</pixmaps_directory>
+  <language>C</language>
+  <gnome_support>False</gnome_support>
+  <gettext_support>True</gettext_support>
+  <output_main_file>False</output_main_file>
+  <output_support_files>False</output_support_files>
+  <output_build_files>False</output_build_files>
+  <backup_source_files>False</backup_source_files>
+</project>
+
+<widget>
+  <class>GtkWindow</class>
+  <name>ghostscriptviewer</name>
+  <title>GhostscriptViewer</title>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>True</allow_grow>
+  <auto_shrink>False</auto_shrink>
+
+  <widget>
+    <class>GtkVBox</class>
+    <name>viewer</name>
+    <homogeneous>False</homogeneous>
+    <spacing>0</spacing>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <name>hbuttonbox1</name>
+      <layout_style>GTK_BUTTONBOX_START</layout_style>
+      <spacing>0</spacing>
+      <child_min_width>0</child_min_width>
+      <child_min_height>0</child_min_height>
+      <child_ipad_x>4</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>prevpage_btn</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Prev Page</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>nextpage_btn</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Next Page</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>zoomin_btn</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Zoom in</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>zoomout_btn</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Zoom out</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkFrame</class>
+      <name>gsframe</name>
+      <label_xalign>0</label_xalign>
+      <shadow_type>GTK_SHADOW_IN</shadow_type>
+      <child>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
+      </child>
+
+      <widget>
+	<class>Placeholder</class>
+      </widget>
+    </widget>
+  </widget>
+</widget>
+
+</GTK-Interface>
