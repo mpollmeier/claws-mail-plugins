@@ -1,3 +1,9 @@
+2004-07-30 [christoph]
+
+	* src/viewer.c
+	* src/viewer.glade
+		add "First Page" and "Last Page" to popup menu
+
 2004-07-26 [christoph]
 
 	* src/viewer.c

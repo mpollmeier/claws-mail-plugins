@@ -133,6 +133,30 @@
 
   <widget>
     <class>GtkMenuItem</class>
+    <name>first_page</name>
+    <signal>
+      <name>activate</name>
+      <handler>on_first_page_activate</handler>
+      <last_modification_time>Fri, 30 Jul 2004 15:59:48 GMT</last_modification_time>
+    </signal>
+    <label>First Page</label>
+    <right_justify>False</right_justify>
+  </widget>
+
+  <widget>
+    <class>GtkMenuItem</class>
+    <name>last_page</name>
+    <signal>
+      <name>activate</name>
+      <handler>on_last_page_activate</handler>
+      <last_modification_time>Fri, 30 Jul 2004 15:59:48 GMT</last_modification_time>
+    </signal>
+    <label>Last Page</label>
+    <right_justify>False</right_justify>
+  </widget>
+
+  <widget>
+    <class>GtkMenuItem</class>
     <name>item1</name>
     <right_justify>False</right_justify>
   </widget>
