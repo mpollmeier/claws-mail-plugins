@@ -1,3 +1,8 @@
+2004-08-05 [christoph]
+
+	* src/viewerprefs.c
+		update for changes in 0.9.12cvs45
+
 2004-08-02 [christoph]
 
 	* src/viewer.c

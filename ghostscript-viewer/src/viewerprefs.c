@@ -150,10 +150,16 @@ static struct GhostscriptViewerPage ghostscriptviewer_page;
 
 void ghostscript_viewer_prefs_init(void)
 {
+	static gchar *path[3];
+
 	prefs_set_default(param);
 	prefs_read_config(param, PREFS_BLOCK_NAME, COMMON_RC);
 
-	ghostscriptviewer_page.page.path = _("Message View/Ghostscript Viewer");
+	path[0] = _("Message View");
+	path[1] = _("Ghostscript Viewer");
+	path[2] = NULL;
+
+	ghostscriptviewer_page.page.path = path;
 	ghostscriptviewer_page.page.create_widget = ghostscriptviewer_create_widget_func;
 	ghostscriptviewer_page.page.destroy_widget = ghostscriptviewer_destroy_widget_func;
 	ghostscriptviewer_page.page.save_page = ghostscriptviewer_save_func;

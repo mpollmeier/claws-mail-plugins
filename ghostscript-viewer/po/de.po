@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sylpheed-Claws Ghostscript-Viewer 0.6\n"
 "Report-Msgid-Bugs-To: reboot@gmx.ch\n"
-"POT-Creation-Date: 2004-06-30 17:45+0200\n"
-"PO-Revision-Date: 2004-06-30 16:33+2\n"
+"POT-Creation-Date: 2004-08-05 18:25+0200\n"
+"PO-Revision-Date: 2004-08-05 19:49+0200\n"
 "Last-Translator: Christoph Hohmann <reboot@gmx.ch>\n"
 "Language-Team: None\n"
 "MIME-Version: 1.0\n"
@@ -90,21 +90,37 @@ msgstr ""
 "Dieses Plugin bietet einen Betrachter für Postscript und PDF Dokumente in "
 "der Sylpheed MIME Ansicht"
 
-#: src/viewer.c:249
+#: src/viewer.c:356 src/viewer.c:390
 msgid "Prev Page"
 msgstr "Vorherige Seite"
 
-#: src/viewer.c:254
+#: src/viewer.c:361 src/viewer.c:386
 msgid "Next Page"
 msgstr "Nächste Seite"
 
-#: src/viewer.c:259
+#: src/viewer.c:366 src/viewer.c:407
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/viewer.c:264
+#: src/viewer.c:371 src/viewer.c:411
 msgid "Zoom out"
 msgstr "Verkleinern"
+
+#: src/viewer.c:394
+msgid "First Page"
+msgstr "Erste Seite"
+
+#: src/viewer.c:398
+msgid "Last Page"
+msgstr "Letzte Seite"
+
+#: src/viewer.c:415
+msgid "Fit page"
+msgstr "Seite einpassen"
+
+#: src/viewer.c:419
+msgid "Fit width"
+msgstr "Seitenbreite einpassen"
 
 #: src/viewerprefs.c:78
 msgid "Antialiasing"
