@@ -74,7 +74,7 @@ static PrivacyDataPGP *pgpinline_new_privacydata()
 static void pgpinline_free_privacydata(PrivacyData *_data)
 {
 	PrivacyDataPGP *data = (PrivacyDataPGP *) _data;
-	
+	gpgme_release(data->ctx);
 	g_free(data);
 }
 
@@ -265,15 +265,17 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	g_return_val_if_fail(mimeinfo != NULL, NULL);
 	g_return_val_if_fail(pgpinline_is_encrypted(mimeinfo), NULL);
 	
-	if (procmime_mimeinfo_parent(mimeinfo) == NULL)
-		return NULL; /* not parent */
-	if (mimeinfo->type != MIMETYPE_TEXT)
+	if (procmime_mimeinfo_parent(mimeinfo) == NULL ||
+	    mimeinfo->type != MIMETYPE_TEXT) {
+		gpgme_release(ctx);
 		return NULL;
-	
+	}
 
 	textdata = get_part_as_string(mimeinfo);
-	if (!textdata)
+	if (!textdata) {
+		gpgme_release(ctx);
 		return NULL;
+	}
 
 	debug_print("decrypting '%s'\n", textdata);
 	gpgme_data_new(&cipher);
@@ -284,9 +286,11 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	
 	gpgme_data_release(cipher);
 	
-	if (plain == NULL)
+	if (plain == NULL) {
+		gpgme_release(ctx);
 		return NULL;
-	
+	}
+
     	fname = g_strdup_printf("%s%cplaintext.%08x",
 		get_mime_tmp_dir(), G_DIR_SEPARATOR, ++id);
 
@@ -294,6 +298,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
         	FILE_OP_ERROR(fname, "fopen");
         	g_free(fname);
         	gpgme_data_release(plain);
+		gpgme_release(ctx);
 		return NULL;
     	}
 
@@ -320,13 +325,17 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	parseinfo = procmime_scan_file(fname);
 	g_free(fname);
 	
-	if (parseinfo == NULL)
+	if (parseinfo == NULL) {
+		gpgme_release(ctx);
 		return NULL;
+	}
 	decinfo = g_node_first_child(parseinfo->node) != NULL ?
 		g_node_first_child(parseinfo->node)->data : NULL;
 		
-	if (decinfo == NULL)
+	if (decinfo == NULL) {
+		gpgme_release(ctx);
 		return NULL;
+	}
 
 	g_node_unlink(decinfo->node);
 	procmime_mimeinfo_free_all(parseinfo);
@@ -393,8 +402,10 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	gpgme_set_textmode(ctx, 1);
 	gpgme_set_armor(ctx, 1);
 
-	if (!sgpgme_setup_signers(ctx, account))
+	if (!sgpgme_setup_signers(ctx, account)) {
+		gpgme_release(ctx);
 		return FALSE;
+	}
 
 	if (!getenv("GPG_AGENT_INFO")) {
     		info.c = ctx;
@@ -402,8 +413,10 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	}
 
 	if (gpgme_op_sign(ctx, gpgtext, gpgsig, GPGME_SIG_MODE_CLEAR) 
-	    != GPGME_No_Error)
+	    != GPGME_No_Error) {
+	    	gpgme_release(ctx);
 		return FALSE;
+	}
 
 	gpgme_release(ctx);
 	sigcontent = gpgme_data_release_and_get_mem(gpgsig, &len);
