@@ -1,5 +1,14 @@
 2004-04-28 [christoph]
 
+	* configure.ac
+	* src/plugin.c
+	* src/plugin_gtk.c
+		add/update version checks
+
+	Release Maildir Plugin 0.4
+
+2004-04-28 [christoph]
+
 	* src/maildir.c
 		o add microseconds to unique part of Maildir filenames
 		o replace all "/" with G_DIR_SEPARATOR
