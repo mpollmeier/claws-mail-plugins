@@ -98,11 +98,6 @@
 	    <itemizedlist mark='opencircle'>
 		<listitem>
 		    <para>
-			Folder renaming
-		    </para>
-		</listitem>
-		<listitem>
-		    <para>
 			Automatic updating of folder contents, when
 			changed by other program
 		    </para>
