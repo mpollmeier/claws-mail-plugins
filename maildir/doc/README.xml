@@ -61,7 +61,7 @@
 	    build the plugin with <command>make</command> and install
 	    it with <command>make install</command>. It should install
 	    plugins in the location where the other plugins are usually
-	    <filename class="directory">$PREFIX/lib/sylpheed</filename>.
+	    <filename class="directory">$PREFIX/lib/sylpheed-claws</filename>.
 	    But you can load the plugin from any directory, also from the
 	    <filename class="directory">src/.libs</filename> directory in
 	    the source directory, if you don't want to install the plugin.
@@ -100,11 +100,6 @@
 		    <para>
 			Automatic updating of folder contents, when
 			changed by other program
-		    </para>
-		</listitem>
-		<listitem>
-		    <para>
-			Syncronize flags with folder content
 		    </para>
 		</listitem>
 	    </itemizedlist>

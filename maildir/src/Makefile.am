@@ -17,7 +17,8 @@ maildir_la_LIBADD = \
 
 maildir_la_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
-	$(GLIB_CFLAGS)
+	$(GLIB_CFLAGS) \
+	$(GTK_CFLAGS)
 
 ## Maildir GTK GUI support
 
