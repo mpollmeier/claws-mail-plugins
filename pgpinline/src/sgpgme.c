@@ -234,7 +234,7 @@ GpgmeData sgpgme_data_from_mimeinfo(MimeInfo *mimeinfo)
 	GpgmeData data;
 	
 	gpgme_data_new_from_filepart(&data,
-		mimeinfo->filename,
+		mimeinfo->data.filename,
 		NULL,
 		mimeinfo->offset,
 		mimeinfo->length);

@@ -1,3 +1,22 @@
+2004-10-18 [christoph]
+
+	* src/pgpinline.c
+	* src/sgpgme.c
+		update for changes in Sylpheed's procmime.h
+
+2004-10-14 [christoph]
+
+	* src/pgpinline.c
+		only recognize signature indicator at the beginning
+		of the textdata or after a new line
+
+2004-10-11 [colin]
+
+	* src/pgpinline.c
+	  src/sgpgme.c
+		Make pgp/inline work with the new privacy system
+		Patch by Christoph
+
 2004-09-29 [paul]
 
 	* src/pgpinline.c
