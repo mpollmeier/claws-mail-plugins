@@ -1,4 +1,9 @@
-2003-02-12 [christoph]
+2003-12-03 [christoph]
+
+        * src/maildir.c
+                sync with changes in Sylpheed's FolderClass >= 0.9.7claws11
+
+2003-12-02 [christoph]
 
 	* src/mailmbox_folder.[ch]
 		sync with changes in Sylpheed's FolderClass >= 0.9.7claws10

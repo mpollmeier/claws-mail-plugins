@@ -111,6 +111,8 @@ static FolderClass mailmbox_class =
 	/* Folder functions */
 	s_mailmbox_folder_new,
 	mailmbox_folder_destroy,
+	folder_local_set_xml,
+	folder_local_get_xml,
 	NULL, /* mailmbox_scan_tree, */
 	mailmbox_create_tree,
 
