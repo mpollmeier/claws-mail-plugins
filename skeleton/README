@@ -1,0 +1,9 @@
+This plugin is only a skeleton to write new plugins.
+
+Steps to use
+------------
+1. copy this directory to another, naming it as your plugin
+2. remove CVS subdirs
+3. edit configure.ac and src/Makefile.am to change the 'skeleton' name
+4. edit src/plugin.c to code your plugin hooks
+5. code the rest
