@@ -366,7 +366,8 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	PrefsAccount *account = NULL;
 	gboolean res = FALSE;
 	
-	generate_msgid(organizer, buf, 256);
+	generate_msgid(buf, 255);
+
 	if (meet->uid) {
 		uid 	= g_strdup(meet->uid);
 	} else {
