@@ -1,3 +1,8 @@
+2005-03-18 [colin] 1.1
+
+	Apply gentoo's patch to make it work with libical-0.24
+	Fix stuff so that it works with 0.23 and 0.24
+
 2005-02-02 [colin] 1.0
 
 	Use color label instead of read/unread status
@@ -13,6 +18,10 @@
 2005-02-01 [colin] 0.7
 
 	Add alert
+
+2005-01-14 [colin] 0.5
+
+	Fix generate_msgid
 
 2004-09-21 [colin] 0.4
 

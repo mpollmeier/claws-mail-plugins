@@ -721,9 +721,12 @@ gint vcal_meeting_alert_check(gpointer data)
 		
 		if (start > current && start < (current + (vcalprefs.alert_delay*60))) {
 			if (!g_slist_find_string(alert_done, event->uid)) {
+				time_t tmpt = icaltime_as_timet(icaltime_as_local(icaltime_from_string(event->dtstart)));
+				gchar *estart = NULL;
+				
 				alert_done = g_slist_append(alert_done, g_strdup(event->uid));
-				gchar *estart = icaltime_as_ctime(icaltime_as_local(
-							icaltime_from_string(event->dtstart)));
+				g_strdup(ctime(&tmpt));
+				
 				int length = (end - start) / 60;
 				gchar *duration = NULL, *hours = NULL, *minutes = NULL;
 				gchar *message = NULL;

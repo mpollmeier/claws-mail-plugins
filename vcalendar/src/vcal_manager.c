@@ -322,23 +322,28 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_add_parameter(orgprop, param);
 		g_free(tmpstr); tmpstr = NULL;
 	}
-
+	
 	ievent = 
-	            icalcomponent_vanew(
-                	ICAL_VEVENT_COMPONENT,
-                	icalproperty_new_uid(event->uid),
-			icalproperty_vanew_dtstart(icaltime_as_local(icaltime_from_string(event->dtstart)),
-				icalparameter_new_tzid(tzname[1]), 0),
-			icalproperty_vanew_dtend(icaltime_as_local(icaltime_from_string(event->dtend)),
-				icalparameter_new_tzid(tzname[1]), 0),
-			icalproperty_new_description(event->description),
-			icalproperty_new_summary(event->summary),
-			icalproperty_new_sequence(event->sequence + 1),
-			icalproperty_new_class(ICAL_CLASS_PUBLIC),
-			icalproperty_new_transp(ICAL_TRANSP_OPAQUE),
-                	orgprop,
-                	0
-                	);
+	    icalcomponent_vanew(
+                ICAL_VEVENT_COMPONENT,
+                icalproperty_new_uid(event->uid),
+		icalproperty_vanew_dtstart(icaltime_as_local(icaltime_from_string(event->dtstart)),
+			icalparameter_new_tzid(tzname[1]), 0),
+		icalproperty_vanew_dtend(icaltime_as_local(icaltime_from_string(event->dtend)),
+			icalparameter_new_tzid(tzname[1]), 0),
+		icalproperty_new_description(event->description),
+		icalproperty_new_summary(event->summary),
+		icalproperty_new_sequence(event->sequence + 1),
+#if ICALPARAMETER_LAST_ENUM < 20087 /* stupid libical doesn't have a correct way to check version */
+		icalproperty_new_class("PUBLIC"),
+		icalproperty_new_transp("OPAQUE"),
+#else
+		icalproperty_new_class(ICAL_CLASS_PUBLIC),
+		icalproperty_new_transp(ICAL_TRANSP_OPAQUE),
+#endif
+                orgprop,
+                0
+                );
 
 	if (!event) {
 		g_warning ("can't generate event");
