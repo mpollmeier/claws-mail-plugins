@@ -1,3 +1,12 @@
+2004-12-09 [thorsten]	0.6
+
+	* win32/Makefile		** NEW FILE **
+	  win32/pgpinline.def		** NEW FILE **
+	  win32/pgpinline.dsp		** NEW FILE **
+	  win32/pgpinline_d.dsp 	** NEW FILE **
+	  win32/version.rc		** NEW FILE **
+	  	Makefiles for MinGW/GCC and MSVC6
+
 2004-11-08 [colin]	0.5
 
 	* src/pgpinline.c
