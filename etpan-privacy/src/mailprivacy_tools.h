@@ -30,14 +30,14 @@
  */
 
 /*
- * $Id: mailprivacy_tools.h,v 1.1 2003-12-10 04:31:50 hoa Exp $
+ * $Id: mailprivacy_tools.h,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #ifndef MAIL_PRIVACY_TOOLS_H
 
 #define MAIL_PRIVACY_TOOLS_H
 
-#include <libetpan.h>
+#include <libetpan/libetpan.h>
 #include "mailprivacy_types.h"
 
 void mailprivacy_mime_clear(struct mailmime * mime);

@@ -30,16 +30,16 @@
  */
 
 /*
- * $Id: mailprivacy_types.h,v 1.1 2003-12-10 04:31:50 hoa Exp $
+ * $Id: mailprivacy_types.h,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #ifndef MAIL_PRIVACY_TYPES_H
 
 #define MAIL_PRIVACY_TYPES_H
 
-#include <chash.h>
-#include <carray.h>
-#include <libetpan.h>
+#include <libetpan/chash.h>
+#include <libetpan/carray.h>
+#include <libetpan/libetpan.h>
 
 struct mailprivacy {
   char * tmp_dir;               /* working tmp directory */

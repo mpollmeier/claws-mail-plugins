@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_gnupg.c,v 1.1 2003-12-10 04:31:37 hoa Exp $
+ * $Id: mailprivacy_gnupg.c,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #include "mailprivacy_gnupg.h"
@@ -45,7 +45,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include "mailprivacy_tools.h"
-#include <libetpan.h>
+#include <libetpan/libetpan.h>
 
 static int pgp_is_encrypted(struct mailmime * mime)
 {
@@ -1050,14 +1050,14 @@ static int mime_is_text(struct mailmime * build_info)
           MAILMIME_TYPE_DISCRETE_TYPE) {
         if (build_info->mm_content_type->ct_type->tp_data.tp_discrete_type->dt_type ==
             MAILMIME_DISCRETE_TYPE_TEXT)
-          return TRUE;
+          return 1;
       }
     }
     else
-      return TRUE;
+      return 1;
   }
 
-  return FALSE;
+  return 0;
 }
 
 

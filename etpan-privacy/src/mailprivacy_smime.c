@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_smime.c,v 1.1 2003-12-10 04:31:49 hoa Exp $
+ * $Id: mailprivacy_smime.c,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #include "mailprivacy_smime.h"
@@ -61,6 +61,7 @@ static char CAcert_dir[PATH_MAX] = "";
 static char * CAfile = NULL;
 static int CA_check = 1;
 static int store_cert = 0;
+static char private_keys_dir[PATH_MAX] = "";
 
 static char * get_cert_file(char * email);
 
@@ -1618,10 +1619,10 @@ static int get_cert_from_sig(struct mailprivacy * privacy,
 
   if (* cert_dir == '\0')
     return MAIL_ERROR_INVAL;
-  
+
   if (mime->mm_type != MAILMIME_MULTIPLE)
     return MAIL_ERROR_INVAL;
-  
+
   email = get_first_from_addr(mime);
   if (email == NULL)
     return MAIL_ERROR_INVAL;
@@ -1629,7 +1630,7 @@ static int get_cert_from_sig(struct mailprivacy * privacy,
   cert_file = get_cert_file(email);
   if (cert_file != NULL)
     return MAIL_NO_ERROR;
-  
+
   /* get the two parts of the S/MIME message */
   
   cur = clist_begin(mime->mm_data.mm_multipart.mm_mp_list);
@@ -1644,7 +1645,7 @@ static int get_cert_from_sig(struct mailprivacy * privacy,
     res = MAIL_ERROR_INVAL;
     goto err;
   }
-  
+
   signature_mime = cur->data;
   
   r = mailprivacy_fetch_decoded_to_file(privacy,
@@ -1681,7 +1682,7 @@ static int get_cert_from_sig(struct mailprivacy * privacy,
     res = MAIL_ERROR_COMMAND;
     goto unlink_signature;
   }
-  
+
   unlink(signature_filename);
   
   set_file(certificates, email, store_cert_filename);
@@ -1717,8 +1718,8 @@ void mailprivacy_smime_set_private_keys_dir(struct mailprivacy * privacy,
   if (* directory == '\0')
     return;
 
-  strncpy(cert_dir, directory, sizeof(cert_dir));
-  cert_dir[sizeof(cert_dir) - 1] = '\0';
+  strncpy(private_keys_dir, directory, sizeof(private_keys_dir));
+  private_keys_dir[sizeof(private_keys_dir) - 1] = '\0';
   
   dir = opendir(directory);
   if (dir == NULL)

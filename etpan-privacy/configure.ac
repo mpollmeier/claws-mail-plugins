@@ -1,7 +1,7 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
-AM_INIT_AUTOMAKE(etpan-privacy, 0.2, no-define)
+AM_INIT_AUTOMAKE(etpan-privacy, 0.3, no-define)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 

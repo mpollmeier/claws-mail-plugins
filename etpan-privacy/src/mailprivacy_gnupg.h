@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_gnupg.h,v 1.1 2003-12-10 04:31:50 hoa Exp $
+ * $Id: mailprivacy_gnupg.h,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #ifndef MAIL_PRIVACY_GNUPG_H

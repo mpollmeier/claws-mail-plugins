@@ -30,14 +30,14 @@
  */
 
 /*
- * $Id: mailprivacy.h,v 1.1 2003-12-10 04:31:49 hoa Exp $
+ * $Id: mailprivacy.h,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #ifndef MAILPRIVACY_H
 
 #define MAILPRIVACY_H
 
-#include <libetpan.h>
+#include <libetpan/libetpan.h>
 #include "mailprivacy_types.h"
 #include "mailprivacy_tools.h"
 

@@ -1,3 +1,12 @@
+2003-12-15 [hoa]	0.3
+
+	* src/mailprivacy.[ch]
+	* src/mailprivacy_gnupg.[ch]
+	* src/mailprivacy_smime.[ch]
+	* src/mailprivacy_tools.[ch]
+	* src/mailprivacy_types.h
+	    sync with etpan-ng
+
 2003-12-14 [hoa]	0.2
 
 	sync with 0.9.7claws40

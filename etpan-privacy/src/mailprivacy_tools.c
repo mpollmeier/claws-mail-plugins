@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailprivacy_tools.c,v 1.1 2003-12-10 04:31:43 hoa Exp $
+ * $Id: mailprivacy_tools.c,v 1.2 2003-12-15 15:52:08 hoa Exp $
  */
 
 #include "mailprivacy_tools.h"
@@ -43,7 +43,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <libetpan.h>
+#include <libetpan/libetpan.h>
 #include <ctype.h>
 #include "mailprivacy.h"
 
