@@ -59,7 +59,7 @@ void vcal_manager_update_answer (VCalEvent 	*event,
 				 const gchar 	*attendee,
 				 const gchar 	*name,
 				 enum icalparameter_partstat ans,
-				 enum icalparameter_role role);
+				 enum icalparameter_cutype cutype);
 
 VCalEvent *vcal_manager_load_event (const gchar *uid);
 gboolean vcal_manager_reply (PrefsAccount 	*account, 
