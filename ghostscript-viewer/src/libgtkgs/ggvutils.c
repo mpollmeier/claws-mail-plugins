@@ -3,6 +3,8 @@
 #ifdef HAVE_CONFIG_H
 #  include "pluginconfig.h"
 #endif
+#include "config.h"
+
 #include <math.h>
 #include <ctype.h>
 #include <sys/stat.h>

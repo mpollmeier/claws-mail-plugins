@@ -1,3 +1,20 @@
-2003-06-01 [christoph]
+2003-06-09 [christoph]
+
+	* .cvsignore			** NEW **
+	* src/.cvsignore		** NEW **
+	* src/libgtkgs/.cvsignore	** NEW **
+		add cvsignore files
+
+	* configure.ac
+	* src/plugin.c
+	* src/viewer.c
+	* src/viewerprefs.c
+	* src/libgtkgs/Makefile.am
+        * src/libgtkgs/ggvutils.c
+	* src/libgtkgs/gtkgs.c
+		don't run the gettext check ourself. It is only
+		important of sylpheed was build with gettext support
+
+2003-06-08 [christoph]
 
 	Start of ChangeLog

@@ -18,9 +18,9 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#  include "config.h"
 #  include "pluginconfig.h"
 #endif
+#include "config.h"
 
 #include "plugin.h"
 #include "utils.h"

@@ -110,6 +110,7 @@ The DONE message indicates that ghostscript has finished processing.
 #ifdef HAVE_CONFIG_H
 #  include <pluginconfig.h>
 #endif
+#include "config.h"
 
 #include <string.h>
 #include <signal.h>

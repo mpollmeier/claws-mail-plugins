@@ -7,6 +7,7 @@ libgtkgs_la_SOURCES = \
     ps.c ps.h
 
 INCLUDES = \
+	-I$(sylpheed_dir)/ \
 	-I$(sylpheed_dir)/src/common
 
 AM_CPPFLAGS = \

@@ -1,4 +1,5 @@
 AC_INIT(src/plugin.c)
+AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
 AM_INIT_AUTOMAKE(ghostscript-viewer, 0.3, no-define)
@@ -26,8 +27,6 @@ AC_SUBST(sylpheed_dir)
 AC_CHECK_HEADER(paths.h)
 AC_PATH_PROG(GS_PROG, gs)
 AC_DEFINE_UNQUOTED(GS_PATH, "$GS_PROG", [Path to ghostscript])
-
-AM_GNU_GETTEXT
 
 dnl check for GS version and define appropriate alpha parameters
 AC_MSG_CHECKING(for Ghostscript version...)
