@@ -152,7 +152,7 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 			return data->is_signed;
 	}
 	
-	textdata = get_part_as_string(mimeinfo, 10);
+	textdata = get_part_as_string(mimeinfo, 30);
 	if (!textdata)
 		return FALSE;
 
@@ -260,7 +260,7 @@ static gboolean pgpinline_is_encrypted(MimeInfo *mimeinfo)
 	if (mimeinfo->type != MIMETYPE_TEXT)
 		return FALSE;
 	
-	textdata = get_part_as_string(mimeinfo, 10);
+	textdata = get_part_as_string(mimeinfo, 30);
 	if (!textdata)
 		return FALSE;
 	
