@@ -28,5 +28,8 @@
 typedef struct _VCalMeeting VCalMeeting;
 
 VCalMeeting *vcal_meeting_create(VCalEvent *event);
+VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event);
+gboolean vcal_meeting_send(VCalMeeting *meet);
+gint vcal_meeting_alert_check(gpointer data);
 
 #endif

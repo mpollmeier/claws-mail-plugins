@@ -8,6 +8,7 @@ vcalendar_la_SOURCES = \
 	vcal_manager.c vcal_manager.h \
 	vcal_folder.c vcal_folder.h \
 	vcal_meeting_gtk.c vcal_meeting_gtk.h \
+	vcal_prefs.c vcal_prefs.h \
 	icaltime_as_local.c icaltime_as_local.h
  
 vcalendar_la_LDFLAGS = \

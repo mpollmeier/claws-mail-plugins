@@ -1,7 +1,7 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Sylpheed-Claws team
- * This file (C) 2004 Colin Leroy <colin@colino.net>
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto & the Sylpheed-Claws team
+ * This file (C) 2004-2005 Colin Leroy <colin@colino.net>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include "vcal_folder.h"
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
+#include "vcal_prefs.h"
 #include "prefs_account.h"
 #include "account.h"
 #include "alertpanel.h"
@@ -445,7 +446,6 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 		g_free(orig_email);
 	}
 	
-	/* vcal_manager_event_print(event); */
 	res = vcal_manager_request(account, event);
 	g_free(uid);
 	g_free(organizer);
@@ -717,4 +717,85 @@ VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event)
 gboolean vcal_meeting_send(VCalMeeting *meet)
 {
 	return send_meeting_cb(NULL, meet);
+}
+
+static gboolean g_slist_find_string(GSList *list, const gchar * str)
+{
+	GSList *cur = list;
+	while (cur) {
+		if (!strcmp((gchar *)cur->data, str))
+			return TRUE;
+		cur = cur->next;
+	}
+	return FALSE;
+}
+
+gint vcal_meeting_alert_check(gpointer data)
+{
+	GSList *events = NULL, *cur = NULL;
+	static GSList *alert_done = NULL;
+
+	if (!vcalprefs.alert_enable)
+		return TRUE;
+
+	events = vcal_folder_get_waiting_events();
+
+	for (cur = events; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+		time_t start, end, current;
+		
+		start = icaltime_as_timet(icaltime_from_string(event->dtstart));
+		end = icaltime_as_timet(icaltime_from_string(event->dtend));
+		current = time(NULL);
+		
+		if (start > current && start < (current + (vcalprefs.alert_delay*60))) {
+			if (!g_slist_find_string(alert_done, event->uid)) {
+				alert_done = g_slist_append(alert_done, g_strdup(event->uid));
+				gchar *estart = icaltime_as_ctime(icaltime_as_local(
+							icaltime_from_string(event->dtstart)));
+				int length = (end - start) / 60;
+				gchar *duration = NULL, *hours = NULL, *minutes = NULL;
+				gchar *message = NULL;
+				gchar *title = NULL;
+
+				if (length >= 60)
+					hours = g_strdup_printf(_("%d hour%s"), length/60,
+							(length/60) > 1 ? "s":"");
+				if (length%60)
+					minutes = g_strdup_printf(_("%d minute%s"),
+							length%60, (length%60) > 1 ? "s":"");
+				
+				duration = g_strdup_printf("%s%s%s",
+						hours?hours:"",
+						hours && minutes ? " ":"",
+						minutes?minutes:"");
+
+				g_free(hours);
+				g_free(minutes);
+
+				title = g_strdup_printf(_("Upcoming event: %s"), event->summary);
+				message = g_strdup_printf(_("You have a meeting or event soon.\n"
+						 "It starts at %s and ends %s later.\n"
+						 "More information:\n\n"
+						 "%s"),
+							estart,
+							duration,
+							event->description);
+				
+				g_free(duration);
+
+				alertpanel_with_type(title, message,
+							_("Ok"), NULL, NULL,
+							NULL, ALERT_NOTICE);
+				g_free(title);
+				g_free(message);
+			}
+		}
+		
+		vcal_manager_free_event((VCalEvent *)cur->data);
+	}
+	
+	g_slist_free(events);
+
+	return TRUE;
 }

@@ -40,6 +40,7 @@
 #include "xml.h"
 #include "xmlprops.h"
 #include "alertpanel.h"
+#include "vcal_prefs.h"
 #include "menu.h"
 
 MimeViewerFactory vcal_viewer_factory;
@@ -990,9 +991,13 @@ MimeViewerFactory vcal_viewer_factory =
 	vcal_viewer_create,
 };
 
+static gint alert_timeout_tag = 0;
+
 void vcalendar_init(void)
 {
 	Folder *folder = NULL;
+	GSList *events = NULL;
+	GSList *cur = NULL;
 	
 	mimeview_register_viewer_factory(&vcal_viewer_factory);
 	folder_register_class(vcal_folder_get_class());
@@ -1008,6 +1013,11 @@ void vcalendar_init(void)
 		folder_item_scan(folder->inbox);
 	
 	vcal_folder_gtk_init();
+	vcal_prefs_init();
+
+	alert_timeout_tag = gtk_timeout_add(60*1000, 
+				(GtkFunction)vcal_meeting_alert_check, 
+				(gpointer)NULL);
 }
 
 void vcalendar_done(void)
@@ -1015,4 +1025,7 @@ void vcalendar_done(void)
 	mimeview_unregister_viewer_factory(&vcal_viewer_factory);
 	folder_unregister_class(vcal_folder_get_class());
 	vcal_folder_gtk_done();
+	vcal_prefs_done();
+	gtk_timeout_remove(alert_timeout_tag);
+	alert_timeout_tag = 0;
 }

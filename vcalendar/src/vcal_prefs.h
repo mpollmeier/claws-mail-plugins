@@ -1,7 +1,7 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Sylpheed-Claws team
- * This file (C) 2004 Colin Leroy <colin@colino.net>
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * This file (C) 2005 Colin Leroy <colin@colino.net>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,15 +18,22 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __VCAL_FOLDER_H__
-#define __VCAL_FOLDER_H__
+#ifndef VCALPREFS_H
+#define VCALPREFS_H
 
 #include <glib.h>
-#include "folder.h"
 
-FolderClass *vcal_folder_get_class();
-void vcal_folder_gtk_init(void);
-void vcal_folder_gtk_done(void);
-GSList *vcal_folder_get_waiting_events(void);
+typedef struct _VcalendarPrefs VcalendarPrefs;
+
+struct _VcalendarPrefs
+{
+	gboolean	alert_enable;
+	gboolean	alert_delay;
+};
+
+extern VcalendarPrefs vcalprefs;
+
+void vcal_prefs_init	(void);
+void vcal_prefs_done	(void);
 
 #endif

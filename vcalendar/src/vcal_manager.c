@@ -785,8 +785,6 @@ static gchar *write_headers(PrefsAccount 	*account,
 			}
 			cur = cur->next;
 		}
-		if (!attendees)
-			return NULL;
 	}
 	
 	if (!short_headers) {
