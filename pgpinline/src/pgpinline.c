@@ -137,7 +137,7 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 {
 	PrivacyDataPGP *data = NULL;
 	const gchar *sig_indicator = "-----BEGIN PGP SIGNED MESSAGE-----";
-	gchar *textdata;
+	gchar *textdata, *sigpos;
 	
 	g_return_val_if_fail(mimeinfo != NULL, FALSE);
 	
@@ -157,7 +157,12 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 	if (!textdata)
 		return FALSE;
 
-	if (!strstr(textdata, sig_indicator)) {
+	if ((sigpos = strstr(textdata, sig_indicator)) == NULL) {
+		g_free(textdata);
+		return FALSE;
+	}
+
+	if (!(sigpos == textdata) && !(sigpos[-1] == '\n')) {
 		g_free(textdata);
 		return FALSE;
 	}
