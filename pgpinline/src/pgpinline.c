@@ -171,9 +171,6 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 	data->done_sigtest = TRUE;
 	data->is_signed = TRUE;
 
-	if (prefs_common.auto_check_signatures)
-		pgpinline_check_signature(mimeinfo);
-	
 	return TRUE;
 }
 
@@ -219,6 +216,10 @@ static SignatureStatus pgpinline_get_sig_status(MimeInfo *mimeinfo)
 	
 	g_return_val_if_fail(data != NULL, SIGNATURE_INVALID);
 
+	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
+	    prefs_common.auto_check_signatures)
+		pgpmime_check_signature(mimeinfo);
+
 	return sgpgme_sigstat_gpgme_to_privacy(data->ctx, data->sigstatus);
 }
 
@@ -228,6 +229,10 @@ static gchar *pgpinline_get_sig_info_short(MimeInfo *mimeinfo)
 	
 	g_return_val_if_fail(data != NULL, g_strdup("Error"));
 
+	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
+	    prefs_common.auto_check_signatures)
+		pgpmime_check_signature(mimeinfo);
+	
 	return sgpgme_sigstat_info_short(data->ctx, data->sigstatus);
 }
 
@@ -372,7 +377,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 			gpgme_release(data->ctx);
 		data->ctx = ctx;
 	} else
-		 gpgme_release(ctx);
+		gpgme_release(ctx);
 
 	return decinfo;
 }
