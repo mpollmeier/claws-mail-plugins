@@ -497,7 +497,8 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 
 		gtk_entry_set_text(GTK_ENTRY(meet->summary), event->summary);	
 		gtk_text_buffer_set_text(buffer, event->description, -1);	
-	}
+	} else 
+		meet->method = ICAL_METHOD_REQUEST;
 	
 	meet->save_btn		= gtk_button_new_with_label(_("Save & Send"));
 
