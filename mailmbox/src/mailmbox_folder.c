@@ -265,7 +265,7 @@ static void mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item)
 	g_return_if_fail(item != NULL);
         
         if (item->mbox != NULL) {
-                write_max_uid_value(_item, item->mbox->written_uid);
+                write_max_uid_value(_item, item->mbox->mb_written_uid);
                 mailmbox_done(item->mbox);
         }
 	g_free(_item);
@@ -358,7 +358,7 @@ static int mailmbox_item_sync(FolderItem *_item, int validate_uid)
                         goto err;
                 }
                 
-                if (item->mbox->written_uid < item->mbox->max_uid) {
+                if (item->mbox->mb_written_uid < item->mbox->mb_max_uid) {
                         r = mailmbox_expunge_no_lock(item->mbox);
                         if (r != MAILMBOX_NO_ERROR)
                                 goto unlock;
@@ -400,13 +400,13 @@ static gint mailmbox_get_num_list(Folder *folder, FolderItem *item,
         if (mbox == NULL)
                 return -1;
         
-        for(i = 0 ; i < carray_count(mbox->tab) ; i ++) {
+        for(i = 0 ; i < carray_count(mbox->mb_tab) ; i ++) {
                 struct mailmbox_msg_info * msg;
                 
-                msg = carray_get(mbox->tab, i);
+                msg = carray_get(mbox->mb_tab, i);
                 if (msg != NULL) {
 			*list = g_slist_prepend(*list,
-                            GINT_TO_POINTER(msg->uid));
+                            GINT_TO_POINTER(msg->msg_uid));
                         nummsgs ++;
                 }
         }
@@ -445,7 +445,6 @@ static gchar *s_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num)
         if (r != MAILMBOX_NO_ERROR)
                 goto free;
         
-        fprintf(stderr, file);
         old_mask = umask(0077);
         f = fopen(file, "w");
         umask(old_mask);
@@ -501,7 +500,7 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
         key.data = (char *) &uid;
         key.len = sizeof(uid);
         
-        r = chash_get(mbox->hash, &key, &value);
+        r = chash_get(mbox->mb_hash, &key, &value);
         if (r < 0)
                 return NULL;
         
@@ -512,7 +511,7 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
 
 	msginfo->msgnum = uid;
 	msginfo->folder = _item;
-        msginfo->size = info->size - info->start_len;
+        msginfo->size = info->msg_size - info->msg_start_len;
 
 	return msginfo;
 }
@@ -688,10 +687,10 @@ static gint mailmbox_add_msgs(Folder *folder, FolderItem *dest,
                 if (data == MAP_FAILED)
                         goto close;
                 
-                append_info.message = data;
-                append_info.size = len;
+                append_info.ai_message = data;
+                append_info.ai_size = len;
                 
-                cur_token = mbox->mapping_size;
+                cur_token = mbox->mb_mapping_size;
                 
                 r = mailmbox_append_message_list_no_lock(mbox, append_list);
                 if (r != MAILMBOX_NO_ERROR)
@@ -706,16 +705,16 @@ static gint mailmbox_add_msgs(Folder *folder, FolderItem *dest,
                 if (r != MAILMBOX_NO_ERROR)
                         goto unlock;
                 
-                msg = carray_get(mbox->tab, carray_count(mbox->tab) - 1);
+                msg = carray_get(mbox->mb_tab, carray_count(mbox->mb_tab) - 1);
 
                 if (relation != NULL)
                         g_relation_insert(relation,
                             fileinfo->msginfo != NULL ?
                             (gpointer) fileinfo->msginfo :
                             (gpointer) fileinfo,
-                            GINT_TO_POINTER(msg->uid));
+                            GINT_TO_POINTER(msg->msg_uid));
                 
-                last_num = msg->uid;
+                last_num = msg->msg_uid;
                 
                 continue;
                 
@@ -807,14 +806,14 @@ static gint mailmbox_remove_all_msg(Folder *folder, FolderItem *item)
         if (mbox == NULL)
                 return -1;
        
-        for(i = 0 ; i < carray_count(mbox->tab) ; i ++) {
+        for(i = 0 ; i < carray_count(mbox->mb_tab) ; i ++) {
                 struct mailmbox_msg_info * msg;
                 
-                msg = carray_get(mbox->tab, i);
+                msg = carray_get(mbox->mb_tab, i);
                 if (msg == NULL)
                         continue;
                 
-                r = mailmbox_delete_msg(mbox, msg->uid);
+                r = mailmbox_delete_msg(mbox, msg->msg_uid);
                 if (r != MAILMBOX_NO_ERROR)
                         continue;
         }
@@ -907,9 +906,9 @@ static gboolean mailmbox_scan_required(Folder *folder, FolderItem *_item)
         if (mbox == NULL)
                 return FALSE;
         
-        scan_required = (item->old_max_uid != item->mbox->max_uid);
+        scan_required = (item->old_max_uid != item->mbox->mb_max_uid);
         
-        item->old_max_uid = item->mbox->max_uid;
+        item->old_max_uid = item->mbox->mb_max_uid;
 
         return scan_required;
 }

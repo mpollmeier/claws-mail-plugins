@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox_types.c,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: mailmbox_types.c,v 1.2 2003-12-10 04:23:02 hoa Exp $
  */
 
 #include "mailmbox_types.h"
@@ -49,11 +49,11 @@
 /* *********************************************************************** */
 
 int mailmbox_msg_info_update(struct mailmbox_folder * folder,
-			     size_t start, size_t start_len,
-			     size_t headers, size_t headers_len,
-			     size_t body, size_t body_len,
-			     size_t size, size_t padding,
-			     uint32_t uid)
+			     size_t msg_start, size_t msg_start_len,
+			     size_t msg_headers, size_t msg_headers_len,
+			     size_t msg_body, size_t msg_body_len,
+			     size_t msg_size, size_t msg_padding,
+			     uint32_t msg_uid)
 {
   struct mailmbox_msg_info * info;
   int res;
@@ -61,57 +61,58 @@ int mailmbox_msg_info_update(struct mailmbox_folder * folder,
   chashdatum data;
   int r;
   
-  key.data = (char *) &uid;
-  key.len = sizeof(uid);
-  r = chash_get(folder->hash, &key, &data);
+  key.data = &msg_uid;
+  key.len = sizeof(msg_uid);
+  r = chash_get(folder->mb_hash, &key, &data);
   if (r < 0) {
-    uint32_t index;
+    unsigned int index;
 
-    info = mailmbox_msg_info_new(start, start_len, headers, headers_len,
-				 body, body_len, size, padding, uid);
+    info = mailmbox_msg_info_new(msg_start, msg_start_len,
+        msg_headers, msg_headers_len,
+        msg_body, msg_body_len, msg_size, msg_padding, msg_uid);
     if (info == NULL) {
       res = MAILMBOX_ERROR_MEMORY;
       goto err;
     }
 
-    r = carray_add(folder->tab, info, &index);
+    r = carray_add(folder->mb_tab, info, &index);
     if (r < 0) {
       mailmbox_msg_info_free(info);
       res = MAILMBOX_ERROR_MEMORY;
       goto err;
     }
 
-    if (uid != 0) {
+    if (msg_uid != 0) {
       chashdatum key;
       chashdatum data;
       
-      key.data = (char *) &uid;
-      key.len = sizeof(uid);
-      data.data = (char *) info;
+      key.data = &msg_uid;
+      key.len = sizeof(msg_uid);
+      data.data = info;
       data.len = 0;
       
-      r = chash_set(folder->hash, &key, &data, NULL);
+      r = chash_set(folder->mb_hash, &key, &data, NULL);
       if (r < 0) {
 	mailmbox_msg_info_free(info);
-	carray_delete(folder->tab, index);
+	carray_delete(folder->mb_tab, index);
 	res = MAILMBOX_ERROR_MEMORY;
 	goto err;
       }
     }
     
-    info->index = index;
+    info->msg_index = index;
   }
   else {
-    info = (struct mailmbox_msg_info *) data.data;
+    info = data.data;
     
-    info->start = start;
-    info->start_len = start_len;
-    info->headers = headers;
-    info->headers_len = headers_len;
-    info->body = body;
-    info->body_len = body_len;
-    info->size = size;
-    info->padding = padding;
+    info->msg_start = msg_start;
+    info->msg_start_len = msg_start_len;
+    info->msg_headers = msg_headers;
+    info->msg_headers_len = msg_headers_len;
+    info->msg_body = msg_body;
+    info->msg_body_len = msg_body_len;
+    info->msg_size = msg_size;
+    info->msg_padding = msg_padding;
   }
 
   return MAILMBOX_NO_ERROR;
@@ -122,11 +123,11 @@ int mailmbox_msg_info_update(struct mailmbox_folder * folder,
 
 
 struct mailmbox_msg_info *
-mailmbox_msg_info_new(size_t start, size_t start_len,
-		      size_t headers, size_t headers_len,
-		      size_t body, size_t body_len,
-		      size_t size, size_t padding,
-		      uint32_t uid)
+mailmbox_msg_info_new(size_t msg_start, size_t msg_start_len,
+		      size_t msg_headers, size_t msg_headers_len,
+		      size_t msg_body, size_t msg_body_len,
+		      size_t msg_size, size_t msg_padding,
+		      uint32_t msg_uid)
 {
   struct mailmbox_msg_info * info;
 
@@ -134,26 +135,26 @@ mailmbox_msg_info_new(size_t start, size_t start_len,
   if (info == NULL)
     return NULL;
 
-  info->index = 0;
-  info->uid = uid;
-  if (uid != 0)
-    info->written_uid = TRUE;
+  info->msg_index = 0;
+  info->msg_uid = msg_uid;
+  if (msg_uid != 0)
+    info->msg_written_uid = TRUE;
   else
-    info->written_uid = FALSE;
-  info->deleted = FALSE;
+    info->msg_written_uid = FALSE;
+  info->msg_deleted = FALSE;
 
-  info->start = start;
-  info->start_len = start_len;
+  info->msg_start = msg_start;
+  info->msg_start_len = msg_start_len;
 
-  info->headers = headers;
-  info->headers_len = headers_len;
+  info->msg_headers = msg_headers;
+  info->msg_headers_len = msg_headers_len;
 
-  info->body = body;
-  info->body_len = body_len;
+  info->msg_body = msg_body;
+  info->msg_body_len = msg_body_len;
 
-  info->size = size;
+  info->msg_size = msg_size;
 
-  info->padding = padding;
+  info->msg_padding = msg_padding;
 
   return info;
 }
@@ -167,7 +168,7 @@ void mailmbox_msg_info_free(struct mailmbox_msg_info * info)
 /* append info */
 
 struct mailmbox_append_info *
-mailmbox_append_info_new(char * message, size_t size)
+mailmbox_append_info_new(const char * ai_message, size_t ai_size)
 {
   struct mailmbox_append_info * info;
 
@@ -175,8 +176,8 @@ mailmbox_append_info_new(char * message, size_t size)
   if (info == NULL)
     return NULL;
 
-  info->message = message;
-  info->size = size;
+  info->ai_message = ai_message;
+  info->ai_size = ai_size;
 
   return info;
 }
@@ -186,7 +187,7 @@ void mailmbox_append_info_free(struct mailmbox_append_info * info)
   free(info);
 }
 
-struct mailmbox_folder * mailmbox_folder_new(char * filename)
+struct mailmbox_folder * mailmbox_folder_new(const char * mb_filename)
 {
   struct mailmbox_folder * folder;
 
@@ -194,35 +195,35 @@ struct mailmbox_folder * mailmbox_folder_new(char * filename)
   if (folder == NULL)
     goto err;
 
-  strncpy(folder->filename, filename, PATH_MAX);
+  strncpy(folder->mb_filename, mb_filename, PATH_MAX);
 
-  folder->mtime = (time_t) -1;
+  folder->mb_mtime = (time_t) -1;
 
-  folder->fd = -1;
-  folder->read_only = TRUE;
-  folder->no_uid = TRUE;
+  folder->mb_fd = -1;
+  folder->mb_read_only = TRUE;
+  folder->mb_no_uid = TRUE;
 
-  folder->changed = FALSE;
-  folder->deleted_count = 0;
+  folder->mb_changed = FALSE;
+  folder->mb_deleted_count = 0;
   
-  folder->mapping = NULL;
-  folder->mapping_size = 0;
+  folder->mb_mapping = NULL;
+  folder->mb_mapping_size = 0;
 
-  folder->written_uid = 0;
-  folder->max_uid = 0;
+  folder->mb_written_uid = 0;
+  folder->mb_max_uid = 0;
 
-  folder->hash = chash_new(CHASH_DEFAULTSIZE, CHASH_COPYKEY);
-  if (folder->hash == NULL)
+  folder->mb_hash = chash_new(CHASH_DEFAULTSIZE, CHASH_COPYKEY);
+  if (folder->mb_hash == NULL)
     goto free;
   
-  folder->tab = carray_new(128);
-  if (folder->tab == NULL)
+  folder->mb_tab = carray_new(128);
+  if (folder->mb_tab == NULL)
     goto free_hash;
 
   return folder;
 
  free_hash:
-  chash_free(folder->hash);
+  chash_free(folder->mb_hash);
  free:
   free(folder);
  err:
@@ -231,19 +232,19 @@ struct mailmbox_folder * mailmbox_folder_new(char * filename)
 
 void mailmbox_folder_free(struct mailmbox_folder * folder)
 {
-  uint32_t i;
+  unsigned int i;
 
-  for(i = 0 ; i < folder->tab->len ; i++) {
+  for(i = 0 ; i < carray_count(folder->mb_tab) ; i++) {
     struct mailmbox_msg_info * info;
 
-    info = carray_get(folder->tab, i);
+    info = carray_get(folder->mb_tab, i);
     if (info != NULL)
       mailmbox_msg_info_free(info);
   }
 
-  carray_free(folder->tab);
+  carray_free(folder->mb_tab);
   
-  chash_free(folder->hash);
+  chash_free(folder->mb_hash);
 
   free(folder);
 }

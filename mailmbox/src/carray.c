@@ -33,11 +33,15 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: carray.c,v 1.2 2003-12-10 04:23:01 hoa Exp $
+ */
+
 #include <stdlib.h>
 #include <string.h>
 #include "carray.h"
 
-carray * carray_new(uint32_t initsize) {
+carray * carray_new(unsigned int initsize) {
   carray * array;
 
   array = (carray *) malloc(sizeof(carray));
@@ -53,7 +57,7 @@ carray * carray_new(uint32_t initsize) {
   return array;
 }
 
-int carray_add(carray * array, void * data, uint32_t * index) {
+int carray_add(carray * array, void * data, unsigned int * index) {
   int r;
   
   r = carray_set_size(array, array->len + 1);
@@ -67,10 +71,10 @@ int carray_add(carray * array, void * data, uint32_t * index) {
   return 0;
 }
 
-int carray_set_size(carray * array, uint32_t new_size)
+int carray_set_size(carray * array, unsigned int new_size)
 {
   if (new_size > array->max) {
-    uint32_t n = array->max * 2;
+    unsigned int n = array->max * 2;
     void * new;
 
     while (n <= new_size)
@@ -87,7 +91,7 @@ int carray_set_size(carray * array, uint32_t new_size)
   return 0;
 }
 
-int carray_delete_fast(carray * array, uint32_t indx) {
+int carray_delete_fast(carray * array, unsigned int indx) {
   if (indx >= array->len)
     return -1;
 
@@ -96,7 +100,7 @@ int carray_delete_fast(carray * array, uint32_t indx) {
   return 0;
 }
 
-int carray_delete(carray * array, uint32_t indx) {
+int carray_delete(carray * array, unsigned int indx) {
   if (indx >= array->len)
     return -1;
 
@@ -105,7 +109,7 @@ int carray_delete(carray * array, uint32_t indx) {
   return 0;
 }
 
-int carray_delete_slow(carray * array, uint32_t indx) {
+int carray_delete_slow(carray * array, unsigned int indx) {
   if (indx >= array->len)
     return -1;
 
@@ -120,15 +124,15 @@ void ** carray_data(carray * array) {
   return array->array;
 }
 
-uint32_t carray_count(carray * array) {
+unsigned int carray_count(carray * array) {
   return array->len;
 }
 
-void * carray_get(carray * array, uint32_t indx) {
+void * carray_get(carray * array, unsigned int indx) {
   return array->array[indx];
 }
 
-void carray_set(carray * array, uint32_t indx, void * value) {
+void carray_set(carray * array, unsigned int indx, void * value) {
   array->array[indx] = value;
 }
 #endif

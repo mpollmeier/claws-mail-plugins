@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimf_write.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: mailimf_write.c,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #include "mailimf_write.h"
@@ -148,7 +148,7 @@ int mailimf_string_write(FILE * f, int * col,
 #define CRLF "\r\n"
 #define HEADER_FOLD "\r\n "
 
-static inline int flush_buf(FILE * f, char * str, size_t length)
+static inline int flush_buf(FILE * f, const char * str, size_t length)
 {
   if (length != 0) {
     int r;
@@ -163,12 +163,12 @@ static inline int flush_buf(FILE * f, char * str, size_t length)
 #define CUT_AT_MAX_VALID_IMF_LINE
 
 int mailimf_string_write(FILE * f, int * col,
-    char * str, size_t length)
+    const char * str, size_t length)
 {
   int r;
   size_t count;
-  char * block_begin;
-  char * p;
+  const char * block_begin;
+  const char * p;
   int done;
 
   p = str;
@@ -381,13 +381,13 @@ enum {
 };
 
 int mailimf_header_string_write(FILE * f, int * col,
-    char * str, size_t length)
+    const char * str, size_t length)
 {
   int state;
-  char * p;
-  char * block_begin;
+  const char * p;
+  const char * block_begin;
   size_t size;
-  char * cut;
+  const char * cut;
   int r;
   
   if (* col < MAX_MAIL_COL)
@@ -627,15 +627,13 @@ enum {
 };
 
 int mailimf_header_string_write(FILE * f, int * col,
-    char * str, size_t length)
+    const char * str, size_t length)
 {
   int state;
-  char * p;
-  char * word_begin;
-  char * word_end;
-  char * next_word;
-  size_t size;
-  int r;
+  const char * p;
+  const char * word_begin;
+  const char * word_end;
+  const char * next_word;
   int first;
   
   state = STATE_BEGIN;
@@ -735,12 +733,13 @@ int mailimf_envelope_fields_write(FILE * f, int * col,
 {
   clistiter * cur;
 
-  for(cur = clist_begin(fields->list) ; cur != NULL ; cur = cur->next) {
+  for(cur = clist_begin(fields->fld_list) ; cur != NULL ;
+      cur = clist_next(cur)) {
     int r;
     struct mailimf_field * field;
     
-    field = cur->data;
-    if (field->type != MAILIMF_FIELD_OPTIONAL_FIELD) {
+    field = clist_content(cur);
+    if (field->fld_type != MAILIMF_FIELD_OPTIONAL_FIELD) {
       r = mailimf_field_write(f, col, field);
       if (r != MAILIMF_NO_ERROR)
 	return r;
@@ -755,10 +754,11 @@ int mailimf_fields_write(FILE * f, int * col,
 {
   clistiter * cur;
 
-  for(cur = clist_begin(fields->list) ; cur != NULL ; cur = cur->next) {
+  for(cur = clist_begin(fields->fld_list) ; cur != NULL ;
+      cur = clist_next(cur)) {
     int r;
     
-    r = mailimf_field_write(f, col, cur->data);
+    r = mailimf_field_write(f, col, clist_content(cur));
     if (r != MAILIMF_NO_ERROR)
       return r;
   }
@@ -789,72 +789,72 @@ int mailimf_field_write(FILE * f, int * col,
 {
   int r;
   
-  switch (field->type) {
+  switch (field->fld_type) {
   case MAILIMF_FIELD_RETURN_PATH:
-    r = mailimf_return_write(f, col, field->field.return_path);
+    r = mailimf_return_write(f, col, field->fld_data.fld_return_path);
     break;
   case MAILIMF_FIELD_RESENT_DATE:
-    r = mailimf_resent_date_write(f, col, field->field.resent_date);
+    r = mailimf_resent_date_write(f, col, field->fld_data.fld_resent_date);
     break;
   case MAILIMF_FIELD_RESENT_FROM:
-    r = mailimf_resent_from_write(f, col, field->field.resent_from);
+    r = mailimf_resent_from_write(f, col, field->fld_data.fld_resent_from);
     break;
   case MAILIMF_FIELD_RESENT_SENDER:
-    r = mailimf_resent_sender_write(f, col, field->field.resent_sender);
+    r = mailimf_resent_sender_write(f, col, field->fld_data.fld_resent_sender);
     break;
   case MAILIMF_FIELD_RESENT_TO:
-    r = mailimf_resent_to_write(f, col, field->field.resent_to);
+    r = mailimf_resent_to_write(f, col, field->fld_data.fld_resent_to);
     break;
   case MAILIMF_FIELD_RESENT_CC:
-    r = mailimf_resent_cc_write(f, col, field->field.resent_cc);
+    r = mailimf_resent_cc_write(f, col, field->fld_data.fld_resent_cc);
     break;
   case MAILIMF_FIELD_RESENT_BCC:
-    r = mailimf_resent_bcc_write(f, col, field->field.resent_bcc);
+    r = mailimf_resent_bcc_write(f, col, field->fld_data.fld_resent_bcc);
     break;
   case MAILIMF_FIELD_RESENT_MSG_ID:
-    r = mailimf_resent_msg_id_write(f, col, field->field.resent_msg_id);
+    r = mailimf_resent_msg_id_write(f, col, field->fld_data.fld_resent_msg_id);
     break;
   case MAILIMF_FIELD_ORIG_DATE:
-    r = mailimf_orig_date_write(f, col, field->field.orig_date);
+    r = mailimf_orig_date_write(f, col, field->fld_data.fld_orig_date);
     break;
   case MAILIMF_FIELD_FROM:
-    r = mailimf_from_write(f, col, field->field.from);
+    r = mailimf_from_write(f, col, field->fld_data.fld_from);
     break;
   case MAILIMF_FIELD_SENDER:
-    r = mailimf_sender_write(f, col, field->field.sender);
+    r = mailimf_sender_write(f, col, field->fld_data.fld_sender);
     break;
   case MAILIMF_FIELD_REPLY_TO:
-    r = mailimf_reply_to_write(f, col, field->field.reply_to);
+    r = mailimf_reply_to_write(f, col, field->fld_data.fld_reply_to);
     break;
   case MAILIMF_FIELD_TO:
-    r = mailimf_to_write(f, col, field->field.to);
+    r = mailimf_to_write(f, col, field->fld_data.fld_to);
     break;
   case MAILIMF_FIELD_CC:
-    r = mailimf_cc_write(f, col, field->field.cc);
+    r = mailimf_cc_write(f, col, field->fld_data.fld_cc);
     break;
   case MAILIMF_FIELD_BCC:
-    r = mailimf_bcc_write(f, col, field->field.bcc);
+    r = mailimf_bcc_write(f, col, field->fld_data.fld_bcc);
     break;
   case MAILIMF_FIELD_MESSAGE_ID:
-    r = mailimf_message_id_write(f, col, field->field.message_id);
+    r = mailimf_message_id_write(f, col, field->fld_data.fld_message_id);
     break;
   case MAILIMF_FIELD_IN_REPLY_TO:
-    r = mailimf_in_reply_to_write(f, col, field->field.in_reply_to);
+    r = mailimf_in_reply_to_write(f, col, field->fld_data.fld_in_reply_to);
     break;
   case MAILIMF_FIELD_REFERENCES:
-    r = mailimf_references_write(f, col, field->field.references);
+    r = mailimf_references_write(f, col, field->fld_data.fld_references);
     break;
   case MAILIMF_FIELD_SUBJECT:
-    r = mailimf_subject_write(f, col, field->field.subject);
+    r = mailimf_subject_write(f, col, field->fld_data.fld_subject);
     break;
   case MAILIMF_FIELD_COMMENTS:
-    r = mailimf_comments_write(f, col, field->field.comments);
+    r = mailimf_comments_write(f, col, field->fld_data.fld_comments);
     break;
   case MAILIMF_FIELD_KEYWORDS:
-    r = mailimf_keywords_write(f, col, field->field.keywords);
+    r = mailimf_keywords_write(f, col, field->fld_data.fld_keywords);
     break;
   case MAILIMF_FIELD_OPTIONAL_FIELD:
-    r = mailimf_optional_field_write(f, col, field->field.optional_field);
+    r = mailimf_optional_field_write(f, col, field->fld_data.fld_optional_field);
     break;
   default:
     r = MAILIMF_ERROR_INVAL;
@@ -877,7 +877,7 @@ static int mailimf_orig_date_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_date_time_write(f, col, date->date_time);
+  r = mailimf_date_time_write(f, col, date->dt_date_time);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -905,6 +905,11 @@ static int dayofweek(int year, int month, int day)
   return (year + year/4 - year/100 + year/400 + offset[month-1] + day) % 7;
 }
 
+static const char * week_of_day_str[] = { "Sun", "Mon", "Tue", "Wed", "Thu",
+                                          "Fri", "Sat"};
+static const char * month_str[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
 static int mailimf_date_time_write(FILE * f, int * col,
 				   struct mailimf_date_time * date_time)
 {
@@ -914,10 +919,6 @@ static int mailimf_date_time_write(FILE * f, int * col,
   struct tm tmval;
   time_t timeval;
 #endif
-  char * week_of_day_str[] = { "Sun", "Mon", "Tue", "Wed", "Thu",
-			       "Fri", "Sat"};
-  char * month_str[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-			 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
   int wday;
   
 #if 0
@@ -935,13 +936,14 @@ static int mailimf_date_time_write(FILE * f, int * col,
   localtime_r(&timeval, &tmval);
 #endif
 
-  wday = dayofweek(date_time->year, date_time->month, date_time->day);
+  wday = dayofweek(date_time->dt_year, date_time->dt_month, date_time->dt_day);
 
   snprintf(date_str, MAX_DATE_STR, "%s, %i %s %i %02i:%02i:%02i %+05i",
-	   week_of_day_str[wday], date_time->day,
-	   month_str[date_time->month - 1],
-	   date_time->year, date_time->hour, date_time->min, date_time->sec,
-	   date_time->zone);
+      week_of_day_str[wday], date_time->dt_day,
+      month_str[date_time->dt_month - 1],
+      date_time->dt_year, date_time->dt_hour,
+      date_time->dt_min, date_time->dt_sec,
+      date_time->dt_zone);
 
   r = mailimf_string_write(f, col, date_str, strlen(date_str));
 
@@ -960,7 +962,7 @@ static int mailimf_from_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_mailbox_list_write(f, col, from->mb_list);
+  r = mailimf_mailbox_list_write(f, col, from->frm_mb_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -983,7 +985,7 @@ static int mailimf_sender_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_mailbox_write(f, col, sender->mb);
+  r = mailimf_mailbox_write(f, col, sender->snd_mb);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1006,7 +1008,7 @@ static int mailimf_reply_to_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_address_list_write(f, col, reply_to->addr_list);
+  r = mailimf_address_list_write(f, col, reply_to->rt_addr_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1030,7 +1032,7 @@ static int mailimf_to_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_address_list_write(f, col, to->addr_list);
+  r = mailimf_address_list_write(f, col, to->to_addr_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1054,7 +1056,7 @@ static int mailimf_cc_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_address_list_write(f, col, cc->addr_list);
+  r = mailimf_address_list_write(f, col, cc->cc_addr_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1078,8 +1080,8 @@ static int mailimf_bcc_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  if (bcc->addr_list != NULL) {
-    r =  mailimf_address_list_write(f, col, bcc->addr_list);
+  if (bcc->bcc_addr_list != NULL) {
+    r =  mailimf_address_list_write(f, col, bcc->bcc_addr_list);
     if (r != MAILIMF_NO_ERROR)
       return r;
   }
@@ -1109,7 +1111,8 @@ static int mailimf_message_id_write(FILE * f, int * col,
     return r;
 
   r = mailimf_string_write(f, col,
-			   message_id->value, strlen(message_id->value));
+      message_id->mid_value,
+      strlen(message_id->mid_value));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1128,7 +1131,7 @@ static int mailimf_message_id_write(FILE * f, int * col,
 }
 
 
-static int mailimf_msg_id_list_write(FILE * f, int * col, clist * list)
+static int mailimf_msg_id_list_write(FILE * f, int * col, clist * mid_list)
 {
   clistiter * cur;
   int r;
@@ -1136,11 +1139,11 @@ static int mailimf_msg_id_list_write(FILE * f, int * col, clist * list)
 
   first = TRUE;
 
-  for(cur = clist_begin(list) ; cur != NULL ; cur = cur->next) {
+  for(cur = clist_begin(mid_list) ; cur != NULL ; cur = clist_next(cur)) {
     char * msgid;
     size_t len;
 
-    msgid = cur->data;
+    msgid = clist_content(cur);
     len = strlen(msgid);
     
     /*
@@ -1197,7 +1200,7 @@ static int mailimf_in_reply_to_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_msg_id_list_write(f, col, in_reply_to->msg_id_list);
+  r = mailimf_msg_id_list_write(f, col, in_reply_to->mid_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1221,7 +1224,7 @@ static int mailimf_references_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_msg_id_list_write(f, col, references->msg_id_list);
+  r = mailimf_msg_id_list_write(f, col, references->mid_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1247,7 +1250,7 @@ static int mailimf_subject_write(FILE * f, int * col,
     return r;
 
   r = mailimf_header_string_write(f, col,
-      subject->value, strlen(subject->value));
+      subject->sbj_value, strlen(subject->sbj_value));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1270,10 +1273,11 @@ int mailimf_address_list_write(FILE * f, int * col,
 
   first = TRUE;
 
-  for(cur = clist_begin(addr_list->list) ; cur != NULL ; cur = cur->next) {
+  for(cur = clist_begin(addr_list->ad_list) ; cur != NULL ;
+      cur = clist_next(cur)) {
     struct mailimf_address * addr;
 
-    addr = cur->data;
+    addr = clist_content(cur);
 
     if (!first) {
       r = mailimf_string_write(f, col, ", ", 2);
@@ -1298,16 +1302,16 @@ static int mailimf_address_write(FILE * f, int * col,
 {
   int r;
 
-  switch(addr->type) {
+  switch(addr->ad_type) {
   case MAILIMF_ADDRESS_MAILBOX:
-    r = mailimf_mailbox_write(f, col, addr->mailbox);
+    r = mailimf_mailbox_write(f, col, addr->ad_data.ad_mailbox);
     if (r != MAILIMF_NO_ERROR)
       return r;
 
     break;
 
   case MAILIMF_ADDRESS_GROUP:
-    r = mailimf_group_write(f, col, addr->group);
+    r = mailimf_group_write(f, col, addr->ad_data.ad_group);
     if (r != MAILIMF_NO_ERROR)
       return r;
     
@@ -1323,8 +1327,8 @@ static int mailimf_group_write(FILE * f, int * col,
 {
   int r;
 
-  r = mailimf_header_string_write(f, col, group->display_name,
-      strlen(group->display_name));
+  r = mailimf_header_string_write(f, col, group->grp_display_name,
+      strlen(group->grp_display_name));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1332,8 +1336,8 @@ static int mailimf_group_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
   
-  if (group->mb_list != NULL) {
-    r = mailimf_mailbox_list_write(f, col, group->mb_list);
+  if (group->grp_mb_list != NULL) {
+    r = mailimf_mailbox_list_write(f, col, group->grp_mb_list);
     if (r != MAILIMF_NO_ERROR)
       return r;
   }
@@ -1355,10 +1359,11 @@ int mailimf_mailbox_list_write(FILE * f, int * col,
 
   first = TRUE;
 
-  for(cur = clist_begin(mb_list->list) ; cur != NULL ; cur = cur->next) {
+  for(cur = clist_begin(mb_list->mb_list) ; cur != NULL ;
+      cur = clist_next(cur)) {
     struct mailimf_mailbox * mb;
 
-    mb = cur->data;
+    mb = clist_content(cur);
 
     if (!first) {
       r = mailimf_string_write(f, col, ", ", 2);
@@ -1379,7 +1384,7 @@ int mailimf_mailbox_list_write(FILE * f, int * col,
 
 
 int mailimf_quoted_string_write(FILE * f, int * col,
-    char * string, size_t len)
+    const char * string, size_t len)
 {
   int r;
   size_t i;
@@ -1427,9 +1432,9 @@ atext           =       ALPHA / DIGIT / ; Any character except controls,
                         "~"
 */
 
-static int is_atext(char * s)
+static int is_atext(const char * s)
 {
-  char * p;
+  const char * p;
 
   for(p = s ; * p != 0 ; p ++) {
     if (isalpha((unsigned char) * p))
@@ -1476,8 +1481,8 @@ static int mailimf_mailbox_write(FILE * f, int * col,
 #if 0
   if (* col > 1) {
     
-    if (mb->display_name != NULL) {
-      if (* col + strlen(mb->display_name) >= MAX_MAIL_COL) {
+    if (mb->mb_display_name != NULL) {
+      if (* col + strlen(mb->mb_display_name) >= MAX_MAIL_COL) {
         r = mailimf_string_write(f, col, "\r\n ", 3);
         if (r != MAILIMF_NO_ERROR)
           return r;
@@ -1489,28 +1494,28 @@ static int mailimf_mailbox_write(FILE * f, int * col,
   }
 #endif
   
-  if (mb->display_name) {
+  if (mb->mb_display_name) {
 
-    if (is_atext(mb->display_name)) {
-      r = mailimf_header_string_write(f, col, mb->display_name,
-          strlen(mb->display_name));
+    if (is_atext(mb->mb_display_name)) {
+      r = mailimf_header_string_write(f, col, mb->mb_display_name,
+          strlen(mb->mb_display_name));
       if (r != MAILIMF_NO_ERROR)
         return r;
     }
     else {
-      if (mb->display_name != NULL) {
-        if (* col + strlen(mb->display_name) >= MAX_MAIL_COL) {
+      if (mb->mb_display_name != NULL) {
+        if (* col + strlen(mb->mb_display_name) >= MAX_MAIL_COL) {
           r = mailimf_string_write(f, col, "\r\n ", 3);
           if (r != MAILIMF_NO_ERROR)
             return r;
         }
       }
       
-      if (strlen(mb->display_name) > MAX_VALID_IMF_LINE / 2)
+      if (strlen(mb->mb_display_name) > MAX_VALID_IMF_LINE / 2)
         return MAILIMF_ERROR_INVAL;
       
-      r = mailimf_quoted_string_write(f, col, mb->display_name,
-          strlen(mb->display_name));
+      r = mailimf_quoted_string_write(f, col, mb->mb_display_name,
+          strlen(mb->mb_display_name));
       if (r != MAILIMF_NO_ERROR)
         return r;
     }
@@ -1518,7 +1523,7 @@ static int mailimf_mailbox_write(FILE * f, int * col,
     do_fold = 0;
     if (* col > 1) {
       
-      if (* col + strlen(mb->addr_spec) + 3 >= MAX_MAIL_COL) {
+      if (* col + strlen(mb->mb_addr_spec) + 3 >= MAX_MAIL_COL) {
 	r = mailimf_string_write(f, col, "\r\n ", 3);
 	if (r != MAILIMF_NO_ERROR)
 	  return r;
@@ -1536,7 +1541,8 @@ static int mailimf_mailbox_write(FILE * f, int * col,
     if (r != MAILIMF_NO_ERROR)
       return r;
 
-    r = mailimf_string_write(f, col, mb->addr_spec, strlen(mb->addr_spec));
+    r = mailimf_string_write(f, col, mb->mb_addr_spec,
+        strlen(mb->mb_addr_spec));
     if (r != MAILIMF_NO_ERROR)
       return r;
 
@@ -1545,14 +1551,14 @@ static int mailimf_mailbox_write(FILE * f, int * col,
       return r;
   }
   else {
-    if (* col + strlen(mb->addr_spec) >= MAX_MAIL_COL) {
+    if (* col + strlen(mb->mb_addr_spec) >= MAX_MAIL_COL) {
       r = mailimf_string_write(f, col, "\r\n ", 3);
       if (r != MAILIMF_NO_ERROR)
         return r;
     }
     
     r = mailimf_string_write(f, col,
-        mb->addr_spec, strlen(mb->addr_spec));
+        mb->mb_addr_spec, strlen(mb->mb_addr_spec));
     if (r != MAILIMF_NO_ERROR)
       return r;
   }
@@ -1571,7 +1577,7 @@ static int mailimf_comments_write(FILE * f, int * col,
     return r;
 
   r = mailimf_header_string_write(f, col,
-      comments->value, strlen(comments->value));
+      comments->cm_value, strlen(comments->cm_value));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1590,10 +1596,10 @@ static int mailimf_optional_field_write(FILE * f, int * col,
 {
   int r;
 
-  if (strlen(field->name) + 2 > MAX_VALID_IMF_LINE)
+  if (strlen(field->fld_name) + 2 > MAX_VALID_IMF_LINE)
     return MAILIMF_ERROR_INVAL;
   
-  r = mailimf_string_write(f, col, field->name, strlen(field->name));
+  r = mailimf_string_write(f, col, field->fld_name, strlen(field->fld_name));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1601,7 +1607,8 @@ static int mailimf_optional_field_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_header_string_write(f, col, field->value, strlen(field->value));
+  r = mailimf_header_string_write(f, col, field->fld_value,
+      strlen(field->fld_value));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1633,11 +1640,12 @@ static int mailimf_keywords_write(FILE * f, int * col,
 
   first = TRUE;
 
-  for(cur = clist_begin(keywords->list) ; cur != NULL ; cur = cur->next) {
+  for(cur = clist_begin(keywords->kw_list) ; cur != NULL ;
+      cur = clist_next(cur)) {
     char * keyword;
     size_t len;
 
-    keyword = cur->data;
+    keyword = clist_content(cur);
     len = strlen(keyword);
 
     if (!first) {
@@ -1731,7 +1739,7 @@ static int mailimf_return_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_path_write(f, col, return_path->path);
+  r = mailimf_path_write(f, col, return_path->ret_path);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1754,7 +1762,8 @@ static int mailimf_path_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_string_write(f, col, path->addr_spec, strlen(path->addr_spec));
+  r = mailimf_string_write(f, col, path->pt_addr_spec,
+      strlen(path->pt_addr_spec));
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1844,7 +1853,7 @@ static int mailimf_resent_date_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_date_time_write(f, col, date->date_time);
+  r = mailimf_date_time_write(f, col, date->dt_date_time);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1867,7 +1876,7 @@ static int mailimf_resent_from_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_mailbox_list_write(f, col, from->mb_list);
+  r = mailimf_mailbox_list_write(f, col, from->frm_mb_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1890,7 +1899,7 @@ static int mailimf_resent_sender_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_mailbox_write(f, col, sender->mb);
+  r = mailimf_mailbox_write(f, col, sender->snd_mb);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1913,7 +1922,7 @@ static int mailimf_resent_to_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_address_list_write(f, col, to->addr_list);
+  r = mailimf_address_list_write(f, col, to->to_addr_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1937,7 +1946,7 @@ static int mailimf_resent_cc_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  r = mailimf_address_list_write(f, col, cc->addr_list);
+  r = mailimf_address_list_write(f, col, cc->cc_addr_list);
   if (r != MAILIMF_NO_ERROR)
     return r;
 
@@ -1961,8 +1970,8 @@ static int mailimf_resent_bcc_write(FILE * f, int * col,
   if (r != MAILIMF_NO_ERROR)
     return r;
 
-  if (bcc->addr_list != NULL) {
-    r =  mailimf_address_list_write(f, col, bcc->addr_list);
+  if (bcc->bcc_addr_list != NULL) {
+    r =  mailimf_address_list_write(f, col, bcc->bcc_addr_list);
     if (r != MAILIMF_NO_ERROR)
       return r;
   }
@@ -1993,7 +2002,7 @@ mailimf_resent_msg_id_write(FILE * f, int * col,
     return r;
 
   r = mailimf_string_write(f, col,
-			   message_id->value, strlen(message_id->value));
+      message_id->mid_value, strlen(message_id->mid_value));
   if (r != MAILIMF_NO_ERROR)
     return r;
 

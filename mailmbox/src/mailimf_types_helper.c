@@ -60,7 +60,7 @@ int mailimf_mailbox_list_add(struct mailimf_mailbox_list * mailbox_list,
 {
   int r;
 
-  r = clist_append(mailbox_list->list, mb);
+  r = clist_append(mailbox_list->mb_list, mb);
   if (r < 0)
     return MAILIMF_ERROR_MEMORY;
 
@@ -147,7 +147,7 @@ int mailimf_address_list_add(struct mailimf_address_list * address_list,
 {
   int r;
 
-  r = clist_append(address_list->list, addr);
+  r = clist_append(address_list->ad_list, addr);
   if (r < 0)
     return MAILIMF_ERROR_MEMORY;
 
@@ -261,38 +261,38 @@ static void detach_free_common_fields(struct mailimf_orig_date * imf_date,
 				      struct mailimf_message_id * imf_msg_id)
 {
   if (imf_date != NULL) {
-    imf_date->date_time = NULL;
+    imf_date->dt_date_time = NULL;
     mailimf_orig_date_free(imf_date);
   }
   if (imf_from != NULL) {
-    imf_from->mb_list = NULL;
+    imf_from->frm_mb_list = NULL;
     mailimf_from_free(imf_from);
   }
   if (imf_sender != NULL) {
-    imf_sender->mb = NULL;
+    imf_sender->snd_mb = NULL;
     mailimf_sender_free(imf_sender);
   }
   if (imf_to != NULL) {
-    imf_to->addr_list = NULL;
+    imf_to->to_addr_list = NULL;
     mailimf_to_free(imf_to);
   }
   if (imf_cc != NULL) {
-    imf_cc->addr_list = NULL;
+    imf_cc->cc_addr_list = NULL;
     mailimf_to_free(imf_to);
   }
   if (imf_bcc != NULL) {
-    imf_bcc->addr_list = NULL;
+    imf_bcc->bcc_addr_list = NULL;
     mailimf_bcc_free(imf_bcc);
   }
   if (imf_msg_id != NULL) {
-    imf_msg_id->value = NULL;
+    imf_msg_id->mid_value = NULL;
     mailimf_message_id_free(imf_msg_id);
   }
 }
 
 static void detach_resent_field(struct mailimf_field * field)
 {
-  field->type = MAILIMF_FIELD_NONE;
+  field->fld_type = MAILIMF_FIELD_NONE;
   mailimf_field_free(field);
 }
 
@@ -677,7 +677,7 @@ int mailimf_fields_add(struct mailimf_fields * fields,
 {
   int r;
 
-  r = clist_append(fields->list, field);
+  r = clist_append(fields->fld_list, field);
   if (r < 0)
     return MAILIMF_ERROR_MEMORY;
   
@@ -705,22 +705,22 @@ static void detach_free_fields(struct mailimf_orig_date * date,
       msg_id);
 
   if (reply_to != NULL) {
-    reply_to->addr_list = NULL;
+    reply_to->rt_addr_list = NULL;
     mailimf_reply_to_free(reply_to);
   }
 
   if (in_reply_to != NULL) {
-    in_reply_to->msg_id_list = NULL;
+    in_reply_to->mid_list = NULL;
     mailimf_in_reply_to_free(in_reply_to);
   }
 
   if (references != NULL) {
-    references->msg_id_list = NULL;
+    references->mid_list = NULL;
     mailimf_references_free(references);
   }
 
   if (subject != NULL) {
-    subject->value = NULL;
+    subject->sbj_value = NULL;
     mailimf_subject_free(subject);
   }
 }
@@ -728,7 +728,7 @@ static void detach_free_fields(struct mailimf_orig_date * date,
 
 static void detach_field(struct mailimf_field * field)
 {
-  field->type = MAILIMF_FIELD_NONE;
+  field->fld_type = MAILIMF_FIELD_NONE;
   mailimf_field_free(field);
 }
 
@@ -1308,7 +1308,7 @@ struct mailimf_date_time * mailimf_get_current_date(void)
 
 
 /* mkgmtime.c - make time corresponding to a GMT timeval struct
- $Id: mailimf_types_helper.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ $Id: mailimf_types_helper.c,v 1.3 2003-12-10 04:23:01 hoa Exp $
  
  * Copyright (c) 1998-2000 Carnegie Mellon University.  All rights reserved.
  *
@@ -1471,115 +1471,115 @@ void mailimf_single_fields_init(struct mailimf_single_fields * single_fields,
 
   memset(single_fields, 0, sizeof(struct mailimf_single_fields));
 
-  cur = clist_begin(fields->list);
+  cur = clist_begin(fields->fld_list);
   while (cur != NULL) {
     struct mailimf_field * field;
 
-    field = cur->data;
+    field = clist_content(cur);
 
-    switch (field->type) {
+    switch (field->fld_type) {
     case MAILIMF_FIELD_ORIG_DATE:
-      if (single_fields->orig_date == NULL)
-        single_fields->orig_date = field->field.orig_date;
-      cur = cur->next;
+      if (single_fields->fld_orig_date == NULL)
+        single_fields->fld_orig_date = field->fld_data.fld_orig_date;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_FROM:
-      if (single_fields->from == NULL) {
-        single_fields->from = field->field.from;
-        cur = cur->next;
+      if (single_fields->fld_from == NULL) {
+        single_fields->fld_from = field->fld_data.fld_from;
+        cur = clist_next(cur);
       }
       else {
-        clist_concat(single_fields->from->mb_list->list,
-                     field->field.from->mb_list->list);
+        clist_concat(single_fields->fld_from->frm_mb_list->mb_list,
+                     field->fld_data.fld_from->frm_mb_list->mb_list);
         mailimf_field_free(field);
-        cur = clist_delete(fields->list, cur);
+        cur = clist_delete(fields->fld_list, cur);
       }
       break;
     case MAILIMF_FIELD_SENDER:
-      if (single_fields->sender == NULL)
-        single_fields->sender = field->field.sender;
-      cur = cur->next;
+      if (single_fields->fld_sender == NULL)
+        single_fields->fld_sender = field->fld_data.fld_sender;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_REPLY_TO:
-      if (single_fields->reply_to == NULL) {
-        single_fields->reply_to = field->field.reply_to;
-        cur = cur->next;
+      if (single_fields->fld_reply_to == NULL) {
+        single_fields->fld_reply_to = field->fld_data.fld_reply_to;
+        cur = clist_next(cur);
       }
       else {
-        clist_concat(single_fields->reply_to->addr_list->list,
-                     field->field.reply_to->addr_list->list);
+        clist_concat(single_fields->fld_reply_to->rt_addr_list->ad_list,
+                     field->fld_data.fld_reply_to->rt_addr_list->ad_list);
         mailimf_field_free(field);
-        cur = clist_delete(fields->list, cur);
+        cur = clist_delete(fields->fld_list, cur);
       }
       break;
     case MAILIMF_FIELD_TO:
-      if (single_fields->to == NULL) {
-        single_fields->to = field->field.to;
-        cur = cur->next;
+      if (single_fields->fld_to == NULL) {
+        single_fields->fld_to = field->fld_data.fld_to;
+        cur = clist_next(cur);
       }
       else {
-        clist_concat(single_fields->to->addr_list->list,
-                     field->field.to->addr_list->list);
+        clist_concat(single_fields->fld_to->to_addr_list->ad_list,
+                     field->fld_data.fld_to->to_addr_list->ad_list);
         mailimf_field_free(field);
-        cur = clist_delete(fields->list, cur);
+        cur = clist_delete(fields->fld_list, cur);
       }
       break;
     case MAILIMF_FIELD_CC:
-      if (single_fields->cc == NULL) {
-        single_fields->cc = field->field.cc;
-        cur = cur->next;
+      if (single_fields->fld_cc == NULL) {
+        single_fields->fld_cc = field->fld_data.fld_cc;
+        cur = clist_next(cur);
       }
       else {
-        clist_concat(single_fields->cc->addr_list->list, 
-                     field->field.cc->addr_list->list);
+        clist_concat(single_fields->fld_cc->cc_addr_list->ad_list, 
+                     field->fld_data.fld_cc->cc_addr_list->ad_list);
         mailimf_field_free(field);
-        cur = clist_delete(fields->list, cur);
+        cur = clist_delete(fields->fld_list, cur);
       }
       break;
     case MAILIMF_FIELD_BCC:
-      if (single_fields->bcc == NULL) {
-        single_fields->bcc = field->field.bcc;
-        cur = cur->next;
+      if (single_fields->fld_bcc == NULL) {
+        single_fields->fld_bcc = field->fld_data.fld_bcc;
+        cur = clist_next(cur);
       }
       else {
-        clist_concat(single_fields->bcc->addr_list->list,
-                     field->field.bcc->addr_list->list);
+        clist_concat(single_fields->fld_bcc->bcc_addr_list->ad_list,
+                     field->fld_data.fld_bcc->bcc_addr_list->ad_list);
         mailimf_field_free(field);
-        cur = clist_delete(fields->list, cur);
+        cur = clist_delete(fields->fld_list, cur);
       }
       break;
     case MAILIMF_FIELD_MESSAGE_ID:
-      if (single_fields->message_id == NULL)
-        single_fields->message_id = field->field.message_id;
-      cur = cur->next;
+      if (single_fields->fld_message_id == NULL)
+        single_fields->fld_message_id = field->fld_data.fld_message_id;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_IN_REPLY_TO:
-      if (single_fields->in_reply_to == NULL)
-        single_fields->in_reply_to = field->field.in_reply_to;
-      cur = cur->next;
+      if (single_fields->fld_in_reply_to == NULL)
+        single_fields->fld_in_reply_to = field->fld_data.fld_in_reply_to;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_REFERENCES:
-      if (single_fields->references == NULL)
-        single_fields->references = field->field.references;
-      cur = cur->next;
+      if (single_fields->fld_references == NULL)
+        single_fields->fld_references = field->fld_data.fld_references;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_SUBJECT:
-      if (single_fields->subject == NULL)
-        single_fields->subject = field->field.subject;
-      cur = cur->next;
+      if (single_fields->fld_subject == NULL)
+        single_fields->fld_subject = field->fld_data.fld_subject;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_COMMENTS:
-      if (single_fields->comments == NULL)
-        single_fields->comments = field->field.comments;
-      cur = cur->next;
+      if (single_fields->fld_comments == NULL)
+        single_fields->fld_comments = field->fld_data.fld_comments;
+      cur = clist_next(cur);
       break;
     case MAILIMF_FIELD_KEYWORDS:
-      if (single_fields->keywords == NULL)
-        single_fields->keywords = field->field.keywords;
-      cur = cur->next;
+      if (single_fields->fld_keywords == NULL)
+        single_fields->fld_keywords = field->fld_data.fld_keywords;
+      cur = clist_next(cur);
       break;
     default:
-      cur = cur->next;
+      cur = clist_next(cur);
       break;
     }
   }

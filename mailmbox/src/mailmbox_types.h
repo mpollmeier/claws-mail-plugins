@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox_types.h,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: mailmbox_types.h,v 1.2 2003-12-10 04:23:02 hoa Exp $
  */
 
 #ifndef MAILMBOX_TYPES_H
@@ -62,75 +62,75 @@ enum {
 
 
 struct mailmbox_folder {
-  char filename[PATH_MAX];
+  char mb_filename[PATH_MAX];
 
-  time_t mtime;
+  time_t mb_mtime;
 
-  int fd;
-  int read_only;
-  int no_uid;
+  int mb_fd;
+  int mb_read_only;
+  int mb_no_uid;
 
-  int changed;
-  uint32_t deleted_count;
+  int mb_changed;
+  unsigned int mb_deleted_count;
   
-  char * mapping;
-  size_t mapping_size;
+  char * mb_mapping;
+  size_t mb_mapping_size;
 
-  uint32_t written_uid;
-  uint32_t max_uid;
+  uint32_t mb_written_uid;
+  uint32_t mb_max_uid;
 
-  chash * hash;
-  carray * tab;
+  chash * mb_hash;
+  carray * mb_tab;
 };
 
-struct mailmbox_folder * mailmbox_folder_new(char * filename);
+struct mailmbox_folder * mailmbox_folder_new(const char * mb_filename);
 void mailmbox_folder_free(struct mailmbox_folder * folder);
 
 
 struct mailmbox_msg_info {
-  uint32_t index;
-  uint32_t uid;
-  int written_uid;
-  int deleted;
+  unsigned int msg_index;
+  uint32_t msg_uid;
+  int msg_written_uid;
+  int msg_deleted;
 
-  size_t start;
-  size_t start_len;
+  size_t msg_start;
+  size_t msg_start_len;
 
-  size_t headers;
-  size_t headers_len;
+  size_t msg_headers;
+  size_t msg_headers_len;
 
-  size_t body;
-  size_t body_len;
+  size_t msg_body;
+  size_t msg_body_len;
 
-  size_t size;
+  size_t msg_size;
 
-  size_t padding;
+  size_t msg_padding;
 };
 
 
 int mailmbox_msg_info_update(struct mailmbox_folder * folder,
-			     size_t start, size_t start_len,
-			     size_t headers, size_t headers_len,
-			     size_t body, size_t body_len,
-			     size_t size, size_t padding,
-			     uint32_t uid);
+			     size_t msg_start, size_t msg_start_len,
+			     size_t msg_headers, size_t msg_headers_len,
+			     size_t msg_body, size_t msg_body_len,
+			     size_t msg_size, size_t msg_padding,
+			     uint32_t msg_uid);
 
 struct mailmbox_msg_info *
-mailmbox_msg_info_new(size_t start, size_t start_len,
-		      size_t headers, size_t headers_len,
-		      size_t body, size_t body_len,
-		      size_t size, size_t padding,
-		      uint32_t uid);
+mailmbox_msg_info_new(size_t msg_start, size_t msg_start_len,
+		      size_t msg_headers, size_t msg_headers_len,
+		      size_t msg_body, size_t msg_body_len,
+		      size_t msg_size, size_t msg_padding,
+		      uint32_t msg_uid);
 
 void mailmbox_msg_info_free(struct mailmbox_msg_info * info);
 
 struct mailmbox_append_info {
-  char * message;
-  size_t size;
+  const char * ai_message;
+  size_t ai_size;
 };
 
 struct mailmbox_append_info *
-mailmbox_append_info_new(char * message, size_t size);
+mailmbox_append_info_new(const char * ai_message, size_t ai_size);
 
 void mailmbox_append_info_free(struct mailmbox_append_info * info);
 

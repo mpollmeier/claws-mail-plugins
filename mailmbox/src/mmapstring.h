@@ -29,6 +29,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: mmapstring.h,v 1.2 2003-12-10 04:23:02 hoa Exp $
+ */
+
 #ifndef __MMAP_STRING_H__
 
 #define __MMAP_STRING_H__

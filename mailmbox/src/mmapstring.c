@@ -29,6 +29,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: mmapstring.c,v 1.2 2003-12-10 04:23:02 hoa Exp $
+ */
+
 #include "mmapstring.h"
 
 #include "chash.h"
@@ -86,9 +90,9 @@ int mmap_string_ref(MMAPString * string)
     return -1;
   }
   
-  key.data = (char *) &string->str;
+  key.data = &string->str;
   key.len = sizeof(string->str);
-  data.data = (char *) string;
+  data.data = string;
   data.len = 0;
   
   r = chash_set(mmapstring_hashtable, &key, &data, NULL);
@@ -116,14 +120,14 @@ int mmap_string_unref(char * str)
     return -1;
   }
   
-  key.data = (char *) &str;
+  key.data = &str;
   key.len = sizeof(str);
 
   r = chash_get(ht, &key, &data);
   if (r < 0)
     string = NULL;
   else
-    string = (MMAPString *) data.data;
+    string = data.data;
   
   if (string != NULL) {
     chash_delete(ht, &key, NULL);

@@ -1,9 +1,33 @@
-2003-12-03 [christoph]
+2003-12-10 [hoa]	0.7
 
-        * src/maildir.c
-                sync with changes in Sylpheed's FolderClass >= 0.9.7claws11
+	* src/carray.c
+	* src/carray.h
+	* src/chash.c
+	* src/chash.h
+	* src/clist.c
+	* src/clist.h
+	* src/mailimf.c
+	* src/mailimf.h
+	* src/mailimf_types.c
+	* src/mailimf_types.h
+	* src/mailimf_types_helper.c
+	* src/mailimf_types_helper.h
+	* src/mailimf_write.c
+	* src/mailimf_write.h
+	* src/maillock.c
+	* src/maillock.h
+	* src/mailmbox.c
+	* src/mailmbox.h
+	* src/mailmbox_folder.c
+	* src/mailmbox_parse.c
+	* src/mailmbox_parse.h
+	* src/mailmbox_types.c
+	* src/mailmbox_types.h
+	* src/mmapstring.c
+	* src/mmapstring.h
+	    sync with libEtPan! 0.31.
 
-2003-12-02 [christoph]
+2003-12-02 [christoph] 0.6
 
 	* src/mailmbox_folder.[ch]
 		sync with changes in Sylpheed's FolderClass >= 0.9.7claws10

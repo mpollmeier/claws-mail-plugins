@@ -34,7 +34,7 @@
  */
 
 /*
- * $Id: clist.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: clist.h,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #ifndef CLIST_H

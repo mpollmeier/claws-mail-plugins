@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox_parse.c,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: mailmbox_parse.c,v 1.2 2003-12-10 04:23:01 hoa Exp $
  */
 
 #include "mailmbox_parse.h"
@@ -427,32 +427,32 @@ mailmbox_parse_additionnal(struct mailmbox_folder * folder,
 
   uint32_t max_uid;
   uint32_t first_index;
-  uint32_t i;
-  uint32_t j;
+  unsigned int i;
+  unsigned int j;
 
   cur_token = * index;
 
   /* remove temporary UID that we will parse */
 
-  first_index = folder->tab->len;
+  first_index = carray_count(folder->mb_tab);
 
-  for(i = 0 ; i < folder->tab->len ; i++) {
+  for(i = 0 ; i < carray_count(folder->mb_tab) ; i++) {
     struct mailmbox_msg_info * info;
     
-    info = carray_get(folder->tab, i);
+    info = carray_get(folder->mb_tab, i);
 
-    if (info->start < cur_token) {
+    if (info->msg_start < cur_token) {
       continue;
     }
 
-    if (!info->written_uid) {
+    if (!info->msg_written_uid) {
       chashdatum key;
       
-      key.data = (char *) &info->uid;
-      key.len = sizeof(info->uid);
+      key.data = &info->msg_uid;
+      key.len = sizeof(info->msg_uid);
       
-      chash_delete(folder->hash, &key, NULL);
-      carray_delete_fast(folder->tab, i);
+      chash_delete(folder->mb_hash, &key, NULL);
+      carray_delete_fast(folder->mb_tab, i);
       mailmbox_msg_info_free(info);
       if (i < first_index)
 	first_index = i;
@@ -461,26 +461,26 @@ mailmbox_parse_additionnal(struct mailmbox_folder * folder,
 
   /* make a sequence in the table */
 
-  max_uid = folder->written_uid;
+  max_uid = folder->mb_written_uid;
 
   i = 0;
   j = 0;
-  while (i < folder->tab->len) {
+  while (i < carray_count(folder->mb_tab)) {
     struct mailmbox_msg_info * info;
     
-    info = carray_get(folder->tab, i);
+    info = carray_get(folder->mb_tab, i);
     if (info != NULL) {
-      carray_set(folder->tab, j, info);
+      carray_set(folder->mb_tab, j, info);
 
-      if (info->uid > max_uid)
-	max_uid = info->uid;
+      if (info->msg_uid > max_uid)
+	max_uid = info->msg_uid;
 
-      info->index = j;
+      info->msg_index = j;
       j ++;
     }
     i ++;
   }
-  carray_set_size(folder->tab, j);
+  carray_set_size(folder->mb_tab, j);
 
   /* parse content */
 
@@ -491,7 +491,7 @@ mailmbox_parse_additionnal(struct mailmbox_folder * folder,
     chashdatum key;
     chashdatum data;
     
-    r = mailmbox_single_parse(folder->mapping, folder->mapping_size,
+    r = mailmbox_single_parse(folder->mb_mapping, folder->mb_mapping_size,
 			      &cur_token,
 			      &start, &start_len,
 			      &headers, &headers_len,
@@ -507,22 +507,22 @@ mailmbox_parse_additionnal(struct mailmbox_folder * folder,
       goto err;
     }
     
-    key.data = (char *) &uid;
+    key.data = &uid;
     key.len = sizeof(uid);
     
-    r = chash_get(folder->hash, &key, &data);
+    r = chash_get(folder->mb_hash, &key, &data);
     if (r == 0) {
-      info = (struct mailmbox_msg_info *) data.data;
+      info = data.data;
       
-      if (!info->written_uid) {
+      if (!info->msg_written_uid) {
 	/* some new mail has been written and override an
 	   existing temporary UID */
         
-	chash_delete(folder->hash, &key, NULL);
-	info->uid = 0;
+	chash_delete(folder->mb_hash, &key, NULL);
+	info->msg_uid = 0;
 
-	if (info->index < first_index)
-	  first_index = info->index;
+	if (info->msg_index < first_index)
+	  first_index = info->msg_index;
       }
       else
         uid = 0;
@@ -542,37 +542,37 @@ mailmbox_parse_additionnal(struct mailmbox_folder * folder,
 
   * index = cur_token;
 
-  folder->written_uid = max_uid;
+  folder->mb_written_uid = max_uid;
 
   /* attribute uid */
 
-  for(i = first_index ; i < folder->tab->len ; i ++) {
+  for(i = first_index ; i < carray_count(folder->mb_tab) ; i ++) {
     struct mailmbox_msg_info * info;
     chashdatum key;
     chashdatum data;
 
-    info = carray_get(folder->tab, i);
+    info = carray_get(folder->mb_tab, i);
 
-    if (info->uid != 0) {
+    if (info->msg_uid != 0) {
       continue;
     }
 
     max_uid ++;
-    info->uid = max_uid;
+    info->msg_uid = max_uid;
     
-    key.data = (char *) &info->uid;
-    key.len = sizeof(info->uid);
-    data.data = (char *) info;
+    key.data = &info->msg_uid;
+    key.len = sizeof(info->msg_uid);
+    data.data = info;
     data.len = 0;
     
-    r = chash_set(folder->hash, &key, &data, NULL);
+    r = chash_set(folder->mb_hash, &key, &data, NULL);
     if (r < 0) {
       res = MAILMBOX_ERROR_MEMORY;
       goto err;
     }
   }
 
-  folder->max_uid = max_uid;
+  folder->mb_max_uid = max_uid;
 
   return MAILMBOX_NO_ERROR;
 
@@ -582,18 +582,18 @@ mailmbox_parse_additionnal(struct mailmbox_folder * folder,
 
 static void flush_uid(struct mailmbox_folder * folder)
 {
-  uint32_t i;
+  unsigned int i;
   
-  for(i = 0 ; i < folder->tab->len ; i++) {
+  for(i = 0 ; i < carray_count(folder->mb_tab) ; i++) {
     struct mailmbox_msg_info * info;
     
-    info = carray_get(folder->tab, i);
+    info = carray_get(folder->mb_tab, i);
     if (info != NULL)
       mailmbox_msg_info_free(info);
   }
   
-  chash_clear(folder->hash);
-  carray_set_size(folder->tab, 0);
+  chash_clear(folder->mb_hash);
+  carray_set_size(folder->mb_tab, 0);
 }
 
 int mailmbox_parse(struct mailmbox_folder * folder)

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimf_types_helper.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: mailimf_types_helper.h,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #ifndef MAILIMF_TYPES_HELPER

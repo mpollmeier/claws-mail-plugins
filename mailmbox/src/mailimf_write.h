@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimf_write.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: mailimf_write.h,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #ifndef MAILIMF_WRITE_H
@@ -54,7 +54,7 @@ extern "C" {
 */
 
 int mailimf_string_write(FILE * f, int * col,
-    char * str, size_t length);
+    const char * str, size_t length);
 
 
 /*
@@ -106,11 +106,10 @@ int mailimf_field_write(FILE * f, int * col,
 */
 
 int mailimf_quoted_string_write(FILE * f, int * col,
-    char * string, size_t len);
+    const char * string, size_t len);
 
 int mailimf_address_list_write(FILE * f, int * col,
-    struct mailimf_address_list *
-    addr_list);
+    struct mailimf_address_list * addr_list);
 
 int mailimf_mailbox_list_write(FILE * f, int * col,
     struct mailimf_mailbox_list * mb_list);
@@ -126,7 +125,7 @@ int mailimf_mailbox_list_write(FILE * f, int * col,
 */
 
 int mailimf_header_string_write(FILE * f, int * col,
-    char * str, size_t length);
+    const char * str, size_t length);
 
 #ifdef __cplusplus
 }

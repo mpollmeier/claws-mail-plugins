@@ -137,7 +137,7 @@ each of the following conditions is met:
 #define LOCKTO_RM	300	/* timeout for stale lockfile removal */
 #define LOCKTO_GLOB	400	/* global timeout for lockfile creation */
 
-static int lock_common(char * filename, int fd, short locktype)
+static int lock_common(const char * filename, int fd, short locktype)
 {
   char lockfilename[PATH_MAX];
   struct flock lock;
@@ -236,7 +236,7 @@ static int lock_common(char * filename, int fd, short locktype)
   return res;
 }
 
-static int unlock_common(char * filename, int fd)
+static int unlock_common(const char * filename, int fd)
 {
   char lockfilename[PATH_MAX];
   struct flock lock;
@@ -263,22 +263,22 @@ static int unlock_common(char * filename, int fd)
   return 0;
 }
 
-int maillock_read_lock(char * filename, int fd)
+int maillock_read_lock(const char * filename, int fd)
 {
   return lock_common(filename, fd, F_RDLCK);
 }
 
-int maillock_read_unlock(char * filename, int fd)
+int maillock_read_unlock(const char * filename, int fd)
 {
   return unlock_common(filename, fd);
 }
 
-int maillock_write_lock(char * filename, int fd)
+int maillock_write_lock(const char * filename, int fd)
 {
   return lock_common(filename, fd, F_WRLCK);
 }
 
-int maillock_write_unlock(char * filename, int fd)
+int maillock_write_unlock(const char * filename, int fd)
 {
   return unlock_common(filename, fd);
 }

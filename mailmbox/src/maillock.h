@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: maillock.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: maillock.h,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #ifndef MAILLOCK_H
@@ -41,10 +41,10 @@
 extern "C" {
 #endif
 
-int maillock_read_lock(char * filename, int fd);
-int maillock_read_unlock(char * filename, int fd);
-int maillock_write_lock(char * filename, int fd);
-int maillock_write_unlock(char * filename, int fd);
+int maillock_read_lock(const char * filename, int fd);
+int maillock_read_unlock(const char * filename, int fd);
+int maillock_write_lock(const char * filename, int fd);
+int maillock_write_unlock(const char * filename, int fd);
 
 #ifdef __cplusplus
 }

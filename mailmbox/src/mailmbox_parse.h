@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox_parse.h,v 1.1 2003-10-24 00:42:54 hoa Exp $
+ * $Id: mailmbox_parse.h,v 1.2 2003-12-10 04:23:01 hoa Exp $
  */
 
 #ifndef MAILMBOX_PARSE_H

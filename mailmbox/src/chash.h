@@ -33,6 +33,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: chash.h,v 1.2 2003-12-10 04:23:01 hoa Exp $
+ */
+
 #ifndef CHASH_H
 #define CHASH_H
 
@@ -41,12 +45,15 @@ extern "C" {
 #endif
 
 typedef struct {
-  char * data;
-  int len;
+  void * data;
+  unsigned int len;
 } chashdatum;
 
 struct chash {
-  int size, count, copyvalue, copykey;
+  unsigned int size;
+  unsigned int count;
+  int copyvalue;
+  int copykey;
   struct chashcell ** cells; 
 };
 
@@ -75,7 +82,7 @@ typedef struct chashcell chashiter;
     CHASH_COPYVALUE : Values are dupped and freed as needed in the hash.
     CHASH_COPYALL   : Both keys and values are dupped in the hash.
  */
-chash * chash_new(int size, int flags);
+chash * chash_new(unsigned int size, int flags);
 
 /* Frees a hash */
 void chash_free(chash * hash);
@@ -106,7 +113,7 @@ int chash_delete(chash * hash,
 		 chashdatum * oldvalue);
 
 /* Resizes the hash table to the passed size. */
-int chash_resize(chash * hash, int size);
+int chash_resize(chash * hash, unsigned int size);
 
 /* Returns an iterator to the first non-empty entry of the hash table */
 chashiter * chash_begin(chash * hash);
@@ -118,10 +125,10 @@ chashiter * chash_next(chash * hash, chashiter * iter);
    be faster. If you don't want it, define NO_MACROS */
 #ifdef NO_MACROS
 /* Returns the size of the hash table */
-int          chash_size(chash * hash);
+unsigned int          chash_size(chash * hash);
 
 /* Returns the number of entries in the hash table */
-int          chash_count(chash * hash);
+unsigned int          chash_count(chash * hash);
 
 /* Returns the key part of the entry pointed by the iterator */
 void chash_key(chashiter * iter, chashdatum * result);
@@ -130,12 +137,12 @@ void chash_key(chashiter * iter, chashdatum * result);
 void chash_value(chashiter * iter, chashdatum * result);
 
 #else
-static inline int chash_size(chash * hash)
+static inline unsigned int chash_size(chash * hash)
 {
   return hash->size;
 }
 
-static inline int chash_count(chash * hash)
+static inline unsigned int chash_count(chash * hash)
 {
   return hash->count;
 }

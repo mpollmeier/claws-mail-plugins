@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailimf.c,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: mailimf.c,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #include "mailimf.h"
@@ -68,223 +68,233 @@
 
 static inline int is_dtext(char ch);
 
-static int mailimf_quoted_pair_parse(char * message, size_t length,
+static int mailimf_quoted_pair_parse(const char * message, size_t length,
 				     size_t * index, char * result);
 
-static int mailimf_ccontent_parse(char * message, size_t length,
+static int mailimf_ccontent_parse(const char * message, size_t length,
 				  size_t * index);
 
 static int
-mailimf_comment_fws_ccontent_parse(char * message, size_t length,
+mailimf_comment_fws_ccontent_parse(const char * message, size_t length,
 				   size_t * index);
 
-static inline int mailimf_comment_parse(char * message, size_t length,
+static inline int mailimf_comment_parse(const char * message, size_t length,
 				 size_t * index);
 
-static int mailimf_qcontent_parse(char * message, size_t length,
+static int mailimf_qcontent_parse(const char * message, size_t length,
 				  size_t * index, char * ch);
 
-static int mailimf_phrase_parse(char * message, size_t length,
+static int mailimf_phrase_parse(const char * message, size_t length,
 				size_t * index, char ** result);
 
-static int mailimf_unstructured_parse(char * message, size_t length,
+static int mailimf_unstructured_parse(const char * message, size_t length,
 				      size_t * index, char ** result);
 
-static int mailimf_ignore_unstructured_parse(char * message, size_t length,
+static int mailimf_ignore_unstructured_parse(const char * message, size_t length,
 					     size_t * index);
 
-static int mailimf_day_of_week_parse(char * message, size_t length,
+static int mailimf_day_of_week_parse(const char * message, size_t length,
 				     size_t * index, int * result);
 
-static int mailimf_day_name_parse(char * message, size_t length,
+static int mailimf_day_name_parse(const char * message, size_t length,
 				  size_t * index, int * result);
 
-static int mailimf_date_parse(char * message, size_t length,
+static int mailimf_date_parse(const char * message, size_t length,
 			      size_t * index,
 			      int * pday, int * pmonth, int * pyear);
 
-static int mailimf_year_parse(char * message, size_t length,
+static int mailimf_year_parse(const char * message, size_t length,
 			      size_t * index, int * result);
 
-static int mailimf_month_parse(char * message, size_t length,
+static int mailimf_month_parse(const char * message, size_t length,
 			       size_t * index, int * result);
 
-static int mailimf_month_name_parse(char * message, size_t length,
+static int mailimf_month_name_parse(const char * message, size_t length,
 				    size_t * index, int * result);
 
-static int mailimf_day_parse(char * message, size_t length,
+static int mailimf_day_parse(const char * message, size_t length,
 				  size_t * index, int * result);
 
-static int mailimf_time_parse(char * message, size_t length,
+static int mailimf_time_parse(const char * message, size_t length,
 			      size_t * index, 
 			      int * phour, int * pmin,
 			      int * psec,
 			      int * zone);
-static int mailimf_time_of_day_parse(char * message, size_t length,
+static int mailimf_time_of_day_parse(const char * message, size_t length,
 				     size_t * index,
 				     int * phour, int * pmin,
 				     int * psec);
 
-static int mailimf_hour_parse(char * message, size_t length,
+static int mailimf_hour_parse(const char * message, size_t length,
 			      size_t * index, int * result);
 
-static int mailimf_minute_parse(char * message, size_t length,
+static int mailimf_minute_parse(const char * message, size_t length,
 				size_t * index, int * result);
 
-static int mailimf_second_parse(char * message, size_t length,
+static int mailimf_second_parse(const char * message, size_t length,
 				size_t * index, int * result);
 
-static int mailimf_zone_parse(char * message, size_t length,
+static int mailimf_zone_parse(const char * message, size_t length,
 			      size_t * index, int * result);
 
-static int mailimf_name_addr_parse(char * message, size_t length,
+static int mailimf_name_addr_parse(const char * message, size_t length,
 				   size_t * index,
 				   char ** pdisplay_name,
 				   char ** pangle_addr);
 
-static int mailimf_angle_addr_parse(char * message, size_t length,
+static int mailimf_angle_addr_parse(const char * message, size_t length,
 				    size_t * index, char ** result);
 
-static int mailimf_group_parse(char * message, size_t length,
+static int mailimf_group_parse(const char * message, size_t length,
 			       size_t * index,
 			       struct mailimf_group ** result);
 
-static int mailimf_display_name_parse(char * message, size_t length,
+static int mailimf_display_name_parse(const char * message, size_t length,
 				      size_t * index, char ** result);
 
-static int mailimf_addr_spec_parse(char * message, size_t length,
+static int mailimf_addr_spec_parse(const char * message, size_t length,
 				   size_t * index,
 				   char ** address);
 
-static int mailimf_local_part_parse(char * message, size_t length,
+#if 0
+static int mailimf_local_part_parse(const char * message, size_t length,
 				    size_t * index,
 				    char ** result);
 
-static int mailimf_domain_parse(char * message, size_t length,
+static int mailimf_domain_parse(const char * message, size_t length,
 				size_t * index,
 				char ** result);
+#endif
 
-static int mailimf_domain_literal_parse(char * message, size_t length,
+#if 0
+static int mailimf_domain_literal_parse(const char * message, size_t length,
 					size_t * index, char ** result);
+#endif
 
-static int mailimf_dcontent_parse(char * message, size_t length,
+#if 0
+static int mailimf_dcontent_parse(const char * message, size_t length,
 				  size_t * index, char * result);
+#endif
 
 static int
-mailimf_orig_date_parse(char * message, size_t length,
+mailimf_orig_date_parse(const char * message, size_t length,
 			size_t * index, struct mailimf_orig_date ** result);
 
 static int
-mailimf_from_parse(char * message, size_t length,
+mailimf_from_parse(const char * message, size_t length,
 		   size_t * index, struct mailimf_from ** result);
 
 static int
-mailimf_sender_parse(char * message, size_t length,
+mailimf_sender_parse(const char * message, size_t length,
 		     size_t * index, struct mailimf_sender ** result);
 
 static int
-mailimf_reply_to_parse(char * message, size_t length,
+mailimf_reply_to_parse(const char * message, size_t length,
 		       size_t * index, struct mailimf_reply_to ** result);
 
 static int
-mailimf_to_parse(char * message, size_t length,
+mailimf_to_parse(const char * message, size_t length,
 		 size_t * index, struct mailimf_to ** result);
 
 static int
-mailimf_cc_parse(char * message, size_t length,
+mailimf_cc_parse(const char * message, size_t length,
 		 size_t * index, struct mailimf_cc ** result);
 
 static int
-mailimf_bcc_parse(char * message, size_t length,
+mailimf_bcc_parse(const char * message, size_t length,
 		  size_t * index, struct mailimf_bcc ** result);
 
-static int mailimf_message_id_parse(char * message, size_t length,
+static int mailimf_message_id_parse(const char * message, size_t length,
 				    size_t * index,
 				    struct mailimf_message_id ** result);
 
 static int
-mailimf_in_reply_to_parse(char * message, size_t length,
+mailimf_in_reply_to_parse(const char * message, size_t length,
 			  size_t * index,
 			  struct mailimf_in_reply_to ** result);
 
 #if 0
-static int mailimf_references_parse(char * message, size_t length,
+static int mailimf_references_parse(const char * message, size_t length,
 				    size_t * index,
 				    struct mailimf_references **
 				    result);
 #endif
 
-static int mailimf_unstrict_msg_id_parse(char * message, size_t length,
+static int mailimf_unstrict_msg_id_parse(const char * message, size_t length,
 					 size_t * index,
 					 char ** result);
 
-static int mailimf_id_left_parse(char * message, size_t length,
+#if 0
+static int mailimf_id_left_parse(const char * message, size_t length,
 				 size_t * index, char ** result);
 
-static int mailimf_id_right_parse(char * message, size_t length,
+static int mailimf_id_right_parse(const char * message, size_t length,
 				  size_t * index, char ** result);
+#endif
 
-static int mailimf_no_fold_quote_parse(char * message, size_t length,
+#if 0
+static int mailimf_no_fold_quote_parse(const char * message, size_t length,
 				       size_t * index, char ** result);
 
-static int mailimf_no_fold_literal_parse(char * message, size_t length,
+static int mailimf_no_fold_literal_parse(const char * message, size_t length,
 					 size_t * index, char ** result);
+#endif
 
-static int mailimf_subject_parse(char * message, size_t length,
+static int mailimf_subject_parse(const char * message, size_t length,
 				 size_t * index,
 				 struct mailimf_subject ** result);
 
-static int mailimf_comments_parse(char * message, size_t length,
+static int mailimf_comments_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_comments ** result);
 
-static int mailimf_keywords_parse(char * message, size_t length,
+static int mailimf_keywords_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_keywords ** result);
 
 static int
-mailimf_resent_date_parse(char * message, size_t length,
+mailimf_resent_date_parse(const char * message, size_t length,
 			  size_t * index, struct mailimf_orig_date ** result);
 
 static int
-mailimf_resent_from_parse(char * message, size_t length,
+mailimf_resent_from_parse(const char * message, size_t length,
 			  size_t * index, struct mailimf_from ** result);
 
 static int
-mailimf_resent_sender_parse(char * message, size_t length,
+mailimf_resent_sender_parse(const char * message, size_t length,
 			    size_t * index, struct mailimf_sender ** result);
 
 static int
-mailimf_resent_to_parse(char * message, size_t length,
+mailimf_resent_to_parse(const char * message, size_t length,
 			size_t * index, struct mailimf_to ** result);
 
 static int
-mailimf_resent_cc_parse(char * message, size_t length,
+mailimf_resent_cc_parse(const char * message, size_t length,
 			size_t * index, struct mailimf_cc ** result);
 
 static int
-mailimf_resent_bcc_parse(char * message, size_t length,
+mailimf_resent_bcc_parse(const char * message, size_t length,
 			 size_t * index, struct mailimf_bcc ** result);
 
 static int
-mailimf_resent_msg_id_parse(char * message, size_t length,
+mailimf_resent_msg_id_parse(const char * message, size_t length,
 			    size_t * index,
 			    struct mailimf_message_id ** result);
 
-static int mailimf_return_parse(char * message, size_t length,
+static int mailimf_return_parse(const char * message, size_t length,
 				size_t * index,
 				struct mailimf_return ** result);
 
 static int
-mailimf_path_parse(char * message, size_t length,
+mailimf_path_parse(const char * message, size_t length,
 		   size_t * index, struct mailimf_path ** result);
 
 static int
-mailimf_optional_field_parse(char * message, size_t length,
+mailimf_optional_field_parse(const char * message, size_t length,
 			     size_t * index,
 			     struct mailimf_optional_field ** result);
 
-static int mailimf_field_name_parse(char * message, size_t length,
+static int mailimf_field_name_parse(const char * message, size_t length,
 				    size_t * index, char ** result);
 
 
@@ -318,7 +328,7 @@ static inline int is_digit(char ch)
   return (ch >= '0') && (ch <= '9');
 }
 
-static int mailimf_digit_parse(char * message, size_t length,
+static int mailimf_digit_parse(const char * message, size_t length,
 			       size_t * index, int * result)
 {
   size_t cur_token;
@@ -339,7 +349,7 @@ static int mailimf_digit_parse(char * message, size_t length,
 }
 
 int
-mailimf_number_parse(char * message, size_t length,
+mailimf_number_parse(const char * message, size_t length,
 		     size_t * index, uint32_t * result)
 {
   size_t cur_token;
@@ -374,7 +384,7 @@ mailimf_number_parse(char * message, size_t length,
   return MAILIMF_NO_ERROR;
 }
 
-int mailimf_char_parse(char * message, size_t length,
+int mailimf_char_parse(const char * message, size_t length,
 		       size_t * index, char token)
 {
   size_t cur_token;
@@ -393,7 +403,7 @@ int mailimf_char_parse(char * message, size_t length,
     return MAILIMF_ERROR_PARSE;
 }
 
-int mailimf_unstrict_char_parse(char * message, size_t length,
+int mailimf_unstrict_char_parse(const char * message, size_t length,
 				size_t * index, char token)
 {
   size_t cur_token;
@@ -415,7 +425,7 @@ int mailimf_unstrict_char_parse(char * message, size_t length,
 }
 
 int
-mailimf_token_case_insensitive_len_parse(char * message, size_t length,
+mailimf_token_case_insensitive_len_parse(const char * message, size_t length,
 					 size_t * index, char * token,
 					 size_t token_length)
 {
@@ -435,92 +445,94 @@ mailimf_token_case_insensitive_len_parse(char * message, size_t length,
     return MAILIMF_ERROR_PARSE;
 }
 
-static int mailimf_oparenth_parse(char * message, size_t length,
+static int mailimf_oparenth_parse(const char * message, size_t length,
 				  size_t * index)
 {
   return mailimf_char_parse(message, length, index, '(');
 }
 
-static int mailimf_cparenth_parse(char * message, size_t length,
+static int mailimf_cparenth_parse(const char * message, size_t length,
 				  size_t * index)
 {
   return mailimf_char_parse(message, length, index, ')');
 }
 
-static int mailimf_comma_parse(char * message, size_t length,
+static int mailimf_comma_parse(const char * message, size_t length,
 			       size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, ',');
 }
 
-static int mailimf_dquote_parse(char * message, size_t length,
+static int mailimf_dquote_parse(const char * message, size_t length,
 				size_t * index)
 {
   return mailimf_char_parse(message, length, index, '\"');
 }
 
-static int mailimf_colon_parse(char * message, size_t length,
+static int mailimf_colon_parse(const char * message, size_t length,
 			       size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, ':');
 }
 
-static int mailimf_semi_colon_parse(char * message, size_t length,
+static int mailimf_semi_colon_parse(const char * message, size_t length,
 				    size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, ';');
 }
 
-static int mailimf_plus_parse(char * message, size_t length,
+static int mailimf_plus_parse(const char * message, size_t length,
 			      size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '+');
 }
 
-static int mailimf_minus_parse(char * message, size_t length,
+static int mailimf_minus_parse(const char * message, size_t length,
 			       size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '-');
 }
 
-static int mailimf_lower_parse(char * message, size_t length,
+static int mailimf_lower_parse(const char * message, size_t length,
 			       size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '<');
 }
 
-static int mailimf_greater_parse(char * message, size_t length,
+static int mailimf_greater_parse(const char * message, size_t length,
 				      size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '>');
 }
 
-static int mailimf_obracket_parse(char * message, size_t length,
+#if 0
+static int mailimf_obracket_parse(const char * message, size_t length,
 				       size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '[');
 }
 
-static int mailimf_cbracket_parse(char * message, size_t length,
+static int mailimf_cbracket_parse(const char * message, size_t length,
 				       size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, ']');
 }
+#endif
 
-static int mailimf_at_sign_parse(char * message, size_t length,
+static int mailimf_at_sign_parse(const char * message, size_t length,
 				      size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '@');
 }
 
-static int mailimf_point_parse(char * message, size_t length,
+static int mailimf_point_parse(const char * message, size_t length,
 				      size_t * index)
 {
   return mailimf_unstrict_char_parse(message, length, index, '.');
 }
 
 int
-mailimf_custom_string_parse(char * message, size_t length,
+mailimf_custom_string_parse(const char * message, size_t length,
 			    size_t * index, char ** result,
 			    int (* is_custom_char)(char))
 {
@@ -565,14 +577,14 @@ mailimf_custom_string_parse(char * message, size_t length,
 
 
 
-typedef int mailimf_struct_parser(char * message, size_t length,
+typedef int mailimf_struct_parser(const char * message, size_t length,
 				  size_t * index, void * result);
 
 typedef int mailimf_struct_destructor(void * result);
 
 
 static int
-mailimf_struct_multiple_parse(char * message, size_t length,
+mailimf_struct_multiple_parse(const char * message, size_t length,
 			      size_t * index, clist ** result,
 			      mailimf_struct_parser * parser,
 			      mailimf_struct_destructor * destructor)
@@ -638,7 +650,7 @@ mailimf_struct_multiple_parse(char * message, size_t length,
 
 
 static int
-mailimf_struct_list_parse(char * message, size_t length,
+mailimf_struct_list_parse(const char * message, size_t length,
 			  size_t * index, clist ** result,
 			  char symbol,
 			  mailimf_struct_parser * parser,
@@ -718,7 +730,7 @@ mailimf_struct_list_parse(char * message, size_t length,
   return res;
 }
 
-static inline int mailimf_wsp_parse(char * message, size_t length,
+static inline int mailimf_wsp_parse(const char * message, size_t length,
 				    size_t * index)
 {
   size_t cur_token;
@@ -738,7 +750,7 @@ static inline int mailimf_wsp_parse(char * message, size_t length,
 }
 
 
-int mailimf_crlf_parse(char * message, size_t length, size_t * index)
+int mailimf_crlf_parse(const char * message, size_t length, size_t * index)
 {
   size_t cur_token;
   int r;
@@ -757,7 +769,7 @@ int mailimf_crlf_parse(char * message, size_t length, size_t * index)
   return MAILIMF_NO_ERROR;
 }
 
-static int mailimf_unstrict_crlf_parse(char * message,
+static int mailimf_unstrict_crlf_parse(const char * message,
 				       size_t length, size_t * index)
 {
   size_t cur_token;
@@ -826,7 +838,7 @@ specials        =       "(" / ")" /     ; Special characters used in
 quoted-pair     =       ("\" text) / obs-qp
 */
 
-static inline int mailimf_quoted_pair_parse(char * message, size_t length,
+static inline int mailimf_quoted_pair_parse(const char * message, size_t length,
 					    size_t * index, char * result)
 {
   size_t cur_token;
@@ -852,7 +864,7 @@ FWS             =       ([*WSP CRLF] 1*WSP) /   ; Folding white space
                         obs-FWS
 */
 
-int mailimf_fws_parse(char * message, size_t length, size_t * index)
+int mailimf_fws_parse(const char * message, size_t length, size_t * index)
 {
   size_t cur_token;
   size_t final_token;
@@ -948,7 +960,7 @@ static inline int is_ctext(char ch)
 ccontent        =       ctext / quoted-pair / comment
 */
 
-static inline int mailimf_ccontent_parse(char * message, size_t length,
+static inline int mailimf_ccontent_parse(const char * message, size_t length,
 					 size_t * index)
 {
   size_t cur_token;
@@ -983,7 +995,7 @@ static inline int mailimf_ccontent_parse(char * message, size_t length,
 */
 
 static inline int
-mailimf_comment_fws_ccontent_parse(char * message, size_t length,
+mailimf_comment_fws_ccontent_parse(const char * message, size_t length,
 				   size_t * index)
 {
   size_t cur_token;
@@ -1008,7 +1020,7 @@ mailimf_comment_fws_ccontent_parse(char * message, size_t length,
 comment         =       "(" *([FWS] ccontent) [FWS] ")"
 */
 
-static inline int mailimf_comment_parse(char * message, size_t length,
+static inline int mailimf_comment_parse(const char * message, size_t length,
 				 size_t * index)
 {
   size_t cur_token;
@@ -1047,7 +1059,7 @@ static inline int mailimf_comment_parse(char * message, size_t length,
 [FWS] comment
 */
 
-static inline int mailimf_cfws_fws_comment_parse(char * message, size_t length,
+static inline int mailimf_cfws_fws_comment_parse(const char * message, size_t length,
 						 size_t * index)
 {
   size_t cur_token;
@@ -1072,7 +1084,7 @@ static inline int mailimf_cfws_fws_comment_parse(char * message, size_t length,
 CFWS            =       *([FWS] comment) (([FWS] comment) / FWS)
 */
 
-int mailimf_cfws_parse(char * message, size_t length,
+int mailimf_cfws_parse(const char * message, size_t length,
 		       size_t * index)
 {
   size_t cur_token;
@@ -1148,7 +1160,7 @@ static inline int is_atext(char ch)
 atom            =       [CFWS] 1*atext [CFWS]
 */
 
-int mailimf_atom_parse(char * message, size_t length,
+int mailimf_atom_parse(const char * message, size_t length,
 		       size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1200,7 +1212,7 @@ int mailimf_atom_parse(char * message, size_t length,
   return res;
 }
 
-int mailimf_fws_atom_parse(char * message, size_t length,
+int mailimf_fws_atom_parse(const char * message, size_t length,
 			   size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1256,22 +1268,26 @@ int mailimf_fws_atom_parse(char * message, size_t length,
 dot-atom        =       [CFWS] dot-atom-text [CFWS]
 */
 
-static int mailimf_dot_atom_parse(char * message, size_t length,
+#if 0
+static int mailimf_dot_atom_parse(const char * message, size_t length,
 				  size_t * index, char ** result)
 {
   return mailimf_atom_parse(message, length, index, result);
 }
+#endif
 
 /*
 dot-atom-text   =       1*atext *("." 1*atext)
 */
 
+#if 0
 static int
-mailimf_dot_atom_text_parse(char * message, size_t length,
+mailimf_dot_atom_text_parse(const char * message, size_t length,
 			    size_t * index, char ** result)
 {
   return mailimf_atom_parse(message, length, index, result);
 }
+#endif
 
 /*
 qtext           =       NO-WS-CTL /     ; Non white space controls
@@ -1307,7 +1323,7 @@ static inline int is_qtext(char ch)
 qcontent        =       qtext / quoted-pair
 */
 
-static int mailimf_qcontent_parse(char * message, size_t length,
+static int mailimf_qcontent_parse(const char * message, size_t length,
 				  size_t * index, char * result)
 {
   size_t cur_token;
@@ -1342,7 +1358,7 @@ quoted-string   =       [CFWS]
                         [CFWS]
 */
 
-int mailimf_quoted_string_parse(char * message, size_t length,
+int mailimf_quoted_string_parse(const char * message, size_t length,
 				size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1438,7 +1454,7 @@ int mailimf_quoted_string_parse(char * message, size_t length,
   return res;
 }
 
-int mailimf_fws_quoted_string_parse(char * message, size_t length,
+int mailimf_fws_quoted_string_parse(const char * message, size_t length,
 				    size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1538,7 +1554,7 @@ int mailimf_fws_quoted_string_parse(char * message, size_t length,
 word            =       atom / quoted-string
 */
 
-int mailimf_word_parse(char * message, size_t length,
+int mailimf_word_parse(const char * message, size_t length,
 		       size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1561,7 +1577,7 @@ int mailimf_word_parse(char * message, size_t length,
   return MAILIMF_NO_ERROR;
 }
 
-int mailimf_fws_word_parse(char * message, size_t length,
+int mailimf_fws_word_parse(const char * message, size_t length,
 			   size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1588,7 +1604,7 @@ int mailimf_fws_word_parse(char * message, size_t length,
 phrase          =       1*word / obs-phrase
 */
 
-static int mailimf_phrase_parse(char * message, size_t length,
+static int mailimf_phrase_parse(const char * message, size_t length,
 				size_t * index, char ** result)
 {
   MMAPString * gphrase;
@@ -1674,7 +1690,7 @@ enum {
   UNSTRUCTURED_OUT
 };
 
-static int mailimf_unstructured_parse(char * message, size_t length,
+static int mailimf_unstructured_parse(const char * message, size_t length,
 				      size_t * index, char ** result)
 {
   size_t cur_token;
@@ -1788,7 +1804,7 @@ static int mailimf_unstructured_parse(char * message, size_t length,
 }
 
 
-static int mailimf_ignore_unstructured_parse(char * message, size_t length,
+static int mailimf_ignore_unstructured_parse(const char * message, size_t length,
 					     size_t * index)
 {
   size_t cur_token;
@@ -1872,7 +1888,7 @@ static int mailimf_ignore_unstructured_parse(char * message, size_t length,
 }
 
 
-int mailimf_ignore_field_parse(char * message, size_t length,
+int mailimf_ignore_field_parse(const char * message, size_t length,
 			       size_t * index)
 {
   int has_field;
@@ -1994,7 +2010,7 @@ int mailimf_ignore_field_parse(char * message, size_t length,
 date-time       =       [ day-of-week "," ] date FWS time [CFWS]
 */
 
-int mailimf_date_time_parse(char * message, size_t length,
+int mailimf_date_time_parse(const char * message, size_t length,
 			    size_t * index,
 			    struct mailimf_date_time ** result)
 {
@@ -2049,7 +2065,7 @@ int mailimf_date_time_parse(char * message, size_t length,
 day-of-week     =       ([FWS] day-name) / obs-day-of-week
 */
 
-static int mailimf_day_of_week_parse(char * message, size_t length,
+static int mailimf_day_of_week_parse(const char * message, size_t length,
 				     size_t * index, int * result)
 {
   size_t cur_token;
@@ -2098,7 +2114,7 @@ enum {
   DAY_NAME_S
 };
 
-static int guess_day_name(char * message, size_t length, size_t index)
+static int guess_day_name(const char * message, size_t length, size_t index)
 {
   int state;
 
@@ -2155,7 +2171,7 @@ static int guess_day_name(char * message, size_t length, size_t index)
   }
 }
 
-static int mailimf_day_name_parse(char * message, size_t length,
+static int mailimf_day_name_parse(const char * message, size_t length,
 				  size_t * index, int * result)
 {
   size_t cur_token;
@@ -2187,7 +2203,7 @@ static int mailimf_day_name_parse(char * message, size_t length,
 date            =       day month year
 */
 
-static int mailimf_date_parse(char * message, size_t length,
+static int mailimf_date_parse(const char * message, size_t length,
 			      size_t * index,
 			      int * pday, int * pmonth, int * pyear)
 {
@@ -2224,7 +2240,7 @@ static int mailimf_date_parse(char * message, size_t length,
 year            =       4*DIGIT / obs-year
 */
 
-static int mailimf_year_parse(char * message, size_t length,
+static int mailimf_year_parse(const char * message, size_t length,
 			      size_t * index, int * result)
 {
   uint32_t number;
@@ -2251,7 +2267,7 @@ static int mailimf_year_parse(char * message, size_t length,
 month           =       (FWS month-name FWS) / obs-month
 */
 
-static int mailimf_month_parse(char * message, size_t length,
+static int mailimf_month_parse(const char * message, size_t length,
 			       size_t * index, int * result)
 {
   size_t cur_token;
@@ -2304,7 +2320,7 @@ enum {
   MONTH_A
 };
 
-static int guess_month(char * message, size_t length, size_t index)
+static int guess_month(const char * message, size_t length, size_t index)
 {
   int state;
 
@@ -2397,7 +2413,7 @@ static int guess_month(char * message, size_t length, size_t index)
   }
 }
 
-static int mailimf_month_name_parse(char * message, size_t length,
+static int mailimf_month_name_parse(const char * message, size_t length,
 				    size_t * index, int * result)
 {
   size_t cur_token;
@@ -2429,7 +2445,7 @@ static int mailimf_month_name_parse(char * message, size_t length,
 day             =       ([FWS] 1*2DIGIT) / obs-day
 */
 
-static int mailimf_day_parse(char * message, size_t length,
+static int mailimf_day_parse(const char * message, size_t length,
 			     size_t * index, int * result)
 {
   size_t cur_token;
@@ -2456,7 +2472,7 @@ static int mailimf_day_parse(char * message, size_t length,
 time            =       time-of-day FWS zone
 */
 
-static int mailimf_time_parse(char * message, size_t length,
+static int mailimf_time_parse(const char * message, size_t length,
 			      size_t * index, 
 			      int * phour, int * pmin,
 			      int * psec,
@@ -2509,7 +2525,7 @@ static int mailimf_time_parse(char * message, size_t length,
 time-of-day     =       hour ":" minute [ ":" second ]
 */
 
-static int mailimf_time_of_day_parse(char * message, size_t length,
+static int mailimf_time_of_day_parse(const char * message, size_t length,
 				     size_t * index,
 				     int * phour, int * pmin,
 				     int * psec)
@@ -2557,7 +2573,7 @@ static int mailimf_time_of_day_parse(char * message, size_t length,
 hour            =       2DIGIT / obs-hour
 */
 
-static int mailimf_hour_parse(char * message, size_t length,
+static int mailimf_hour_parse(const char * message, size_t length,
 			      size_t * index, int * result)
 {
   uint32_t hour;
@@ -2576,7 +2592,7 @@ static int mailimf_hour_parse(char * message, size_t length,
 minute          =       2DIGIT / obs-minute
 */
 
-static int mailimf_minute_parse(char * message, size_t length,
+static int mailimf_minute_parse(const char * message, size_t length,
 				size_t * index, int * result)
 {
   uint32_t minute;
@@ -2595,7 +2611,7 @@ static int mailimf_minute_parse(char * message, size_t length,
 second          =       2DIGIT / obs-second
 */
 
-static int mailimf_second_parse(char * message, size_t length,
+static int mailimf_second_parse(const char * message, size_t length,
 				size_t * index, int * result)
 {
   uint32_t second;
@@ -2638,7 +2654,7 @@ enum {
   STATE_ZONE_CONT = 5,
 };
 
-static int mailimf_zone_parse(char * message, size_t length,
+static int mailimf_zone_parse(const char * message, size_t length,
 			      size_t * index, int * result)
 {
   uint32_t zone;
@@ -2767,7 +2783,7 @@ static int mailimf_zone_parse(char * message, size_t length,
 address         =       mailbox / group
 */
 
-int mailimf_address_parse(char * message, size_t length,
+int mailimf_address_parse(const char * message, size_t length,
 			  size_t * index,
 			  struct mailimf_address ** result)
 {
@@ -2826,7 +2842,7 @@ mailbox         =       name-addr / addr-spec
 */
 
 
-int mailimf_mailbox_parse(char * message, size_t length,
+int mailimf_mailbox_parse(const char * message, size_t length,
 			  size_t * index,
 			  struct mailimf_mailbox ** result)
 {
@@ -2875,7 +2891,7 @@ int mailimf_mailbox_parse(char * message, size_t length,
 name-addr       =       [display-name] angle-addr
 */
 
-static int mailimf_name_addr_parse(char * message, size_t length,
+static int mailimf_name_addr_parse(const char * message, size_t length,
 				   size_t * index,
 				   char ** pdisplay_name,
 				   char ** pangle_addr)
@@ -2920,7 +2936,7 @@ static int mailimf_name_addr_parse(char * message, size_t length,
 angle-addr      =       [CFWS] "<" addr-spec ">" [CFWS] / obs-angle-addr
 */
 
-static int mailimf_angle_addr_parse(char * message, size_t length,
+static int mailimf_angle_addr_parse(const char * message, size_t length,
 				    size_t * index, char ** result)
 {
   size_t cur_token;
@@ -2958,7 +2974,7 @@ group           =       display-name ":" [mailbox-list / CFWS] ";"
                         [CFWS]
 */
 
-static int mailimf_group_parse(char * message, size_t length,
+static int mailimf_group_parse(const char * message, size_t length,
 			       size_t * index,
 			       struct mailimf_group ** result)
 {
@@ -3027,7 +3043,7 @@ static int mailimf_group_parse(char * message, size_t length,
 display-name    =       phrase
 */
 
-static int mailimf_display_name_parse(char * message, size_t length,
+static int mailimf_display_name_parse(const char * message, size_t length,
 				      size_t * index, char ** result)
 {
   return mailimf_phrase_parse(message, length, index, result);
@@ -3038,7 +3054,7 @@ mailbox-list    =       (mailbox *("," mailbox)) / obs-mbox-list
 */
 
 int
-mailimf_mailbox_list_parse(char * message, size_t length,
+mailimf_mailbox_list_parse(const char * message, size_t length,
 			   size_t * index,
 			   struct mailimf_mailbox_list ** result)
 {
@@ -3085,7 +3101,7 @@ address-list    =       (address *("," address)) / obs-addr-list
 
 
 int
-mailimf_address_list_parse(char * message, size_t length,
+mailimf_address_list_parse(const char * message, size_t length,
 			   size_t * index,
 			   struct mailimf_address_list ** result)
 {
@@ -3131,7 +3147,7 @@ addr-spec       =       local-part "@" domain
 */
 
 
-static int mailimf_addr_spec_parse(char * message, size_t length,
+static int mailimf_addr_spec_parse(const char * message, size_t length,
 				   size_t * index,
 				   char ** result)
 {
@@ -3147,7 +3163,7 @@ static int mailimf_addr_spec_parse(char * message, size_t length,
   size_t end;
   int final;
   size_t count;
-  char * src;
+  const char * src;
   char * dest;
   size_t i;
   
@@ -3285,7 +3301,7 @@ local-part      =       dot-atom / quoted-string / obs-local-part
 */
 
 #if 0
-static int mailimf_local_part_parse(char * message, size_t length,
+static int mailimf_local_part_parse(const char * message, size_t length,
 				    size_t * index,
 				    char ** result)
 {
@@ -3314,7 +3330,7 @@ domain          =       dot-atom / domain-literal / obs-domain
 */
 
 #if 0
-static int mailimf_domain_parse(char * message, size_t length,
+static int mailimf_domain_parse(const char * message, size_t length,
 				size_t * index,
 				char ** result)
 {
@@ -3342,8 +3358,9 @@ static int mailimf_domain_parse(char * message, size_t length,
 [FWS] dcontent
 */
 
+#if 0
 static int
-mailimf_domain_literal_fws_dcontent_parse(char * message, size_t length,
+mailimf_domain_literal_fws_dcontent_parse(const char * message, size_t length,
 					  size_t * index)
 {
   size_t cur_token;
@@ -3364,12 +3381,14 @@ mailimf_domain_literal_fws_dcontent_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 /*
 domain-literal  =       [CFWS] "[" *([FWS] dcontent) [FWS] "]" [CFWS]
 */
 
-static int mailimf_domain_literal_parse(char * message, size_t length,
+#if 0
+static int mailimf_domain_literal_parse(const char * message, size_t length,
 					size_t * index, char ** result)
 {
   size_t cur_token;
@@ -3422,12 +3441,14 @@ static int mailimf_domain_literal_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 /*
 dcontent        =       dtext / quoted-pair
 */
 
-static int mailimf_dcontent_parse(char * message, size_t length,
+#if 0
+static int mailimf_dcontent_parse(const char * message, size_t length,
 				  size_t * index, char * result)
 {
   size_t cur_token;
@@ -3455,6 +3476,7 @@ static int mailimf_dcontent_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 
 /*
@@ -3489,7 +3511,7 @@ message         =       (fields / obs-fields)
                         [CRLF body]
 */
 
-int mailimf_message_parse(char * message, size_t length,
+int mailimf_message_parse(const char * message, size_t length,
 			  size_t * index,
 			  struct mailimf_message ** result)
 {
@@ -3543,7 +3565,7 @@ int mailimf_message_parse(char * message, size_t length,
 body            =       *(*998text CRLF) *998text
 */
 
-int mailimf_body_parse(char * message, size_t length,
+int mailimf_body_parse(const char * message, size_t length,
 		       size_t * index,
 		       struct mailimf_body ** result)
 {
@@ -3646,7 +3668,7 @@ static int guess_resent_header_type(char * message,
 
 #if 0
 static int
-mailimf_resent_field_parse(char * message, size_t length,
+mailimf_resent_field_parse(const char * message, size_t length,
 			   size_t * index,
 			   struct mailimf_resent_field ** result)
 {
@@ -3773,7 +3795,7 @@ mailimf_resent_field_parse(char * message, size_t length,
 
 #if 0
 static int
-mailimf_resent_fields_list_parse(char * message, size_t length,
+mailimf_resent_fields_list_parse(const char * message, size_t length,
 				 size_t * index,
 				 struct mailimf_resent_fields_list ** result)
 {
@@ -3822,7 +3844,7 @@ mailimf_resent_fields_list_parse(char * message, size_t length,
 
 #if 0
 static int
-mailimf_trace_resent_fields_parse(char * message, size_t length,
+mailimf_trace_resent_fields_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_trace_resent_fields ** result)
 {
@@ -3886,7 +3908,7 @@ delivering-info =       *([trace]
 
 #if 0
 static int
-mailimf_delivering_info_parse(char * message, size_t length,
+mailimf_delivering_info_parse(const char * message, size_t length,
 			      size_t * index,
 			      struct mailimf_delivering_info ** result)
 {
@@ -3955,7 +3977,7 @@ enum {
   HEADER_RES,
 };
 
-static int guess_header_type(char * message, size_t length, size_t index)
+static int guess_header_type(const char * message, size_t length, size_t index)
 {
   int state;
   int r;
@@ -4076,7 +4098,7 @@ static int guess_header_type(char * message, size_t length, size_t index)
   }
 }
 
-static int mailimf_field_parse(char * message, size_t length,
+static int mailimf_field_parse(const char * message, size_t length,
 			       size_t * index,
 			       struct mailimf_field ** result)
 {
@@ -4509,7 +4531,7 @@ fields          =       *(delivering-info /
 
 #if 0
 int
-mailimf_unparsed_fields_parse(char * message, size_t length,
+mailimf_unparsed_fields_parse(const char * message, size_t length,
 			      size_t * index,
 			      struct mailimf_unparsed_fields ** result)
 {
@@ -4575,7 +4597,7 @@ mailimf_unparsed_fields_parse(char * message, size_t length,
 }
 #endif
 
-int mailimf_fields_parse(char * message, size_t length,
+int mailimf_fields_parse(const char * message, size_t length,
 			 size_t * index,
 			 struct mailimf_fields ** result)
 {
@@ -4646,7 +4668,7 @@ orig-date       =       "Date:" date-time CRLF
 
 
 static int
-mailimf_orig_date_parse(char * message, size_t length,
+mailimf_orig_date_parse(const char * message, size_t length,
 			size_t * index, struct mailimf_orig_date ** result)
 {
   struct mailimf_date_time * date_time;
@@ -4704,7 +4726,7 @@ from            =       "From:" mailbox-list CRLF
 */
 
 static int
-mailimf_from_parse(char * message, size_t length,
+mailimf_from_parse(const char * message, size_t length,
 		   size_t * index, struct mailimf_from ** result)
 {
   struct mailimf_mailbox_list * mb_list;
@@ -4763,7 +4785,7 @@ sender          =       "Sender:" mailbox CRLF
 */
 
 static int
-mailimf_sender_parse(char * message, size_t length,
+mailimf_sender_parse(const char * message, size_t length,
 		     size_t * index, struct mailimf_sender ** result)
 {
   struct mailimf_mailbox * mb;
@@ -4822,7 +4844,7 @@ reply-to        =       "Reply-To:" address-list CRLF
 
 
 static int
-mailimf_reply_to_parse(char * message, size_t length,
+mailimf_reply_to_parse(const char * message, size_t length,
 		       size_t * index, struct mailimf_reply_to ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -4880,7 +4902,7 @@ to              =       "To:" address-list CRLF
 */
 
 static int
-mailimf_to_parse(char * message, size_t length,
+mailimf_to_parse(const char * message, size_t length,
 		 size_t * index, struct mailimf_to ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -4939,7 +4961,7 @@ cc              =       "Cc:" address-list CRLF
 
 
 static int
-mailimf_cc_parse(char * message, size_t length,
+mailimf_cc_parse(const char * message, size_t length,
 		 size_t * index, struct mailimf_cc ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -4998,7 +5020,7 @@ bcc             =       "Bcc:" (address-list / [CFWS]) CRLF
 
 
 static int
-mailimf_bcc_parse(char * message, size_t length,
+mailimf_bcc_parse(const char * message, size_t length,
 		  size_t * index, struct mailimf_bcc ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -5067,7 +5089,7 @@ mailimf_bcc_parse(char * message, size_t length,
 message-id      =       "Message-ID:" msg-id CRLF
 */
 
-static int mailimf_message_id_parse(char * message, size_t length,
+static int mailimf_message_id_parse(const char * message, size_t length,
 				    size_t * index,
 				    struct mailimf_message_id ** result)
 {
@@ -5125,7 +5147,7 @@ static int mailimf_message_id_parse(char * message, size_t length,
 in-reply-to     =       "In-Reply-To:" 1*msg-id CRLF
 */
 
-int mailimf_msg_id_list_parse(char * message, size_t length,
+int mailimf_msg_id_list_parse(const char * message, size_t length,
 			      size_t * index, clist ** result)
 {
   return mailimf_struct_multiple_parse(message, length, index,
@@ -5136,7 +5158,7 @@ int mailimf_msg_id_list_parse(char * message, size_t length,
 				       mailimf_msg_id_free);
 }
 
-static int mailimf_in_reply_to_parse(char * message, size_t length,
+static int mailimf_in_reply_to_parse(const char * message, size_t length,
 				     size_t * index,
 				     struct mailimf_in_reply_to ** result)
 {
@@ -5195,7 +5217,7 @@ static int mailimf_in_reply_to_parse(char * message, size_t length,
 references      =       "References:" 1*msg-id CRLF
 */
 
-int mailimf_references_parse(char * message, size_t length,
+int mailimf_references_parse(const char * message, size_t length,
 			     size_t * index,
 			     struct mailimf_references ** result)
 {
@@ -5254,13 +5276,15 @@ int mailimf_references_parse(char * message, size_t length,
 msg-id          =       [CFWS] "<" id-left "@" id-right ">" [CFWS]
 */
 
-int mailimf_msg_id_parse(char * message, size_t length,
+int mailimf_msg_id_parse(const char * message, size_t length,
 			 size_t * index,
 			 char ** result)
 {
   size_t cur_token;
+#if 0
   char * id_left;
   char * id_right;
+#endif
   char * msg_id;
   int r;
   int res;
@@ -5347,7 +5371,7 @@ int mailimf_msg_id_parse(char * message, size_t length,
   return res;
 }
 
-static int mailimf_parse_unwanted_msg_id(char * message, size_t length,
+static int mailimf_parse_unwanted_msg_id(const char * message, size_t length,
 					 size_t * index)
 {
   size_t cur_token;
@@ -5423,7 +5447,7 @@ static int mailimf_parse_unwanted_msg_id(char * message, size_t length,
   return MAILIMF_NO_ERROR;
 }
 
-static int mailimf_unstrict_msg_id_parse(char * message, size_t length,
+static int mailimf_unstrict_msg_id_parse(const char * message, size_t length,
 					 size_t * index,
 					 char ** result)
 {
@@ -5459,7 +5483,8 @@ static int mailimf_unstrict_msg_id_parse(char * message, size_t length,
 id-left         =       dot-atom-text / no-fold-quote / obs-id-left
 */
 
-static int mailimf_id_left_parse(char * message, size_t length,
+#if 0
+static int mailimf_id_left_parse(const char * message, size_t length,
 				 size_t * index, char ** result)
 {
   int r;
@@ -5480,12 +5505,14 @@ static int mailimf_id_left_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 /*
 id-right        =       dot-atom-text / no-fold-literal / obs-id-right
 */
 
-static int mailimf_id_right_parse(char * message, size_t length,
+#if 0
+static int mailimf_id_right_parse(const char * message, size_t length,
 				  size_t * index, char ** result)
 {
   int r;
@@ -5506,12 +5533,14 @@ static int mailimf_id_right_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
 /*
 no-fold-quote   =       DQUOTE *(qtext / quoted-pair) DQUOTE
 */
 
-static int mailimf_no_fold_quote_char_parse(char * message, size_t length,
+#if 0
+static int mailimf_no_fold_quote_char_parse(const char * message, size_t length,
 					    size_t * index, char * result)
 {
   char ch;
@@ -5543,8 +5572,10 @@ static int mailimf_no_fold_quote_char_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
-static int mailimf_no_fold_quote_parse(char * message, size_t length,
+#if 0
+static int mailimf_no_fold_quote_parse(const char * message, size_t length,
 				       size_t * index, char ** result)
 {
   size_t cur_token;
@@ -5597,13 +5628,15 @@ static int mailimf_no_fold_quote_parse(char * message, size_t length,
  err:
   return res;
 }
+#endif
 
 /*
 no-fold-literal =       "[" *(dtext / quoted-pair) "]"
 */
 
+#if 0
 static inline int
-mailimf_no_fold_literal_char_parse(char * message, size_t length,
+mailimf_no_fold_literal_char_parse(const char * message, size_t length,
 				   size_t * index, char * result)
 {
   char ch;
@@ -5634,8 +5667,10 @@ mailimf_no_fold_literal_char_parse(char * message, size_t length,
 
   return MAILIMF_NO_ERROR;
 }
+#endif
 
-static int mailimf_no_fold_literal_parse(char * message, size_t length,
+#if 0
+static int mailimf_no_fold_literal_parse(const char * message, size_t length,
 					 size_t * index, char ** result)
 {
   size_t cur_token;
@@ -5691,12 +5726,13 @@ static int mailimf_no_fold_literal_parse(char * message, size_t length,
  err:
   return res;
 }
+#endif
 
 /*
 subject         =       "Subject:" unstructured CRLF
 */
 
-static int mailimf_subject_parse(char * message, size_t length,
+static int mailimf_subject_parse(const char * message, size_t length,
 				 size_t * index,
 				 struct mailimf_subject ** result)
 {
@@ -5754,7 +5790,7 @@ static int mailimf_subject_parse(char * message, size_t length,
 comments        =       "Comments:" unstructured CRLF
 */
 
-static int mailimf_comments_parse(char * message, size_t length,
+static int mailimf_comments_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_comments ** result)
 {
@@ -5812,7 +5848,7 @@ static int mailimf_comments_parse(char * message, size_t length,
 keywords        =       "Keywords:" phrase *("," phrase) CRLF
 */
 
-static int mailimf_keywords_parse(char * message, size_t length,
+static int mailimf_keywords_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_keywords ** result)
 {
@@ -5877,7 +5913,7 @@ resent-date     =       "Resent-Date:" date-time CRLF
 */
 
 static int
-mailimf_resent_date_parse(char * message, size_t length,
+mailimf_resent_date_parse(const char * message, size_t length,
 			  size_t * index, struct mailimf_orig_date ** result)
 {
   struct mailimf_orig_date * orig_date;
@@ -5935,7 +5971,7 @@ resent-from     =       "Resent-From:" mailbox-list CRLF
 */
 
 static int
-mailimf_resent_from_parse(char * message, size_t length,
+mailimf_resent_from_parse(const char * message, size_t length,
 			  size_t * index, struct mailimf_from ** result)
 {
   struct mailimf_mailbox_list * mb_list;
@@ -5993,7 +6029,7 @@ resent-sender   =       "Resent-Sender:" mailbox CRLF
 */
 
 static int
-mailimf_resent_sender_parse(char * message, size_t length,
+mailimf_resent_sender_parse(const char * message, size_t length,
 			    size_t * index, struct mailimf_sender ** result)
 {
   struct mailimf_mailbox * mb;
@@ -6051,7 +6087,7 @@ resent-to       =       "Resent-To:" address-list CRLF
 */
 
 static int
-mailimf_resent_to_parse(char * message, size_t length,
+mailimf_resent_to_parse(const char * message, size_t length,
 			size_t * index, struct mailimf_to ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -6109,7 +6145,7 @@ resent-cc       =       "Resent-Cc:" address-list CRLF
 */
 
 static int
-mailimf_resent_cc_parse(char * message, size_t length,
+mailimf_resent_cc_parse(const char * message, size_t length,
 			size_t * index, struct mailimf_cc ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -6167,7 +6203,7 @@ resent-bcc      =       "Resent-Bcc:" (address-list / [CFWS]) CRLF
 */
 
 static int
-mailimf_resent_bcc_parse(char * message, size_t length,
+mailimf_resent_bcc_parse(const char * message, size_t length,
 			 size_t * index, struct mailimf_bcc ** result)
 {
   struct mailimf_address_list * addr_list;
@@ -6226,7 +6262,7 @@ resent-msg-id   =       "Resent-Message-ID:" msg-id CRLF
 */
 
 static int
-mailimf_resent_msg_id_parse(char * message, size_t length,
+mailimf_resent_msg_id_parse(const char * message, size_t length,
 			    size_t * index,
 			    struct mailimf_message_id ** result)
 {
@@ -6286,7 +6322,7 @@ trace           =       [return]
 */
 
 #if 0
-static int mailimf_trace_parse(char * message, size_t length,
+static int mailimf_trace_parse(const char * message, size_t length,
 			       size_t * index,
 			       struct mailimf_trace ** result)
 {
@@ -6349,7 +6385,7 @@ static int mailimf_trace_parse(char * message, size_t length,
 return          =       "Return-Path:" path CRLF
 */
 
-static int mailimf_return_parse(char * message, size_t length,
+static int mailimf_return_parse(const char * message, size_t length,
 				size_t * index,
 				struct mailimf_return ** result)
 {
@@ -6408,7 +6444,7 @@ path            =       ([CFWS] "<" ([CFWS] / addr-spec) ">" [CFWS]) /
                         obs-path
 */
 
-static int mailimf_path_parse(char * message, size_t length,
+static int mailimf_path_parse(const char * message, size_t length,
 			      size_t * index, struct mailimf_path ** result)
 {
   size_t cur_token;
@@ -6476,7 +6512,7 @@ received        =       "Received:" name-val-list ";" date-time CRLF
 */
 
 #if 0
-static int mailimf_received_parse(char * message, size_t length,
+static int mailimf_received_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_received ** result)
 {
@@ -6553,7 +6589,7 @@ name-val-list   =       [CFWS] [name-val-pair *(CFWS name-val-pair)]
 
 #if 0
 static int
-mailimf_name_val_list_parse(char * message, size_t length,
+mailimf_name_val_list_parse(const char * message, size_t length,
 			    size_t * index,
 			    struct mailimf_name_val_list ** result)
 {
@@ -6645,7 +6681,7 @@ name-val-pair   =       item-name CFWS item-value
 
 #if 0
 static int
-mailimf_name_val_pair_parse(char * message, size_t length,
+mailimf_name_val_pair_parse(const char * message, size_t length,
 			    size_t * index,
 			    struct mailimf_name_val_pair ** result)
 {
@@ -6707,7 +6743,7 @@ item-name       =       ALPHA *(["-"] (ALPHA / DIGIT))
 */
 
 #if 0
-static int mailimf_item_name_parse(char * message, size_t length,
+static int mailimf_item_name_parse(const char * message, size_t length,
 				   size_t * index, char ** result)
 {
   size_t cur_token;
@@ -6784,7 +6820,7 @@ static int is_item_value_atext(char ch)
   }
 }
 
-static int mailimf_item_value_atom_parse(char * message, size_t length,
+static int mailimf_item_value_atom_parse(const char * message, size_t length,
 					 size_t * index, char ** result)
 {
   char * atom;
@@ -6812,7 +6848,7 @@ static int mailimf_item_value_atom_parse(char * message, size_t length,
   return MAILIMF_NO_ERROR;
 }
 
-static int mailimf_item_value_parse(char * message, size_t length,
+static int mailimf_item_value_parse(const char * message, size_t length,
 				    size_t * index,
 				    struct mailimf_item_value ** result)
 {
@@ -6916,7 +6952,7 @@ optional-field  =       field-name ":" unstructured CRLF
 */
 
 static int
-mailimf_optional_field_parse(char * message, size_t length,
+mailimf_optional_field_parse(const char * message, size_t length,
 			     size_t * index,
 			     struct mailimf_optional_field ** result)
 {
@@ -6978,7 +7014,7 @@ field-name      =       1*ftext
 
 static inline int is_ftext(char ch);
 
-static int mailimf_field_name_parse(char * message, size_t length,
+static int mailimf_field_name_parse(const char * message, size_t length,
 				    size_t * index, char ** result)
 {
   char * field_name;
@@ -7037,7 +7073,7 @@ static inline int is_ftext(char ch)
 }
 
 /*
-static int mailimf_ftext_parse(char * message, size_t length,
+static int mailimf_ftext_parse(const char * message, size_t length,
 				    size_t * index, gchar * result)
 {
   return mailimf_typed_text_parse(message, length, index, result, is_ftext);
@@ -7047,7 +7083,7 @@ static int mailimf_ftext_parse(char * message, size_t length,
 
 
 
-static int mailimf_envelope_field_parse(char * message, size_t length,
+static int mailimf_envelope_field_parse(const char * message, size_t length,
 					size_t * index,
 					struct mailimf_field ** result)
 {
@@ -7283,7 +7319,7 @@ static int mailimf_envelope_field_parse(char * message, size_t length,
   return res;
 }
 
-int mailimf_envelope_fields_parse(char * message, size_t length,
+int mailimf_envelope_fields_parse(const char * message, size_t length,
 				  size_t * index,
 				  struct mailimf_fields ** result)
 {
@@ -7353,7 +7389,7 @@ int mailimf_envelope_fields_parse(char * message, size_t length,
 
 
 static int
-mailimf_envelope_or_optional_field_parse(char * message,
+mailimf_envelope_or_optional_field_parse(const char * message,
 					 size_t length,
 					 size_t * index,
 					 struct mailimf_field ** result)
@@ -7394,7 +7430,7 @@ mailimf_envelope_or_optional_field_parse(char * message,
 
 
 int
-mailimf_envelope_and_optional_fields_parse(char * message, size_t length,
+mailimf_envelope_and_optional_fields_parse(const char * message, size_t length,
 					   size_t * index,
 					   struct mailimf_fields ** result)
 {
@@ -7455,7 +7491,7 @@ mailimf_envelope_and_optional_fields_parse(char * message, size_t length,
 
 
 static int
-mailimf_only_optional_field_parse(char * message,
+mailimf_only_optional_field_parse(const char * message,
 				  size_t length,
 				  size_t * index,
 				  struct mailimf_field ** result)
@@ -7490,7 +7526,7 @@ mailimf_only_optional_field_parse(char * message,
 
 
 int
-mailimf_optional_fields_parse(char * message, size_t length,
+mailimf_optional_fields_parse(const char * message, size_t length,
 			      size_t * index,
 			      struct mailimf_fields ** result)
 {

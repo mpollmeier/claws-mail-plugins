@@ -33,6 +33,10 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * $Id: chash.c,v 1.2 2003-12-10 04:23:01 hoa Exp $
+ */
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -43,7 +47,8 @@
    average go over that value. */
 #define CHASH_MAXDEPTH    3
 
-static inline unsigned int chash_func(const char * key, int len) {
+static inline unsigned int chash_func(const char * key, unsigned int len) {
+#if 0
   register unsigned int c = 0, t;
   register const char * k = key;
   
@@ -55,20 +60,29 @@ static inline unsigned int chash_func(const char * key, int len) {
     }
   }
   return c;
+#endif
+  register unsigned int c = 5381;
+  register const char * k = key;
+  
+  while (len--) {
+    c = ((c << 5) + c) + *k++;
+  }
+  
+  return c;
 }
 
-static inline char * chash_dup(const char * data, int len)
+static inline char * chash_dup(const void * data, unsigned int len)
 {
-  char * r;
+  void * r;
 
-  r = (char *) malloc(len * sizeof(char));
+  r = (char *) malloc(len);
   if (!r)
     return NULL;
-  memcpy(r, data, len * sizeof(char));
+  memcpy(r, data, len);
   return r;
 }
 
-chash * chash_new(int size, int flags)
+chash * chash_new(unsigned int size, int flags)
 {
   chash * h;
 
@@ -258,7 +272,7 @@ int chash_delete(chash * hash, chashdatum * key, chashdatum * oldvalue)
 }
 
 void chash_free(chash * hash) {
-  int indx;
+  unsigned int indx;
   chashiter * iter, * next;
 
   /* browse the hash table */
@@ -279,7 +293,7 @@ void chash_free(chash * hash) {
 }
 
 void chash_clear(chash * hash) {
-  int indx;
+  unsigned int indx;
   chashiter * iter, * next;
 
   /* browse the hash table */
@@ -301,7 +315,7 @@ void chash_clear(chash * hash) {
 
 chashiter * chash_begin(chash * hash) {
   chashiter * iter;
-  int indx = 0;
+  unsigned int indx = 0;
   
   iter = hash->cells[0];
   while(!iter) {
@@ -314,7 +328,7 @@ chashiter * chash_begin(chash * hash) {
 }
 
 chashiter * chash_next(chash * hash, chashiter * iter) {
-  int indx;
+  unsigned int indx;
 
   if (!iter)
     return NULL;
@@ -331,10 +345,10 @@ chashiter * chash_next(chash * hash, chashiter * iter) {
   return iter;
 }
 
-int chash_resize(chash * hash, int size)
+int chash_resize(chash * hash, unsigned int size)
 {
   struct chashcell ** cells;
-  int indx, nindx;
+  unsigned int indx, nindx;
   chashiter * iter, * next;
   
   if (hash->size == size)

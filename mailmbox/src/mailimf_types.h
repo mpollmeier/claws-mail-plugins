@@ -1,7 +1,7 @@
 /*
  * libEtPan! -- a mail stuff library
  *
- * Copyright (C) 2001, 2002 - DINH Viet Hoa
+ * Copyright (C) 2001 - 2003 - DINH Viet Hoa
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@
 
 
 /*
- * $Id: mailimf_types.h,v 1.2 2003-11-30 13:07:32 hoa Exp $
+ * $Id: mailimf_types.h,v 1.3 2003-12-10 04:23:01 hoa Exp $
  */
 
 #ifndef MAILIMF_TYPES_H
@@ -76,18 +76,18 @@ extern "C" {
 */
 
 struct mailimf_date_time {
-  int day;
-  int month;
-  int year;
-  int hour;
-  int min;
-  int sec;
-  int zone;
+  int dt_day;
+  int dt_month;
+  int dt_year;
+  int dt_hour;
+  int dt_min;
+  int dt_sec;
+  int dt_zone;
 };
 
 struct mailimf_date_time *
-mailimf_date_time_new(int day, int month, int year,
-		      int hour, int min, int sec, int zone);
+mailimf_date_time_new(int dt_day, int dt_month, int dt_year,
+    int dt_hour, int dt_min, int dt_sec, int dt_zone);
 
 void mailimf_date_time_free(struct mailimf_date_time * date_time);
 
@@ -114,15 +114,17 @@ enum {
 */
 
 struct mailimf_address {
-  int type;
-  struct mailimf_mailbox * mailbox; /* can be NULL */
-  struct mailimf_group * group;     /* can be NULL */
+  int ad_type;
+  union {
+    struct mailimf_mailbox * ad_mailbox; /* can be NULL */
+    struct mailimf_group * ad_group;     /* can be NULL */
+  } ad_data;
 };
 
 
 struct mailimf_address *
-mailimf_address_new(int type, struct mailimf_mailbox * mailbox,
-		    struct mailimf_group * group);
+mailimf_address_new(int ad_type, struct mailimf_mailbox * ad_mailbox,
+    struct mailimf_group * ad_group);
 
 void mailimf_address_free(struct mailimf_address * address);
 
@@ -140,12 +142,12 @@ void mailimf_address_free(struct mailimf_address * address);
 */
 
 struct mailimf_mailbox {
-  char * display_name; /* can be NULL */
-  char * addr_spec;    /* != NULL */
+  char * mb_display_name; /* can be NULL */
+  char * mb_addr_spec;    /* != NULL */
 };
 
 struct mailimf_mailbox *
-mailimf_mailbox_new(char * display_name, char * addr_spec);
+mailimf_mailbox_new(char * mb_display_name, char * mb_addr_spec);
 
 void mailimf_mailbox_free(struct mailimf_mailbox * mailbox);
 
@@ -163,12 +165,13 @@ void mailimf_mailbox_free(struct mailimf_mailbox * mailbox);
 */
 
 struct mailimf_group {
-  char * display_name; /* != NULL */
-  struct mailimf_mailbox_list * mb_list; /* can be NULL */
+  char * grp_display_name; /* != NULL */
+  struct mailimf_mailbox_list * grp_mb_list; /* can be NULL */
 };
 
 struct mailimf_group *
-mailimf_group_new(char * display_name, struct mailimf_mailbox_list * mb_list);
+mailimf_group_new(char * grp_display_name,
+    struct mailimf_mailbox_list * grp_mb_list);
 
 void mailimf_group_free(struct mailimf_group * group);
 
@@ -181,12 +184,12 @@ void mailimf_group_free(struct mailimf_group * group);
 */
 
 struct mailimf_mailbox_list {
-  clist * list; /* list of (struct mailimf_mailbox *) */
+  clist * mb_list; /* list of (struct mailimf_mailbox *) */
      /* != NULL */
 };
 
 struct mailimf_mailbox_list *
-mailimf_mailbox_list_new(clist * list);
+mailimf_mailbox_list_new(clist * mb_list);
 
 void mailimf_mailbox_list_free(struct mailimf_mailbox_list * mb_list);
 
@@ -199,12 +202,12 @@ void mailimf_mailbox_list_free(struct mailimf_mailbox_list * mb_list);
 */
 
 struct mailimf_address_list {
-  clist * list; /* list of (struct mailimf_address *) */
+  clist * ad_list; /* list of (struct mailimf_address *) */
      /* != NULL */
 };
 
 struct mailimf_address_list *
-mailimf_address_list_new(clist * list);
+mailimf_address_list_new(clist * ad_list);
 
 void mailimf_address_list_free(struct mailimf_address_list * addr_list);
 
@@ -222,11 +225,11 @@ void mailimf_address_list_free(struct mailimf_address_list * addr_list);
 */
 
 struct mailimf_body {
-  char * text; /* != NULL */
-  size_t size;
+  const char * bd_text; /* != NULL */
+  size_t bd_size;
 };
 
-struct mailimf_body * mailimf_body_new(char * text, size_t size);
+struct mailimf_body * mailimf_body_new(const char * bd_text, size_t bd_size);
 
 void mailimf_body_free(struct mailimf_body * body);
 
@@ -242,12 +245,13 @@ void mailimf_body_free(struct mailimf_body * body);
 */
 
 struct mailimf_message {
-  struct mailimf_fields * fields; /* != NULL */
-  struct mailimf_body * body;     /* != NULL */
+  struct mailimf_fields * msg_fields; /* != NULL */
+  struct mailimf_body * msg_body;     /* != NULL */
 };
 
-struct mailimf_message * mailimf_message_new(struct mailimf_fields * fields,
-					     struct mailimf_body * body);
+struct mailimf_message *
+mailimf_message_new(struct mailimf_fields * msg_fields,
+    struct mailimf_body * msg_body);
 
 void mailimf_message_free(struct mailimf_message * message);
 
@@ -261,11 +265,11 @@ void mailimf_message_free(struct mailimf_message * message);
 */
 
 struct mailimf_fields {
-  clist * list; /* list of (struct mailimf_field *) */
+  clist * fld_list; /* list of (struct mailimf_field *) */
                 /* != NULL */
 };
 
-struct mailimf_fields * mailimf_fields_new(clist * list);
+struct mailimf_fields * mailimf_fields_new(clist * fld_list);
 
 void mailimf_fields_free(struct mailimf_fields * fields);
 
@@ -354,57 +358,57 @@ enum {
 #define LIBETPAN_MAILIMF_FIELD_UNION
 
 struct mailimf_field {
-  int type;
+  int fld_type;
   union {
-    struct mailimf_return * return_path;              /* can be NULL */
-    struct mailimf_orig_date * resent_date;    /* can be NULL */
-    struct mailimf_from * resent_from;         /* can be NULL */
-    struct mailimf_sender * resent_sender;     /* can be NULL */
-    struct mailimf_to * resent_to;             /* can be NULL */
-    struct mailimf_cc * resent_cc;             /* can be NULL */
-    struct mailimf_bcc * resent_bcc;           /* can be NULL */
-    struct mailimf_message_id * resent_msg_id; /* can be NULL */
-    struct mailimf_orig_date * orig_date;             /* can be NULL */
-    struct mailimf_from * from;                       /* can be NULL */
-    struct mailimf_sender * sender;                   /* can be NULL */
-    struct mailimf_reply_to * reply_to;               /* can be NULL */
-    struct mailimf_to * to;                           /* can be NULL */
-    struct mailimf_cc * cc;                           /* can be NULL */
-    struct mailimf_bcc * bcc;                         /* can be NULL */
-    struct mailimf_message_id * message_id;           /* can be NULL */
-    struct mailimf_in_reply_to * in_reply_to;         /* can be NULL */
-    struct mailimf_references * references;           /* can be NULL */
-    struct mailimf_subject * subject;                 /* can be NULL */
-    struct mailimf_comments * comments;               /* can be NULL */
-    struct mailimf_keywords * keywords;               /* can be NULL */
-    struct mailimf_optional_field * optional_field;   /* can be NULL */
-  } field;
+    struct mailimf_return * fld_return_path;              /* can be NULL */
+    struct mailimf_orig_date * fld_resent_date;    /* can be NULL */
+    struct mailimf_from * fld_resent_from;         /* can be NULL */
+    struct mailimf_sender * fld_resent_sender;     /* can be NULL */
+    struct mailimf_to * fld_resent_to;             /* can be NULL */
+    struct mailimf_cc * fld_resent_cc;             /* can be NULL */
+    struct mailimf_bcc * fld_resent_bcc;           /* can be NULL */
+    struct mailimf_message_id * fld_resent_msg_id; /* can be NULL */
+    struct mailimf_orig_date * fld_orig_date;             /* can be NULL */
+    struct mailimf_from * fld_from;                       /* can be NULL */
+    struct mailimf_sender * fld_sender;                   /* can be NULL */
+    struct mailimf_reply_to * fld_reply_to;               /* can be NULL */
+    struct mailimf_to * fld_to;                           /* can be NULL */
+    struct mailimf_cc * fld_cc;                           /* can be NULL */
+    struct mailimf_bcc * fld_bcc;                         /* can be NULL */
+    struct mailimf_message_id * fld_message_id;           /* can be NULL */
+    struct mailimf_in_reply_to * fld_in_reply_to;         /* can be NULL */
+    struct mailimf_references * fld_references;           /* can be NULL */
+    struct mailimf_subject * fld_subject;                 /* can be NULL */
+    struct mailimf_comments * fld_comments;               /* can be NULL */
+    struct mailimf_keywords * fld_keywords;               /* can be NULL */
+    struct mailimf_optional_field * fld_optional_field;   /* can be NULL */
+  } fld_data;
 };
 
 struct mailimf_field *
-mailimf_field_new(int type,
-    struct mailimf_return * return_path,
-    struct mailimf_orig_date * resent_date,
-    struct mailimf_from * resent_from,
-    struct mailimf_sender * resent_sender,
-    struct mailimf_to * resent_to,
-    struct mailimf_cc * resent_cc,
-    struct mailimf_bcc * resent_bcc,
-    struct mailimf_message_id * resent_msg_id,
-    struct mailimf_orig_date * orig_date,
-    struct mailimf_from * from,
-    struct mailimf_sender * sender,
-    struct mailimf_reply_to * reply_to,
-    struct mailimf_to * to,
-    struct mailimf_cc * cc,
-    struct mailimf_bcc * bcc,
-    struct mailimf_message_id * message_id,
-    struct mailimf_in_reply_to * in_reply_to,
-    struct mailimf_references * references,
-    struct mailimf_subject * subject,
-    struct mailimf_comments * comments,
-    struct mailimf_keywords * keywords,
-    struct mailimf_optional_field * optional_field);
+mailimf_field_new(int fld_type,
+    struct mailimf_return * fld_return_path,
+    struct mailimf_orig_date * fld_resent_date,
+    struct mailimf_from * fld_resent_from,
+    struct mailimf_sender * fld_resent_sender,
+    struct mailimf_to * fld_resent_to,
+    struct mailimf_cc * fld_resent_cc,
+    struct mailimf_bcc * fld_resent_bcc,
+    struct mailimf_message_id * fld_resent_msg_id,
+    struct mailimf_orig_date * fld_orig_date,
+    struct mailimf_from * fld_from,
+    struct mailimf_sender * fld_sender,
+    struct mailimf_reply_to * fld_reply_to,
+    struct mailimf_to * fld_to,
+    struct mailimf_cc * fld_cc,
+    struct mailimf_bcc * fld_bcc,
+    struct mailimf_message_id * fld_message_id,
+    struct mailimf_in_reply_to * fld_in_reply_to,
+    struct mailimf_references * fld_references,
+    struct mailimf_subject * fld_subject,
+    struct mailimf_comments * fld_comments,
+    struct mailimf_keywords * fld_keywords,
+    struct mailimf_optional_field * fld_optional_field);
 
 void mailimf_field_free(struct mailimf_field * field);
 
@@ -417,11 +421,11 @@ void mailimf_field_free(struct mailimf_field * field);
 */
 
 struct mailimf_orig_date {
-  struct mailimf_date_time * date_time; /* != NULL */
+  struct mailimf_date_time * dt_date_time; /* != NULL */
 };
 
 struct mailimf_orig_date * mailimf_orig_date_new(struct mailimf_date_time *
-    date_time);
+    dt_date_time);
 
 void mailimf_orig_date_free(struct mailimf_orig_date * orig_date);
 
@@ -435,10 +439,11 @@ void mailimf_orig_date_free(struct mailimf_orig_date * orig_date);
 */
 
 struct mailimf_from {
-  struct mailimf_mailbox_list * mb_list; /* != NULL */
+  struct mailimf_mailbox_list * frm_mb_list; /* != NULL */
 };
 
-struct mailimf_from * mailimf_from_new(struct mailimf_mailbox_list * mb_list);
+struct mailimf_from *
+mailimf_from_new(struct mailimf_mailbox_list * frm_mb_list);
 
 void mailimf_from_free(struct mailimf_from * from);
 
@@ -451,10 +456,10 @@ void mailimf_from_free(struct mailimf_from * from);
 */
 
 struct mailimf_sender {
-  struct mailimf_mailbox * mb; /* != NULL */
+  struct mailimf_mailbox * snd_mb; /* != NULL */
 };
 
-struct mailimf_sender * mailimf_sender_new(struct mailimf_mailbox * mb);
+struct mailimf_sender * mailimf_sender_new(struct mailimf_mailbox * snd_mb);
 
 void mailimf_sender_free(struct mailimf_sender * sender);
 
@@ -468,11 +473,11 @@ void mailimf_sender_free(struct mailimf_sender * sender);
  */
 
 struct mailimf_reply_to {
-  struct mailimf_address_list * addr_list; /* != NULL */
+  struct mailimf_address_list * rt_addr_list; /* != NULL */
 };
 
 struct mailimf_reply_to *
-mailimf_reply_to_new(struct mailimf_address_list * addr_list);
+mailimf_reply_to_new(struct mailimf_address_list * rt_addr_list);
 
 void mailimf_reply_to_free(struct mailimf_reply_to * reply_to);
 
@@ -486,10 +491,10 @@ void mailimf_reply_to_free(struct mailimf_reply_to * reply_to);
 */
 
 struct mailimf_to {
-  struct mailimf_address_list * addr_list; /* != NULL */
+  struct mailimf_address_list * to_addr_list; /* != NULL */
 };
 
-struct mailimf_to * mailimf_to_new(struct mailimf_address_list * addr_list);
+struct mailimf_to * mailimf_to_new(struct mailimf_address_list * to_addr_list);
 
 void mailimf_to_free(struct mailimf_to * to);
 
@@ -503,10 +508,10 @@ void mailimf_to_free(struct mailimf_to * to);
 */
 
 struct mailimf_cc {
-  struct mailimf_address_list * addr_list; /* != NULL */
+  struct mailimf_address_list * cc_addr_list; /* != NULL */
 };
 
-struct mailimf_cc * mailimf_cc_new(struct mailimf_address_list * addr_list);
+struct mailimf_cc * mailimf_cc_new(struct mailimf_address_list * cc_addr_list);
 
 void mailimf_cc_free(struct mailimf_cc * cc);
 
@@ -520,10 +525,11 @@ void mailimf_cc_free(struct mailimf_cc * cc);
 */
 
 struct mailimf_bcc {
-  struct mailimf_address_list * addr_list; /* can be NULL */
+  struct mailimf_address_list * bcc_addr_list; /* can be NULL */
 };
 
-struct mailimf_bcc * mailimf_bcc_new(struct mailimf_address_list * addr_list);
+struct mailimf_bcc *
+mailimf_bcc_new(struct mailimf_address_list * bcc_addr_list);
 
 void mailimf_bcc_free(struct mailimf_bcc * bcc);
 
@@ -536,10 +542,10 @@ void mailimf_bcc_free(struct mailimf_bcc * bcc);
 */
 
 struct mailimf_message_id {
-  char * value; /* != NULL */
+  char * mid_value; /* != NULL */
 };
 
-struct mailimf_message_id * mailimf_message_id_new(char * msg_id);
+struct mailimf_message_id * mailimf_message_id_new(char * mid_value);
 
 void mailimf_message_id_free(struct mailimf_message_id * message_id);
 
@@ -553,11 +559,11 @@ void mailimf_message_id_free(struct mailimf_message_id * message_id);
 */
 
 struct mailimf_in_reply_to {
-  clist * msg_id_list; /* list of (char *) */
+  clist * mid_list; /* list of (char *) */
        /* != NULL */
 };
 
-struct mailimf_in_reply_to * mailimf_in_reply_to_new(clist * msg_id_list);
+struct mailimf_in_reply_to * mailimf_in_reply_to_new(clist * mid_list);
 
 void mailimf_in_reply_to_free(struct mailimf_in_reply_to * in_reply_to);
 
@@ -570,11 +576,11 @@ void mailimf_in_reply_to_free(struct mailimf_in_reply_to * in_reply_to);
  */
 
 struct mailimf_references {
-  clist * msg_id_list; /* list of (char *) */
+  clist * mid_list; /* list of (char *) */
        /* != NULL */
 };
 
-struct mailimf_references * mailimf_references_new(clist * msg_id_list);
+struct mailimf_references * mailimf_references_new(clist * mid_list);
 
 void mailimf_references_free(struct mailimf_references * references);
 
@@ -587,10 +593,10 @@ void mailimf_references_free(struct mailimf_references * references);
 */
 
 struct mailimf_subject {
-  char * value; /* != NULL */
+  char * sbj_value; /* != NULL */
 };
 
-struct mailimf_subject * mailimf_subject_new(char * value);
+struct mailimf_subject * mailimf_subject_new(char * sbj_value);
 
 void mailimf_subject_free(struct mailimf_subject * subject);
 
@@ -602,10 +608,10 @@ void mailimf_subject_free(struct mailimf_subject * subject);
 */
 
 struct mailimf_comments {
-  char * value; /* != NULL */
+  char * cm_value; /* != NULL */
 };
 
-struct mailimf_comments * mailimf_comments_new(char * value);
+struct mailimf_comments * mailimf_comments_new(char * cm_value);
 
 void mailimf_comments_free(struct mailimf_comments * comments);
 
@@ -617,11 +623,11 @@ void mailimf_comments_free(struct mailimf_comments * comments);
 */
 
 struct mailimf_keywords {
-  clist * list; /* list of (char *) */
+  clist * kw_list; /* list of (char *) */
        /* != NULL */
 };
 
-struct mailimf_keywords * mailimf_keywords_new(clist * list);
+struct mailimf_keywords * mailimf_keywords_new(clist * kw_list);
 
 void mailimf_keywords_free(struct mailimf_keywords * keywords);
 
@@ -633,11 +639,11 @@ void mailimf_keywords_free(struct mailimf_keywords * keywords);
 */
 
 struct mailimf_return {
-  struct mailimf_path * path; /* != NULL */
+  struct mailimf_path * ret_path; /* != NULL */
 };
 
 struct mailimf_return *
-mailimf_return_new(struct mailimf_path * path);
+mailimf_return_new(struct mailimf_path * ret_path);
 
 void mailimf_return_free(struct mailimf_return * return_path);
 
@@ -649,10 +655,10 @@ void mailimf_return_free(struct mailimf_return * return_path);
 */
 
 struct mailimf_path {
-  char * addr_spec; /* can be NULL */
+  char * pt_addr_spec; /* can be NULL */
 };
 
-struct mailimf_path * mailimf_path_new(char * addr_spec);
+struct mailimf_path * mailimf_path_new(char * pt_addr_spec);
 
 void mailimf_path_free(struct mailimf_path * path);
 
@@ -666,12 +672,12 @@ void mailimf_path_free(struct mailimf_path * path);
 */
 
 struct mailimf_optional_field {
-  char * name;  /* != NULL */
-  char * value; /* != NULL */
+  char * fld_name;  /* != NULL */
+  char * fld_value; /* != NULL */
 };
 
 struct mailimf_optional_field *
-mailimf_optional_field_new(char * name, char * value);
+mailimf_optional_field_new(char * fld_name, char * fld_value);
 
 void mailimf_optional_field_free(struct mailimf_optional_field * opt_field);
 
@@ -711,19 +717,19 @@ void mailimf_optional_field_free(struct mailimf_optional_field * opt_field);
 */
 
 struct mailimf_single_fields {
-  struct mailimf_orig_date * orig_date;      /* can be NULL */
-  struct mailimf_from * from;                /* can be NULL */
-  struct mailimf_sender * sender;            /* can be NULL */
-  struct mailimf_reply_to * reply_to;        /* can be NULL */
-  struct mailimf_to * to;                    /* can be NULL */
-  struct mailimf_cc * cc;                    /* can be NULL */
-  struct mailimf_bcc * bcc;                  /* can be NULL */
-  struct mailimf_message_id * message_id;    /* can be NULL */
-  struct mailimf_in_reply_to * in_reply_to;  /* can be NULL */
-  struct mailimf_references * references;    /* can be NULL */
-  struct mailimf_subject * subject;          /* can be NULL */
-  struct mailimf_comments * comments;        /* can be NULL */
-  struct mailimf_keywords * keywords;        /* can be NULL */
+  struct mailimf_orig_date * fld_orig_date;      /* can be NULL */
+  struct mailimf_from * fld_from;                /* can be NULL */
+  struct mailimf_sender * fld_sender;            /* can be NULL */
+  struct mailimf_reply_to * fld_reply_to;        /* can be NULL */
+  struct mailimf_to * fld_to;                    /* can be NULL */
+  struct mailimf_cc * fld_cc;                    /* can be NULL */
+  struct mailimf_bcc * fld_bcc;                  /* can be NULL */
+  struct mailimf_message_id * fld_message_id;    /* can be NULL */
+  struct mailimf_in_reply_to * fld_in_reply_to;  /* can be NULL */
+  struct mailimf_references * fld_references;    /* can be NULL */
+  struct mailimf_subject * fld_subject;          /* can be NULL */
+  struct mailimf_comments * fld_comments;        /* can be NULL */
+  struct mailimf_keywords * fld_keywords;        /* can be NULL */
 };
 
 
