@@ -1,6 +1,6 @@
 SUBDIRS = m4 po config src
 
-EXTRA_DIST = config/config.rpath  \
+EXTRA_DIST = \
 	AUTHORS \
 	COPYING \
 	ChangeLog \

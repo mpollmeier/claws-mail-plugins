@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sylpheed-Claws Ghostscript-Viewer 0.8\n"
 "Report-Msgid-Bugs-To: reboot@gmx.ch\n"
-"POT-Creation-Date: 2004-08-09 09:13+0200\n"
+"POT-Creation-Date: 2004-08-22 20:04+0200\n"
 "PO-Revision-Date: 2004-08-23 00:15+0100\n"
 "Last-Translator: Fabien Vantard <fzz@ifrance.com>\n"
 "Language-Team: \n"
@@ -72,7 +72,8 @@ msgid "Error while scanning file %s\n"
 msgstr "Erreur lors de l'analyse du fichier %s\n"
 
 #: src/plugin.c:35
-msgid "Your sylpheed version is newer than the version the plugin was built with"
+msgid ""
+"Your sylpheed version is newer than the version the plugin was built with"
 msgstr ""
 "Votre version de sylpheed est plus récente que celle pour laquelle a été "
 "écrite ce plugin."
@@ -81,7 +82,7 @@ msgstr ""
 msgid "Your sylpheed version is too old"
 msgstr "Votre version de sylpheed est trop ancienne."
 
-#: src/plugin.c:57 src/viewerprefs.c:159
+#: src/plugin.c:57 src/viewerprefs.c:210
 msgid "Ghostscript Viewer"
 msgstr "Visualiseur Ghostscript"
 
@@ -93,35 +94,35 @@ msgstr ""
 "Ce plugin fournit un afficheur de documents Postscript et PDF pour la vue du "
 "message de Sylpheed."
 
-#: src/viewer.c:356 src/viewer.c:390
+#: src/viewer.c:385 src/viewer.c:419
 msgid "Prev Page"
 msgstr "Page préc."
 
-#: src/viewer.c:361 src/viewer.c:386
+#: src/viewer.c:390 src/viewer.c:415
 msgid "Next Page"
 msgstr "Page suiv."
 
-#: src/viewer.c:366 src/viewer.c:407
+#: src/viewer.c:395 src/viewer.c:436
 msgid "Zoom in"
 msgstr "Zoom avant"
 
-#: src/viewer.c:371 src/viewer.c:411
+#: src/viewer.c:400 src/viewer.c:440
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
-#: src/viewer.c:394
+#: src/viewer.c:423
 msgid "First Page"
 msgstr "Première page"
 
-#: src/viewer.c:398
+#: src/viewer.c:427
 msgid "Last Page"
 msgstr "Dernière page"
 
-#: src/viewer.c:415
+#: src/viewer.c:444 src/viewerprefs.c:70
 msgid "Fit page"
 msgstr "Ajuster à la vue"
 
-#: src/viewer.c:419
+#: src/viewer.c:448 src/viewerprefs.c:71
 msgid "Fit width"
 msgstr "Ajuster à la largeur"
 
@@ -143,7 +144,8 @@ msgstr "Zoom automatique"
 
 #: src/viewerprefs.c:191
 msgid "failed to write GhostscriptViewer configuration to file\n"
-msgstr "Impossible de sauvegarder la configuration du visualiseur Ghostscript.\n"
+msgstr ""
+"Impossible de sauvegarder la configuration du visualiseur Ghostscript.\n"
 
 #: src/viewerprefs.c:209
 msgid "Message View"

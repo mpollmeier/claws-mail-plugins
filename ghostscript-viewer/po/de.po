@@ -1,7 +1,7 @@
 # Copyright (C) 2004 Christoph Hohmann
 msgid ""
 msgstr ""
-"Project-Id-Version: Sylpheed-Claws Ghostscript-Viewer 0.6\n"
+"Project-Id-Version: Sylpheed-Claws Ghostscript-Viewer 0.8\n"
 "Report-Msgid-Bugs-To: reboot@gmx.ch\n"
 "POT-Creation-Date: 2004-08-22 20:04+0200\n"
 "PO-Revision-Date: 2004-08-22 22:18+0200\n"
