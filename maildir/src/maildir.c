@@ -1188,6 +1188,7 @@ static gint maildir_get_flags (Folder *folder,  FolderItem *item,
 		if (get_flags_for_msgdata(msgdata, &flags) < 0)
 			break;
 
+		flags = flags | (msginfo->flags.perm_flags & ~(MSG_MARKED | MSG_FORWARDED | MSG_REPLIED | MSG_UNREAD));
 		g_relation_insert(msgflags, msginfo, GINT_TO_POINTER(flags));
 
 		uiddb_free_msgdata(msgdata);
