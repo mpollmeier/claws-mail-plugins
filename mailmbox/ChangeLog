@@ -1,0 +1,120 @@
+2005-01-26 [alfons]	1.0
+
+	* support GTK/GLIB 2 + folder view changes
+
+2004-03-17 [alfons]	0.12
+
+	* src/mailmbox_folder.c
+		commit changes when folder is closed
+
+2004-03-17 [alfons]	0.11
+
+	* src/mailmbox.c
+		hack at CRLF badness; definitely need some verifying
+		by hoa, but it seems to WFM, finally
+
+2004-03-16 [alfons]	0.10
+
+	lend hoa a hand and fix Folder interface breakage
+
+	* src/plugin.c
+		bump up required claws version
+	* src/mailmbox_folder.c
+		re-order mailmbox folder vtable
+
+2004-03-15 [alfons]	0.9
+
+	* src/mailmbox_folder.c
+		fix interface breakage
+
+2003-12-11 [paul]	0.8
+
+	* Makefile.am
+		add 'distdir' and 'release'
+		
+	* configure.ac
+	  src/Makefile.am
+	  	update
+
+2003-12-10 [hoa]	0.7
+
+	* src/carray.c
+	* src/carray.h
+	* src/chash.c
+	* src/chash.h
+	* src/clist.c
+	* src/clist.h
+	* src/mailimf.c
+	* src/mailimf.h
+	* src/mailimf_types.c
+	* src/mailimf_types.h
+	* src/mailimf_types_helper.c
+	* src/mailimf_types_helper.h
+	* src/mailimf_write.c
+	* src/mailimf_write.h
+	* src/maillock.c
+	* src/maillock.h
+	* src/mailmbox.c
+	* src/mailmbox.h
+	* src/mailmbox_folder.c
+	* src/mailmbox_parse.c
+	* src/mailmbox_parse.h
+	* src/mailmbox_types.c
+	* src/mailmbox_types.h
+	* src/mmapstring.c
+	* src/mmapstring.h
+	    sync with libEtPan! 0.31.
+
+2003-12-02 [christoph] 0.6
+
+	* src/mailmbox_folder.[ch]
+		sync with changes in Sylpheed's FolderClass >= 0.9.7claws10
+
+2003-11-30 [hoa]	0.5
+
+	* src/plugin.c
+	* src/plugin_gtk.c
+	    fixed grammer in description.
+	    C language conformance.
+
+	* src/mailmbox_folder.c
+	    fixed double lock.
+
+2003-11-30 [hoa]	0.4
+
+	* src/Makefile.am
+	* src/plugin.c
+	* src/plugin_gtk.c
+	    added description of the plugins.
+	
+2003-11-30 [hoa]	0.3
+
+	* src/clist.c
+	* src/clist.h
+	* src/mailimf.c
+	* src/mailimf.h
+	* src/mailimf_types.c
+	* src/mailimf_types.h
+	* src/mailimf_types_helper.c
+	* src/mailimf_types_helper.h
+	* src/mailimf_write.c
+	* src/mailimf_write.h
+	* src/maillock.c
+	* src/maillock.h
+	    sync with libEtPan!
+	
+	* src/mailmbox_folder.c
+	    fixed size of messages.
+	
+	* src/plugin_gtk.c
+	    fixed notice about scanning since scanning 
+	    is not implemented yet.
+
+2003-10-25 [hoa]	0.2
+
+	* src/mailmbox_folder.[ch]
+	    change some global variable names
+
+2003-10-24 [hoa]	0.1
+
+	* initial import
