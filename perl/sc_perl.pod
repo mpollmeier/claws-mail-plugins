@@ -41,31 +41,32 @@ is possible.
 =head1 FUNCTION LISTING
 
 For a detailed function description, see section L</"FUNCTION
-DESCRIPTION">, below.
+DESCRIPTIONS">, below.
 
 =over 4
 
 =item Standard Filtering Conditions
 
-C<all>, C<marked>, C<unread>, C<deleted>, C<new>, C<replied>,
-C<forwarded>, C<locked>, C<colorlabel>, C<match>, C<matchcase>,
-C<regexp>, C<regexpcase>, C<test>, C<size_greater>,
-C<size_smaller>, C<size_equal>, C<score_greater>, C<score_lower>,
-C<score_equal>, C<age_greater>, C<age_lower>, C<partial>
+ all, marked, unread, deleted, new, replied,
+ forwarded, locked, ignore_thread, colorlabel,
+ match, matchcase, regexp, S<regexpcase, test,
+ size_greater, size_smaller, size_equal,
+ score_greater, score_lower, score_equal, age_greater,
+ age_lower, partial
 
 =item Standard Filtering Actions
 
-C<mark>, C<unmark>, C<dele>, C<mark_as_unread>, C<mark_as_read>,
-C<lock>, C<unlock>, C<move>, C<copy>, C<color>, C<execute>,
-C<hide>, C<set_score>, C<change_score>, C<stop>, C<forward>,
-C<forward_as_attachment>, C<redirect>
+ mark, unmark, dele, mark_as_unread, mark_as_read,
+ lock, unlock, move, copy, color, execute,
+ hide, set_score, change_score, stop, forward,
+ forward_as_attachment, redirect
 
 =item Fun stuff
 
-C<header>, C<body>, C<filepath>, C<extract_addresses>,
-C<move_to_trash>, C<abort>, C<addr_in_addressbook>,
-C<from_in_addressbook>, C<get_attribute_value>, C<SA_is_spam>,
-C<exit>, C<manual>
+ header, body, filepath, extract_addresses,
+ move_to_trash, abort, addr_in_addressbook,
+ from_in_addressbook, get_attribute_value, SA_is_spam,
+ exit, manual, filter_log, filter_log_verbosity
 
 =back
 
@@ -122,6 +123,10 @@ Returns a true value if the forwarded flag is set, false otherwise.
 =item locked
 
 Returns a true value if the locked flag is set, false otherwise.
+
+=item ignore_thread
+
+Returns a true value if the "Ignore Thread" flag is set, false otherwise.
 
 =item colorlabel COLOR
 
@@ -338,20 +343,20 @@ Stop Perl script at this point. Note that this is B<not> a final
 rule, meaning that the email gets passed on to the internal
 filtering engine. See "abort" below if you don't want that.
 
-=item forward ACCOUNT EMAIL
+=item forward ACCOUNT, EMAIL
 
 Forward the message to email address EMAIL, using the account ID
 ACCOUNT as sender account. So far, you have to create a rule
 in the normal filtering engine to find out that number.
 
-=item forward_as_attachment ACCOUNT EMAIL
+=item forward_as_attachment, ACCOUNT EMAIL
 
 Forward the message to email address EMAIL in an attachment,
 using the account ID ACCOUNT as sender account. So far, you
 have to create a rule in the normal filtering engine to find out
 that number.
 
-=item redirect ACCOUNT EMAIL
+=item redirect ACCOUNT, EMAIL
 
 Redirect the message to EMAIL, using the account ID ACCOUNT as
 sender account. So far, you have to create a rule in the normal
@@ -466,6 +471,63 @@ Perl's own 'exit' command, since it would exit Sylpheed-Claws.
 Returns a true value if the filter script was invoked manually,
 that is, via the Tools menu.
 
+=item filter_log SECTION, TEXT
+
+=item filter_log TEXT
+
+Writes TEXT to the filter logfile. SECTION can be any of
+
+=over
+
+=item *
+
+"LOG_MANUAL"
+
+=item *
+
+"LOG_MATCH"
+
+=item *
+
+"LOG_ACTION"
+
+=back
+
+If the SECTION is omitted, "LOG_MANUAL" is assumed.
+
+=item filter_log_verbosity VERBOSITY
+
+=item filter_log_verbosity
+
+Changes the filter log verbosity for the current mail. VERBOSITY
+must be any of
+
+=over
+
+=item *
+
+0
+
+=item *
+
+1
+
+=item *
+
+2
+
+=item *
+
+3
+
+=back
+
+For the meaning of those numbers, read section L</"LOGGING">. If
+VERBOSITY is omtted, the filter logfile verbosity is not changed.
+
+This function returns the filter_log_verbosity number before the
+change (if any).
+
 =back
 
 =head3 Variables
@@ -478,6 +540,62 @@ This scalar keeps its value between filtered mail messages. On
 plugin start, it is initialized to the empty string.
 
 =back
+
+=head1 LOGGING
+
+To keep track of what has been done to the mails while filtering,
+the plugin supports logging. Three verbosity levels are
+recognized:
+
+=over
+
+=item 0
+
+logging disabled
+
+=item 1
+
+log only manual messages, that is, messages introduced by the
+C<filter_log> command in filter scripts
+
+=item 2
+
+log manual messages and filter actions
+
+=item 3
+
+log manual messages, filter actions and filter matches
+
+=back
+
+The messages are logged in the file B<perl_filter.log>, which
+resides in the same directory as the filter scriptfile
+itself. The default log level is 2. Log level 3 is not
+recommended, because the matcher functions log a message if they
+succeeded, and thus, if you have negative checks, you'll get
+confusing entries. If you want to keep track of matching, do it
+manually, using C<filter_log>, or do it by temporary enabling
+matcher logging using C<filter_log_verbosity>.
+
+To prevent the logfile from growing to big, it is truncated to
+zero at plugin start.
+
+The first time you unload this plugin (or shut down
+Sylpheed-Claws), a section called B<[PerlPlugin]> will be created
+in Sylpheed-Claws' configuration file B<sylpheedrc>, containing
+two variables:
+
+ * filter_log_verbosity
+
+ * truncate_filter_logfile_on_plugin_load
+
+If you want to change the default behaviour, you can edit these
+lines. Make sure Sylpheed-Claws is not running while you do
+this.
+
+It will be possible to access these setting via the GUI, as soon
+as I find the time to write a corresponding GTK plugin, or
+somebody else is interested in contributing that.
 
 =head1 EXAMPLE
 

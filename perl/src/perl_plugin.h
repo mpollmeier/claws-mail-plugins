@@ -41,5 +41,9 @@ typedef struct {
   time_t mtime;
 } PerlPluginTimedSList;
 
+typedef struct {
+  gint filter_log_verbosity;
+  gboolean truncate_filter_logfile_on_plugin_load;
+} PerlPluginConfig;
 
 #endif /* include guard */

@@ -1,3 +1,11 @@
+2005-04-02 [holger]	0.2cvs10
+
+	* src/perl_plugin.c
+	* src/perl_plugin.h
+	* sc_perl.pod
+		Add logging capability for filters, and
+		update the documentation.
+
 2005-03-22 [holger]	0.2cvs9
 
 	* src/perl_plugin.c
