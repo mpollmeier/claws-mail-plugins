@@ -1,3 +1,10 @@
+2004-08-26 [paul]
+
+	* Makefile.am
+	* src/Makefile.am
+	  	fix install destination
+		add 'make release'
+
 2004-08-22 [hoa]	0.7
 	
 	* src/prefs_privacy.c
