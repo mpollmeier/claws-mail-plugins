@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF=8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit"
 
 #: src/libgtkgs/ggvutils.c:44
@@ -64,7 +64,7 @@ msgstr "Chyba pri skenovaní pdf súboru %s:\n"
 #: src/libgtkgs/gtkgs.c:1623
 #, c-format
 msgid "Cannot open file %s\n"
-msgstr "Nemôžem otvoriť súbor"
+msgstr "Nemôžem otvoriť súbor %s\n"
 
 #: src/libgtkgs/gtkgs.c:1645
 #, c-format
