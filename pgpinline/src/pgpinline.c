@@ -362,7 +362,7 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo)
 	GpgmeData gpgtext, gpgsig;
 	guint len;
 	struct passphrase_cb_info_s info;
-  
+
 	memset (&info, 0, sizeof info);
 
 	/* get content node from message */
@@ -382,7 +382,8 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo)
 	tmp = conv_codeset_strdup(textstr, CS_UTF_8, 
 			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
 	g_free(textstr);
-	textstr = tmp;
+	textstr = g_strdup(tmp);
+	g_free(tmp);
 
 	fclose(fp);
 		
@@ -404,18 +405,21 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo)
 
 	gpgme_release(ctx);
 	sigcontent = gpgme_data_release_and_get_mem(gpgsig, &len);
-	sigcontent[len] = '\0';
+	tmp = g_malloc(len+1);
+	g_memmove(tmp, sigcontent, len+1);
+	tmp[len] = '\0';
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
+	g_free(sigcontent);
 
 	if (msgcontent->content == MIMECONTENT_FILE &&
 	    msgcontent->data.filename != NULL) {
 		unlink(msgcontent->data.filename);
 		g_free(msgcontent->data.filename);
 	}
-	msgcontent->data.mem = g_strdup(sigcontent);
+	msgcontent->data.mem = g_strdup(tmp);
 	msgcontent->content = MIMECONTENT_MEM;
-	g_free(sigcontent);
+	g_free(tmp);
 
 	/* avoid all sorts of clear-signing problems with non ascii
 	 * chars
@@ -470,8 +474,8 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	tmp = conv_codeset_strdup(textstr, CS_UTF_8, 
 			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
 	g_free(textstr);
-	textstr = tmp;
-
+	textstr = g_strdup(tmp);
+	g_free(tmp);
 	fclose(fp);
 
 	/* encrypt data */
@@ -484,7 +488,12 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 
 	gpgme_release(ctx);
 	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
-	enccontent[len] = '\0';
+
+	tmp = g_malloc(len+1);
+	g_memmove(tmp, enccontent, len+1);
+	tmp[len] = '\0';
+	g_free(enccontent);
+
 	gpgme_recipients_release(recp);
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
@@ -494,9 +503,9 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 		unlink(msgcontent->data.filename);
 		g_free(msgcontent->data.filename);
 	}
-	msgcontent->data.mem = g_strdup(enccontent);
+	msgcontent->data.mem = g_strdup(tmp);
 	msgcontent->content = MIMECONTENT_MEM;
-	g_free(enccontent);
+	g_free(tmp);
 
 	return TRUE;
 }
