@@ -1,0 +1,17 @@
+2003-08-04 [thorsten]	0.3
+
+	* src/fetchinfo_plugin.c
+	  src/fetchinfo_plugin_gtk.c
+	  	add version check
+	* src/Makefile.am
+		fix install location (thanks to Christoph)
+
+2003-07-19 [thorsten]	0.2
+
+	* src/fetchinfo_plugin.c
+		make hook_id guint (thanks to Alfons)
+
+2003-06-23 [thorsten]	0.1
+
+	* initial release
+

@@ -1,0 +1,10 @@
+
+EXPORTS
+	plugin_desc 
+	plugin_done 
+	plugin_init 
+	plugin_name 
+	plugin_type 
+
+	fetchinfo_get_config
+	fetchinfo_save_config
