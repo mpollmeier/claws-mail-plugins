@@ -1,7 +1,19 @@
+2003-08-05 [christoph]
+
+	* src/Makefile.am
+	* src/plugin.c
+	* src/viewer.c
+	* src/viewerprefs.c
+	* src/libgtkgs/Makefile.am
+	* src/libgtkgs/ggvutils.c
+	* src/libgtkgs/gtkgs.c
+		used installed header files and sylpheed's pkg-config file
+		to build the plugin
+
 2003-07-07 [christoph]
 
 	* src/libgtkgs/gtkgs.c
-		apply patch for GhostScript 8 by
+		apply patch for Ghostscript 8 by
 		Charles Philip Chan <cpchan@sympatico.ca>
 
 2003-06-09 [christoph]

@@ -13,16 +13,35 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
 
+#
+# Find pkg-config
+#
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+if test x$PKG_CONFIG = xno ; then
+  AC_MSG_ERROR([*** pkg-config not found. See http://www.freedesktop.org/software/pkgconfig/])
+fi
+
+#
+# Check for sylpheed-claws
+#
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.4claws1)
+SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
+AC_SUBST(SYLPHEED_CLAWS_LIBS)
+AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
+
+#
+# Check for GLib
+#
 AM_PATH_GLIB(1.2.6,,
         AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
         gthread)
 
+#
+# Check for GTK
+#
 AM_PATH_GTK(1.2.6,,
 	AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
-
-AC_ARG_WITH(sylpheed-dir, [  --with-sylpheed-dir=DIR     Directory of the sylpheed source directory],
-            sylpheed_dir="$withval", sylpheed_dir="/usr/src/sylpheed")
-AC_SUBST(sylpheed_dir)
 
 AC_CHECK_HEADER(paths.h)
 AC_PATH_PROG(GS_PROG, gs)

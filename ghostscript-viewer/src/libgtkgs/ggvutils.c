@@ -12,7 +12,7 @@
 #include <gtk/gtk.h>
 
 #include "ggvutils.h"
-#include "intl.h"
+#include "common/intl.h"
 
 GtkGSPaperSize ggv_paper_sizes[] = {
         {"BBox",         0,  0},

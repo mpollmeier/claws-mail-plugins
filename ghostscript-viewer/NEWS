@@ -1,6 +1,7 @@
 Version 0.4
 
 * Added preferences for antialiasing and respect eof
+* make it work with Ghostscript 8
 
 Version 0.3
 

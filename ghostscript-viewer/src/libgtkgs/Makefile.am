@@ -6,10 +6,7 @@ libgtkgs_la_SOURCES = \
     gtkgs.c gtkgs.h \
     ps.c ps.h
 
-INCLUDES = \
-	-I$(sylpheed_dir)/ \
-	-I$(sylpheed_dir)/src/common
-
 AM_CPPFLAGS = \
+	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)

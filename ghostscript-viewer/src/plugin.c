@@ -22,11 +22,11 @@
 #endif
 #include "config.h"
 
-#include "plugin.h"
-#include "utils.h"
-#include "hooks.h"
-#include "log.h"
-#include "intl.h"
+#include "common/plugin.h"
+#include "common/utils.h"
+#include "common/hooks.h"
+#include "common/log.h"
+#include "common/intl.h"
 
 gint plugin_init(gchar **error)
 {

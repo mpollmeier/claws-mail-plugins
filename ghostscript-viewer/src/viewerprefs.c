@@ -27,11 +27,11 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-#include "intl.h"
+#include "common/intl.h"
 #include "common/utils.h"
-#include "prefs.h"
+#include "common/prefs.h"
 #include "prefs_gtk.h"
-#include "prefswindow.h"
+#include "gtk/prefswindow.h"
 
 #include "viewerprefs.h"
 

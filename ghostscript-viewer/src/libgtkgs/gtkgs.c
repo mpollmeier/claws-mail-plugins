@@ -132,7 +132,7 @@ The DONE message indicates that ghostscript has finished processing.
 #include "gtkgs.h"
 #include "ps.h"
 #include "gsdefaults.h"
-#include "intl.h"
+#include "common/intl.h"
 #include "ggvutils.h"
 
 #ifdef HAVE_LOCALE_H

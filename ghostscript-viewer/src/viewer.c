@@ -25,9 +25,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-#include "intl.h"
+#include "common/intl.h"
+#include "common/utils.h"
 #include "procmime.h"
-#include "utils.h"
 #include "mimeview.h"
 #include "gtkgs.h"
 
