@@ -32,8 +32,11 @@
 #include "prefs_common.h"
 #include "utils.h"
 #include "alertpanel.h"
-#include "passphrase.h"
+#include "plugins/pgpmime/passphrase.h"
 #include "intl.h"
+#include "plugins/pgpmime/prefs_gpg.h"
+
+extern struct GPGConfig prefs_gpg;
 
 static void idle_function_for_gpgme(void)
 {
@@ -277,7 +280,7 @@ void sgpgme_init()
 		debug_print("gpgme_engine_version:\n%s\n",
 			    gpgme_get_engine_info());
 
-		if (prefs_common.gpg_warning) {
+		if (prefs_gpg.gpg_warning) {
 			AlertValue val;
 
 			val = alertpanel_message_with_disable
@@ -286,7 +289,7 @@ void sgpgme_init()
 				   "to be upgraded.\n"
 				   "OpenPGP support disabled."), ALERT_WARNING);
 			if (val & G_ALERTDISABLE)
-				prefs_common.gpg_warning = FALSE;
+				prefs_gpg.gpg_warning = FALSE;
 		}
 	}
 

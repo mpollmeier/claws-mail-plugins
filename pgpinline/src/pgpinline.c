@@ -33,9 +33,12 @@
 #include "procmime.h"
 #include "pgpinline.h"
 #include "sgpgme.h"
-#include "prefs_common.h"
+#include "plugins/pgpmime/prefs_gpg.h"
 #include "quoted-printable.h"
 #include "base64.h"
+#include "codeconv.h"
+
+extern struct GPGConfig prefs_gpg;
 
 typedef struct _PrivacyDataPGP PrivacyDataPGP;
 
@@ -215,7 +218,7 @@ static SignatureStatus pgpinline_get_sig_status(MimeInfo *mimeinfo)
 	g_return_val_if_fail(data != NULL, SIGNATURE_INVALID);
 
 	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
-	    prefs_common.auto_check_signatures)
+	    prefs_gpg.auto_check_signatures)
 		pgpinline_check_signature(mimeinfo);
 
 	return sgpgme_sigstat_gpgme_to_privacy(data->ctx, data->sigstatus);
@@ -228,7 +231,7 @@ static gchar *pgpinline_get_sig_info_short(MimeInfo *mimeinfo)
 	g_return_val_if_fail(data != NULL, g_strdup("Error"));
 
 	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
-	    prefs_common.auto_check_signatures)
+	    prefs_gpg.auto_check_signatures)
 		pgpinline_check_signature(mimeinfo);
 	
 	return sgpgme_sigstat_info_short(data->ctx, data->sigstatus);
@@ -359,7 +362,7 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	g_node_unlink(decinfo->node);
 	procmime_mimeinfo_free_all(parseinfo);
 
-	decinfo->tmpfile = TRUE;
+	decinfo->tmp = TRUE;
 
 	if (sigstat != GPGME_SIG_STAT_NONE) {
 		if (decinfo->privacy != NULL) {
@@ -394,6 +397,13 @@ static PrivacySystem pgpinline_system = {
 
 	pgpinline_is_encrypted,		/* is_encrypted(MimeInfo *) */
 	pgpinline_decrypt,		/* decrypt(MimeInfo *) */
+
+	FALSE,
+	NULL,
+
+	FALSE,
+	NULL,
+	NULL,
 };
 
 void pgpinline_init()
