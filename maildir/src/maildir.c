@@ -49,49 +49,7 @@ static MsgInfo *maildir_get_msginfo(Folder * folder,
 static gchar *maildir_fetch_msg(Folder * folder, FolderItem * item,
 				gint num);
 
-FolderClass maildir_class =
-{
-	F_MAILDIR,
-	"maildir",
-	"Maildir++",
-
-	/* Folder functions */
-	maildir_folder_new,
-	maildir_folder_destroy,
-	folder_local_set_xml,
-	folder_local_get_xml,
-	maildir_scan_tree,
-	NULL,
-
-	/* FolderItem functions */
-	maildir_item_new,
-	maildir_item_destroy,
-	NULL,
-	NULL,
-	maildir_item_get_path,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	maildir_get_num_list,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	
-	/* Message functions */
-	maildir_get_msginfo,
-	NULL,
-	maildir_fetch_msg,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL
-};
+FolderClass maildir_class;
 
 struct _MaildirFolder
 {
@@ -111,6 +69,29 @@ struct _MaildirFolderItem
 
 FolderClass *maildir_get_class()
 {
+	if (maildir_class.idstr == NULL) {
+		maildir_class.type = F_MAILDIR;
+		maildir_class.idstr = "maildir";
+		maildir_class.uistr = "Maildir++";
+
+		/* Folder functions */
+		maildir_class.new_folder = maildir_folder_new;
+		maildir_class.destroy_folder = maildir_folder_destroy;
+		maildir_class.set_xml = folder_local_set_xml;
+		maildir_class.get_xml = folder_local_get_xml;
+		maildir_class.scan_tree = maildir_scan_tree;
+
+		/* FolderItem functions */
+		maildir_class.item_new = maildir_item_new;
+		maildir_class.item_destroy = maildir_item_destroy;
+		maildir_class.item_get_path = maildir_item_get_path;
+		maildir_class.get_num_list = maildir_get_num_list;
+
+		/* Message functions */
+		maildir_class.get_msginfo = maildir_get_msginfo;
+		maildir_class.fetch_msg = maildir_fetch_msg;
+	}
+
 	return &maildir_class;
 }
 

@@ -1,3 +1,8 @@
+2004-01-13 [christoph]
+
+	* src/maildir.c
+		update maildir FolderClass
+
 2004-01-12 [christoph]
 
 	* src/maildir.c
