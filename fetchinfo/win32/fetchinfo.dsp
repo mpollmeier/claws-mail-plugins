@@ -98,6 +98,10 @@ SOURCE=.\fetchinfo.def
 
 SOURCE=..\src\fetchinfo_plugin.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\version.rc
+# End Source File
 # End Group
 # Begin Group "Header-Dateien"
 

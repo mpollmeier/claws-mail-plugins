@@ -1,4 +1,4 @@
-plugindir = $(libdir)/sylpheed/plugins
+plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 
 plugin_LTLIBRARIES = fetchinfo_plugin.la fetchinfo_plugin_gtk.la
 
@@ -21,6 +21,7 @@ INCLUDES = \
 	-I$(sylpheed_dir)/src/common \
 	-I$(sylpheed_dir)/src/gtk
 
-CPPFLAGS = \
+AM_CPPFLAGS = \
+	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)

@@ -1,3 +1,17 @@
+2003-09-06 [thorsten]	0.4.1
+
+	* configure.ac
+	  Makefile.am
+	  win32/version.rc.in
+	  	use pkg-config
+		use config dir
+		autogenerate version resource
+
+2003-09-06 [thorsten]	0.4
+
+	* win32/*.dsp
+		include version resource
+
 2003-08-04 [thorsten]	0.3
 
 	* src/fetchinfo_plugin.c
