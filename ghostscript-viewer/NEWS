@@ -7,6 +7,8 @@ Version 0.8
 * added PopUp menu with addition functions "Fit Page", "Fit Width",
   "First Page" and "Last Page"
 * added Frensh translation
+* disable menu entries when already zoom to the target size of the entry
+* add new prefs option to set initial zoom
 
 Version 0.7
 

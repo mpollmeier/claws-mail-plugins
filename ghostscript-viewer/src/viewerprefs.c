@@ -32,6 +32,7 @@
 #include "common/prefs.h"
 #include "prefs_gtk.h"
 #include "gtk/prefswindow.h"
+#include "gtk/menu.h"
 
 #include "viewerprefs.h"
 
@@ -43,6 +44,7 @@ struct GhostscriptViewerPage
 	
 	GtkWidget *antialiasing;
 	GtkWidget *respect_eof;
+	GtkWidget *autozoom;
 };
 
 GhostscriptViewerPrefs ghostscriptviewerprefs;
@@ -52,8 +54,21 @@ static PrefParam param[] = {
 	 NULL, NULL, NULL},
 	{"respect_eof", "TRUE", &ghostscriptviewerprefs.respect_eof, P_BOOL,
 	 NULL, NULL, NULL},
+	{"autozoom", "TRUE", &ghostscriptviewerprefs.autozoom, P_ENUM,
+	 NULL, NULL, NULL},
 
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
+};
+
+struct ZoomModeMenuItem {
+	gchar *label;
+	ZoomMode value;
+};
+
+struct ZoomModeMenuItem zoommode_menuitems[] = {
+	{ N_("Default (1:1)"), 	ZOOM_FREE },
+	{ N_("Fit page"), 	ZOOM_PAGE },
+	{ N_("Fit width"), 	ZOOM_WIDTH },
 };
 
 static void ghostscriptviewer_create_widget_func(PrefsPage * _page,
@@ -61,45 +76,63 @@ static void ghostscriptviewer_create_widget_func(PrefsPage * _page,
 					   gpointer data)
 {
 	struct GhostscriptViewerPage *page = (struct GhostscriptViewerPage *) _page;
+	int i;
 
 	/* ------------------ code made by glade -------------------- */
-	GtkWidget *table2;
-	GtkWidget *label14;
-	GtkWidget *antialiasing;
+	GtkWidget *table;
 	GtkWidget *label15;
 	GtkWidget *respect_eof;
+	GtkWidget *label14;
+	GtkWidget *antialiasing;
+	GtkWidget *label16;
+	GtkWidget *autozoom;
+	GtkWidget *autozoom_menu;
 
-	table2 = gtk_table_new(2, 2, FALSE);
-	gtk_widget_show(table2);
-	gtk_container_set_border_width(GTK_CONTAINER(table2), 8);
-	gtk_table_set_row_spacings(GTK_TABLE(table2), 4);
-	gtk_table_set_col_spacings(GTK_TABLE(table2), 8);
-
-	label14 = gtk_label_new(_("Antialiasing"));
-	gtk_widget_show(label14);
-	gtk_table_attach(GTK_TABLE(table2), label14, 0, 1, 0, 1,
-			 (GtkAttachOptions) (GTK_FILL),
-			 (GtkAttachOptions) (0), 0, 0);
-	gtk_misc_set_alignment(GTK_MISC(label14), 0, 0.5);
-
-	antialiasing = gtk_check_button_new_with_label("");
-	gtk_widget_show(antialiasing);
-	gtk_table_attach(GTK_TABLE(table2), antialiasing, 1, 2, 0, 1,
-			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			 (GtkAttachOptions) (0), 0, 0);
+	table = gtk_table_new(3, 2, FALSE);
+	gtk_widget_show(table);
+	gtk_container_set_border_width(GTK_CONTAINER(table), 8);
+	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
+	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
 
 	label15 = gtk_label_new(_("Respect EOF"));
 	gtk_widget_show(label15);
-	gtk_table_attach(GTK_TABLE(table2), label15, 0, 1, 1, 2,
+	gtk_table_attach(GTK_TABLE(table), label15, 0, 1, 2, 3,
 			 (GtkAttachOptions) (GTK_FILL),
 			 (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment(GTK_MISC(label15), 0, 0.5);
 
 	respect_eof = gtk_check_button_new_with_label("");
 	gtk_widget_show(respect_eof);
-	gtk_table_attach(GTK_TABLE(table2), respect_eof, 1, 2, 1, 2,
+	gtk_table_attach(GTK_TABLE(table), respect_eof, 1, 2, 2, 3,
 			 (GtkAttachOptions) (GTK_FILL),
 			 (GtkAttachOptions) (0), 0, 0);
+
+	label14 = gtk_label_new(_("Antialiasing"));
+	gtk_widget_show(label14);
+	gtk_table_attach(GTK_TABLE(table), label14, 0, 1, 1, 2,
+			 (GtkAttachOptions) (GTK_FILL),
+			 (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(label14), 0, 0.5);
+
+	antialiasing = gtk_check_button_new_with_label("");
+	gtk_widget_show(antialiasing);
+	gtk_table_attach(GTK_TABLE(table), antialiasing, 1, 2, 1, 2,
+			 (GtkAttachOptions) (GTK_FILL),
+			 (GtkAttachOptions) (0), 0, 0);
+
+	label16 = gtk_label_new(_("Autozoom"));
+	gtk_widget_show(label16);
+	gtk_table_attach(GTK_TABLE(table), label16, 0, 1, 0, 1,
+			 (GtkAttachOptions) (GTK_FILL),
+			 (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(label16), 0, 0.5);
+
+	autozoom = gtk_option_menu_new();
+	gtk_widget_show(autozoom);
+	gtk_table_attach(GTK_TABLE(table), autozoom, 1, 2, 0, 1,
+			 (GtkAttachOptions) (GTK_FILL),
+			 (GtkAttachOptions) (0), 0, 0);
+	autozoom_menu = gtk_menu_new();
 	/* --------------------------------------------------------- */
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(antialiasing), 
@@ -107,10 +140,25 @@ static void ghostscriptviewer_create_widget_func(PrefsPage * _page,
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(respect_eof), 
 				     ghostscriptviewerprefs.respect_eof);
 
+	for (i = 0; i < (sizeof(zoommode_menuitems) / sizeof(struct ZoomModeMenuItem)); i++) {
+		GtkWidget *menuitem;
+		
+		menuitem = gtk_menu_item_new_with_label(dgettext(TEXTDOMAIN, zoommode_menuitems[i].label));
+		gtk_object_set_user_data(GTK_OBJECT(menuitem), GINT_TO_POINTER(zoommode_menuitems[i].value));
+		gtk_widget_show(menuitem);
+		gtk_menu_append(GTK_MENU(autozoom_menu), menuitem);
+	}
+	gtk_option_menu_set_menu(GTK_OPTION_MENU(autozoom), autozoom_menu);
+	i = menu_find_option_menu_index(GTK_OPTION_MENU(autozoom), 
+					GINT_TO_POINTER(ghostscriptviewerprefs.autozoom),
+					g_int_compare);
+	gtk_option_menu_set_history(GTK_OPTION_MENU(autozoom), i);
+
 	page->antialiasing = antialiasing;
 	page->respect_eof = respect_eof;
+	page->autozoom = autozoom;
 
-	page->page.widget = table2;
+	page->page.widget = table;
 }
 
 static void ghostscriptviewer_destroy_widget_func(PrefsPage *_page)
@@ -129,6 +177,9 @@ static void ghostscriptviewer_save_func(PrefsPage * _page)
 	ghostscriptviewerprefs.respect_eof =
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
 					 (page->respect_eof));
+	ghostscriptviewerprefs.autozoom = 
+	    GPOINTER_TO_INT(gtk_object_get_user_data(GTK_OBJECT(gtk_menu_get_active(
+		GTK_MENU(gtk_option_menu_get_menu(GTK_OPTION_MENU(page->autozoom)))))));
 
 	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
 	pfile = prefs_write_open(rcpath);

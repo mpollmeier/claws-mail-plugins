@@ -20,14 +20,22 @@
 #ifndef VIEWERPREFS_H
 #define VIEWERPREFS_H
 
-#include <glib.h>
-
 typedef struct _GhostscriptViewerPrefs GhostscriptViewerPrefs;
+
+typedef enum
+{
+	ZOOM_FREE = 0,
+	ZOOM_PAGE = 1,
+	ZOOM_WIDTH = 2,
+} ZoomMode;
+
+#include <glib.h>
 
 struct _GhostscriptViewerPrefs
 {
 	gboolean	antialiasing;
 	gboolean	respect_eof;
+	ZoomMode	autozoom;	
 };
 
 extern GhostscriptViewerPrefs ghostscriptviewerprefs;
