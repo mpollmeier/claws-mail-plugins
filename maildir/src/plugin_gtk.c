@@ -1,6 +1,6 @@
 /*
  * Maildir Plugin -- Maildir++ support for Sylpheed
- * Copyright (C) 2003 Christoph Hohmann
+ * Copyright (C) 2003-2004 Christoph Hohmann
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ gint plugin_init(gchar **error)
 
 void plugin_done()
 {
+	maildir_gtk_done();
 }
 
 const gchar *plugin_name()
