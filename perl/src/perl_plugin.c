@@ -157,9 +157,10 @@ static void filter_log_write(gint type, gchar *text) {
     perlfilter_log = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				 PERLFILTER, ".log", NULL);
     if((fp = fopen(perlfilter_log, "a")) == NULL) {
-	debug_print("Error opening filter logfile, could not log message\n");
-	g_free(perlfilter_log);
-	return;
+      FILE_OP_ERROR(perlfilter_log, "fopen");
+      g_warning("Perl Plugin: Error opening filter logfile, could not log message");
+      g_free(perlfilter_log);
+      return;
     }
     g_free(perlfilter_log);
 
@@ -182,7 +183,7 @@ static void filter_log_write(gint type, gchar *text) {
       fprintf(fp, "    MATCH:  %s\n", text?text:"<no text specified>");
       break;
     default:
-      debug_print("Wrong use of filter_log_write\n");
+      g_warning("Perl Plugin: Wrong use of filter_log_write");
     }
     fclose(fp);
   }
@@ -546,7 +547,7 @@ static XS(XS_SylpheedClaws_filter_init)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::init\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::init");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -622,7 +623,7 @@ static XS(XS_SylpheedClaws_filter_init)
     else
       XSRETURN_NO;
   default:
-    debug_print("Wrong argument to SylpheedClaws::C::init\n");
+    g_warning("Perl Plugin: Wrong argument to SylpheedClaws::C::init");
     XSRETURN_UNDEF;    
   }
 }
@@ -635,7 +636,7 @@ static XS(XS_SylpheedClaws_open_mail_file)
 
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::open_mail_file\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::open_mail_file");
     XSRETURN_UNDEF;
   }
   file = procmsg_get_message_file_path(msginfo);
@@ -644,7 +645,8 @@ static XS(XS_SylpheedClaws_open_mail_file)
   strncpy2(buf,file,sizeof(buf));
   g_free(file);
   if((message_file = fopen(buf, "rb")) == NULL) {
-    debug_print("File open error in SylpheedClaws::C::open_mail_file\n");
+    FILE_OP_ERROR(buf, "fopen");
+    g_warning("Perl Plugin: File open error in SylpheedClaws::C::open_mail_file");
     XSRETURN_UNDEF;
   }
 }
@@ -654,7 +656,7 @@ static XS(XS_SylpheedClaws_close_mail_file)
 {
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::close_mail_file\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::close_mail_file");
     XSRETURN_UNDEF;
   }
   if(message_file != NULL)
@@ -670,11 +672,11 @@ static XS(XS_SylpheedClaws_get_next_header)
 
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::get_next_header\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::get_next_header");
     XSRETURN_EMPTY;
   }
   if(message_file == NULL) {
-    debug_print("Message file not open. Use SylpheedClaws::C::open_message_file first.\n");
+    g_warning("Perl Plugin: Message file not open. Use SylpheedClaws::C::open_message_file first.");
     XSRETURN_EMPTY;
   }
   if(procheader_get_one_field(buf, sizeof(buf), message_file, NULL) != -1) {
@@ -695,11 +697,11 @@ static XS(XS_SylpheedClaws_get_next_body_line)
 
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::get_next_body_line\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::get_next_body_line");
     XSRETURN_UNDEF;
   }
   if(message_file == NULL) {
-    debug_print("Message file not open. Use SylpheedClaws::C::open_message_file first.\n");
+    g_warning("Perl Plugin: Message file not open. Use SylpheedClaws::C::open_message_file first.");
     XSRETURN_UNDEF;
   }
   if(fgets(buf, sizeof(buf), message_file) != NULL)
@@ -727,7 +729,7 @@ static XS(XS_SylpheedClaws_check_flag)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::check_flag\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::check_flag");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -790,7 +792,7 @@ static XS(XS_SylpheedClaws_check_flag)
     else
       XSRETURN_NO;
   default:
-    debug_print("Unknown argument to SylpheedClaws::C::check_flag\n");
+    g_warning("Perl Plugin: Unknown argument to SylpheedClaws::C::check_flag");
     XSRETURN_UNDEF;
   }
 }
@@ -802,7 +804,7 @@ static XS(XS_SylpheedClaws_colorlabel)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::colorlabel\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::colorlabel");
     XSRETURN_UNDEF;
   }
   color = SvIV(ST(0));
@@ -823,7 +825,7 @@ static XS(XS_SylpheedClaws_age_greater)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::age_greater\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::age_greater");
     XSRETURN_UNDEF;
   }
   age = SvIV(ST(0));
@@ -844,7 +846,7 @@ static XS(XS_SylpheedClaws_age_lower)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::age_lower\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::age_lower");
     XSRETURN_UNDEF;
   }
   age = SvIV(ST(0));
@@ -866,7 +868,7 @@ static XS(XS_SylpheedClaws_addr_in_addressbook)
 
   dXSARGS;
   if(items != 1 && items != 2) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::addr_in_addressbook\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::addr_in_addressbook");
     XSRETURN_UNDEF;
   }
 
@@ -902,7 +904,7 @@ static XS(XS_SylpheedClaws_set_flag)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::set_flag\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::set_flag");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -924,7 +926,7 @@ static XS(XS_SylpheedClaws_set_flag)
     filter_log_write(LOG_ACTION,"lock");
     XSRETURN_YES;
   default:
-    debug_print("Unknown argument to SylpheedClaws::C::set_flag\n");
+    g_warning("Perl Plugin: Unknown argument to SylpheedClaws::C::set_flag");
     XSRETURN_UNDEF;
   }
 }
@@ -941,7 +943,7 @@ static XS(XS_SylpheedClaws_unset_flag)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::unset_flag\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::unset_flag");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -963,7 +965,7 @@ static XS(XS_SylpheedClaws_unset_flag)
     filter_log_write(LOG_ACTION,"unlock");
     XSRETURN_YES;
   default:
-    debug_print("Unknown argument to SylpheedClaws::C::unset_flag\n");
+    g_warning("Perl Plugin: Unknown argument to SylpheedClaws::C::unset_flag");
     XSRETURN_UNDEF;
   }
 }
@@ -977,7 +979,7 @@ static XS(XS_SylpheedClaws_move)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::move\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::move");
     XSRETURN_UNDEF;
   }
 
@@ -985,12 +987,12 @@ static XS(XS_SylpheedClaws_move)
   dest_folder = folder_find_item_from_identifier(targetfolder);
 
   if (!dest_folder) {
-    debug_print("*** folder not found '%s'\n",
+    g_warning("Perl Plugin: move: folder not found '%s'",
 	    targetfolder ? targetfolder :"");
     XSRETURN_UNDEF;
   }
   if (folder_item_move_msg(dest_folder, msginfo) == -1) {
-    debug_print("*** could not move message\n");
+    g_warning("Perl Plugin: move:  could not move message");
     XSRETURN_UNDEF;
   }
   stop_filtering = TRUE;
@@ -1009,19 +1011,19 @@ static XS(XS_SylpheedClaws_copy)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::copy\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::copy");
     XSRETURN_UNDEF;
   }
   targetfolder = SvPV_nolen(ST(0));
   dest_folder = folder_find_item_from_identifier(targetfolder);
 
   if (!dest_folder) {
-    debug_print("*** folder not found '%s'\n",
+    g_warning("Perl Plugin: copy: folder not found '%s'",
 	    targetfolder ? targetfolder :"");
     XSRETURN_UNDEF;
   }
   if (folder_item_copy_msg(dest_folder, msginfo) == -1) {
-    debug_print("*** could not copy message\n");
+    g_warning("Perl Plugin: copy: could not copy message");
     XSRETURN_UNDEF;
   }
   logtext = g_strconcat("copy to ", targetfolder, NULL);
@@ -1035,7 +1037,7 @@ static XS(XS_SylpheedClaws_delete)
 {
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::delete\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::delete");
     XSRETURN_UNDEF;
   }
   folder_item_remove_msg(msginfo->folder, msginfo->msgnum);
@@ -1049,7 +1051,7 @@ static XS(XS_SylpheedClaws_hide)
 {
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::hide\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::hide");
     XSRETURN_UNDEF;
   }
   msginfo->hidden = TRUE;
@@ -1066,7 +1068,7 @@ static XS(XS_SylpheedClaws_color)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::color\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::color");
     XSRETURN_UNDEF;
   }
   color = SvIV(ST(0));
@@ -1089,7 +1091,7 @@ static XS(XS_SylpheedClaws_change_score)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::change_score\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::change_score");
     XSRETURN_UNDEF;
   }
   score = SvIV(ST(0));
@@ -1110,7 +1112,7 @@ static XS(XS_SylpheedClaws_set_score)
 
   dXSARGS;
   if(items != 1) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::set_score\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::set_score");
     XSRETURN_UNDEF;
   }
   score = SvIV(ST(0));
@@ -1138,7 +1140,7 @@ static XS(XS_SylpheedClaws_forward)
 
   dXSARGS;
   if(items != 3) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::forward\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::forward");
     XSRETURN_UNDEF;
   }
 
@@ -1181,7 +1183,7 @@ static XS(XS_SylpheedClaws_redirect)
 
   dXSARGS;
   if(items != 2) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::redirect\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::redirect");
     XSRETURN_UNDEF;
   }
 
@@ -1221,16 +1223,16 @@ static XS(XS_SylpheedClaws_move_to_trash)
   
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::move_to_trash\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::move_to_trash");
     XSRETURN_UNDEF;
   }
   dest_folder = folder_get_default_trash();
   if (!dest_folder) {
-    debug_print("*** trash folder not found\n");
+    g_warning("Perl Plugin: move_to_trash: Trash folder not found");
     XSRETURN_UNDEF;
   }
   if (folder_item_move_msg(dest_folder, msginfo) == -1) {
-    debug_print("*** could not move message to trash\n");
+    g_warning("Perl Plugin: move_to_trash: could not move message to trash");
     XSRETURN_UNDEF;
   }
   stop_filtering = TRUE;
@@ -1245,17 +1247,17 @@ static XS(XS_SylpheedClaws_abort)
 
   dXSARGS;
   if(items != 0) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::abort\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::abort");
     XSRETURN_UNDEF;
   }
   if(!manual_filtering) {
     inbox_folder = folder_get_default_inbox();
     if (!inbox_folder) {
-      debug_print("*** inbox folder not found\n");
+      g_warning("Perl Plugin: abort: Inbox folder not found");
       XSRETURN_UNDEF;
     }
     if (folder_item_move_msg(inbox_folder, msginfo) == -1) {
-      debug_print("*** could not move message to default inbox\n");
+      g_warning("Perl Plugin: abort: Could not move message to default inbox");
       XSRETURN_UNDEF;
     }
     filter_log_write(LOG_ACTION, "abort -- message moved to default inbox");
@@ -1277,7 +1279,7 @@ static XS(XS_SylpheedClaws_get_attribute_value)
 
   dXSARGS;
   if(items != 2 && items != 3) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::get_attribute_value\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::get_attribute_value");
     XSRETURN_UNDEF;
   }
   addr = SvPV_nolen(ST(0));
@@ -1303,7 +1305,7 @@ static XS(XS_SylpheedClaws_filter_log)
   
   dXSARGS;
   if(items != 2) {
-    debug_print("Wrong number of arguments to SylpheedClaws::C::filter_log\n");
+    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::filter_log");
     XSRETURN_UNDEF;
   }
   type = SvPV_nolen(ST(0));
@@ -1315,7 +1317,7 @@ static XS(XS_SylpheedClaws_filter_log)
   else if(!strcmp(type, "LOG_MATCH"))
     filter_log_write(LOG_MATCH, text);
   else {
-    debug_print("SylpheedClaws::C::filter_log -- wrong first argument\n");
+    g_warning("Perl Plugin: SylpheedClaws::C::filter_log -- wrong first argument");
     XSRETURN_UNDEF;
   }  
   XSRETURN_YES;
@@ -1328,8 +1330,8 @@ static XS(XS_SylpheedClaws_filter_log_verbosity)
 
   dXSARGS;
   if(items != 1 && items != 0) {
-    debug_print("Wrong number of arguments to "
-		"SylpheedClaws::C::filter_log_verbosity\n");
+    g_warning("Perl Plugin: Wrong number of arguments to "
+		"SylpheedClaws::C::filter_log_verbosity");
     XSRETURN_UNDEF;
   }
   retval = filter_log_verbosity;
@@ -1435,7 +1437,7 @@ static int perl_load_file(void)
       }
       else {
 	if (prefs_common.ext_editor_cmd)
-	  debug_print("External editor command line is invalid: `%s'\n",
+	  g_warning("Perl Plugin: External editor command line is invalid: `%s'",
 		    prefs_common.ext_editor_cmd);
 	g_snprintf(buf, sizeof(buf), "emacs %s", perlfilter);
       }
@@ -1955,7 +1957,7 @@ static int perl_init(void)
   };
 
   if((my_perl = perl_alloc()) == NULL) {
-    debug_print("Not enough memory to allocate Perl interpreter!\n");
+    g_warning("Perl Plugin: Not enough memory to allocate Perl interpreter");
     return -1;
   }
   PL_perl_destruct_level = 1;
@@ -2016,7 +2018,7 @@ static void perl_plugin_save_config(void)
     return;
   
   if (prefs_write_param(param, pfile->fp) < 0) {
-    debug_print("Failed to write Perl Plugin configuration to file\n");
+    g_warning("Perl Plugin: Failed to write Perl Plugin configuration to file");
     prefs_file_close_revert(pfile);
     return;
   }
@@ -2083,7 +2085,7 @@ gint plugin_init(gchar **error)
   /* chmod for security */
   if (change_file_mode_rw(fp, perlfilter) < 0) {
     FILE_OP_ERROR(perlfilter, "chmod");
-    g_warning("can't change file mode\n");
+    g_warning("Perl Plugin: Can't change file mode");
   }
   fclose(fp);
 
@@ -2092,13 +2094,13 @@ gint plugin_init(gchar **error)
     perlfilter_log = g_strconcat(perlfilter, ".log", NULL);
     if(config.truncate_filter_logfile_on_plugin_load) {
       if((fp = fopen(perlfilter_log, "w")) == NULL) {
-	debug_print("Error opening filter logfile. Logging disabled\n");
+	g_warning("Perl Plugin: Error opening filter logfile. Logging disabled\n");
 	config.filter_log_verbosity = 0;
       }
       else {
 	if (change_file_mode_rw(fp, perlfilter_log) < 0) {
 	  FILE_OP_ERROR(perlfilter_log, "chmod");
-	  g_warning("can't change file mode\n");
+	  g_warning("Perl Plugin: Can't change file mode");
 	}
 	fclose(fp);
       }

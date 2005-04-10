@@ -1,3 +1,8 @@
+2005-04-09 [holger]	0.2cvs12
+
+	* src/perl_plugin.c
+		Make critical warning messages more obvious.
+
 2005-04-06 [holger]	0.2cvs11
 
 	* src/perl_plugin.c
