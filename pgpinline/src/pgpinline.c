@@ -369,7 +369,7 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	gchar *sigcontent;
 	GpgmeCtx ctx;
 	GpgmeData gpgtext, gpgsig;
-	guint len;
+	size_t len;
 	struct passphrase_cb_info_s info;
 
 	memset (&info, 0, sizeof info);
@@ -454,7 +454,7 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	MimeInfo *msgcontent;
 	FILE *fp;
 	gchar *enccontent;
-	guint len;
+	size_t len;
 	gchar *textstr, *tmp;
 	GpgmeData gpgtext, gpgenc;
 	gchar **recipients, **nextrecp;

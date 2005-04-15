@@ -1,6 +1,11 @@
 2004-11-08 [colin]	0.5
 
 	* src/pgpinline.c
+		Fix bus error on 64bit
+
+2004-11-08 [colin]	0.5
+
+	* src/pgpinline.c
 		Update for new sylpheed (ability
 		to choose signing key)
 
