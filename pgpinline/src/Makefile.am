@@ -8,7 +8,8 @@ pgpinline_la_SOURCES = \
 
 pgpinline_la_LDFLAGS = \
 	-avoid-version -module \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(GPGME_LIBS)
 
 AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
