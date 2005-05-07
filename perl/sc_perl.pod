@@ -568,29 +568,23 @@ log manual messages, filter actions and filter matches
 
 =back
 
-The messages are logged in the file B<perl_filter.log>, which
-resides in the same directory as the filter scriptfile
-itself. The default log level is 2. Log level 3 is not
+The messages are logged in Sylpheed-Claws' log window.
+The default log level is 2. Log level 3 is not
 recommended, because the matcher functions log a message if they
 succeeded, and thus, if you have negative checks, you'll get
 confusing entries. If you want to keep track of matching, do it
 manually, using C<filter_log>, or do it by temporary enabling
 matcher logging using C<filter_log_verbosity>.
 
-To prevent the logfile from growing to big, it is truncated to
-zero at plugin start.
-
 The first time you unload this plugin (or shut down
 Sylpheed-Claws), a section called B<[PerlPlugin]> will be created
 in Sylpheed-Claws' configuration file B<sylpheedrc>, containing
-two variables:
+one variable:
 
  * filter_log_verbosity
 
- * truncate_filter_logfile_on_plugin_load
-
-If you want to change the default behaviour, you can edit these
-lines. Make sure Sylpheed-Claws is not running while you do
+If you want to change the default behaviour, you can edit this
+line. Make sure Sylpheed-Claws is not running while you do
 this.
 
 It will be possible to access these setting via the GUI, as soon

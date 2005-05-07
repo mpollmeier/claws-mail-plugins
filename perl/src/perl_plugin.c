@@ -45,6 +45,7 @@
 #include "hooks.h"
 #include "prefs_common.h"
 #include "prefs_gtk.h"
+#include "log.h"
 
 #include <string.h>
 #include <sys/types.h>
@@ -57,6 +58,7 @@
 #include <XSUB.h>
 
 #include "perl_plugin.h"
+#include "perl_gtk.h"
 
 
 /* XSRETURN_UV was introduced in Perl 5.8.1,
@@ -67,10 +69,6 @@
 #  endif /* XST_mUV */
 #  define XSRETURN_UV(v) STMT_START { XST_mUV(0,v);  XSRETURN(1); } STMT_END
 #endif /* XSRETURN_UV */
-
-
-/* the name of the filtering Perl script file */
-#define PERLFILTER "perl_filter"
 
 /* set this to "1" to recompile the Perl script for every mail,
    even if it hasn't changed */
@@ -103,9 +101,6 @@ static PerlPluginConfig config;
 static PrefParam param[] = {
   {"filter_log_verbosity", "2", &config.filter_log_verbosity,
    P_INT, NULL, NULL, NULL},
-  {"truncate_filter_logfile_on_plugin_load", "TRUE",
-   &config.truncate_filter_logfile_on_plugin_load, P_BOOL,
-   NULL, NULL, NULL},
   {NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
 
@@ -113,7 +108,7 @@ static PrefParam param[] = {
 /* Utility functions */
 
 /* fire and forget */
-static gint execute_detached(gchar **cmdline)
+gint execute_detached(gchar **cmdline)
 {
   pid_t pid;
   
@@ -149,43 +144,27 @@ static gint execute_detached(gchar **cmdline)
 #define LOG_MATCH  3
 
 static void filter_log_write(gint type, gchar *text) {
-  FILE *fp;
-  gchar *perlfilter_log;
-
   if(filter_log_verbosity >= type) {
-
-    perlfilter_log = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
-				 PERLFILTER, ".log", NULL);
-    if((fp = fopen(perlfilter_log, "a")) == NULL) {
-      FILE_OP_ERROR(perlfilter_log, "fopen");
-      g_warning("Perl Plugin: Error opening filter logfile, could not log message");
-      g_free(perlfilter_log);
-      return;
-    }
-    g_free(perlfilter_log);
-
     if(!wrote_filter_log_head) {
-      fprintf(fp,"From: %s || Subject: %s || Message-ID: %s\n",
+      log_message("From: %s || Subject: %s || Message-ID: %s\n",
 	      msginfo->from    ? msginfo->from    : "<no From header>",
 	      msginfo->subject ? msginfo->subject : "<no Subject header>",
 	      msginfo->msgid   ? msginfo->msgid   : "<no message id>");
       wrote_filter_log_head = TRUE;
     }
-
     switch(type) {
     case LOG_MANUAL:
-      fprintf(fp, "    MANUAL: %s\n", text?text:"<no text specified>");
+      log_message("    MANUAL: %s\n", text?text:"<no text specified>");
       break;
     case LOG_ACTION:
-      fprintf(fp, "    ACTION: %s\n", text?text:"<no text specified>");
+      log_message("    ACTION: %s\n", text?text:"<no text specified>");
       break;
     case LOG_MATCH:
-      fprintf(fp, "    MATCH:  %s\n", text?text:"<no text specified>");
+      log_message("    MATCH:  %s\n", text?text:"<no text specified>");
       break;
     default:
       g_warning("Perl Plugin: Wrong use of filter_log_write");
     }
-    fclose(fp);
   }
 }
 
@@ -2035,7 +2014,6 @@ gint plugin_init(gchar **error)
   int status = 0;
   FILE *fp;
   gchar *perlfilter;
-  gchar *perlfilter_log;
 
   argc = 1;
   *argv = NULL;
@@ -2088,25 +2066,6 @@ gint plugin_init(gchar **error)
     g_warning("Perl Plugin: Can't change file mode");
   }
   fclose(fp);
-
-  /* if logging is enabled, prepare logfile */
-  if(config.filter_log_verbosity > 0) {
-    perlfilter_log = g_strconcat(perlfilter, ".log", NULL);
-    if(config.truncate_filter_logfile_on_plugin_load) {
-      if((fp = fopen(perlfilter_log, "w")) == NULL) {
-	g_warning("Perl Plugin: Error opening filter logfile. Logging disabled\n");
-	config.filter_log_verbosity = 0;
-      }
-      else {
-	if (change_file_mode_rw(fp, perlfilter_log) < 0) {
-	  FILE_OP_ERROR(perlfilter_log, "chmod");
-	  g_warning("Perl Plugin: Can't change file mode");
-	}
-	fclose(fp);
-      }
-    }
-    g_free(perlfilter_log);
-  }
   g_free(perlfilter);
 
   /* Initialize Perl Interpreter */
@@ -2122,6 +2081,7 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
+  perl_gtk_init();
   debug_print("Perl Plugin loaded\n");
   return 0;	
 }
@@ -2144,6 +2104,7 @@ void plugin_done(void)
 
   perl_plugin_save_config();
 
+  perl_gtk_done();
   debug_print("Perl Plugin unloaded\n");
 }
 
@@ -2162,5 +2123,5 @@ const gchar *plugin_desc(void)
 
 const gchar *plugin_type(void)
 {
-  return "Common";
+  return "GTK";
 }

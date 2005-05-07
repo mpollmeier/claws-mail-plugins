@@ -1,3 +1,14 @@
+2005-05-06 [holger]	0.2cvs13
+
+	* README
+	* src/perl_plugin.h
+	* src/perl_plugin.c
+	* src/perl_gtk.h			*** NEW FILE ***
+	* src/perl_gtk.c			*** NEW FILE ***
+		Why not use the logwindow for logging?
+		Add entry in the tools menu to edit filter rules
+		(via an external editor)
+
 2005-04-09 [holger]	0.2cvs12
 
 	* src/perl_plugin.c
@@ -83,7 +94,7 @@
 
 2005-02-11 [holger]	0.1.1cvs2
 
-	* INSTALL NEWS configure.ac src/perl_plugin.c
+	* INSTALL
 	* NEWS
 	* configure.ac
 	* src/perl_plugin.c

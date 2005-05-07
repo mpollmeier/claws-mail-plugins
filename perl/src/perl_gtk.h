@@ -21,32 +21,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef SC_PERL_PLUGIN_H
-#define SC_PERL_PLUGIN_H SC_PERL_PLUGIN_H
+#ifndef SC_PERL_GTK_H
+#define SC_PERL_GTK_H SC_PERL_GTK_H
 
-/* the name of the filtering Perl script file */
-#define PERLFILTER "perl_filter"
+void perl_gtk_init(void);
+void perl_gtk_done(void);
 
-typedef struct {
-  gchar *address;
-  gchar *bookname;
-} PerlPluginEmailEntry;
-
-typedef struct {
-  gchar *address;
-  gchar *value;
-  gchar *bookname;
-} PerlPluginAttributeEntry;
-
-typedef struct {
-  GSList *g_slist;
-  time_t mtime;
-} PerlPluginTimedSList;
-
-typedef struct {
-  gint filter_log_verbosity;
-} PerlPluginConfig;
-
-gint execute_detached(gchar**);
-
-#endif /* include guard */
+#endif
