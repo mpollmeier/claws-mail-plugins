@@ -1,0 +1,7 @@
+.deps
+.libs
+Makefile
+Makefile.in
+synce_plugin.la
+synce_plugin.lo
+

@@ -1,0 +1,67 @@
+SynCE Plugin for Sylpheed-Claws
+===============================
+
+This plugin assists in keeping the addressbook of a Windows CE
+device (Pocket PC/ iPAQ, Smartphone etc) in sync with Claws'
+addressbook, with respect to email addresses. I say "assist"
+because it doesn't do real automatic syncing, like Microsoft's
+ActiveSync and others. It adds a menu "SynCE" to the Tools menu,
+which does the following:
+
+* for every email address that is in the WinCE device and not in Claws'
+  addressbook, offer to add it to Claws' addressbook or alternatively,
+  just provide a list of such email addresses
+
+* for every email address in Claws' addressbook, check if it also exists
+  on the WinCE device. Provide the user with a list of email addresses
+  that are in Claws' addressbook but not on the WinCE device. Note that
+  no direct writing access to the WinCE device is supported (so far).
+
+Optionally, it warns on mutliple occurences of the same email address in
+the WinCE device and/or Claws addressbook.
+
+A connection between desktop computer and mobile device (as
+described in the HOWTO on the SynCE project page) must be set up
+prior to using the plugin.
+
+The following options are available in the sylpheedrc file after
+the first use of the plugin:
+
+synce_log_level
+		SynCE specific log messages:
+		 0     SYNCE_LOG_LEVEL_LOWEST
+		 1     SYNCE_LOG_LEVEL_ERROR
+		 2     SYNCE_LOG_LEVEL_WARNING (default)
+		 3     SYNCE_LOG_LEVEL_INFO
+		 4     SYNCE_LOG_LEVEL_DEBUG
+		 5     SYNCE_LOG_LEVEL_HIGHEST
+		 
+offer_add_to_local
+		 0	just give a list of email addresses
+		 1	offer adding email addresses to local
+			addressbook (default)
+
+warn_double_addresses_local
+		 0	don't warn on multiple entries of the
+			same email address in one of Claws'
+			addressbooks.
+		 1	warn on ... (default)
+
+warn_double_addresses_wince
+		Same as above with email addresses on the WinCE
+		device.
+
+Note that Sylpheed-Claws must not be running while this file is
+edited.
+
+The plugin depends on the libraries libsynce and librapi2, both part of
+the SynCE project.
+The project page for SynCE is:
+http://synce.sourceforge.net/synce/
+
+The file `contact_ids.h' is part of SynCE rra module. It is
+licensed under the MIT-license. Go to the SynCE project page for
+details.
+
+"Thank you" goes to the SynCE project team members for their
+fantastic work.
