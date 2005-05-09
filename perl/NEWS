@@ -1,4 +1,18 @@
 Changes of the Perl plugin for Sylpheed-Claws
+See the ChangeLog for details.
+
+0.3
+
+    * Support for manual filtering (invoked by the menu bar)
+      has been added
+    * A new function `manual' can be used to test whether the
+      filtering was invoked manually or not
+    * Optionally, logging in the logwindow is supported
+    * A menu bar entry to edit the Perl filter script by the
+      default external editor was added to the `Tools' section.
+      The same button was also added to the filter script syntax
+      error dialog box.
+    * Some code cleanups and minor bug fixes
 
 * 0.2
 
