@@ -3,5 +3,7 @@
 Makefile
 Makefile.in
 synce_plugin.la
-synce_plugin.lo
-
+synce_plugin_la-synce_comp.lo
+synce_plugin_la-synce_gtk.lo
+synce_plugin_la-synce_plugin.lo
+synce_plugin_la-synce_rapi.lo
