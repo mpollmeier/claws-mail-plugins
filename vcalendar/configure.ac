@@ -72,8 +72,6 @@ src/Makefile
 libical/Makefile
 libical/libical/icalversion.h
 libical/libical/Makefile
-libical/libicalss/Makefile
-libical/libicalvcal/Makefile
 libical/design-data/Makefile
 libical/scripts/Makefile
 ])

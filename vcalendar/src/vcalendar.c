@@ -659,7 +659,6 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	if (iprop) {
 		struct icaltimetype itt = icalproperty_get_dtstart(iprop);
 		dtstart = g_strdup(icaltime_as_ical_string(itt));
-		printf("values: %s, as local\n", dtstart);
 		icalproperty_free(iprop);
 	} 
 

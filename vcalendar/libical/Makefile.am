@@ -1,1 +1,1 @@
-SUBDIRS = libical libicalss libicalvcal design-data scripts
+SUBDIRS = libical design-data scripts

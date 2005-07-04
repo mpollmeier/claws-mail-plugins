@@ -20,8 +20,7 @@ vcalendar_la_LDFLAGS = \
 	$(GTK_LIBS)
 
 vcalendar_la_LIBADD = \
-        $(top_srcdir)/libical/libical/.libs/libical.a \
-        $(top_srcdir)/libical/libicalss/.libs/libicalss.a 
+        $(top_srcdir)/libical/libical/.libs/libical.a
 
 AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \

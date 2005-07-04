@@ -333,14 +333,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_new_description(event->description),
 		icalproperty_new_summary(event->summary),
 		icalproperty_new_sequence(event->sequence + 1),
-#if ICALPARAMETER_LAST_ENUM < 20087 /* stupid libical doesn't have a correct way to check version */
-#warning "Old ical version detected; in case of problems try with a newer one (>= 0.24-rc)"
 		icalproperty_new_class("PUBLIC"),
 		icalproperty_new_transp("OPAQUE"),
-#else
-		icalproperty_new_class(ICAL_CLASS_PUBLIC),
-		icalproperty_new_transp(ICAL_TRANSP_OPAQUE),
-#endif
                 orgprop,
                 0
                 );
@@ -465,7 +459,6 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
 		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		event->start	= g_strdup(ctime(&tmp));
-printf("dtstart %s, as local %s\n", ctime(&tmp_utc), ctime(&tmp));
 	}
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
@@ -794,7 +787,6 @@ static gchar *write_headers(PrefsAccount 	*account,
 		struct icaltimetype itt_utc = (icaltime_from_string(event->dtstart));
 		time_t t = icaltime_as_timet(itt);
 		time_t t_utc = icaltime_as_timet(itt_utc);
-		printf("itt %s, itt as local %s\n", ctime(&t_utc), ctime(&t));
 		get_rfc822_date_from_time_t(date, sizeof(date), t);
 	} else {
 		get_rfc822_date(date, sizeof(date));
