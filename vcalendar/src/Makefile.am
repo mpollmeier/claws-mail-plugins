@@ -2,6 +2,10 @@ plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 
 plugin_LTLIBRARIES = vcalendar.la
 
+INCLUDES= \
+	-I$(top_srcdir)/libical/libical \
+	-I$(top_srcdir)/libical/libicalss
+
 vcalendar_la_SOURCES = \
 	plugin.c \
 	vcalendar.c vcalendar.h \
@@ -14,6 +18,10 @@ vcalendar_la_SOURCES = \
 vcalendar_la_LDFLAGS = \
 	-avoid-version -module \
 	$(GTK_LIBS)
+
+vcalendar_la_LIBADD = \
+        $(top_srcdir)/libical/libical/.libs/libical.a \
+        $(top_srcdir)/libical/libicalss/.libs/libicalss.a 
 
 AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
