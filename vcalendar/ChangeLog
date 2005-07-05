@@ -1,3 +1,8 @@
+2005-07-04 [colin] 1.4
+
+	Ship with libical.
+	Change the date selection widgets to use a GtkCalendar.
+
 2005-03-23 [colin] 1.3
 
 	Check for libical version. Thanks to Alfons for

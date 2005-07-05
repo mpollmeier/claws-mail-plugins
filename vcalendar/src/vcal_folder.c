@@ -413,8 +413,8 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 
 	if (mime)
 		mime = procmime_mimeinfo_next(mime);
-
-	debug_print("next mime info:%s\n", mime->subtype);
+	
+	debug_print("next mime info:%s\n", mime?mime->subtype:"(nil)");
 	if (mime && !strcmp(mime->subtype, "calendar")) {
 		uid = vcalviewer_get_uid_from_mimeinfo(mime);
 		if (uid) {

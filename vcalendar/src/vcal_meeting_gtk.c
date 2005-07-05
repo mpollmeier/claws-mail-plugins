@@ -42,8 +42,6 @@
 #include "alertpanel.h"
 #include "addr_compl.h"
 
-#define START_YEAR 2004
-
 struct _VCalMeeting
 {
 	gchar     *uid;
@@ -53,14 +51,10 @@ struct _VCalMeeting
 	GtkWidget *table;
 	GtkWidget *type;
 	GtkWidget *who;
-	GtkWidget *start_d;
-	GtkWidget *start_m;
-	GtkWidget *start_y;
+	GtkWidget *start_c;
 	GtkWidget *start_hh;
 	GtkWidget *start_mm;
-	GtkWidget *end_d;
-	GtkWidget *end_m;
-	GtkWidget *end_y;
+	GtkWidget *end_c;
 	GtkWidget *end_hh;
 	GtkWidget *end_mm;
 	GtkWidget *summary;
@@ -291,13 +285,15 @@ static gchar *get_date(VCalMeeting *meet, int start)
 {
 	struct tm *lt;
 	time_t t;
+	guint d, m, y;
 
 	t = time(NULL);
 	lt = localtime(&t);
-
-	lt->tm_mday = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_d:meet->end_d))+1;
-	lt->tm_mon  = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_m:meet->end_m))+0;
-	lt->tm_year = gtk_combo_box_get_active(GTK_COMBO_BOX(start?meet->start_y:meet->end_y))+START_YEAR-1900;
+	
+	gtk_calendar_get_date(GTK_CALENDAR(start ? meet->start_c : meet->end_c), &y, &m, &d);
+	lt->tm_mday = d;
+	lt->tm_mon  = m;
+	lt->tm_year = y - 1900;
 	lt->tm_hour = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_hh:meet->end_hh)));
 	lt->tm_min  = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_mm:meet->end_mm)));
 	
@@ -450,7 +446,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 {
 	VCalMeeting *meet = g_new0(VCalMeeting, 1);
 	GtkTextBuffer *buffer = NULL;
-	GtkWidget *start_hbox, *end_hbox, *save_hbox;
+	GtkWidget *date_hbox, *save_hbox, *label, *vbox;
 	gchar *s = NULL;
 	int i = 0, decs = -1, dece = -1, num = 0;
 	
@@ -460,15 +456,11 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	meet->table  		= gtk_table_new(7, 2, FALSE);
 	meet->who    		= gtk_combo_box_new_text();
 	
-	meet->start_d		= gtk_combo_box_new_text();
-	meet->start_m		= gtk_combo_box_new_text();
-	meet->start_y		= gtk_combo_box_new_text();
+	meet->start_c		= gtk_calendar_new();
 	meet->start_mm		= gtk_entry_new();
 	meet->start_hh		= gtk_entry_new();
 	
-	meet->end_d		= gtk_combo_box_new_text();
-	meet->end_m		= gtk_combo_box_new_text();
-	meet->end_y		= gtk_combo_box_new_text();
+	meet->end_c		= gtk_calendar_new();
 	meet->end_mm		= gtk_entry_new();
 	meet->end_hh		= gtk_entry_new();
 	
@@ -503,43 +495,12 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_widget_set_size_request(meet->description, -1, 100);
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(meet->description), GTK_WRAP_WORD);
 
-	for (i = 1; i < 32; i++) {
-		s = g_strdup_printf("%d", i);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->start_d), s);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->end_d), s);
-		g_free(s);
-	}
 	if (get_curdate(HOUR) + 2 > 23)
 		dece = 0;
 	else if (get_curdate(HOUR) + 1 > 23)
 		decs = dece = 0;
-
-	for (i = 0; i < 12; i++) {
-		s = get_month_name(i);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->start_m), s);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->end_m), s);
-		g_free(s);
-	}
-	for (i = START_YEAR; i < START_YEAR+20; i++) { /* yeah I know, the Y2K24 bug */
-		s = g_strdup_printf("%d", i);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->start_y), s);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->end_y), s);
-		g_free(s);
-	}
 	
 	if (!event) {
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_d), 
-					 get_curdate(DAY)+decs);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_d), 
-					 get_curdate(DAY)+dece);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_m), 
-					 get_curdate(MONTH)-1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_m), 
-					 get_curdate(MONTH)-1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_y), 
-					 get_curdate(YEAR)-START_YEAR);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_y), 
-					 get_curdate(YEAR)-START_YEAR);
 		s = g_strdup_printf("%02d", (get_curdate(HOUR)+1)%24);
 		gtk_entry_set_text(GTK_ENTRY(meet->start_hh), s);
 		g_free(s);
@@ -549,18 +510,18 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		gtk_entry_set_text(GTK_ENTRY(meet->start_mm), "00");
 		gtk_entry_set_text(GTK_ENTRY(meet->end_mm), "00");
 	} else {
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_d), 
-					 get_dtdate(event->dtstart, DAY)-1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_d), 
-					 get_dtdate(event->dtend, DAY)-1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_m), 
-					 get_dtdate(event->dtstart, MONTH)-1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_m), 
-					 get_dtdate(event->dtend, MONTH)-1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->start_y), 
-					 get_dtdate(event->dtstart, YEAR)-START_YEAR);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(meet->end_y), 
-					 get_dtdate(event->dtend, YEAR)-START_YEAR);
+		gtk_calendar_select_day(GTK_CALENDAR(meet->start_c),
+					get_dtdate(event->dtstart, DAY));
+		gtk_calendar_select_day(GTK_CALENDAR(meet->end_c),
+					get_dtdate(event->dtend, DAY));
+
+		gtk_calendar_select_month(GTK_CALENDAR(meet->start_c),
+					get_dtdate(event->dtstart, MONTH)-1,
+					get_dtdate(event->dtstart, YEAR));
+		gtk_calendar_select_month(GTK_CALENDAR(meet->end_c),
+					get_dtdate(event->dtend, MONTH)-1,
+					get_dtdate(event->dtend, YEAR));
+
 		s = g_strdup_printf("%02d", get_dtdate(event->dtstart, HOUR));
 		gtk_entry_set_text(GTK_ENTRY(meet->start_hh), s);
 		g_free(s);
@@ -580,28 +541,40 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_widget_set_size_request(meet->end_mm, 30, -1);
 	gtk_widget_set_size_request(meet->end_hh, 30, -1);
 	
-	start_hbox = gtk_hbox_new(FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_m, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_d, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_y, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new("  "), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_hh, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), gtk_label_new(":"), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(start_hbox), meet->start_mm, FALSE, FALSE, 0);
+	date_hbox = gtk_hbox_new(FALSE, 6);
+	label = gtk_label_new("<b>From:</b> "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), meet->start_c, FALSE, FALSE, 0);
+	label = gtk_label_new(" "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
 
-	end_hbox = gtk_hbox_new(FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_m, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_d, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new("/"), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_y, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new("  "), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_hh, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), gtk_label_new(":"), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(end_hbox), meet->end_mm, FALSE, FALSE, 0);
+	vbox = gtk_vbox_new(FALSE, 0);	
+	gtk_box_pack_start(GTK_BOX(vbox), meet->start_hh, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
+
+	label = gtk_label_new("h"); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
+	vbox = gtk_vbox_new(FALSE, 0);	
+	gtk_box_pack_start(GTK_BOX(vbox), meet->start_mm, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
+
+	label = gtk_label_new("<b>To:</b> "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), meet->end_c, FALSE, FALSE, 0);
+	label = gtk_label_new(" "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
 	
+	vbox = gtk_vbox_new(FALSE, 0);	
+	gtk_box_pack_start(GTK_BOX(vbox), meet->end_hh, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
+	label = gtk_label_new("h"); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, TRUE, FALSE, 0);
+	vbox = gtk_vbox_new(FALSE, 0);	
+	gtk_box_pack_start(GTK_BOX(vbox), meet->end_mm, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
+
 	meet->attendees_vbox = gtk_vbox_new(FALSE, 6);
 	if (!event) {
 		attendee_add(meet, NULL, NULL, NULL, NULL, TRUE);
@@ -659,8 +632,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	save_hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
 	TABLE_ADD_LINE("Organizer:", meet->who);
-	TABLE_ADD_LINE("Start date:", start_hbox);
-	TABLE_ADD_LINE("End date:", end_hbox);
+	TABLE_ADD_LINE("Date:", date_hbox);
 	TABLE_ADD_LINE("Summary:", meet->summary);
 	TABLE_ADD_LINE("Description:", meet->description);
 	TABLE_ADD_LINE("Attendees:", meet->attendees_vbox);

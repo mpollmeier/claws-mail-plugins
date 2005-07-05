@@ -3,8 +3,7 @@ plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 plugin_LTLIBRARIES = vcalendar.la
 
 INCLUDES= \
-	-I$(top_srcdir)/libical/libical \
-	-I$(top_srcdir)/libical/libicalss
+	-I$(top_srcdir)/libical/libical
 
 vcalendar_la_SOURCES = \
 	plugin.c \
