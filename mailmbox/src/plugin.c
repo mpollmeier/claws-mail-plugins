@@ -39,6 +39,7 @@ gint plugin_init(gchar **error)
 
 void plugin_done(void)
 {
+	folder_unregister_class(mailmbox_get_class());
 }
 
 const gchar *plugin_name(void)
