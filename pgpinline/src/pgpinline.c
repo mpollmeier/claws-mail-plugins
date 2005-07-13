@@ -249,15 +249,15 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	MimeInfo *decinfo, *parseinfo;
 	gpgme_data_t cipher, plain;
 	FILE *dstfp;
-	gint nread;
 	gchar *fname;
-	gchar buf[BUFFSIZE];
 	gchar *textdata = NULL;
 	static gint id = 0;
 	const gchar *src_codeset = NULL;
 	gpgme_verify_result_t sigstat = 0;
 	PrivacyDataPGP *data = NULL;
 	gpgme_ctx_t ctx;
+	gchar *chars;
+	int len;
 	
 	if (gpgme_new(&ctx) != GPG_ERR_NO_ERROR)
 		return NULL;
@@ -314,10 +314,11 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 			"Content-Transfer-Encoding: 8bit\r\n"
 			"\r\n",
 			src_codeset);
-		
-	while ((nread = gpgme_data_read(plain, buf, sizeof(buf))) > 0) {
-      		fwrite(buf, nread, 1, dstfp);
-	}
+	
+	chars = gpgme_data_release_and_get_mem(plain, &len);
+	if (len > 0)
+		fwrite(chars, len, 1, dstfp);
+
 	fclose(dstfp);
 	
 	gpgme_data_release(plain);
