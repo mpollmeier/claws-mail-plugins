@@ -44,7 +44,7 @@ AM_PATH_GTK_2_0(2.4.0,,
 #
 # Check for gpgme
 #
-AM_PATH_GPGME(0.3.10,,
+AM_PATH_GPGME(0.4.5,,
 	AC_MSG_ERROR(Test for gpgme failed. See the file 'INSTALL' for help.),)
 
 AC_OUTPUT([
