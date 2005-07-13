@@ -1,3 +1,7 @@
+2004-11-08 [colin]	0.7
+
+	Port to gpgme-1.0
+
 2004-11-08 [colin]	0.5
 
 	* src/pgpinline.c

@@ -49,8 +49,8 @@ struct _PrivacyDataPGP
 	
 	gboolean	done_sigtest;
 	gboolean	is_signed;
-	GpgmeSigStat	sigstatus;
-	GpgmeCtx 	ctx;
+	gpgme_verify_result_t	sigstatus;
+	gpgme_ctx_t 	ctx;
 };
 
 static PrivacySystem pgpinline_system;
@@ -65,7 +65,7 @@ static PrivacyDataPGP *pgpinline_new_privacydata()
 	data->data.system = &pgpinline_system;
 	data->done_sigtest = FALSE;
 	data->is_signed = FALSE;
-	data->sigstatus = GPGME_SIG_STAT_NONE;
+	data->sigstatus = NULL;
 	gpgme_new(&data->ctx);
 	
 	return data;
@@ -80,11 +80,7 @@ static void pgpinline_free_privacydata(PrivacyData *_data)
 
 static gchar *get_part_as_string(MimeInfo *mimeinfo)
 {
-	FILE *tmpfp;
-	gchar buf[BUFFSIZE];
 	gchar *textdata = NULL;
-	Base64Decoder *decoder;
-	gint i = 0;
 
 	g_return_val_if_fail(mimeinfo != NULL, 0);
 	procmime_decode_content(mimeinfo);
@@ -148,8 +144,9 @@ static gint pgpinline_check_signature(MimeInfo *mimeinfo)
 {
 	PrivacyDataPGP *data = NULL;
 	gchar *textdata = NULL;
-	GpgmeData plain = NULL, cipher = NULL;
-
+	gpgme_data_t plain = NULL, cipher = NULL;
+	gpgme_ctx_t ctx;
+	
 	g_return_val_if_fail(mimeinfo != NULL, 0);
 
 	if (procmime_mimeinfo_parent(mimeinfo) == NULL)
@@ -161,16 +158,20 @@ static gint pgpinline_check_signature(MimeInfo *mimeinfo)
 	data = (PrivacyDataPGP *) mimeinfo->privacy;
 
 	textdata = get_part_as_string(mimeinfo);
-	if (!textdata)
-		return 0;
-
-	gpgme_data_new(&plain);
-	gpgme_data_new(&cipher);
 	
-	gpgme_data_write(cipher, textdata, strlen(textdata));
+	if (!textdata) {
+		g_free(textdata);
+		return 0;
+	}
 
-	data->sigstatus = 
-		sgpgme_verify_signature	(data->ctx, cipher, plain);
+	gpgme_new(&ctx);
+	gpgme_set_textmode(ctx, 1);
+	gpgme_set_armor(ctx, 1);
+	
+	gpgme_data_new_from_mem(&plain, textdata, strlen(textdata), 1);
+	gpgme_data_new(&cipher);
+
+	data->sigstatus = sgpgme_verify_signature(ctx, plain, NULL, cipher);
 	
 	gpgme_data_release(plain);
 	gpgme_data_release(cipher);
@@ -186,7 +187,7 @@ static SignatureStatus pgpinline_get_sig_status(MimeInfo *mimeinfo)
 	
 	g_return_val_if_fail(data != NULL, SIGNATURE_INVALID);
 
-	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
+	if (data->sigstatus == NULL && 
 	    prefs_gpg_get_config()->auto_check_signatures)
 		pgpinline_check_signature(mimeinfo);
 
@@ -199,7 +200,7 @@ static gchar *pgpinline_get_sig_info_short(MimeInfo *mimeinfo)
 	
 	g_return_val_if_fail(data != NULL, g_strdup("Error"));
 
-	if (data->sigstatus == GPGME_SIG_STAT_NONE && 
+	if (data->sigstatus == NULL && 
 	    prefs_gpg_get_config()->auto_check_signatures)
 		pgpinline_check_signature(mimeinfo);
 	
@@ -246,7 +247,7 @@ static gboolean pgpinline_is_encrypted(MimeInfo *mimeinfo)
 static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 {
 	MimeInfo *decinfo, *parseinfo;
-	GpgmeData cipher, plain;
+	gpgme_data_t cipher, plain;
 	FILE *dstfp;
 	gint nread;
 	gchar *fname;
@@ -254,13 +255,15 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	gchar *textdata = NULL;
 	static gint id = 0;
 	const gchar *src_codeset = NULL;
-	GpgmeSigStat sigstat = 0;
+	gpgme_verify_result_t sigstat = 0;
 	PrivacyDataPGP *data = NULL;
-	GpgmeCtx ctx;
+	gpgme_ctx_t ctx;
 	
-	if (gpgme_new(&ctx) != GPGME_No_Error)
+	if (gpgme_new(&ctx) != GPG_ERR_NO_ERROR)
 		return NULL;
 
+	gpgme_set_textmode(ctx, 1);
+	gpgme_set_armor(ctx, 1);
 
 	g_return_val_if_fail(mimeinfo != NULL, NULL);
 	g_return_val_if_fail(pgpinline_is_encrypted(mimeinfo), NULL);
@@ -278,12 +281,12 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 	}
 
 	debug_print("decrypting '%s'\n", textdata);
-	gpgme_data_new(&cipher);
-	
-	gpgme_data_write(cipher, textdata, strlen(textdata));
+	gpgme_data_new_from_mem(&cipher, textdata, strlen(textdata), 1);
 
 	plain = sgpgme_decrypt_verify(cipher, &sigstat, ctx);
-	
+	if (sigstat && !sigstat->signatures)
+		sigstat = NULL;
+
 	gpgme_data_release(cipher);
 	
 	if (plain == NULL) {
@@ -311,11 +314,8 @@ static MimeInfo *pgpinline_decrypt(MimeInfo *mimeinfo)
 			"Content-Transfer-Encoding: 8bit\r\n"
 			"\r\n",
 			src_codeset);
-	
-	gpgme_data_rewind (plain);
-	
-	while (gpgme_data_read(plain, buf, sizeof(buf), &nread) 
-		== GPGME_No_Error) {
+		
+	while ((nread = gpgme_data_read(plain, buf, sizeof(buf))) > 0) {
       		fwrite(buf, nread, 1, dstfp);
 	}
 	fclose(dstfp);
@@ -367,9 +367,9 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	gchar *textstr, *tmp;
 	FILE *fp;
 	gchar *sigcontent;
-	GpgmeCtx ctx;
-	GpgmeData gpgtext, gpgsig;
-	size_t len;
+	gpgme_ctx_t ctx;
+	gpgme_data_t gpgtext, gpgsig;
+	guint len;
 	struct passphrase_cb_info_s info;
 
 	memset (&info, 0, sizeof info);
@@ -413,7 +413,7 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	}
 
 	if (gpgme_op_sign(ctx, gpgtext, gpgsig, GPGME_SIG_MODE_CLEAR) 
-	    != GPGME_No_Error) {
+	    != GPG_ERR_NO_ERROR) {
 	    	gpgme_release(ctx);
 		return FALSE;
 	}
@@ -454,21 +454,34 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	MimeInfo *msgcontent;
 	FILE *fp;
 	gchar *enccontent;
-	size_t len;
+	guint len;
 	gchar *textstr, *tmp;
-	GpgmeData gpgtext, gpgenc;
-	gchar **recipients, **nextrecp;
-	GpgmeRecipients recp;
-	GpgmeCtx ctx;
-
-	/* build GpgmeRecipients from encrypt_data */
-	recipients = g_strsplit(encrypt_data, " ", 0);
-	gpgme_recipients_new(&recp);
-	for (nextrecp = recipients; *nextrecp != NULL; nextrecp++) {
-		gpgme_recipients_add_name_with_validity(recp, *nextrecp,
-							GPGME_VALIDITY_FULL);
+	gpgme_data_t gpgtext, gpgenc;
+	gpgme_ctx_t ctx;
+	gpgme_key_t *kset = NULL;
+	gchar **fprs = g_strsplit(encrypt_data, " ", -1);
+	gint i = 0;
+	while (fprs[i] && strlen(fprs[i])) {
+		i++;
 	}
-	g_strfreev(recipients);
+	
+	kset = g_malloc(sizeof(gpgme_key_t)*(i+1));
+	memset(kset, 0, sizeof(gpgme_key_t)*(i+1));
+	gpgme_new(&ctx);
+	i = 0;
+	while (fprs[i] && strlen(fprs[i])) {
+		gpgme_key_t key;
+		gpgme_error_t err;
+		err = gpgme_get_key(ctx, fprs[i], &key, 0);
+		if (err) {
+			debug_print("can't add key '%s'[%d] (%s)\n", fprs[i],i, gpgme_strerror(err));
+			break;
+		}
+		debug_print("found %s at %d\n", fprs[i], i);
+		kset[i] = key;
+		i++;
+	}
+	
 
 	debug_print("Encrypting message content\n");
 
@@ -499,7 +512,7 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	gpgme_new(&ctx);
 	gpgme_set_armor(ctx, 1);
 
-	gpgme_op_encrypt(ctx, recp, gpgtext, gpgenc);
+	gpgme_op_encrypt(ctx, kset, GPGME_ENCRYPT_ALWAYS_TRUST, gpgtext, gpgenc);
 
 	gpgme_release(ctx);
 	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
@@ -509,7 +522,6 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	tmp[len] = '\0';
 	g_free(enccontent);
 
-	gpgme_recipients_release(recp);
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
 
