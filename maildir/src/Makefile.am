@@ -1,6 +1,8 @@
 plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
-
+plugin_DATA=maildir_gtk.deps
 plugin_LTLIBRARIES = maildir.la maildir_gtk.la
+
+EXTRA_DIST=maildir_gtk.deps
 
 ## Maildir folder plugin
 
