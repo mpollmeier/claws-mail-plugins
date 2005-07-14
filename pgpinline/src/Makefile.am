@@ -1,4 +1,7 @@
 plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugin_DATA=pgpinline.deps
+
+EXTRA_DIST=pgpinline.deps
 
 plugin_LTLIBRARIES = pgpinline.la
 

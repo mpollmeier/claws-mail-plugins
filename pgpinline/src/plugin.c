@@ -36,7 +36,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 12, 40))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 12, 49))) {
 		*error = g_strdup("Your sylpheed version is too old");
 		return -1;
 	}

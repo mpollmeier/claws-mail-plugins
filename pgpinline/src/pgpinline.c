@@ -32,9 +32,9 @@
 #include "privacy.h"
 #include "procmime.h"
 #include "pgpinline.h"
-#include "plugins/pgpmime/sgpgme.h"
-#include "plugins/pgpmime/prefs_gpg.h"
-#include "plugins/pgpmime/passphrase.h"
+#include <plugins/pgpmime/sgpgme.h>
+#include <plugins/pgpmime/prefs_gpg.h>
+#include <plugins/pgpmime/passphrase.h>
 #include "quoted-printable.h"
 #include "base64.h"
 #include "codeconv.h"

@@ -1,4 +1,8 @@
-2004-11-08 [colin]	0.7
+2005-07-14 [colin]	0.8
+
+	Changes for pgpcore
+
+2005-07-12 [colin]	0.7
 
 	Port to gpgme-1.0
 
