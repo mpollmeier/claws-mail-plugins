@@ -1,0 +1,32 @@
+Changes of the Perl plugin for Sylpheed-Claws
+See the ChangeLog for details.
+
+0.3
+
+    * Support for manual filtering (invoked by the menu bar)
+      has been added
+    * A new function `manual' can be used to test whether the
+      filtering was invoked manually or not
+    * Optionally, logging in the logwindow is supported
+    * A menu bar entry to edit the Perl filter script by the
+      default external editor was added to the `Tools' section.
+      The same button was also added to the filter script syntax
+      error dialog box.
+    * Some code cleanups and minor bug fixes
+
+* 0.2
+
+    * Addressbook interface has been implemented
+    * Support for partial downloads has been added
+    * Documentation has been greatly extended and moved to POD format
+    * A retry/abort dialog box is now displayed on filter script
+      syntax errors
+    * A few new utilities have been added
+
+* 0.1.1
+
+    * Support for Perl 5.8.0
+
+* 0.1
+
+    * Initial release

@@ -1,0 +1,13 @@
+The building process should follow the usual
+ ./configure
+ make
+ make install
+procedure. The plugin gets installed into
+/usr/local/lib/sylpheed-claws/plugins/
+
+If the building process fails, consult `perlembed' from the Perl
+documentation, section `Compiling your C program' (yes, that is
+the one starting with "If you have trouble compiling the scripts
+in this documentation, you're not alone."). If you successfully
+use the plugin on a non - i[3-6]86 platform, please drop me a
+note.
