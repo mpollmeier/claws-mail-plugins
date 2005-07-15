@@ -27,12 +27,12 @@
 
 #include <string.h>
 
-#include <glib.h>
-#include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <glib.h>
 
 #include "common/utils.h"
 #include "mainwindow.h"
+#include "intl.h"
 #include "prefs_common.h"
 
 #include "perl_plugin.h"
