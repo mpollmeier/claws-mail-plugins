@@ -1,3 +1,7 @@
+2005-07-15 [paul] 1.5
+
+	fix build errors (thanks to Colin)
+
 2005-07-04 [colin] 1.4
 
 	Ship with libical.

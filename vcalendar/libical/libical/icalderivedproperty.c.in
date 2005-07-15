@@ -4,7 +4,7 @@
   FILE: icalderivedproperty.c
   CREATOR: eric 15 Feb 2001
   
-  $Id: icalderivedproperty.c.in,v 1.1.2.1 2005-07-04 17:06:56 colinleroy Exp $
+  $Id: icalderivedproperty.c.in,v 1.1.2.2 2005-07-15 09:21:03 twb Exp $
 
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -59,7 +59,7 @@ struct  icalproperty_map {
 
 };
 
-extern struct icalproperty_map property_map[];
+static struct icalproperty_map property_map[];
 
 const char* icalproperty_kind_to_string(icalproperty_kind kind)
 {
@@ -139,7 +139,7 @@ struct icalproperty_enum_map {
     const char* str;
 }; 
 
-extern struct icalproperty_enum_map enum_map[];
+static struct icalproperty_enum_map enum_map[];
 
 
 const char* icalproperty_enum_to_string(int e)

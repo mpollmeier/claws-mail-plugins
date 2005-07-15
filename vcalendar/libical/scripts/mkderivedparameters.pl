@@ -109,7 +109,7 @@ if($opt_h){
 if ($opt_c){
 
   # Create the icalparameter_value to icalvalue_kind conversion table
-  print "struct  icalparameter_value_kind_map value_kind_map[] = {\n";
+  print "static struct  icalparameter_value_kind_map value_kind_map[] = {\n";
   
   foreach $enum (@{$params{'VALUE'}->{'enums'}}){
     next if $enum eq 'NO' or $enum eq 'ERROR';
