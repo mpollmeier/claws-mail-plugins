@@ -1,0 +1,70 @@
+2005-07-15 [paul]	0.4.6
+
+	* configure.ac	
+	* src/Makefile.am
+	* src/fetchinfo_plugin.c
+	* src/fetchinfo_plugin_gtk.c
+	* src/fetchinfo_plugin_gtk.deps	* NEW *
+		GTK2 port
+		add dep
+	
+2004-12-06 [thorsten]	0.4.5
+
+	* src/fetchinfo_plugin.c
+		update data_len (truncated messages)
+		Thanks to Colin Leroy for the hint
+
+2004-12-06 [thorsten]	0.4.4
+
+	* src/fetchinfo_plugin.c
+	  src/fetchinfo_plugin_gtk.c
+	  	check sylpheed version >= 0.9.12
+
+2004-12-05 [thorsten]	0.4.3
+
+	* src/fetchinfo_plugin.c
+		better readability
+	* src/fetchinfo_plugin_gtk.c
+		fix crash at startup (new prefspage.path API)
+
+2003-10-19 [thorsten]	0.4.2.1
+
+	* Makefile.am
+		add version template to tarball
+
+2003-09-07 [thorsten]	0.4.2
+
+	* win32/version.rc.in			*** NEW FILE ***
+		add forgotten version template
+
+2003-09-06 [thorsten]	0.4.1
+
+	* configure.ac
+	  Makefile.am
+	  win32/version.rc.in
+	  	use pkg-config
+		use config dir
+		autogenerate version resource
+
+2003-09-06 [thorsten]	0.4
+
+	* win32/*.dsp
+		include version resource
+
+2003-08-04 [thorsten]	0.3
+
+	* src/fetchinfo_plugin.c
+	  src/fetchinfo_plugin_gtk.c
+	  	add version check
+	* src/Makefile.am
+		fix install location (thanks to Christoph)
+
+2003-07-19 [thorsten]	0.2
+
+	* src/fetchinfo_plugin.c
+		make hook_id guint (thanks to Alfons)
+
+2003-06-23 [thorsten]	0.1
+
+	* initial release
+

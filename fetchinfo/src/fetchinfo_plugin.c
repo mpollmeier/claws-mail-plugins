@@ -1,0 +1,206 @@
+/*
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2003 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include "defs.h"
+
+#include <glib.h>
+#include <glib/gi18n.h>
+
+/* common */
+#include "version.h"
+#include "sylpheed.h"
+#include "plugin.h"
+#include "utils.h"
+#include "hooks.h"
+#include "inc.h"
+#include "prefs.h"
+#include "prefs_gtk.h"
+#include "fetchinfo_plugin.h"
+/* add headers */
+#include "pop.h"
+#include "quoted-printable.h"
+/* parse headers */
+#include "procheader.h"
+
+
+static guint mail_receive_hook_id;
+
+static FetchinfoConfig config;
+
+static PrefParam param[] = {
+	{"fetchinfo_enable",	"FALSE", &config.fetchinfo_enable,		
+				P_BOOL,	NULL, NULL, NULL},
+	{"fetchinfo_uidl",	"TRUE", &config.fetchinfo_uidl,		
+				P_BOOL,	NULL, NULL, NULL},
+	{"fetchinfo_account",	"TRUE", &config.fetchinfo_account,
+				P_BOOL,	NULL, NULL, NULL},
+	{"fetchinfo_server",	"TRUE", &config.fetchinfo_server,
+				P_BOOL,	NULL, NULL, NULL},
+	{"fetchinfo_userid",	"TRUE", &config.fetchinfo_userid,
+				P_BOOL,	NULL, NULL, NULL},
+	{"fetchinfo_time",	"TRUE", &config.fetchinfo_time,
+				P_BOOL,	NULL, NULL, NULL},
+
+	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
+};
+
+gchar *fetchinfo_add_header(gchar **data, const gchar *header,const gchar *value)
+{
+	gchar *line;
+	gchar *qpline;
+	gchar *newdata;
+
+	line = g_strdup_printf("%s: %s", header, value);
+	qpline = g_malloc(strlen(line)*4);
+	qp_encode_line(qpline, line);
+	newdata = g_strconcat(*data, qpline, NULL);
+	g_free(line);
+	g_free(qpline);
+	g_free(*data);
+	*data = newdata;
+	return newdata;
+}
+
+static gboolean mail_receive_hook(gpointer source, gpointer data)
+{
+	MailReceiveData *mail_receive_data = (MailReceiveData *) source;
+	Pop3Session *session;
+	gchar *newheaders;
+	gchar *newdata;
+	gchar date[PREFSBUFSIZE];
+	
+	g_return_val_if_fail( config.fetchinfo_enable
+			      && mail_receive_data
+			      && mail_receive_data->session
+			      && mail_receive_data->data,
+			      FALSE );
+
+
+	session = mail_receive_data->session;
+	get_rfc822_date(date, PREFSBUFSIZE);
+	newheaders = g_strdup("");
+
+	if (config.fetchinfo_uidl)
+		fetchinfo_add_header(&newheaders, "X-FETCH-UIDL", 
+			session->msg[session->cur_msg].uidl);
+	if (config.fetchinfo_account)
+		fetchinfo_add_header(&newheaders, "X-FETCH-ACCOUNT", 
+			session->ac_prefs->account_name);
+	if (config.fetchinfo_server)
+		fetchinfo_add_header(&newheaders, "X-FETCH-SERVER", 
+			session->ac_prefs->recv_server);
+	if (config.fetchinfo_userid)
+		fetchinfo_add_header(&newheaders, "X-FETCH-USERID", 
+			session->ac_prefs->userid);
+	if (config.fetchinfo_time)
+		fetchinfo_add_header(&newheaders, "X-FETCH-TIME", 
+			date);
+
+	newdata = g_strconcat(newheaders, mail_receive_data->data, NULL);
+	g_free(newheaders);
+	g_free(mail_receive_data->data);
+	mail_receive_data->data = newdata;
+	mail_receive_data->data_len = strlen(newdata);
+	return FALSE;
+}
+
+FetchinfoConfig *fetchinfo_get_config(void)
+{
+	return &config;
+}
+
+void fetchinfo_save_config(void)
+{
+	PrefFile *pfile;
+	gchar *rcpath;
+
+	debug_print("Saving Fetchinfo Page\n");
+
+	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+	pfile = prefs_write_open(rcpath);
+	g_free(rcpath);
+	if (!pfile || (prefs_set_block_label(pfile, "Fetchinfo") < 0))
+		return;
+
+	if (prefs_write_param(param, pfile->fp) < 0) {
+		g_warning("failed to write Fetchinfo configuration to file\n");
+		prefs_file_close_revert(pfile);
+		return;
+	}
+	fprintf(pfile->fp, "\n");
+
+	prefs_file_close(pfile);
+}
+
+gint plugin_init(gchar **error)
+{
+	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
+		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
+		return -1;
+	}
+
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 13, 25))) {
+		*error = g_strdup("Your sylpheed version is too old");
+		return -1;
+	}
+
+	mail_receive_hook_id = hooks_register_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook, NULL);
+	if (mail_receive_hook_id == (guint)-1) {
+		*error = g_strdup("Failed to register mail receive hook");
+		return -1;
+	}
+
+	prefs_set_default(param);
+	prefs_read_config(param, "Fetchinfo", COMMON_RC, NULL);
+
+	debug_print("Fetchinfo plugin loaded\n");
+
+	return 0;
+}
+
+void plugin_done(void)
+{
+	hooks_unregister_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook_id);
+
+	debug_print("Fetchinfo plugin unloaded\n");
+}
+
+const gchar *plugin_name(void)
+{
+	return _("Fetchinfo");
+}
+
+const gchar *plugin_desc(void)
+{
+	return _("This plugin modifies the downloaded messages. "
+	         "It inserts headers containing some download "
+		 "information: UIDL, Sylpheeds account name, "
+		 "POP server, user ID and retrieval time.\n"
+		 "To configure this plugin, load the Fetchinfo "
+		 "Gtk plugin as well.");
+}
+
+const gchar *plugin_type(void)
+{
+	return "Common";
+}
