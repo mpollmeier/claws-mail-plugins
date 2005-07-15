@@ -25,10 +25,11 @@
 #  include "config.h"
 #endif
 
+#include <glib.h>
+#include <glib/gi18n.h>
 #include<gtk/gtk.h>
 
 #include "mainwindow.h"
-#include "intl.h"
 
 #include "synce_comp.h"
 

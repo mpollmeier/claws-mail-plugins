@@ -79,7 +79,7 @@ gboolean synce_comp(void)
   if(email_not_in_wince_hash == NULL)
     email_not_in_wince_hash = g_hash_table_new(g_str_hash, g_str_equal);
 
-  prefs_read_config(param, "SynCEPlugin", COMMON_RC);
+  prefs_read_config(param, "SynCEPlugin", COMMON_RC, NULL);
   synce_plugin_save_config();
 
 

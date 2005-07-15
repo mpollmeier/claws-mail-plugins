@@ -41,20 +41,24 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 dnl check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.0.3.4)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.12.0)
 SYLPHEED_CLAWS_PLUGINDIR=$($PKG_CONFIG --variable=plugindir sylpheed-claws)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
-dnl check for GLib
-AM_PATH_GLIB(1.2.6,,
-  AC_MSG_ERROR(Test for GLIB failed.),
-  gthread)
+#
+# Check for GLib
+#
+AM_PATH_GLIB_2_0(2.4.0,,
+        AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
+        gmodule gobject gthread)
 
-dnl check for GTK
-AM_PATH_GTK(1.2.6,,
-  AC_MSG_ERROR(Test for GTK failed.))
+#
+# Check for GTK
+#
+AM_PATH_GTK_2_0(2.4.0,,
+        AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
 dnl Check for SynCE
 AM_PATH_LIBSYNCE
