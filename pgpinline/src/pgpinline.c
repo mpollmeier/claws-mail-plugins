@@ -143,7 +143,7 @@ static gboolean pgpinline_is_signed(MimeInfo *mimeinfo)
 static gint pgpinline_check_signature(MimeInfo *mimeinfo)
 {
 	PrivacyDataPGP *data = NULL;
-	gchar *textdata = NULL;
+	gchar *textdata = NULL, *tmp = NULL;
 	gpgme_data_t plain = NULL, cipher = NULL;
 	gpgme_ctx_t ctx;
 	
@@ -164,6 +164,13 @@ static gint pgpinline_check_signature(MimeInfo *mimeinfo)
 		return 0;
 	}
 
+	/* gtk2: convert back from utf8 */
+	tmp = conv_codeset_strdup(textdata, CS_UTF_8,
+			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
+	g_free(textdata);
+	textdata = g_strdup(tmp);
+	g_free(tmp);
+	
 	gpgme_new(&ctx);
 	gpgme_set_textmode(ctx, 1);
 	gpgme_set_armor(ctx, 1);
@@ -377,6 +384,8 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 
 	/* get content node from message */
 	msgcontent = (MimeInfo *) mimeinfo->node->children->data;
+	if (msgcontent->type == MIMETYPE_MULTIPART)
+		msgcontent = (MimeInfo *) msgcontent->node->children->data;
 
 	/* get rid of quoted-printable or anything */
 	procmime_decode_content(msgcontent);
@@ -390,7 +399,7 @@ static gboolean pgpinline_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	
 	/* gtk2: convert back from utf8 */
 	tmp = conv_codeset_strdup(textstr, CS_UTF_8, 
-			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
+			procmime_mimeinfo_get_parameter(msgcontent, "charset"));
 	g_free(textstr);
 	textstr = g_strdup(tmp);
 	g_free(tmp);
@@ -488,6 +497,8 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 
 	/* get content node from message */
 	msgcontent = (MimeInfo *) mimeinfo->node->children->data;
+	if (msgcontent->type == MIMETYPE_MULTIPART)
+		msgcontent = (MimeInfo *) msgcontent->node->children->data;
 
 	/* get rid of quoted-printable or anything */
 	procmime_decode_content(msgcontent);
@@ -501,7 +512,7 @@ static gboolean pgpinline_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	
 	/* gtk2: convert back from utf8 */
 	tmp = conv_codeset_strdup(textstr, CS_UTF_8, 
-			procmime_mimeinfo_get_parameter(mimeinfo, "charset"));
+			procmime_mimeinfo_get_parameter(msgcontent, "charset"));
 	g_free(textstr);
 	textstr = g_strdup(tmp);
 	g_free(tmp);
