@@ -227,11 +227,12 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 
 void vcal_prefs_init(void)
 {
-	static gchar *path[2];
+	static gchar *path[3];
 	gchar *rcpath;
 
-	path[0] = _("vCalendar");
-	path[1] = NULL;
+	path[0] = _("Plugins");
+	path[1] = _("vCalendar");
+	path[2] = NULL;
 
 	prefs_set_default(param);
 	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
