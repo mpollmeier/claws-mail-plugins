@@ -2047,7 +2047,7 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
-  prefs_read_config(param, "PerlPlugin", COMMON_RC);
+  prefs_read_config(param, "PerlPlugin", COMMON_RC, NULL);
 
   /* make sure we have at least an empty scriptfile */
   perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
@@ -2123,5 +2123,5 @@ const gchar *plugin_desc(void)
 
 const gchar *plugin_type(void)
 {
-  return "GTK";
+  return "GTK2";
 }
