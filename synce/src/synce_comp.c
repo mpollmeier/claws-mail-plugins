@@ -105,8 +105,10 @@ gboolean synce_comp(void)
       repeated_wince_hash = NULL;
     }
     
-    val = alertpanel("SynCE Plugin", "Error connecting to Windows CE (tm) device",
-		     "OK", NULL, NULL);
+    val = alertpanel_full("SynCE Plugin",
+			  "Error connecting to Windows CE (tm) device",
+			  GTK_STOCK_CLOSE, NULL, NULL, FALSE,
+			  NULL, ALERT_ERROR, G_ALERTDEFAULT);
     return FALSE;
   }
 
@@ -137,7 +139,9 @@ gboolean synce_comp(void)
       message = g_strconcat("The following email address(es) were found "
 			    "multiple times in the Windows CE (tm) device:\n",
 			    email_list, NULL);
-      val = alertpanel("SynCE Plugin", message, "OK", NULL, NULL);
+      val = alertpanel_full("SynCE Plugin", message,
+			    GTK_STOCK_CLOSE, NULL, NULL, FALSE,
+			    NULL, ALERT_WARNING, G_ALERTDEFAULT);
       g_free(email_list);
       g_free(message);
     }
@@ -175,7 +179,9 @@ gboolean synce_comp(void)
       message = g_strconcat("The following email address(es) were found "
 			    "multiple times in a local addressbook:\n",
 			    email_list, NULL);
-      val = alertpanel("SynCE Plugin", message, "OK", NULL, NULL);
+      val = alertpanel_full("SynCE Plugin", message,
+			    GTK_STOCK_CLOSE, NULL, NULL, FALSE,
+			    NULL, ALERT_WARNING, G_ALERTDEFAULT);
       g_free(email_list);
       g_free(message);
     }
@@ -203,7 +209,9 @@ gboolean synce_comp(void)
       email_list = g_strjoinv("\n", email_addresses);
       message = g_strconcat("The following email address(es) were not found in "
 			    "a local addressbook:\n", email_list, NULL);
-      val = alertpanel("SynCE Plugin", message, "OK", NULL, NULL);
+      val = alertpanel_full("SynCE Plugin", message,
+			    GTK_STOCK_CLOSE, NULL, NULL, FALSE,
+			    NULL, ALERT_WARNING, G_ALERTDEFAULT);
       g_free(email_list);
       g_free(message);
     }
@@ -223,7 +231,9 @@ gboolean synce_comp(void)
     email_list = g_strjoinv("\n", email_addresses);
     message = g_strconcat("The following email address(es) were not found in "
 			  "the Windows CE (tm) device:\n", email_list, NULL);
-    val = alertpanel("SynCE Plugin", message, "OK", NULL, NULL);
+    val = alertpanel_full("SynCE Plugin", message,
+			  GTK_STOCK_CLOSE, NULL, NULL, FALSE,
+			  NULL, ALERT_WARNING, G_ALERTDEFAULT);
     g_free(email_list);
     g_free(message);
   }
@@ -235,7 +245,9 @@ gboolean synce_comp(void)
   email_not_in_wince_hash = NULL;
 
   message = g_strdup("SynCE Plugin done.");
-  val = alertpanel("SynCE Plugin", message, "OK", NULL, NULL);
+  val = alertpanel_full("SynCE Plugin", message,
+			GTK_STOCK_CLOSE, NULL, NULL, FALSE,
+			NULL, ALERT_WARNING, G_ALERTDEFAULT);
   g_free(message);
 
   return TRUE;

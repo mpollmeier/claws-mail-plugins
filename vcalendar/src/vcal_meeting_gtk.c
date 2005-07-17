@@ -729,9 +729,10 @@ gint vcal_meeting_alert_check(gpointer data)
 				
 				g_free(duration);
 
-				alertpanel_with_type(title, message,
-							_("Ok"), NULL, NULL,
-							NULL, ALERT_NOTICE);
+				alertpanel_full(title, message,
+				   		GTK_STOCK_OK, NULL, NULL, FALSE,
+				   		NULL, ALERT_NOTICE, G_ALERTDEFAULT);
+
 				g_free(title);
 				g_free(message);
 			}
@@ -755,10 +756,11 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 	if (g_slist_length(list) == 0) {
 		g_slist_free(list);
 		if (path == NULL) {
-			alertpanel_with_type(_("Empty calendar"),
-				     _("There is nothing to export."),
-				     _("Ok"), NULL, NULL,
-				     NULL, ALERT_NOTICE);
+			alertpanel_full(_("Empty calendar"),
+					_("There is nothing to export."),
+				   	GTK_STOCK_OK, NULL, NULL, FALSE,
+				   	NULL, ALERT_NOTICE, G_ALERTDEFAULT);
+
 			return FALSE;
 		} else {
 			str_write_to_file("", path);

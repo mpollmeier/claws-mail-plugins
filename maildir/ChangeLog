@@ -1,3 +1,8 @@
+2005-07-17 [paul]	0.8
+
+	* src/maildir_gtk.c
+		update for alertpanel change
+
 2004-12-06 [christoph]
 
 	* src/Makefile.am

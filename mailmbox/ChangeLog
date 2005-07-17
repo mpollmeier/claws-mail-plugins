@@ -1,3 +1,8 @@
+2005-07-17 [paul]	1.2
+		
+	* src/plugin_gtk.c
+		update for changes to alertpanels
+
 2005-07-05 [colin]	1.1
 
 	* fix missing unregistration on plugin unload

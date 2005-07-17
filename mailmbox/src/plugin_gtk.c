@@ -265,8 +265,9 @@ static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *w
 	message = g_strdup_printf
 		(_("Really remove the mailbox `%s' ?\n"
 		   "(The messages are NOT deleted from the disk)"), name);
-	avalue = alertpanel(_("Remove mailbox"), message,
-			    _("Yes"), _("+No"), NULL);
+	avalue = alertpanel_full(_("Remove mailbox"), message,
+				 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE,
+				 NULL, ALERT_NOTICE, G_ALERTALTERNATE);
 	g_free(message);
 	g_free(name);
 	if (avalue != G_ALERTDEFAULT) return;

@@ -1,3 +1,8 @@
+2005-07-17 [paul]	0.2
+
+	* src/synce_comp.c
+		update for alertpanel changes
+
 2005-05-09 [holger]	0.1
 
 	Initial release

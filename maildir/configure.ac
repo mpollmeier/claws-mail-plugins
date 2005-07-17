@@ -2,7 +2,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-AM_INIT_AUTOMAKE(maildir, 0.7, no-define)
+AM_INIT_AUTOMAKE(maildir, 0.8, no-define)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -24,7 +24,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.12.145)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 0.9.13.76)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
