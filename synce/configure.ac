@@ -41,7 +41,7 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 dnl check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.13.76)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.12.76)
 SYLPHEED_CLAWS_PLUGINDIR=$($PKG_CONFIG --variable=plugindir sylpheed-claws)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
