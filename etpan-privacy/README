@@ -1,0 +1,109 @@
+etPan! privacy plugin for sylpheed-claws
+----------------------------------------
+
+1. etPan! privacy
+
+  This allow to use the privacy architecture of etPan!, so that drivers 
+implemented for etPan! can be immediately used in sylpheed-claws.
+This depends on libEtPan! 0.32 that can be found on http://libetpan.sf.net
+
+
+2. Limitation
+
+  Verification of signature and decryption will be handled the same way.
+The result is only visible inside the textview.
+
+
+4. OpenPGP (using GnuPG)
+
+  To create your key, use the following command :
+
+$ gpg --gen-key
+
+- Choose "DSA and ElGamal" for the key type,
+- Use the default key size,
+- You can set 0 so that your key does not expire,
+- Enter your display name in address,
+- Enter you email address,
+- You can leave the comment empty,
+- Use no passphrase (Currently etPan! privacy does not allow passphrases)
+
+  Add these two lines to ~/.gnupg/options so that gnupg automatically 
+retrieve the key on the key server.
+
+keyserver x-hkp://pgp.mit.edu
+keyserver-options honor-http-proxy auto-key-retrieve
+
+
+5. S/MIME
+
+5.1. Create your Root certification authority
+
+$ mkdir CA
+$ cd CA
+$ mkdir certs crl newcerts private
+$ echo "01" > serial
+$ cp /dev/null index.txt
+$ cp /etc/ssl/openssl.cnf openssl.cnf
+$ vi openssl.cnf   (set values)
+
+you need to adapt the following changes :
+
+-dir            = ./demoCA              # Where everything is kept
++dir            = .                     # Where everything is kept
+
+-# nsCertType = client, email
++nsCertType = client, email
+
+-# keyUsage = nonRepudiation, digitalSignature, keyEncipherment
++keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+$ openssl req -new -x509 -keyout private/cakey.pem -out cacert.pem \
+    -days 365 -config openssl.cnf
+
+Now your root certificate is in "cacert.pem", the private key
+of the certificate is located in the sub-directory "private".
+
+You have to copy this certificate "cacert.pem" to ~/.sylpheed/smime/CA
+
+
+5.2. Create a new certificate and private key
+
+$ cd CA        (same directory created above)
+$ openssl req -nodes -new -x509 -keyout newreq.pem \
+    -out newreq.pem -days 365 -config openssl.cnf
+
+Your request has been created and stored in newreq.pem.
+newreq.pem also contains the private key.
+
+You have to sign the request with the root certificate.
+
+$ cd CA        (same directory created above)
+$ openssl x509 -x509toreq -in newreq.pem -signkey newreq.pem -out tmp.pem
+$ openssl ca -config openssl.cnf -policy policy_anything \
+    -out newcert.pem -infiles tmp.pem
+$ rm -f tmp.pem
+
+Your private key "newreq.pem" has to be copied to ~/.sylpheed/smime/keys
+and your certificate has to be copied to ~/.sylpheed/smime/cert
+
+
+5.3. S/MIME Root certificates from Verisign/Thawte
+
+You can download the root certificates at the following places :
+
+Verisign : http://www.verisign.com/support/roots.html
+Thawte : http://www.thawte.com/html/SUPPORT/primus_intro.html
+
+Copy the PEM files (this should be the .txt files) to the CA directory.
+default is "~/.sylpheed/smime/CA".
+
+
+6. Licence
+
+  Most of the code is extracted from the libEtPan! project, which is BSD 
+licence. But the code is considered as released under two licences, BSD 
+licence and the one used in sylpheed-claws, GPL 2.
+  I hope this won't break the synchronization between the implementation 
+of this plugin and the library code.
+
