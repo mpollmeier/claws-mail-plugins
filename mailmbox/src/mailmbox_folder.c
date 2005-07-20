@@ -135,15 +135,18 @@ static FolderClass mailmbox_class =
 	mailmbox_get_msginfo,
 	mailmbox_get_msginfos,
 	s_mailmbox_fetch_msg,
+	NULL, /* fetch_msg_full */
 	mailmbox_add_msg,
 	mailmbox_add_msgs,
 	s_mailmbox_copy_msg,
 	mailmbox_copy_msgs,
 	mailmbox_remove_msg,
+	NULL, /*mailmbox_remove_msgs, */
 	mailmbox_remove_all_msg,
 	NULL, /* is_msg_changed */
 	NULL, /* change_flags */
-	NULL  /* get_flags */	
+	NULL,  /* get_flags */	
+	NULL  /* set_batch */	
 };
 
 static gchar * get_cache_dir(void)
