@@ -62,5 +62,4 @@ AC_SUBST(SYLPHEED_EXTRA)
 AC_OUTPUT([
 Makefile
 src/Makefile
-win32/version.rc
 ])
