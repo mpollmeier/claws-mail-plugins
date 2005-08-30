@@ -129,7 +129,8 @@ static void type_activated(GtkMenuItem *menuitem, gpointer data)
 	if (page->file_entry == NULL)
 		return;
 		
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(page->default_implementations_optmenu));
+	menu = gtk_option_menu_get_menu(
+		GTK_OPTION_MENU(page->default_implementations_optmenu));
 	item = gtk_menu_get_active(GTK_MENU(menu));
 	selected = GPOINTER_TO_INT
 		(g_object_get_data(G_OBJECT(item), MENU_VAL_ID));
@@ -229,8 +230,9 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 
 	default_implementations_optmenu = gtk_option_menu_new ();
 	default_implementations_menu = gtk_menu_new();
-        gtk_option_menu_set_menu (GTK_OPTION_MENU (default_implementations_optmenu), 
-				  default_implementations_menu);
+        gtk_option_menu_set_menu (
+			GTK_OPTION_MENU(default_implementations_optmenu), 
+			default_implementations_menu);
 	for (i = 0; known_implementations[i].name != NULL; i++) {
 		MENUITEM_ADD (default_implementations_menu, 
 				menuitem, known_implementations[i].name, i);
@@ -250,47 +252,71 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	
 	hbox = gtk_hbox_new(FALSE, 6);
 	start_label = gtk_label_new(_("LED "));
-	gtk_box_pack_start(GTK_BOX(hbox), start_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), unread_mail_off_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), unread_mail_blink_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), unread_mail_on_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), unread_mail_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			start_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			unread_mail_off_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			unread_mail_blink_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			unread_mail_on_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			unread_mail_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), 
+			hbox, FALSE, FALSE, 0);
 	
 	hbox = gtk_hbox_new(FALSE, 6);
 	start_label = gtk_label_new(_("LED "));
-	gtk_box_pack_start(GTK_BOX(hbox), start_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), new_mail_off_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), new_mail_blink_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), new_mail_on_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), new_mail_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			start_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			new_mail_off_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			new_mail_blink_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			new_mail_on_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			new_mail_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), 
+			hbox, FALSE, FALSE, 0);
 	
 	hbox = gtk_hbox_new(FALSE, 6);
 	start_label = gtk_label_new(_("ACPI type: "));
-	gtk_box_pack_start(GTK_BOX(hbox), start_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), default_implementations_optmenu, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			start_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), 
+			default_implementations_optmenu, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), 
+			hbox, FALSE, FALSE, 0);
 
 	hbox_acpi_file = gtk_hbox_new(FALSE, 6);
 	start_label = gtk_label_new(_("ACPI file: "));
-	gtk_box_pack_start(GTK_BOX(hbox_acpi_file), start_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox_acpi_file), file_entry, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_acpi_file, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_acpi_file), 
+			start_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_acpi_file), 
+			file_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), 
+			hbox_acpi_file, FALSE, FALSE, 0);
         g_signal_connect(G_OBJECT(file_entry), "changed",
                          G_CALLBACK(file_entry_changed), page);
 
 	hbox_acpi_values = gtk_hbox_new(FALSE, 6);
 	start_label = gtk_label_new(_("values - On: "));
-	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), start_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), on_value_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), 
+			start_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), 
+			on_value_entry, FALSE, FALSE, 0);
 	start_label = gtk_label_new(_(" - Off: "));
-	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), start_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), off_value_entry, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_acpi_values, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), 
+			start_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_acpi_values), 
+			off_value_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), 
+			hbox_acpi_values, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new(FALSE, 6);
-	warning_label = gtk_label_new(_("Warning: control file doesn't exist."));
+	warning_label = gtk_label_new(
+			_("Warning: control file doesn't exist."));
 	gtk_box_pack_start(GTK_BOX(hbox), warning_label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
@@ -298,28 +324,57 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_hide(warning_label);
 
 	switch (acpiprefs.no_mail_action) {
-	case OFF: 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(no_mail_off_btn), TRUE); break;
-	case BLINK:	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(no_mail_blink_btn), TRUE); break;
-	case ON:	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(no_mail_on_btn), TRUE); break;
+	case OFF: 	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(no_mail_off_btn), TRUE); 
+		break;
+	case BLINK:	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(no_mail_blink_btn), TRUE); 
+		break;
+	case ON:	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(no_mail_on_btn), TRUE); 
+		break;
 	}
 	
 	switch (acpiprefs.unread_mail_action) {
-	case OFF: 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(unread_mail_off_btn), TRUE); break;
-	case BLINK:	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(unread_mail_blink_btn), TRUE); break;
-	case ON:	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(unread_mail_on_btn), TRUE); break;
+	case OFF: 	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(unread_mail_off_btn), TRUE); 
+		break;
+	case BLINK:	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(unread_mail_blink_btn), TRUE); 
+		break;
+	case ON:	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(unread_mail_on_btn), TRUE); 
+		break;
 	}
 	
 	switch (acpiprefs.new_mail_action) {
-	case OFF: 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(new_mail_off_btn), TRUE); break;
-	case BLINK:	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(new_mail_blink_btn), TRUE); break;
-	case ON:	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(new_mail_on_btn), TRUE); break;
+	case OFF: 	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(new_mail_off_btn), TRUE); 
+		break;
+	case BLINK:	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(new_mail_blink_btn), TRUE); 
+		break;
+	case ON:	
+		gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(new_mail_on_btn), TRUE); 
+		break;
 	}
 	
 	if (acpiprefs.file_path != NULL) {
 		for (i = 0; known_implementations[i].name != NULL; i++) {
-			if (!strcmp(acpiprefs.file_path, known_implementations[i].file_path)) {
+			if (!strcmp(acpiprefs.file_path, 
+				    known_implementations[i].file_path)) {
 				gtk_option_menu_set_history(
-					GTK_OPTION_MENU(default_implementations_optmenu), i);
+					GTK_OPTION_MENU(
+					default_implementations_optmenu), i);
 				found = i;
 			}
 		}
@@ -328,7 +383,8 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 		for (i = 0; known_implementations[i].name != NULL; i++) {
 			if (is_file_exist(known_implementations[i].file_path)) {
 				gtk_option_menu_set_history(
-					GTK_OPTION_MENU(default_implementations_optmenu), i);
+					GTK_OPTION_MENU(
+					default_implementations_optmenu), i);
 				found = i;
 			}
 		}
@@ -351,11 +407,14 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 		gtk_widget_show_all(hbox_acpi_file);
 		gtk_widget_show_all(hbox_acpi_values);
 		if (acpiprefs.file_path != NULL)
-			gtk_entry_set_text(GTK_ENTRY(file_entry), acpiprefs.file_path);
+			gtk_entry_set_text(GTK_ENTRY(file_entry), 
+					acpiprefs.file_path);
 		if (acpiprefs.on_param != NULL)
-			gtk_entry_set_text(GTK_ENTRY(on_value_entry), acpiprefs.on_param);
+			gtk_entry_set_text(GTK_ENTRY(on_value_entry), 
+					acpiprefs.on_param);
 		if (acpiprefs.off_param != NULL)
-			gtk_entry_set_text(GTK_ENTRY(off_value_entry), acpiprefs.off_param);
+			gtk_entry_set_text(GTK_ENTRY(off_value_entry), 
+					acpiprefs.off_param);
 		if (!acpiprefs.file_path || !is_file_exist(acpiprefs.file_path))
 			gtk_widget_show(warning_label);
 	}
@@ -394,45 +453,61 @@ static void acpi_prefs_save_func(PrefsPage * _page)
 	gint selected = 0;
 
 	g_free(acpiprefs.file_path);
-	acpiprefs.file_path = gtk_editable_get_chars(GTK_EDITABLE(page->file_entry), 0, -1);
+	acpiprefs.file_path = gtk_editable_get_chars(
+			GTK_EDITABLE(page->file_entry), 0, -1);
 	g_free(acpiprefs.on_param);
-	acpiprefs.on_param = gtk_editable_get_chars(GTK_EDITABLE(page->on_value_entry), 0, -1);
+	acpiprefs.on_param = gtk_editable_get_chars(
+			GTK_EDITABLE(page->on_value_entry), 0, -1);
 	g_free(acpiprefs.off_param);
-	acpiprefs.off_param = gtk_editable_get_chars(GTK_EDITABLE(page->off_value_entry), 0, -1);
+	acpiprefs.off_param = gtk_editable_get_chars(
+			GTK_EDITABLE(page->off_value_entry), 0, -1);
 
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->no_mail_off_btn)))
+	if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->no_mail_off_btn)))
 		acpiprefs.no_mail_action = OFF;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->no_mail_blink_btn)))
+	else if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->no_mail_blink_btn)))
 		acpiprefs.no_mail_action = BLINK;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->no_mail_on_btn)))
+	else if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->no_mail_on_btn)))
 		acpiprefs.no_mail_action = ON;
 	
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->unread_mail_off_btn)))
+	if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->unread_mail_off_btn)))
 		acpiprefs.unread_mail_action = OFF;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->unread_mail_blink_btn)))
+	else if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->unread_mail_blink_btn)))
 		acpiprefs.unread_mail_action = BLINK;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->unread_mail_on_btn)))
+	else if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->unread_mail_on_btn)))
 		acpiprefs.unread_mail_action = ON;
 	
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->new_mail_off_btn)))
+	if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->new_mail_off_btn)))
 		acpiprefs.new_mail_action = OFF;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->new_mail_blink_btn)))
+	else if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->new_mail_blink_btn)))
 		acpiprefs.new_mail_action = BLINK;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->new_mail_on_btn)))
+	else if (gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->new_mail_on_btn)))
 		acpiprefs.new_mail_action = ON;
 	
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(page->default_implementations_optmenu));
+	menu = gtk_option_menu_get_menu(
+		GTK_OPTION_MENU(page->default_implementations_optmenu));
 	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	selected = GPOINTER_TO_INT
 		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
 
 	if (selected != 0) {
 		g_free(acpiprefs.file_path);
-		acpiprefs.file_path = g_strdup(known_implementations[selected].file_path);
+		acpiprefs.file_path = g_strdup(
+				known_implementations[selected].file_path);
 		g_free(acpiprefs.on_param);
-		acpiprefs.on_param = g_strdup(known_implementations[selected].on_param);
+		acpiprefs.on_param = g_strdup(
+				known_implementations[selected].on_param);
 		g_free(acpiprefs.off_param);
-		acpiprefs.off_param = g_strdup(known_implementations[selected].off_param);
+		acpiprefs.off_param = g_strdup(
+				known_implementations[selected].off_param);
 	}
 
 	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
@@ -442,7 +517,8 @@ static void acpi_prefs_save_func(PrefsPage * _page)
 		return;
 
 	if (prefs_write_param(param, pfile->fp) < 0) {
-		g_warning("failed to write " PREFS_BLOCK_NAME " configuration to file\n");
+		g_warning("failed to write " PREFS_BLOCK_NAME 
+			  " configuration to file\n");
 		prefs_file_close_revert(pfile);
 		return;
 	}
@@ -541,7 +617,8 @@ void acpi_prefs_init(void)
 	acpi_prefs_page.page.save_page = acpi_prefs_save_func;
 
 	prefs_gtk_register_page((PrefsPage *) &acpi_prefs_page);
-	hook_id = hooks_register_hook (FOLDER_ITEM_UPDATE_HOOKLIST, acpi_update_hook, NULL);
+	hook_id = hooks_register_hook (FOLDER_ITEM_UPDATE_HOOKLIST, 
+			acpi_update_hook, NULL);
 	
 	should_quit = FALSE;
 	my_new = 0;
@@ -573,8 +650,8 @@ void acpi_done(void)
 gint plugin_init(gchar **error)
 {
 	if((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your sylpheed version is newer than the version "
-				"the plugin was built with");
+		*error = g_strdup("Your sylpheed version is newer than the "
+				  "version the plugin was built with");
 		return -1;
 	}
 	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
