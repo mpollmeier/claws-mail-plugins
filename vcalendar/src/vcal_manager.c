@@ -873,7 +873,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 	gchar *tmpfile = NULL;
 	gint msgnum;
 	FolderItem *folderitem;
-	gchar *msgpath;
+	gchar *msgpath = NULL;
 	Folder *folder = NULL;
 	
 	tmpfile = vcal_manager_event_dump(event, is_reply, FALSE, NULL);

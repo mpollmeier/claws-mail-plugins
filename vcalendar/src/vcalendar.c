@@ -92,7 +92,7 @@ static GtkWidget *vcal_viewer_get_widget(MimeViewer *_mimeviewer)
 	VCalViewer *vcalviewer = (VCalViewer *) _mimeviewer;
 
 	debug_print("vcal_viewer_get_widget\n");
-	
+	gtk_widget_show_all(vcalviewer->scrolledwin);
 	return vcalviewer->scrolledwin;
 }
 
@@ -110,6 +110,7 @@ static void vcal_viewer_clear_viewer(MimeViewer *_mimeviewer)
 		g_free(vcalviewer->tmpfile);
 		vcalviewer->tmpfile = NULL;
 	}
+	gtk_widget_hide(vcalviewer->scrolledwin);
 	vcalviewer->mimeinfo = NULL;
 }
 
@@ -821,6 +822,7 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	debug_print("vcal_viewer_show_mimepart : %s\n", file);
 
 	vcal_viewer_clear_viewer(_mimeviewer);
+	gtk_widget_show_all(vcalviewer->scrolledwin);
 	g_free(vcalviewer->file);
 	vcalviewer->file = g_strdup(file);
 	vcalviewer->mimeinfo = mimeinfo;
@@ -864,6 +866,8 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	gchar * uid = vcalviewer_get_uid_from_mimeinfo(vcalviewer->mimeinfo);
 	VCalEvent *event = NULL;
 	VCalMeeting *meet = NULL;
+	gchar *file = NULL;
+	Folder *folder;
 	
 	gint val = alertpanel_full(_("Cancel meeting"),
 				   _("Are you sure you want to cancel this meeting?\n"
@@ -875,12 +879,23 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 		return TRUE;
 
 	event = vcal_manager_load_event(uid);
+	if (!event)
+		return TRUE;
 	event->method = ICAL_METHOD_CANCEL;
 	
 	meet = vcal_meeting_create_hidden(event);
 	vcal_meeting_send(meet);
 	vcal_manager_save_event(event);
+	
+	file = vcal_manager_get_event_file(event->uid);
+	unlink(file);
 	vcal_manager_free_event(event);
+	g_free(file);
+	folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	if (folder)
+		folder_item_scan(folder->inbox);
+	vcalviewer_reload();
+
 	return TRUE;
 }
 

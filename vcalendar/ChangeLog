@@ -1,3 +1,13 @@
+2005-09-12 [colin] 1.7
+	
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		fix trying to send to nobody
+		fix updating of the folder after sending a meeting
+		fix account selection when we have nntp accounts
+		fix clearing of the mimeview
+
 2005-07-17 [paul] 1.6
 
 	* src/vcalendar.c

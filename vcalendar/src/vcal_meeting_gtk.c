@@ -362,7 +362,8 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	GSList *cur;
 	PrefsAccount *account = NULL;
 	gboolean res = FALSE;
-	
+	gboolean found_att = FALSE;
+
 	generate_msgid(buf, 255);
 
 	if (meet->uid) {
@@ -412,16 +413,22 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 				name = email;
 				email = strstr(email," <") + 2;
 				*(strstr(name," <")) = '\0';
-			} if (strstr(email, ">"))
-				*(strstr(email, ">")) = '\0';
+				if (strstr(email, ">"))
+					*(strstr(email, ">")) = '\0';
+			} 
 			
 			vcal_manager_update_answer(event, email, name, 
 					status,	cutype);
+					
+			found_att = strcmp(email, organizer);
 		}
 		g_free(orig_email);
 	}
 	
-	res = vcal_manager_request(account, event);
+	if (found_att)
+		res = vcal_manager_request(account, event);
+	else
+		res = TRUE;
 	g_free(uid);
 	g_free(organizer);
 	g_free(organizer_name);
@@ -437,7 +444,13 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 		alertpanel_error(_("Could not send the meeting invitation.\n"
 				   "Check the recipients."));
 	}
-	
+	if (!found_att) {
+		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+		if (folder)
+			folder_item_scan(folder->inbox);
+		vcalviewer_reload();
+	}
+
 	return TRUE;
 }
 
@@ -448,7 +461,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	GtkTextBuffer *buffer = NULL;
 	GtkWidget *date_hbox, *save_hbox, *label, *vbox;
 	gchar *s = NULL;
-	int i = 0, decs = -1, dece = -1, num = 0;
+	int i = 0, decs = -1, dece = -1, num = 0, less = 0;
 	
 	GList *accounts;
 	
@@ -606,11 +619,13 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	for (i = 0; accounts != NULL; accounts = accounts->next, i++) {
 		PrefsAccount *ac = (PrefsAccount *)accounts->data;
 		
-		if (ac->protocol == A_NNTP)
+		if (ac->protocol == A_NNTP) {
+			less ++;
 			continue;
-			
-		if (!event && ac == cur_account) 
+		}
+		if (!event && ac == cur_account) {
 			num = i;
+		}
 		else if (event && !strcmp(ac->address, event->organizer))
 			num = i;
 
@@ -627,7 +642,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->who), s);
 		g_free(s);
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(meet->who), num);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(meet->who), num-less);
 	
 	save_hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
@@ -696,7 +711,7 @@ gint vcal_meeting_alert_check(gpointer data)
 				gchar *estart = NULL;
 				
 				alert_done = g_slist_append(alert_done, g_strdup(event->uid));
-				g_strdup(ctime(&tmpt));
+				estart = g_strdup(ctime(&tmpt));
 				
 				int length = (end - start) / 60;
 				gchar *duration = NULL, *hours = NULL, *minutes = NULL;
@@ -728,6 +743,7 @@ gint vcal_meeting_alert_check(gpointer data)
 							event->description);
 				
 				g_free(duration);
+				g_free(estart);
 
 				alertpanel_full(title, message,
 				   		GTK_STOCK_OK, NULL, NULL, FALSE,
