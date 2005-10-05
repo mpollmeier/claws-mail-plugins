@@ -188,7 +188,7 @@ static void add_mailbox(gpointer callback_data, guint callback_action,
 	}
 
 	folder_add(folder);
-	folder_scan_tree(folder);
+	folder_scan_tree(folder, TRUE);
 
 	folderview_set(mainwin->folderview);
 

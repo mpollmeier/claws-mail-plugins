@@ -1,3 +1,8 @@
+2006-10-05 [colin] 	0.9
+
+	* src/maildir_gtk.c
+		reflect API change
+
 2005-07-17 [paul]	0.8
 
 	* src/maildir_gtk.c

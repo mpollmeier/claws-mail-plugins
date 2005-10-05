@@ -1053,7 +1053,7 @@ void vcalendar_init(void)
 		folder = folder_new(vcal_folder_get_class(), "vCalendar", NULL);
 		folder->klass->create_tree(folder);
 		folder_add(folder);
-		folder_scan_tree(folder);
+		folder_scan_tree(folder, TRUE);
 	}
 	if (folder)
 		folder_item_scan(folder->inbox);
