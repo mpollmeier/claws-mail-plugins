@@ -507,7 +507,7 @@ static XS(XS_SylpheedClaws_filter_init)
    *         13 returnreceiptto
    *         14 references
    *         15 score
-   *         16 threadscore
+   *         16 not used anymore
    *         17 plaintext_file
    *         18 not used anymore
    *         19 hidden
@@ -565,8 +565,6 @@ static XS(XS_SylpheedClaws_filter_init)
     msginfo->references ? XSRETURN_PV(msginfo->references) : XSRETURN_UNDEF;
   case 15:
     msginfo->score      ? XSRETURN_IV(msginfo->score)      : XSRETURN_UNDEF;
-  case 16:
-    msginfo->threadscore? XSRETURN_IV(msginfo->threadscore): XSRETURN_UNDEF;
   case 17:
     msginfo->plaintext_file ?
       XSRETURN_PV(msginfo->plaintext_file)                 : XSRETURN_UNDEF;
@@ -1723,7 +1721,6 @@ static int perl_init(void)
 "			             SylpheedClaws::C::filter_init(11));\n"
 "    add_header_entries_(\"references\",SylpheedClaws::C::filter_init(11));\n"
 "    $msginfo{\"score\"}              = SylpheedClaws::C::filter_init(15);\n"
-"    $msginfo{\"threadscore\"}        = SylpheedClaws::C::filter_init(16);\n"
 "    $msginfo{\"plaintext_file\"}     = SylpheedClaws::C::filter_init(17);\n"
 "    $msginfo{\"hidden\"}             = SylpheedClaws::C::filter_init(19);\n"
 "    $msginfo{\"filepath\"}           = SylpheedClaws::C::filter_init(20);\n"

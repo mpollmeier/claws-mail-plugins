@@ -1,3 +1,11 @@
+2005-10-06 [paul]	0.4
+
+	* configure.ac
+		bump up required Claws version
+	* src/perl_plugin.c
+		msginfo-threadscore no longer exists, remove it
+		Patch by Ricardo Mones Lastra
+
 2005-05-09 [holger]	0.3
 
 	0.3 released
