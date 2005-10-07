@@ -2,7 +2,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-AM_INIT_AUTOMAKE(maildir, 0.9, no-define)
+AM_INIT_AUTOMAKE(maildir, 0.10, no-define)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 

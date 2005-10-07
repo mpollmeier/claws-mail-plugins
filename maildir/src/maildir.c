@@ -76,6 +76,9 @@ static gint maildir_rename_folder(Folder *folder, FolderItem *item,
 static gint maildir_get_flags (Folder *folder,  FolderItem *item,
 			       MsgInfoList *msglist, GRelation *msgflags);
 
+static gchar *filename_from_utf8(const gchar *path);
+static gchar *filename_to_utf8(const gchar *path);
+
 FolderClass maildir_class;
 
 struct _MaildirFolder
@@ -189,7 +192,7 @@ static void maildir_item_destroy(Folder *folder, FolderItem *_item)
 
 static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
 {
-	gchar *folder_path, *path;
+	gchar *folder_path, *path, *real_path;
 
 	g_return_val_if_fail(folder != NULL, NULL);
 	g_return_val_if_fail(item != NULL, NULL);
@@ -214,20 +217,23 @@ static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
         }
 	g_free(folder_path);
 
-	return path;
+	real_path = filename_from_utf8(path);
+
+	g_free(path);
+	return real_path;
 }
 
 static void build_tree(GNode *node, glob_t *globbuf)
 {
         int i;
 	FolderItem *parent = FOLDER_ITEM(node->data);
-	gchar *prefix = parent->path ?  parent->path : "";
+	gchar *prefix = parent->path ?  filename_from_utf8(parent->path) : g_strdup("");
 	Folder *folder = parent->folder;
 
         for (i = 0; i < globbuf->gl_pathc; i++) {
 		FolderItem *newitem;
 		GNode *newnode;
-		gchar *dirname, *tmpstr, *foldername;
+		gchar *dirname, *tmpstr, *foldername, *dirname_utf8, *foldername_utf8;
 		gboolean res;
 
 		dirname = g_basename(globbuf->gl_pathv[i]);
@@ -254,10 +260,13 @@ static void build_tree(GNode *node, glob_t *globbuf)
 		if (!res)
 			continue;
 
+		dirname_utf8 = filename_to_utf8(dirname);
+		foldername_utf8 = filename_to_utf8(foldername);
+
 		/* don't add items that already exist in the tree */
-		newitem = folder_find_child_item_by_name(parent, dirname);
+		newitem = folder_find_child_item_by_name(parent, dirname_utf8);
 		if (newitem == NULL) {
-			newitem = folder_item_new(parent->folder, foldername, dirname);
+			newitem = folder_item_new(parent->folder, foldername_utf8, dirname_utf8);
 			newitem->folder = folder;
 
 			newnode = g_node_new(newitem);
@@ -266,6 +275,9 @@ static void build_tree(GNode *node, glob_t *globbuf)
 
             		debug_print("added item %s\n", newitem->path);
 		}
+
+		g_free(dirname_utf8);
+		g_free(foldername_utf8);
 
 		if (!parent->path) {
 			if (!folder->outbox && !strcmp(dirname, "." OUTBOX_DIR)) {
@@ -285,6 +297,8 @@ static void build_tree(GNode *node, glob_t *globbuf)
 
                 build_tree(newitem->node, globbuf);
         }
+
+	g_free(prefix);
 }
 
 static gint maildir_scan_tree(Folder *folder)
@@ -887,7 +901,7 @@ static FolderItem *maildir_create_folder(Folder * folder,
 					 FolderItem * parent,
 					 const gchar * name)
 {
-	gchar *folder_path, *path;
+	gchar *folder_path, *path, *real_path;
 	FolderItem *newitem = NULL;
 	gboolean failed = FALSE;
 
@@ -912,8 +926,11 @@ static FolderItem *maildir_create_folder(Folder * folder,
 
 	debug_print("creating new maildir folder: %s\n", path);
 
-	failed = setup_new_folder(path, TRUE);
+	real_path = filename_from_utf8(path);
 	g_free(path);
+
+	failed = setup_new_folder(real_path, TRUE);
+	g_free(real_path);
 
 	if (failed)
 		return NULL;
@@ -928,7 +945,7 @@ static FolderItem *maildir_create_folder(Folder * folder,
 
 static gint maildir_create_tree(Folder *folder)
 {
-	gchar *rootpath, *folder_path;
+	gchar *rootpath, *real_rootpath, *folder_path;
 
 	g_return_val_if_fail(folder != NULL, -1);
 
@@ -943,19 +960,25 @@ static gint maildir_create_tree(Folder *folder)
         }
 	g_free(folder_path);
 
-	debug_print("creating new maildir tree: %s\n", rootpath);
-	if (!is_dir_exist(rootpath)) {
-		if (is_file_exist(rootpath)) {
+	real_rootpath = filename_from_utf8(rootpath);
+	g_free(rootpath);
+
+	debug_print("creating new maildir tree: %s\n", real_rootpath);
+	if (!is_dir_exist(real_rootpath)) {
+		if (is_file_exist(real_rootpath)) {
 			g_warning("File `%s' already exists.\n"
-				    "Can't create folder.", rootpath);
+				    "Can't create folder.", real_rootpath);
 			return -1;
 		}
-		if (make_dir(rootpath) < 0)
+		if (make_dir(real_rootpath) < 0)
 			return -1;
 	}
 
-	if (setup_new_folder(rootpath, FALSE)) /* create INBOX */
+	if (setup_new_folder(real_rootpath, FALSE)) { /* create INBOX */
+		g_free(real_rootpath);
 		return -1;
+	}
+	g_free(real_rootpath);
 	if (folder->outbox == NULL)
 		if (maildir_create_folder(folder, folder->node->data, OUTBOX_DIR) == NULL)
 			return -1;
@@ -1066,7 +1089,7 @@ static gboolean rename_folder_func(GNode *node, gpointer data)
 {
 	FolderItem *item;
 	gchar *oldpath, *newpath, *newitempath;
-	gchar *suffix;
+	gchar *suffix, *real_path, *real_rootpath;
 	struct RenameData *renamedata = data;
 
 	g_return_val_if_fail(node->data != NULL, FALSE);
@@ -1079,22 +1102,26 @@ static gboolean rename_folder_func(GNode *node, gpointer data)
 	if (item->stype != F_NORMAL)
 		return FALSE;
 
-	suffix = item->path + renamedata->oldprefixlen;
+	real_rootpath = filename_from_utf8(LOCAL_FOLDER(item->folder)->rootpath);
+	real_path = filename_from_utf8(item->path);
+	suffix = real_path + renamedata->oldprefixlen;
 
 	oldpath = folder_item_get_path(item);
 	newitempath = g_strconcat(renamedata->newprefix, suffix, NULL);
-	newpath = g_strconcat(LOCAL_FOLDER(item->folder)->rootpath, G_DIR_SEPARATOR_S, newitempath, NULL);
+	newpath = g_strconcat(real_rootpath, G_DIR_SEPARATOR_S, newitempath, NULL);
+	g_free(real_path);
+	g_free(real_rootpath);
 
 	debug_print("renaming directory %s to %s\n", oldpath, newpath);
 
 	if (rename(oldpath, newpath) < 0) {
 		FILE_OP_ERROR(oldpath, "rename");
-		g_free(newitempath);
 	} else {
 		g_free(item->path);
-		item->path = newitempath;
+		item->path = filename_to_utf8(newitempath);
 	}
 
+	g_free(newitempath);
 	g_free(oldpath);
 	g_free(newpath);
 
@@ -1105,7 +1132,7 @@ static gint maildir_rename_folder(Folder *folder, FolderItem *item,
 			     const gchar *name)
 {
 	struct RenameData renamedata;
-	gchar *p;
+	gchar *p, *real_path, *real_name;
 
 	g_return_val_if_fail(folder != NULL, -1);
 	g_return_val_if_fail(item != NULL, -1);
@@ -1117,14 +1144,19 @@ static gint maildir_rename_folder(Folder *folder, FolderItem *item,
 	g_free(item->name);
 	item->name = g_strdup(name);
 
-	renamedata.oldprefixlen = strlen(item->path);
-	p = strrchr(item->path, '.');
+	real_path = filename_from_utf8(item->path);
+	real_name = filename_from_utf8(name);
+
+	renamedata.oldprefixlen = strlen(real_path);
+	p = strrchr(real_path, '.');
 	if (p)
-		p = g_strndup(item->path, p - item->path + 1);
+		p = g_strndup(real_path, p - real_path + 1);
 	else
 		p = g_strdup(".");
-	renamedata.newprefix = g_strconcat(p, name, NULL);
+	renamedata.newprefix = g_strconcat(p, real_name, NULL);
 	g_free(p);
+	g_free(real_name);
+	g_free(real_path);
 
 	g_node_traverse(item->node, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
 			rename_folder_func, &renamedata);
@@ -1196,4 +1228,27 @@ static gint maildir_get_flags (Folder *folder,  FolderItem *item,
 	}
 
 	return 0;
+}
+
+static gchar *filename_from_utf8(const gchar *path)
+{
+	gchar *real_path = g_filename_from_utf8(path, -1, NULL, NULL, NULL);
+
+	if (!real_path) {
+		g_warning("filename_from_utf8: faild to convert character set\n");
+		real_path = g_strdup(path);
+	}
+
+	return real_path;
+}
+
+static gchar *filename_to_utf8(const gchar *path)
+{
+	gchar *utf8path = g_filename_to_utf8(path, -1, NULL, NULL, NULL);
+	if (!utf8path) {
+		g_warning("filename_to_utf8: faild to convert character set\n");
+		utf8path = g_strdup(path);
+	}
+
+	return utf8path;
 }
