@@ -945,7 +945,7 @@ static FolderItem *maildir_create_folder(Folder * folder,
 
 static gint maildir_create_tree(Folder *folder)
 {
-	gchar *rootpath, *real_rootpath, *folder_path;
+	gchar *rootpath, *real_rootpath, *folder_path, *path;
 
 	g_return_val_if_fail(folder != NULL, -1);
 
@@ -978,19 +978,35 @@ static gint maildir_create_tree(Folder *folder)
 		g_free(real_rootpath);
 		return -1;
 	}
+	path = g_strconcat(real_rootpath, G_DIR_SEPARATOR_S, "." OUTBOX_DIR, NULL);
+	if (setup_new_folder(path, TRUE)) {
+		g_free(path);
 	g_free(real_rootpath);
-	if (folder->outbox == NULL)
-		if (maildir_create_folder(folder, folder->node->data, OUTBOX_DIR) == NULL)
 			return -1;
-	if (folder->queue == NULL)
-		if (maildir_create_folder(folder, folder->node->data, QUEUE_DIR) == NULL)
+	}
+	g_free(path);
+	path = g_strconcat(real_rootpath, G_DIR_SEPARATOR_S, "." QUEUE_DIR, NULL);
+	if (setup_new_folder(path, TRUE)) {
+		g_free(path);
+		g_free(real_rootpath);
 			return -1;
-	if (folder->draft == NULL)
-		if (maildir_create_folder(folder, folder->node->data, DRAFT_DIR) == NULL)
+	}
+	g_free(path);
+	path = g_strconcat(real_rootpath, G_DIR_SEPARATOR_S, "." DRAFT_DIR, NULL);
+	if (setup_new_folder(path, TRUE)) {
+		g_free(path);
+		g_free(real_rootpath);
 			return -1;
-	if (folder->trash == NULL)
-		if (maildir_create_folder(folder, folder->node->data, TRASH_DIR) == NULL)
+	}
+	g_free(path);
+	path = g_strconcat(real_rootpath, G_DIR_SEPARATOR_S, "." TRASH_DIR, NULL);
+	if (setup_new_folder(path, TRUE)) {
+		g_free(path);
+		g_free(real_rootpath);
 			return -1;
+	}
+	g_free(path);
+	g_free(real_rootpath);
 
 	return 0;
 }

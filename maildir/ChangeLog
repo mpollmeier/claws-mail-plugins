@@ -3,6 +3,7 @@
 	* src/maildir.c
 		Convert filenames from/to utf8
 		patch by Klaus Flittner <klaus_flittner@gmx.de>
+		+ fix duplicates folders on rescan
 
 2006-10-05 [colin] 	0.9
 
