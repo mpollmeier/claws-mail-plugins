@@ -1,0 +1,31 @@
+NAME
+
+    Sylpheed-Claws NewMail plugin
+
+DESCRIPTION
+
+    Write a msg header summary to a log file (defaults to ~/Mail/NewLog)
+    an arrival of new mail *after* sorting
+
+    Every entry looks like:
+
+    ---
+    Date:   Fri, 23 Sep 2005 09:41:47 +0200 (METDST)
+    Subject:        New Mail Plugin for SC
+    From:   sender@host.somehwere.net
+    To:     r.e.cipient@here.com
+    Cc:     sylpheed-claws-users <sylpheed-claws-users@lists.sourceforge.net>
+    Size:   17204
+    Path:   /home/merijn/.sylpheed-gtk2/tempfolder/processing/1
+    Message:        1
+    Folder: (null)
+
+COPYRIGHT and LICENSING
+
+    (c) H.Merijn Brand 2005
+
+    This is free software, and can be distributed under the same terms
+    as Sylpheed-Claws.
+
+    Please maintain the format and layout of the source files when
+    distributing.
