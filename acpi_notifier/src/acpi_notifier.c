@@ -55,6 +55,7 @@ PredefinedAcpis known_implementations[] = {
 	{"Other", "", "", ""},
 	{"ACER", "1", "0", "/proc/driver/acerhk/led"},
 	{"ASUS", "1", "0", "/proc/acpi/asus/mled"},
+	{"IBM", "7 on", "7 off", "/proc/acpi/ibm/led"},
 	{NULL, NULL, NULL, NULL}
 };
 
@@ -544,7 +545,7 @@ static void acpi_set(gboolean on)
 	if (on) {
 		fwrite(acpiprefs.on_param, 1, strlen(acpiprefs.on_param), fp);
 	} else {
-		fwrite(acpiprefs.off_param, 1, strlen(acpiprefs.on_param), fp);
+		fwrite(acpiprefs.off_param, 1, strlen(acpiprefs.off_param), fp);
 	}
 	fclose(fp);
 }
