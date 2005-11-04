@@ -1,4 +1,9 @@
-/* Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+/*
+ * newmail - A plugin for Sylpheed-Claws
+ *
+ * Copyright (C) 2005-2005 H.Merijn Brand and the Sylpheed-Claws Team
+ *
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
  * Copyright (C) 1999-2002 Hiroyuki Yamamoto and the Sylpheed-Claws Team
  *
  * This program is free software; you can redistribute it and/or modify
