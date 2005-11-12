@@ -5,8 +5,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "defs.h"
 #include "utils.h"
-#include "prefs_common.h"
+#include "prefs.h"
 #include "prefs_gtk.h"
 #include "filesel.h"
 
@@ -40,6 +41,8 @@ typedef struct _EtPanPrefs {
 static EtPanPrivacyPrefs etpan_privacy_prefs;
 
 static EtPanPrivacyPage etpan_privacy_page;
+
+#define PREFS_BLOCK_NAME "EtpanPrivacy"
 
 static PrefParam param[] = {
 	{"smime_auto_store_cert", "TRUE",
@@ -236,13 +239,33 @@ static void apply_config(void)
 
 void etpan_privacy_prefs_read_config(void)
 {
-	prefs_read_config(param, "Privacy", ETPANPRIVACY_RC, NULL);
+	gchar *rcpath;
+	prefs_set_default(param);
+	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+	prefs_read_config(param, PREFS_BLOCK_NAME, rcpath, NULL);
+	g_free(rcpath);
 	apply_config();
 }
 
 void etpan_privacy_prefs_write_config(void)
 {
-	prefs_write_config(param, "Privacy", ETPANPRIVACY_RC);
+	PrefFile *pfile;
+	gchar *rcpath;
+
+	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+	pfile = prefs_write_open(rcpath);
+	g_free(rcpath);
+	if (!pfile || (prefs_set_block_label(pfile, PREFS_BLOCK_NAME) < 0))
+		return;
+
+	if (prefs_write_param(param, pfile->fp) < 0) {
+		g_warning("failed to write " PREFS_BLOCK_NAME " configuration to file\n");
+		prefs_file_close_revert(pfile);
+		return;
+	}
+	fprintf(pfile->fp, "\n");
+
+	prefs_file_close(pfile);
 }
 
 
