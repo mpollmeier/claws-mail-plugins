@@ -28,5 +28,5 @@ FolderClass *vcal_folder_get_class();
 void vcal_folder_gtk_init(void);
 void vcal_folder_gtk_done(void);
 GSList *vcal_folder_get_waiting_events(void);
-
+GSList *vcal_folder_get_webcal_events(void);
 #endif

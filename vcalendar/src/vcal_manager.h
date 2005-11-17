@@ -41,6 +41,7 @@ struct _VCalEvent
 	GSList *answers;
 	enum icalproperty_method method;
 	gint sequence;	
+	gchar *url;
 };
 
 VCalEvent *vcal_manager_new_event	(const gchar 	*uid, 
@@ -50,6 +51,7 @@ VCalEvent *vcal_manager_new_event	(const gchar 	*uid,
 					 const gchar	*dtstart,
 					 const gchar	*dtend,
 					 const gchar	*tzid,
+					 const gchar	*url,
 					 enum icalproperty_method method,
 					 gint		 sequence);
 					 
@@ -76,7 +78,7 @@ enum icalparameter_partstat vcal_manager_get_cutype_for_attendee(VCalEvent *even
 gchar *vcal_manager_get_event_path(void);
 gchar *vcal_manager_get_event_file(const gchar *uid);
 gchar *vcal_manager_event_dump(VCalEvent *event, gboolean change_date, gboolean change_from, icalcomponent *use_calendar);
-
+gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcomponent *use_calendar);
 gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans);
 gchar *vcal_manager_cutype_get_text(enum icalparameter_cutype type);
 

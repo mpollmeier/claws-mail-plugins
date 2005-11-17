@@ -1,3 +1,15 @@
+2006-11-17 [colin] 1.9
+
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Fix a few leaks
+		Add URL property handling
+		Add webcal subscription	
+
 2006-10-05 [colin] 1.8
 
 	* src/vcalendar.c

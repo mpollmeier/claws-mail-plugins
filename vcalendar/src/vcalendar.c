@@ -34,6 +34,7 @@
 #include "vcal_folder.h"
 #include "vcal_meeting_gtk.h"
 #include "prefs_account.h"
+#include "prefs_common.h"
 #include "account.h"
 #include "codeconv.h"
 #include "xml.h"
@@ -61,10 +62,12 @@ struct _VCalViewer
 	GtkWidget *end;
 	GtkWidget *summary;
 	GtkWidget *description;
+	gchar	  *url;
 	GtkWidget *answer;
 	GtkWidget *button;
 	GtkWidget *reedit;
 	GtkWidget *cancel;
+	GtkWidget *uribtn;
 	GtkWidget *attendees;
 };
 
@@ -241,6 +244,9 @@ static void vcalviewer_reset(VCalViewer *vcalviewer)
 	gtk_label_set_text(GTK_LABEL(vcalviewer->start), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->end), "-");
 	gtk_label_set_text(GTK_LABEL(vcalviewer->attendees), "-");
+	g_free(vcalviewer->url);
+	vcalviewer->url = NULL;
+	gtk_widget_hide(vcalviewer->uribtn);
 }
 
 static gchar *get_attendee_replying(VCalViewer *vcalviewer)
@@ -501,6 +507,15 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	} else
 		gtk_label_set_text(GTK_LABEL(vcalviewer->description), "-");
 	
+	g_free(vcalviewer->url);
+	if (event->url && strlen(event->url)) {
+		vcalviewer->url = g_strdup(event->url);
+		gtk_widget_show(vcalviewer->uribtn);
+	} else {
+		vcalviewer->url = NULL;
+		gtk_widget_hide(vcalviewer->uribtn);
+	}
+	
 	if (event->start && strlen(event->start)) {
 		gtk_label_set_text(GTK_LABEL(vcalviewer->start), event->start);
 	} else
@@ -599,12 +614,13 @@ gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
 {
 	icalproperty *iprop = NULL;
-	gchar *org = NULL, *summary = NULL, *description = NULL;
+	gchar *org = NULL, *summary = NULL, *description = NULL, *url = NULL;
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
 	VCalEvent *event = NULL;
 	gchar *tmp;
 	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
+	const gchar *saveme =  procmime_mimeinfo_get_parameter(mimeinfo, "vcalsave");
 	gchar * uid = vcalviewer_get_uid_from_mimeinfo(mimeinfo);
 	gint sequence = 0;
 	
@@ -656,6 +672,12 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 		icalproperty_free(iprop);
 	} 
 	
+	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
+	if (iprop) {
+		url = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
+		icalproperty_free(iprop);
+	} 
+	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
 	if (iprop) {
 		struct icaltimetype itt = icalproperty_get_dtstart(iprop);
@@ -683,14 +705,16 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	}
 	
 	event = vcal_manager_new_event( uid,
-					org, summary, description,
-					dtstart, dtend, tzid, method, sequence);
+					org, summary, description, 
+					dtstart, dtend, tzid, url, method, sequence);
 	vcalviewer_get_attendees(vcalviewer, event);
-	vcal_manager_save_event(event);
+	if (!saveme || strcmp(saveme,"no"))
+		vcal_manager_save_event(event);
 
 	g_free(org); 
 	g_free(summary);
 	g_free(description);
+	g_free(url);
 	g_free(uid);
 	vcalviewer_display_event(vcalviewer, event);
 	vcal_manager_free_event(event);
@@ -748,6 +772,18 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		icalproperty_free(iprop);
 	} else
 		gtk_label_set_text(GTK_LABEL(vcalviewer->description), "-");
+
+	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
+	g_free(vcalviewer->url);
+	if (iprop) {
+		tmp = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
+		vcalviewer->url = g_strdup(tmp);
+		g_free(tmp);
+		icalproperty_free(iprop);
+		gtk_widget_show(vcalviewer->uribtn);
+	} else {
+		vcalviewer->url = NULL;
+	}
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
 	if (iprop) {
@@ -857,6 +893,16 @@ static gboolean vcalviewer_reedit_cb(GtkButton *widget, gpointer data)
 	event = vcal_manager_load_event(uid);
 	vcal_meeting_create(event);
 	vcal_manager_free_event(event);
+	return TRUE;
+}
+
+static gboolean vcalviewer_uribtn_cb(GtkButton *widget, gpointer data)
+{
+	VCalViewer *vcalviewer = (VCalViewer *)data;
+
+	if (vcalviewer->url)
+		open_uri(vcalviewer->url, prefs_common.uri_cmd);
+
 	return TRUE;
 }
 
@@ -986,15 +1032,18 @@ MimeViewer *vcal_viewer_create(void)
 	vcalviewer->description = gtk_label_new("description");
 	vcalviewer->attendees = gtk_label_new("attendees");
 	vcalviewer->answer = gtk_combo_box_new_text();
+	vcalviewer->url = NULL;
 	vcalviewer->button = gtk_button_new_with_label(_("Answer"));
 	vcalviewer->reedit = gtk_button_new_with_label(_("Edit meeting..."));
 	vcalviewer->cancel = gtk_button_new_with_label(_("Cancel meeting..."));
+	vcalviewer->uribtn = gtk_button_new_with_label(_("Launch website"));
 	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_REQUEST);
 	hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->answer, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->button, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->reedit, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->cancel, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->uribtn, FALSE, FALSE, 0);
 	
 	g_signal_connect(G_OBJECT(vcalviewer->button), "clicked",
 			 G_CALLBACK(vcalviewer_action_cb), vcalviewer);
@@ -1004,6 +1053,9 @@ MimeViewer *vcal_viewer_create(void)
 
 	g_signal_connect(G_OBJECT(vcalviewer->cancel), "clicked",
 			 G_CALLBACK(vcalviewer_cancel_cb), vcalviewer);
+
+	g_signal_connect(G_OBJECT(vcalviewer->uribtn), "clicked",
+			 G_CALLBACK(vcalviewer_uribtn_cb), vcalviewer);
 
 	TABLE_ADD_LINE("Event:", vcalviewer->type);
 	TABLE_ADD_LINE("Organizer:", vcalviewer->who);
@@ -1038,6 +1090,18 @@ MimeViewerFactory vcal_viewer_factory =
 };
 
 static gint alert_timeout_tag = 0;
+static gint scan_timeout_tag = 0;
+
+static gint vcal_webcal_check(gpointer data)
+{
+	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+
+	if (prefs_common.work_offline)
+		return TRUE;
+	
+	folderview_check_new(root);
+	return TRUE;
+}
 
 void vcalendar_init(void)
 {
@@ -1064,6 +1128,9 @@ void vcalendar_init(void)
 	alert_timeout_tag = gtk_timeout_add(60*1000, 
 				(GtkFunction)vcal_meeting_alert_check, 
 				(gpointer)NULL);
+	scan_timeout_tag = gtk_timeout_add(60*10*1000, 
+				(GtkFunction)vcal_webcal_check, 
+				(gpointer)NULL);
 }
 
 void vcalendar_done(void)
@@ -1074,4 +1141,6 @@ void vcalendar_done(void)
 	vcal_prefs_done();
 	gtk_timeout_remove(alert_timeout_tag);
 	alert_timeout_tag = 0;
+	gtk_timeout_remove(scan_timeout_tag);
+	scan_timeout_tag = 0;
 }

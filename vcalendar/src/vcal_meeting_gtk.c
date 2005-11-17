@@ -380,7 +380,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	description	= get_description(meet);
 	
 	event = vcal_manager_new_event(uid, organizer, summary, description,
-					dtstart, dtend, tzid, meet->method, 
+					dtstart, dtend, tzid, NULL, meet->method, 
 					meet->sequence);
 	
 	vcal_manager_update_answer(event, organizer, organizer_name, 
@@ -765,6 +765,7 @@ gint vcal_meeting_alert_check(gpointer data)
 gboolean vcal_meeting_export_calendar(const gchar *path)
 {
 	GSList *list = vcal_folder_get_waiting_events();
+	GSList *subs = vcal_folder_get_webcal_events();
 	GSList *cur;
 	icalcomponent *calendar = NULL;
 	gchar *file = NULL;
@@ -799,6 +800,12 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 		VCalEvent *event = (VCalEvent *)cur->data;
 		vcal_manager_event_dump(event, FALSE, FALSE, calendar);
 		vcal_manager_free_event(event);
+	}
+
+	for (cur = subs; cur; cur = cur->next) {
+		icalcomponent *event = (icalcomponent *)cur->data;
+		vcal_manager_icalevent_dump(event, NULL, calendar);
+		icalcomponent_free(event);
 	}
 
 	if (!path)

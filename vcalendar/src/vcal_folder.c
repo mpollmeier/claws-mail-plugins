@@ -31,7 +31,9 @@
 #include <unistd.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <curl/curl.h>
 
+#include "account.h"
 #include "utils.h"
 #include "procmsg.h"
 #include "procheader.h"
@@ -43,6 +45,10 @@
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
 #include "prefs_account.h"
+#include "prefs_common.h"
+#include "inputdialog.h"
+#include "xml.h"
+#include "alertpanel.h"
 
 #include <gtk/gtk.h>
 #include <dirent.h>
@@ -80,7 +86,11 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item);
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags);
 static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
+static void update_subscription(const gchar *uri, gboolean verbose);
 
 FolderClass vcal_class;
 
@@ -95,13 +105,22 @@ struct _VCalFolder
 struct _VCalFolderItem
 {
 	FolderItem item;
-
+	gchar *uri;
+	gchar *feed;
+	icalcomponent *cal;
+	GSList *numlist;
+	GSList *evtlist;
 };
 
 static GtkItemFactoryEntry vcal_popup_entries[] =
 {
 	{N_("/_New meeting..."), NULL, new_meeting_cb,	0, NULL},
 	{N_("/_Export calendar..."), NULL, export_cal_cb,	0, NULL},
+	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
+	{N_("/_Subscribe to webCal..."), NULL, subscribe_cal_cb,	0, NULL},
+	{N_("/_Unsubscribe..."), NULL, unsubscribe_cal_cb,	0, NULL},
+	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
+	{N_("/U_pdate subscriptions"), NULL, check_subs_cb, 0, NULL},
 	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
 };
 
@@ -113,11 +132,167 @@ static FolderViewPopup vcal_popup =
 	set_sensitivity
 };
 
+static void vcal_item_set_xml(Folder *folder, FolderItem *item, XMLTag *tag)
+{
+	GList *cur;
+
+	for (cur = tag->attr; cur != NULL; cur = g_list_next(cur)) {
+		XMLAttr *attr = (XMLAttr *) cur->data;
+
+		if (!attr || !attr->name || !attr->value) continue;
+		if (!strcmp(attr->name, "type")) {
+			if (!g_ascii_strcasecmp(attr->value, "normal"))
+				item->stype = F_NORMAL;
+			else if (!g_ascii_strcasecmp(attr->value, "inbox"))
+				item->stype = F_INBOX;
+			else if (!g_ascii_strcasecmp(attr->value, "outbox"))
+				item->stype = F_OUTBOX;
+			else if (!g_ascii_strcasecmp(attr->value, "draft"))
+				item->stype = F_DRAFT;
+			else if (!g_ascii_strcasecmp(attr->value, "queue"))
+				item->stype = F_QUEUE;
+			else if (!g_ascii_strcasecmp(attr->value, "trash"))
+				item->stype = F_TRASH;
+		} else if (!strcmp(attr->name, "name")) {
+			if (item->name != NULL)
+				g_free(item->name);
+			item->name = g_strdup(attr->value);
+		} else if (!strcmp(attr->name, "path")) {
+			if (item->path != NULL)
+				g_free(item->path);
+			item->path = g_strdup(attr->value);
+		} else if (!strcmp(attr->name, "uri")) {
+			if (((VCalFolderItem *)item)->uri != NULL)
+				g_free(((VCalFolderItem *)item)->uri);
+			((VCalFolderItem *)item)->uri = g_strdup(attr->value);
+		} else if (!strcmp(attr->name, "mtime"))
+			item->mtime = strtoul(attr->value, NULL, 10);
+		else if (!strcmp(attr->name, "new"))
+			item->new_msgs = atoi(attr->value);
+		else if (!strcmp(attr->name, "unread"))
+			item->unread_msgs = atoi(attr->value);
+		else if (!strcmp(attr->name, "unreadmarked"))
+			item->unreadmarked_msgs = atoi(attr->value);
+		else if (!strcmp(attr->name, "marked"))
+			item->marked_msgs = atoi(attr->value);
+		else if (!strcmp(attr->name, "total"))
+			item->total_msgs = atoi(attr->value);
+		else if (!strcmp(attr->name, "no_sub"))
+			item->no_sub = *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "no_select"))
+			item->no_select = *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "collapsed"))
+			item->collapsed = *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "thread_collapsed"))
+			item->thread_collapsed =  *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "threaded"))
+			item->threaded =  *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "hidereadmsgs"))
+			item->hide_read_msgs =  *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "reqretrcpt"))
+			item->ret_rcpt =  *attr->value == '1' ? TRUE : FALSE;
+		else if (!strcmp(attr->name, "sort_key")) {
+			if (!strcmp(attr->value, "none"))
+				item->sort_key = SORT_BY_NONE;
+			else if (!strcmp(attr->value, "number"))
+				item->sort_key = SORT_BY_NUMBER;
+			else if (!strcmp(attr->value, "size"))
+				item->sort_key = SORT_BY_SIZE;
+			else if (!strcmp(attr->value, "date"))
+				item->sort_key = SORT_BY_DATE;
+			else if (!strcmp(attr->value, "from"))
+				item->sort_key = SORT_BY_FROM;
+			else if (!strcmp(attr->value, "subject"))
+				item->sort_key = SORT_BY_SUBJECT;
+			else if (!strcmp(attr->value, "score"))
+				item->sort_key = SORT_BY_SCORE;
+			else if (!strcmp(attr->value, "label"))
+				item->sort_key = SORT_BY_LABEL;
+			else if (!strcmp(attr->value, "mark"))
+				item->sort_key = SORT_BY_MARK;
+			else if (!strcmp(attr->value, "unread"))
+				item->sort_key = SORT_BY_STATUS;
+			else if (!strcmp(attr->value, "mime"))
+				item->sort_key = SORT_BY_MIME;
+			else if (!strcmp(attr->value, "to"))
+				item->sort_key = SORT_BY_TO;
+			else if (!strcmp(attr->value, "locked"))
+				item->sort_key = SORT_BY_LOCKED;
+		} else if (!strcmp(attr->name, "sort_type")) {
+			if (!strcmp(attr->value, "ascending"))
+				item->sort_type = SORT_ASCENDING;
+			else
+				item->sort_type = SORT_DESCENDING;
+		} else if (!strcmp(attr->name, "account_id")) {
+			PrefsAccount *account;
+
+			account = account_find_from_id(atoi(attr->value));
+			if (!account)
+				g_warning("account_id: %s not found\n", attr->value);
+			else
+				item->account = account;
+		} else if (!strcmp(attr->name, "apply_sub"))
+			item->apply_sub = *attr->value == '1' ? TRUE : FALSE;
+	}
+}
+
+static XMLTag *vcal_item_get_xml(Folder *folder, FolderItem *item)
+{
+	static gchar *folder_item_stype_str[] = {"normal", "inbox", "outbox",
+						 "draft", "queue", "trash"};
+	static gchar *sort_key_str[] = {"none", "number", "size", "date",
+					"from", "subject", "score", "label",
+					"mark", "unread", "mime", "to", 
+					"locked"};
+	XMLTag *tag;
+	gchar *value;
+
+	tag = xml_tag_new("folderitem");
+
+	xml_tag_add_attr(tag, xml_attr_new("type", folder_item_stype_str[item->stype]));
+	if (item->name)
+		xml_tag_add_attr(tag, xml_attr_new("name", item->name));
+	if (item->path)
+		xml_tag_add_attr(tag, xml_attr_new("path", item->path));
+	if (((VCalFolderItem *)item)->uri)
+		xml_tag_add_attr(tag, xml_attr_new("uri", ((VCalFolderItem *)item)->uri));
+	if (item->no_sub)
+		xml_tag_add_attr(tag, xml_attr_new("no_sub", "1"));
+	if (item->no_select)
+		xml_tag_add_attr(tag, xml_attr_new("no_select", "1"));
+	xml_tag_add_attr(tag, xml_attr_new("collapsed", item->collapsed && item->node->children ? "1" : "0"));
+	xml_tag_add_attr(tag, xml_attr_new("thread_collapsed", item->thread_collapsed ? "1" : "0"));
+	xml_tag_add_attr(tag, xml_attr_new("threaded", item->threaded ? "1" : "0"));
+	xml_tag_add_attr(tag, xml_attr_new("hidereadmsgs", item->hide_read_msgs ? "1" : "0"));
+	if (item->ret_rcpt)
+		xml_tag_add_attr(tag, xml_attr_new("reqretrcpt", "1"));
+
+	if (item->sort_key != SORT_BY_NONE) {
+		xml_tag_add_attr(tag, xml_attr_new("sort_key", sort_key_str[item->sort_key]));
+		xml_tag_add_attr(tag, xml_attr_new("sort_type", item->sort_type == SORT_ASCENDING ? "ascending" : "descending"));
+	}
+
+	value = g_strdup_printf("%ld", (unsigned long int) item->mtime);
+	xml_tag_add_attr(tag, xml_attr_new("mtime", value));
+	g_free(value);
+	xml_tag_add_attr(tag, xml_attr_new_int("new", item->new_msgs));
+	xml_tag_add_attr(tag, xml_attr_new_int("unread", item->unread_msgs));
+	xml_tag_add_attr(tag, xml_attr_new_int("unreadmarked", item->unreadmarked_msgs));
+	xml_tag_add_attr(tag, xml_attr_new_int("marked", item->marked_msgs));
+	xml_tag_add_attr(tag, xml_attr_new_int("total", item->total_msgs));
+
+	if (item->account)
+		xml_tag_add_attr(tag, xml_attr_new_int("account_id", item->account->account_id));
+	if (item->apply_sub)
+		xml_tag_add_attr(tag, xml_attr_new("apply_sub", "1"));
+
+	return tag;
+}
 
 FolderClass *vcal_folder_get_class()
 {
-	debug_print("register class\n");
 	if (vcal_class.idstr == NULL) {
+		debug_print("register class\n");
 		vcal_class.type = F_UNKNOWN;
 		vcal_class.idstr = "vCalendar";
 		vcal_class.uistr = "vCalendar";
@@ -127,6 +302,8 @@ FolderClass *vcal_folder_get_class()
 		vcal_class.destroy_folder = vcal_folder_destroy;
 		vcal_class.set_xml = folder_set_xml;
 		vcal_class.get_xml = folder_get_xml;
+		vcal_class.item_set_xml = vcal_item_set_xml;
+		vcal_class.item_get_xml = vcal_item_get_xml;
 		vcal_class.scan_tree = vcal_scan_tree;
 		vcal_class.create_tree = vcal_create_tree;
 
@@ -187,7 +364,10 @@ static void vcal_item_destroy(Folder *folder, FolderItem *_item)
 
 static gchar *vcal_item_get_path(Folder *folder, FolderItem *item)
 {
-	return g_strdup(vcal_manager_get_event_path());
+	if (!strcmp(item->name, _("Meetings")))
+		return g_strdup(vcal_manager_get_event_path());
+	else 
+		return g_strdup(((VCalFolderItem *)item)->uri);
 }
 
 static gint vcal_scan_tree(Folder *folder)
@@ -205,6 +385,54 @@ static gint vcal_scan_tree(Folder *folder)
 	return 0;
 }
 
+static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_uids_valid)
+{
+	VCalFolderItem *item = (VCalFolderItem *)fitem;
+	MsgNumberList *msglist = NULL;
+	icalcomponent *evt = NULL;
+	gint num = 1;
+
+	if (!item->uri)
+		return -1;
+
+	update_subscription(item->uri, TRUE);
+
+	*old_uids_valid = FALSE;
+	*list = NULL;
+
+	if (item->cal)
+		evt = icalcomponent_get_first_component(
+			item->cal, ICAL_VEVENT_COMPONENT);
+
+	if (item->numlist) {
+		g_slist_free(item->numlist);
+		item->numlist = NULL;
+	}
+
+	if (item->evtlist) {
+		g_slist_free(item->evtlist);
+		item->evtlist = NULL;
+	}
+
+	while (evt) {
+		gchar *title = NULL;
+		icalproperty *prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
+
+		if (prop) {
+			gchar *uid = g_strdup(icalproperty_get_uid(prop));
+			item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+			item->evtlist = g_slist_append(item->evtlist, evt);
+			debug_print("add %d : %s\n", num, uid);
+			g_free(uid);
+			num++;
+		}
+		evt = icalcomponent_get_next_component(
+			item->cal, ICAL_VEVENT_COMPONENT);
+		g_free(title);
+	}
+	*list = item->numlist ? g_slist_copy(item->numlist) : NULL;
+	return num;
+}
 static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 				 MsgNumberList ** list, gboolean *old_uids_valid)
 {
@@ -212,6 +440,10 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	struct dirent *d;
 	int n_msg = 1;
 	gchar *snmsg = NULL;
+	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
+	if (((VCalFolderItem *)item)->uri) 
+		return feed_fetch(item, list, old_uids_valid);
+	
 	dp = opendir(vcal_manager_get_event_path());
 	
 	debug_print("get_num_list\n");
@@ -313,12 +545,60 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 	return msginfo;
 }
 
+static gchar *feed_fetch_item(FolderItem * fitem, gint num)
+{
+	gchar *filename = NULL;
+	gchar *snum = NULL;
+	gchar *uid = NULL;
+	VCalFolderItem *item = (VCalFolderItem *)fitem;
+	GSList *ncur, *ecur;
+	int i = 1;
+	icalcomponent *event = NULL;
+	icalproperty *prop = NULL;
+	gchar *title = NULL;
+
+	if (!item->numlist) {
+		debug_print("numlist null\n");
+		return NULL;
+	}
+
+	ncur = item->numlist;
+	ecur = item->evtlist;
+	
+	while (i < num) {
+		if (!ncur || !ecur) {
+			debug_print("list short end (%d to %d) %d,%d\n", i, num, ncur!=NULL, ecur!=NULL);
+			return NULL;
+		}
+		ncur = ncur->next;
+		ecur = ecur->next;
+		i++;
+	}
+	
+	event = (icalcomponent *)ecur->data;
+	
+	if (!event) {
+		debug_print("no event\n");
+		return NULL;
+	}
+	
+	filename = vcal_manager_icalevent_dump(event, fitem->name, NULL);
+
+	return filename;
+}
+
 static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 				gint num)
 {
 	gchar *filename = NULL;
-	gchar *snum = g_strdup_printf("%d",num);
+	gchar *snum = NULL;
 	gchar *uid = NULL;
+	
+	debug_print(" fetch for %s %d\n", ((VCalFolderItem *)item)->uri, num);
+	if (((VCalFolderItem *)item)->uri) 
+		return feed_fetch_item(item, num);
+
+	snum = g_strdup_printf("%d",num);
 	uid = g_hash_table_lookup(hash_uids, snum);
 
 	if (uid) {
@@ -383,7 +663,7 @@ static gint vcal_create_tree(Folder *folder)
 
 	/* Add inbox folder */
 	if (!folder->inbox) {
-		inboxitem = folder_item_new(folder, "Meetings", NULL);
+		inboxitem = folder_item_new(folder, _("Meetings"), NULL);
 		inboxitem->folder = folder;
 		inboxitem->stype = F_INBOX;
 		inboxnode = g_node_new(inboxitem);
@@ -396,9 +676,21 @@ static gint vcal_create_tree(Folder *folder)
 	return 0;
 }
 
-static gint vcal_remove_folder(Folder *folder, FolderItem *item)
+static gint vcal_remove_folder(Folder *folder, FolderItem *fitem)
 {
-	return -1;
+	VCalFolderItem *item = (VCalFolderItem *)fitem;
+	if (!item->uri)
+		return -1;
+	else {
+		if (item->feed)
+			g_free(item->feed);
+		if (item->uri)
+			g_free(item->uri);
+		item->feed = NULL;
+		item->uri = NULL;
+		folder_item_remove(fitem);
+		return 0;
+	}
 }
 
 static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
@@ -516,7 +808,6 @@ GSList * vcal_folder_get_waiting_events(void)
 				list = g_slist_append(list, event);
 			}
 		}
-
 	}
 
 	closedir(dp);
@@ -524,7 +815,284 @@ GSList * vcal_folder_get_waiting_events(void)
 	return list;
 }
 
+typedef struct _get_webcal_data {
+	GSList *list;
+} GetWebcalData;
+
+static gboolean get_webcal_events_func(GNode *node, gpointer user_data)
+{
+	FolderItem *item = node->data;
+	GetWebcalData *data = user_data;
+	gboolean dummy = FALSE;
+	GSList *list = NULL, *cur = NULL;
+
+	feed_fetch(item, &list, &dummy);
+
+	
+	for (cur = ((VCalFolderItem *)item)->evtlist; cur; cur = cur->next)
+		data->list = g_slist_append(data->list, cur->data);
+
+	return FALSE;
+}
+
+GSList * vcal_folder_get_webcal_events(void)
+{
+	GetWebcalData *data = g_new0(GetWebcalData, 1);
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	GSList *list = NULL;
+	g_node_traverse(folder->node, G_PRE_ORDER,
+			G_TRAVERSE_ALL, -1, get_webcal_events_func, data);
+
+	list = data->list;
+	g_free(data);
+
+	return list;
+}
+
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
 	vcal_meeting_export_calendar(NULL);
+}
+
+struct CBuf {
+	gchar *str;
+};
+
+static int curl_recv(void *buf, size_t size, size_t nmemb, void *stream)
+{
+	struct CBuf *buffer = (struct CBuf *)stream;
+	gchar *tmp = NULL;
+	gchar tmpbuf[size*nmemb + 1];
+	
+	memcpy(tmpbuf, buf, size*nmemb);
+	tmpbuf[size*nmemb] = '\0';
+
+	if (buffer->str) {
+		tmp = g_strconcat(buffer->str, tmpbuf, NULL);
+		g_free(buffer->str);
+		buffer->str = tmp;
+	} else {
+		buffer->str = g_strdup(tmpbuf);
+	}
+
+	return size*nmemb;
+}
+
+static gchar *url_read(const char *url)
+{
+	CURL *curl_ctx = NULL;
+	struct CBuf buffer = { NULL };
+	gchar *result = NULL;
+	
+	curl_ctx = curl_easy_init();
+	
+	curl_easy_setopt(curl_ctx, CURLOPT_URL, url);
+	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
+	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
+	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, "Sylpheed-Claws vCalendar plugin (http://claws.sylpheed.org/plugins.php)");
+	curl_easy_perform(curl_ctx);
+	curl_easy_cleanup(curl_ctx);
+	if (buffer.str) {
+		result = g_strdup(buffer.str);
+		g_free(buffer.str);
+	}
+	return result;
+
+}
+
+static gboolean folder_item_find_func(GNode *node, gpointer data)
+{
+	FolderItem *item = node->data;
+	gpointer *d = data;
+	const gchar *uri = d[0];
+
+	if (!uri || !((VCalFolderItem *)item)->uri
+	||  strcmp(uri, ((VCalFolderItem *)item)->uri))
+		return FALSE;
+
+	d[1] = item;
+
+	return TRUE;
+}
+
+static FolderItem *get_folder_item_for_uri(const gchar *uri)
+{
+	FolderItem *tmp = NULL;
+	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	gpointer d[2];
+	
+	if (root == NULL)
+		return NULL;
+	
+	d[0] = (gpointer)uri;
+	d[1] = NULL;
+	g_node_traverse(root->node, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
+			folder_item_find_func, d);
+	return d[1];
+}
+
+static gchar *feed_get_title(const gchar *str)
+{
+	gchar *title = NULL;
+	if (strstr(str, "X-WR-CALNAME:")) {
+		title = g_strdup(strstr(str, "X-WR-CALNAME:")+strlen("X-WR-CALNAME:"));
+		if (strstr(title, "\n"))
+			*(strstr(title, "\n")) = '\0';
+		if (strstr(title, "\r"))
+			*(strstr(title, "\r")) = '\0';		
+	} else if (strstr(str, "X-WR-CALDESC:")) {
+		title = g_strdup(strstr(str, "X-WR-CALDESC:")+strlen("X-WR-CALDESC:"));
+		if (strstr(title, "\n"))
+			*(strstr(title, "\n")) = '\0';
+		if (strstr(title, "\r"))
+			*(strstr(title, "\r")) = '\0';		
+	}
+	
+	if (!strcmp(title, _("Meetings"))) {
+		g_free(title);
+		title = NULL;
+	}
+	
+	return title;
+}
+
+static void update_subscription(const gchar *uri, gboolean verbose)
+{
+	gchar *feed = NULL;
+	FolderItem *item = NULL;
+	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	icalcomponent *cal = NULL;
+	
+	if (root == NULL) {
+		g_warning("can't get root folder\n");
+		return;
+	}
+
+	if (prefs_common.work_offline) {
+		if (!verbose || !inc_offline_should_override())
+			return;
+	}
+
+	main_window_cursor_wait(mainwindow_get_mainwindow());
+	feed = url_read(uri);
+	
+	if (feed == NULL) {
+		if (verbose)
+			alertpanel_error(_("Could not retrieve the URL."));
+		main_window_cursor_normal(mainwindow_get_mainwindow());
+		return;
+	}
+	if (strncmp(feed, "BEGIN:VCALENDAR", strlen("BEGIN:VCALENDAR"))) {
+		if (verbose)
+			alertpanel_error(_("This URL does not look like a WebCal URL."));
+		g_free(feed);
+		main_window_cursor_normal(mainwindow_get_mainwindow());
+		return;
+	}
+	
+	item = get_folder_item_for_uri(uri);
+	if (item == NULL) {
+		gchar *title = feed_get_title(feed);
+		item = folder_create_folder(root->node->data, title ? title:uri);
+		debug_print("item done %s\n", title);
+		((VCalFolderItem *)item)->uri = g_strdup(uri);
+		((VCalFolderItem *)item)->feed = feed;
+		g_free(title);
+	} else {
+		if (((VCalFolderItem *)item)->feed)
+			g_free(((VCalFolderItem *)item)->feed);
+
+		((VCalFolderItem *)item)->feed = feed;
+		/* if title differs, update it */
+	}
+	cal = icalparser_parse_string(feed);
+	
+	if (((VCalFolderItem *)item)->cal)
+		icalcomponent_free(((VCalFolderItem *)item)->cal);
+
+	((VCalFolderItem *)item)->cal = cal;
+
+	main_window_cursor_normal(mainwindow_get_mainwindow());
+}
+
+static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+
+	if (prefs_common.work_offline && !inc_offline_should_override())
+		return;
+	
+	folderview_check_new(root);
+}
+
+static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+	gchar *uri = NULL;
+	gchar *tmp = NULL;
+
+	tmp = input_dialog(_("Subscribe to WebCal"), _("Enter the WebCal URL:"), NULL);
+	
+	if (!strncmp(tmp, "http://", 7)) {
+		uri = tmp;
+	} else if (!strncmp(tmp, "webcal://", 9)) {
+		uri = g_strconcat("http://", tmp+9, NULL);
+		g_free(tmp);
+	} else {
+		alertpanel_error(_("Could not parse the URL."));
+		g_free(tmp);
+		return;
+	}
+	debug_print("uri %s\n", uri);
+	
+	update_subscription(uri, TRUE);	
+	folder_write_list();
+	g_free(uri);
+}
+
+static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	FolderItem *item;
+	gchar *message, *name;
+	AlertValue avalue;
+	gchar *old_path;
+	gchar *old_id;
+
+	if (!folderview->selected) return;
+
+	item = gtk_ctree_node_get_row_data(ctree, folderview->selected);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->path != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	message = g_strdup_printf
+		(_("Do you really want to unsubscribe?"));
+	avalue = alertpanel_full(_("Delete folder"), message,
+		 		 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE,
+				 NULL, ALERT_WARNING, G_ALERTALTERNATE);
+	g_free(message);
+	if (avalue != G_ALERTDEFAULT) return;
+
+	Xstrdup_a(old_path, item->path, return);
+	old_id = folder_item_get_identifier(item);
+
+	if (folderview->opened == folderview->selected ||
+	    gtk_ctree_is_ancestor(ctree,
+				  folderview->selected,
+				  folderview->opened)) {
+		summary_clear_all(folderview->summaryview);
+		folderview->opened = NULL;
+	}
+
+	if (item->folder->klass->remove_folder(item->folder, item) < 0) {
+		folder_item_scan(item);
+		alertpanel_error(_("Can't remove the folder '%s'."), name);
+		g_free(old_id);
+		return;
+	}
+
+	folder_write_list();
+
+	prefs_filtering_delete_path(old_id);
+	g_free(old_id);
 }
