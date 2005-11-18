@@ -1031,6 +1031,8 @@ static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *wi
 	gchar *tmp = NULL;
 
 	tmp = input_dialog(_("Subscribe to WebCal"), _("Enter the WebCal URL:"), NULL);
+	if (tmp == NULL)
+		return;
 	
 	if (!strncmp(tmp, "http://", 7)) {
 		uri = tmp;
