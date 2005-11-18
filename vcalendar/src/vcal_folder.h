@@ -24,6 +24,8 @@
 #include <glib.h>
 #include "folder.h"
 
+extern gboolean manual_update;
+
 FolderClass *vcal_folder_get_class();
 void vcal_folder_gtk_init(void);
 void vcal_folder_gtk_done(void);

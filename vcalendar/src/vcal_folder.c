@@ -49,6 +49,7 @@
 #include "inputdialog.h"
 #include "xml.h"
 #include "alertpanel.h"
+#include "log.h"
 
 #include <gtk/gtk.h>
 #include <dirent.h>
@@ -384,6 +385,8 @@ static gint vcal_scan_tree(Folder *folder)
 
 	return 0;
 }
+
+gboolean manual_update = TRUE;
 
 static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_uids_valid)
 {
@@ -980,14 +983,34 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 	feed = url_read(uri);
 	
 	if (feed == NULL) {
-		if (verbose)
-			alertpanel_error(_("Could not retrieve the URL."));
+		if (verbose && manual_update) {
+			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s"),
+					uri);
+			alertpanel_error(buf);
+			g_free(buf);
+		} else  {
+			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n"),
+					uri);
+			log_error(buf);
+			g_free(buf);
+		}
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 		return;
 	}
 	if (strncmp(feed, "BEGIN:VCALENDAR", strlen("BEGIN:VCALENDAR"))) {
-		if (verbose)
-			alertpanel_error(_("This URL does not look like a WebCal URL."));
+		if (verbose && manual_update) {
+			gchar *buf = g_strdup_printf(
+					_("This URL does not look like a WebCal URL:\n%s"),
+					uri);
+			alertpanel_error(buf);
+			g_free(buf);
+		} else  {
+			gchar *buf = g_strdup_printf(
+					_("This URL does not look like a WebCal URL:\n%s\n"),
+					uri);
+			log_error(buf);
+			g_free(buf);
+		}
 		g_free(feed);
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 		return;
@@ -1024,7 +1047,7 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 
 	if (prefs_common.work_offline && !inc_offline_should_override())
 		return;
-	
+
 	folderview_check_new(root);
 }
 

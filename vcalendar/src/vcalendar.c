@@ -1099,7 +1099,9 @@ static gint vcal_webcal_check(gpointer data)
 	if (prefs_common.work_offline)
 		return TRUE;
 	
+	manual_update = FALSE;
 	folderview_check_new(root);
+	manual_update = TRUE;
 	return TRUE;
 }
 
