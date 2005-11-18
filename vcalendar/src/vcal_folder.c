@@ -889,7 +889,10 @@ static gchar *url_read(const char *url)
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, url);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
-	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, "Sylpheed-Claws vCalendar plugin (http://claws.sylpheed.org/plugins.php)");
+	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
+		"Sylpheed-Claws vCalendar plugin "
+		"(http://claws.sylpheed.org/plugins.php)");
+	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_perform(curl_ctx);
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {
