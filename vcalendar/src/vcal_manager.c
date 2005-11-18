@@ -1049,7 +1049,7 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"; vcalsave=\"no\"\n"
 				"Content-Transfer-Encoding: quoted-printable\n",
-				organizer,
+				!strncmp(organizer, "MAILTO:", 7) ? organizer+7 : organizer,
 				account->address,
 				"",
 				subject,
