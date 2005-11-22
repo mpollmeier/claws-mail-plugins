@@ -38,6 +38,8 @@
 #include "summaryview.h"
 #include "procmime.h"
 #include "alertpanel.h"
+#include "inc.h"
+#include "sylpheed.h"
 
 static void remove_attachments(gpointer callback_data, guint callback_action, GtkWidget *widget)
 {
@@ -119,7 +121,6 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 		procmsg_msginfo_free(finalmsg);
 		
 		if (msgnum > 0 && !reselected) {
-			GtkCTreeNode *node = NULL;
 			reselected = TRUE;
 			summary_select_by_msgnum(summaryview, msgnum);
 		}
