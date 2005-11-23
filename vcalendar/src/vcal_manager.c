@@ -478,8 +478,6 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 				      G_DIR_SEPARATOR, getuid(), ievent);
 	}
 
-	tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
-				      G_DIR_SEPARATOR, getuid(), "fixmeUID");
 	if (!account) {
 		g_free(tmpfile);
 		icalcomponent_free(ievent);

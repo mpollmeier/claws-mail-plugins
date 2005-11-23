@@ -770,8 +770,9 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 	icalcomponent *calendar = NULL;
 	gchar *file = NULL;
 	
-	if (g_slist_length(list) == 0) {
+	if (g_slist_length(list) == 0 && g_slist_length(subs) == 0) {
 		g_slist_free(list);
+		g_slist_free(subs);
 		if (path == NULL) {
 			alertpanel_full(_("Empty calendar"),
 					_("There is nothing to export."),
@@ -819,6 +820,7 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 			g_free(file);
 			icalcomponent_free(calendar);
 			g_slist_free(list);
+			g_slist_free(subs);
 			return FALSE;
 		}
 
@@ -826,5 +828,6 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 	}
 	icalcomponent_free(calendar);
 	g_slist_free(list);
+	g_slist_free(subs);
 	return TRUE;
 }

@@ -1,3 +1,11 @@
+2006-11-17 [colin] 1.11
+
+	* src/vcal_folder.c
+		Fix fixme
+	* src/vcal_meeting_gtk.c
+		Fix exporting when local calendar 
+		is empty
+
 2006-11-17 [colin] 1.10
 
 	* src/vcal_folder.c
