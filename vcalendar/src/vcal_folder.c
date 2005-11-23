@@ -771,9 +771,23 @@ void vcal_folder_gtk_done(void)
 	g_slist_free(created_files);
 }
 
-static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
+static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 {
+	VCalFolderItem *item = (VCalFolderItem *)fitem;
 
+#define SET_SENS(name, sens) \
+	menu_set_sensitive(factory, name, sens)
+
+	SET_SENS("/New meeting...", item->uri == NULL);
+	SET_SENS("/Export calendar...", TRUE);
+	SET_SENS("/Subscribe to webCal...", item->uri == NULL);
+	SET_SENS("/Unsubscribe...", item->uri != NULL);
+	SET_SENS("/Update subscriptions", TRUE);
+	
+	/* these don't work but I don't really care */
+	SET_SENS("/Properties...", FALSE);
+	SET_SENS("/Processing...", FALSE);
+#undef SET_SENS
 }
 
 static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget)

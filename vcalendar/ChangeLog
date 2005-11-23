@@ -1,3 +1,13 @@
+2006-11-23 [colin] 1.12
+
+	* src/vcal_folder.c
+		Fix items sensitivity
+	* m4/curl.m4		** REMOVED **
+	* configure.ac
+		Move the curl m4 definition inside 
+		configure.ac (crappy fix against a strange
+		problem)
+
 2006-11-17 [colin] 1.11
 
 	* src/vcal_folder.c
