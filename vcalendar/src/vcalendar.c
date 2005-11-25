@@ -44,6 +44,8 @@
 
 MimeViewerFactory vcal_viewer_factory;
 
+static void refresh_folder_contents(VCalViewer *vcalviewer);
+
 struct _VCalViewer
 {
 	MimeViewer mimeviewer;
