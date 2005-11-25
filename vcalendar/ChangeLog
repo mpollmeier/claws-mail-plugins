@@ -1,3 +1,13 @@
+2006-11-25 [colin] 1.13
+
+	* src/vcal_folder.c
+		Thread network operations so they aren't
+		blocking
+	* src/vcalendar.c
+		Fix cancellation of events
+		Fix "answers to an unknown meeting proposal" 
+		when we have an attendee and no local event
+
 2006-11-23 [colin] 1.12
 
 	* src/vcal_folder.c

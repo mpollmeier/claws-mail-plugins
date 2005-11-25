@@ -470,6 +470,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		if (!attendee) {
 			label = g_strdup_printf(
 				_("You have received an answer to an unknown meeting proposal. Details follow:"));
+			gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
 		} else {
 			label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
 				"%s has %s the invitation whose details follow:"),
@@ -480,13 +481,10 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 			
 		g_free(label);
 	} else if (event->method == ICAL_METHOD_CANCEL) {
-		Folder *folder = NULL;
 		gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
 			_("A meeting to which you had been invited has been cancelled. Details follow:"));
 		vcal_manager_save_event(event);
-		folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
-		if (folder)
-			folder_item_scan(folder->inbox);
+		refresh_folder_contents(vcalviewer);
 	} else 
 		gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
 			_("You have been forwarded an appointment. Details follow:"));
@@ -725,6 +723,12 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	icalproperty *iprop = NULL;
 	gchar *tmp = NULL;
 	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
+	gchar *label = NULL;
+	enum icalparameter_partstat answer = get_attendee_reply(vcalviewer);
+	enum icalparameter_cutype cutype = get_attendee_replying_cutype(vcalviewer);
+	gchar *attendee = get_attendee_replying(vcalviewer);
+	gchar *name = get_attendee_replying_name(vcalviewer);
+
 	if (!charset)
 		charset=CS_ISO_8859_1;
 
@@ -740,9 +744,22 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		} 
 	} 
 	
-	/* unknown answer */
-	gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
-		_("You have received an answer to an unknown meeting proposal. Details follow:"));
+	/* unknown answer but get the replier anyway */
+		
+	if (!attendee) {
+		label = g_strdup_printf(
+			_("You have received an answer to an unknown meeting proposal. Details follow:"));
+		gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
+	} else {
+		label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
+			"%s has %s the invitation whose details follow:"),
+			attendee, vcal_manager_answer_get_text(answer));
+		gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
+		g_free(attendee);
+	}
+
+	g_free(label);
+
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);
 	if (iprop) {
 		gchar *org;
@@ -783,6 +800,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		gtk_widget_show(vcalviewer->uribtn);
 	} else {
 		vcalviewer->url = NULL;
+		gtk_widget_hide(vcalviewer->uribtn);
 	}
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
@@ -906,6 +924,17 @@ static gboolean vcalviewer_uribtn_cb(GtkButton *widget, gpointer data)
 	return TRUE;
 }
 
+static void refresh_folder_contents(VCalViewer *vcalviewer)
+{
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	if (folder) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		folder_item_scan(folder->inbox);
+		folderview_check_new(folder);
+		if (mainwin->summaryview->folder_item == folder->inbox)
+			summary_show(mainwin->summaryview, folder->inbox);
+	}
+}
 static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 {
 	VCalViewer *vcalviewer = (VCalViewer *)data;
@@ -913,7 +942,6 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	VCalEvent *event = NULL;
 	VCalMeeting *meet = NULL;
 	gchar *file = NULL;
-	Folder *folder;
 	
 	gint val = alertpanel_full(_("Cancel meeting"),
 				   _("Are you sure you want to cancel this meeting?\n"
@@ -937,10 +965,8 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	unlink(file);
 	vcal_manager_free_event(event);
 	g_free(file);
-	folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
-	if (folder)
-		folder_item_scan(folder->inbox);
-	vcalviewer_reload();
+	refresh_folder_contents(vcalviewer);
+	vcalviewer_reset(vcalviewer);
 
 	return TRUE;
 }

@@ -56,6 +56,17 @@
 
 #define VCAL_FOLDERITEM(item) ((VCalFolderItem *) item)
 
+#ifdef USE_PTHREAD
+#include <pthread.h>
+#endif
+
+typedef struct _thread_data {
+	const gchar *url;
+	gchar *result;
+	gboolean done;
+} thread_data;
+
+
 typedef struct _VCalFolder VCalFolder;
 typedef struct _VCalFolderItem VCalFolderItem;
 
@@ -525,7 +536,6 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 	file = vcal_fetch_msg(folder, item, num);
 
 	if (!file) {
-		g_warning("can't fetch message\n");
 		g_free(snum);
 		return NULL;
 	}
@@ -895,15 +905,16 @@ static int curl_recv(void *buf, size_t size, size_t nmemb, void *stream)
 	return size*nmemb;
 }
 
-static gchar *url_read(const char *url)
+void *url_read_thread(void *data)
 {
+	thread_data *td = (thread_data *)data;
+
 	CURL *curl_ctx = NULL;
 	struct CBuf buffer = { NULL };
-	gchar *result = NULL;
 	
 	curl_ctx = curl_easy_init();
 	
-	curl_easy_setopt(curl_ctx, CURLOPT_URL, url);
+	curl_easy_setopt(curl_ctx, CURLOPT_URL, td->url);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
@@ -913,11 +924,45 @@ static gchar *url_read(const char *url)
 	curl_easy_perform(curl_ctx);
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {
-		result = g_strdup(buffer.str);
+		td->result = g_strdup(buffer.str);
 		g_free(buffer.str);
 	}
-	return result;
 
+	td->done = TRUE; /* let the caller thread join() */
+	return GINT_TO_POINTER(0);
+}
+
+static void url_read(const char *url, gboolean verbose, 
+	void (*callback)(const gchar *url, gchar *data, gboolean verbose))
+{
+	gchar *result = NULL;
+	thread_data *td = g_new0(thread_data, 1);
+	pthread_t pt;
+	void *res = NULL;
+	
+	td->url  = url;
+	td->result  = NULL;
+	td->done = FALSE;
+	
+#if (defined USE_PTHREAD && defined __GLIBC__ && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)))
+	if (pthread_create(&pt, PTHREAD_CREATE_JOINABLE, 
+			url_read_thread, td) != 0) {
+		url_read_thread(td);	
+	}
+	while (!td->done) 
+		sylpheed_do_idle();
+	
+	pthread_join(pt, &res);
+#else
+	url_read_thread(td);
+#endif
+	
+	result = td->result;
+	
+	g_free(td);
+	
+	if (callback)
+		callback(url, result, verbose);
 }
 
 static gboolean folder_item_find_func(GNode *node, gpointer data)
@@ -976,26 +1021,18 @@ static gchar *feed_get_title(const gchar *str)
 	return title;
 }
 
-static void update_subscription(const gchar *uri, gboolean verbose)
+static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean verbose)
 {
-	gchar *feed = NULL;
-	FolderItem *item = NULL;
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	FolderItem *item = NULL;
 	icalcomponent *cal = NULL;
 	
 	if (root == NULL) {
 		g_warning("can't get root folder\n");
+		g_free(feed);
 		return;
 	}
 
-	if (prefs_common.work_offline) {
-		if (!verbose || !inc_offline_should_override())
-			return;
-	}
-
-	main_window_cursor_wait(mainwindow_get_mainwindow());
-	feed = url_read(uri);
-	
 	if (feed == NULL) {
 		if (verbose && manual_update) {
 			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s"),
@@ -1009,6 +1046,7 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 			g_free(buf);
 		}
 		main_window_cursor_normal(mainwindow_get_mainwindow());
+		g_free(feed);
 		return;
 	}
 	if (strncmp(feed, "BEGIN:VCALENDAR", strlen("BEGIN:VCALENDAR"))) {
@@ -1051,8 +1089,19 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 		icalcomponent_free(((VCalFolderItem *)item)->cal);
 
 	((VCalFolderItem *)item)->cal = cal;
-
+	
 	main_window_cursor_normal(mainwindow_get_mainwindow());
+}
+
+static void update_subscription(const gchar *uri, gboolean verbose)
+{
+	if (prefs_common.work_offline) {
+		if (!verbose || !inc_offline_should_override())
+			return;
+	}
+	
+	main_window_cursor_wait(mainwindow_get_mainwindow());
+	url_read(uri, verbose, update_subscription_finish);
 }
 
 static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget)
