@@ -46,17 +46,35 @@ typedef struct _PredefinedAcpis {
 	gchar *on_param;
 	gchar *off_param;
 	gchar *file_path;
+	gboolean is_program;
+	gchar *help;
 } PredefinedAcpis;
 
 /**
  * Add your implementation here (and send me the patch!) 
  */
 PredefinedAcpis known_implementations[] = {
-	{"Other", "", "", ""},
-	{"ACER", "1", "0", "/proc/driver/acerhk/led"},
-	{"ASUS", "1", "0", "/proc/acpi/asus/mled"},
-	{"IBM", "7 on", "7 off", "/proc/acpi/ibm/led"},
-	{NULL, NULL, NULL, NULL}
+	{"Other file", "", "", "", FALSE, ""},
+
+	{"ACER (acerhk)", "1", "0", "/proc/driver/acerhk/led", FALSE,
+	 N_("Be sure that the kernel module 'acerhk' is loaded.\n"
+	    "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/")},
+
+	{"ACER (acer_acpi)", "1", "0", "/proc/acpi/acer/mailled", FALSE,
+	 N_("Be sure that the kernel module 'acer_acpi' is loaded.\n"
+	    "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html")},
+
+	{"ASUS (asus_acpi)", "1", "0", "/proc/acpi/asus/mled", FALSE,
+	 N_("Be sure that the kernel module 'asus_acpi' is loaded.")},
+
+	{"IBM (ibm_acpi)", "7 on", "7 off", "/proc/acpi/ibm/led", FALSE,
+	 N_("Be sure that the kernel module 'ibm_acpi' is loaded.")},
+
+	{"Fujitsu (apanel)", "led on", "led off", "apanelc", TRUE,
+	 N_("Be sure that you have apanelc installed.\n"
+	    "You can get it from http://apanel.sourceforge.net/")},
+
+	{NULL, NULL, NULL, NULL, FALSE, NULL}
 };
 
 static guint hook_id;
@@ -81,6 +99,7 @@ struct AcpiNotifierPage
 	GtkWidget *hbox_acpi_file;
 	GtkWidget *hbox_acpi_values;
 	GtkWidget *warning_label;
+	GtkWidget *warning_box;
 };
 
 typedef struct _AcpiNotifierPrefs AcpiNotifierPrefs;
@@ -121,6 +140,60 @@ static PrefParam param[] = {
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
 
+static gboolean check_impl (const gchar *filepath)
+{
+	int i;
+	for (i = 0; known_implementations[i].name != NULL; i++) {
+		if (strcmp(known_implementations[i].file_path, filepath))
+			continue;
+		if (!known_implementations[i].is_program)
+			return is_file_exist(filepath);
+		else {
+			gchar *cmd = g_strdup_printf("which %s", filepath);
+			int found = system(cmd);
+			g_free(cmd);
+			return (found == 0);
+		}
+	}
+	return FALSE;
+}
+
+static gboolean is_program (const gchar *filepath)
+{
+	int i;
+	for (i = 0; known_implementations[i].name != NULL; i++) {
+		if (strcmp(known_implementations[i].file_path, filepath))
+			continue;
+		return known_implementations[i].is_program;
+	}
+	return FALSE;
+}
+
+static void show_error (struct AcpiNotifierPage *page, const gchar *filepath)
+{
+	int i;
+	if (!filepath) {
+		gtk_widget_hide(page->warning_box);
+		return;
+	}
+	for (i = 0; known_implementations[i].name != NULL; i++) {
+		if (strcmp(known_implementations[i].file_path, filepath))
+			continue;
+		if (known_implementations[i].help) {
+			gchar *tmp = g_strdup_printf("%s\n%s", 
+					_("Control file doesn't exist."),
+					known_implementations[i].help);
+			gtk_label_set_text(GTK_LABEL(page->warning_label), tmp);
+			g_free(tmp);
+		} else {
+			gtk_label_set_text(GTK_LABEL(page->warning_label), 
+				_("Control file doesn't exist."));
+		}
+		gtk_widget_show_all(page->warning_box);
+		return;
+	}
+}
+
 static void type_activated(GtkMenuItem *menuitem, gpointer data)
 {
 	GtkWidget *menu, *item;
@@ -145,10 +218,10 @@ static void type_activated(GtkMenuItem *menuitem, gpointer data)
 			known_implementations[selected].on_param);
 		gtk_entry_set_text(GTK_ENTRY(page->off_value_entry), 
 			known_implementations[selected].off_param);
-		if (!is_file_exist(known_implementations[selected].file_path))
-			gtk_widget_show(page->warning_label);
+		if (!check_impl(known_implementations[selected].file_path))
+			show_error(page, known_implementations[selected].file_path);
 		else
-			gtk_widget_hide(page->warning_label);
+			show_error(page, NULL);
 	} else {
 		gtk_widget_show_all(page->hbox_acpi_file);
 		gtk_widget_show_all(page->hbox_acpi_values);
@@ -157,13 +230,13 @@ static void type_activated(GtkMenuItem *menuitem, gpointer data)
 static void file_entry_changed (GtkWidget *entry, gpointer data)
 {
 	struct AcpiNotifierPage *page = (struct AcpiNotifierPage *)data;
-	if (!page->warning_label)
+	if (!page->warning_box)
 		return;
 
-	if (!is_file_exist(gtk_entry_get_text(GTK_ENTRY(entry))))
-		gtk_widget_show(page->warning_label);
+	if (!check_impl(gtk_entry_get_text(GTK_ENTRY(entry))))
+		show_error(page, gtk_entry_get_text(GTK_ENTRY(entry)));
 	else
-		gtk_widget_hide(page->warning_label);
+		show_error(page, NULL);
 }
 
 static void acpi_prefs_create_widget_func(PrefsPage * _page,
@@ -196,10 +269,14 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *file_entry;
 	GtkWidget *menuitem;
 	GtkWidget *warning_label;
+	GtkWidget *warning_box;
+	GtkWidget *image;
+
 	int i;
 	int found = 0;
 
 	vbox = gtk_vbox_new(FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), VBOX_BORDER);
 	
 	no_mail_label = gtk_label_new(_(" : no new or unread mail"));
 	unread_mail_label = gtk_label_new(_(" : unread mail"));
@@ -315,14 +392,18 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX(vbox), 
 			hbox_acpi_values, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new(FALSE, 6);
+	warning_box = gtk_hbox_new(FALSE, 6);
+	
+	image = gtk_image_new_from_stock(GTK_STOCK_DIALOG_WARNING,
+			GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_box_pack_start(GTK_BOX(warning_box), image, FALSE, FALSE, 0);
 	warning_label = gtk_label_new(
-			_("Warning: control file doesn't exist."));
-	gtk_box_pack_start(GTK_BOX(hbox), warning_label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+			_("Control file doesn't exist."));
+	gtk_box_pack_start(GTK_BOX(warning_box), warning_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), warning_box, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(vbox);
-	gtk_widget_hide(warning_label);
+	gtk_widget_hide(warning_box);
 
 	switch (acpiprefs.no_mail_action) {
 	case OFF: 	
@@ -382,7 +463,7 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	}
 	if (found == 0) {
 		for (i = 0; known_implementations[i].name != NULL; i++) {
-			if (is_file_exist(known_implementations[i].file_path)) {
+			if (check_impl(known_implementations[i].file_path)) {
 				gtk_option_menu_set_history(
 					GTK_OPTION_MENU(
 					default_implementations_optmenu), i);
@@ -390,36 +471,6 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 			}
 		}
 	}
-	if (found != 0) {
-		gtk_widget_hide(hbox_acpi_file);
-		gtk_widget_hide(hbox_acpi_values);
-		gtk_entry_set_text(GTK_ENTRY(file_entry), 
-			known_implementations[found].file_path);
-		gtk_entry_set_text(GTK_ENTRY(on_value_entry), 
-			known_implementations[found].on_param);
-		gtk_entry_set_text(GTK_ENTRY(off_value_entry), 
-			known_implementations[found].off_param);
-		
-		if (!is_file_exist(known_implementations[found].file_path))
-			gtk_widget_show(warning_label);
-	} else {
-		gtk_option_menu_set_history(
-			GTK_OPTION_MENU(default_implementations_optmenu), 0);
-		gtk_widget_show_all(hbox_acpi_file);
-		gtk_widget_show_all(hbox_acpi_values);
-		if (acpiprefs.file_path != NULL)
-			gtk_entry_set_text(GTK_ENTRY(file_entry), 
-					acpiprefs.file_path);
-		if (acpiprefs.on_param != NULL)
-			gtk_entry_set_text(GTK_ENTRY(on_value_entry), 
-					acpiprefs.on_param);
-		if (acpiprefs.off_param != NULL)
-			gtk_entry_set_text(GTK_ENTRY(off_value_entry), 
-					acpiprefs.off_param);
-		if (!acpiprefs.file_path || !is_file_exist(acpiprefs.file_path))
-			gtk_widget_show(warning_label);
-	}
-	
 	page->page.widget = vbox;
 
 	page->no_mail_off_btn = no_mail_off_btn;
@@ -437,7 +488,38 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	page->file_entry = file_entry;
 	page->hbox_acpi_file = hbox_acpi_file;
 	page->hbox_acpi_values = hbox_acpi_values;
+	page->warning_box = warning_box;
 	page->warning_label = warning_label;
+
+	if (found != 0) {
+		gtk_widget_hide(hbox_acpi_file);
+		gtk_widget_hide(hbox_acpi_values);
+		gtk_entry_set_text(GTK_ENTRY(file_entry), 
+			known_implementations[found].file_path);
+		gtk_entry_set_text(GTK_ENTRY(on_value_entry), 
+			known_implementations[found].on_param);
+		gtk_entry_set_text(GTK_ENTRY(off_value_entry), 
+			known_implementations[found].off_param);
+		
+		if (!check_impl(known_implementations[found].file_path))
+			show_error(page, known_implementations[found].file_path);
+	} else {
+		gtk_option_menu_set_history(
+			GTK_OPTION_MENU(default_implementations_optmenu), 0);
+		gtk_widget_show_all(hbox_acpi_file);
+		gtk_widget_show_all(hbox_acpi_values);
+		if (acpiprefs.file_path != NULL)
+			gtk_entry_set_text(GTK_ENTRY(file_entry), 
+					acpiprefs.file_path);
+		if (acpiprefs.on_param != NULL)
+			gtk_entry_set_text(GTK_ENTRY(on_value_entry), 
+					acpiprefs.on_param);
+		if (acpiprefs.off_param != NULL)
+			gtk_entry_set_text(GTK_ENTRY(off_value_entry), 
+					acpiprefs.off_param);
+		if (!acpiprefs.file_path || !check_impl(acpiprefs.file_path))
+			show_error(page, acpiprefs.file_path);
+	}
 }
 
 static void acpi_prefs_destroy_widget_func(PrefsPage *_page)
@@ -533,21 +615,29 @@ static void acpi_set(gboolean on)
 	FILE *fp = NULL;
 	if (!acpiprefs.file_path)
 		return;
-	if (!is_file_exist(acpiprefs.file_path))
+	if (!check_impl(acpiprefs.file_path))
 		return;
 	if (!acpiprefs.on_param || !acpiprefs.off_param)
 		return;
-		
-	fp = fopen(acpiprefs.file_path, "wb");
-	if (fp == NULL)
-		return;
+	
+	if (!is_program(acpiprefs.file_path)) {
+		fp = fopen(acpiprefs.file_path, "wb");
+		if (fp == NULL)
+			return;
 
-	if (on) {
-		fwrite(acpiprefs.on_param, 1, strlen(acpiprefs.on_param), fp);
+		if (on) {
+			fwrite(acpiprefs.on_param, 1, strlen(acpiprefs.on_param), fp);
+		} else {
+			fwrite(acpiprefs.off_param, 1, strlen(acpiprefs.off_param), fp);
+		}
+		fclose(fp);
 	} else {
-		fwrite(acpiprefs.off_param, 1, strlen(acpiprefs.off_param), fp);
+		gchar *cmd = g_strdup_printf("%s %s", 
+				acpiprefs.file_path,
+				on ? acpiprefs.on_param:acpiprefs.off_param);
+		system(cmd);
+		g_free(cmd);
 	}
-	fclose(fp);
 }
 
 static guint should_quit = FALSE;
@@ -588,7 +678,7 @@ static gpointer update_led_thread(gpointer data)
 
 static gboolean acpi_update_hook(gpointer source, gpointer data)
 {
-	gint new, unread, unreadmarked, marked, total;
+	guint new, unread, unreadmarked, marked, total;
 	folder_count_total_msgs(&new, &unread, &unreadmarked, &marked, &total);
 
 	my_new = new;

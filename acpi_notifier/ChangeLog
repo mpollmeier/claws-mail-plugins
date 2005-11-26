@@ -1,3 +1,10 @@
+2005-11-26 [colin]	0.5
+
+	* Add support for acer_acpi in addition to acerhk
+	* Add support for some Fujitsu laptops via userland
+	  'apanelc' program
+	* Use better warning messages
+
 2005-11-04 [colin]	0.4
 
 	* add IBM laptops and fix a copy/paste mistake
