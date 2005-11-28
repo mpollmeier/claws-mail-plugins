@@ -1,3 +1,8 @@
+2006-11-28 [colin] 1.14
+
+	* src/vcalendar.c
+		Trim labels
+
 2006-11-25 [colin] 1.13
 
 	* src/vcal_folder.c

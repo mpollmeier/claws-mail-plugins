@@ -237,15 +237,21 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 	return comp;
 }
 
+#define GTK_LABEL_SET_TEXT_TRIMMED(label, text) {		\
+	gchar *tmplbl = strretchomp(g_strdup(text));		\
+	gtk_label_set_text(label, tmplbl);			\
+	g_free(tmplbl);						\
+}
+
 static void vcalviewer_reset(VCalViewer *vcalviewer) 
 {
-	gtk_label_set_text(GTK_LABEL(vcalviewer->type), "-");
-	gtk_label_set_text(GTK_LABEL(vcalviewer->who), "-");
-	gtk_label_set_text(GTK_LABEL(vcalviewer->summary), "-");
-	gtk_label_set_text(GTK_LABEL(vcalviewer->description), "-");
-	gtk_label_set_text(GTK_LABEL(vcalviewer->start), "-");
-	gtk_label_set_text(GTK_LABEL(vcalviewer->end), "-");
-	gtk_label_set_text(GTK_LABEL(vcalviewer->attendees), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-");
 	g_free(vcalviewer->url);
 	vcalviewer->url = NULL;
 	gtk_widget_hide(vcalviewer->uribtn);
@@ -453,12 +459,13 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 
 	if (event->method == ICAL_METHOD_REQUEST) {
 		if (account_find_from_address(event->organizer)) {
-			gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
 				_("You have created a meeting. Details follow:"));
 			mine = TRUE;
-		} else 
-			gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
+		} else {
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
 				_("You have been invited to a meeting. Details follow:"));
+		}
 	}
 	else if (event->method == ICAL_METHOD_REPLY) {
 		gchar *label = NULL;
@@ -472,41 +479,41 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		if (!attendee) {
 			label = g_strdup_printf(
 				_("You have received an answer to an unknown meeting proposal. Details follow:"));
-			gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		} else {
 			label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
 				"%s has %s the invitation whose details follow:"),
 				attendee, vcal_manager_get_reply_text_for_attendee(event, attendee));
-			gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 			g_free(attendee);
 		}
 			
 		g_free(label);
 	} else if (event->method == ICAL_METHOD_CANCEL) {
-		gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
 			_("A meeting to which you had been invited has been cancelled. Details follow:"));
 		vcal_manager_save_event(event);
 		refresh_folder_contents(vcalviewer);
-	} else 
-		gtk_label_set_text(GTK_LABEL(vcalviewer->type), 
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
 			_("You have been forwarded an appointment. Details follow:"));
-
+	}
 	
 	if (event->organizer && strlen(event->organizer)) {
-		gtk_label_set_text(GTK_LABEL(vcalviewer->who), event->organizer);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->who), "-");
-	
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), event->organizer);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
+	}
 	if (event->summary && strlen(event->summary)) {
-		gtk_label_set_text(GTK_LABEL(vcalviewer->summary), event->summary);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->summary), "-");
-	
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), event->summary);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), "-");
+	}
 	if (event->description && strlen(event->description)) {
-		gtk_label_set_text(GTK_LABEL(vcalviewer->description), event->description);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->description), "-");
-	
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), event->description);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), "-");
+	}
 	g_free(vcalviewer->url);
 	if (event->url && strlen(event->url)) {
 		vcalviewer->url = g_strdup(event->url);
@@ -517,15 +524,15 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	}
 	
 	if (event->start && strlen(event->start)) {
-		gtk_label_set_text(GTK_LABEL(vcalviewer->start), event->start);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->start), "-");
-	
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), event->start);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
+	}
 	if (event->end && strlen(event->end)) {
-		gtk_label_set_text(GTK_LABEL(vcalviewer->end), event->end);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->end), "-");
-	
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), event->end);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");
+	}
 	for (list = vcal_manager_get_answers_emails(event); 
 	     list && list->data; list = list->next) {
 	     	gchar *attendee = (gchar *)list->data;
@@ -552,11 +559,11 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		g_free(name);
 	}
 
-	if (attendees && strlen(attendees))
-		gtk_label_set_text(GTK_LABEL(vcalviewer->attendees), attendees);
-	else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->attendees), "-");
-	
+	if (attendees && strlen(attendees)) {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), attendees);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-");
+	}
 	if (!mine)
 		vcalviewer_answer_set_choices(vcalviewer, event, event->method);
 	else {
@@ -751,12 +758,12 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	if (!attendee) {
 		label = g_strdup_printf(
 			_("You have received an answer to an unknown meeting proposal. Details follow:"));
-		gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 	} else {
 		label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
 			"%s has %s the invitation whose details follow:"),
 			attendee, vcal_manager_answer_get_text(answer));
-		gtk_label_set_text(GTK_LABEL(vcalviewer->type), label);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		g_free(attendee);
 	}
 
@@ -768,30 +775,30 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		tmp = get_email_from_organizer_property(iprop);
 		org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
 		g_free(tmp);
-		gtk_label_set_text(GTK_LABEL(vcalviewer->who), org);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), org);
 		icalproperty_free(iprop);
 		g_free(org);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->who), "-");
-
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
+	}
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
 	if (iprop) {
 		tmp = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
-		gtk_label_set_text(GTK_LABEL(vcalviewer->summary), tmp);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->summary), "-");
-
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), "-");
+	}
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DESCRIPTION_PROPERTY);
 	if (iprop) {
 		tmp = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
-		gtk_label_set_text(GTK_LABEL(vcalviewer->description), tmp);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->description), "-");
-
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), "-");
+	}
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
 	g_free(vcalviewer->url);
 	if (iprop) {
@@ -809,21 +816,23 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	if (iprop) {
 		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
 		time_t tmp = icaltime_as_timet(itt);
-		gtk_label_set_text(GTK_LABEL(vcalviewer->start), ctime(&tmp));
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), ctime(&tmp));
 		icalproperty_free(iprop);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->start), "-");
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
+	}
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
 	if (iprop) {
 		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
 		time_t tmp = icaltime_as_timet(itt);
-		gtk_label_set_text(GTK_LABEL(vcalviewer->end), ctime(&tmp));
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), ctime(&tmp));
 		icalproperty_free(iprop);
-	} else
-		gtk_label_set_text(GTK_LABEL(vcalviewer->end), "-");
-	
-	gtk_label_set_text(GTK_LABEL(vcalviewer->attendees), "-"); 
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");
+	}
+
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-"); 
 
 	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_REPLY);
 }
