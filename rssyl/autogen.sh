@@ -8,4 +8,4 @@ echo "Running automake --add-missing ..."
 automake --add-missing
 echo "Running autoconf ..."
 autoconf
-echo "Done!"
+echo "Done, you can run the configure script now."
