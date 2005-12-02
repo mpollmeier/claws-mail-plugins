@@ -1,0 +1,71 @@
+/*
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto
+ * This file (C) 2005 Andrej Kacian <andrej@kacian.sk>
+ *
+ * - generic s-c plugin stuff
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <common/version.h>
+#include <sylpheed.h>
+#include <curl/curl.h>
+
+#include "rssyl.h"
+
+gint plugin_init(gchar **error)
+{
+	if( sylpheed_get_version() > VERSION_NUMERIC ) {
+		*error = g_strdup("Your version of Sylpheed-Claws is newer than the version the plugin was built with");
+		return -1;
+	}
+
+	if( sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 15, 0) ) {
+		*error = g_strdup("Your version of Sylpheed-Claws is too old");
+		return -1;
+	}
+
+	rssyl_init();
+
+	return 0;
+}
+
+void plugin_done(void)
+{
+	rssyl_done();
+}
+
+const gchar *plugin_name(void)
+{
+	return "RSSyl";
+}
+
+const gchar *plugin_desc(void)
+{
+	return "This plugin allows you to create a mailbox tree where you can add "
+		"newsfeeds in RSS 1.0 or RSS 2.0 format.\n\n"
+		"Each newsfeed will create a folder with appropriate entries, fetched "
+		"from the web. You can read them, and delete or keep old entries.";
+}
+
+const gchar *plugin_type(void)
+{
+	return "GTK2";
+}

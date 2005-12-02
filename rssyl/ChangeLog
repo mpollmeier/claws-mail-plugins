@@ -1,0 +1,50 @@
+2005-12-01 17:44  Andrej Kacian <andrej@kacian.sk>
+	* src: Three patches by Colin Leroy: fix expired items number GUI after
+		restart, fix a memory leak in rssyl_parse_rss, Atom feed parser.
+
+2005-12-01 05:19  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c: Ignore newline in feed item title.
+
+2005-11-29 21:38  Andrej Kacian <andrej@kacian.sk>
+	* src/rssyl_cb_menu.c: Applied Colin's patch to honor sylpheed's offline
+		setting.
+	* src: Implement old item expiration
+
+2005-11-29 14:39  Andrej Kacian <andrej@kacian.sk>
+	* src: Applied three patches from Colin - CURLOPT_USERAGENT, unicode
+		feeditem fields handling, multiline headers parsing.
+
+2005-11-29 03:23  Andrej Kacian <andrej@kacian.sk>
+	* src/feedprops.[ch]: Move some strings to precompiler macros.
+
+2005-11-29 03:23  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.[ch]: Update contents of existing entry if changed.
+
+2005-11-28 13:21  Andrej Kacian <andrej@kacian.sk>
+	* src: Move new feed handling code from rssyl_new_feed_cb() to new
+		rssyl_subscribe_new_feed(), so it can be reused for generic feed adding.
+	* src: Add mailbox and one default feed if no RSSyl mailbox is found on
+		startup. Patch by Colin Leroy.
+
+2005-11-28 12:25  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c: Validate (or try to convert) feed text to UTF-8 when adding
+		new items. Patch by Colin Leroy.
+
+2005-11-28 05:59  Andrej Kacian <andrej@kacian.sk>
+	* src: Made feed fetching run in another thread, if pthreads are available.
+		Thanks to Colin Leroy for the sample code.
+
+2005-11-28 04:11  Andrej Kacian <andrej@kacian.sk>
+	* src: Added an option to use default refresh interval for a feed
+
+2005-11-27 22:25  Andrej Kacian <andrej@kacian.sk>
+	* src: Inform statusbar about what we're doing when fetching and parsing feed
+
+2005-11-27 21:18  Andrej Kacian <andrej@kacian.sk>
+	* src: Split rssyl_cb.[ch] into rssyl_cb_gtk.[ch] and rssyl_cb_menu.[ch]
+
+2005-11-27 11:38  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c: Use folder_item_update_{freeze,thaw}() when parsing feed
+
+2005-11-27 10:43  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c: Prefer <content:encoded> for text in rssyl_parse_rss()

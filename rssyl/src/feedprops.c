@@ -1,0 +1,318 @@
+/*
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto
+ * This file (C) 2005 Andrej Kacian <andrej@kacian.sk>
+ *
+ * - functions for handling feeds.xml file
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <glib.h>
+
+#include <libxml/parser.h>
+#include <libxml/xpath.h>
+
+#include "folder.h"
+
+#include "feed.h"
+#include "feedprops.h"
+#include "rssyl.h"
+
+static gchar *rssyl_get_props_path(void)
+{
+	return g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+			G_DIR_SEPARATOR_S, RSSYL_PROPS_FILE, NULL);
+}
+
+
+/* rssyl_store_feed_props()
+ *
+ * Stores feed properties into feeds.xml file in the rcdir. Updates if already
+ * stored for this feed.
+ */
+void rssyl_store_feed_props(RSSylFolderItem *ritem)
+{
+	gchar *path;
+	xmlDocPtr doc;
+	xmlNodePtr node, rootnode;
+	xmlXPathObjectPtr result;
+	xmlXPathContextPtr context;
+	FolderItem *item = &ritem->item;
+	gboolean found = FALSE, def_ri, def_ex;
+	gint i;
+
+	g_return_if_fail(ritem != NULL);
+	g_return_if_fail(ritem->url != NULL);
+
+	def_ri = ritem->default_refresh_interval;
+	if( def_ri )
+		ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
+
+	def_ex = ritem->default_expired_num;
+	if( def_ex )
+		ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
+
+	path = rssyl_get_props_path();
+
+	if( !(doc = xmlParseFile(path)) ) {
+		debug_print("RSSyl: file %s doesn't exist, creating it\n", path);
+		doc = xmlNewDoc("1.0");
+
+		rootnode = xmlNewNode(NULL, "feeds");
+		xmlDocSetRootElement(doc, rootnode);
+	} else {
+		rootnode = xmlDocGetRootElement(doc);
+	}
+
+	context = xmlXPathNewContext(doc);
+	if( !(result = xmlXPathEvalExpression(RSSYL_PROPS_XPATH, context)) ) {
+		debug_print("RSSyl: XML - no result found for %s\n", RSSYL_PROPS_XPATH);
+		xmlXPathFreeContext(context);
+	} else {
+		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			node = result->nodesetval->nodeTab[i];
+			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+				debug_print("RSSyl: XML - updating node for '%s'\n", item->name);
+				xmlSetProp(node, RSSYL_PROP_NAME, item->name);
+				xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
+				xmlSetProp(node, RSSYL_PROP_DEF_REFRESH, (def_ri ? "1" : "0") );
+				if( !def_ri )
+					xmlSetProp(node, RSSYL_PROP_REFRESH,
+							g_strdup_printf("%d", ritem->refresh_interval) );
+				xmlSetProp(node, RSSYL_PROP_DEF_EXPIRED, (def_ex ? "1" : "0") );
+				if( !def_ex )
+					xmlSetProp(node, RSSYL_PROP_EXPIRED,
+							g_strdup_printf("%d", ritem->expired_num) );
+				found = TRUE;
+			}
+		}
+	}
+
+	xmlXPathFreeContext(context);
+	xmlXPathFreeNodeSetList(result);
+
+	/* node for our feed doesn't exist, let's make one */
+	if( !found ) {
+		debug_print("RSSyl: XML - creating node for '%s', storing URL '%s'\n",
+				item->name, ritem->url);
+		node = xmlNewTextChild(rootnode, NULL, "feed", NULL);
+		xmlSetProp(node, RSSYL_PROP_NAME, item->name);
+		xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
+		xmlSetProp(node, RSSYL_PROP_DEF_REFRESH, (def_ri ? "1" : "0") );
+		if( !def_ri )
+			xmlSetProp(node, RSSYL_PROP_REFRESH,
+					g_strdup_printf("%d", ritem->refresh_interval) );
+		xmlSetProp(node, RSSYL_PROP_DEF_EXPIRED, (def_ex ? "1" : "0") );
+		if( !def_ex )
+			xmlSetProp(node, RSSYL_PROP_EXPIRED,
+					g_strdup_printf("%d", ritem->expired_num) );
+	}
+
+	xmlSaveFile(path, doc);
+	xmlFreeDoc(doc);
+	g_free(path);
+}
+
+/* rssyl_get_feed_props()
+ *
+ * Retrieves props for feed from feeds.xml file in the rcdir.
+ */
+void rssyl_get_feed_props(RSSylFolderItem *ritem)
+{
+	gchar *path, *tmp = NULL;
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	xmlXPathObjectPtr result;
+	xmlXPathContextPtr context;
+	FolderItem *item = &ritem->item;
+	gint i, tmpi;
+
+	g_return_if_fail(ritem != NULL);
+
+	if( ritem->url ) {
+		g_free(ritem->url);
+		ritem->url = NULL;
+	}
+
+	ritem->default_refresh_interval = TRUE;
+	ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
+	ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
+
+	path = rssyl_get_props_path();
+
+	doc = xmlParseFile(path);
+	g_return_if_fail(doc != NULL);
+
+	context = xmlXPathNewContext(doc);
+	if( !(result = xmlXPathEvalExpression(RSSYL_PROPS_XPATH, context)) ) {
+		debug_print("RSSyl: XML - no result found for %s\n", RSSYL_PROPS_XPATH);
+		xmlXPathFreeContext(context);
+	} else {
+		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			node = result->nodesetval->nodeTab[i];
+			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+				/* URL */
+				tmp = xmlGetProp(node, RSSYL_PROP_URL);
+				ritem->url = (tmp ? tmp : NULL);
+				tmp = NULL;
+
+				tmp = xmlGetProp(node, RSSYL_PROP_DEF_REFRESH);
+				tmpi = 0;
+				if( tmp )
+					tmpi = atoi(tmp);
+				ritem->default_refresh_interval = (tmpi ? TRUE : FALSE );
+				tmp = NULL;
+
+				/* refresh_interval */
+				tmp = xmlGetProp(node, RSSYL_PROP_REFRESH);
+				tmpi = 0;
+				if( tmp )
+					tmpi = atoi(tmp);
+				if( ritem->default_refresh_interval )
+					ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
+				else
+					ritem->refresh_interval = (tmpi ? tmpi : RSSYL_DEFAULT_REFRESH);
+				tmp = NULL;
+
+				/* expired_num */
+				tmp = xmlGetProp(node, RSSYL_PROP_DEF_EXPIRED);
+				tmpi = 0;
+				if( tmp ) {
+					tmpi = atoi(tmp);
+					ritem->default_expired_num = tmpi;
+				}
+				tmp = NULL;
+
+				tmp = xmlGetProp(node, RSSYL_PROP_EXPIRED);
+				tmpi = 0;
+				if( tmp )
+					tmpi = atoi(tmp);
+
+				if( ritem->default_expired_num )
+					ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
+				else
+					ritem->expired_num = (tmp ? tmpi : RSSYL_DEFAULT_EXPIRED);
+				tmp = NULL;
+
+				debug_print("RSSyl: XML - props for '%s' loaded\n", item->name);
+				if( ritem->refresh_id == 0 && ritem->refresh_interval > 0 )
+					rssyl_start_refresh_timeout(ritem);
+			}
+		}
+	}
+
+	xmlXPathFreeNodeSetList(result);
+	xmlXPathFreeContext(context);
+	xmlFreeDoc(doc);
+	g_free(path);
+}
+
+void rssyl_remove_feed_props(RSSylFolderItem *ritem)
+{
+	gchar *path;
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	xmlXPathObjectPtr result;
+	xmlXPathContextPtr context;
+	FolderItem *item = &ritem->item;
+	gint i;
+
+	g_return_if_fail(ritem != NULL);
+
+	path = rssyl_get_props_path();
+
+	doc = xmlParseFile(path);
+	g_return_if_fail(doc != NULL);
+
+	context = xmlXPathNewContext(doc);
+	if( !(result = xmlXPathEvalExpression(RSSYL_PROPS_XPATH, context)) ) {
+		debug_print("RSSyl: XML - no result found for %s\n", RSSYL_PROPS_XPATH);
+		xmlXPathFreeContext(context);
+	} else {
+		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			node = result->nodesetval->nodeTab[i];
+			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+				debug_print("RSSyl: XML - found node for '%s', removing\n", item->name);
+				xmlUnlinkNode(node);
+				xmlFreeNode(node);
+			}
+		}
+	}
+
+	xmlXPathFreeNodeSetList(result);
+	xmlXPathFreeContext(context);
+
+	xmlSaveFile(path, doc);
+
+	xmlFreeDoc(doc);
+	g_free(path);
+}
+
+void rssyl_props_update_name(RSSylFolderItem *ritem, gchar *new_name)
+{
+	gchar *path;
+	xmlDocPtr doc;
+	xmlNodePtr node, rootnode;
+	xmlXPathObjectPtr result;
+	xmlXPathContextPtr context;
+	FolderItem *item = &ritem->item;
+	gboolean found = FALSE;
+	gint i;
+
+	g_return_if_fail(ritem != NULL);
+	g_return_if_fail(ritem->url != NULL);
+
+	path = rssyl_get_props_path();
+
+	if( !(doc = xmlParseFile(path)) ) {
+		debug_print("RSSyl: file %s doesn't exist, creating it\n", path);
+		doc = xmlNewDoc("1.0");
+
+		rootnode = xmlNewNode(NULL, "feeds");
+		xmlDocSetRootElement(doc, rootnode);
+	} else {
+		rootnode = xmlDocGetRootElement(doc);
+	}
+
+	context = xmlXPathNewContext(doc);
+	if( !(result = xmlXPathEvalExpression(RSSYL_PROPS_XPATH, context)) ) {
+		debug_print("RSSyl: XML - no result found for %s\n", RSSYL_PROPS_XPATH);
+		xmlXPathFreeContext(context);
+	} else {
+		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			node = result->nodesetval->nodeTab[i];
+			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+				debug_print("RSSyl: XML - updating node for '%s'\n", item->name);
+				xmlSetProp(node, "name", new_name);
+				found = TRUE;
+			}
+		}
+	}
+
+	xmlXPathFreeContext(context);
+	xmlXPathFreeNodeSetList(result);
+
+	if( !found )
+		debug_print("couldn't find feed\n");
+
+	xmlSaveFile(path, doc);
+	xmlFreeDoc(doc);
+	g_free(path);
+}

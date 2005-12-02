@@ -1,0 +1,505 @@
+/*
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto
+ * This file (C) 2005 Andrej Kacian <andrej@kacian.sk>
+ *
+ * - GUI handling functions
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <gtk/gtk.h>
+
+#include "gtk/menu.h"
+#include "mainwindow.h"
+#include "inputdialog.h"
+#include "folderview.h"
+#include "alertpanel.h"
+
+#include "feed.h"
+#include "feedprops.h"
+#include "rssyl.h"
+#include "rssyl_cb_gtk.h"
+#include "rssyl_cb_menu.h"
+#include "rssyl_gtk.h"
+
+static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
+{
+#define SET_SENS(name, sens) \
+	menu_set_sensitive(ifac, name, sens)
+
+	SET_SENS("/Refresh feed", folder_item_parent(item) != NULL );
+	SET_SENS("/Refresh all feeds", folder_item_parent(item) == NULL );
+	SET_SENS("/Subscribe new feed...", folder_item_parent(item) == NULL );
+	SET_SENS("/Unsubscribe feed...", folder_item_parent(item) != NULL );
+	SET_SENS("/Feed properties...", folder_item_parent(item) != NULL );
+	SET_SENS("/Remove folder tree...", folder_item_parent(item) == NULL );
+
+#undef SET_SENS
+}
+
+static GtkItemFactoryEntry rssyl_popup_entries[] =
+{
+	{ "/_Refresh feed", NULL, rssyl_refresh_cb, 0, NULL },
+	{ "/Refresh _all feeds", NULL, rssyl_refresh_all_cb, 0, NULL },
+	{ "/---", NULL, NULL, 0, "<Separator>" },
+	{ "/Subscribe _new feed...", NULL, rssyl_new_feed_cb, 0, NULL },
+	{ "/_Unsubscribe feed...", NULL, rssyl_remove_feed_cb, 0, NULL },
+	{ "/Feed pr_operties...", NULL, rssyl_prop_cb, 0, NULL },
+	{ "/---", NULL, NULL, 0, "<Separator>" },
+	{ "/Remove folder _tree...", NULL, rssyl_remove_rss_cb, 0, NULL },
+	{ "/---", NULL, NULL, 0, "<Separator>" }
+};
+
+static FolderViewPopup rssyl_popup =
+{
+	"rssyl",
+	"<rssyl>",
+	NULL,
+	rssyl_set_sensitivity
+};
+
+static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
+		GtkWidget *widget)
+{
+	MainWindow *mainwin = (MainWindow *) callback_data;
+	gchar *path;
+	Folder *folder;
+
+	path = input_dialog("Add RSS folder tree",
+			"Enter name for a new RSS folder tree.",
+			RSSYL_DEFAULT_MAILBOX);
+	if( !path ) return;
+
+	if( folder_find_from_path(path) ) {
+		alertpanel_error("The mailbox '%s' already exists.", path);
+		g_free(path);
+		return;
+	}
+
+	folder = folder_new(folder_get_class_from_string("rssyl"),
+			g_basename(path), path);
+
+	if( folder->klass->create_tree(folder) < 0 ) {
+		alertpanel_error("Creation of folder tree failed.\n"
+				"Maybe some files already exist, or you don't have the permission"
+				"to write there?");
+		folder_destroy(folder);
+		return;
+	}
+
+	folder_add(folder);
+	folder_scan_tree(folder, TRUE);
+
+	folderview_set(mainwin->folderview);
+}
+
+static GtkItemFactoryEntry mainwindow_add_mailbox = {
+	"/File/Add mailbox/RSSyl...",
+	NULL,
+	rssyl_add_mailbox,
+	0,
+	NULL
+};
+
+void rssyl_gtk_init(void)
+{
+	GtkItemFactory *ifac;
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	guint i, n;
+
+	ifac = gtk_item_factory_from_widget(mainwin->menubar);
+	gtk_item_factory_create_item(ifac, &mainwindow_add_mailbox, mainwin, 1);
+
+	n = sizeof(rssyl_popup_entries) /
+		sizeof(rssyl_popup_entries[0]);
+
+	for( i = 0; i < n; i++ )
+		rssyl_popup.entries = g_slist_append(rssyl_popup.entries,
+				&rssyl_popup_entries[i]);
+
+	folderview_register_popup(&rssyl_popup);
+}
+
+void rssyl_gtk_done(void)
+{
+	GtkItemFactory *ifac;
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	GtkWidget *widget;
+
+	folderview_unregister_popup(&rssyl_popup);
+
+	ifac = gtk_item_factory_from_widget(mainwin->menubar);
+	widget = gtk_item_factory_get_widget(ifac, mainwindow_add_mailbox.path);
+	gtk_widget_destroy(widget);
+	gtk_item_factory_delete_item(ifac, mainwindow_add_mailbox.path);
+}
+
+/***********************************************/
+
+static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
+{
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	RSSylFeedProp *feedprop;
+	GtkWidget *vbox, *urllabel, *urlframe, *urlalign, *table, *refresh_label,
+						*expired_label, *hsep, *sep, *bbox, *cancel_button, *cancel_align,
+						*cancel_hbox, *cancel_image, *cancel_label, *ok_button, *ok_align,
+						*ok_hbox, *ok_image, *ok_label;
+	GtkObject *refresh_adj, *expired_adj;
+	gint refresh, expired;
+
+	g_return_val_if_fail(ritem != NULL, NULL);
+
+	feedprop = g_new0(RSSylFeedProp, 1);
+
+	/* Create required widgets */
+
+	/* Window */
+	feedprop->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+	/* URL entry */
+	feedprop->url = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(feedprop->url), ritem->url);
+
+	/* "Use default refresh interval" checkbutton */
+	feedprop->default_refresh_interval = gtk_check_button_new_with_mnemonic(
+			"Use default refresh interval (180 minutes)");
+	gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(feedprop->default_refresh_interval),
+			ritem->default_refresh_interval);
+
+	if( ritem->refresh_interval >= 0 && !ritem->default_refresh_interval )
+		refresh = ritem->refresh_interval;
+	else
+		refresh = RSSYL_DEFAULT_REFRESH;
+
+	/* "Keep default number of expired items" checkbutton */
+	feedprop->default_expired_num = gtk_check_button_new_with_mnemonic(
+			"Keep default number of old entries (-1)");
+	gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(feedprop->default_expired_num),
+			ritem->default_expired_num);
+
+	if( ritem->default_expired_num )
+		expired = RSSYL_DEFAULT_EXPIRED;
+	else
+		expired = ritem->expired_num;
+
+	/* Refresh interval spinbutton */
+	refresh_adj = gtk_adjustment_new(refresh,
+			0, 100000, 1, 10, 10);
+	feedprop->refresh_interval = gtk_spin_button_new(GTK_ADJUSTMENT(refresh_adj),
+			1, 0);
+
+	/* Expired num spinbutton */
+	expired_adj = gtk_adjustment_new(ritem->expired_num, -1, 100000, 1, 10, 10);
+	feedprop->expired_num = gtk_spin_button_new(GTK_ADJUSTMENT(expired_adj),
+			1, 0);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(feedprop->window), vbox);
+
+	/* URL frame */
+	urlframe = gtk_frame_new(NULL);
+	gtk_container_set_border_width(GTK_CONTAINER(urlframe), 5);
+	gtk_frame_set_label_align(GTK_FRAME(urlframe), 0.05, 0.5);
+	gtk_frame_set_shadow_type(GTK_FRAME(urlframe), GTK_SHADOW_ETCHED_OUT);
+	gtk_box_pack_start(GTK_BOX(vbox), urlframe, FALSE, FALSE, 0);
+
+	/* Label for URL frame */
+	urllabel = gtk_label_new("<b>Source URL:</b>");
+	gtk_label_set_use_markup(GTK_LABEL(urllabel), TRUE);
+	gtk_misc_set_padding(GTK_MISC(urllabel), 5, 0);
+	gtk_frame_set_label_widget(GTK_FRAME(urlframe), urllabel);
+
+	/* URL entry (+ alignment in frame) */
+	urlalign = gtk_alignment_new(0, 0.5, 1, 1);
+	gtk_alignment_set_padding(GTK_ALIGNMENT(urlalign), 5, 5, 5, 5);
+	gtk_container_add(GTK_CONTAINER(urlframe), urlalign);
+
+	gtk_entry_set_activates_default(GTK_ENTRY(feedprop->url), TRUE);
+	gtk_container_add(GTK_CONTAINER(urlalign), feedprop->url);
+
+	/* Table for remaining properties */
+	table = gtk_table_new(5, 2, FALSE);
+	gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
+
+	/* Use default refresh interval - checkbutton */
+	gtk_table_attach(GTK_TABLE(table), feedprop->default_refresh_interval,
+			0, 2, 0, 1,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+	g_signal_connect(G_OBJECT(feedprop->default_refresh_interval), "toggled",
+			G_CALLBACK(rssyl_default_refresh_interval_toggled_cb),
+			(gpointer)feedprop->refresh_interval);
+
+	/* Refresh interval - label */
+	refresh_label = gtk_label_new("<b>Refresh interval in minutes:</b>\n"
+			"<small>(Set to 0 to disable automatic refreshing for this feed)"
+			"</small>");
+	gtk_label_set_use_markup(GTK_LABEL(refresh_label), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(refresh_label), 0, 0.5);
+	gtk_table_attach(GTK_TABLE(table), refresh_label, 0, 1, 1, 2,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	/* Refresh interval - spinbutton */
+	gtk_widget_set_sensitive(feedprop->refresh_interval,
+			!ritem->default_refresh_interval);
+	gtk_table_attach(GTK_TABLE(table), feedprop->refresh_interval, 1, 2, 1, 2,
+			(GtkAttachOptions) (0),
+			(GtkAttachOptions) (0), 10, 5);
+
+	hsep = gtk_hseparator_new();
+	gtk_widget_set_size_request(hsep, -1, 10);
+	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, 2, 3,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	/* Keep all expired - checkbutton */
+	gtk_table_attach(GTK_TABLE(table), feedprop->default_expired_num,	0, 2, 3, 4,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+	g_signal_connect(G_OBJECT(feedprop->default_expired_num), "toggled",
+			G_CALLBACK(rssyl_default_expired_num_toggled_cb),
+			(gpointer)feedprop->expired_num);
+
+	/* Expired items - label */
+	expired_label = gtk_label_new("<b>Number of old entries to keep:"
+			"</b>\n<small>(Set to -1 if you want old entries to be kept forever)"
+			"</small>");
+	gtk_label_set_use_markup(GTK_LABEL(expired_label), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(expired_label), 0, 0.5);
+	gtk_table_attach(GTK_TABLE(table), expired_label, 0, 1, 4, 5,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	/* Expired items - spinbutton */
+	gtk_widget_set_sensitive(feedprop->expired_num,
+			!ritem->default_expired_num);
+	gtk_table_attach(GTK_TABLE(table), feedprop->expired_num, 1, 2, 4, 5,
+			(GtkAttachOptions) (0),
+			(GtkAttachOptions) (0), 10, 5);
+
+	/* Separator above the button box */
+	sep = gtk_hseparator_new();
+	gtk_widget_set_size_request(sep, -1, 10);
+	gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
+
+	/* Buttonbox */
+	bbox = gtk_hbutton_box_new();
+	gtk_container_set_border_width(GTK_CONTAINER(bbox), 5);
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
+	gtk_box_set_spacing(GTK_BOX(bbox), 5);
+	gtk_box_pack_end(GTK_BOX(vbox), bbox, FALSE, FALSE, 0);
+
+	/* OK button */
+	ok_button = gtk_button_new();
+	gtk_container_add(GTK_CONTAINER(bbox), ok_button);
+	GTK_WIDGET_SET_FLAGS(ok_button, GTK_CAN_DEFAULT );
+
+	ok_align = gtk_alignment_new(0.5, 0.5, 0, 0);
+	gtk_container_add(GTK_CONTAINER(ok_button), ok_align);
+
+	ok_hbox = gtk_hbox_new(FALSE, 2);
+	gtk_container_add(GTK_CONTAINER(ok_align), ok_hbox);
+
+	ok_image = gtk_image_new_from_stock(GTK_STOCK_OK,
+			GTK_ICON_SIZE_BUTTON);
+	gtk_box_pack_start(GTK_BOX(ok_hbox), ok_image, FALSE, FALSE, 0);
+
+	ok_label = gtk_label_new_with_mnemonic("_OK");
+	gtk_box_pack_end(GTK_BOX(ok_hbox), ok_label, FALSE, FALSE, 0);
+
+	g_signal_connect(G_OBJECT(ok_button), "clicked",
+			G_CALLBACK(rssyl_props_ok_cb), ritem);
+
+	/* Cancel button */
+	cancel_button = gtk_button_new();
+	gtk_container_add(GTK_CONTAINER(bbox), cancel_button);
+
+	cancel_align = gtk_alignment_new(0.5, 0.5, 0, 0);
+	gtk_container_add(GTK_CONTAINER(cancel_button), cancel_align);
+
+	cancel_hbox = gtk_hbox_new(FALSE, 2);
+	gtk_container_add(GTK_CONTAINER(cancel_align), cancel_hbox);
+
+	cancel_image = gtk_image_new_from_stock(GTK_STOCK_CANCEL,
+			GTK_ICON_SIZE_BUTTON);
+	gtk_box_pack_start(GTK_BOX(cancel_hbox), cancel_image, FALSE, FALSE, 0);
+
+	cancel_label = gtk_label_new_with_mnemonic("_Cancel");
+	gtk_box_pack_end(GTK_BOX(cancel_hbox), cancel_label, FALSE, FALSE, 0);
+
+	g_signal_connect(G_OBJECT(cancel_button), "clicked",
+			G_CALLBACK(rssyl_props_cancel_cb), ritem);
+
+	/* Set some misc. stuff */
+	gtk_window_set_title(GTK_WINDOW(feedprop->window),
+			g_strdup("Set feed properties") );
+	gtk_window_set_modal(GTK_WINDOW(feedprop->window), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(feedprop->window),
+			GTK_WINDOW(mainwin->window) );
+
+	/* ...and voila! */
+	gtk_widget_show_all(feedprop->window);
+	gtk_widget_grab_default(ok_button);
+
+	/* Unselect the text in URL entry */
+	gtk_editable_select_region(GTK_EDITABLE(feedprop->url), 0, 0);
+
+	ritem->feedprop = feedprop;
+
+	return feedprop;
+}
+
+void rssyl_gtk_prop(RSSylFolderItem *ritem)
+{
+	g_return_if_fail(ritem != NULL);
+
+	rssyl_gtk_prop_real(ritem);
+}
+
+void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
+{
+	gchar *url;
+	gint x, old_ri, old_ex;
+	gboolean use_default_ri = FALSE, use_default_ex = FALSE;
+
+	g_return_if_fail(ritem != NULL);
+	g_return_if_fail(ritem->feedprop != NULL);
+
+	url = (gchar *)gtk_entry_get_text(GTK_ENTRY(ritem->feedprop->url));
+
+	if( strlen(url) ) {
+		if( ritem->url ) {
+			g_free(ritem->url);
+		}
+		ritem->url = g_strdup(url);
+	}
+
+	use_default_ri = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(ritem->feedprop->default_refresh_interval));
+	ritem->default_refresh_interval = use_default_ri;
+	debug_print("store: default is %s\n", ( use_default_ri ? "ON" : "OFF" ) );
+
+	/* Use default if checkbutton is set */
+	if( use_default_ri )
+		x = RSSYL_DEFAULT_REFRESH;
+	else
+		x = gtk_spin_button_get_value_as_int(
+				GTK_SPIN_BUTTON(ritem->feedprop->refresh_interval) );
+
+	old_ri = ritem->refresh_interval;
+	ritem->refresh_interval = x;
+
+	if( old_ri != x && x > 0 ) {
+		debug_print("RSSyl: GTK - refresh interval changed to %d , updating"
+				"timeout\n", ritem->refresh_interval);
+		rssyl_start_refresh_timeout(ritem);
+	}
+
+	use_default_ex = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(ritem->feedprop->default_expired_num));
+	ritem->default_expired_num = use_default_ex;
+	debug_print("store: default is %s\n", ( use_default_ex ? "ON" : "OFF" ) );
+
+	/* Use default if checkbutton is set */
+	if( use_default_ex )
+		x = RSSYL_DEFAULT_EXPIRED;
+	else
+		x = gtk_spin_button_get_value_as_int(
+				GTK_SPIN_BUTTON(ritem->feedprop->expired_num) );
+
+	old_ex = ritem->expired_num;
+	ritem->expired_num = x;
+
+	rssyl_store_feed_props(ritem);
+
+	/* update if new setting is lower, or if it was changed from -1 */
+	if( ritem->last_count != 0 && (((old_ex > x || old_ex == -1) && x != -1)) ) {
+		debug_print("RSSyl: GTK - expired_num has changed to %d, expiring\n",
+				ritem->expired_num);
+		rssyl_expire_items(ritem);
+	}
+}
+
+GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
+{
+	gchar *message;
+	GtkWidget *dialog, *vbox, *hbox, *image, *vbox2, *label, *cb, *aa,
+						*bno, *byes;
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+
+	g_return_val_if_fail(name != NULL, NULL);
+
+	dialog = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dialog), "Remove feed");
+	gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
+
+	vbox = GTK_DIALOG(dialog)->vbox;
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+
+	/* Question icon */
+	image = gtk_image_new_from_stock(GTK_STOCK_DIALOG_QUESTION,
+			GTK_ICON_SIZE_DIALOG);
+	gtk_misc_set_alignment(GTK_MISC(image), 0.5, 0.30);
+	gtk_misc_set_padding(GTK_MISC(image), 12, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
+
+	vbox2 = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 0);
+
+	/* Dialog text label */
+	message = g_strdup_printf("<span size = 'x-large'><b>Remove feed</b></span>"
+			"\n\nDo you really want to remove feed '%s' ?", name);
+
+	label = gtk_label_new(message);
+	g_free(message);
+	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0);
+	gtk_misc_set_padding(GTK_MISC(label), 0, 12);
+	gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
+
+	/* Remove cache checkbutton */
+	cb = gtk_check_button_new_with_mnemonic("Remove cached entries");
+	gtk_button_set_focus_on_click(GTK_BUTTON(cb), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb), TRUE);
+	gtk_box_pack_start(GTK_BOX(vbox2), cb, FALSE, FALSE, 0);
+	*rmcache_widget = cb;
+
+	aa = GTK_DIALOG(dialog)->action_area;
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(aa), GTK_BUTTONBOX_END);
+
+	byes = gtk_button_new_from_stock(GTK_STOCK_YES);
+	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), byes, GTK_RESPONSE_YES);
+
+	bno = gtk_button_new_from_stock(GTK_STOCK_NO);
+	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), bno, GTK_RESPONSE_NO);
+	GTK_WIDGET_SET_FLAGS(bno, GTK_CAN_DEFAULT);
+
+	gtk_widget_grab_default(bno);
+	gtk_window_set_transient_for(GTK_WINDOW(dialog),
+			GTK_WINDOW(mainwin->window) );
+
+	return dialog;
+}
