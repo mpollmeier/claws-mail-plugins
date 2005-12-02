@@ -191,7 +191,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* "Keep default number of expired items" checkbutton */
 	feedprop->default_expired_num = gtk_check_button_new_with_mnemonic(
-			"Keep default number of old entries (-1)");
+			"Keep default number of expired entries (-1)");
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->default_expired_num),
 			ritem->default_expired_num);
@@ -244,7 +244,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_table_attach(GTK_TABLE(table), feedprop->default_refresh_interval,
 			0, 2, 0, 1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (0), 10, 5);
+			(GtkAttachOptions) (0), 10, 0);
 	g_signal_connect(G_OBJECT(feedprop->default_refresh_interval), "toggled",
 			G_CALLBACK(rssyl_default_refresh_interval_toggled_cb),
 			(gpointer)feedprop->refresh_interval);
@@ -272,17 +272,17 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 5);
 
-	/* Keep all expired - checkbutton */
+	/* Use default number for expired - checkbutton */
 	gtk_table_attach(GTK_TABLE(table), feedprop->default_expired_num,	0, 2, 3, 4,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (0), 10, 5);
+			(GtkAttachOptions) (0), 10, 0);
 	g_signal_connect(G_OBJECT(feedprop->default_expired_num), "toggled",
 			G_CALLBACK(rssyl_default_expired_num_toggled_cb),
 			(gpointer)feedprop->expired_num);
 
 	/* Expired items - label */
-	expired_label = gtk_label_new("<b>Number of old entries to keep:"
-			"</b>\n<small>(Set to -1 if you want old entries to be kept forever)"
+	expired_label = gtk_label_new("<b>Number of expired entries to keep:"
+			"</b>\n<small>(Set to -1 if you want to keep expired entries)"
 			"</small>");
 	gtk_label_set_use_markup(GTK_LABEL(expired_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(expired_label), 0, 0.5);
