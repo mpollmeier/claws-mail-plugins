@@ -1,0 +1,50 @@
+Sylpheed Claws vCalendar Plugin for Debian
+-------------------------------------------
+
+This is an external plugin for Sylpheed Claws. Plugins are dynamic 
+libraries and as such they must share a common ABI with the host 
+application to work properly. As the ABI is currently in development,
+the plugin code must check the Sylpheed Claws version at load time so
+it matches the version the plugin was compiled with. Not doing so will
+result in unpredictable behaviour because of the ABI changes.
+
+This represents no problem for internal plugins because they are
+recompiled at the same time Sylpheed Claws is, so version always matches.
+
+On the other hand, external plugins doesn't "know" when Sylpheed Claws
+version has changed, so packages for external plugins have to be rebuilt
+with each newer Claws version.
+
+Said that, looks like external plugin packages should depend on the exactly
+version of Sylpheed Claws currently in the archive. This would be the the
+easy solution, but any version change (even in the Debian version) on the
+Sylpheed Claws package would require a newer upload for all external plugins.
+
+As time passes and number of external plugins increase this would impose
+an unnecesary load on the Debian build queues. Unnecesary because the
+plugins only need to be rebuilt when the Sylpheed Claws version changes,
+not when the Debian revision changes.
+
+On current packaging there is no way to express the dependency on upstream 
+version only, so the implemented solution is to relax the dependency to 
+greater or equal than the current upstream version and introducing a conflict
+with the next upstream version, so the plugin can live with any of the 
+possible Debian revisions without needing to be rebuilt.
+
+This solution has at least one problem: it depends on a future value of the
+version string. If upstream versioning scheme changes the version range 
+expressed by the current Depends/Conflicts pair may be wider than expected
+and include the newer upstream version. In practice that means the old plugin
+package won't be uninstalled when the new Sylpheed Claws version gets 
+installed. This has already happened with releases 0.9.12a and 0.9.12b.
+
+To summarize, when loading a plugin if you see the popup message:
+	"Your sylpheed version is newer than the 
+	 version the plugin was built with"
+then you have to wait until a new plugin package enters the archive.
+
+Alternatively you may put sylpheed-claws package on hold until all
+external plugins you use are uploaded and then upgrade both claws and
+the plugins at the same time.
+
+ -- Ricardo Mones <mones@aic.uniovi.es>, Sat, 02 Oct 2004 19:52:18 +0100

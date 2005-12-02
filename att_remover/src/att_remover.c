@@ -1,5 +1,5 @@
 /*
- * acpi_notifier -- for Sylpheed-Claws
+ * att_remover -- for Sylpheed-Claws
  *
  * Copyright (C) 2005 Colin Leroy <colin@colino.net>
  *

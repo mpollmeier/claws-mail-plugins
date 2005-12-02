@@ -1,0 +1,16 @@
+This package was debianized by Ricardo Mones <mones@aic.uniovi.es> on
+Thu, 02 Oct 2004 18:34:24 +0200.
+
+It was downloaded from http://sylpheed-claws.sourceforge.net/plugins.php
+
+Upstream Author: Colin Leroy <colin@colino.net>
+
+Copyright:
+
+Copyright (C) 1999-2004 Hiroyuki Yamamoto & The Sylpheed-Claws Team
+Copyright (C) 2004 Colin Leroy
+
+You are free to distribute this software under the terms of
+the GNU General Public License.
+On Debian systems, the complete text of the GNU General Public
+License can be found in /usr/share/common-licenses/GPL file.
