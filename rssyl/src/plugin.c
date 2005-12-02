@@ -60,7 +60,7 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
 	return "This plugin allows you to create a mailbox tree where you can add "
-		"newsfeeds in RSS 1.0 or RSS 2.0 format.\n\n"
+		"newsfeeds in RSS 1.0, RSS 2.0 or Atom format.\n\n"
 		"Each newsfeed will create a folder with appropriate entries, fetched "
 		"from the web. You can read them, and delete or keep old entries.";
 }
