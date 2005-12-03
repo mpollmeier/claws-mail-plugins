@@ -1,4 +1,7 @@
 2005-12-03 13:51  Andrej Kacian <andrej@kacian.sk>
+	* src: Moved rssyl_parse_*() functions to a separate file.
+
+2005-12-03 13:51  Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c: fix logic and possible segfault in link handling in
 		rssyl_parse_atom()
 

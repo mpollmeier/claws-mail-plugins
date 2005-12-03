@@ -34,6 +34,7 @@ MsgInfo *rssyl_parse_feed_item_to_msginfo(gchar *file, MsgFlags flags,
 		gboolean a, gboolean b, FolderItem *item);
 void rssyl_remove_feed_cache(FolderItem *item);
 void rssyl_update_feed(RSSylFolderItem *ritem);
+void rssyl_read_existing(RSSylFolderItem *ritem);
 
 void rssyl_start_refresh_timeout(RSSylFolderItem *ritem);
 void rssyl_expire_items(RSSylFolderItem *ritem);
