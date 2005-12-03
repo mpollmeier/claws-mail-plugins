@@ -1,3 +1,8 @@
+2005-12-03 06:16  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c, src/rssyl.c: use sylpheed's make_dir() instead of mkdir(). Use
+		glib's g_file_test() instead of opendir() to check if the dir exists.
+	* configure.ac: Bumped version to 0.2
+
 2005-12-01 17:44  Andrej Kacian <andrej@kacian.sk>
 	* src: Three patches by Colin Leroy: fix expired items number GUI after
 		restart, fix a memory leak in rssyl_parse_rss, Atom feed parser.

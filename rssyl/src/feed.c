@@ -218,8 +218,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, rssyl_strreplace(*title, "/", "\\"), NULL);
 
-	if( opendir(dir) == NULL ) {
-		if( mkdir(dir, S_IRWXU ) < 0 ) {
+	if( !g_file_test(dir, (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) ) {
+		if( make_dir(dir) < 0 ) {
 			g_warning("couldn't create directory %s\n", dir);
 			g_free(dir);
 			return NULL;

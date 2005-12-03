@@ -31,6 +31,7 @@
 #include <curl/curl.h>
 
 #include "procheader.h"
+#include "common/utils.h"
 
 #include "feed.h"
 #include "feedprops.h"
@@ -77,8 +78,8 @@ void rssyl_init(void)
 	folder_register_class(rssyl_folder_get_class());
 	rssyl_gtk_init();
 
-	if( opendir(rssyl_dir) == NULL ) {
-		if( mkdir(rssyl_dir, S_IRWXU ) < 0 ) {
+	if( g_file_test(rssyl_dir, (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) ) {
+		if( make_dir(rssyl_dir) < 0 ) {
 			g_warning("couldn't create directory %s\n", rssyl_dir);
 		}
 	}
