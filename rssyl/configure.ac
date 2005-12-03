@@ -41,6 +41,16 @@ AM_PATH_GLIB_2_0(2.4.0,,
 AM_PATH_GTK_2_0(2.4.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
+# Find curl-config
+AC_PATH_PROG(CURL_CONFIG, curl-config, no)
+if test x$CURL_CONFIG = xno ; then
+	AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
+fi
+CURL_CFLAGS="`$CURL_CONFIG --cflags`"
+
+CFLAGS="$CFLAGS $CURL_CFLAGS"
+
+CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
 AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
 AC_CHECK_LIB(curl,curl_global_init, [LIBS="$LIBS `curl-config --libs`"],
 						 [AC_MSG_ERROR(curl libs are missing)])

@@ -56,10 +56,28 @@ static void rssyl_init_read_func(FolderItem *item, gpointer data)
 	rssyl_get_feed_props((RSSylFolderItem *)item);
 }
 
+static void rssyl_make_rc_dir(void)
+{
+	gchar *rssyl_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+			NULL);
+
+	if( !g_file_test(rssyl_dir, (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) ) {
+		if( make_dir(rssyl_dir) < 0 ) {
+			g_warning("couldn't create directory %s\n", rssyl_dir);
+		}
+
+		debug_print("created directorty %s\n", rssyl_dir);
+	}
+
+	g_free(rssyl_dir);
+}
+
 static void rssyl_create_default_mailbox(void)
 {
 	Folder *root = NULL;
 	FolderItem *item;
+
+	rssyl_make_rc_dir();
 
 	root = folder_new(rssyl_folder_get_class(), RSSYL_DEFAULT_MAILBOX, NULL);
 
@@ -73,18 +91,10 @@ static void rssyl_create_default_mailbox(void)
 
 void rssyl_init(void)
 {
-	gchar *rssyl_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			NULL);
 	folder_register_class(rssyl_folder_get_class());
 	rssyl_gtk_init();
 
-	if( g_file_test(rssyl_dir, (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) ) {
-		if( make_dir(rssyl_dir) < 0 ) {
-			g_warning("couldn't create directory %s\n", rssyl_dir);
-		}
-	}
-
-	g_free(rssyl_dir);
+	rssyl_make_rc_dir();
 
 	folder_func_to_all_folders((FolderItemFunc)rssyl_init_read_func, NULL);
 
@@ -174,6 +184,8 @@ static Folder *rssyl_new_folder(const gchar *name, const gchar *path)
 
 	debug_print("RSSyl: new_folder\n");
 
+	rssyl_make_rc_dir();
+
 	folder = g_new0(RSSylFolder, 1);
 	FOLDER(folder)->klass = &rssyl_class;
 	folder_init(FOLDER(folder), name);
@@ -207,6 +219,8 @@ static gint rssyl_create_tree(Folder *folder)
 {
 	FolderItem *rootitem;
 	GNode *rootnode;
+
+	rssyl_make_rc_dir();
 
 	if( !folder->node ) {
 		rootitem = folder_item_new(folder, folder->name, NULL);

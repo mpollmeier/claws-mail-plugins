@@ -1,3 +1,7 @@
+2005-12-03 19:46  Andrej Kacian <andrej@kacian.sk>
+	* configure.ac: Get search curl headers where curl-config tells us.
+	* src/rssyl.c: Make sure our rcdir is always there.
+
 2005-12-03 13:51  Andrej Kacian <andrej@kacian.sk>
 	* src: Moved rssyl_parse_*() functions to a separate file.
 
