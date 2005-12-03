@@ -1,3 +1,7 @@
+2005-12-03 13:51  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c: fix logic and possible segfault in link handling in
+		rssyl_parse_atom()
+
 2005-12-03 06:16  Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c, src/rssyl.c: use sylpheed's make_dir() instead of mkdir(). Use
 		glib's g_file_test() instead of opendir() to check if the dir exists.

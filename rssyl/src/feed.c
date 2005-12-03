@@ -606,6 +606,7 @@ static gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem)
 	xmlNodePtr node, n;
 	gint count = 0;
 	RSSylFeedItem *fitem = NULL;
+	gchar *link_type, *link_href;
 
 	g_return_val_if_fail(doc != NULL, 0);
 	g_return_val_if_fail(ritem != NULL, 0);
@@ -637,15 +638,14 @@ static gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem)
 				fitem->title = g_strdup(xmlNodeGetContent(n));
 				debug_print("RSSyl: XML - Atom item title: '%s'\n", fitem->title);
 			}
-
 			/* Text */
 			if( !strcmp(n->name, "summary") && !got_content ) {
-					debug_print("RSSyl: XML - Atom item text (description) caught\n");
+					debug_print("RSSyl: XML - Atom item text (summary) caught\n");
 					fitem->text = g_strdup(xmlNodeGetContent(n));
 			}
 
 			if( !strcmp(n->name, "content") ) {
-					debug_print("RSSyl: XML - Atom item text (description) caught\n");
+					debug_print("RSSyl: XML - Atom item text (content) caught\n");
 					if (fitem->text)
 						g_free(fitem->text);
 					fitem->text = g_strdup(xmlNodeGetContent(n));
@@ -655,8 +655,10 @@ static gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem)
 			/* URL link to the original post */
 			if( !strcmp(n->name, "link") ) {
 
-				if( !strcmp("text/html", xmlGetProp(n, "type")) ) {
-					fitem->link = g_strdup(xmlGetProp(n, "href"));
+				link_type = xmlGetProp(n, "type");
+				if( !link_type || !strcmp("text/html", link_type) ) {
+					link_href = xmlGetProp(n, "href");
+					fitem->link = (link_href ? g_strdup(link_href) : NULL);
 					debug_print("RSSyl: XML - Atom item link: '%s'\n", fitem->link);
 				}
 			}
