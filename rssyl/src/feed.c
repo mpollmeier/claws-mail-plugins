@@ -61,16 +61,35 @@ typedef struct _RSSylThreadCtx RSSylThreadCtx;
 static void *rssyl_fetch_feed_threaded(void *arg)
 {
 	RSSylThreadCtx *ctx = (RSSylThreadCtx *)arg;
-	CURL *eh = curl_easy_init();
+	CURL *eh = NULL;
 	CURLcode res;
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);
 	int fd = mkstemp(template);
 	FILE *f;
 
-	g_return_val_if_fail(eh != NULL, NULL);
+	if (fd == -1) {
+		perror("mkstemp");
+		ctx->ready = TRUE;
+		g_free(template);
+		return NULL;
+	}
 
 	f = fdopen(fd, "w");
+	if (f == NULL) {
+		perror("fdopen");
+		ctx->ready = TRUE;
+		g_free(template);
+		return NULL;
+	}
+
+	eh = curl_easy_init();
+	if (eh == NULL) {
+		g_warning("can't init curl");
+		ctx->ready = TRUE;
+		g_free(template);
+		return NULL;
+	}
 
 	curl_easy_setopt(eh, CURLOPT_URL, ctx->url);
 	curl_easy_setopt(eh, CURLOPT_NOPROGRESS, 1);
@@ -145,6 +164,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 
 	STATUSBAR_POP(mainwin);
 
+	g_return_val_if_fail (template != NULL, NULL);
+	
+		
 	/* Strip ugly \r\n endlines */
 	file_strip_crs((gchar *)template);
 

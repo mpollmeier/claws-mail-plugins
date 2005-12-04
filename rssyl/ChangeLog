@@ -1,3 +1,8 @@
+2005-12-04 15:24  Colin Leroy <colin@colino.net>
+	* src/feed.c: Make sure template is opened in rssyl_fetch_feed_threaded,
+		set ctx->ready to TRUE before returning on error, and check
+		template isn't NULL in caller. Maybe fixes bug #864.
+
 2005-12-03 19:46  Andrej Kacian <andrej@kacian.sk>
 	* configure.ac: Get search curl headers where curl-config tells us.
 	* src/rssyl.c: Make sure our rcdir is always there.
