@@ -4,7 +4,7 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_HEADERS(config.h)
 
-PLUGINVERSION=0.3
+PLUGINVERSION=0.3pre3
 AM_INIT_AUTOMAKE(rssyl, $PLUGINVERSION, no-define)
 
 AC_PROG_CC
@@ -52,10 +52,15 @@ CFLAGS="$CFLAGS $CURL_CFLAGS"
 
 CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
 AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
-AC_CHECK_LIB(curl,curl_global_init, [LIBS="$LIBS `curl-config --libs`"],
-						 [AC_MSG_ERROR(curl libs are missing)])
 
-PKG_CHECK_MODULES(libxml, "libxml-2.0",,[AC_MSG_ERROR(libxml library is missing)])
+CURL_LIBS="`$CURL_CONFIG --libs`"
+
+LIBS="$LIBS $CURL_LIBS"
+AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
+
+PKG_CHECK_MODULES(libxml, "libxml-2.0",,
+									[AC_MSG_ERROR(libxml library is missing)])
+
 CFLAGS="$CFLAGS `pkg-config --cflags libxml-2.0`"
 LIBS="$LIBS `pkg-config --libs libxml-2.0`"
 
