@@ -1,3 +1,8 @@
+2005-12-07 [colin]      0.11
+
+	* Add plugin_licence()
+	  Fix bug #807 (mime parts not viewable after Flags changed)
+	
 2006-10-05 [colin] 	0.10
 
 	* src/maildir.c

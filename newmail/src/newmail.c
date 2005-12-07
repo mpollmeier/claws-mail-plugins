@@ -150,3 +150,8 @@ const gchar *plugin_type (void)
 {
     return ("Common");
     } /* plugin_type */
+
+const gchar *plugin_licence (void)
+{
+    return ("GPL");
+    } /* plugin_licence */

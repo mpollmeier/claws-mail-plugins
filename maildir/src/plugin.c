@@ -1,6 +1,6 @@
 /*
- * CacheSaver plugin for sylpheed-claws
- * Copyright (C) 2004 Colin Leroy
+ * Maildir Plugin -- Maildir++ support for Sylpheed
+ * Copyright (C) 2003-2004 Christoph Hohmann
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,29 +19,10 @@
 
 #include "common/version.h"
 #include "common/plugin.h"
-
 #include "folder.h"
 
-static guint tag = 0;
-
-static void save_all_caches(FolderItem *item, gpointer data)
-{
-	
-	if (!item->cache)
-		return;
-	gchar *id = folder_item_get_identifier(item);
-	g_free(id);
-	folder_item_write_cache(item);
-}
-
-gint save_caches(void *data)
-{
-	debug_print("CacheSaver: saving caches...\n");
-	folder_write_list();
-	folder_func_to_all_folders(save_all_caches, NULL);
-	debug_print("CacheSaver: caches saved\n");
-	return TRUE;
-}
+#include "maildir.h"
+#include "uiddb.h"
 
 gint plugin_init(gchar **error)
 {
@@ -50,32 +31,31 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 12, 0))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 10, 48))) {
 		*error = g_strdup("Your sylpheed version is too old");
 		return -1;
 	}
-	if (tag == 0)
-		tag = gtk_timeout_add(60*1000, save_caches, NULL);
+
+	uiddb_init();
+	folder_register_class(maildir_get_class());
+
 	return 0;
 }
 
 void plugin_done()
 {
-	if (tag != 0) {
-		gtk_timeout_remove(tag);
-		tag = 0;
-	}
+	folder_unregister_class(maildir_get_class());
+	uiddb_done();
 }
 
 const gchar *plugin_name()
 {
-	return "CacheSaver";
+	return "Maildir++";
 }
 
 const gchar *plugin_desc()
 {
-	return "This plugin saves the caches every minute.\n"
-		"It helps avoiding the loss of metadata on crashes.";
+	return "";
 }
 
 const gchar *plugin_type()

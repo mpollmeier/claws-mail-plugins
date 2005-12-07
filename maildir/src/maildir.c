@@ -37,6 +37,9 @@
 #include "maildir.h"
 #include "localfolder.h"
 #include "uiddb.h"
+#include "mainwindow.h"
+#include "summaryview.h"
+#include "messageview.h"
 
 #define MAILDIR_FOLDERITEM(item) ((MaildirFolderItem *) item)
 
@@ -233,7 +236,8 @@ static void build_tree(GNode *node, glob_t *globbuf)
         for (i = 0; i < globbuf->gl_pathc; i++) {
 		FolderItem *newitem;
 		GNode *newnode;
-		gchar *dirname, *tmpstr, *foldername, *dirname_utf8, *foldername_utf8;
+		const gchar *dirname, *foldername;
+		gchar *tmpstr, *dirname_utf8, *foldername_utf8;
 		gboolean res;
 
 		dirname = g_basename(globbuf->gl_pathv[i]);
@@ -846,6 +850,15 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 
 	g_free(oldname);
 	uiddb_free_msgdata(msgdata);
+	
+	if (renamefile) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		SummaryView *summaryview = mainwin->summaryview;
+		messageview_show(
+			summaryview->messageview, 
+			msginfo,
+			summaryview->messageview->all_headers);
+	}
 }
 
 static gboolean setup_new_folder(const gchar * path, gboolean subfolder)

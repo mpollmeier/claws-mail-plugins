@@ -741,12 +741,12 @@ void acpi_done(void)
 gint plugin_init(gchar **error)
 {
 	if((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your sylpheed version is newer than the "
-				  "version the plugin was built with");
+		*error = g_strdup("Your Sylpheed-Claws version is newer than the "
+				  "version AcpiNotifier was built with");
 		return -1;
 	}
 	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
-		*error = g_strdup("Your sylpheed version is too old");
+		*error = g_strdup("Your Sylpheed-Claws version is too old for AcpiNotifier");
 		return -1;
 	}
 	acpi_init();
@@ -771,4 +771,9 @@ const gchar *plugin_desc(void)
 const gchar *plugin_type(void)
 {
 	return "GTK2";
+}
+
+const gchar *plugin_licence(void)
+{
+	return "GPL";
 }

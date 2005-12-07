@@ -86,5 +86,10 @@ const gchar *plugin_desc(void)
 
 const gchar *plugin_type(void)
 {
-	return "Common";
+	return "GTK2";
+}
+
+const gchar *plugin_licence(void)
+{
+		return "GPL";
 }

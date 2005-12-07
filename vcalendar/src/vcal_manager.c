@@ -273,8 +273,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	gchar *attendee  = NULL;
 	gchar *body, *headers, *qpbody;
 	gchar **lines = NULL;
-	gchar *tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
-				      G_DIR_SEPARATOR, getuid(), event->uid);
+	gchar *tmpfile = NULL;
 	gchar *tmpstr = NULL;
 	icalcomponent *calendar, *ievent;
 	icalproperty *attprop;
@@ -282,7 +281,13 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	icalparameter *param = NULL;
 	enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
 	int i = 0;
+	gchar *sanitized_uid = g_strdup(event->uid);
+	
+	subst_for_filename(sanitized_uid);
 
+	tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
+				      G_DIR_SEPARATOR, getuid(), sanitized_uid);
+	g_free(sanitized_uid);
 	if (!account) {
 		g_free(organizer);
 		g_free(tmpfile);
@@ -470,8 +475,13 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 
 	prop = icalcomponent_get_first_property(ievent, ICAL_UID_PROPERTY);
 	if (prop) {
+		gchar *sanitized_uid = g_strdup(icalproperty_get_uid(prop));
+
+		subst_for_filename(sanitized_uid);
+
 		tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
-				      G_DIR_SEPARATOR, getuid(), icalproperty_get_uid(prop));
+					      G_DIR_SEPARATOR, getuid(), sanitized_uid);
+		g_free(sanitized_uid);
 		icalproperty_free(prop);
 	} else {
 		tmpfile = g_strdup_printf("%s%cevt-%d-%p", g_get_tmp_dir(),

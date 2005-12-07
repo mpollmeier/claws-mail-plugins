@@ -1,3 +1,7 @@
+2005-12-07 [colin]	0.6
+
+	* Add plugin_licence()
+
 2005-11-26 [colin]	0.5
 
 	* Add support for acer_acpi in addition to acerhk

@@ -1,3 +1,9 @@
+sylpheed-claws-acpi-notifier-plugin (0.6-1) unstable; urgency=low
+
+  * new upstream Release.
+
+ -- Colin Leroy <colin@colino.net>  Wed,  7 Dec 2005 18:22:12 +0200
+
 sylpheed-claws-acpi-notifier-plugin (0.5-1) unstable; urgency=low
 
   * Initial Release.

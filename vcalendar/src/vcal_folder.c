@@ -411,7 +411,7 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 
 	update_subscription(item->uri, TRUE);
 
-	*old_uids_valid = FALSE;
+	*old_uids_valid = TRUE;
 	*list = NULL;
 
 	if (item->cal)
@@ -455,6 +455,9 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	int n_msg = 1;
 	gchar *snmsg = NULL;
 	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
+	
+	*old_uids_valid = TRUE;
+	
 	if (((VCalFolderItem *)item)->uri) 
 		return feed_fetch(item, list, old_uids_valid);
 	
@@ -743,15 +746,20 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags)
 {
 	if (newflags & MSG_DELETED) {
+		/* delete the stuff */
 		msginfo->flags.perm_flags |= MSG_DELETED;
 		vcal_remove_event(folder, msginfo);
 		return;
 	}
 
+	/* accept the rest */
+	msginfo->flags.perm_flags = newflags;
+
+	/* but not color */
+	msginfo->flags.perm_flags &= ~MSG_CLABEL_FLAG_MASK;
+	
 	if (msginfo->date_t > time(NULL))
 		msginfo->flags.perm_flags |= MSG_COLORLABEL_TO_FLAGS(2); /* Red */
-	else
-		msginfo->flags.perm_flags &= ~MSG_COLORLABEL_TO_FLAGS(2); /* Red */
 }
 
 void vcal_folder_gtk_init(void)

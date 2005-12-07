@@ -3,7 +3,7 @@ Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc1), libgtk2.0-dev libperl-dev (>= 5.8.0)
+Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc1), libgtk2.0-dev, libperl-dev (>= 5.8.0)
 Standards-Version: 3.6.1
 
 Package: sylpheed-claws-perl-plugin

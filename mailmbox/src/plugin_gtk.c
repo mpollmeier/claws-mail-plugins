@@ -121,6 +121,11 @@ const gchar *plugin_type(void)
 	return "GTK2";
 }
 
+const gchar *plugin_licence(void)
+{
+		return "GPL";
+}
+
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
 {
 #define SET_SENS(name, sens) \
