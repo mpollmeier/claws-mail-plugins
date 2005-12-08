@@ -140,7 +140,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 
 	debug_print("RSSyl: XML - url is '%s'\n", url);
 
-	STATUSBAR_PUSH(mainwin, g_strdup_printf("Fetching '%s'...\n", url) );
+	STATUSBAR_PUSH(mainwin, g_strdup_printf("Fetching '%s'...", url) );
 	GTK_EVENTS_FLUSH();
 
 #ifdef USE_PTHREAD
@@ -538,7 +538,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);
 	rootnode = g_ascii_strdown(node->name, -1);
 
-	STATUSBAR_PUSH(mainwin, g_strdup_printf("Refreshing feed '%s'...\n",
+	STATUSBAR_PUSH(mainwin, g_strdup_printf("Refreshing feed '%s'...",
 				ritem->item.name) );
 	GTK_EVENTS_FLUSH();
 
