@@ -3,12 +3,12 @@ Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc1), libgtk2.0-dev, libperl-dev (>= 5.8.0)
+Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc2), libgtk2.0-dev, libperl-dev (>= 5.8.0)
 Standards-Version: 3.6.1
 
 Package: sylpheed-claws-perl-plugin
 Architecture: any
-Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc1), libperl5.8 (>= 5.8.0)
+Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc2), libperl5.8 (>= 5.8.0)
 Conflicts: sylpheed-claws (>= 2.0.1)
 Recommends: sylpheed-claws-plugins
 Description: This plugin is intended to extend the filtering possibilities of Sylpheed-Claws. It provides a Perl interface to Sylpheed-Claws' filtering mechanism, allowing the use of full Perl power in email filters.

@@ -3,12 +3,12 @@ Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc1), libgtk2.0-dev, libsynce0-dev, librapi2-dev
+Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc2), libgtk2.0-dev, libsynce0-dev, librapi2-dev
 Standards-Version: 3.6.1
 
 Package: sylpheed-claws-synce-plugin
 Architecture: any
-Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc1)
+Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc2)
 Conflicts: sylpheed-claws (>= 2.0.1)
 Recommends: sylpheed-claws-plugins
 Description: This plugin assists in keeping the addressbook of a Windows CE device (Pocket PC/ iPAQ, Smartphone etc) in sync with Claws' addressbook, with respect to email addresses.

@@ -3,12 +3,12 @@ Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc1), libgtk2.0-dev
+Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc2), libgtk2.0-dev
 Standards-Version: 3.6.1
 
 Package: sylpheed-claws-mailmbox-plugin
 Architecture: any
-Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc1)
+Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc2)
 Conflicts: sylpheed-claws (>= 2.0.1)
 Recommends: sylpheed-claws-plugins
 Description: This plugin provides direct support for Maildir++ mailboxes. With this plugin you can share your Maildir++ mailbox with other mailers or IMAP servers.

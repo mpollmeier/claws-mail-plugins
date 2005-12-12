@@ -3,12 +3,12 @@ Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc1), libgtk2.0-dev, libcurl3-dev (>= 7.14.0), libxml2-dev (>= 2.6.21)
+Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (>= 2.0.0-rc2), libgtk2.0-dev, libcurl3-dev (>= 7.14.0), libxml2-dev (>= 2.6.21)
 Standards-Version: 3.6.1
 
 Package: sylpheed-claws-rssyl-plugin
 Architecture: any
-Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc1), libcurl3 (>= 7.14.0), libxml2 (>= 2.6.21)
+Depends: ${shlibs:Depends}, sylpheed-claws (>= 2.0.0-rc2), libcurl3 (>= 7.14.0), libxml2 (>= 2.6.21)
 Conflicts: sylpheed-claws (>= 2.0.1)
 Recommends: sylpheed-claws-plugins
 Description: This plugin allows you to read your favorite newsfeeds in Claws. RSS 1.0, 2.0 and Atom feeds are currently supported.
