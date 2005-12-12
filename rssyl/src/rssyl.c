@@ -61,7 +61,7 @@ static void rssyl_make_rc_dir(void)
 	gchar *rssyl_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			NULL);
 
-	if( !g_file_test(rssyl_dir, (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) ) {
+	if( !is_dir_exist(rssyl_dir) ) {
 		if( make_dir(rssyl_dir) < 0 ) {
 			g_warning("couldn't create directory %s\n", rssyl_dir);
 		}
@@ -275,15 +275,16 @@ static void rssyl_item_destroy(Folder *folder, FolderItem *item)
 static FolderItem *rssyl_create_folder(Folder *folder,
 								FolderItem *parent, const gchar *name)
 {
-	gchar *path = NULL;
+	gchar *path = NULL, *tmp;
 	FolderItem *newitem = NULL;
 
 	g_return_val_if_fail(folder != NULL, NULL);
 	g_return_val_if_fail(parent != NULL, NULL);
 	g_return_val_if_fail(name != NULL, NULL);
-
+	tmp = rssyl_strreplace((gchar *)name, "/", "\\");
 	path = g_strconcat((parent->path != NULL) ? parent->path : "", ".",
-									rssyl_strreplace((gchar *)name, "/", "\\"), NULL);
+				tmp, NULL);
+	g_free(tmp);
 	newitem = folder_item_new(folder, name, path);
 	folder_item_append(parent, newitem);
 	g_free(path);
@@ -293,8 +294,12 @@ static FolderItem *rssyl_create_folder(Folder *folder,
 
 static gchar *rssyl_item_get_path(Folder *folder, FolderItem *item)
 {
-	return g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, rssyl_strreplace(item->name, "/", "\\"), NULL);
+	gchar *result, *tmp;
+	tmp = rssyl_strreplace(item->name, "/", "\\");
+	result = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+			G_DIR_SEPARATOR_S, tmp, NULL);
+	g_free(tmp);
+	return result;
 }
 
 static gint rssyl_rename_folder(Folder *folder, FolderItem *item,
@@ -381,9 +386,11 @@ static gboolean rssyl_scan_required(Folder *folder, FolderItem *item)
 static gchar *rssyl_fetch_msg(Folder *folder, FolderItem *item, gint num)
 {
 	gchar *snum = g_strdup_printf("%d", num);
+	gchar *tmp = rssyl_strreplace(item->name, "/", "\\");
 	gchar *file = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, rssyl_strreplace(item->name, "/", "\\"),
+			G_DIR_SEPARATOR_S, tmp,
 			G_DIR_SEPARATOR_S, snum, NULL);
+	g_free(tmp);
 	debug_print("RSSyl: fetch_msg: '%s'\n", file);
 
 	g_free(snum);

@@ -130,7 +130,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 #ifdef USE_PTHREAD
 	pthread_t pt;
 #endif
-
+	gchar * msg = NULL, *tmp;
+	gchar *content;
+	
 	ctx->url = url;
 	ctx->ready = FALSE;
 
@@ -140,7 +142,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 
 	debug_print("RSSyl: XML - url is '%s'\n", url);
 
-	STATUSBAR_PUSH(mainwin, g_strdup_printf("Fetching '%s'...", url) );
+	msg = g_strdup_printf("Fetching '%s'...", url);
+	STATUSBAR_PUSH(mainwin, msg );
+	g_free(msg);
+
 	GTK_EVENTS_FLUSH();
 
 #ifdef USE_PTHREAD
@@ -162,6 +167,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 	(gchar *)template = rssyl_fetch_feed_threaded(ctx);
 #endif
 
+	g_free(ctx);
 	STATUSBAR_POP(mainwin);
 
 	g_return_val_if_fail (template != NULL, NULL);
@@ -193,11 +199,12 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 			g_free(xpath);
 			return NULL;
 		}
-		g_free(rootnode);
 
 		if( xmlXPathNodeSetIsEmpty(result->nodesetval) ) {
 			debug_print("RSSyl: XML - nodeset empty for '%s'\n", xpath);
+			g_free(rootnode);
 			g_free(xpath);
+			xmlXPathFreeObject(result);
 			xmlXPathFreeContext(context);
 			return NULL;
 		}
@@ -206,9 +213,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 		xmlXPathFreeContext(context);
 		node = result->nodesetval->nodeTab[0];
 		xmlXPathFreeObject(result);
-
-		debug_print("RSSyl: XML - title is '%s'\n", xmlNodeGetContent(node) );
-		*title = g_strdup(xmlNodeGetContent(node));
+		content = xmlNodeGetContent(node);
+		debug_print("RSSyl: XML - title is '%s'\n", content );
+		*title = g_strdup(content);
+		xmlFree(content);
 		debug_print("RSSyl: XML - our title is '%s'\n", *title);
 	} else if( !xmlStrcmp(rootnode, "rdf") ) {
 		node = node->children;
@@ -218,7 +226,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 		/* now find "title" */
 		for( n = node->children; n; n = n->next ) {
 			if( !xmlStrcmp(n->name, "title") ) {
-				*title = g_strdup(xmlNodeGetContent(n));
+				content = xmlNodeGetContent(n);
+				*title = g_strdup(content);
+				xmlFree(content);
 				debug_print("RSSyl: XML - RDF our title is '%s'\n", *title);
 			}
 		}
@@ -226,7 +236,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 		/* find "title" */
 		for( n = node->children; n; n = n->next ) {
 			if( !xmlStrcmp(n->name, "title") ) {
-				*title = g_strdup(xmlNodeGetContent(n));
+				content = xmlNodeGetContent(n);
+				*title = g_strdup(content);
+				xmlFree(content);
 				debug_print("RSSyl: XML - FEED our title is '%s'\n", *title);
 			}
 		}
@@ -238,17 +250,20 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 
 	g_return_val_if_fail(*title != NULL, NULL);
 
+	tmp = rssyl_strreplace(*title, "/", "\\");
 	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, rssyl_strreplace(*title, "/", "\\"), NULL);
-
-	if( !g_file_test(dir, (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) ) {
+			G_DIR_SEPARATOR_S, tmp, NULL);
+	g_free(tmp);
+	if( !is_dir_exist(dir) ) {
 		if( make_dir(dir) < 0 ) {
 			g_warning("couldn't create directory %s\n", dir);
+			g_free(rootnode);
 			g_free(dir);
 			return NULL;
 		}
 	}
 
+	g_free(rootnode);
 	g_free(dir);
 
 	return doc;
@@ -280,10 +295,11 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 		lines = g_strsplit(contents, "\n", 0);
 	} else {
 		g_warning("Badly formatted file found, ignoring: '%s'\n", path);
+		g_free(contents);
 		return NULL;
 	}
 
-	fitem = g_new0(RSSylFeedItem, 1);
+	fitem = g_new0(RSSylFeedItem, 1); /* free that */
 	fitem->date = -1;
 	fitem->link = NULL;
 	fitem->text = NULL;
@@ -314,8 +330,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 				/* Date */
 				if( !strcmp(line[0], "Date") ) {
 					fitem->date = parseRFC822Date(line[1]);
-					debug_print("RSSyl: got date '%s'\n",
-							createRFC822Date(&fitem->date) );
+					debug_print("RSSyl: got date \n" );
 				}
 
 				/* Title */
@@ -351,6 +366,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 					debug_print("RSSyl: updated link to '%s'\n", fitem->link);
 				}
 			}
+			g_strfreev(line);
 		} else {
 			if( !strcmp(lines[i], RSSYL_TEXT_START) ) {
 				debug_print("Leading html tag found at line %d\n", i);
@@ -382,7 +398,8 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 		i++;
 	}
-
+	g_strfreev(lines);
+	g_free(contents);
 	return fitem;
 }
 
@@ -421,6 +438,7 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 
 	if( (dp = opendir(".")) == NULL ) {
 		FILE_OP_ERROR(item->path, "opendir");
+		g_free(path);
 		return;
 	}
 
@@ -434,6 +452,7 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 		}
 	}
 	closedir(dp);
+	g_free(path);
 
 	debug_print("RSSyl: rssyl_read_existing() is returning\n");
 }
@@ -529,7 +548,8 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 	gchar *rootnode;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	gint count;
-
+	gchar *msg;
+	
 	rssyl_read_existing(ritem);
 
 	node = xmlDocGetRootElement(doc);
@@ -538,8 +558,10 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);
 	rootnode = g_ascii_strdown(node->name, -1);
 
-	STATUSBAR_PUSH(mainwin, g_strdup_printf("Refreshing feed '%s'...",
-				ritem->item.name) );
+	msg = g_strdup_printf("Refreshing feed '%s'...",
+				ritem->item.name);
+	STATUSBAR_PUSH(mainwin, msg );
+	g_free(msg);
 	GTK_EVENTS_FLUSH();
 
 	folder_item_update_freeze();
@@ -613,8 +635,11 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	f = fdopen(fd, "w");
 	g_return_val_if_fail(f != NULL, FALSE);
 
-	if( fitem->date != -1 )
-		fprintf(f, "Date: %s\n", createRFC822Date(&fitem->date) );
+	if( fitem->date != -1 ) {
+		gchar *tmpdate = createRFC822Date(&fitem->date);
+		fprintf(f, "Date: %s\n", tmpdate );
+		g_free(tmpdate);
+	}
 
 	if( fitem->author ) {
 		if (g_utf8_validate(fitem->author, -1, NULL)) {
@@ -722,7 +747,7 @@ void rssyl_remove_feed_cache(FolderItem *item)
 
 void rssyl_update_feed(RSSylFolderItem *ritem)
 {
-	gchar *title, *dir, *dir2;
+	gchar *title, *dir, *dir2, *tmp;
 	xmlDocPtr doc;
 
 	g_return_if_fail(ritem != NULL);
@@ -735,13 +760,16 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 	g_return_if_fail(doc != NULL);
 	g_return_if_fail(title != NULL);
 
+	tmp = rssyl_strreplace(title, "/", "\\");
 	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, rssyl_strreplace(title, "/", "\\"), NULL);
+			G_DIR_SEPARATOR_S, tmp, NULL);
+	g_free(tmp);
 	if( strcmp(title, (&ritem->item)->name) ) {
+		tmp = rssyl_strreplace((&ritem->item)->name, "/", "\\");
 		dir2 = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-				G_DIR_SEPARATOR_S, rssyl_strreplace((&ritem->item)->name, "/", "\\"),
+				G_DIR_SEPARATOR_S, tmp,
 				NULL);
-
+		g_free(tmp);
 		if( g_rename(dir2, dir) == -1 ) {
 			g_warning("couldn't rename directory '%s'\n", dir2);
 			g_free(dir);
@@ -764,6 +792,7 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 
 	xmlFreeDoc(doc);
 	g_free(title);
+	g_free(dir);
 }
 
 void rssyl_start_refresh_timeout(RSSylFolderItem *ritem)

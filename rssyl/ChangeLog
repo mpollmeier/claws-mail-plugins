@@ -1,3 +1,6 @@
+2005-12-12 14:29  Andrej Kacian <andrej@kacian.sk>
+	* src: Fix many memory leaks. Thanks to Colin for the patch.
+
 2005-12-08 10:03  Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c: Do not use linebreaks for STATUSBAR_PUSH(). Patch by Fabien
 		Vantard <fzzzzz at gmail.com>.
