@@ -1,11 +1,8 @@
-echo "Running aclocal ..."
-aclocal
-echo "Running autoheader ..."
-autoheader
-echo "Running libtoolize --force ..."
-libtoolize --force
-echo "Running automake --add-missing ..."
-automake --add-missing
-echo "Running autoconf ..."
-autoconf
-echo "Done, you can run the configure script now."
+#!/bin/sh
+
+aclocal \
+  && libtoolize --copy --force \
+  && autoheader \
+  && automake --add-missing --foreign --copy \
+  && autoconf \
+  && ./configure --enable-maintainer-mode $@
