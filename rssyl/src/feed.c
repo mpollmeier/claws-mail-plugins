@@ -403,6 +403,26 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 	return fitem;
 }
 
+/* rssyl_free_feeditem()
+ * frees an RSSylFeedItem
+ */
+static void rssyl_free_feeditem(RSSylFeedItem *item)
+{
+	if (!item)
+		return;
+	g_free(item->title);
+	item->title = NULL;
+	g_free(item->text);
+	item->text = NULL;
+	g_free(item->link);
+	item->link = NULL;
+	g_free(item->author);
+	item->author = NULL;
+	g_free(item->realpath);
+	item->realpath = NULL;
+	g_free(item);
+}
+
 /* rssyl_read_existing()
  *
  * Parse all existing folder items, storing their data in memory. Data is
@@ -426,7 +446,12 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 
 	/* create a new GSList, throw away the old one */
 	if( ritem->contents != NULL ) {
-		g_slist_free(ritem->contents);
+		GSList *cur;
+		for (cur = ritem->contents; cur; cur = cur->next) {
+			RSSylFeedItem *olditem = (RSSylFeedItem *)cur->data;
+			rssyl_free_feeditem(olditem);
+		}
+		g_slist_free(ritem->contents); /* leak fix here */
 		ritem->contents = NULL;
 	}
 	ritem->contents = g_slist_alloc();
@@ -620,7 +645,8 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		debug_print("RSSyl: Item changed, removing old one and adding new...\n");
 		g_slist_remove(ritem->contents, oldfitem);
 		g_remove(oldfitem->realpath);
-		g_free(oldfitem);
+		rssyl_free_feeditem(oldfitem);
+		oldfitem = NULL;
 	}
 
 	debug_print("RSSyl: Adding item '%s'\n", fitem->title);
@@ -889,6 +915,8 @@ void rssyl_expire_items(RSSylFolderItem *ritem)
 		fitem = (RSSylFeedItem *)i->data;
 		debug_print("RSSyl: expiring '%s'\n", fitem->realpath);
 		g_remove(fitem->realpath);
+		rssyl_free_feeditem(fitem);
+		fitem = NULL;
 		ritem->contents = g_slist_remove(ritem->contents, i->data);
 	}
 
