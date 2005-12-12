@@ -1,3 +1,7 @@
+2005-12-12 [colin] 1.16
+
+	* Fix a leak
+	
 2005-12-07 [colin] 1.15
 
 	* Add plugin_licence()

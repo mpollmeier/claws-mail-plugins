@@ -819,6 +819,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 
 		event->answers = g_slist_append(event->answers, answer_new(attendee, name, answer, cutype));
 		g_free(attendee);
+		g_free(name);
 		node = node->next;
 	}
 	
