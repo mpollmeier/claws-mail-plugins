@@ -17,6 +17,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <glib.h>
+#include <glib/gi18n.h>
+
 #include "common/version.h"
 #include "common/plugin.h"
 #include "folder.h"
@@ -39,28 +42,35 @@ gint plugin_init(gchar **error)
 	uiddb_init();
 	folder_register_class(maildir_get_class());
 
+	maildir_gtk_init();
+
 	return 0;
 }
 
-void plugin_done()
+void plugin_done(void)
 {
 	folder_unregister_class(maildir_get_class());
 	uiddb_done();
+	maildir_gtk_done();
 }
 
-const gchar *plugin_name()
+const gchar *plugin_name(void)
 {
 	return "Maildir++";
 }
 
-const gchar *plugin_desc()
+const gchar *plugin_desc(void)
 {
-	return "";
+	return _("This plugin provides direct support for Maildir++ mailboxes.\n"
+	       "\n"
+	       "With this plugin you can share your Maildir++ mailbox with "
+	       "other mailers or IMAP servers.\n"
+	       "\n");
 }
 
-const gchar *plugin_type()
+const gchar *plugin_type(void)
 {
-	return "Common";
+	return "GTK2";
 }
 
 const gchar *plugin_licence(void)

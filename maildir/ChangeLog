@@ -1,3 +1,10 @@
+2005-12-13 [paul]	0.12
+
+	* src/Makefile.am
+	* src/plugin.c
+	* src/plugin_gtk.c 	** REMOVED **
+		merge maildir and maildir_gtk plugins
+
 2005-12-07 [colin]      0.11
 
 	* Add plugin_licence()
