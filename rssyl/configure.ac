@@ -14,26 +14,28 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AC_PROG_LIBTOOL
 
-#
-# Find pkg-config
-#
+dnl Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
+		 sys/param.h sys/utsname.h sys/select.h \
+		 wchar.h wctype.h locale.h netdb.h)
+
+dnl Find pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 if test x$PKG_CONFIG = xno ; then
   AC_MSG_ERROR([*** pkg-config not found. See http://www.freedesktop.org/software/pkgconfig/])
 fi
 
-#
-# Check for sylpheed-claws
-#
+dnl Check for sylpheed-claws
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.15)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
-#
-# Check for GLib
-#
+dnl Check for GLib
 AM_PATH_GLIB_2_0(2.4.0,,
         AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
         gmodule gobject gthread)
@@ -41,7 +43,7 @@ AM_PATH_GLIB_2_0(2.4.0,,
 AM_PATH_GTK_2_0(2.4.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
-# Find curl-config
+dnl Find curl-config
 AC_PATH_PROG(CURL_CONFIG, curl-config, no)
 if test x$CURL_CONFIG = xno ; then
 	AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])

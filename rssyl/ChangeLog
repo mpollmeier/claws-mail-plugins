@@ -1,3 +1,7 @@
+2005-12-13 21:59  Andrej Kacian <andrej@kacian.sk>
+	* src: More leak fixes by Colin.
+	* configure.ac: Add more header checks. Patch by Paul Mangan.
+
 2005-12-12 14:29  Andrej Kacian <andrej@kacian.sk>
 	* src: Fix many memory leaks. Thanks to Colin for the patch.
 

@@ -406,7 +406,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 /* rssyl_free_feeditem()
  * frees an RSSylFeedItem
  */
-static void rssyl_free_feeditem(RSSylFeedItem *item)
+void rssyl_free_feeditem(RSSylFeedItem *item)
 {
 	if (!item)
 		return;

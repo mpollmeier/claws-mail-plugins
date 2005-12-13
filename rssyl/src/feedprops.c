@@ -87,8 +87,10 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 		xmlXPathFreeContext(context);
 	} else {
 		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			gchar *tmp;
 			node = result->nodesetval->nodeTab[i];
-			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+			tmp = xmlGetProp(node, RSSYL_PROP_NAME);
+			if( !strcmp(tmp, item->name) ) {
 				debug_print("RSSyl: XML - updating node for '%s'\n", item->name);
 				xmlSetProp(node, RSSYL_PROP_NAME, item->name);
 				xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
@@ -102,6 +104,7 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 							g_strdup_printf("%d", ritem->expired_num) );
 				found = TRUE;
 			}
+			xmlFree(tmp);
 		}
 	}
 
@@ -172,7 +175,8 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 			if( !strcmp(property, item->name) ) {
 				/* URL */
 				tmp = xmlGetProp(node, RSSYL_PROP_URL);
-				ritem->url = (tmp ? tmp : NULL);
+				ritem->url = (tmp ? g_strdup(tmp) : NULL);
+				xmlFree(tmp);
 				tmp = NULL;
 
 				tmp = xmlGetProp(node, RSSYL_PROP_DEF_REFRESH);
@@ -255,12 +259,15 @@ void rssyl_remove_feed_props(RSSylFolderItem *ritem)
 		xmlXPathFreeContext(context);
 	} else {
 		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			gchar *tmp;
 			node = result->nodesetval->nodeTab[i];
-			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+			tmp = xmlGetProp(node, RSSYL_PROP_NAME);
+			if( !strcmp(tmp, item->name) ) {
 				debug_print("RSSyl: XML - found node for '%s', removing\n", item->name);
 				xmlUnlinkNode(node);
 				xmlFreeNode(node);
 			}
+			xmlFree(tmp);
 		}
 	}
 
@@ -305,12 +312,15 @@ void rssyl_props_update_name(RSSylFolderItem *ritem, gchar *new_name)
 		xmlXPathFreeContext(context);
 	} else {
 		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			gchar *tmp;
 			node = result->nodesetval->nodeTab[i];
-			if( !strcmp(xmlGetProp(node, RSSYL_PROP_NAME), item->name) ) {
+			tmp = xmlGetProp(node, RSSYL_PROP_NAME);
+			if( !strcmp(tmp, item->name) ) {
 				debug_print("RSSyl: XML - updating node for '%s'\n", item->name);
 				xmlSetProp(node, "name", new_name);
 				found = TRUE;
 			}
+			xmlFree(tmp);
 		}
 	}
 

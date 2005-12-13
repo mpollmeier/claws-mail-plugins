@@ -107,7 +107,10 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem)
 		}
 
 		if( fitem && fitem->link && fitem->title ) {
-			rssyl_add_feed_item(ritem, fitem);
+			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {
+				rssyl_free_feeditem(fitem);
+				fitem = NULL;
+			}
 			fitem = NULL;
 			count++;
 		}
@@ -229,7 +232,10 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem)
 		} while( (n = n->next) != NULL);
 
 		if( fitem->link && fitem->title ) {
-			rssyl_add_feed_item(ritem, fitem);
+			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {
+				rssyl_free_feeditem(fitem);
+				fitem = NULL;
+			}
 			count++;
 		}
 	}
@@ -311,7 +317,11 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem)
 					link_href = xmlGetProp(n, "href");
 					fitem->link = (link_href ? g_strdup(link_href) : NULL);
 					debug_print("RSSyl: XML - Atom item link: '%s'\n", fitem->link);
+					if (link_href)
+						xmlFree(link_href);
 				}
+				if (link_type)
+					xmlFree(link_type);
 			}
 
 			/* Date - ISO8701 format */
@@ -345,7 +355,10 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem)
 		} while( (n = n->next) != NULL);
 
 		if( fitem->link && fitem->title ) {
-			rssyl_add_feed_item(ritem, fitem);
+			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {
+				rssyl_free_feeditem(fitem);
+				fitem = NULL;
+			}
 			count++;
 		}
 	}
