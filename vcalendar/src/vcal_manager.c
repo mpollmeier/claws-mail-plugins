@@ -433,6 +433,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		i++;
 	}
 	
+	g_strfreev(lines);
+
 	body = g_strdup_printf("%s"
 			       "\n"
 			       "%s", headers, qpbody);
@@ -606,6 +608,8 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 					 
 void vcal_manager_free_event (VCalEvent *event)
 {
+	if (!event)
+		return;
 	g_free(event->uid);
 	g_free(event->organizer);
 	g_free(event->start);

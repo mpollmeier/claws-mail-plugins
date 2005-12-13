@@ -1,3 +1,7 @@
+2005-12-12 [colin] 1.17
+
+	* Fix a leak and refresh of webcal subscriptions
+	
 2005-12-12 [colin] 1.16
 
 	* Fix a leak

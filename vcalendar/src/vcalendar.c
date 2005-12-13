@@ -655,8 +655,10 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 		vcal_manager_free_event(event);
 		g_free(uid);
 		return;
+	} else if (event) {
+		vcal_manager_free_event(event);
 	}
-	
+
 	/* load it and register it */
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);

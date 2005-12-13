@@ -411,7 +411,7 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 
 	update_subscription(item->uri, TRUE);
 
-	*old_uids_valid = TRUE;
+	*old_uids_valid = FALSE;
 	*list = NULL;
 
 	if (item->cal)
