@@ -1,3 +1,7 @@
+2005-12-07 [colin]      0.4.8
+
+	* Add plugin_licence() to fetchinfo_plugin_gtk as well
+	
 2005-12-07 [colin]      0.4.7
 
 	* Add plugin_licence()
