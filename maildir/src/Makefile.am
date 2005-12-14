@@ -20,9 +20,6 @@ maildir_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
 
-maildir_gtk_la_LIBADD = \
-	$(GTK_LIBS)
-
 maildir_gtk_la_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
