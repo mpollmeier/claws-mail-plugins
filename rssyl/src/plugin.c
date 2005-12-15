@@ -35,7 +35,6 @@
 
 gint plugin_init(gchar **error)
 {
-	setlocale(LC_ALL, "");
 	if( sylpheed_get_version() > VERSION_NUMERIC ) {
 		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version the plugin was built with"));
 		return -1;
