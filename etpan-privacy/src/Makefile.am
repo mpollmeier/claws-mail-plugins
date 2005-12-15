@@ -7,7 +7,8 @@ plugin_LTLIBRARIES = etpan-privacy.la
 etpan_privacy_la_SOURCES = \
 	plugin.c \
 	etpan_privacy.c etpan_privacy.h \
-	prefs_privacy.c prefs_privacy.h
+	prefs_privacy.c prefs_privacy.h \
+	plugin_version.h
 
 etpan_privacy_la_LDFLAGS = \
 	-avoid-version -module
@@ -22,4 +23,7 @@ AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
+
+EXTRA_DIST = \
+	plugin_version.h.in
 

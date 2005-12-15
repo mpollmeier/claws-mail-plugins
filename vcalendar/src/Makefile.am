@@ -12,7 +12,8 @@ vcalendar_la_SOURCES = \
 	vcal_folder.c vcal_folder.h \
 	vcal_meeting_gtk.c vcal_meeting_gtk.h \
 	vcal_prefs.c vcal_prefs.h \
-	icaltime_as_local.c icaltime_as_local.h
+	icaltime_as_local.c icaltime_as_local.h \
+	plugin_version.h
  
 vcalendar_la_LDFLAGS = \
 	-avoid-version -module \
@@ -25,3 +26,6 @@ AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
+
+EXTRA_DIST = \
+	plugin_version.h.in

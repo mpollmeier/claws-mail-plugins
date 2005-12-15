@@ -3,7 +3,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=1.17
+PLUGINVERSION=1.18
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALPACKAGE, "Sylpheed-Claws vCalendar", [package])
@@ -33,7 +33,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.12.76)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
@@ -121,6 +121,7 @@ AC_CONFIG_HEADERS(config.h)
 AC_OUTPUT([
 Makefile
 config/Makefile
+src/plugin_version.h
 src/Makefile
 libical/Makefile
 libical/libical/icalversion.h

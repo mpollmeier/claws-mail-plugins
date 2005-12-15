@@ -5,7 +5,8 @@ plugin_LTLIBRARIES = fetchinfo_plugin.la fetchinfo_plugin_gtk.la
 EXTRA_DIST=fetchinfo_plugin_gtk.deps
 
 fetchinfo_plugin_la_SOURCES = \
-	fetchinfo_plugin.c fetchinfo_plugin.h
+	fetchinfo_plugin.c fetchinfo_plugin.h \
+	plugin_version.h
 
 fetchinfo_plugin_la_LDFLAGS = \
 	-avoid-version -module
@@ -21,3 +22,6 @@ AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
+
+EXTRA_DIST = \
+	plugin_version.h.in

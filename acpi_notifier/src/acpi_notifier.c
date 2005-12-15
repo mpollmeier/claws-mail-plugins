@@ -39,6 +39,8 @@
 #include "menu.h"
 #include "hooks.h"
 
+#include "plugin_version.h"
+
 #define PREFS_BLOCK_NAME "AcpiNotifier"
 
 typedef struct _PredefinedAcpis {
@@ -776,4 +778,9 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
 	return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }

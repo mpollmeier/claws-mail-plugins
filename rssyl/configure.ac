@@ -4,8 +4,9 @@ AM_MAINTAINER_MODE
 
 AC_CONFIG_HEADERS(config.h)
 
-PLUGINVERSION=0.3pre5
+PLUGINVERSION=0.3pre6
 AM_INIT_AUTOMAKE(rssyl, $PLUGINVERSION, no-define)
+AC_SUBST(PLUGINVERSION)
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -29,7 +30,7 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 dnl Check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.15)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
@@ -68,5 +69,6 @@ LIBS="$LIBS `pkg-config --libs libxml-2.0`"
 
 AC_OUTPUT([
 Makefile
+src/plugin_version.h
 src/Makefile
 ])

@@ -24,6 +24,7 @@
 #include "common/plugin.h"
 #include "folder.h"
 
+#include "plugin_version.h"
 #include "maildir.h"
 #include "uiddb.h"
 
@@ -76,4 +77,9 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
 		return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }

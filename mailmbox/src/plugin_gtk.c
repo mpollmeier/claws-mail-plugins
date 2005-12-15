@@ -32,6 +32,8 @@
 #include "foldersel.h"
 #include "alertpanel.h"
 
+#include "plugin_version.h"
+
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void rename_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -124,6 +126,11 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
 		return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)

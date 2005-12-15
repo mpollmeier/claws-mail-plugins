@@ -25,6 +25,8 @@
 #include "mailmbox_folder.h"
 #include "common/version.h"
 
+#include "plugin_version.h"
+
 gint plugin_init(gchar **error)
 {
         if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 10, 1))) {
@@ -62,3 +64,7 @@ const gchar *plugin_licence(void)
 		return "GPL";
 }
 
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
+}

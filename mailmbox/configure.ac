@@ -1,9 +1,10 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=1.4
+PLUGINVERSION=1.5
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(mailmbox, $PLUGINVERSION, no-define)
+AC_SUBST(PLUGINVERSION)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -25,7 +26,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.12.76)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
@@ -40,5 +41,6 @@ AM_PATH_GTK_2_0(2.4.0,,
 
 AC_OUTPUT([
 Makefile
+src/plugin_version.h
 src/Makefile
 ])

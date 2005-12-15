@@ -33,6 +33,8 @@
 #include "utils.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
+
+#include "plugin_version.h"
 #include "fetchinfo_plugin.h"
 
 struct FetchinfoPage
@@ -218,4 +220,9 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
 	return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }

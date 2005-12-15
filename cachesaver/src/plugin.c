@@ -22,6 +22,8 @@
 
 #include "folder.h"
 
+#include "plugin_version.h"
+
 static guint tag = 0;
 
 static void save_all_caches(FolderItem *item, gpointer data)
@@ -86,4 +88,9 @@ const gchar *plugin_type()
 const gchar *plugin_licence(void)
 {
 		return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }

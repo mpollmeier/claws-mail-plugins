@@ -1,9 +1,10 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=0.11
+PLUGINVERSION=0.12
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(etpan-privacy, $PLUGINVERSION, no-define)
+AC_SUBST(PLUGINVERSION)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -25,7 +26,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.12.0)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
@@ -60,6 +61,7 @@ test "x$libetpan" = "xno" && AC_MSG_ERROR([libetpan support required])
 
 AC_OUTPUT([
 Makefile
+src/plugin_version.h
 config/Makefile
 src/Makefile
 ])

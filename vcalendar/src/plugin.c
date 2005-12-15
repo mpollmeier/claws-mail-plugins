@@ -26,7 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
-
+#include "plugin_version.h"
 #include "version.h"
 #include "vcalendar.h"
 #include "sylpheed.h"
@@ -81,3 +81,7 @@ const gchar *plugin_licence(void)
 	return "GPL";
 }
 
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
+}

@@ -1,3 +1,7 @@
+2005-12-15 [paul]	0.13
+
+	* Add plugin_version()
+
 2005-12-13 [paul]	0.12
 
 	* src/Makefile.am

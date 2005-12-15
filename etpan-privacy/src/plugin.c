@@ -37,6 +37,7 @@
 
 #include "pop.h"
 #include "privacy.h"
+#include "plugin_version.h"
 #include "etpan_privacy.h"
 #include "prefs_privacy.h"
 
@@ -92,4 +93,9 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
 		return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }

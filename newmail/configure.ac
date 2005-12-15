@@ -6,7 +6,7 @@ PACKAGE=newmail
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=0
-MICRO_VERSION=2
+MICRO_VERSION=3
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
@@ -44,7 +44,7 @@ PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${prefix}/lib:${prefix}/lib/pkgconfig
 AC_SUBST(PKG_CONFIG_PATH)
 
 dnl check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.14.46)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
@@ -75,5 +75,6 @@ AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
 Makefile
+src/plugin_version.h
 src/Makefile
 ])

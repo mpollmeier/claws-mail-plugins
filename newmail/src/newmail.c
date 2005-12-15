@@ -33,6 +33,8 @@
 #include "hooks.h"
 #include "procmsg.h"
 
+#include "plugin_version.h"
+
 static guint hook_id;
 
 static FILE *NewLog   = NULL;
@@ -154,4 +156,10 @@ const gchar *plugin_type (void)
 const gchar *plugin_licence (void)
 {
     return ("GPL");
-    } /* plugin_licence */
+} /* plugin_licence */
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
+}
+

@@ -1,3 +1,7 @@
+2005-12-15 [paul]	0.4
+
+	* Add plugin_version()
+
 2005-12-07 [colin]      0.3
 
 	* Add plugin_licence()

@@ -2,9 +2,10 @@ AC_INIT(src/fetchinfo_plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=0.4.9
+PLUGINVERSION=0.4.10
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(fetchinfo-plugin, $PLUGINVERSION, no-define)
+AC_SUBST(PLUGINVERSION)
 
 AM_CONFIG_HEADER(pluginconfig.h)
 
@@ -26,7 +27,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.12.0)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
@@ -61,5 +62,6 @@ AC_SUBST(SYLPHEED_EXTRA)
 
 AC_OUTPUT([
 Makefile
+src/plugin_version.h
 src/Makefile
 ])

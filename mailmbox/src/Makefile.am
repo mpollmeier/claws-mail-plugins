@@ -20,7 +20,8 @@ mailmbox_la_SOURCES = \
 	mailmbox_folder.c mailmbox_folder.h \
 	mailmbox_parse.c mailmbox_parse.h \
 	mailmbox_types.c mailmbox_types.h \
-	mmapstring.c mmapstring.h
+	mmapstring.c mmapstring.h \
+	plugin_version.h
 
 mailmbox_la_LDFLAGS = \
 	-avoid-version -module
@@ -52,3 +53,6 @@ AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
+
+EXTRA_DIST = \
+	plugin_version.h.in

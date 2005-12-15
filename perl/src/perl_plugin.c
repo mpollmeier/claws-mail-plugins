@@ -57,6 +57,7 @@
 #include <perl.h>
 #include <XSUB.h>
 
+#include "plugin_version.h"
 #include "perl_plugin.h"
 #include "perl_gtk.h"
 
@@ -2128,3 +2129,7 @@ const gchar *plugin_licence(void)
 		return "GPL";
 }
 
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
+}

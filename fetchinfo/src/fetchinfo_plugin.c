@@ -42,6 +42,7 @@
 /* parse headers */
 #include "procheader.h"
 
+#include "plugin_version.h"
 
 static guint mail_receive_hook_id;
 
@@ -208,4 +209,9 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
 		return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }

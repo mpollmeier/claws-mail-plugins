@@ -29,6 +29,7 @@
 #include "common/version.h"
 #include "common/utils.h"
 
+#include "plugin_version.h"
 #include "synce_gtk.h"
 
 gint plugin_init(gchar **error)
@@ -80,5 +81,10 @@ const gchar *plugin_type(void)
 const gchar *plugin_licence(void)
 {
   return "GPL";
+}
+
+const gchar *plugin_version(void)
+{
+	return PLUGINVERSION;
 }
 
