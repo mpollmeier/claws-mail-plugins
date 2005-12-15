@@ -23,6 +23,11 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 		 sys/param.h sys/utsname.h sys/select.h \
 		 wchar.h wctype.h locale.h netdb.h)
 
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.12.1])
+ALL_LINGUAS="sk"
+AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
+
 dnl Find pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 if test x$PKG_CONFIG = xno ; then
@@ -69,6 +74,7 @@ LIBS="$LIBS `pkg-config --libs libxml-2.0`"
 
 AC_OUTPUT([
 Makefile
+po/Makefile.in
 src/plugin_version.h
 src/Makefile
 ])

@@ -1,0 +1,37 @@
+# Slovak translations for rssyl package
+# Slovenské preklady pre balík rssyl.
+# Copyright (C) 2005 Andrej Kacian
+# This file is distributed under the same license as the rssyl package.
+#  <andrej@kacian.sk>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rssyl\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2005-12-15 21:34+0100\n"
+"PO-Revision-Date: 2005-12-15 21:20+0100\n"
+"Last-Translator:  <andrej@kacian.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: src/plugin.c:39
+msgid ""
+"Your version of Sylpheed-Claws is newer than the version the plugin was "
+"built with"
+msgstr ""
+
+#: src/plugin.c:44
+msgid "Your version of Sylpheed-Claws is too old"
+msgstr ""
+
+#: src/plugin.c:65
+msgid ""
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"\n"
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
+msgstr "Nazdar prekladatel!"

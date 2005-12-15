@@ -16,6 +16,7 @@ rssyl_la_SOURCES = \
 	date.c date.h \
 	feed.c feed.h \
 	feedprops.c feedprops.h \
+	gettext.h \
 	parsers.c parsers.h \
 	plugin.c \
 	plugin_version.h \

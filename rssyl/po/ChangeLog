@@ -1,0 +1,3 @@
+2005-12-15 22:01  Andrej Kacian <andrej@kacian.sk>
+	* add gettext support
+	* initial sk.po

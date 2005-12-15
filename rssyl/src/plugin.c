@@ -28,18 +28,21 @@
 #include <sylpheed.h>
 #include <curl/curl.h>
 
+#include "gettext.h"
+
 #include "plugin_version.h"
 #include "rssyl.h"
 
 gint plugin_init(gchar **error)
 {
+	setlocale(LC_ALL, "");
 	if( sylpheed_get_version() > VERSION_NUMERIC ) {
-		*error = g_strdup("Your version of Sylpheed-Claws is newer than the version the plugin was built with");
+		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version the plugin was built with"));
 		return -1;
 	}
 
 	if( sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 15, 0) ) {
-		*error = g_strdup("Your version of Sylpheed-Claws is too old");
+		*error = g_strdup(_("Your version of Sylpheed-Claws is too old"));
 		return -1;
 	}
 
@@ -60,10 +63,10 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return "This plugin allows you to create a mailbox tree where you can add "
+	return _("This plugin allows you to create a mailbox tree where you can add "
 		"newsfeeds in RSS 1.0, RSS 2.0 or Atom format.\n\n"
 		"Each newsfeed will create a folder with appropriate entries, fetched "
-		"from the web. You can read them, and delete or keep old entries.";
+		"from the web. You can read them, and delete or keep old entries.");
 }
 
 const gchar *plugin_type(void)

@@ -1,5 +1,7 @@
-2005-12-15 11:35 Paul Mangan <claws@thewildbeast.co.uk>
+2005-12-15 22:01  Andrej Kacian <andrej@kacian.sk>
+	* src, po, configure.ac, Makefile.am: Added gettext support
 
+2005-12-15 11:35  Paul Mangan <claws@thewildbeast.co.uk>
 	* src, configure.ac: add plugin_version()
 
 2005-12-13 21:59  Andrej Kacian <andrej@kacian.sk>

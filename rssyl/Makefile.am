@@ -1,6 +1,6 @@
-SUBDIRS = src
+SUBDIRS = po src
 
-EXTRA_DIST = \
+EXTRA_DIST = config.rpath mkinstalldirs m4/ChangeLog  \
 	autogen.sh \
 	AUTHORS \
 	COPYING \
@@ -9,3 +9,5 @@ EXTRA_DIST = \
 	NEWS \
 	README \
 	TODO
+
+ACLOCAL_AMFLAGS = -I m4
