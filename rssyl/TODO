@@ -22,7 +22,7 @@ for 0.2 (or later)
 ==================
 - use alertpanel_*() for feed unsubscribe dialog (checkbutton issue)
 + threaded feed fetching
-- Gettext support
++ gettext support
 - Slovak translation
 + atom feed support
 - opml feed support
