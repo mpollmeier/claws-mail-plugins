@@ -843,6 +843,51 @@ void rssyl_start_refresh_timeout(RSSylFolderItem *ritem)
 			ritem->refresh_interval, ctx->id);
 }
 
+static void rssyl_find_feed_by_url_func(FolderItem *item, gpointer data)
+{
+	RSSylFolderItem *ritem;
+	RSSylFindByUrlCtx *ctx = (RSSylFindByUrlCtx *)data;
+
+	/* If we've already found a feed with desired URL, don't do anything */
+	if( ctx->ritem != NULL )
+		return;
+
+	/* Only check rssyl folders */
+	if( !IS_RSSYL_FOLDER_ITEM(item) )
+		return;
+
+	/* Don't bother with the root folder */
+	if( folder_item_parent(item) == NULL )
+		return;
+
+	ritem = (RSSylFolderItem *)item;
+
+	if( ritem->url && ctx->url && !strcmp(ritem->url, ctx->url) )
+		ctx->ritem = ritem;
+}
+
+static RSSylFolderItem *rssyl_find_feed_by_url(gchar *url)
+{
+	RSSylFindByUrlCtx *ctx = NULL;
+	RSSylFolderItem *ritem = NULL;
+
+	g_return_val_if_fail(url != NULL, NULL);
+
+	ctx = g_new0(RSSylFindByUrlCtx, 1);
+	ctx->url = url;
+	ctx->ritem = NULL;
+
+	folder_func_to_all_folders(
+			(FolderItemFunc)rssyl_find_feed_by_url_func, ctx);
+
+	if( ctx->ritem != NULL )
+		ritem = ctx->ritem;
+
+	g_free(ctx);
+
+	return ritem;
+}
+
 void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
 {
 	gchar *title;
@@ -852,6 +897,11 @@ void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
 
 	g_return_if_fail(parent != NULL);
 	g_return_if_fail(url != NULL);
+
+	if( rssyl_find_feed_by_url(url) != NULL ) {
+		alertpanel_error(_("You are already subscribed to this feed."));
+		return;
+	}
 
 	doc = rssyl_fetch_feed(url, &title);
 	if( !title ) {

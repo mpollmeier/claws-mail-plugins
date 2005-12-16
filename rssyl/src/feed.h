@@ -27,6 +27,13 @@ struct _RSSylFeedItem {
 
 typedef struct _RSSylFeedItem RSSylFeedItem;
 
+struct _RSSylFindByUrlCtx {
+	gchar *url;
+	RSSylFolderItem *ritem;
+};
+
+typedef struct _RSSylFindByUrlCtx RSSylFindByUrlCtx;
+
 xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title);
 void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem);
 gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem);

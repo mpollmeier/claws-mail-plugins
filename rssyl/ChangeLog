@@ -1,3 +1,6 @@
+2005-12-17 00:34  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c, src/feed.h: Do not allow subscribing to a feed more than once.
+
 2005-12-15 22:01  Andrej Kacian <andrej@kacian.sk>
 	* src, po, configure.ac, Makefile.am: Added gettext support
 
