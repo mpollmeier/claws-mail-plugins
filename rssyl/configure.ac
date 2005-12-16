@@ -1,5 +1,6 @@
 AC_PREREQ(2.50)
 AC_INIT(src/plugin.c)
+AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
 AC_CONFIG_HEADERS(config.h)
@@ -82,6 +83,7 @@ LIBS="$LIBS `pkg-config --libs libxml-2.0`"
 
 AC_OUTPUT([
 Makefile
+config/Makefile
 po/Makefile.in
 src/plugin_version.h
 src/Makefile

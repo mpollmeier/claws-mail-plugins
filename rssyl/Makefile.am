@@ -1,4 +1,4 @@
-SUBDIRS = po src
+SUBDIRS = config po src
 
 EXTRA_DIST = config.rpath mkinstalldirs m4/ChangeLog  \
 	autogen.sh \
