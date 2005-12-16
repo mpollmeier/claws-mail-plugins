@@ -32,6 +32,8 @@
 #include "folderview.h"
 #include "alertpanel.h"
 
+#include "gettext.h"
+
 #include "feed.h"
 #include "feedprops.h"
 #include "rssyl.h"
@@ -44,26 +46,26 @@ static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(ifac, name, sens)
 
-	SET_SENS("/Refresh feed", folder_item_parent(item) != NULL );
-	SET_SENS("/Refresh all feeds", folder_item_parent(item) == NULL );
-	SET_SENS("/Subscribe new feed...", folder_item_parent(item) == NULL );
-	SET_SENS("/Unsubscribe feed...", folder_item_parent(item) != NULL );
-	SET_SENS("/Feed properties...", folder_item_parent(item) != NULL );
-	SET_SENS("/Remove folder tree...", folder_item_parent(item) == NULL );
+	SET_SENS(N_("/Refresh feed"), folder_item_parent(item) != NULL );
+	SET_SENS(N_("/Refresh all feeds"), folder_item_parent(item) == NULL );
+	SET_SENS(N_("/Subscribe new feed..."), folder_item_parent(item) == NULL );
+	SET_SENS(N_("/Unsubscribe feed..."), folder_item_parent(item) != NULL );
+	SET_SENS(N_("/Feed properties..."), folder_item_parent(item) != NULL );
+	SET_SENS(N_("/Remove folder tree..."), folder_item_parent(item) == NULL );
 
 #undef SET_SENS
 }
 
 static GtkItemFactoryEntry rssyl_popup_entries[] =
 {
-	{ "/_Refresh feed", NULL, rssyl_refresh_cb, 0, NULL },
-	{ "/Refresh _all feeds", NULL, rssyl_refresh_all_cb, 0, NULL },
+	{ N_("/_Refresh feed"), NULL, rssyl_refresh_cb, 0, NULL },
+	{ N_("/Refresh _all feeds"), NULL, rssyl_refresh_all_cb, 0, NULL },
 	{ "/---", NULL, NULL, 0, "<Separator>" },
-	{ "/Subscribe _new feed...", NULL, rssyl_new_feed_cb, 0, NULL },
-	{ "/_Unsubscribe feed...", NULL, rssyl_remove_feed_cb, 0, NULL },
-	{ "/Feed pr_operties...", NULL, rssyl_prop_cb, 0, NULL },
+	{ N_("/Subscribe _new feed..."), NULL, rssyl_new_feed_cb, 0, NULL },
+	{ N_("/_Unsubscribe feed..."), NULL, rssyl_remove_feed_cb, 0, NULL },
+	{ N_("/Feed pr_operties..."), NULL, rssyl_prop_cb, 0, NULL },
 	{ "/---", NULL, NULL, 0, "<Separator>" },
-	{ "/Remove folder _tree...", NULL, rssyl_remove_rss_cb, 0, NULL },
+	{ N_("/Remove folder _tree..."), NULL, rssyl_remove_rss_cb, 0, NULL },
 	{ "/---", NULL, NULL, 0, "<Separator>" }
 };
 
@@ -82,13 +84,13 @@ static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
 	gchar *path;
 	Folder *folder;
 
-	path = input_dialog("Add RSS folder tree",
-			"Enter name for a new RSS folder tree.",
+	path = input_dialog(_("Add RSS folder tree"),
+			_("Enter name for a new RSS folder tree."),
 			RSSYL_DEFAULT_MAILBOX);
 	if( !path ) return;
 
 	if( folder_find_from_path(path) ) {
-		alertpanel_error("The mailbox '%s' already exists.", path);
+		alertpanel_error(_("The mailbox '%s' already exists."), path);
 		g_free(path);
 		return;
 	}
@@ -97,9 +99,9 @@ static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
 			g_basename(path), path);
 
 	if( folder->klass->create_tree(folder) < 0 ) {
-		alertpanel_error("Creation of folder tree failed.\n"
+		alertpanel_error(_("Creation of folder tree failed.\n"
 				"Maybe some files already exist, or you don't have the permission"
-				"to write there?");
+				"to write there?"));
 		folder_destroy(folder);
 		return;
 	}
@@ -111,7 +113,7 @@ static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
 }
 
 static GtkItemFactoryEntry mainwindow_add_mailbox = {
-	"/File/Add mailbox/RSSyl...",
+	N_("/File/Add mailbox/RSSyl..."),
 	NULL,
 	rssyl_add_mailbox,
 	0,
@@ -179,7 +181,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* "Use default refresh interval" checkbutton */
 	feedprop->default_refresh_interval = gtk_check_button_new_with_mnemonic(
-			"Use default refresh interval (180 minutes)");
+			_("Use default refresh interval (180 minutes)"));
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->default_refresh_interval),
 			ritem->default_refresh_interval);
@@ -191,7 +193,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* "Keep default number of expired items" checkbutton */
 	feedprop->default_expired_num = gtk_check_button_new_with_mnemonic(
-			"Keep default number of expired entries (-1)");
+			_("Keep default number of expired entries (-1)"));
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->default_expired_num),
 			ritem->default_expired_num);
@@ -223,7 +225,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_box_pack_start(GTK_BOX(vbox), urlframe, FALSE, FALSE, 0);
 
 	/* Label for URL frame */
-	urllabel = gtk_label_new("<b>Source URL:</b>");
+	urllabel = gtk_label_new(_("<b>Source URL:</b>"));
 	gtk_label_set_use_markup(GTK_LABEL(urllabel), TRUE);
 	gtk_misc_set_padding(GTK_MISC(urllabel), 5, 0);
 	gtk_frame_set_label_widget(GTK_FRAME(urlframe), urllabel);
@@ -250,9 +252,9 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			(gpointer)feedprop->refresh_interval);
 
 	/* Refresh interval - label */
-	refresh_label = gtk_label_new("<b>Refresh interval in minutes:</b>\n"
+	refresh_label = gtk_label_new(_("<b>Refresh interval in minutes:</b>\n"
 			"<small>(Set to 0 to disable automatic refreshing for this feed)"
-			"</small>");
+			"</small>"));
 	gtk_label_set_use_markup(GTK_LABEL(refresh_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(refresh_label), 0, 0.5);
 	gtk_table_attach(GTK_TABLE(table), refresh_label, 0, 1, 1, 2,
@@ -281,9 +283,9 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			(gpointer)feedprop->expired_num);
 
 	/* Expired items - label */
-	expired_label = gtk_label_new("<b>Number of expired entries to keep:"
+	expired_label = gtk_label_new(_("<b>Number of expired entries to keep:"
 			"</b>\n<small>(Set to -1 if you want to keep expired entries)"
-			"</small>");
+			"</small>"));
 	gtk_label_set_use_markup(GTK_LABEL(expired_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(expired_label), 0, 0.5);
 	gtk_table_attach(GTK_TABLE(table), expired_label, 0, 1, 4, 5,
@@ -324,7 +326,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start(GTK_BOX(ok_hbox), ok_image, FALSE, FALSE, 0);
 
-	ok_label = gtk_label_new_with_mnemonic("_OK");
+	ok_label = gtk_label_new_with_mnemonic(_("_OK"));
 	gtk_box_pack_end(GTK_BOX(ok_hbox), ok_label, FALSE, FALSE, 0);
 
 	g_signal_connect(G_OBJECT(ok_button), "clicked",
@@ -344,7 +346,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start(GTK_BOX(cancel_hbox), cancel_image, FALSE, FALSE, 0);
 
-	cancel_label = gtk_label_new_with_mnemonic("_Cancel");
+	cancel_label = gtk_label_new_with_mnemonic(_("_Cancel"));
 	gtk_box_pack_end(GTK_BOX(cancel_hbox), cancel_label, FALSE, FALSE, 0);
 
 	g_signal_connect(G_OBJECT(cancel_button), "clicked",
@@ -352,7 +354,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* Set some misc. stuff */
 	gtk_window_set_title(GTK_WINDOW(feedprop->window),
-			g_strdup("Set feed properties") );
+			g_strdup(_("Set feed properties")) );
 	gtk_window_set_modal(GTK_WINDOW(feedprop->window), TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(feedprop->window),
 			GTK_WINDOW(mainwin->window) );
@@ -450,7 +452,7 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	g_return_val_if_fail(name != NULL, NULL);
 
 	dialog = gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dialog), "Remove feed");
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Remove feed"));
 	gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 
@@ -470,8 +472,9 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 0);
 
 	/* Dialog text label */
-	message = g_strdup_printf("<span size = 'x-large'><b>Remove feed</b></span>"
-			"\n\nDo you really want to remove feed '%s' ?", name);
+	message = g_strdup_printf("<span size='x-large'><b>%s</b></span>"
+			"\n\n%s '%s' ?", _("Remove feed"),
+			_("Do you really want to remove feed"), name);
 
 	label = gtk_label_new(message);
 	g_free(message);
@@ -481,7 +484,7 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
 
 	/* Remove cache checkbutton */
-	cb = gtk_check_button_new_with_mnemonic("Remove cached entries");
+	cb = gtk_check_button_new_with_mnemonic(_("Remove cached entries"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(cb), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb), TRUE);
 	gtk_box_pack_start(GTK_BOX(vbox2), cb, FALSE, FALSE, 0);

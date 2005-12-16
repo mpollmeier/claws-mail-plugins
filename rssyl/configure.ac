@@ -34,6 +34,14 @@ if test x$PKG_CONFIG = xno ; then
   AC_MSG_ERROR([*** pkg-config not found. See http://www.freedesktop.org/software/pkgconfig/])
 fi
 
+prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+localedir="${prefix}/share/locale"
+AC_ARG_WITH(localedir,
+	[  --with-localedir=DIR    Locale directory],
+	[localedir="$withval"])
+AC_SUBST(localedir)
+AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
+
 dnl Check for sylpheed-claws
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)

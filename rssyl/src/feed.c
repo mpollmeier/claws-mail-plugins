@@ -43,6 +43,8 @@
 #include "mainwindow.h"
 #include "statusbar.h"
 
+#include "gettext.h"
+
 #include "date.h"
 #include "rssyl.h"
 #include "rssyl_cb_gtk.h"
@@ -50,6 +52,7 @@
 #include "feedprops.h"
 #include "strreplace.h"
 #include "parsers.h"
+#include "plugin_version.h"
 
 struct _RSSylThreadCtx {
 	const gchar *url;
@@ -98,8 +101,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
-		"Sylpheed-Claws RSSyl plugin "
-		"(http://claws.sylpheed.org/plugins.php)");
+		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
+		" (http://claws.sylpheed.org/plugins.php)");
 
 	res = curl_easy_perform(eh);
 
@@ -142,7 +145,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 
 	debug_print("RSSyl: XML - url is '%s'\n", url);
 
-	msg = g_strdup_printf("Fetching '%s'...", url);
+	msg = g_strdup_printf(_("Fetching '%s'..."), url);
 	STATUSBAR_PUSH(mainwin, msg );
 	g_free(msg);
 
@@ -583,7 +586,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);
 	rootnode = g_ascii_strdown(node->name, -1);
 
-	msg = g_strdup_printf("Refreshing feed '%s'...",
+	msg = g_strdup_printf(_("Refreshing feed '%s'..."),
 				ritem->item.name);
 	STATUSBAR_PUSH(mainwin, msg );
 	g_free(msg);
@@ -601,7 +604,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 		debug_print("RSSyl: XML - calling rssyl_parse_atom()\n");
 		count = rssyl_parse_atom(doc, ritem);
 	} else {
-		alertpanel_error("This feed format is not supported yet.");
+		alertpanel_error(_("This feed format is not supported yet."));
 		count = 0;
 	}
 
@@ -633,7 +636,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		fitem->date = time(NULL);
 
 	if( !fitem->author )
-		fitem->author = g_strdup("N/A");
+		fitem->author = g_strdup(_("N/A"));
 
 	/* Skip if the item already exists */
 	dif = rssyl_feed_item_exists(ritem, fitem, &oldfitem);
@@ -852,13 +855,13 @@ void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
 
 	doc = rssyl_fetch_feed(url, &title);
 	if( !title ) {
-		alertpanel_error("Couldn't fetch URL '%s'.", url);
+		alertpanel_error(_("Couldn't fetch URL '%s'."), url);
 		return;
 	}
 
 	new_item = folder_create_folder(parent, title);
 	if( !new_item ) {
-		alertpanel_error("Can't subscribe feed '%s'.", title);
+		alertpanel_error(_("Can't subscribe feed '%s'."), title);
 		return;
 	}
 

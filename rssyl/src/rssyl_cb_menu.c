@@ -26,6 +26,8 @@
 
 #include <gtk/gtk.h>
 
+#include "gettext.h"
+
 #include "folderview.h"
 #include "alertpanel.h"
 #include "gtk/inputdialog.h"
@@ -52,8 +54,9 @@ void rssyl_new_feed_cb(FolderView *folderview, guint action,
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(item->folder != NULL);
 
-	new_feed = input_dialog("Subscribe feed",
-					 "Input the URL of the RSS feed you wish to subscribe:", "http://");
+	new_feed = input_dialog(_("Subscribe feed"),
+					 _("Input the URL of the RSS feed you wish to subscribe:"),
+					 "http://");
 	g_return_if_fail(new_feed != NULL);
 
 	rssyl_subscribe_new_feed(item, new_feed);
@@ -76,8 +79,8 @@ void rssyl_remove_rss_cb(FolderView *folderview, guint action,
 	g_return_if_fail( !folder_item_parent(item) );
 
 	name = trim_string(item->folder->name, 32);
-	message = g_strdup_printf("Really remove the folder tree '%s' ?\n", name);
-	aval = alertpanel_full("Remove folder tree", message,
+	message = g_strdup_printf(_("Really remove the folder tree '%s' ?\n"), name);
+	aval = alertpanel_full(_("Remove folder tree"), message,
 			 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE, NULL,
 			  ALERT_NOTICE, G_ALERTALTERNATE);
 	g_free(message);
@@ -141,7 +144,7 @@ void rssyl_remove_feed_cb(FolderView *folderview, guint action,
 		rssyl_remove_feed_cache(item);
 
 	if( item->folder->klass->remove_folder(item->folder, item) < 0 ) {
-		alertpanel_error("Can't remove feed '%s'.", item->name);
+		alertpanel_error(_("Can't remove feed '%s'."), item->name);
 		if( folderview->opened == folderview->selected )
 			summary_show(folderview->summaryview,
 					folderview->summaryview->folder_item);
@@ -149,36 +152,6 @@ void rssyl_remove_feed_cb(FolderView *folderview, guint action,
 	}
 
 	folder_write_list();
-}
-
-void rssyl_remove_mailbox_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
-{
-	FolderItem *item;
-	gchar *name, *message;
-	AlertValue aval;
-
-	debug_print("RSSyl: remove_rss_cb\n");
-
-	item = folderview_get_selected_item(folderview);
-	g_return_if_fail(item != NULL);
-	g_return_if_fail(item->folder != NULL);
-	g_return_if_fail( !folder_item_parent(item) );
-
-	name = trim_string(item->folder->name, 32);
-	message = g_strdup_printf("Really remove the folder tree '%s' ?\n", name);
-	aval = alertpanel_full("Remove folder tree", message,
-			 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE, NULL,
-			 ALERT_NOTICE, G_ALERTALTERNATE);
-	g_free(message);
-	g_free(name);
-
-	g_return_if_fail(aval == G_ALERTDEFAULT);
-
-	folderview_unselect(folderview);
-	summary_clear_all(folderview->summaryview);
-
-	folder_destroy(item->folder);
 }
 
 void rssyl_refresh_cb(FolderView *folderview, guint action,
