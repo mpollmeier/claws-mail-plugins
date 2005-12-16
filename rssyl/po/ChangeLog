@@ -1,3 +1,6 @@
+2005-12-17 00:44  Andrej Kacian <andrej@kacian.sk>
+	* removed remove-potcdate.{sed,sin}
+
 2005-12-15 22:01  Andrej Kacian <andrej@kacian.sk>
 	* add gettext support
 	* initial sk.po
