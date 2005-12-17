@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2005-12-17 19:09+0100\n"
+"POT-Creation-Date: 2005-12-17 20:03+0100\n"
 "PO-Revision-Date: 2005-12-17 18:45+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -25,7 +25,7 @@ msgstr "Sťahujem '%s'..."
 #: src/feed.c:589
 #, c-format
 msgid "Refreshing feed '%s'..."
-msgstr "Obnovujem kanál '%s'..."
+msgstr "Aktualizujem kanál '%s'..."
 
 #: src/feed.c:607
 msgid "This feed format is not supported yet."
@@ -174,7 +174,7 @@ msgstr "/Súbor/_Pridať schránku/RSSyl..."
 
 #: src/rssyl_gtk.c:208
 msgid "Use default refresh interval (180 minutes)"
-msgstr "Použiť prednastavený interval obnovovania (180 minút)"
+msgstr "Použiť prednastavený interval aktualizácie (180 minút)"
 
 #: src/rssyl_gtk.c:220
 msgid "Keep default number of expired entries (-1)"

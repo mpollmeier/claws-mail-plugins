@@ -3,6 +3,8 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
+PACKAGE=rssyl
+
 AC_CONFIG_HEADERS(config.h)
 
 PLUGINVERSION=0.3

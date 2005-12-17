@@ -1,6 +1,6 @@
-SUBDIRS = config po src
+SUBDIRS = po src config
 
-EXTRA_DIST = config.rpath mkinstalldirs m4/ChangeLog  \
+EXTRA_DIST = \
 	autogen.sh \
 	AUTHORS \
 	COPYING \
@@ -10,4 +10,4 @@ EXTRA_DIST = config.rpath mkinstalldirs m4/ChangeLog  \
 	README \
 	TODO
 
-ACLOCAL_AMFLAGS = -I m4
+BZIP2_ENV = 
