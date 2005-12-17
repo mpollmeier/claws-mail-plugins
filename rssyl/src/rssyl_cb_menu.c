@@ -55,7 +55,7 @@ void rssyl_new_feed_cb(FolderView *folderview, guint action,
 	g_return_if_fail(item->folder != NULL);
 
 	new_feed = input_dialog(_("Subscribe feed"),
-					 _("Input the URL of the RSS feed you wish to subscribe:"),
+					 _("Input the URL of the news feed you wish to subscribe:"),
 					 "http://");
 	g_return_if_fail(new_feed != NULL);
 

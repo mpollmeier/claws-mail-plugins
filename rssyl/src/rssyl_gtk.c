@@ -41,32 +41,45 @@
 #include "rssyl_cb_menu.h"
 #include "rssyl_gtk.h"
 
+static char *rssyl_popup_menu_labels[] =
+{
+	N_("/_Refresh feed"),
+	N_("/Refresh _all feeds"),
+	"/---",
+	N_("/Subscribe _new feed..."),
+	N_("/_Unsubscribe feed..."),
+	N_("/Feed pr_operties..."),
+	"/---",
+	N_("/Remove folder _tree..."),
+	"/---"
+};
+
 static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
 {
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(ifac, name, sens)
 
-	SET_SENS(N_("/Refresh feed"), folder_item_parent(item) != NULL );
-	SET_SENS(N_("/Refresh all feeds"), folder_item_parent(item) == NULL );
-	SET_SENS(N_("/Subscribe new feed..."), folder_item_parent(item) == NULL );
-	SET_SENS(N_("/Unsubscribe feed..."), folder_item_parent(item) != NULL );
-	SET_SENS(N_("/Feed properties..."), folder_item_parent(item) != NULL );
-	SET_SENS(N_("/Remove folder tree..."), folder_item_parent(item) == NULL );
+	SET_SENS(_("/Refresh feed"), folder_item_parent(item) != NULL );
+	SET_SENS(_("/Refresh all feeds"), folder_item_parent(item) == NULL );
+	SET_SENS(_("/Subscribe new feed..."), folder_item_parent(item) == NULL );
+	SET_SENS(_("/Unsubscribe feed..."), folder_item_parent(item) != NULL );
+	SET_SENS(_("/Feed properties..."), folder_item_parent(item) != NULL );
+	SET_SENS(_("/Remove folder tree..."), folder_item_parent(item) == NULL );
 
 #undef SET_SENS
 }
 
 static GtkItemFactoryEntry rssyl_popup_entries[] =
 {
-	{ N_("/_Refresh feed"), NULL, rssyl_refresh_cb, 0, NULL },
-	{ N_("/Refresh _all feeds"), NULL, rssyl_refresh_all_cb, 0, NULL },
-	{ "/---", NULL, NULL, 0, "<Separator>" },
-	{ N_("/Subscribe _new feed..."), NULL, rssyl_new_feed_cb, 0, NULL },
-	{ N_("/_Unsubscribe feed..."), NULL, rssyl_remove_feed_cb, 0, NULL },
-	{ N_("/Feed pr_operties..."), NULL, rssyl_prop_cb, 0, NULL },
-	{ "/---", NULL, NULL, 0, "<Separator>" },
-	{ N_("/Remove folder _tree..."), NULL, rssyl_remove_rss_cb, 0, NULL },
-	{ "/---", NULL, NULL, 0, "<Separator>" }
+	{ NULL, NULL, rssyl_refresh_cb, 0, NULL },
+	{ NULL, NULL, rssyl_refresh_all_cb, 0, NULL },
+	{ NULL, NULL, NULL, 0, "<Separator>" },
+	{ NULL, NULL, rssyl_new_feed_cb, 0, NULL },
+	{ NULL, NULL, rssyl_remove_feed_cb, 0, NULL },
+	{ NULL, NULL, rssyl_prop_cb, 0, NULL },
+	{ NULL, NULL, NULL, 0, "<Separator>" },
+	{ NULL, NULL, rssyl_remove_rss_cb, 0, NULL },
+	{ NULL, NULL, NULL, 0, "<Separator>" }
 };
 
 static FolderViewPopup rssyl_popup =
@@ -76,6 +89,15 @@ static FolderViewPopup rssyl_popup =
 	NULL,
 	rssyl_set_sensitivity
 };
+
+static void rssyl_fill_popup_menu_labels(void)
+{
+	gint i;
+
+	for( i = 0; rssyl_popup_menu_labels[i] != NULL; i++ ) {
+		(rssyl_popup_entries[i]).path = _(rssyl_popup_menu_labels[i]);
+	}
+}
 
 static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
 		GtkWidget *widget)
@@ -100,7 +122,7 @@ static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
 
 	if( folder->klass->create_tree(folder) < 0 ) {
 		alertpanel_error(_("Creation of folder tree failed.\n"
-				"Maybe some files already exist, or you don't have the permission"
+				"Maybe some files already exist, or you don't have the permission "
 				"to write there?"));
 		folder_destroy(folder);
 		return;
@@ -128,6 +150,8 @@ void rssyl_gtk_init(void)
 
 	ifac = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifac, &mainwindow_add_mailbox, mainwin, 1);
+
+	rssyl_fill_popup_menu_labels();
 
 	n = sizeof(rssyl_popup_entries) /
 		sizeof(rssyl_popup_entries[0]);
@@ -452,7 +476,7 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	g_return_val_if_fail(name != NULL, NULL);
 
 	dialog = gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dialog), _("Remove feed"));
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Unsubscribe feed"));
 	gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 
@@ -473,7 +497,7 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 
 	/* Dialog text label */
 	message = g_strdup_printf("<span size='x-large'><b>%s</b></span>"
-			"\n\n%s '%s' ?", _("Remove feed"),
+			"\n\n%s '%s' ?", _("Unsubscribe feed"),
 			_("Do you really want to remove feed"), name);
 
 	label = gtk_label_new(message);
