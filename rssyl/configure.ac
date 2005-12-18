@@ -28,7 +28,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.12.1])
-ALL_LINGUAS="sk"
+ALL_LINGUAS="es sk"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl Find pkg-config
