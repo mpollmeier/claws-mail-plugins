@@ -20,11 +20,11 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
+#  include "pluginconfig.h"
 #endif
 
 #include <ical.h>
-#include <glib.h>
-#include <glib/gi18n.h>
+#include "gettext.h"
 #include <gtk/gtk.h>
 
 #include "mimeview.h"
@@ -1029,8 +1029,10 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 };
 
 #define TABLE_ADD_LINE(label_text, widget) { 				\
-	GtkWidget *label = gtk_label_new(_("<span weight=\"bold\">" 	\
-						label_text "</span>")); \
+	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",\
+				label_text);				\
+	GtkWidget *label = gtk_label_new(tmpstr);		 	\
+	g_free(tmpstr);							\
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
 	gtk_misc_set_alignment (GTK_MISC(label), 1, 0);			\
 	gtk_table_attach (GTK_TABLE (vcalviewer->table), 		\
@@ -1096,14 +1098,14 @@ MimeViewer *vcal_viewer_create(void)
 	g_signal_connect(G_OBJECT(vcalviewer->uribtn), "clicked",
 			 G_CALLBACK(vcalviewer_uribtn_cb), vcalviewer);
 
-	TABLE_ADD_LINE("Event:", vcalviewer->type);
-	TABLE_ADD_LINE("Organizer:", vcalviewer->who);
-	TABLE_ADD_LINE("Summary:", vcalviewer->summary);
-	TABLE_ADD_LINE("Starting:", vcalviewer->start);
-	TABLE_ADD_LINE("Ending:", vcalviewer->end);
-	TABLE_ADD_LINE("Description:", vcalviewer->description);
-	TABLE_ADD_LINE("Attendees:", vcalviewer->attendees);
-	TABLE_ADD_LINE("Action:", hbox);
+	TABLE_ADD_LINE(_("Event:"), vcalviewer->type);
+	TABLE_ADD_LINE(_("Organizer:"), vcalviewer->who);
+	TABLE_ADD_LINE(_("Summary:"), vcalviewer->summary);
+	TABLE_ADD_LINE(_("Starting:"), vcalviewer->start);
+	TABLE_ADD_LINE(_("Ending:"), vcalviewer->end);
+	TABLE_ADD_LINE(_("Description:"), vcalviewer->description);
+	TABLE_ADD_LINE(_("Attendees:"), vcalviewer->attendees);
+	TABLE_ADD_LINE(_("Action:"), hbox);
 	
 	vcalviewer->scrolledwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_add_with_viewport(

@@ -20,13 +20,13 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
+#  include "pluginconfig.h"
 #endif
 
 #include "defs.h"
 
 #include <ical.h>
-#include <glib.h>
-#include <glib/gi18n.h>
+#include "gettext.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -81,8 +81,10 @@ struct _VCalAttendee {
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
 
 #define TABLE_ADD_LINE(label_text, widget) { 				\
-	GtkWidget *label = gtk_label_new(_("<span weight=\"bold\">" 	\
-						label_text "</span>")); \
+	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",\
+				label_text);				\
+	GtkWidget *label = gtk_label_new(tmpstr);		 	\
+	g_free(tmpstr);							\
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
 	gtk_misc_set_alignment (GTK_MISC(label), 1, 0);			\
 	gtk_table_attach (GTK_TABLE (meet->table), 			\
@@ -445,7 +447,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 				   "Check the recipients."));
 	}
 	if (!found_att) {
-		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+		Folder *folder = folder_find_from_name (_("vCalendar"), vcal_folder_get_class());
 		if (folder)
 			folder_item_scan(folder->inbox);
 		vcalviewer_reload();
@@ -555,7 +557,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_widget_set_size_request(meet->end_hh, 30, -1);
 	
 	date_hbox = gtk_hbox_new(FALSE, 6);
-	label = gtk_label_new("<b>From:</b> "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	label = gtk_label_new(_("<b>From:</b> ")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
 	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), meet->start_c, FALSE, FALSE, 0);
@@ -566,13 +568,13 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_box_pack_start(GTK_BOX(vbox), meet->start_hh, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
 
-	label = gtk_label_new("h"); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	label = gtk_label_new(_("h")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
 	vbox = gtk_vbox_new(FALSE, 0);	
 	gtk_box_pack_start(GTK_BOX(vbox), meet->start_mm, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
 
-	label = gtk_label_new("<b>To:</b> "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	label = gtk_label_new(_("<b>To:</b> ")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
 	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), meet->end_c, FALSE, FALSE, 0);
@@ -582,7 +584,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	vbox = gtk_vbox_new(FALSE, 0);	
 	gtk_box_pack_start(GTK_BOX(vbox), meet->end_hh, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
-	label = gtk_label_new("h"); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	label = gtk_label_new(_("h")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), label, TRUE, FALSE, 0);
 	vbox = gtk_vbox_new(FALSE, 0);	
 	gtk_box_pack_start(GTK_BOX(vbox), meet->end_mm, FALSE, FALSE, 0);
@@ -646,11 +648,11 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	save_hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
-	TABLE_ADD_LINE("Organizer:", meet->who);
-	TABLE_ADD_LINE("Date:", date_hbox);
-	TABLE_ADD_LINE("Summary:", meet->summary);
-	TABLE_ADD_LINE("Description:", meet->description);
-	TABLE_ADD_LINE("Attendees:", meet->attendees_vbox);
+	TABLE_ADD_LINE(_("Organizer:"), meet->who);
+	TABLE_ADD_LINE(_("Date:"), date_hbox);
+	TABLE_ADD_LINE(_("Summary:"), meet->summary);
+	TABLE_ADD_LINE(_("Description:"), meet->description);
+	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox);
 	TABLE_ADD_LINE("", save_hbox);
 	
 	gtk_widget_set_size_request(meet->window, -1, -1);
@@ -810,7 +812,7 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 	}
 
 	if (!path)
-		file = filesel_select_file_save("Export calendar to ICS", NULL);
+		file = filesel_select_file_save(_("Export calendar to ICS"), NULL);
 	else
 		file = g_strdup(path);
 

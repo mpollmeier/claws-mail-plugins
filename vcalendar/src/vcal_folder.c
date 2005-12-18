@@ -20,6 +20,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
+#  include "pluginconfig.h"
 #endif
 
 #include "defs.h"
@@ -29,8 +30,7 @@
 #include <fcntl.h>
 #include <glob.h>
 #include <unistd.h>
-#include <glib.h>
-#include <glib/gi18n.h>
+#include "gettext.h"
 #include <curl/curl.h>
 
 #include "account.h"
@@ -124,17 +124,38 @@ struct _VCalFolderItem
 	GSList *evtlist;
 };
 
+static char *vcal_popup_labels[] =
+{
+	N_("/_New meeting..."),
+	N_("/_Export calendar..."),
+	"/---",
+	N_("/_Subscribe to webCal..."),
+	N_("/_Unsubscribe..."),
+	"/---",
+	N_("/U_pdate subscriptions"),
+	"/---",
+	NULL
+};			
 static GtkItemFactoryEntry vcal_popup_entries[] =
 {
-	{N_("/_New meeting..."), NULL, new_meeting_cb,	0, NULL},
-	{N_("/_Export calendar..."), NULL, export_cal_cb,	0, NULL},
-	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
-	{N_("/_Subscribe to webCal..."), NULL, subscribe_cal_cb,	0, NULL},
-	{N_("/_Unsubscribe..."), NULL, unsubscribe_cal_cb,	0, NULL},
-	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
-	{N_("/U_pdate subscriptions"), NULL, check_subs_cb, 0, NULL},
-	{"/---",	 	 NULL, NULL,    	0, "<Separator>"},
+	{NULL, NULL, new_meeting_cb,	0, NULL},
+	{NULL, NULL, export_cal_cb,	0, NULL},
+	{NULL, NULL, NULL,    	0, "<Separator>"},
+	{NULL, NULL, subscribe_cal_cb,	0, NULL},
+	{NULL, NULL, unsubscribe_cal_cb,	0, NULL},
+	{NULL, NULL, NULL,    	0, "<Separator>"},
+	{NULL, NULL, check_subs_cb, 0, NULL},
+	{NULL, NULL, NULL,  	0, "<Separator>"}
 };
+
+static void vcal_fill_popup_menu_labels(void)
+{
+	gint i;
+
+	for( i = 0; vcal_popup_labels[i] != NULL; i++ ) {
+		(vcal_popup_entries[i]).path = _(vcal_popup_labels[i]);
+	}
+}
 
 static FolderViewPopup vcal_popup =
 {
@@ -766,6 +787,7 @@ void vcal_folder_gtk_init(void)
 {
 	guint i, n_entries;
 
+	vcal_fill_popup_menu_labels();
 	n_entries = sizeof(vcal_popup_entries) /
 		sizeof(vcal_popup_entries[0]);
 	for (i = 0; i < n_entries; i++)
@@ -796,15 +818,15 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(factory, name, sens)
 
-	SET_SENS("/New meeting...", item->uri == NULL);
-	SET_SENS("/Export calendar...", TRUE);
-	SET_SENS("/Subscribe to webCal...", item->uri == NULL);
-	SET_SENS("/Unsubscribe...", item->uri != NULL);
-	SET_SENS("/Update subscriptions", TRUE);
+	SET_SENS(_("/New meeting..."), item->uri == NULL);
+	SET_SENS(_("/Export calendar..."), TRUE);
+	SET_SENS(_("/Subscribe to webCal..."), item->uri == NULL);
+	SET_SENS(_("/Unsubscribe..."), item->uri != NULL);
+	SET_SENS(_("/Update subscriptions"), TRUE);
 	
 	/* these don't work but I don't really care */
-	SET_SENS("/Properties...", FALSE);
-	SET_SENS("/Processing...", FALSE);
+	SET_SENS(_("/Properties..."), FALSE);
+	SET_SENS(_("/Processing..."), FALSE);
 #undef SET_SENS
 }
 

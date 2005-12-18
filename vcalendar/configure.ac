@@ -3,7 +3,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=1.18
+PLUGINVERSION=1.19
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALPACKAGE, "Sylpheed-Claws vCalendar", [package])
@@ -19,6 +19,11 @@ AC_PROG_CPP
 AC_PROG_LIBTOOL
 AM_PROG_LEX
 AC_PROG_YACC
+
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.12.1])
+ALL_LINGUAS="fr"
+AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AC_CHECK_PROGS(PERL, perl5 perl)
 
@@ -38,6 +43,15 @@ AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
+
+prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+localedir="${prefix}/share/locale"
+AC_ARG_WITH(localedir,
+	[  --with-localedir=DIR    Locale directory],
+	[localedir="$withval"])
+AC_SUBST(localedir)
+AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
+
 
 #
 # Check for GLib
@@ -121,6 +135,7 @@ AC_CONFIG_HEADERS(config.h)
 AC_OUTPUT([
 Makefile
 config/Makefile
+po/Makefile.in
 src/plugin_version.h
 src/Makefile
 libical/Makefile

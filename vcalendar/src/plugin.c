@@ -20,26 +20,29 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
+#  include "pluginconfig.h"
 #endif
 
 #include <stddef.h>
-#include <glib.h>
-#include <glib/gi18n.h>
 
 #include "plugin_version.h"
 #include "version.h"
 #include "vcalendar.h"
 #include "sylpheed.h"
+#include "gettext.h"
 
 gint plugin_init(gchar **error)
 {
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
+
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
+		*error = g_strdup(_("Your sylpheed version is newer than the version the plugin was built with"));
 		return -1;
 	}
 
 	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 13, 0))) {
-		*error = g_strdup("Your sylpheed version is too old");
+		*error = g_strdup(_("Your sylpheed version is too old"));
 		return -1;
 	}
 

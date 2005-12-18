@@ -20,18 +20,18 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
+#  include "pluginconfig.h"
 #endif
 
 #include "defs.h"
 
 #include <glib.h>
-#include <glib/gi18n.h>
-#include <gtk/gtk.h>
 
 #include "common/utils.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
 #include "prefswindow.h"
+#include "gettext.h"
 
 #include "vcal_prefs.h"
 
@@ -89,7 +89,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
 
 /* alert stuff */
-	alert_enable_btn = gtk_check_button_new_with_label("Alert me ");
+	alert_enable_btn = gtk_check_button_new_with_label(_("Alert me "));
 	gtk_widget_show(alert_enable_btn);
 	
 	alert_delay_entry = gtk_entry_new();
@@ -123,7 +123,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	page->alert_delay_entry = alert_delay_entry;
 
 /* export stuff */
-	export_enable_btn = gtk_check_button_new_with_label("Automatically export calendar to ");
+	export_enable_btn = gtk_check_button_new_with_label(_("Automatically export calendar to "));
 	gtk_widget_show(export_enable_btn);
 	
 	export_path_entry = gtk_entry_new();

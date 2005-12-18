@@ -1,0 +1,8 @@
+src/icaltime_as_local.c
+src/plugin.c
+src/plugin_prefs.c
+src/vcalendar.c
+src/vcal_folder.c
+src/vcal_manager.c
+src/vcal_meeting_gtk.c
+src/vcal_prefs.c

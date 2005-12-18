@@ -1,4 +1,4 @@
-SUBDIRS = config libical src
+SUBDIRS = config libical src po
 
 EXTRA_DIST =  \
 	AUTHORS \
@@ -7,3 +7,5 @@ EXTRA_DIST =  \
 	INSTALL \
 	NEWS \
 	README
+
+ACLOCAL_AMFLAGS = -I m4
