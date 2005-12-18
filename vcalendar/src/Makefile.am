@@ -13,7 +13,7 @@ vcalendar_la_SOURCES = \
 	vcal_meeting_gtk.c vcal_meeting_gtk.h \
 	vcal_prefs.c vcal_prefs.h \
 	icaltime_as_local.c icaltime_as_local.h \
-	plugin_version.h
+	plugin_version.h gettext.h
  
 vcalendar_la_LDFLAGS = \
 	-avoid-version -module \
