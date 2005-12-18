@@ -35,7 +35,11 @@
 
 gint plugin_init(gchar **error)
 {
-	bindtextdomain(PACKAGE, LOCALEDIR);
+	gchar *foo;
+
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
+
 	if( sylpheed_get_version() > VERSION_NUMERIC ) {
 		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version the plugin was built with"));
 		return -1;

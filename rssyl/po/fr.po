@@ -1,35 +1,31 @@
-# translation of sk.po to Slovak
-# Andrej Kacian <andrej@kacian.sk>, 2005.
-# Slovak translations for rssyl package
-# Copyright (C) 2005 Andrej Kacian
-# This file is distributed under the same license as the rssyl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: sk\n"
+"Project-Id-Version: RSSyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2005-12-18 17:03+0100\n"
-"PO-Revision-Date: 2005-12-17 18:45+0100\n"
-"Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
-"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"PO-Revision-Date: 2005-12-18 17:03+0100\n"
+"Last-Translator: Colin Leroy <colin@colino.net>\n"
+"Language-Team: Colin Leroy <colin@colino.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: KBabel 1.11\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
 
 #: src/feed.c:148
 #, c-format
 msgid "Fetching '%s'..."
-msgstr "Sťahujem '%s'..."
+msgstr "R�cup�ration de '%s'..."
 
 #: src/feed.c:589
 #, c-format
 msgid "Refreshing feed '%s'..."
-msgstr "Aktualizujem kanál '%s'..."
+msgstr "Rafra�chissement de '%s'..."
 
 #: src/feed.c:607
 msgid "This feed format is not supported yet."
-msgstr "Formát tohoto kanálu nie je podporovaný."
+msgstr "Le format de cette source n'est pas encore support�."
 
 #: src/feed.c:639
 msgid "N/A"
@@ -37,29 +33,29 @@ msgstr "N/A"
 
 #: src/feed.c:902
 msgid "You are already subscribed to this feed."
-msgstr "Tento kanál už máte prihlásený."
+msgstr "Vous �tes d�j� abonn� � cette source."
 
 #: src/feed.c:908
 #, c-format
 msgid "Couldn't fetch URL '%s'."
-msgstr "Nepodarilo sa stiahnuť URL '%s'."
+msgstr "Impossible de r�cup�rer l'URL '%s'."
 
 #: src/feed.c:914
 #, c-format
 msgid "Can't subscribe feed '%s'."
-msgstr "Nepodarilo sa prihlásiť kanál '%s'."
+msgstr "Impossible de s'abonner � la source '%s'."
 
 #: src/plugin.c:42
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version the plugin was "
 "built with"
 msgstr ""
-"Verzia Vašej inštalácie Sylpheed-Claws je novšia, ako verzia, ktorá bola "
-"použitá pri kompilácii tohto pluginu"
+"Votre version de Sylpheed-Claws est plus r�cente que celle avec laquelle le "
+"module a �t� compil�"
 
 #: src/plugin.c:47
 msgid "Your version of Sylpheed-Claws is too old"
-msgstr "Verzia vašej inštalácie Sylpheed-Claws je príliš stará"
+msgstr "Votre version de Sylpheed-Claws est trop vieille"
 
 #: src/plugin.c:68
 msgid ""
@@ -69,95 +65,96 @@ msgid ""
 "Each newsfeed will create a folder with appropriate entries, fetched from "
 "the web. You can read them, and delete or keep old entries."
 msgstr ""
-"Tento plugin umožňuje vytvoriť priečinok, kam môžete pridávať kanály vo "
-"formáte RSS 1.0, RSS 2.0, alebo Atom.\n"
+"Ce module vous permet de cr�er une arborescence dans laquelle vous pourrez "
+"ajouter des sources RSS 1.0, RSS 2.0 ou Atom.\n"
 "\n"
-"Pre každý kanál bude vytvorený samostatný priečinok s obsahom kanálu, "
-"stiahnutým priamo z Internetu. Prečítané položky si môžete nechať, alebo ich "
-"nechať automaticky mazať."
+"Chaque source sera enregistr�e dans un dossier contenant ses articles, "
+"r�cup�r�s sur Internet. Vous pourrez les lire, puis effacer ou conserver les "
+"anciens articles."
 
 #: src/rssyl_cb_menu.c:57
 msgid "Subscribe feed"
-msgstr "Prihlásiť kanál"
+msgstr "S'abonner � une source"
 
 #: src/rssyl_cb_menu.c:58
 msgid "Input the URL of the news feed you wish to subscribe:"
-msgstr "Zadajte URL kanálu, ktorý chcete prihlásiť:"
+msgstr "Entrez l'adresse de la source � laquelle vous voulez vous abonner :"
 
 #: src/rssyl_cb_menu.c:82
 #, c-format
 msgid "Really remove the folder tree '%s' ?\n"
-msgstr "Naozaj chcete odstrániť strom priečinkov '%s' ?\n"
+msgstr ""
+"Voulez-vous vraiment supprimer le dossier '%s' et ses sous-dossiers ?\n"
 
 #: src/rssyl_cb_menu.c:83
 msgid "Remove folder tree"
-msgstr "Odstrániť strom priečinkov"
+msgstr "Supprimer l'arborescence"
 
 #: src/rssyl_cb_menu.c:147
 #, c-format
 msgid "Can't remove feed '%s'."
-msgstr "Nepodarilo sa odhlásiť kanál '%s'."
+msgstr "Impossible de supprimer la source '%s'."
 
 #: src/rssyl_gtk.c:46
 msgid "/_Refresh feed"
-msgstr "/_Aktualizovať kanál"
+msgstr "/_Rafra�chir la source"
 
 #: src/rssyl_gtk.c:47
 msgid "/Refresh _all feeds"
-msgstr "/Aktualizovať _všetky kanály"
+msgstr "/R_afra�chir toutes les sources"
 
 #: src/rssyl_gtk.c:49
 msgid "/Subscribe _new feed..."
-msgstr "/Prihlásiť _nový kanál..."
+msgstr "/S'abonner � une _nouvelle source..."
 
 #: src/rssyl_gtk.c:50
 msgid "/_Unsubscribe feed..."
-msgstr "/_Odhlásiť kanál..."
+msgstr "/Se d�sabonner de la so_urce..."
 
 #: src/rssyl_gtk.c:51
 msgid "/Feed pr_operties..."
-msgstr "/Nastavenia _kanálu..."
+msgstr "/Pr_opri�t�s de la source..."
 
 #: src/rssyl_gtk.c:53
 msgid "/Remove folder _tree..."
-msgstr "/Odstrániť _strom priečinkov..."
+msgstr "/Supprimer _toute l'arborescence..."
 
 #: src/rssyl_gtk.c:62
 msgid "/Refresh feed"
-msgstr "/Aktualizovať kanál"
+msgstr "/Rafra�chir la source"
 
 #: src/rssyl_gtk.c:63
 msgid "/Refresh all feeds"
-msgstr "/Aktualizovať všetky kanály"
+msgstr "/Rafra�chir toutes les sources"
 
 #: src/rssyl_gtk.c:64
 msgid "/Subscribe new feed..."
-msgstr "/Prihlásiť nový kanál..."
+msgstr "/S'abonner � une nouvelle source..."
 
 #: src/rssyl_gtk.c:65
 msgid "/Unsubscribe feed..."
-msgstr "/Odhlásiť kanál..."
+msgstr "/Se d�sabonner de la source..."
 
 #: src/rssyl_gtk.c:66
 msgid "/Feed properties..."
-msgstr "/Nastavenia kanálu..."
+msgstr "/Propri�t�s de la source..."
 
 #: src/rssyl_gtk.c:67
 msgid "/Remove folder tree..."
-msgstr "/Odstrániť strom priečinkov..."
+msgstr "/Supprimer toute l'arborescence..."
 
 #: src/rssyl_gtk.c:109
 msgid "Add RSS folder tree"
-msgstr "Pridávanie RSSyl priečinku pre kanály"
+msgstr "Ajouter une arborescence RSS"
 
 #: src/rssyl_gtk.c:110
 msgid "Enter name for a new RSS folder tree."
-msgstr "Zadajte názov nového RSsyl koreňového priečinku."
+msgstr "Entrez le nom de la nouvelle arborescence RSS."
 
 #: src/rssyl_gtk.c:115
 #, c-format
 msgid "The mailbox '%s' already exists."
-msgstr "Koreňový priečinok '%s' už existuje."
+msgstr "La bo�te '%s' existe d�j�."
 
 #: src/rssyl_gtk.c:124
 msgid ""
@@ -165,40 +162,42 @@ msgid ""
 "Maybe some files already exist, or you don't have the permission to write "
 "there?"
 msgstr ""
-"Vytvorenie koreňového priečinku sa nepodarilo.\n"
-"Vytvárané súbory už možno existujú, alebo nemáte práva na zápis?"
+"La cr�ation de l'arborescence a �chou�.\n"
+"Peut-�tre les fichiers existent-ils d�j�, ou vous n'avez pas la permission "
+"d'�crire � cet endroit ?"
 
 #: src/rssyl_gtk.c:138
 msgid "/File/Add mailbox/RSSyl..."
-msgstr "/Súbor/_Pridať schránku/RSSyl..."
+msgstr "/Fichier/Ajouter une bo�te aux lettres/RSSyl..."
 
 #: src/rssyl_gtk.c:208
 msgid "Use default refresh interval (180 minutes)"
-msgstr "Použiť prednastavený interval aktualizácie (180 minút)"
+msgstr "Utiliser l'intervalle de rafraichissement par d�faut (180 minutes)"
 
 #: src/rssyl_gtk.c:220
 msgid "Keep default number of expired entries (-1)"
-msgstr "Ponechať si prednastavené množstvo starých položiek (-1)"
+msgstr "Concerver le nombre par d�faut d'articles expir�s (-1)"
 
 #: src/rssyl_gtk.c:252
 msgid "<b>Source URL:</b>"
-msgstr "<b>Zdrojová URL:</b>"
+msgstr "<b>URL source :</b>"
 
 #: src/rssyl_gtk.c:279
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
 msgstr ""
-"<b>Interval aktualizácie:</b>\n"
-"<small>(Použite 0, ak tento kanál nechcete aktualizovať automaticky)</small>"
+"<b>Intervalle de rafraichissement, en minutes :</b>\n"
+"<small>(Mettez 0 pour d�sactiver le rafraichissement automatique pour cette "
+"source)</small>"
 
 #: src/rssyl_gtk.c:310
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
 msgstr ""
-"<b>Koľko starých položiek si nechať:</b>\n"
-"<small>(Použite -1, ak staré položky nechcete mazať vôbec)</small>"
+"<b>Nombre d'articles expir�s � conserver :</b>\n"
+"<small>(Mettez -1 pour tout conserver)</small>"
 
 #: src/rssyl_gtk.c:353
 msgid "_OK"
@@ -206,20 +205,20 @@ msgstr "_OK"
 
 #: src/rssyl_gtk.c:373
 msgid "_Cancel"
-msgstr "_Zrušiť"
+msgstr "_Annuler"
 
 #: src/rssyl_gtk.c:381
 msgid "Set feed properties"
-msgstr "Nastavenia kanálu"
+msgstr "Propri�t�s de la source"
 
 #: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
 msgid "Unsubscribe feed"
-msgstr "Odhlásiť kanál"
+msgstr "Se d�sabonner de la source"
 
 #: src/rssyl_gtk.c:501
 msgid "Do you really want to remove feed"
-msgstr "Naozaj chcete odstrániť kanál"
+msgstr "Voulez-vous vraiment vous d�sabonner de la source"
 
 #: src/rssyl_gtk.c:511
 msgid "Remove cached entries"
-msgstr "Odstrániť kópie položiek kanálu z disku"
+msgstr "Supprimer les articles en cache"

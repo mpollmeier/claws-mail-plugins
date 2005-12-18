@@ -2,9 +2,6 @@ AC_PREREQ(2.50)
 AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
-
-PACKAGE=rssyl
-
 AC_CONFIG_HEADERS(config.h)
 
 PLUGINVERSION=0.3
@@ -28,7 +25,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.12.1])
-ALL_LINGUAS="es sk"
+ALL_LINGUAS="es fr sk"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl Find pkg-config
