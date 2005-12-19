@@ -5,7 +5,7 @@ PACKAGE=acpi_notifier
 
 dnl plugin version
 MAJOR_VERSION=0
-MINOR_VERSION=7
+MINOR_VERSION=8
 MICRO_VERSION=0
 EXTRA_VERSION=0
 
@@ -34,6 +34,11 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
 
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.14.5])
+ALL_LINGUAS="fr"
+AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
+
 dnl find pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 if test x$PKG_CONFIG = xno ; then
@@ -46,6 +51,14 @@ SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
+
+prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+localedir="${prefix}/share/locale"
+AC_ARG_WITH(localedir,
+	[  --with-localedir=DIR    Locale directory],
+	[localedir="$withval"])
+AC_SUBST(localedir)
+AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
 
 dnl check for GLib
 AM_PATH_GLIB_2_0(2.4.0,,
@@ -62,7 +75,7 @@ AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
 AC_SUBST(EXTRA_VERSION)
 
-AC_OUTPUT([
+AC_OUTPUT([ po/Makefile.in
 Makefile
 src/plugin_version.h
 src/Makefile

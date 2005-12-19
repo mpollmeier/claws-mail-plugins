@@ -23,12 +23,13 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
+#  include "pluginconfig.h"
 #endif
 
 #include <string.h>
 
 #include <glib.h>
-#include <glib/gi18n.h>
+#include "gettext.h"
 #include <gtk/gtk.h>
 
 #include "defs.h"
@@ -55,26 +56,30 @@ typedef struct _PredefinedAcpis {
 /**
  * Add your implementation here (and send me the patch!) 
  */
+char *acpi_help[] = {
+	"",
+	N_("Be sure that the kernel module 'acerhk' is loaded.\n"
+	    "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"),
+	N_("Be sure that the kernel module 'acer_acpi' is loaded.\n"
+	    "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"),
+	N_("Be sure that the kernel module 'asus_acpi' is loaded."),
+	N_("Be sure that the kernel module 'ibm_acpi' is loaded."),
+	N_("Be sure that you have apanelc installed.\n"
+	    "You can get it from http://apanel.sourceforge.net/"),
+	NULL
+};
 PredefinedAcpis known_implementations[] = {
-	{"Other file", "", "", "", FALSE, ""},
+	{"Other file", "", "", "", FALSE, NULL},
 
-	{"ACER (acerhk)", "1", "0", "/proc/driver/acerhk/led", FALSE,
-	 N_("Be sure that the kernel module 'acerhk' is loaded.\n"
-	    "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/")},
+	{"ACER (acerhk)", "1", "0", "/proc/driver/acerhk/led", FALSE, NULL},
 
-	{"ACER (acer_acpi)", "1", "0", "/proc/acpi/acer/mailled", FALSE,
-	 N_("Be sure that the kernel module 'acer_acpi' is loaded.\n"
-	    "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html")},
+	{"ACER (acer_acpi)", "1", "0", "/proc/acpi/acer/mailled", FALSE, NULL},
 
-	{"ASUS (asus_acpi)", "1", "0", "/proc/acpi/asus/mled", FALSE,
-	 N_("Be sure that the kernel module 'asus_acpi' is loaded.")},
+	{"ASUS (asus_acpi)", "1", "0", "/proc/acpi/asus/mled", FALSE, NULL},
 
-	{"IBM (ibm_acpi)", "7 on", "7 off", "/proc/acpi/ibm/led", FALSE,
-	 N_("Be sure that the kernel module 'ibm_acpi' is loaded.")},
+	{"IBM (ibm_acpi)", "7 on", "7 off", "/proc/acpi/ibm/led", FALSE, NULL},
 
-	{"Fujitsu (apanel)", "led on", "led off", "apanelc", TRUE,
-	 N_("Be sure that you have apanelc installed.\n"
-	    "You can get it from http://apanel.sourceforge.net/")},
+	{"Fujitsu (apanel)", "led on", "led off", "apanelc", TRUE, NULL},
 
 	{NULL, NULL, NULL, NULL, FALSE, NULL}
 };
@@ -732,6 +737,9 @@ void acpi_prefs_done(void)
 
 void acpi_init(void)
 {
+	gint i;
+	for (i = 0; acpi_help[i] != NULL; i++)
+		known_implementations[i].help = _(acpi_help[i]);
 	acpi_prefs_init();
 }
 
@@ -742,13 +750,16 @@ void acpi_done(void)
 
 gint plugin_init(gchar **error)
 {
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
+
 	if((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Sylpheed-Claws version is newer than the "
-				  "version AcpiNotifier was built with");
+		*error = g_strdup(_("Your Sylpheed-Claws version is newer than the "
+				  "version AcpiNotifier was built with"));
 		return -1;
 	}
 	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
-		*error = g_strdup("Your Sylpheed-Claws version is too old for AcpiNotifier");
+		*error = g_strdup(_("Your Sylpheed-Claws version is too old for AcpiNotifier"));
 		return -1;
 	}
 	acpi_init();
