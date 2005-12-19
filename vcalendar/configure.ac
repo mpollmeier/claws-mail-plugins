@@ -21,7 +21,7 @@ AM_PROG_LEX
 AC_PROG_YACC
 
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.12.1])
+AM_GNU_GETTEXT_VERSION([0.14.5])
 ALL_LINGUAS="fr"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
@@ -132,7 +132,7 @@ AC_CHECK_FUNCS(strdup)
 
 AC_CONFIG_HEADERS(config.h)
 
-AC_OUTPUT([
+AC_OUTPUT([ m4/Makefile
 Makefile
 config/Makefile
 po/Makefile.in

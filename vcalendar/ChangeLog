@@ -1,3 +1,10 @@
+2005-12-19  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add m4.
+	(EXTRA_DIST): Add config/config.rpath.
+	* configure.ac (AC_OUTPUT): Add m4/Makefile.
+	(AM_GNU_GETTEXT_VERSION): Bump to 0.14.5.
+
 2005-12-18 [colin] 1.19
 
 	* Add gettext support and fr.po

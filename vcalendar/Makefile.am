@@ -1,6 +1,6 @@
-SUBDIRS = config libical src po
+SUBDIRS = m4 config libical src po
 
-EXTRA_DIST =  \
+EXTRA_DIST = config/config.rpath   \
 	AUTHORS \
 	COPYING \
 	ChangeLog \
