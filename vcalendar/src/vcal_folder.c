@@ -397,10 +397,14 @@ static void vcal_item_destroy(Folder *folder, FolderItem *_item)
 
 static gchar *vcal_item_get_path(Folder *folder, FolderItem *item)
 {
-	if (!strcmp(item->name, _("Meetings")))
+	if (!strcmp(item->name, "Meetings"))
 		return g_strdup(vcal_manager_get_event_path());
-	else 
-		return g_strdup(((VCalFolderItem *)item)->uri);
+	else {
+		gchar *path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+					"vcalendar", G_DIR_SEPARATOR_S,
+					item->path, NULL);
+		return path;
+	}
 }
 
 static gint vcal_scan_tree(Folder *folder)
@@ -700,7 +704,7 @@ static gint vcal_create_tree(Folder *folder)
 
 	/* Add inbox folder */
 	if (!folder->inbox) {
-		inboxitem = folder_item_new(folder, _("Meetings"), NULL);
+		inboxitem = folder_item_new(folder, "Meetings", NULL);
 		inboxitem->folder = folder;
 		inboxitem->stype = F_INBOX;
 		inboxnode = g_node_new(inboxitem);
@@ -824,9 +828,6 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 	SET_SENS(_("/Unsubscribe..."), item->uri != NULL);
 	SET_SENS(_("/Update subscriptions"), TRUE);
 	
-	/* these don't work but I don't really care */
-	SET_SENS(_("/Properties..."), FALSE);
-	SET_SENS(_("/Processing..."), FALSE);
 #undef SET_SENS
 }
 
@@ -1043,7 +1044,7 @@ static gchar *feed_get_title(const gchar *str)
 			*(strstr(title, "\r")) = '\0';		
 	}
 	
-	if (!strcmp(title, _("Meetings"))) {
+	if (!strcmp(title, "Meetings")) {
 		g_free(title);
 		title = NULL;
 	}

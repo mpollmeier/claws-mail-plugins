@@ -1,3 +1,9 @@
+2005-12-19 [colin] 1.22
+
+	* Fix a few overzealous translations
+	* Fix a bug where subscribed webcal feeds' caches end up
+	  in ~/http://...
+
 2005-12-19 [colin] 1.21
 
 	* i18n fix by Fabien Vantard
