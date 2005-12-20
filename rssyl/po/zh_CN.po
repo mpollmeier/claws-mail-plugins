@@ -1,0 +1,221 @@
+# Simplified Chinese translation of rssyl plugin for Sylpheed-Claws
+# Copyright (C) 2005 Andrej Kacian
+# This file is distributed under the same license as the rssyl package.
+# Ralgh Young <bamanzi@gmail.com>, 2005.
+
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rssyl 0.3\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2005-12-20 09:45+0000\n"
+"PO-Revision-Date: 2005-12-20 22:57+0800\n"
+"Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
+"Language-Team: Simplified Chinese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/feed.c:148
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "正在提取 '%s'..."
+
+#: src/feed.c:589
+#, c-format
+msgid "Refreshing feed '%s'..."
+msgstr "正在刷新'%s'..."
+
+#: src/feed.c:607
+msgid "This feed format is not supported yet."
+msgstr "不支持该条目的格式。"
+
+#: src/feed.c:639
+msgid "N/A"
+msgstr "未知"
+
+#: src/feed.c:902
+msgid "You are already subscribed to this feed."
+msgstr "您已经订阅了该条目。"
+
+#: src/feed.c:908
+#, c-format
+msgid "Couldn't fetch URL '%s'."
+msgstr "无法提取到网址'%s'的内容。"
+
+#: src/feed.c:914
+#, c-format
+msgid "Can't subscribe feed '%s'."
+msgstr "无法订阅条目'%s'。"
+
+#: src/plugin.c:44
+msgid ""
+"Your version of Sylpheed-Claws is newer than the version the plugin was "
+"built with"
+msgstr ""
+"您的Sylpheed-Claws比编译此插件时所采用的版本新。"
+
+#: src/plugin.c:49
+msgid "Your version of Sylpheed-Claws is too old"
+msgstr "您的Sylpheed-Claws版本太旧。"
+
+#: src/plugin.c:70
+msgid ""
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"\n"
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
+msgstr ""
+"本插件使得您可以创建一个邮箱来阅读 RSS 1.0, RSS 2.0或者Atom格式的newsfeeds。\n"
+"\n"
+"每项newsfeed将创建一个邮件夹，从网络提取内容。您可以阅读，删除或者保留里面的条目。"
+
+#: src/rssyl_cb_menu.c:57
+msgid "Subscribe feed"
+msgstr "订阅feed"
+
+#: src/rssyl_cb_menu.c:58
+msgid "Input the URL of the news feed you wish to subscribe:"
+msgstr "请输入您想订阅的news feed的网址："
+
+#: src/rssyl_cb_menu.c:82
+#, c-format
+msgid "Really remove the folder tree '%s' ?\n"
+msgstr "真的要删除目录树 '%s'?\n"
+
+#: src/rssyl_cb_menu.c:83
+msgid "Remove folder tree"
+msgstr "删除目录树"
+
+#: src/rssyl_cb_menu.c:147
+#, c-format
+msgid "Can't remove feed '%s'."
+msgstr "无法删除feed '%s'。"
+
+#: src/rssyl_gtk.c:46
+msgid "/_Refresh feed"
+msgstr "/刷新(_R)"
+
+#: src/rssyl_gtk.c:47
+msgid "/Refresh _all feeds"
+msgstr "/全部刷新(_a)"
+
+#: src/rssyl_gtk.c:49
+msgid "/Subscribe _new feed..."
+msgstr "/订阅新feed(_n)..."
+
+#: src/rssyl_gtk.c:50
+msgid "/_Unsubscribe feed..."
+msgstr "/取消订阅(_U)..."
+
+#: src/rssyl_gtk.c:51
+msgid "/Feed pr_operties..."
+msgstr "/属性(_o)..."
+
+#: src/rssyl_gtk.c:53
+msgid "/Remove folder _tree..."
+msgstr "/删除目录树(_t)..."
+
+#: src/rssyl_gtk.c:62
+msgid "/Refresh feed"
+msgstr "/刷新"
+
+#: src/rssyl_gtk.c:63
+msgid "/Refresh all feeds"
+msgstr "/全部刷新"
+
+#: src/rssyl_gtk.c:64
+msgid "/Subscribe new feed..."
+msgstr "订阅新的feed..."
+
+#: src/rssyl_gtk.c:65
+msgid "/Unsubscribe feed..."
+msgstr "/取消订阅..."
+
+#: src/rssyl_gtk.c:66
+msgid "/Feed properties..."
+msgstr "/属性..."
+
+#: src/rssyl_gtk.c:67
+msgid "/Remove folder tree..."
+msgstr "/删除目录树..."
+
+#: src/rssyl_gtk.c:109
+msgid "Add RSS folder tree"
+msgstr "添加RSS目录树"
+
+#: src/rssyl_gtk.c:110
+msgid "Enter name for a new RSS folder tree."
+msgstr "请输入要新建的RSS目录树的名称"
+
+#: src/rssyl_gtk.c:115
+#, c-format
+msgid "The mailbox '%s' already exists."
+msgstr "邮箱'%s'已经存在。"
+
+#: src/rssyl_gtk.c:124
+msgid ""
+"Creation of folder tree failed.\n"
+"Maybe some files already exist, or you don't have the permission to write "
+"there?"
+msgstr ""
+"创建目录树失败。\n"
+"可能有些文件已经存在了，或者您没有该处的写权限？"
+
+#: src/rssyl_gtk.c:138
+msgid "/File/Add mailbox/RSSyl..."
+msgstr "/文件/添加邮箱/RSSyl..."
+
+#: src/rssyl_gtk.c:208
+msgid "Use default refresh interval (180 minutes)"
+msgstr "定时刷新(180分钟刷新一次)"
+
+#: src/rssyl_gtk.c:220
+msgid "Keep default number of expired entries (-1)"
+msgstr "需保存的过期条目数: 采用缺省值"
+
+#: src/rssyl_gtk.c:252
+msgid "<b>Source URL:</b>"
+msgstr "<b>来源网址：</b>"
+
+#: src/rssyl_gtk.c:279
+msgid ""
+"<b>Refresh interval in minutes:</b>\n"
+"<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
+msgstr ""
+"<b>定时刷新时间间隔：</b>\n"
+"<small>(设置为0表示禁止自动刷新该项)</small>"
+
+#: src/rssyl_gtk.c:310
+msgid ""
+"<b>Number of expired entries to keep:</b>\n"
+"<small>(Set to -1 if you want to keep expired entries)</small>"
+msgstr ""
+"<b>要保留的过期条目数：</b>\n"
+"<small>(设置为-1表示保留所有过期条目)</small>"
+
+#: src/rssyl_gtk.c:353
+msgid "_OK"
+msgstr "确定(_O)"
+
+#: src/rssyl_gtk.c:373
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: src/rssyl_gtk.c:381
+msgid "Set feed properties"
+msgstr "设置feed属性"
+
+#: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
+msgid "Unsubscribe feed"
+msgstr "取消订阅"
+
+#: src/rssyl_gtk.c:501
+msgid "Do you really want to remove feed"
+msgstr "您确实要删除该feed"
+
+#: src/rssyl_gtk.c:511
+msgid "Remove cached entries"
+msgstr "删除已有的条目"
+

@@ -1,0 +1,438 @@
+# Simplified Chinese translation of vcalendar plugin for Sylpheed-Claws
+# Copyright (C) 2005 Colin Leroy
+# This file is distributed under the same license as the vcalendar package.
+# Ralgh Young <bamanzi@gmail.com>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: vcalendar 1.21\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2005-12-20 09:58+0000\n"
+"PO-Revision-Date: 2005-12-20 23:52+0800\n"
+"Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
+"Language-Team: Simplified Chinese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/plugin.c:40
+msgid ""
+"Your sylpheed version is newer than the version the plugin was built with"
+msgstr ""
+"您的Sylpheed-Claws比编译此插件所用的版本新。"
+
+#: src/plugin.c:45
+msgid "Your sylpheed version is too old"
+msgstr "您的Sylpheed-Claws版本太旧"
+
+#: src/plugin.c:61 src/vcal_manager.c:1134 src/vcal_meeting_gtk.c:450
+#: src/vcal_prefs.c:234
+msgid "vCalendar"
+msgstr ""
+
+#: src/plugin.c:66
+msgid ""
+"This plugin enables vCalendar message handling like produced by Evolution or "
+"Outlook.\n"
+"\n"
+"When loaded, it will create a vCalendar mailbox in your folder list, which "
+"will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form "
+"and you will be able to accept or decline them.\n"
+"Finally, to create a meeting right-click on the vCalendar or Meetings folder "
+"and choose \"New meeting...\"."
+msgstr ""
+"本插件将为Sylpheed-Claws增加对vCalendar格式信息的支持，该格式在Evolution和"
+"Outlook中用于记录会议等待办事宜。\n"
+"您所收到的会议邀请将以特殊的形式显示，您可以决定是接受还是拒绝。\n"
+"如果您需要创建一个会议通知，可以在vCalendar或者Meetings文件夹上单击右键，"
+"选择\"New meeting...\"。"
+
+#: src/vcalendar.c:418
+msgid "Accept"
+msgstr "接受"
+
+#: src/vcalendar.c:419
+msgid "Tentatively accept"
+msgstr "暂且接受"
+
+#: src/vcalendar.c:420
+msgid "Decline"
+msgstr "拒绝"
+
+#: src/vcalendar.c:426
+msgid "-"
+msgstr ""
+
+#: src/vcalendar.c:463
+msgid "You have created a meeting. Details follow:"
+msgstr "您已经创建了一个会议。详细内容如下："
+
+#: src/vcalendar.c:467
+msgid "You have been invited to a meeting. Details follow:"
+msgstr "您已经被邀请参加一个会议。详细内容如下："
+
+#: src/vcalendar.c:481 src/vcalendar.c:762
+msgid ""
+"You have received an answer to an unknown meeting proposal. Details follow:"
+msgstr ""
+"您已经接受到一项未知会议提议的回复。详细内容如下："
+
+#: src/vcalendar.c:484 src/vcalendar.c:765
+#, c-format
+msgid ""
+"You have received an answer to a meeting proposal.\n"
+"%s has %s the invitation whose details follow:"
+msgstr ""
+"您已经收到一项会议提议的回复。\n"
+"%s 已经%s了该邀请。详细内容如下："
+
+#: src/vcalendar.c:494
+msgid ""
+"A meeting to which you had been invited has been cancelled. Details follow:"
+msgstr ""
+"邀请您参加的一项会议已经被取消。详细内容如下："
+
+#: src/vcalendar.c:499
+msgid "You have been forwarded an appointment. Details follow:"
+msgstr ""
+
+#: src/vcalendar.c:959
+msgid "Cancel meeting"
+msgstr "取消会议"
+
+#: src/vcalendar.c:960
+msgid ""
+"Are you sure you want to cancel this meeting?\n"
+"A notification will be sent to attendees."
+msgstr ""
+"您确定要取消该会议嘛？\n"
+"如果确定取消，将向所有会议参加者发送通知。"
+
+#: src/vcalendar.c:1015
+msgid ""
+"You have no account matching any attendee.\n"
+"Have you really been invited?"
+msgstr ""
+"在会议名单中找不到您的名字。\n"
+"或许你的帐号采用了别的名字？"
+
+#: src/vcalendar.c:1077
+msgid "Answer"
+msgstr "答复"
+
+#: src/vcalendar.c:1078
+msgid "Edit meeting..."
+msgstr "编辑会议..."
+
+#: src/vcalendar.c:1079
+msgid "Cancel meeting..."
+msgstr "取消会议..."
+
+#: src/vcalendar.c:1080
+msgid "Launch website"
+msgstr "打开网站"
+
+#: src/vcalendar.c:1101
+msgid "Event:"
+msgstr "时间："
+
+#: src/vcalendar.c:1102 src/vcal_meeting_gtk.c:651
+msgid "Organizer:"
+msgstr "组织："
+
+#: src/vcalendar.c:1103 src/vcal_meeting_gtk.c:653
+msgid "Summary:"
+msgstr "摘要："
+
+#: src/vcalendar.c:1104
+msgid "Starting:"
+msgstr "开始时间："
+
+#: src/vcalendar.c:1105
+msgid "Ending:"
+msgstr "结束时间："
+
+#: src/vcalendar.c:1106 src/vcal_meeting_gtk.c:654
+msgid "Description:"
+msgstr "描述："
+
+#: src/vcalendar.c:1107 src/vcal_meeting_gtk.c:655
+msgid "Attendees:"
+msgstr "参加人员："
+
+#: src/vcalendar.c:1108
+msgid "Action:"
+msgstr "动作："
+
+#: src/vcal_folder.c:129
+msgid "/_New meeting..."
+msgstr "/新建会议(_N)..."
+
+#: src/vcal_folder.c:130
+msgid "/_Export calendar..."
+msgstr "/导出日历(_E)..."
+
+#: src/vcal_folder.c:132
+msgid "/_Subscribe to webCal..."
+msgstr "/订阅WebCal(_S)..."
+
+#: src/vcal_folder.c:133
+msgid "/_Unsubscribe..."
+msgstr "/取消订阅(_U)..."
+
+#: src/vcal_folder.c:135
+msgid "/U_pdate subscriptions"
+msgstr "/更新(_p)"
+
+#: src/vcal_folder.c:400 src/vcal_folder.c:703 src/vcal_folder.c:1046
+msgid "Meetings"
+msgstr "会议"
+
+#: src/vcal_folder.c:821
+msgid "/New meeting..."
+msgstr "/新建会议..."
+
+#: src/vcal_folder.c:822
+msgid "/Export calendar..."
+msgstr "/导出日历..."
+
+#: src/vcal_folder.c:823
+msgid "/Subscribe to webCal..."
+msgstr "/订阅WebCal..."
+
+#: src/vcal_folder.c:824
+msgid "/Unsubscribe..."
+msgstr "/取消订阅..."
+
+#: src/vcal_folder.c:825
+msgid "/Update subscriptions"
+msgstr "/更新"
+
+#: src/vcal_folder.c:828
+msgid "/Properties..."
+msgstr "/属性..."
+
+#: src/vcal_folder.c:829
+msgid "/Processing..."
+msgstr "/处理..."
+
+#: src/vcal_folder.c:1068
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s"
+msgstr ""
+"无法访问WebCal，URL: \n"
+"%s"
+
+#: src/vcal_folder.c:1073
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s\n"
+msgstr ""
+"无法访问WebCal，URL: \n"
+"%s\n"
+
+#: src/vcal_folder.c:1085
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s"
+msgstr ""
+"该网址看起来并不像一个WebCal网址：\n"
+"%s"
+
+#: src/vcal_folder.c:1091
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+msgstr ""
+"该网址看起来并不像一个WebCal网址：\n"
+"%s\n"
+
+#: src/vcal_folder.c:1152
+msgid "Subscribe to WebCal"
+msgstr "订阅WebCal"
+
+#: src/vcal_folder.c:1152
+msgid "Enter the WebCal URL:"
+msgstr "请输入WebCal网址"
+
+#: src/vcal_folder.c:1162
+msgid "Could not parse the URL."
+msgstr "无法解析该网址"
+
+#: src/vcal_folder.c:1190
+msgid "Do you really want to unsubscribe?"
+msgstr "您确定要取消订阅吗？"
+
+#: src/vcal_folder.c:1191
+msgid "Delete folder"
+msgstr "删除文件夹"
+
+#: src/vcal_folder.c:1210
+#, c-format
+msgid "Can't remove the folder '%s'."
+msgstr "无法删除文件夹'%s'。"
+
+#: src/vcal_manager.c:91
+msgid "accepted"
+msgstr "接受"
+
+#: src/vcal_manager.c:92
+msgid "tentatively accepted"
+msgstr "暂且接受"
+
+#: src/vcal_manager.c:93
+msgid "declined"
+msgstr "拒绝"
+
+#: src/vcal_manager.c:94
+msgid "did not answer"
+msgstr "未答复"
+
+#: src/vcal_manager.c:95 src/vcal_manager.c:128
+msgid "unknown"
+msgstr "未知"
+
+#: src/vcal_manager.c:124
+msgid "individual"
+msgstr "个人"
+
+#: src/vcal_manager.c:125
+msgid "group"
+msgstr "群组"
+
+#: src/vcal_manager.c:126
+msgid "resource"
+msgstr "资源"
+
+#: src/vcal_manager.c:127
+msgid "room"
+msgstr "房间"
+
+#: src/vcal_meeting_gtk.c:214
+msgid "Individual"
+msgstr "个人"
+
+#: src/vcal_meeting_gtk.c:215
+msgid "Group"
+msgstr "群组"
+
+#: src/vcal_meeting_gtk.c:216
+msgid "Resource"
+msgstr "资源"
+
+#: src/vcal_meeting_gtk.c:217
+msgid "Room"
+msgstr "房间"
+
+#: src/vcal_meeting_gtk.c:230
+msgid "Add..."
+msgstr "添加..."
+
+#: src/vcal_meeting_gtk.c:231
+msgid "Remove"
+msgstr "删除"
+
+#: src/vcal_meeting_gtk.c:446
+msgid ""
+"Could not send the meeting invitation.\n"
+"Check the recipients."
+msgstr ""
+"无法发送会议邀请。\n"
+"请检查接收名单。"
+
+#: src/vcal_meeting_gtk.c:499
+msgid "Save & Send"
+msgstr "保存并发送邀请"
+
+#: src/vcal_meeting_gtk.c:560
+msgid "<b>From:</b> "
+msgstr "<b>来自：</b>"
+
+#: src/vcal_meeting_gtk.c:571 src/vcal_meeting_gtk.c:587
+msgid "h"
+msgstr ""
+
+#: src/vcal_meeting_gtk.c:577
+msgid "<b>To:</b> "
+msgstr "<b>收件人：<b>"
+
+#: src/vcal_meeting_gtk.c:615
+msgid "New meeting"
+msgstr "新建会议"
+
+#: src/vcal_meeting_gtk.c:652
+msgid "Date:"
+msgstr "日期："
+
+#: src/vcal_meeting_gtk.c:724
+#, c-format
+msgid "%d hour%s"
+msgstr "%d 点%s"
+
+#: src/vcal_meeting_gtk.c:727
+#, c-format
+msgid "%d minute%s"
+msgstr "%d 分%s"
+
+#: src/vcal_meeting_gtk.c:738
+#, c-format
+msgid "Upcoming event: %s"
+msgstr "待办事宜：%s"
+
+#: src/vcal_meeting_gtk.c:739
+#, c-format
+msgid ""
+"You have a meeting or event soon.\n"
+"It starts at %s and ends %s later.\n"
+"More information:\n"
+"\n"
+"%s"
+msgstr ""
+"您有一个会议或者待办事宜。\n"
+"它计划开始于%s，结束于%s之后。\n"
+"详细信息：\n"
+"\n"
+"%s"
+
+#: src/vcal_meeting_gtk.c:779
+msgid "Empty calendar"
+msgstr "清空日历"
+
+#: src/vcal_meeting_gtk.c:780
+msgid "There is nothing to export."
+msgstr "没有可以导出的内容。"
+
+#: src/vcal_meeting_gtk.c:815
+msgid "Export calendar to ICS"
+msgstr "导出日历到ICS"
+
+#: src/vcal_meeting_gtk.c:821
+msgid "Could not export the calendar."
+msgstr "无法导出此日历项"
+
+#: src/vcal_prefs.c:92
+msgid "Alert me "
+msgstr "在 "
+
+#: src/vcal_prefs.c:101
+msgid " minutes before an event"
+msgstr " 分钟前通知我"
+
+#: src/vcal_prefs.c:126
+msgid "Automatically export calendar to "
+msgstr "自动导出日历到"
+
+#: src/vcal_prefs.c:143
+msgid "Command to run after export: "
+msgstr "导出后运行命令："
+
+#: src/vcal_prefs.c:233
+msgid "Plugins"
+msgstr "插件"
+

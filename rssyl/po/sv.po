@@ -1,0 +1,220 @@
+# Swedish translation rssyl plugin for Sylpheed-Claws
+# Copyright (C) 2005 Andrej Kacian
+# This file is distributed under the same license as the rssyl package.
+# Anders Trobäck <sylpheed@troback.com>, 2005.
+msgid ""
+msgstr ""
+"Project-Id-Version: rssyl 0.3\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2005-12-20 09:45+0000\n"
+"PO-Revision-Date: 2005-12-20 14:50+0100\n"
+"Last-Translator: Anders Trobäck <sylpheed@troback.com>\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: src/feed.c:148
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "Hämtar '%s'..."
+
+#: src/feed.c:589
+#, c-format
+msgid "Refreshing feed '%s'..."
+msgstr "Updaterar matning '%s'..."
+
+#: src/feed.c:607
+msgid "This feed format is not supported yet."
+msgstr "Detta matningsformat stöds inte ännu."
+
+#: src/feed.c:639
+msgid "N/A"
+msgstr "N/A"
+
+#: src/feed.c:902
+msgid "You are already subscribed to this feed."
+msgstr "Du prenumererar redan på denna matning."
+
+#: src/feed.c:908
+#, c-format
+msgid "Couldn't fetch URL '%s'."
+msgstr "Kunde inte hämta URL '%s'."
+
+#: src/feed.c:914
+#, c-format
+msgid "Can't subscribe feed '%s'."
+msgstr "Kan inte prenumera på '%s'."
+
+#: src/plugin.c:44
+msgid ""
+"Your version of Sylpheed-Claws is newer than the version the plugin was "
+"built with"
+msgstr " Din version av Sylpheed-Claws är nyare än versionen som insticksmodulen är bygd för"
+
+#: src/plugin.c:49
+msgid "Your version of Sylpheed-Claws is too old"
+msgstr "Din version av Sylpheed-Claws är för gammal"
+
+#: src/plugin.c:70
+msgid ""
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"\n"
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
+msgstr ""
+"Denna insticksmodul gör så att du kan skapa en postlåda med nyhetsmatningar i "
+"RSS 1.0, RSS 2.0 eller Atom format.\n"
+"\n"
+"Varje nyhetsmating kommer att hamna i en egen mapp, hämtad från webben. "
+"Du kan läsa dem och ta bort eller spara gamla nyheter."
+
+#: src/rssyl_cb_menu.c:57
+msgid "Subscribe feed"
+msgstr "Prenumerara på matning"
+
+#: src/rssyl_cb_menu.c:58
+msgid "Input the URL of the news feed you wish to subscribe:"
+msgstr "Ange URL för nyhetsmatningen du vill preumerera på:"
+
+#: src/rssyl_cb_menu.c:82
+#, c-format
+msgid "Really remove the folder tree '%s' ?\n"
+msgstr "Vill du verkligen ta bort mappen '%s' ?\n"
+
+#: src/rssyl_cb_menu.c:83
+msgid "Remove folder tree"
+msgstr "Ta bort mapp"
+
+#: src/rssyl_cb_menu.c:147
+#, c-format
+msgid "Can't remove feed '%s'."
+msgstr "Kan inte ta bort matning '%s'."
+
+#: src/rssyl_gtk.c:46
+msgid "/_Refresh feed"
+msgstr "/_Uppdatera matning"
+
+#: src/rssyl_gtk.c:47
+msgid "/Refresh _all feeds"
+msgstr "/Uppdatera _alla matningar"
+
+#: src/rssyl_gtk.c:49
+msgid "/Subscribe _new feed..."
+msgstr "/_Prenumerera på ny matning..."
+
+#: src/rssyl_gtk.c:50
+msgid "/_Unsubscribe feed..."
+msgstr "/A_vsluta preumeration..."
+
+#: src/rssyl_gtk.c:51
+msgid "/Feed pr_operties..."
+msgstr "/Egenskaper f_ör matning..."
+
+#: src/rssyl_gtk.c:53
+msgid "/Remove folder _tree..."
+msgstr "/Ta bort _mapp..."
+
+#: src/rssyl_gtk.c:62
+msgid "/Refresh feed"
+msgstr "/Uppdatera matning"
+
+#: src/rssyl_gtk.c:63
+msgid "/Refresh all feeds"
+msgstr "/Uppdatera alla matningar"
+
+#: src/rssyl_gtk.c:64
+msgid "/Subscribe new feed..."
+msgstr "/Prenumerara på ny matning..."
+
+#: src/rssyl_gtk.c:65
+msgid "/Unsubscribe feed..."
+msgstr "/Avsluta preumeration..."
+
+#: src/rssyl_gtk.c:66
+msgid "/Feed properties..."
+msgstr "/Egenskaper för manting..."
+
+#: src/rssyl_gtk.c:67
+msgid "/Remove folder tree..."
+msgstr "/Ta bort mapp..."
+
+#: src/rssyl_gtk.c:109
+msgid "Add RSS folder tree"
+msgstr "Lägg till RSS mapp"
+
+#: src/rssyl_gtk.c:110
+msgid "Enter name for a new RSS folder tree."
+msgstr "Ange namnet på den nya RSS mappen."
+
+#: src/rssyl_gtk.c:115
+#, c-format
+msgid "The mailbox '%s' already exists."
+msgstr "Postlådan '%s' finns redan."
+
+#: src/rssyl_gtk.c:124
+msgid ""
+"Creation of folder tree failed.\n"
+"Maybe some files already exist, or you don't have the permission to write "
+"there?"
+msgstr ""
+"Fel vid skapandet av mapp.\n"
+"Det finns kanske redan filer, eller så har du inte rättigheter att skriva där?"
+
+#: src/rssyl_gtk.c:138
+msgid "/File/Add mailbox/RSSyl..."
+msgstr "/Arkiv/Skapa postlåda/RSSyl..."
+
+#: src/rssyl_gtk.c:208
+msgid "Use default refresh interval (180 minutes)"
+msgstr "Använd standard uppdateringsintervall (180 minuter)"
+
+#: src/rssyl_gtk.c:220
+msgid "Keep default number of expired entries (-1)"
+msgstr "Behåll standard antal av utgångna nyheter (-1)"
+
+#: src/rssyl_gtk.c:252
+msgid "<b>Source URL:</b>"
+msgstr "<b>URL källa:</b>"
+
+#: src/rssyl_gtk.c:279
+msgid ""
+"<b>Refresh interval in minutes:</b>\n"
+"<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
+msgstr ""
+"<b>Uppdateringsintervall i minuter:</b>\n"
+"<small>(Sätt 0 för att avaktivera automatisk uppdatering på denna matning)</small>"
+
+#: src/rssyl_gtk.c:310
+msgid ""
+"<b>Number of expired entries to keep:</b>\n"
+"<small>(Set to -1 if you want to keep expired entries)</small>"
+msgstr ""
+"<b>Antal utgångna nyheter att behålla:</b>\n"
+"<small>(Sätt -1 om du vill behålla alla)</small>"
+
+#: src/rssyl_gtk.c:353
+msgid "_OK"
+msgstr "_OK"
+
+#: src/rssyl_gtk.c:373
+msgid "_Cancel"
+msgstr "_Avbryt"
+
+#: src/rssyl_gtk.c:381
+msgid "Set feed properties"
+msgstr "Ställ egenskaper för matning"
+
+#: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
+msgid "Unsubscribe feed"
+msgstr "Avbryt prenumeration på matning"
+
+#: src/rssyl_gtk.c:501
+msgid "Do you really want to remove feed"
+msgstr "Vill du verkligen ta bort matning"
+
+#: src/rssyl_gtk.c:511
+msgid "Remove cached entries"
+msgstr "Ta bort buffrade nyheter"
+

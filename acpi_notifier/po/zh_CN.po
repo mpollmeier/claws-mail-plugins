@@ -1,0 +1,124 @@
+# Simplified Chinese translation of acpi_notifier plugin for Sylpheed-Claws
+# Copyright (C) 2005 Colin Leroy
+# This file is distributed under the same license as the acpi_notifier package.
+# Ralgh Young <bamanzi@gmail.com>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: acpi_notifier 0.8\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2005-12-20 09:52+0000\n"
+"PO-Revision-Date: 2005-12-20 22:02+0800\n"
+"Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
+"Language-Team: Simplified Chinese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/acpi_notifier.c:61
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+msgstr ""
+"请确认内核模块'acerhk'模块已经加载。\n"
+"您可以从 http://www.informatik.hu-berlin.de/~tauber/acerhk/ 得该模块。"
+
+#: src/acpi_notifier.c:63
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+msgstr ""
+"请确认内核模块'acer_acpi'模块已经加载。\n"
+"您可以从 http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html 取得该模块。"
+
+#: src/acpi_notifier.c:65
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "请确认内核模块'asus_acpi'已经加载。"
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "请确认内核模块'ibm_acpi'已经加载。"
+
+#: src/acpi_notifier.c:67
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"请确认您已经安装了apanelc。\n"
+"您可以从 http://apanel.sourceforge.net/ 下载它。"
+
+#: src/acpi_notifier.c:191 src/acpi_notifier.c:197 src/acpi_notifier.c:408
+msgid "Control file doesn't exist."
+msgstr "控制文件不存在。"
+
+#: src/acpi_notifier.c:288
+msgid " : no new or unread mail"
+msgstr " ： 没有新邮件或未读邮件"
+
+#: src/acpi_notifier.c:289
+msgid " : unread mail"
+msgstr " ： 未读邮件"
+
+#: src/acpi_notifier.c:290
+msgid " : new mail"
+msgstr " ： 新邮件"
+
+#: src/acpi_notifier.c:292 src/acpi_notifier.c:298 src/acpi_notifier.c:304
+msgid "off"
+msgstr "关闭"
+
+#: src/acpi_notifier.c:294 src/acpi_notifier.c:300 src/acpi_notifier.c:306
+msgid "blinking"
+msgstr "闪烁"
+
+#: src/acpi_notifier.c:296 src/acpi_notifier.c:302 src/acpi_notifier.c:308
+msgid "on"
+msgstr "打开"
+
+#: src/acpi_notifier.c:330 src/acpi_notifier.c:339 src/acpi_notifier.c:354
+msgid "LED "
+msgstr "LED"
+
+#: src/acpi_notifier.c:369
+msgid "ACPI type: "
+msgstr "ACPI类型："
+
+#: src/acpi_notifier.c:378
+msgid "ACPI file: "
+msgstr "ACPI文件："
+
+#: src/acpi_notifier.c:389
+msgid "values - On: "
+msgstr "取值 - 打开："
+
+#: src/acpi_notifier.c:394
+msgid " - Off: "
+msgstr " - 关闭："
+
+#: src/acpi_notifier.c:703
+msgid "Plugins"
+msgstr "插件"
+
+#: src/acpi_notifier.c:704
+msgid "Acpi Notifier"
+msgstr "Acpi通知"
+
+#: src/acpi_notifier.c:757
+msgid ""
+"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
+"with"
+msgstr ""
+"您的Sylpheed-Claws比AcpiNotifier插件编译时所用的版本新。"
+
+#: src/acpi_notifier.c:762
+msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
+msgstr "您的Sylpheed-Claws版本太旧了，无法使用AcpiNotifier插件"
+
+#: src/acpi_notifier.c:776
+msgid "Acpi notifier"
+msgstr "Acpi通知"
+
+#: src/acpi_notifier.c:781
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "本插件处理各种ACPI邮件通知"
+

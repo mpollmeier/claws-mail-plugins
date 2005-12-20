@@ -1,0 +1,123 @@
+# Swedish translation of acpi_notifier plugin for Sylpheed-Claws.
+# Copyright (C) 2005 Anders Troback
+# This file is distributed under the same license as the acpi_notifier package.
+# Anders Trobäck <sylpheed@troback.com>, 2005.
+msgid ""
+msgstr ""
+"Project-Id-Version: acpi_notifier 0.8\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2005-12-20 17:46+0000\n"
+"PO-Revision-Date: 2005-12-20 14:01+0100\n"
+"Last-Translator: Anders Trobäck <sylpheed@troback.com>\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/acpi_notifier.c:61
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+msgstr ""
+"Kontrollera att kärnmodulen 'acerhk' är laddad.\n"
+"Du kan hämta den på http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+
+#: src/acpi_notifier.c:63
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+msgstr ""
+"Kontrollera att kärnmodulen 'acer_acpi' är laddad.\n"
+"Du kan hämta den på http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+
+#: src/acpi_notifier.c:65
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Kontrollera att kärnmodulen 'asus_acpi' är laddad."
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Kontrollera att kärnmodulen 'ibm_acpi' är laddad."
+
+#: src/acpi_notifier.c:67
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"Kontrollera att du har apanelc installerat.\n"
+"Du kan hämta det på http://apanel.sourceforge.net/"
+
+#: src/acpi_notifier.c:191 src/acpi_notifier.c:197 src/acpi_notifier.c:408
+msgid "Control file doesn't exist."
+msgstr "Kontrollfil finns inte."
+
+#: src/acpi_notifier.c:288
+msgid " : no new or unread mail"
+msgstr " : ingen ny eller oläst post"
+
+#: src/acpi_notifier.c:289
+msgid " : unread mail"
+msgstr " : oläst post"
+
+#: src/acpi_notifier.c:290
+msgid " : new mail"
+msgstr " : ny post"
+
+#: src/acpi_notifier.c:292 src/acpi_notifier.c:298 src/acpi_notifier.c:304
+msgid "off"
+msgstr "av"
+
+#: src/acpi_notifier.c:294 src/acpi_notifier.c:300 src/acpi_notifier.c:306
+msgid "blinking"
+msgstr "blinkar"
+
+#: src/acpi_notifier.c:296 src/acpi_notifier.c:302 src/acpi_notifier.c:308
+msgid "on"
+msgstr "på"
+
+#: src/acpi_notifier.c:330 src/acpi_notifier.c:339 src/acpi_notifier.c:354
+msgid "LED "
+msgstr "LED"
+
+#: src/acpi_notifier.c:369
+msgid "ACPI type: "
+msgstr "ACPI typ: "
+
+#: src/acpi_notifier.c:378
+msgid "ACPI file: "
+msgstr "ACPI fil: "
+
+#: src/acpi_notifier.c:389
+msgid "values - On: "
+msgstr "värde - På: "
+
+#: src/acpi_notifier.c:394
+msgid " - Off: "
+msgstr " - Av: "
+
+#: src/acpi_notifier.c:703
+msgid "Plugins"
+msgstr "Insticksmoduler"
+
+#: src/acpi_notifier.c:704
+msgid "Acpi Notifier"
+msgstr "ACPI Meddelande"
+
+#: src/acpi_notifier.c:757
+msgid ""
+"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
+"with"
+msgstr ""
+"Din version av Sylpheed-Claws är nyare än den version som ACPI Meddelande är "
+"byggt för"
+
+#: src/acpi_notifier.c:762
+msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
+msgstr "Din version av Sylpheed-Claws är för gammal för ACPI Meddelande"
+
+#: src/acpi_notifier.c:776
+msgid "Acpi notifier"
+msgstr "ACPI meddelande"
+
+#: src/acpi_notifier.c:781
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "Denna insticksmodul hanterar olika ACPI post LEDs."
