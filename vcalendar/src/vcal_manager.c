@@ -87,26 +87,32 @@ static GSList *answer_find(VCalEvent *event, Answer *answer)
 
 gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans) 
 {
-	static gchar *replies[5]={"accepted", "tentatively accepted", "declined", "did not answer",
-				  "unknown"};
+	static gchar *replies[5]={
+		N_("accepted"),
+		N_("tentatively accepted"),
+		N_("declined"),
+		N_("did not answer"),
+		N_("unknown")
+	};
+
 	switch (ans) {
 	case ICAL_PARTSTAT_ACCEPTED:
-		return replies[0];
+		return _(replies[0]);
 		break;
 	case ICAL_PARTSTAT_DECLINED:
-		return replies[2];
+		return _(replies[2]);
 		break;
 	case ICAL_PARTSTAT_TENTATIVE:
-		return replies[1];
+		return _(replies[1]);
 		break;
 	case ICAL_PARTSTAT_NEEDSACTION:
-		return replies[3];
+		return _(replies[3]);
 	case ICAL_PARTSTAT_DELEGATED:
 	case ICAL_PARTSTAT_COMPLETED:
 	case ICAL_PARTSTAT_X:
 	case ICAL_PARTSTAT_INPROCESS:
 	case ICAL_PARTSTAT_NONE:
-		return replies[4];
+		return _(replies[4]);
 		break;			
 	}
 	return NULL;
@@ -114,22 +120,28 @@ gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans)
 
 gchar *vcal_manager_cutype_get_text(enum icalparameter_cutype type) 
 {
-	static gchar *replies[5]={"individual", "group", "resource", "room",
-				  "unknown"};
+	static gchar *replies[5]={
+		N_("individual"),
+		N_("group"),
+		N_("resource"),
+		N_("room"),
+		N_("unknown")
+	};
+
 	switch (type) {
 	case ICAL_CUTYPE_INDIVIDUAL:
-		return replies[0];
+		return _(replies[0]);
 		break;
 	case ICAL_CUTYPE_GROUP:
-		return replies[1];
+		return _(replies[1]);
 		break;
 	case ICAL_CUTYPE_RESOURCE:
-		return replies[2];
+		return _(replies[2]);
 		break;
 	case ICAL_CUTYPE_ROOM:
-		return replies[3];
+		return _(replies[3]);
 	default:
-		return replies[4];
+		return _(replies[4]);
 		break;			
 	}
 	return NULL;
