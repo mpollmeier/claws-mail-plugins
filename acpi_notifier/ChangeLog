@@ -1,3 +1,9 @@
+2005-12-23 [paul]
+
+	* po/es.po
+		translation submitted by Ricardo Mones Lastra
+		<mones@users.sf.net>
+
 2005-12-19  gettextize  <bug-gnu-gettext@gnu.org> 0.8
 
 	* Makefile.am (SUBDIRS): Add po.
