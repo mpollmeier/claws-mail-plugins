@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2005-12-23 09:44+0000\n"
+"POT-Creation-Date: 2005-12-23 10:04+0000\n"
 "PO-Revision-Date: 2005-12-19 15:01+0100\n"
 "Last-Translator: Ricardo Mones <mones@aic.uniovi.es>\n"
 "Language-Team: Ricardo Mones <mones@aic.uniovi.es>\n"
@@ -21,7 +21,7 @@ msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 msgstr ""
-"Asegrese de que el mï¿½ulo del ncleo acerhk estï¿½cargado.\n"
+"Asegúrese de que el módulo del núcleo «acerhk» está cargado.\n"
 "Puede obtenerlo de http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
 #: src/acpi_notifier.c:63
@@ -29,23 +29,23 @@ msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
-"Asegrese de que el mï¿½ulo del ncleo acer_acpi estï¿½cargado.\n"
+"Asegúrese de que el módulo del núcleo «acer_acpi» está cargado.\n"
 "Puede obtenerlo de http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 
 #: src/acpi_notifier.c:65
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Asegrese de que el mï¿½ulo del ncleo asus_acpi estï¿½cargado."
+msgstr "Asegúrese de que el módulo del núcleo «asus_acpi» está cargado."
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Asegrese de que el mï¿½ulo del ncleo ibm_acpi estï¿½cargado."
+msgstr "Asegúrese de que el módulo del núcleo «ibm_acpi» está cargado."
 
 #: src/acpi_notifier.c:67
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
 msgstr ""
-"Asegrese de que tiene apanelc instalado.\n"
+"Asegúrese de que tiene apanelc instalado.\n"
 "Puede obtenerlo de http://apanel.sourceforge.net/"
 
 #: src/acpi_notifier.c:191 src/acpi_notifier.c:197 src/acpi_notifier.c:408
@@ -98,7 +98,7 @@ msgstr " - Apagado: "
 
 #: src/acpi_notifier.c:703
 msgid "Plugins"
-msgstr "Mï¿½ulos"
+msgstr "Módulos"
 
 #: src/acpi_notifier.c:704
 msgid "Acpi Notifier"
@@ -109,8 +109,8 @@ msgid ""
 "Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
 "with"
 msgstr ""
-"Su versiï¿½ de Sylpheed-Claws es mï¿½ nueva que la versiï¿½ con la que se "
-"conpilï¿½el Notificador ACPI"
+"Su versión de Sylpheed-Claws es más nueva que la versión con la que se "
+"conpiló el Notificador ACPI"
 
 #: src/acpi_notifier.c:762
 msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
@@ -123,4 +123,4 @@ msgstr "Notificador ACPI"
 
 #: src/acpi_notifier.c:781
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "Este mï¿½ulo controla algunos LEDs de notificaciï¿½ de correo ACPI."
+msgstr "Este módulo controla algunos LEDs de notificación de correo ACPI."
