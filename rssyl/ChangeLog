@@ -1,3 +1,7 @@
+2005-12-27 19:56  Andrej Kacian <andrej@kacian.sk>
+	* src/rssyl_gtk.c: Upon plugin unload, close opened folder if it's our
+		folder, so s-c doesn't crash when clicking on leftover items.
+
 2005-12-27 19:22  Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c: Take date into account when comparing feed items.
 	* configure.ac: Require s-c >=1.9.100.0
