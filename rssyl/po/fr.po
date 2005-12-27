@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSSyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2005-12-18 17:03+0100\n"
+"POT-Creation-Date: 2005-12-19 00:57+0100\n"
 "PO-Revision-Date: 2005-12-18 17:03+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: Colin Leroy <colin@colino.net>\n"
@@ -45,7 +45,7 @@ msgstr "Impossible de récupérer l'URL '%s'."
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossible de s'abonner à la source '%s'."
 
-#: src/plugin.c:42
+#: src/plugin.c:44
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version the plugin was "
 "built with"
@@ -53,11 +53,11 @@ msgstr ""
 "Votre version de Sylpheed-Claws est plus récente que celle avec laquelle le "
 "module a été compilé"
 
-#: src/plugin.c:47
+#: src/plugin.c:49
 msgid "Your version of Sylpheed-Claws is too old"
 msgstr "Votre version de Sylpheed-Claws est trop vieille"
 
-#: src/plugin.c:68
+#: src/plugin.c:70
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"

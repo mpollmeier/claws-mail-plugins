@@ -1,4 +1,8 @@
-2005-12-20 19:59  Colin Leroy <colin@colino.net
+2005-12-27 19:22  Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c: Take date into account when comparing feed items.
+	* configure.ac: Require s-c >=1.9.100.0
+
+2005-12-20 19:59  Colin Leroy <colin@colino.net>
 	* src/rssyl_gtk.c: Fix a potential crasher
 
 2005-12-18 17:15  Andrej Kacian <andrej@kacian.sk>

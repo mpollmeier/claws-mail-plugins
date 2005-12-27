@@ -492,52 +492,80 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		const RSSylFeedItem *b)
 {
+	gboolean link_eq = FALSE, date_eq = FALSE;
+
 	if( a == NULL || b == NULL )
 		return 1;
-	
-	return strcmp(a->link, b->link);
+
+	if( strcmp(a->link, b->link) == 0 )
+		link_eq = TRUE;
+
+	if( a->date == b->date )
+		date_eq = TRUE;
+
+	/* only say the two are same if both link and date match */
+	if( date_eq && link_eq ) return 0;
+
+	return 1;
 }
 
 static gboolean rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *new_item)
 {
+	/* if both have text ... */
 	if( old_item->text && new_item->text ) {
-		if( strcmp(old_item->text, new_item->text) )
+		if( strcmp(old_item->text, new_item->text) ) {	/* ... compare texts */
+			debug_print("item texts differ\n");
 			return TRUE;
+		}
 	} else {
-		if( old_item->text || new_item->text )
+		/* if atleast one has some text, they differ */
+		if( old_item->text || new_item->text ) {
+			debug_print("+/- text\n");
 			return TRUE;
+		}
 	}
 
+	/* if both have title ... */
 	if( old_item->title && new_item->title ) {
 		gchar *old = conv_unmime_header(old_item->title, CS_UTF_8);
 		gchar *new = conv_unmime_header(new_item->title, CS_UTF_8);
-		if( strcmp(old, new) ) {
+		if( strcmp(old, new) ) {	/* ... compare "unmimed" titles */
 			g_free(old);
 			g_free(new);
+			debug_print("item titles differ\n");
 			return TRUE;
 		}
 		g_free(old);
 		g_free(new);
 	} else {
-		if( old_item->title || new_item->title )
+		/* if atleast one has a title, they differ */
+		if( old_item->title || new_item->title ) {
+			debug_print("+/- title\n");
 			return TRUE;
+		}
 	}
 
+	/* if both have author ... */
 	if( old_item->author && new_item->author ) {
 		gchar *old = conv_unmime_header(old_item->author, CS_UTF_8);
 		gchar *new = conv_unmime_header(new_item->author, CS_UTF_8);
-		if( strcmp(old, new) ) {
+		if( strcmp(old, new) ) {	/* ... compare "unmimed" authors */
 			g_free(old);
 			g_free(new);
+			debug_print("item authors differ\n");
 			return TRUE;
 		}
 		g_free(old);
 		g_free(new);
 	} else {
-		if( old_item->author || new_item->author )
+		/* if atleast one has author, they differ */
+		if( old_item->author || new_item->author ) {
+			debug_print("+/- author\n");
 			return TRUE;
+		}
 	}
 
+	/* they don't seem to differ */
 	return FALSE;
 }
 

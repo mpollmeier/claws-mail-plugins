@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2005-12-18 17:03+0100\n"
+"POT-Creation-Date: 2005-12-19 00:57+0100\n"
 "PO-Revision-Date: 2005-12-17 18:45+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -49,7 +49,7 @@ msgstr "Nepodarilo sa stiahnuť URL '%s'."
 msgid "Can't subscribe feed '%s'."
 msgstr "Nepodarilo sa prihlásiť kanál '%s'."
 
-#: src/plugin.c:42
+#: src/plugin.c:44
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version the plugin was "
 "built with"
@@ -57,11 +57,11 @@ msgstr ""
 "Verzia Vašej inštalácie Sylpheed-Claws je novšia, ako verzia, ktorá bola "
 "použitá pri kompilácii tohto pluginu"
 
-#: src/plugin.c:47
+#: src/plugin.c:49
 msgid "Your version of Sylpheed-Claws is too old"
 msgstr "Verzia vašej inštalácie Sylpheed-Claws je príliš stará"
 
-#: src/plugin.c:68
+#: src/plugin.c:70
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"

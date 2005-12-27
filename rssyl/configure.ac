@@ -43,7 +43,7 @@ AC_SUBST(localedir)
 AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
 
 dnl Check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.0)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )

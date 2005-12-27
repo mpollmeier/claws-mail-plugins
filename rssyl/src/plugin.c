@@ -35,8 +35,6 @@
 
 gint plugin_init(gchar **error)
 {
-	gchar *foo;
-
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 

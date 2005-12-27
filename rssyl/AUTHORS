@@ -1,2 +1,8 @@
+CODE:
 Andrej Kacian <andrej@kacian.sk> - author
 Colin Leroy <colin@colino.net> - multiple bug-fixing and feature-adding patches, Atom feed parser
+
+TRANSLATIONS:
+French - Colin Leroy <colin@colino.net>
+Slovak - Andrej Kacian <andrej@kacian.sk>
+Spanish - Ricardo Mones Lastra <mones@aic.uniovi.es>
