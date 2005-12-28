@@ -14,7 +14,7 @@ maildir_la_LDFLAGS = \
 	-avoid-version -module
 
 maildir_la_LIBADD = \
-	-ldb
+	$(DBLIB) 
 
 maildir_la_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \

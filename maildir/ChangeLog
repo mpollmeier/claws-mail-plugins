@@ -1,3 +1,7 @@
+2005-12-28 [colin]	0.15
+
+	* Fix libdb linking - closes #880
+
 2005-12-28 [colin]	0.14
 
 	* Add null pointers checks
