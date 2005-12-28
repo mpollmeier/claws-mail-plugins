@@ -1,3 +1,7 @@
+2005-12-28 [colin]	0.14
+
+	* Add null pointers checks
+
 2005-12-15 [paul]	0.13
 
 	* Add plugin_version()
