@@ -2,10 +2,8 @@ Makefile
 Makefile.in
 aclocal.m4
 autom4te.cache
-config.guess
-config.log
-config.status
-config.sub
+compile
+config.*
 configure
 depcomp
 install-sh
@@ -13,5 +11,5 @@ libtool
 ltmain.sh
 missing
 pluginconfig.h
-stamp-h1
-compile
+pluginconfig.h.in
+stamp-h?

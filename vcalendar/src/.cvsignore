@@ -1,7 +1,7 @@
+.libs
+.deps
 Makefile
 Makefile.in
-.deps
-.libs
-*.la
 *.lo
+*.la
 plugin_version.h

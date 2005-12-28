@@ -4,11 +4,16 @@ Makefile
 Makefile.in
 *.lo
 *.la
+ical.h
 icalderivedparameter.c
 icalderivedparameter.h
 icalderivedproperty.c
 icalderivedproperty.h
 icalderivedvalue.c
 icalderivedvalue.h
+icallexer.c
 icalrestriction.c
 icalversion.h
+icalyacc.c
+icalyacc.h
+icalyacc.output

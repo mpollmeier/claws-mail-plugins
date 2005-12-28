@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+config.*
+depcomp
+install-sh
+ltmain.sh
+missing
