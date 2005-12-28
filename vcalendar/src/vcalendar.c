@@ -1178,6 +1178,15 @@ void vcalendar_init(void)
 
 void vcalendar_done(void)
 {
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	FolderView *folderview = mainwin->folderview;
+	FolderItem *fitem = folderview->summaryview->folder_item;
+	if (fitem && 
+	    fitem->folder->klass == vcal_folder_get_class()) {
+		folderview_unselect(folderview);
+		summary_clear_all(folderview->summaryview);
+	}
+
 	mimeview_unregister_viewer_factory(&vcal_viewer_factory);
 	folder_unregister_class(vcal_folder_get_class());
 	vcal_folder_gtk_done();

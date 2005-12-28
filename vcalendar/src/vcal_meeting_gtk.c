@@ -447,7 +447,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 				   "Check the recipients."));
 	}
 	if (!found_att) {
-		Folder *folder = folder_find_from_name (_("vCalendar"), vcal_folder_get_class());
+		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 		if (folder)
 			folder_item_scan(folder->inbox);
 		vcalviewer_reload();
