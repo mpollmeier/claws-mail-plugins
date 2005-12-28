@@ -51,7 +51,8 @@ static char *rssyl_popup_menu_labels[] =
 	N_("/Feed pr_operties..."),
 	"/---",
 	N_("/Remove folder _tree..."),
-	"/---"
+	"/---",
+	NULL
 };
 
 static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)

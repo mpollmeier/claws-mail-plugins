@@ -1,3 +1,8 @@
+2005-12-28 22:56  <colin@colino.net>
+	* src/feed.c: Do not take date into account when comparing
+	  feed items with no date.
+	* src/rssyl_gtk.c: Put back the NULL in rssyl_popup_menu_labels
+
 2005-12-27 19:56  Andrej Kacian <andrej@kacian.sk>
 	* src/rssyl_gtk.c: Upon plugin unload, close opened folder if it's our
 		folder, so s-c doesn't crash when clicking on leftover items.

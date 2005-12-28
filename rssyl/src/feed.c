@@ -500,7 +500,7 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 	if( strcmp(a->link, b->link) == 0 )
 		link_eq = TRUE;
 
-	if( a->date == b->date )
+	if( a->date == b->date || a->date <= 0 || b->date <= 0)
 		date_eq = TRUE;
 
 	/* only say the two are same if both link and date match */
@@ -659,10 +659,6 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	g_return_val_if_fail(ritem->item.path != NULL, FALSE);
 	g_return_val_if_fail(fitem != NULL, FALSE);
 
-	/* Adjust some fields */
-	if( fitem->date <= 0 )
-		fitem->date = time(NULL);
-
 	if( !fitem->author )
 		fitem->author = g_strdup(_("N/A"));
 
@@ -680,7 +676,11 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		oldfitem = NULL;
 	}
 
-	debug_print("RSSyl: Adding item '%s'\n", fitem->title);
+	/* Adjust some fields */
+	if( fitem->date <= 0 )
+		fitem->date = time(NULL);
+
+	debug_print("RSSyl: Adding item '%s' (%d)\n", fitem->title, dif);
 
 	g_slist_append(ritem->contents, fitem);
 
