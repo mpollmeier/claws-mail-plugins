@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS(config.h)
 
-PLUGINVERSION=0.4pre2
+PLUGINVERSION=0.4pre3
 AM_INIT_AUTOMAKE(rssyl, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
 
@@ -25,7 +25,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.12.1])
-ALL_LINGUAS="es fr sk sv zh_CN"
+ALL_LINGUAS="es fi fr sk sv zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl Find pkg-config

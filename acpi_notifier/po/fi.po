@@ -1,0 +1,125 @@
+# Finnish translations for sylpheed-claws package.
+# Copyright (C) 2005 Colin Leroy
+# This file is distributed under the same license as the sylpheed-claws package.
+# Flammie Pirinen <flammie@iki.fi>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sylpheed-claws\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2005-12-20 09:52+0000\n"
+"PO-Revision-Date: 2005-12-21 12:42+0200\n"
+"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
+"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/acpi_notifier.c:61
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+msgstr ""
+"Varmista, että ytimen acerhk-moduuli on ladattu.\n"
+"Sen voi hakea osoitteesta http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+
+#: src/acpi_notifier.c:63
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+msgstr ""
+"Varmista, että ytimen acer_acpi-moduuli on ladattu.\n"
+"Sen voi hakea osoitteesta "
+"http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+
+#: src/acpi_notifier.c:65
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Varmista, että ytimen asus_acpi-moduuli on ladattu."
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Varmista, että ytimen ibm_acpi-moduuli on ladattu."
+
+#: src/acpi_notifier.c:67
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"Varmista, että apanelc on asennettu.\n"
+"Sen voi hakea osoitteesta http://apanel.sourceforge.net/"
+
+#: src/acpi_notifier.c:191 src/acpi_notifier.c:197 src/acpi_notifier.c:408
+msgid "Control file doesn't exist."
+msgstr "Ohjaustiedosto puuttuu"
+
+#: src/acpi_notifier.c:288
+msgid " : no new or unread mail"
+msgstr ": ei uutta tai lukematonta postia"
+
+#: src/acpi_notifier.c:289
+msgid " : unread mail"
+msgstr ": lukematonta postia"
+
+#: src/acpi_notifier.c:290
+msgid " : new mail"
+msgstr ": uutta postia"
+
+#: src/acpi_notifier.c:292 src/acpi_notifier.c:298 src/acpi_notifier.c:304
+msgid "off"
+msgstr "pois päältä"
+
+#: src/acpi_notifier.c:294 src/acpi_notifier.c:300 src/acpi_notifier.c:306
+msgid "blinking"
+msgstr "välkkyy"
+
+#: src/acpi_notifier.c:296 src/acpi_notifier.c:302 src/acpi_notifier.c:308
+msgid "on"
+msgstr "päällä"
+
+#: src/acpi_notifier.c:330 src/acpi_notifier.c:339 src/acpi_notifier.c:354
+msgid "LED "
+msgstr "Ledi "
+
+#: src/acpi_notifier.c:369
+msgid "ACPI type: "
+msgstr "ACPI-tyyppi: "
+
+#: src/acpi_notifier.c:378
+msgid "ACPI file: "
+msgstr "ACPI-tiedosto: "
+
+#: src/acpi_notifier.c:389
+msgid "values - On: "
+msgstr "arvot — päällä: "
+
+#: src/acpi_notifier.c:394
+msgid " - Off: "
+msgstr " — pois päältä: "
+
+#: src/acpi_notifier.c:703
+msgid "Plugins"
+msgstr "Liitännäiset"
+
+#: src/acpi_notifier.c:704
+msgid "Acpi Notifier"
+msgstr "ACPI Notifier"
+
+#: src/acpi_notifier.c:757
+msgid ""
+"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
+"with"
+msgstr ""
+"Sylpheed-Clawsisi on uudempi kuin mitä varten ACPINotifier on käännetty"
+
+#: src/acpi_notifier.c:762
+msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
+msgstr "Sylpheed-Clawsisi on ACPINotifierille liian vanha"
+
+#: src/acpi_notifier.c:776
+msgid "Acpi notifier"
+msgstr "ACPI notifier"
+
+#: src/acpi_notifier.c:781
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "Tämä liitännäinen ohjaa ACPI-postiledejä."

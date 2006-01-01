@@ -1,0 +1,224 @@
+# Finnish translations for sylpheed-claws package.
+# Copyright (C) 2005 Andrej Kacian
+# This file is distributed under the same license as the sylpheed-claws package.
+# Flammie Pirinen <flammie@iki.fi>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sylpheed-claws\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2005-12-20 09:45+0000\n"
+"PO-Revision-Date: 2005-12-21 12:43+0200\n"
+"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
+"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/feed.c:148
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "Haetaan syötettä %s…"
+
+#: src/feed.c:589
+#, c-format
+msgid "Refreshing feed '%s'..."
+msgstr "Päivitetään syötettä %s…"
+
+#: src/feed.c:607
+msgid "This feed format is not supported yet."
+msgstr "Tätä syötemuotoa ei tueta vielä."
+
+#: src/feed.c:639
+msgid "N/A"
+msgstr "—"
+
+#: src/feed.c:902
+msgid "You are already subscribed to this feed."
+msgstr "Olet jo tilannut tämän syötteen."
+
+#: src/feed.c:908
+#, c-format
+msgid "Couldn't fetch URL '%s'."
+msgstr "URLia %s ei voitu hakea."
+
+#: src/feed.c:914
+#, c-format
+msgid "Can't subscribe feed '%s'."
+msgstr "Syötettä %s ei voida tilata."
+
+#: src/plugin.c:44
+msgid ""
+"Your version of Sylpheed-Claws is newer than the version the plugin was "
+"built with"
+msgstr ""
+"Sylpheed-Clawsisi on uudempi kuin mitä varten tämä liitännäinen "
+"on käännetty"
+
+#: src/plugin.c:49
+msgid "Your version of Sylpheed-Claws is too old"
+msgstr "Sylpheed-Clawsisi on liian vanha"
+
+#: src/plugin.c:70
+msgid ""
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"\n"
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
+msgstr ""
+"Tällä liitännäisellä tehdään postilaatikkokansiopuu, johon voi lisätä "
+"syötteitä RSS 1.0-, RSS 2.0- ja Atom-muotoisina.\n"
+"\n"
+"Jokainen syöte tekee uuden kansion, joka sisältää omat verkosta haetut "
+"juttunsa. Ne voi lukea, poistaa tai säilyttää."
+
+#: src/rssyl_cb_menu.c:57
+msgid "Subscribe feed"
+msgstr "Tilaa syöte"
+
+#: src/rssyl_cb_menu.c:58
+msgid "Input the URL of the news feed you wish to subscribe:"
+msgstr "Anna tilattavan syötteen URL, jonka haluat tilata:"
+
+#: src/rssyl_cb_menu.c:82
+#, c-format
+msgid "Really remove the folder tree '%s' ?\n"
+msgstr "Poistetaanko syötekansiopuu %s?\n"
+
+#: src/rssyl_cb_menu.c:83
+msgid "Remove folder tree"
+msgstr "Poista kansiopuu"
+
+#: src/rssyl_cb_menu.c:147
+#, c-format
+msgid "Can't remove feed '%s'."
+msgstr "Syötettä %s ei voida poistaa"
+
+#: src/rssyl_gtk.c:46
+msgid "/_Refresh feed"
+msgstr "_Päivitä syöte"
+
+#: src/rssyl_gtk.c:47
+msgid "/Refresh _all feeds"
+msgstr "Päivitä _kaikki syötteet"
+
+#: src/rssyl_gtk.c:49
+msgid "/Subscribe _new feed..."
+msgstr "Tilaa _uusi syöte…"
+
+#: src/rssyl_gtk.c:50
+msgid "/_Unsubscribe feed..."
+msgstr "_Lakkaa tilaamasta syötettä…"
+
+#: src/rssyl_gtk.c:51
+msgid "/Feed pr_operties..."
+msgstr "Syötteen _ominaisuudet…"
+
+#: src/rssyl_gtk.c:53
+msgid "/Remove folder _tree..."
+msgstr "Poista kansiop_uu…"
+
+#: src/rssyl_gtk.c:62
+msgid "/Refresh feed"
+msgstr "Päivitä syöte"
+
+#: src/rssyl_gtk.c:63
+msgid "/Refresh all feeds"
+msgstr "Päivitä kaikki syötteet"
+
+#: src/rssyl_gtk.c:64
+msgid "/Subscribe new feed..."
+msgstr "Tilaa uusi syöte…"
+
+#: src/rssyl_gtk.c:65
+msgid "/Unsubscribe feed..."
+msgstr "Lakkaa tilaamasta syötettä…"
+
+#: src/rssyl_gtk.c:66
+msgid "/Feed properties..."
+msgstr "Syötteen ominaisuudet…"
+
+#: src/rssyl_gtk.c:67
+msgid "/Remove folder tree..."
+msgstr "Poista syötepuu…"
+
+#: src/rssyl_gtk.c:109
+msgid "Add RSS folder tree"
+msgstr "Lisää RSS-syötekansiopuu"
+
+#: src/rssyl_gtk.c:110
+msgid "Enter name for a new RSS folder tree."
+msgstr "Anna nimi uudelle RSS-syötekansiopuulle."
+
+#: src/rssyl_gtk.c:115
+#, c-format
+msgid "The mailbox '%s' already exists."
+msgstr "Postilaatikko %s on jo olemassa."
+
+#: src/rssyl_gtk.c:124
+msgid ""
+"Creation of folder tree failed.\n"
+"Maybe some files already exist, or you don't have the permission to write "
+"there?"
+msgstr ""
+"Kansiopuun luonti epäonnistui.\n"
+"Ehkä sen tiedostot ovat jo olemassa, tai kansioon ei ole oikeutta kirjoittaa."
+
+#: src/rssyl_gtk.c:138
+msgid "/File/Add mailbox/RSSyl..."
+msgstr "RSSyl…"
+
+#: src/rssyl_gtk.c:208
+msgid "Use default refresh interval (180 minutes)"
+msgstr "Käytä oletuspäivitysväliä (180 minuuttia)"
+
+#: src/rssyl_gtk.c:220
+msgid "Keep default number of expired entries (-1)"
+msgstr "Säilytä oletusmäärä vanhentuneita juttuja (−1)"
+
+#: src/rssyl_gtk.c:252
+msgid "<b>Source URL:</b>"
+msgstr "<b>Lähteen URL:</b>"
+
+#: src/rssyl_gtk.c:279
+msgid ""
+"<b>Refresh interval in minutes:</b>\n"
+"<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
+msgstr ""
+"<b>Päivitysten väli minuuteissa</b>\n"
+"<small>(Aseta nollaksi poistaaksesi tämän syötteen automaattisen päivityksen)"
+"</small>"
+
+#: src/rssyl_gtk.c:310
+msgid ""
+"<b>Number of expired entries to keep:</b>\n"
+"<small>(Set to -1 if you want to keep expired entries)</small>"
+msgstr ""
+"<b>Säilytettävien vanhentuneiden juttujen lukumäärä:</b>\n"
+"<small>(Aseta −1:ksi, jos haluat säilyttää kaikki vanhentuneet jutut)</small>"
+
+#: src/rssyl_gtk.c:353
+msgid "_OK"
+msgstr "_OK"
+
+#: src/rssyl_gtk.c:373
+msgid "_Cancel"
+msgstr "_Peru"
+
+#: src/rssyl_gtk.c:381
+msgid "Set feed properties"
+msgstr "Aseta syötteen ominaisuudet"
+
+#: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
+msgid "Unsubscribe feed"
+msgstr "Lakkaa tilaamasta syötettä"
+
+#: src/rssyl_gtk.c:501
+msgid "Do you really want to remove feed"
+msgstr "Poistetaanko syöte"
+
+#: src/rssyl_gtk.c:511
+msgid "Remove cached entries"
+msgstr "Poista jutut välimuistista"

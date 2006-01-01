@@ -1,0 +1,444 @@
+# Finnish translations for sylpheed-claws package.
+# Copyright (C) 2005 Colin Leroy
+# This file is distributed under the same license as the sylpheed-claws package.
+# Flammie Pirinen <flammie@iki.fi>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sylpheed-claws\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2005-12-20 09:58+0000\n"
+"PO-Revision-Date: 2005-12-21 12:43+0200\n"
+"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
+"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/plugin.c:40
+msgid ""
+"Your sylpheed version is newer than the version the plugin was built with"
+msgstr ""
+"Sylpheed-Clawsin on uudempi kuin mitä varten liitännäinen on "
+"käännetty"
+
+#: src/plugin.c:45
+msgid "Your sylpheed version is too old"
+msgstr "Sylpheed-Clawsisi on liian vanha"
+
+#: src/plugin.c:61 src/vcal_manager.c:1134 src/vcal_meeting_gtk.c:450
+#: src/vcal_prefs.c:234
+msgid "vCalendar"
+msgstr "vKalenteri"
+
+#: src/plugin.c:66
+msgid ""
+"This plugin enables vCalendar message handling like produced by Evolution or "
+"Outlook.\n"
+"\n"
+"When loaded, it will create a vCalendar mailbox in your folder list, which "
+"will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form "
+"and you will be able to accept or decline them.\n"
+"Finally, to create a meeting right-click on the vCalendar or Meetings folder "
+"and choose \"New meeting...\"."
+msgstr ""
+"Tällä liitännäisellä voi käsitellä vKalenteri-viestejä Evolutionilta tai "
+"Outlookista.\n"
+"\n"
+"Kun tämä on käytössä, se luo vKalenterille postilaatikon kansioluetteloon, "
+"ja täyttää sen tapaamisilla, jotka on sovittu tai luotu.\n"
+"Tulevat tapaamispyynnöt esitetään sopivassa muodossa, ja voit joko "
+"hyväksyä ne tai kieltäytyä niistä.\n"
+"Uuden tapaamisen voi luoda napsauttamalla oikeaa hiiren painiketta "
+"vKalenteri- tai tapaamiskansion päällä, ja valitsemalla valikosta "
+"”Uusi tapaaminen…”."
+
+#: src/vcalendar.c:418
+msgid "Accept"
+msgstr "Hyväksy"
+
+#: src/vcalendar.c:419
+msgid "Tentatively accept"
+msgstr "Hyväksy alustavasti"
+
+#: src/vcalendar.c:420
+msgid "Decline"
+msgstr "Kieltäydy"
+
+#: src/vcalendar.c:426
+msgid "-"
+msgstr "—"
+
+#: src/vcalendar.c:463
+msgid "You have created a meeting. Details follow:"
+msgstr "Uusi tapaaminen on tehty, yksityiskohdat:"
+
+#: src/vcalendar.c:467
+msgid "You have been invited to a meeting. Details follow:"
+msgstr "Sinut on kutsuttu tapaamiseen, yksityiskohdat:"
+
+#: src/vcalendar.c:481 src/vcalendar.c:762
+msgid ""
+"You have received an answer to an unknown meeting proposal. Details follow:"
+msgstr ""
+"Olet saanut vastauksen tuntemattomaan tapaamispyyntöön, yksityiskohdat:"
+
+#: src/vcalendar.c:484 src/vcalendar.c:765
+#, c-format
+msgid ""
+"You have received an answer to a meeting proposal.\n"
+"%s has %s the invitation whose details follow:"
+msgstr ""
+"Olet saanut vastauksen tapaamispyyntöön.\n"
+"Henkilö %s on %s. Yksityiskohdat:"
+
+#: src/vcalendar.c:494
+msgid ""
+"A meeting to which you had been invited has been cancelled. Details follow:"
+msgstr ""
+"Sopimasi tapaaminen, on peruttu, yksityiskohdat:"
+
+#: src/vcalendar.c:499
+msgid "You have been forwarded an appointment. Details follow:"
+msgstr "Sinulle on välitetty tapaaminen, yksityiskohdat:"
+
+#: src/vcalendar.c:959
+msgid "Cancel meeting"
+msgstr "Peru tapaaminen"
+
+#: src/vcalendar.c:960
+msgid ""
+"Are you sure you want to cancel this meeting?\n"
+"A notification will be sent to attendees."
+msgstr ""
+"Perutaanko tämä tapaaminen?\n"
+"Ilmoitus perumisesta lähetetään osanottajille."
+
+#: src/vcalendar.c:1015
+msgid ""
+"You have no account matching any attendee.\n"
+"Have you really been invited?"
+msgstr ""
+"Sinulla ei ole käytössäsi tiliä, joka täsmäisi osallistujiin.\n"
+"Onko sinut varmasti kutsuttu?"
+
+#: src/vcalendar.c:1077
+msgid "Answer"
+msgstr "Vastaa"
+
+#: src/vcalendar.c:1078
+msgid "Edit meeting..."
+msgstr "Muokkaa tapaamista…"
+
+#: src/vcalendar.c:1079
+msgid "Cancel meeting..."
+msgstr "Peru tapaaminen…"
+
+#: src/vcalendar.c:1080
+msgid "Launch website"
+msgstr "Avaa veppisivusto"
+
+#: src/vcalendar.c:1101
+msgid "Event:"
+msgstr "Tapahtuma:"
+
+#: src/vcalendar.c:1102 src/vcal_meeting_gtk.c:651
+msgid "Organizer:"
+msgstr "Järjestäjä:"
+
+#: src/vcalendar.c:1103 src/vcal_meeting_gtk.c:653
+msgid "Summary:"
+msgstr "Yhteenveto:"
+
+#: src/vcalendar.c:1104
+msgid "Starting:"
+msgstr "Alkaa:"
+
+#: src/vcalendar.c:1105
+msgid "Ending:"
+msgstr "Loppuu:"
+
+#: src/vcalendar.c:1106 src/vcal_meeting_gtk.c:654
+msgid "Description:"
+msgstr "Kuvaus:"
+
+#: src/vcalendar.c:1107 src/vcal_meeting_gtk.c:655
+msgid "Attendees:"
+msgstr "Osanottajat:"
+
+#: src/vcalendar.c:1108
+msgid "Action:"
+msgstr "Toiminto:"
+
+#: src/vcal_folder.c:129
+msgid "/_New meeting..."
+msgstr "_Uusi tapaaminen…"
+
+#: src/vcal_folder.c:130
+msgid "/_Export calendar..."
+msgstr "Tuo kal_enteri…"
+
+#: src/vcal_folder.c:132
+msgid "/_Subscribe to webCal..."
+msgstr "_Tilaa webCal…"
+
+#: src/vcal_folder.c:133
+msgid "/_Unsubscribe..."
+msgstr "_Peru tilaus…"
+
+#: src/vcal_folder.c:135
+msgid "/U_pdate subscriptions"
+msgstr "P_äivitä tilaukset"
+
+#: src/vcal_folder.c:400 src/vcal_folder.c:703 src/vcal_folder.c:1046
+msgid "Meetings"
+msgstr "Tapaamiset"
+
+#: src/vcal_folder.c:821
+msgid "/New meeting..."
+msgstr "Uusi tapaaminen…"
+
+#: src/vcal_folder.c:822
+msgid "/Export calendar..."
+msgstr "Tuo kalenteri…"
+
+#: src/vcal_folder.c:823
+msgid "/Subscribe to webCal..."
+msgstr "Tilaa webCal…"
+
+#: src/vcal_folder.c:824
+msgid "/Unsubscribe..."
+msgstr "Peru tilaus…"
+
+#: src/vcal_folder.c:825
+msgid "/Update subscriptions"
+msgstr "Päivitä tilaukset"
+
+#: src/vcal_folder.c:828
+msgid "/Properties..."
+msgstr "Asetukset…"
+
+#: src/vcal_folder.c:829
+msgid "/Processing..."
+msgstr "Käsittely…"
+
+#: src/vcal_folder.c:1068
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s"
+msgstr ""
+"Ei voitu hakea Webcal-URLia:\n"
+"%s"
+
+#: src/vcal_folder.c:1073
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s\n"
+msgstr ""
+"Ei voitu hakea Webcal-URLista:\n"
+"%s\n"
+
+#: src/vcal_folder.c:1085
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s"
+msgstr ""
+"Tämä URL ei näytä WebCal-URLilta:\n"
+"%s"
+
+#: src/vcal_folder.c:1091
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+msgstr ""
+"Tämä URL ei näytä WebCal-URLilta:\n"
+"%s\n"
+
+#: src/vcal_folder.c:1152
+msgid "Subscribe to WebCal"
+msgstr "Tilaa WebCal"
+
+#: src/vcal_folder.c:1152
+msgid "Enter the WebCal URL:"
+msgstr "Anna WebCal-URL:"
+
+#: src/vcal_folder.c:1162
+msgid "Could not parse the URL."
+msgstr "Ei voitu jäsentää URLia."
+
+#: src/vcal_folder.c:1190
+msgid "Do you really want to unsubscribe?"
+msgstr "Perutaanko tilaus?"
+
+#: src/vcal_folder.c:1191
+msgid "Delete folder"
+msgstr "Poista kansio"
+
+#: src/vcal_folder.c:1210
+#, c-format
+msgid "Can't remove the folder '%s'."
+msgstr "Ei voitu poistaa kansiota %s."
+
+#: src/vcal_manager.c:91
+msgid "accepted"
+msgstr "hyväksynyt kutsun"
+
+#: src/vcal_manager.c:92
+msgid "tentatively accepted"
+msgstr "alustavasti hyväksynyt kutsun"
+
+#: src/vcal_manager.c:93
+msgid "declined"
+msgstr "kieltäytynyt kutsusta"
+
+#: src/vcal_manager.c:94
+msgid "did not answer"
+msgstr "vastaamatta kutsuun"
+
+#: src/vcal_manager.c:95 src/vcal_manager.c:128
+msgid "unknown"
+msgstr "vastaus tuntematon"
+
+#: src/vcal_manager.c:124
+msgid "individual"
+msgstr "yksittäinen"
+
+#: src/vcal_manager.c:125
+msgid "group"
+msgstr "ryhmä"
+
+#: src/vcal_manager.c:126
+msgid "resource"
+msgstr "resurssi"
+
+#: src/vcal_manager.c:127
+msgid "room"
+msgstr "huone"
+
+#: src/vcal_meeting_gtk.c:214
+msgid "Individual"
+msgstr "Yksittäinen"
+
+#: src/vcal_meeting_gtk.c:215
+msgid "Group"
+msgstr "Ryhmä"
+
+#: src/vcal_meeting_gtk.c:216
+msgid "Resource"
+msgstr "Resurssi"
+
+#: src/vcal_meeting_gtk.c:217
+msgid "Room"
+msgstr "Huone"
+
+#: src/vcal_meeting_gtk.c:230
+msgid "Add..."
+msgstr "Lisää…"
+
+#: src/vcal_meeting_gtk.c:231
+msgid "Remove"
+msgstr "Poista"
+
+#: src/vcal_meeting_gtk.c:446
+msgid ""
+"Could not send the meeting invitation.\n"
+"Check the recipients."
+msgstr ""
+"Ei voitu lähettää tapaamispyyntöä.\n"
+"Tarkista osanottajat."
+
+#: src/vcal_meeting_gtk.c:499
+msgid "Save & Send"
+msgstr "Tallenna ja lähetä"
+
+#: src/vcal_meeting_gtk.c:560
+msgid "<b>From:</b> "
+msgstr "<b>Lähettäjä:</b>"
+
+#: src/vcal_meeting_gtk.c:571 src/vcal_meeting_gtk.c:587
+msgid "h"
+msgstr "h"
+
+#: src/vcal_meeting_gtk.c:577
+msgid "<b>To:</b> "
+msgstr "<b>Vastaanottaja</b>"
+
+#: src/vcal_meeting_gtk.c:615
+msgid "New meeting"
+msgstr "Uusi tapaaminen"
+
+#: src/vcal_meeting_gtk.c:652
+msgid "Date:"
+msgstr "Päivä:"
+
+#: src/vcal_meeting_gtk.c:724
+#, c-format
+msgid "%d hour%s"
+msgstr "%d tunti%s"
+
+#: src/vcal_meeting_gtk.c:727
+#, c-format
+msgid "%d minute%s"
+msgstr "%d minuutti%s"
+
+#: src/vcal_meeting_gtk.c:738
+#, c-format
+msgid "Upcoming event: %s"
+msgstr "Tuleva tapahtuma: %s"
+
+#: src/vcal_meeting_gtk.c:739
+#, c-format
+msgid ""
+"You have a meeting or event soon.\n"
+"It starts at %s and ends %s later.\n"
+"More information:\n"
+"\n"
+"%s"
+msgstr ""
+"Tapaaminen alkaa pian.\n"
+"Se alkaa %s ja loppuu %s myöhemmin.\n"
+"Lisätietoja:\n"
+"\n"
+"%s"
+
+#: src/vcal_meeting_gtk.c:779
+msgid "Empty calendar"
+msgstr "Tyhjä kalenteri"
+
+#: src/vcal_meeting_gtk.c:780
+msgid "There is nothing to export."
+msgstr "Ei mitään vietävää"
+
+#: src/vcal_meeting_gtk.c:815
+msgid "Export calendar to ICS"
+msgstr "Vie kalenteri ICS:ään"
+
+#: src/vcal_meeting_gtk.c:821
+msgid "Could not export the calendar."
+msgstr "Ei voitu viedä kalenteria."
+
+#: src/vcal_prefs.c:92
+msgid "Alert me "
+msgstr "Ilmoita minulle"
+
+#: src/vcal_prefs.c:101
+msgid " minutes before an event"
+msgstr " minuuttia ennen tapahtuman alkua"
+
+#: src/vcal_prefs.c:126
+msgid "Automatically export calendar to "
+msgstr "Automaattisesti vie kalenteri "
+
+#: src/vcal_prefs.c:143
+msgid "Command to run after export: "
+msgstr "Viennin jälkeen ajettava komento: "
+
+#: src/vcal_prefs.c:233
+msgid "Plugins"
+msgstr "Liitännäiset"
