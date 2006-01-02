@@ -86,25 +86,25 @@ void plugin_done (void)
 	}
     hooks_unregister_hook (MAIL_POSTFILTERING_HOOKLIST, hook_id);
 
-    printf ("Newmail plugin unloaded\n");
+    printf (_("Newmail plugin unloaded\n"));
     } /* plugin_done */
 
 gint plugin_init (gchar **error)
 {
     if ((sylpheed_get_version () > VERSION_NUMERIC)) {
-	*error = g_strdup ("Your sylpheed version is newer than "
-			   "the version the plugin was built with");
+	*error = g_strdup (_("Your sylpheed version is newer than "
+			     "the version the plugin was built with"));
 	return (-1);
 	}
 
     if ((sylpheed_get_version () < MAKE_NUMERIC_VERSION (1, 9, 13, 25))) {
-	*error = g_strdup ("Your sylpheed version is too old");
+	*error = g_strdup (_("Your sylpheed version is too old"));
 	return (-1);
 	}
 
     hook_id = hooks_register_hook (MAIL_POSTFILTERING_HOOKLIST, newmail_hook, NULL);
     if (hook_id == -1) {
-	*error = g_strdup ("Failed to register newmail hook");
+	*error = g_strdup (_("Failed to register newmail hook"));
 	return (-1);
 	}
 
@@ -116,8 +116,8 @@ gint plugin_init (gchar **error)
 	    (void)snprintf (name, 256, "%s/Mail/NewLog", getenv ("HOME"));
 	    l = strlen (name);
 	    if (l > 255 || !(LogName = (char *)malloc (l + 1))) {
-		*error = g_strdup ("Cannot load plugin NewMail\n"
-				   "$HOME is too long\n");
+		*error = g_strdup (_("Cannot load plugin NewMail\n"
+				     "$HOME is too long\n"));
 		plugin_done ();
 		return (-1);
 		}
@@ -131,8 +131,8 @@ gint plugin_init (gchar **error)
 	setbuf (NewLog, NULL);
 	}
 
-    printf ("Newmail plugin loaded\n"
-            "Message header summaries written to %s\n", LogName);
+    printf (_("Newmail plugin loaded\n"
+              "Message header summaries written to %s\n"), LogName);
     return (0);
     } /* plugin_init */
 
@@ -143,9 +143,9 @@ const gchar *plugin_name (void)
 
 const gchar *plugin_desc (void)
 {
-    return _ ("This Plugin writes a header summary to a log file for each "
-	      "mail received after sorting.\n\n"
-	      "Default is ~/Mail/NewLog");
+    return _("This Plugin writes a header summary to a log file for each "
+	     "mail received after sorting.\n\n"
+	     "Default is ~/Mail/NewLog");
     } /* plugin_desc */
 
 const gchar *plugin_type (void)
@@ -156,10 +156,9 @@ const gchar *plugin_type (void)
 const gchar *plugin_licence (void)
 {
     return ("GPL");
-} /* plugin_licence */
+    } /* plugin_licence */
 
-const gchar *plugin_version(void)
+const gchar *plugin_version (void)
 {
-	return PLUGINVERSION;
-}
-
+    return (PLUGINVERSION);
+    } /* plugin_version */
