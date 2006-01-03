@@ -34,7 +34,7 @@ struct _RSSylFindByUrlCtx {
 
 typedef struct _RSSylFindByUrlCtx RSSylFindByUrlCtx;
 
-xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title);
+xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title);
 void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem);
 gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem);
 MsgInfo *rssyl_parse_feed_item_to_msginfo(gchar *file, MsgFlags flags,

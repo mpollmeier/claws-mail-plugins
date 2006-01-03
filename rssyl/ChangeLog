@@ -1,3 +1,11 @@
+2006-01-03  19:20 Colin Leroy <colin@colino.net>
+
+	* src/feed.c
+	* src/feed.h
+	* src/rssyl.c
+		Use If-Modified-Since feature to avoid fetching the feed when
+		it's not been updated
+
 2006-01-01  09.50 Paul Mangan <claws@thewildbeast.co.uk>
 
 	* po/fi.po: translation submitted by Flammie Pirinen <flammie@iki.fi>

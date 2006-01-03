@@ -56,6 +56,8 @@
 
 struct _RSSylThreadCtx {
 	const gchar *url;
+	time_t last_update;
+	gboolean not_modified;
 	gboolean ready;
 };
 
@@ -66,6 +68,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	RSSylThreadCtx *ctx = (RSSylThreadCtx *)arg;
 	CURL *eh = NULL;
 	CURLcode res;
+	int response_code, last_modified;
+
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);
 	int fd = mkstemp(template);
@@ -82,14 +86,17 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	if (f == NULL) {
 		perror("fdopen");
 		ctx->ready = TRUE;
+		g_unlink(template);
 		g_free(template);
 		return NULL;
 	}
 
 	eh = curl_easy_init();
+
 	if (eh == NULL) {
 		g_warning("can't init curl");
 		ctx->ready = TRUE;
+		g_unlink(template);
 		g_free(template);
 		return NULL;
 	}
@@ -103,12 +110,36 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
-
+	
+	debug_print("last update %ld\n", ctx->last_update);
+	if (ctx->last_update != (time_t)NULL) {
+		curl_easy_setopt(eh, CURLOPT_TIMECONDITION,
+			CURL_TIMECOND_IFMODSINCE);
+		curl_easy_setopt(eh, CURLOPT_TIMEVALUE, ctx->last_update);
+	}
+			
 	res = curl_easy_perform(eh);
+
+	if (ctx->last_update != (time_t)NULL) {
+		curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
+		curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
+		debug_print("got status %d, last mod %ld\n", response_code, last_modified);
+	}
 
 	curl_easy_cleanup(eh);
 
 	fclose(f);
+
+	if (ctx->last_update != (time_t)NULL) {
+		if (response_code == 304
+		||  (last_modified != -1 && last_modified < ctx->last_update)) {
+			ctx->not_modified = TRUE; 
+			ctx->ready = TRUE;
+			g_unlink(template);
+			g_free(template);
+			return NULL;
+		}
+	}
 
 	ctx->ready = TRUE;
 
@@ -121,7 +152,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
  * it for title, create a directory based on the title. It returns a xmlDocPtr
  * for libxml2 to parse further.
  */
-xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
+xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) {
 	gchar *xpath, *rootnode, *dir;
 	xmlDocPtr doc;
 	xmlNodePtr node, n;
@@ -130,6 +161,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	RSSylThreadCtx *ctx = g_new0(RSSylThreadCtx, 1);
 	void *template = NULL;
+	gboolean not_modified = FALSE;
+
 #ifdef USE_PTHREAD
 	pthread_t pt;
 #endif
@@ -138,6 +171,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 	
 	ctx->url = url;
 	ctx->ready = FALSE;
+	ctx->last_update = last_update;
+	ctx->not_modified = FALSE;
 
 	*title = NULL;
 
@@ -170,8 +205,14 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, gchar **title) {
 	(gchar *)template = rssyl_fetch_feed_threaded(ctx);
 #endif
 
+	not_modified = ctx->not_modified;
+
 	g_free(ctx);
 	STATUSBAR_POP(mainwin);
+
+	if (not_modified) {
+		return NULL;
+	}
 
 	g_return_val_if_fail (template != NULL, NULL);
 	
@@ -813,7 +854,7 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		rssyl_get_feed_props(ritem);
 	g_return_if_fail(ritem->url != NULL);
 
-	doc = rssyl_fetch_feed(ritem->url, &title);
+	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title);
 	g_return_if_fail(doc != NULL);
 	g_return_if_fail(title != NULL);
 
@@ -846,6 +887,9 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 	rssyl_parse_feed(doc, ritem);
 
 	rssyl_expire_items(ritem);
+
+	ritem->item.mtime = time(NULL);
+	debug_print("setting %s mtime to %ld\n", ritem->item.name, time(NULL));
 
 	xmlFreeDoc(doc);
 	g_free(title);
@@ -931,7 +975,7 @@ void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
 		return;
 	}
 
-	doc = rssyl_fetch_feed(url, &title);
+	doc = rssyl_fetch_feed(url, (time_t)NULL, &title);
 	if( !title ) {
 		alertpanel_error(_("Couldn't fetch URL '%s'."), url);
 		return;

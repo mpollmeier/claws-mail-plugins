@@ -374,7 +374,6 @@ static gint rssyl_get_num_list(Folder *folder, FolderItem *item,
 	}
 	closedir(dp);
 
-	item->mtime = time(NULL);
 	return nummsgs;
 }
 
