@@ -721,11 +721,11 @@ gint vcal_meeting_alert_check(gpointer data)
 				gchar *title = NULL;
 
 				if (length >= 60)
-					hours = g_strdup_printf(_("%d hour%s"), length/60,
-							(length/60) > 1 ? "s":"");
+					hours = g_strdup_printf(ngettext("%d hour", "%d hours", 
+							(length/60) > 1 ? 2 : 1), length/60);
 				if (length%60)
-					minutes = g_strdup_printf(_("%d minute%s"),
-							length%60, (length%60) > 1 ? "s":"");
+					minutes = g_strdup_printf(ngettext("%d minute", "%d minutes",
+							length%60), length%60);
 				
 				duration = g_strdup_printf("%s%s%s",
 						hours?hours:"",
