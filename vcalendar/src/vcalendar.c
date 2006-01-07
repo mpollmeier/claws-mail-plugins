@@ -423,7 +423,7 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 		gtk_widget_show(vcalviewer->answer);
 		gtk_widget_show(vcalviewer->button);
 	} else {
-		gtk_combo_box_append_text(GTK_COMBO_BOX(vcalviewer->answer), _("-"));
+		gtk_combo_box_append_text(GTK_COMBO_BOX(vcalviewer->answer), "-");
 		gtk_widget_set_sensitive(vcalviewer->answer, FALSE);
 		gtk_widget_set_sensitive(vcalviewer->button, FALSE);
 	}
@@ -451,6 +451,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	gchar *attendees = NULL;
 	gboolean firstatt = TRUE;
 	gboolean mine = FALSE;
+	gchar *label = NULL;
 	
 	if (!event)
 		return;
@@ -459,16 +460,18 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 
 	if (event->method == ICAL_METHOD_REQUEST) {
 		if (account_find_from_address(event->organizer)) {
-			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
-				_("You have created a meeting. Details follow:"));
+			label = g_strjoin(" ", _("You have created a meeting."),
+					_("Details follow:"), NULL);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 			mine = TRUE;
 		} else {
-			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
-				_("You have been invited to a meeting. Details follow:"));
+			label = g_strjoin(" ", _("You have been invited to a meeting."),
+						_("Details follow:"), NULL);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		}
+		g_free(label);
 	}
 	else if (event->method == ICAL_METHOD_REPLY) {
-		gchar *label = NULL;
 		enum icalparameter_partstat answer = get_attendee_reply(vcalviewer);
 		enum icalparameter_cutype cutype = get_attendee_replying_cutype(vcalviewer);
 		gchar *attendee = get_attendee_replying(vcalviewer);
@@ -477,8 +480,9 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		vcal_manager_update_answer(event, attendee, name, answer, cutype);
 
 		if (!attendee) {
-			label = g_strdup_printf(
-				_("You have received an answer to an unknown meeting proposal. Details follow:"));
+			label = g_strjoin(" ",
+				_("You have received an answer to an unknown meeting proposal."),
+				_("Details follow:"), NULL);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		} else {
 			label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
@@ -490,15 +494,19 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 			
 		g_free(label);
 	} else if (event->method == ICAL_METHOD_CANCEL) {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
-			_("A meeting to which you had been invited has been cancelled. Details follow:"));
+		label = g_strjoin(" ",
+				_("A meeting to which you had been invited has been cancelled."),
+				_("Details follow:"), NULL);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		vcal_manager_save_event(event);
 		refresh_folder_contents(vcalviewer);
 	} else {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), 
-			_("You have been forwarded an appointment. Details follow:"));
+		label = g_strjoin(" ", _("You have been forwarded an appointment."),
+				_("Details follow:"), NULL);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 	}
-	
+	g_free(label);
+
 	if (event->organizer && strlen(event->organizer)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), event->organizer);
 	} else {
@@ -758,9 +766,11 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	/* unknown answer but get the replier anyway */
 		
 	if (!attendee) {
-		label = g_strdup_printf(
-			_("You have received an answer to an unknown meeting proposal. Details follow:"));
+		label = g_strjoin(" ",
+			_("You have received an answer to an unknown meeting proposal."),
+			_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
+		g_free(label);
 	} else {
 		label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
 			"%s has %s the invitation whose details follow:"),
