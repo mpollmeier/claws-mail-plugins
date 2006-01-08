@@ -1,0 +1,432 @@
+# German translations for vcalendar package
+# German messages for vcalendar.
+# Copyright (C) 2006 Colin Leroy
+# This file is distributed under the same license as the vcalendar package.
+# Stephan Sachse <white@dev-zero.com>, 2006.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: vcalendar\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2006-01-07 18:00+0100\n"
+"PO-Revision-Date: 2006-01-07 17:42+0100\n"
+"Last-Translator: Stephan Sachse <white@dev-zero.com>\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/plugin.c:40
+msgid ""
+"Your sylpheed version is newer than the version the plugin was built with"
+msgstr ""
+"Ihre Sylpheed-Claws Version ist neuer also die Version mit der das Plugin "
+"\"kompiliert wurde"
+
+#: src/plugin.c:45
+msgid "Your sylpheed version is too old"
+msgstr "Ihre Sylpheed-Claws Version ist zu alt"
+
+#: src/plugin.c:61 src/vcal_prefs.c:234
+msgid "vCalendar"
+msgstr "vCalendar"
+
+#: src/plugin.c:66
+msgid ""
+"This plugin enables vCalendar message handling like produced by Evolution or "
+"Outlook.\n"
+"\n"
+"When loaded, it will create a vCalendar mailbox in your folder list, which "
+"will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form "
+"and you will be able to accept or decline them.\n"
+"Finally, to create a meeting right-click on the vCalendar or Meetings folder "
+"and choose \"New meeting...\"."
+msgstr ""
+"Das Plugin aktiviert die Behandlung von VCalendar-Nachrichten welche zB von "
+"Evolution oder Outlook erzeugt werden.\n"
+"\n"
+"Es erzeugt einen vCalendar-Mailbox in Ihrem OrdnerbaumEs erzeugt beim laden "
+"eine vCalendar-Mailbox in Ihrem Ordnerbaum, in welcher sich Versammlungen "
+"befinden welche Sie erstellt oder akzeptiert haben.\n"
+"Anfragen zu Versammlungen die Sie erhalten werden in einer passend Form "
+"angezeigt und Sie haben die Möglichkeit diese zu akzeptieren oder "
+"abzulehnen.\n"
+"Um eine Versammlung zu erstellen, klicken sie mit der rechten Maustaste auf "
+"den vCalendar oder Versammlungen-Ordner und wählen \"neue Versammlung...\"."
+
+#: src/vcalendar.c:418
+msgid "Accept"
+msgstr "Akzeptieren"
+
+#: src/vcalendar.c:419
+msgid "Tentatively accept"
+msgstr "Vorläufig akzeptieren"
+
+#: src/vcalendar.c:420
+msgid "Decline"
+msgstr "Ablehnen"
+
+#: src/vcalendar.c:463
+msgid "You have created a meeting."
+msgstr "Sie haben eine Versammlung erstellt."
+
+#: src/vcalendar.c:464 src/vcalendar.c:469 src/vcalendar.c:485
+#: src/vcalendar.c:499 src/vcalendar.c:505 src/vcalendar.c:771
+msgid "Details follow:"
+msgstr "Einzelheiten folgen:"
+
+#: src/vcalendar.c:468
+msgid "You have been invited to a meeting."
+msgstr "Sie wurden zu einer Versammlung eingeladen."
+
+#: src/vcalendar.c:484 src/vcalendar.c:770
+msgid "You have received an answer to an unknown meeting proposal."
+msgstr ""
+"Sie haben eine Antwort auf einen unbekannten Versammlungsvorschlag erhalten."
+
+#: src/vcalendar.c:488 src/vcalendar.c:775
+#, c-format
+msgid ""
+"You have received an answer to a meeting proposal.\n"
+"%s has %s the invitation whose details follow:"
+msgstr ""
+"Sie haben einen Antwort auf einen Versammlungsvorschlag erhalten.\n"
+"%s hat die Einladung, deren Einzellheiten folgen, %s:"
+
+#: src/vcalendar.c:498
+msgid "A meeting to which you had been invited has been cancelled."
+msgstr "Eine Versammlung zu der Sie eingeladen waren wurde abgesagt."
+
+#: src/vcalendar.c:504
+msgid "You have been forwarded an appointment."
+msgstr "Sie haben ein Termin weitergeleitet."
+
+#: src/vcalendar.c:969
+msgid "Cancel meeting"
+msgstr "Versammlung absagen"
+
+#: src/vcalendar.c:970
+msgid ""
+"Are you sure you want to cancel this meeting?\n"
+"A notification will be sent to attendees."
+msgstr ""
+"Sind Sie sicher das Sie diese Versammlung absagen wollen?\n"
+"Eine Benachrichtigung wird an die Teilnehmer gesendet."
+
+#: src/vcalendar.c:1025
+msgid ""
+"You have no account matching any attendee.\n"
+"Have you really been invited?"
+msgstr ""
+"Sie haben kein Konto welches zu irgend einem Teilnehmer passt.Wurden Sie "
+"wirklich eingeladen?"
+
+#: src/vcalendar.c:1087
+msgid "Answer"
+msgstr "Antworten"
+
+#: src/vcalendar.c:1088
+msgid "Edit meeting..."
+msgstr "Versammlung bearbeiten..."
+
+#: src/vcalendar.c:1089
+msgid "Cancel meeting..."
+msgstr "Versammlung absagen..."
+
+#: src/vcalendar.c:1090
+msgid "Launch website"
+msgstr "Webseite ansehen"
+
+#: src/vcalendar.c:1111
+msgid "Event:"
+msgstr "Veranstaltung:"
+
+#: src/vcalendar.c:1112 src/vcal_meeting_gtk.c:651
+msgid "Organizer:"
+msgstr "Veranstalter:"
+
+#: src/vcalendar.c:1113 src/vcal_meeting_gtk.c:653
+msgid "Summary:"
+msgstr "Zusammenfassung:"
+
+#: src/vcalendar.c:1114
+msgid "Starting:"
+msgstr "Beginn:"
+
+#: src/vcalendar.c:1115
+msgid "Ending:"
+msgstr "Ende:"
+
+#: src/vcalendar.c:1116 src/vcal_meeting_gtk.c:654
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: src/vcalendar.c:1117 src/vcal_meeting_gtk.c:655
+msgid "Attendees:"
+msgstr "Teilnehmer:"
+
+#: src/vcalendar.c:1118
+msgid "Action:"
+msgstr "Verlauf:"
+
+#: src/vcal_folder.c:129
+msgid "/_New meeting..."
+msgstr "/_neue Versammlung..."
+
+#: src/vcal_folder.c:130
+msgid "/_Export calendar..."
+msgstr "/Kalender _exportieren"
+
+#: src/vcal_folder.c:132
+msgid "/_Subscribe to webCal..."
+msgstr "/webCal _abonnieren"
+
+#: src/vcal_folder.c:133
+msgid "/_Unsubscribe..."
+msgstr "/ab_bestellen"
+
+#: src/vcal_folder.c:135
+msgid "/U_pdate subscriptions"
+msgstr "/Abonnement akt_ualisieren"
+
+#: src/vcal_folder.c:825
+msgid "/New meeting..."
+msgstr "/neue Versammlung..."
+
+#: src/vcal_folder.c:826
+msgid "/Export calendar..."
+msgstr "/Kalender exportieren"
+
+#: src/vcal_folder.c:827
+msgid "/Subscribe to webCal..."
+msgstr "/webCal abonnieren"
+
+#: src/vcal_folder.c:828
+msgid "/Unsubscribe..."
+msgstr "/abbestellen"
+
+#: src/vcal_folder.c:829
+msgid "/Update subscriptions"
+msgstr "/Abonnement aktualisieren"
+
+#: src/vcal_folder.c:1069
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s"
+msgstr ""
+"Die Webcal URL konnte nicht geholt werden:\n"
+"%s"
+
+#: src/vcal_folder.c:1074
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s\n"
+msgstr ""
+"Die Webcal URL konnte nicht geholt werden:\n"
+"%s\n"
+
+#: src/vcal_folder.c:1086
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s"
+msgstr ""
+"Diese URL sieht nicht wie eine Webcal-URL aus:\n"
+"%s"
+
+#: src/vcal_folder.c:1092
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+msgstr ""
+"Diese URL sieht nicht wie eine WebCal-URL aus:\n"
+"%s\n"
+
+#: src/vcal_folder.c:1153
+msgid "Subscribe to WebCal"
+msgstr "WebCal abonnieren"
+
+#: src/vcal_folder.c:1153
+msgid "Enter the WebCal URL:"
+msgstr "WebCal-URL eingeben:"
+
+#: src/vcal_folder.c:1163
+msgid "Could not parse the URL."
+msgstr "konnte URL nicht analysieren"
+
+#: src/vcal_folder.c:1191
+msgid "Do you really want to unsubscribe?"
+msgstr "Wollen sie wirklich abbestellen?"
+
+#: src/vcal_folder.c:1192
+msgid "Delete folder"
+msgstr "Ordner löschen"
+
+#: src/vcal_folder.c:1211
+#, c-format
+msgid "Can't remove the folder '%s'."
+msgstr "Der Ordner '%s' konnte nicht entfernt werden."
+
+#: src/vcal_manager.c:91
+msgid "accepted"
+msgstr "akzeptiert"
+
+#: src/vcal_manager.c:92
+msgid "tentatively accepted"
+msgstr "Vorläufig akzeptiert"
+
+#: src/vcal_manager.c:93
+msgid "declined"
+msgstr "abgelehnt"
+
+#: src/vcal_manager.c:94
+msgid "did not answer"
+msgstr "noch keine Antwort"
+
+#: src/vcal_manager.c:95 src/vcal_manager.c:128
+msgid "unknown"
+msgstr "unbekannt"
+
+#: src/vcal_manager.c:124
+msgid "individual"
+msgstr "individuell"
+
+#: src/vcal_manager.c:125
+msgid "group"
+msgstr "Gruppe"
+
+#: src/vcal_manager.c:126
+msgid "resource"
+msgstr "Quelle"
+
+#: src/vcal_manager.c:127
+msgid "room"
+msgstr "Raum"
+
+#: src/vcal_meeting_gtk.c:214
+msgid "Individual"
+msgstr "individuell"
+
+#: src/vcal_meeting_gtk.c:215
+msgid "Group"
+msgstr "Gruppe"
+
+#: src/vcal_meeting_gtk.c:216
+msgid "Resource"
+msgstr "Quelle"
+
+#: src/vcal_meeting_gtk.c:217
+msgid "Room"
+msgstr "Raum"
+
+#: src/vcal_meeting_gtk.c:230
+msgid "Add..."
+msgstr "Hinzufügen..."
+
+#: src/vcal_meeting_gtk.c:231
+msgid "Remove"
+msgstr "Entfernen"
+
+#: src/vcal_meeting_gtk.c:446
+msgid ""
+"Could not send the meeting invitation.\n"
+"Check the recipients."
+msgstr ""
+"Die Versammlungseinladungen konnten nicht versendet werden.\n"
+"Prüfen Sie die Empfänger."
+
+#: src/vcal_meeting_gtk.c:499
+msgid "Save & Send"
+msgstr "Speichern & Senden"
+
+#: src/vcal_meeting_gtk.c:560
+msgid "<b>From:</b> "
+msgstr "<b>Von:</b> "
+
+#: src/vcal_meeting_gtk.c:571 src/vcal_meeting_gtk.c:587
+msgid "h"
+msgstr "h"
+
+#: src/vcal_meeting_gtk.c:577
+msgid "<b>To:</b> "
+msgstr "<b>An:</b> "
+
+#: src/vcal_meeting_gtk.c:615
+msgid "New meeting"
+msgstr "neue Versammlung"
+
+#: src/vcal_meeting_gtk.c:652
+msgid "Date:"
+msgstr "Datum:"
+
+#: src/vcal_meeting_gtk.c:724
+#, c-format
+msgid "%d hour%s"
+msgstr "%d stunde%s"
+
+#: src/vcal_meeting_gtk.c:727
+#, c-format
+msgid "%d minute%s"
+msgstr "%d Minnute%s"
+
+#: src/vcal_meeting_gtk.c:738
+#, c-format
+msgid "Upcoming event: %s"
+msgstr "anstehend Termin: %s"
+
+#: src/vcal_meeting_gtk.c:739
+#, c-format
+msgid ""
+"You have a meeting or event soon.\n"
+"It starts at %s and ends %s later.\n"
+"More information:\n"
+"\n"
+"%s"
+msgstr ""
+"Sie haben bald eine Versammlung oder einen Termin.\n"
+"Es beginnt um %s und endet %s später.\n"
+"mehr Informationen:\n"
+"\n"
+"%s"
+
+#: src/vcal_meeting_gtk.c:779
+msgid "Empty calendar"
+msgstr "leerer Kalender"
+
+#: src/vcal_meeting_gtk.c:780
+msgid "There is nothing to export."
+msgstr "Es ist nichts zu exportiere"
+
+#: src/vcal_meeting_gtk.c:815
+msgid "Export calendar to ICS"
+msgstr "Exportiere Kalender zu ICS"
+
+#: src/vcal_meeting_gtk.c:821
+msgid "Could not export the calendar."
+msgstr "Der Kalender konnte nicht exportiert werden."
+
+#: src/vcal_prefs.c:92
+msgid "Alert me "
+msgstr "Benachrichtige mich "
+
+#: src/vcal_prefs.c:101
+msgid " minutes before an event"
+msgstr " Minuten vor dem Termin"
+
+#: src/vcal_prefs.c:126
+msgid "Automatically export calendar to "
+msgstr "Exportiere Kalender automatisch nach "
+
+#: src/vcal_prefs.c:143
+msgid "Command to run after export: "
+msgstr "Kommando welches nach dem Export ausgeführt werden soll: "
+
+#: src/vcal_prefs.c:233
+msgid "Plugins"
+msgstr "Plugins"

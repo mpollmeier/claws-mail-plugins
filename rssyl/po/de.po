@@ -1,0 +1,228 @@
+# German translations for rssyl package
+# German messages for rssyl.
+# Copyright (C) 2006 Andrej Kacian
+# This file is distributed under the same license as the rssyl package.
+# Stephan Sachse <white@dev-zero.com>, 2006.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: rssyl\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2006-01-07 16:13+0100\n"
+"PO-Revision-Date: 2006-01-07 16:43+0100\n"
+"Last-Translator: Stephan Sachse <white@dev-zero.com>\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/feed.c:183
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "hole '%s'..."
+
+#: src/feed.c:658
+#, c-format
+msgid "Refreshing feed '%s'..."
+msgstr "Aktualisiere Feed '%s'..."
+
+#: src/feed.c:676
+msgid "This feed format is not supported yet."
+msgstr "Dieses Feed-Format wird noch nicht unterstützt."
+
+#: src/feed.c:704
+msgid "N/A"
+msgstr "N/A"
+
+#: src/feed.c:974
+msgid "You are already subscribed to this feed."
+msgstr "Sie haben diesen Feed bereits abonniert."
+
+#: src/feed.c:980
+#, c-format
+msgid "Couldn't fetch URL '%s'."
+msgstr "konnte die URL '%s' nicht holen."
+
+#: src/feed.c:986
+#, c-format
+msgid "Can't subscribe feed '%s'."
+msgstr "Der Feed '%s' konnte nicht abonniert werden."
+
+#: src/plugin.c:42
+msgid ""
+"Your version of Sylpheed-Claws is newer than the version the plugin was "
+"built with"
+msgstr ""
+"Ihre Sylpheed-Claws Version ist neuer also die Version mit der das Plugin "
+"kompiliert wurde"
+
+#: src/plugin.c:47
+msgid "Your version of Sylpheed-Claws is too old"
+msgstr "Ihre Sylpheed-Claws Version ist zu alt"
+
+#: src/plugin.c:68
+msgid ""
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"\n"
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
+msgstr ""
+"Dieses Plugin ermöglicht es Ihnen einen Mailboxbaum zu erzeugen in welchen "
+"Sie Newsfeeds im RSS 1.0, RSS 2.0 oder Atom Format hinzufügenen können.\n"
+"\n"
+"Jeder Newsfeed erzeugt einen Ordner mit den entsprechenden Einträgen die aus "
+"dem Web geholt werden. Sie können diese lesen, löschen sowie alte Einträge "
+"behalten."
+
+#: src/rssyl_cb_menu.c:57
+msgid "Subscribe feed"
+msgstr "Feed abonnieren"
+
+#: src/rssyl_cb_menu.c:58
+msgid "Input the URL of the news feed you wish to subscribe:"
+msgstr "Geben Sie die URL des zu abonnierenden Newsfeeds ein:"
+
+#: src/rssyl_cb_menu.c:82
+#, c-format
+msgid "Really remove the folder tree '%s' ?\n"
+msgstr "Den Ordnerbaum '%s' wirklich eintfernen?\n"
+
+#: src/rssyl_cb_menu.c:83
+msgid "Remove folder tree"
+msgstr "Ordnerbaum entfernen"
+
+#: src/rssyl_cb_menu.c:147
+#, c-format
+msgid "Can't remove feed '%s'."
+msgstr "Der Feed '%s' konnte nicht entfernt werden."
+
+#: src/rssyl_gtk.c:46
+msgid "/_Refresh feed"
+msgstr "/Feed aktualisie_ren"
+
+#: src/rssyl_gtk.c:47
+msgid "/Refresh _all feeds"
+msgstr "/Alle Feeds _aktualisieren"
+
+#: src/rssyl_gtk.c:49
+msgid "/Subscribe _new feed..."
+msgstr "/Neue_n Feed abonnieren..."
+
+#: src/rssyl_gtk.c:50
+msgid "/_Unsubscribe feed..."
+msgstr "/Feed a_bbestellen..."
+
+#: src/rssyl_gtk.c:51
+msgid "/Feed pr_operties..."
+msgstr "/Feed-Ei_genschaften..."
+
+#: src/rssyl_gtk.c:53
+msgid "/Remove folder _tree..."
+msgstr "/Ord_nerbaum entfernen..."
+
+#: src/rssyl_gtk.c:63
+msgid "/Refresh feed"
+msgstr "/Feed aktualisieren"
+
+#: src/rssyl_gtk.c:64
+msgid "/Refresh all feeds"
+msgstr "/Alle Feeds aktualisieren"
+
+#: src/rssyl_gtk.c:65
+msgid "/Subscribe new feed..."
+msgstr "/Neuen Feed abonnieren..."
+
+#: src/rssyl_gtk.c:66
+msgid "/Unsubscribe feed..."
+msgstr "/Feed abbestellen..."
+
+#: src/rssyl_gtk.c:67
+msgid "/Feed properties..."
+msgstr "/Feed-Eigenschaften..."
+
+#: src/rssyl_gtk.c:68
+msgid "/Remove folder tree..."
+msgstr "/Ordnerbaum entfernen..."
+
+#: src/rssyl_gtk.c:110
+msgid "Add RSS folder tree"
+msgstr "RSS-Ordnerbaum hinzufügen"
+
+#: src/rssyl_gtk.c:111
+msgid "Enter name for a new RSS folder tree."
+msgstr "Namen des neuen RSS-Ordnerbaumes eingeben."
+
+#: src/rssyl_gtk.c:116
+#, c-format
+msgid "The mailbox '%s' already exists."
+msgstr "Die Mailbox '%s' existiert bereits."
+
+#: src/rssyl_gtk.c:125
+msgid ""
+"Creation of folder tree failed.\n"
+"Maybe some files already exist, or you don't have the permission to write "
+"there?"
+msgstr ""
+"Das Erzeugen des Ordnerbaumes ist fehlgeschlagen.\n"
+"Eventuell existieren einige Dateien bereits, oder haben Sie.nicht die "
+"nötigen Berechtigungen um diese zu schreiben?"
+
+#: src/rssyl_gtk.c:139
+msgid "/File/Add mailbox/RSSyl..."
+msgstr "/_Datei/_Mailbox hinzufügen/RSSyl..."
+
+#: src/rssyl_gtk.c:216
+msgid "Use default refresh interval (180 minutes)"
+msgstr "benutze Standard Zeit zum aktualisieren (180 Minuten)"
+
+#: src/rssyl_gtk.c:228
+msgid "Keep default number of expired entries (-1)"
+msgstr "behalte Standardanzahl abgelaufener Einträge (-1)"
+
+#: src/rssyl_gtk.c:260
+msgid "<b>Source URL:</b>"
+msgstr "<b>Quell-URL:</b>"
+
+#: src/rssyl_gtk.c:287
+msgid ""
+"<b>Refresh interval in minutes:</b>\n"
+"<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
+msgstr ""
+"<b>Aktualisierungszeit in Minuten:</b>\n"
+"<small>(auf 0 setzten um das automatische Aktualisieren dieses Feeds zu "
+"deaktivieren)</small>"
+
+#: src/rssyl_gtk.c:318
+msgid ""
+"<b>Number of expired entries to keep:</b>\n"
+"<small>(Set to -1 if you want to keep expired entries)</small>"
+msgstr ""
+"<b>Anzahl der abgelaufenen Einträge die aufgehoben werden:</b>\n"
+"<small>(auf -1 setzen um abgelaufene Einträge zu behalten)</small>"
+
+#: src/rssyl_gtk.c:361
+msgid "_OK"
+msgstr "_OK"
+
+#: src/rssyl_gtk.c:381
+msgid "_Cancel"
+msgstr "_Abbrechen"
+
+#: src/rssyl_gtk.c:389
+msgid "Set feed properties"
+msgstr "Feed-Eigenschaften einstellen"
+
+#: src/rssyl_gtk.c:487 src/rssyl_gtk.c:508
+msgid "Unsubscribe feed"
+msgstr "Feed abbestellen"
+
+#: src/rssyl_gtk.c:509
+msgid "Do you really want to remove feed"
+msgstr "Soll der Feed wirklich entfernt werden"
+
+#: src/rssyl_gtk.c:519
+msgid "Remove cached entries"
+msgstr "Zwischengespeicherte Einträge entfernen"
