@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vcalendar\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-07 18:00+0100\n"
-"PO-Revision-Date: 2006-01-07 17:42+0100\n"
+"POT-Creation-Date: 2006-01-08 14:09+0100\n"
+"PO-Revision-Date: 2006-01-08 14:18+0100\n"
 "Last-Translator: Stephan Sachse <white@dev-zero.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid ""
 "Your sylpheed version is newer than the version the plugin was built with"
 msgstr ""
 "Ihre Sylpheed-Claws Version ist neuer also die Version mit der das Plugin "
-"\"kompiliert wurde"
+"kompiliert wurde"
 
 #: src/plugin.c:45
 msgid "Your sylpheed version is too old"
@@ -45,17 +45,16 @@ msgid ""
 "Finally, to create a meeting right-click on the vCalendar or Meetings folder "
 "and choose \"New meeting...\"."
 msgstr ""
-"Das Plugin aktiviert die Behandlung von VCalendar-Nachrichten welche zB von "
+"Das Plugin aktiviert die Behandlung von vCalendar-Nachrichten welche zB von "
 "Evolution oder Outlook erzeugt werden.\n"
 "\n"
-"Es erzeugt einen vCalendar-Mailbox in Ihrem OrdnerbaumEs erzeugt beim laden "
-"eine vCalendar-Mailbox in Ihrem Ordnerbaum, in welcher sich Versammlungen "
-"befinden welche Sie erstellt oder akzeptiert haben.\n"
+"Es erzeugt beim laden eine vCalendar-Mailbox in Ihrem Ordnerbaum, in welcher "
+"sich Versammlungen befinden welche Sie erstellt oder akzeptiert haben.\n"
 "Anfragen zu Versammlungen die Sie erhalten werden in einer passend Form "
 "angezeigt und Sie haben die Möglichkeit diese zu akzeptieren oder "
 "abzulehnen.\n"
 "Um eine Versammlung zu erstellen, klicken sie mit der rechten Maustaste auf "
-"den vCalendar oder Versammlungen-Ordner und wählen \"neue Versammlung...\"."
+"den vCalendar oder Versammlungs-Ordner und wählen \"neue Versammlung...\"."
 
 #: src/vcalendar.c:418
 msgid "Accept"
@@ -367,18 +366,22 @@ msgstr "Datum:"
 
 #: src/vcal_meeting_gtk.c:724
 #, c-format
-msgid "%d hour%s"
-msgstr "%d stunde%s"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d Stunde"
+msgstr[1] "%d Stunden"
 
 #: src/vcal_meeting_gtk.c:727
 #, c-format
-msgid "%d minute%s"
-msgstr "%d Minnute%s"
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d Minute"
+msgstr[1] "%d Minuten"
 
 #: src/vcal_meeting_gtk.c:738
 #, c-format
 msgid "Upcoming event: %s"
-msgstr "anstehend Termin: %s"
+msgstr "anstehender Termin: %s"
 
 #: src/vcal_meeting_gtk.c:739
 #, c-format
