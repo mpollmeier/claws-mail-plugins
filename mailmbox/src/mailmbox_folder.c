@@ -104,50 +104,7 @@ static gint mailmbox_create_tree(Folder *folder);
 
 static gint mailmbox_folder_item_close(Folder *folder, FolderItem *item);
 
-static FolderClass mailmbox_class =
-{
-	F_MBOX,
-	"mailmbox",
-	"mbox",
-
-	/* Folder functions */
-	s_mailmbox_folder_new,
-	mailmbox_folder_destroy,
-	folder_local_set_xml,
-	folder_local_get_xml,
-	NULL, /* mailmbox_scan_tree, */
-	mailmbox_create_tree,
-
-	/* FolderItem functions */
-	mailmbox_folder_item_new,
-	mailmbox_folder_item_destroy,
-	NULL, /* item_set_xml */
-	NULL, /* item_get_xml */
-	mailmbox_item_get_path,
-	mailmbox_create_folder,
-	mailmbox_rename_folder,
-	mailmbox_remove_folder,
-	mailmbox_folder_item_close,
-	mailmbox_get_num_list,
-	mailmbox_scan_required,
-
-	/* Message functions */
-	mailmbox_get_msginfo,
-	mailmbox_get_msginfos,
-	s_mailmbox_fetch_msg,
-	NULL, /* fetch_msg_full */
-	mailmbox_add_msg,
-	mailmbox_add_msgs,
-	s_mailmbox_copy_msg,
-	mailmbox_copy_msgs,
-	mailmbox_remove_msg,
-	NULL, /*mailmbox_remove_msgs, */
-	mailmbox_remove_all_msg,
-	NULL, /* is_msg_changed */
-	NULL, /* change_flags */
-	NULL,  /* get_flags */	
-	NULL  /* set_batch */	
-};
+static FolderClass mailmbox_class;
 
 static gchar * get_cache_dir(void)
 {
@@ -163,6 +120,40 @@ static gchar * get_cache_dir(void)
 
 FolderClass *mailmbox_get_class(void)
 {
+	if (mailmbox_class.idstr == NULL) {
+		mailmbox_class.type = F_MBOX;
+		mailmbox_class.idstr = "mailmbox";
+		mailmbox_class.uistr = "mbox";
+
+		/* Folder functions */
+		mailmbox_class.new_folder = s_mailmbox_folder_new;
+		mailmbox_class.destroy_folder = mailmbox_folder_destroy;
+		mailmbox_class.set_xml = folder_local_set_xml;
+		mailmbox_class.get_xml = folder_local_get_xml;
+		mailmbox_class.create_tree = mailmbox_create_tree;
+
+		/* FolderItem functions */
+		mailmbox_class.item_new = mailmbox_folder_item_new;
+		mailmbox_class.item_destroy = mailmbox_folder_item_destroy;
+		mailmbox_class.item_get_path = mailmbox_item_get_path;
+		mailmbox_class.create_folder = mailmbox_create_folder;
+		mailmbox_class.rename_folder = mailmbox_rename_folder;
+		mailmbox_class.remove_folder = mailmbox_remove_folder;
+		mailmbox_class.close = mailmbox_folder_item_close;
+		mailmbox_class.get_num_list = mailmbox_get_num_list;
+		mailmbox_class.scan_required = mailmbox_scan_required;
+
+		/* Message functions */
+		mailmbox_class.get_msginfo = mailmbox_get_msginfo;
+		mailmbox_class.get_msginfos = mailmbox_get_msginfos;
+		mailmbox_class.fetch_msg = s_mailmbox_fetch_msg;
+		mailmbox_class.add_msg = mailmbox_add_msg;
+		mailmbox_class.add_msgs = mailmbox_add_msgs;
+		mailmbox_class.copy_msg = s_mailmbox_copy_msg;
+		mailmbox_class.copy_msgs = mailmbox_copy_msgs;
+		mailmbox_class.remove_msg = mailmbox_remove_msg;
+		mailmbox_class.remove_all_msg = mailmbox_remove_all_msg;
+	}
 	return &mailmbox_class;
 }
 

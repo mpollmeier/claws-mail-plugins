@@ -1,3 +1,8 @@
+2006-01-12 [colin]	1.6
+
+	* Fix braindead FolderClass initialisation that leads to
+	  crashes as soon as the folder API changes
+
 2005-12-15 [paul]	1.5
 
 	* Add plugin_version()
