@@ -48,7 +48,7 @@ void rssyl_read_existing(RSSylFolderItem *ritem);
 void rssyl_start_refresh_timeout(RSSylFolderItem *ritem);
 void rssyl_expire_items(RSSylFolderItem *ritem);
 
-void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url);
+gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url, gboolean verbose);
 void rssyl_free_feeditem(RSSylFeedItem *item);
 
 #endif /* __FEED_H */

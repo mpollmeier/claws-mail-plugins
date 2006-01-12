@@ -86,7 +86,7 @@ static void rssyl_create_default_mailbox(void)
 
 	item = FOLDER_ITEM(root->node->data);
 
-	rssyl_subscribe_new_feed(item, RSSYL_DEFAULT_FEED);
+	rssyl_subscribe_new_feed(item, RSSYL_DEFAULT_FEED, TRUE);
 }
 
 void rssyl_init(void)
@@ -509,6 +509,14 @@ static gint rssyl_remove_msg(Folder *folder, FolderItem *item, gint num)
 	return 0;
 }
 
+static gboolean rssyl_subscribe_uri(Folder *folder, const gchar *uri)
+{
+	if (folder->klass != rssyl_folder_get_class())
+		return FALSE;
+	return rssyl_subscribe_new_feed(FOLDER_ITEM(folder->node->data), uri, FALSE);
+	
+}
+
 /************************************************************************/
 
 FolderClass *rssyl_folder_get_class()
@@ -545,7 +553,7 @@ FolderClass *rssyl_folder_get_class()
 		rssyl_class.remove_msgs = NULL;
 //		rssyl_class.change_flags = rssyl_change_flags;
 		rssyl_class.change_flags = NULL;
-
+		rssyl_class.subscribe = rssyl_subscribe_uri;
 		debug_print("RSSyl: registered folderclass\n");
 	}
 

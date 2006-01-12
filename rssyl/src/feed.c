@@ -1062,35 +1062,51 @@ static RSSylFolderItem *rssyl_find_feed_by_url(gchar *url)
 	return ritem;
 }
 
-void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
+gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url, 
+				  gboolean verbose)
 {
 	gchar *title;
 	xmlDocPtr doc;
 	FolderItem *new_item;
 	RSSylFolderItem *ritem;
+	gchar *myurl = NULL;
+	g_return_val_if_fail(parent != NULL, FALSE);
+	g_return_val_if_fail(url != NULL, FALSE);
 
-	g_return_if_fail(parent != NULL);
-	g_return_if_fail(url != NULL);
+	myurl = g_strdup(url);
 
-	if( rssyl_find_feed_by_url(url) != NULL ) {
-		alertpanel_error(_("You are already subscribed to this feed."));
-		return;
+	if (!strncmp(url, "feed://", 7))
+		myurl = g_strdup(url+7);
+	else if (!strncmp(url, "feed:", 5))
+		myurl = g_strdup(url+5);
+	else
+		myurl = g_strdup(url);
+
+	if( rssyl_find_feed_by_url(myurl) != NULL ) {
+		if (verbose)
+			alertpanel_error(_("You are already subscribed to this feed."));
+		g_free(myurl);
+		return FALSE;
 	}
 
-	doc = rssyl_fetch_feed(url, (time_t)NULL, &title);
+	doc = rssyl_fetch_feed(myurl, (time_t)NULL, &title);
 	if( !title ) {
-		alertpanel_error(_("Couldn't fetch URL '%s'."), url);
-		return;
+		if (verbose)
+			alertpanel_error(_("Couldn't fetch URL '%s'."), myurl);
+		g_free(myurl);
+		return FALSE;
 	}
 
 	new_item = folder_create_folder(parent, title);
 	if( !new_item ) {
-		alertpanel_error(_("Can't subscribe feed '%s'."), title);
-		return;
+		if (verbose)
+			alertpanel_error(_("Can't subscribe feed '%s'."), title);
+		g_free(myurl);
+		return FALSE;
 	}
 
 	ritem = (RSSylFolderItem *)new_item;
-	ritem->url = g_strdup(url);
+	ritem->url = myurl;
 
 	rssyl_store_feed_props(ritem);
 
@@ -1106,6 +1122,7 @@ void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
 	rssyl_start_refresh_timeout(ritem);
 
 	folder_item_scan(new_item);
+	return TRUE;
 }
 
 static gint rssyl_expire_sort_func(RSSylFeedItem *a, RSSylFeedItem *b)

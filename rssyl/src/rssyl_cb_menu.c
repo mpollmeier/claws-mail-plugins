@@ -59,7 +59,7 @@ void rssyl_new_feed_cb(FolderView *folderview, guint action,
 					 "http://");
 	g_return_if_fail(new_feed != NULL);
 
-	rssyl_subscribe_new_feed(item, new_feed);
+	rssyl_subscribe_new_feed(item, new_feed, TRUE);
 
 	g_free(new_feed);
 }

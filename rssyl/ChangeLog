@@ -1,3 +1,10 @@
+2006-01-12  21:08 Colin Leroy <colin@colino.net>
+	* src/feed.[ch]
+	* src/feedprops.[ch]
+	* src/rssyl.c
+	* src/rssyl__cb_menu.c
+		Handle --susbscribe
+
 2006-01-12  18:35 Colin Leroy <colin@colino.net>
 	* src/feed.[ch]
 	* src/feedprops.[ch]
@@ -5,7 +12,6 @@
 	* src/rssyl.[ch]
 	* src/rssyl_gtk.[ch]
 		Add ability to fetch comments in RSS feeds.
-
 
 2006-01-08  07.09 Paul Mangan <claws@thewildbeast.co.uk>
 
