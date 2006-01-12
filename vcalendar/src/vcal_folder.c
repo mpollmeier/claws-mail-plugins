@@ -50,6 +50,8 @@
 #include "xml.h"
 #include "alertpanel.h"
 #include "log.h"
+#include "mainwindow.h"
+#include "statusbar.h"
 
 #include <gtk/gtk.h>
 #include <dirent.h>
@@ -103,6 +105,7 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 static void update_subscription(const gchar *uri, gboolean verbose);
+gboolean vcal_subscribe_uri(Folder *folder, const gchar *uri);
 
 FolderClass vcal_class;
 
@@ -357,6 +360,8 @@ FolderClass *vcal_folder_get_class()
 		vcal_class.copy_msg = NULL;
 		vcal_class.remove_msg = vcal_remove_msg;
 		vcal_class.change_flags = vcal_change_flags;
+		vcal_class.subscribe = vcal_subscribe_uri;
+
 		debug_print("registered class for real\n");
 	}
 
@@ -969,12 +974,19 @@ static void url_read(const char *url, gboolean verbose,
 	gchar *result = NULL;
 	thread_data *td = g_new0(thread_data, 1);
 	pthread_t pt;
+	gchar *msg = NULL;
 	void *res = NULL;
 	
 	td->url  = url;
 	td->result  = NULL;
 	td->done = FALSE;
 	
+	msg = g_strdup_printf(_("Fetching '%s'..."), url);
+	
+	STATUSBAR_PUSH(mainwindow_get_mainwindow(), msg);
+	
+	g_free(msg);
+
 #if (defined USE_PTHREAD && defined __GLIBC__ && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)))
 	if (pthread_create(&pt, PTHREAD_CREATE_JOINABLE, 
 			url_read_thread, td) != 0) {
@@ -992,6 +1004,8 @@ static void url_read(const char *url, gboolean verbose,
 	
 	g_free(td);
 	
+	STATUSBAR_POP(mainwindow_get_mainwindow());
+
 	if (callback)
 		callback(url, result, verbose);
 }
@@ -1217,4 +1231,22 @@ static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *
 
 	prefs_filtering_delete_path(old_id);
 	g_free(old_id);
+}
+
+gboolean vcal_subscribe_uri(Folder *folder, const gchar *uri)
+{
+	gchar *tmp = NULL;
+	if (folder->klass != vcal_folder_get_class())
+		return FALSE;
+
+	if (!strncmp(uri, "webcal://", 9)) {
+		tmp = g_strconcat("http://", uri+9, NULL);
+	} else {
+		return FALSE;
+	}
+	debug_print("uri %s\n", tmp);
+	
+	update_subscription(tmp, FALSE);
+	folder_write_list();
+	return TRUE;
 }

@@ -1,3 +1,8 @@
+2006-01-12 [colin]
+
+	* src/vcal_folder.c
+		Handle --subscribe webcal:// 
+
 2006-01-08 [paul]
 
 	* po/de.po
