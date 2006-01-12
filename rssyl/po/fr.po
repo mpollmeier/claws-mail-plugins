@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSSyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2005-12-19 00:57+0100\n"
-"PO-Revision-Date: 2005-12-18 17:03+0100\n"
+"POT-Creation-Date: 2006-01-12 21:18+0100\n"
+"PO-Revision-Date: 2006-01-12 21:19+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: Colin Leroy <colin@colino.net>\n"
 "MIME-Version: 1.0\n"
@@ -12,65 +12,62 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: src/feed.c:148
+#: src/feed.c:183
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Récupération de '%s'..."
 
-#: src/feed.c:589
+#: src/feed.c:687
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Rafraîchissement de '%s'..."
 
-#: src/feed.c:607
+#: src/feed.c:701
+#: src/feed.c:709
+msgid "Fetching comments is not supported for RDF feeds."
+msgstr "La récupération des commentaires n'est pas possible pour les flux RDF."
+
+#: src/feed.c:715
 msgid "This feed format is not supported yet."
 msgstr "Le format de cette source n'est pas encore supporté."
 
-#: src/feed.c:639
+#: src/feed.c:744
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:902
+#: src/feed.c:1087
 msgid "You are already subscribed to this feed."
 msgstr "Vous êtes déjà abonné à cette source."
 
-#: src/feed.c:908
+#: src/feed.c:1095
 #, c-format
 msgid "Couldn't fetch URL '%s'."
 msgstr "Impossible de récupérer l'URL '%s'."
 
-#: src/feed.c:914
+#: src/feed.c:1103
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossible de s'abonner à la source '%s'."
 
-#: src/plugin.c:44
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version the plugin was "
-"built with"
-msgstr ""
-"Votre version de Sylpheed-Claws est plus récente que celle avec laquelle le "
-"module a été compilé"
+#: src/plugin.c:42
+msgid "Your version of Sylpheed-Claws is newer than the version the plugin was built with"
+msgstr "Votre version de Sylpheed-Claws est plus récente que celle avec laquelle le module a été compilé"
 
-#: src/plugin.c:49
+#: src/plugin.c:47
 msgid "Your version of Sylpheed-Claws is too old"
 msgstr "Votre version de Sylpheed-Claws est trop vieille"
 
-#: src/plugin.c:70
+#: src/plugin.c:68
 msgid ""
-"This plugin allows you to create a mailbox tree where you can add newsfeeds "
-"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"This plugin allows you to create a mailbox tree where you can add newsfeeds in RSS 1.0, RSS 2.0 or Atom format.\n"
 "\n"
-"Each newsfeed will create a folder with appropriate entries, fetched from "
-"the web. You can read them, and delete or keep old entries."
+"Each newsfeed will create a folder with appropriate entries, fetched from the web. You can read them, and delete or keep old entries."
 msgstr ""
-"Ce module vous permet de créer une arborescence dans laquelle vous pourrez "
-"ajouter des sources RSS 1.0, RSS 2.0 ou Atom.\n"
+"Ce module vous permet de créer une arborescence dans laquelle vous pourrez ajouter des sources RSS 1.0, RSS 2.0 ou Atom.\n"
 "\n"
-"Chaque source sera enregistrée dans un dossier contenant ses articles, "
-"récupérés sur Internet. Vous pourrez les lire, puis effacer ou conserver les "
-"anciens articles."
+"Chaque source sera enregistrée dans un dossier contenant ses articles, récupérés sur Internet. Vous pourrez les lire, puis effacer ou conserver les anciens articles."
 
 #: src/rssyl_cb_menu.c:57
 msgid "Subscribe feed"
@@ -83,8 +80,7 @@ msgstr "Entrez l'adresse de la source à laquelle vous voulez vous abonner :"
 #: src/rssyl_cb_menu.c:82
 #, c-format
 msgid "Really remove the folder tree '%s' ?\n"
-msgstr ""
-"Voulez-vous vraiment supprimer le dossier '%s' et ses sous-dossiers ?\n"
+msgstr "Voulez-vous vraiment supprimer le dossier '%s' et ses sous-dossiers ?\n"
 
 #: src/rssyl_cb_menu.c:83
 msgid "Remove folder tree"
@@ -119,79 +115,80 @@ msgstr "/Pr_opriétés de la source..."
 msgid "/Remove folder _tree..."
 msgstr "/Supprimer _toute l'arborescence..."
 
-#: src/rssyl_gtk.c:62
+#: src/rssyl_gtk.c:63
 msgid "/Refresh feed"
 msgstr "/Rafraîchir la source"
 
-#: src/rssyl_gtk.c:63
+#: src/rssyl_gtk.c:64
 msgid "/Refresh all feeds"
 msgstr "/Rafraîchir toutes les sources"
 
-#: src/rssyl_gtk.c:64
+#: src/rssyl_gtk.c:65
 msgid "/Subscribe new feed..."
 msgstr "/S'abonner à une nouvelle source..."
 
-#: src/rssyl_gtk.c:65
+#: src/rssyl_gtk.c:66
 msgid "/Unsubscribe feed..."
 msgstr "/Se désabonner de la source..."
 
-#: src/rssyl_gtk.c:66
+#: src/rssyl_gtk.c:67
 msgid "/Feed properties..."
 msgstr "/Propriétés de la source..."
 
-#: src/rssyl_gtk.c:67
+#: src/rssyl_gtk.c:68
 msgid "/Remove folder tree..."
 msgstr "/Supprimer toute l'arborescence..."
 
-#: src/rssyl_gtk.c:109
+#: src/rssyl_gtk.c:110
 msgid "Add RSS folder tree"
 msgstr "Ajouter une arborescence RSS"
 
-#: src/rssyl_gtk.c:110
+#: src/rssyl_gtk.c:111
 msgid "Enter name for a new RSS folder tree."
 msgstr "Entrez le nom de la nouvelle arborescence RSS."
 
-#: src/rssyl_gtk.c:115
+#: src/rssyl_gtk.c:116
 #, c-format
 msgid "The mailbox '%s' already exists."
 msgstr "La boîte '%s' existe déjà."
 
-#: src/rssyl_gtk.c:124
+#: src/rssyl_gtk.c:125
 msgid ""
 "Creation of folder tree failed.\n"
-"Maybe some files already exist, or you don't have the permission to write "
-"there?"
+"Maybe some files already exist, or you don't have the permission to write there?"
 msgstr ""
 "La création de l'arborescence a échoué.\n"
-"Peut-être les fichiers existent-ils déjà, ou vous n'avez pas la permission "
-"d'écrire à cet endroit ?"
+"Peut-être les fichiers existent-ils déjà, ou vous n'avez pas la permission d'écrire à cet endroit ?"
 
-#: src/rssyl_gtk.c:138
+#: src/rssyl_gtk.c:139
 msgid "/File/Add mailbox/RSSyl..."
 msgstr "/Fichier/Ajouter une boîte aux lettres/RSSyl..."
 
-#: src/rssyl_gtk.c:208
+#: src/rssyl_gtk.c:217
 msgid "Use default refresh interval (180 minutes)"
 msgstr "Utiliser l'intervalle de rafraichissement par défaut (180 minutes)"
 
-#: src/rssyl_gtk.c:220
+#: src/rssyl_gtk.c:229
 msgid "Keep default number of expired entries (-1)"
 msgstr "Concerver le nombre par défaut d'articles expirés (-1)"
 
-#: src/rssyl_gtk.c:252
+#: src/rssyl_gtk.c:235
+msgid "Fetch comments if possible"
+msgstr "Récupérer les commentaires si possible"
+
+#: src/rssyl_gtk.c:267
 msgid "<b>Source URL:</b>"
 msgstr "<b>URL source :</b>"
 
-#: src/rssyl_gtk.c:279
+#: src/rssyl_gtk.c:307
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
 msgstr ""
 "<b>Intervalle de rafraichissement, en minutes :</b>\n"
-"<small>(Mettez 0 pour désactiver le rafraichissement automatique pour cette "
-"source)</small>"
+"<small>(Mettez 0 pour désactiver le rafraichissement automatique pour cette source)</small>"
 
-#: src/rssyl_gtk.c:310
+#: src/rssyl_gtk.c:340
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
@@ -199,26 +196,28 @@ msgstr ""
 "<b>Nombre d'articles expirés à conserver :</b>\n"
 "<small>(Mettez -1 pour tout conserver)</small>"
 
-#: src/rssyl_gtk.c:353
+#: src/rssyl_gtk.c:383
 msgid "_OK"
 msgstr "_OK"
 
-#: src/rssyl_gtk.c:373
+#: src/rssyl_gtk.c:403
 msgid "_Cancel"
 msgstr "_Annuler"
 
-#: src/rssyl_gtk.c:381
+#: src/rssyl_gtk.c:411
 msgid "Set feed properties"
 msgstr "Propriétés de la source"
 
-#: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
+#: src/rssyl_gtk.c:519
+#: src/rssyl_gtk.c:540
 msgid "Unsubscribe feed"
 msgstr "Se désabonner de la source"
 
-#: src/rssyl_gtk.c:501
+#: src/rssyl_gtk.c:541
 msgid "Do you really want to remove feed"
 msgstr "Voulez-vous vraiment vous désabonner de la source"
 
-#: src/rssyl_gtk.c:511
+#: src/rssyl_gtk.c:551
 msgid "Remove cached entries"
 msgstr "Supprimer les articles en cache"
+
