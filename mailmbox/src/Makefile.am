@@ -1,13 +1,10 @@
 plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
-plugin_DATA=mailmbox_gtk.deps
-plugin_LTLIBRARIES = mailmbox.la mailmbox_gtk.la
-
-EXTRA_DIST=mailmbox_gtk.deps
+plugin_LTLIBRARIES = mailmbox.la
 
 ## Mailmbox folder plugin
 
 mailmbox_la_SOURCES = \
-	plugin.c \
+	plugin.c plugin_gtk.c \
 	carray.c carray.h \
 	chash.c chash.h \
 	clist.c clist.h \
@@ -21,30 +18,15 @@ mailmbox_la_SOURCES = \
 	mailmbox_parse.c mailmbox_parse.h \
 	mailmbox_types.c mailmbox_types.h \
 	mmapstring.c mmapstring.h \
-	plugin_version.h
+	plugin_version.h plugin_gtk.h
 
 mailmbox_la_LDFLAGS = \
 	-avoid-version -module
 
-mailmbox_la_LIBADD = 
-
-mailmbox_la_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
-	$(GLIB_CFLAGS) \
-	$(GTK_CFLAGS)
-
-## Mailmbox GTK GUI support
-
-mailmbox_gtk_la_SOURCES = \
-	plugin_gtk.c
-
-mailmbox_gtk_la_LDFLAGS = \
-	-avoid-version -module
-
-mailmbox_gtk_la_LIBADD = \
+mailmbox_la_LIBADD = \
 	$(GTK_LIBS)
 
-mailmbox_gtk_la_CPPFLAGS = \
+mailmbox_la_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)

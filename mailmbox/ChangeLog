@@ -1,3 +1,7 @@
+2006-01-12 [colin]	1.7
+
+	* Merge mailmbox and mailmbox_gtk
+
 2006-01-12 [colin]	1.6
 
 	* Fix braindead FolderClass initialisation that leads to

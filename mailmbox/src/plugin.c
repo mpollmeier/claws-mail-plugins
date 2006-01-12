@@ -24,7 +24,7 @@
 #include "folder.h"
 #include "mailmbox_folder.h"
 #include "common/version.h"
-
+#include "plugin_gtk.h"
 #include "plugin_version.h"
 
 gint plugin_init(gchar **error)
@@ -35,12 +35,13 @@ gint plugin_init(gchar **error)
 	}
 
 	folder_register_class(mailmbox_get_class());
-
+	plugin_gtk_init(error);
 	return 0;
 }
 
 void plugin_done(void)
 {
+	plugin_gtk_done();
 	folder_unregister_class(mailmbox_get_class());
 }
 
@@ -56,7 +57,7 @@ const gchar *plugin_desc(void)
 
 const gchar *plugin_type(void)
 {
-	return "Common";
+	return "GTK2";
 }
 
 const gchar *plugin_licence(void)

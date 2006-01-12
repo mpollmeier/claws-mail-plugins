@@ -75,7 +75,7 @@ static GtkItemFactoryEntry mainwindow_add_mailbox = {
 	NULL
 };
 
-gint plugin_init(gchar **error)
+gint plugin_gtk_init(gchar **error)
 {
 	guint i, n_entries;
 	GtkItemFactory *ifactory;
@@ -94,7 +94,7 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done(void)
+void plugin_gtk_done(void)
 {
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
@@ -106,31 +106,6 @@ void plugin_done(void)
 	widget = gtk_item_factory_get_widget(ifactory, mainwindow_add_mailbox.path);
 	gtk_widget_destroy(widget);
 	gtk_item_factory_delete_item(ifactory, mainwindow_add_mailbox.path);
-}
-
-const gchar *plugin_name(void)
-{
-	return _("mailmbox folder GTK (etPan!)");
-}
-
-const gchar *plugin_desc(void)
-{
-	return _("This is the user interface part of the plugin to handle mailboxes in mbox format.");
-}
-
-const gchar *plugin_type(void)
-{
-	return "GTK2";
-}
-
-const gchar *plugin_licence(void)
-{
-		return "GPL";
-}
-
-const gchar *plugin_version(void)
-{
-	return PLUGINVERSION;
 }
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
