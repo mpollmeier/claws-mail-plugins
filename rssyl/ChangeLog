@@ -1,3 +1,12 @@
+2006-01-12  18:35 Colin Leroy <colin@colino.net>
+	* src/feed.[ch]
+	* src/feedprops.[ch]
+	* src/parsers.[ch]
+	* src/rssyl.[ch]
+	* src/rssyl_gtk.[ch]
+		Add ability to fetch comments in RSS feeds.
+
+
 2006-01-08  07.09 Paul Mangan <claws@thewildbeast.co.uk>
 
 	* po/de.po: translation submitted by Stephan Sachse <white@dev-zero.com>

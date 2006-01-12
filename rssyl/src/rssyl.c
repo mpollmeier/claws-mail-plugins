@@ -248,6 +248,7 @@ static FolderItem *rssyl_item_new(Folder *folder)
 	ritem->url = NULL;
 	ritem->default_refresh_interval = TRUE;
 	ritem->default_expired_num = TRUE;
+	ritem->fetch_comments = FALSE;
 	ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
 	ritem->refresh_id = 0;
 	ritem->expired_num = -1;

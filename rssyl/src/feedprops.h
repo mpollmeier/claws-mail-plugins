@@ -12,6 +12,7 @@
 #define RSSYL_PROP_REFRESH			"refresh_interval"
 #define RSSYL_PROP_DEF_EXPIRED	"default_expired_num"
 #define RSSYL_PROP_EXPIRED			"expired_num"
+#define RSSYL_PROP_FETCH_COMMENTS		"fetch_comments"
 
 void rssyl_store_feed_props(RSSylFolderItem *ritem);
 void rssyl_get_feed_props(RSSylFolderItem *ritem);

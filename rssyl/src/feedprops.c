@@ -102,6 +102,7 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 				if( !def_ex )
 					xmlSetProp(node, RSSYL_PROP_EXPIRED,
 							g_strdup_printf("%d", ritem->expired_num) );
+				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS, ritem->fetch_comments?"1":"0");
 				found = TRUE;
 			}
 			xmlFree(tmp);
@@ -206,6 +207,16 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				if( tmp ) {
 					tmpi = atoi(tmp);
 					ritem->default_expired_num = tmpi;
+				}
+				xmlFree(tmp);
+				tmp = NULL;
+
+				/* expired_num */
+				tmp = xmlGetProp(node, RSSYL_PROP_FETCH_COMMENTS);
+				tmpi = 0;
+				if( tmp ) {
+					tmpi = atoi(tmp);
+					ritem->fetch_comments = tmpi;
 				}
 				xmlFree(tmp);
 				tmp = NULL;

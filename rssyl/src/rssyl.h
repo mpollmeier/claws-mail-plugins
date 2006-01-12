@@ -34,6 +34,7 @@ struct _RSSylFolderItem {
 	gint expired_num;
 
 	guint refresh_id;	
+	gboolean fetch_comments;
 
 	struct _RSSylFeedProp *feedprop;
 };

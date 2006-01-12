@@ -326,7 +326,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 	gint i = 0;
 	gboolean parsing_headers, past_html_tag, past_endhtml_tag;
 	gboolean started_author = FALSE, started_subject = FALSE;
-	gboolean started_link = FALSE;
+	gboolean started_link = FALSE, started_clink = FALSE, started_plink = FALSE;
 
 	debug_print("RSSyl: parsing '%s'\n", path);
 
@@ -364,6 +364,9 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 				started_author = FALSE;
 				started_subject = FALSE;
 				started_link = FALSE;
+				started_clink = FALSE;
+				started_plink = FALSE;
+
 				/* Author */
 				if( !strcmp(line[0], "From") ) {
 					fitem->author = g_strdup(line[1]);
@@ -390,6 +393,16 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 					debug_print("RSSyl: got link '%s'\n", fitem->link);
 					started_link = TRUE;
 				}
+				if( !strcmp(line[0], "X-RSSyl-Comments") ) {
+					fitem->comments_link = g_strdup(line[1]);
+					debug_print("RSSyl: got clink '%s'\n", fitem->comments_link);
+					started_clink = TRUE;
+				}
+				if( !strcmp(line[0], "X-RSSyl-Parent") ) {
+					fitem->parent_link = g_strdup(line[1]);
+					debug_print("RSSyl: got plink '%s'\n", fitem->parent_link);
+					started_plink = TRUE;
+				}
 			} else if (lines[i][0] == ' ') {
 				gchar *tmp = NULL;
 				/* continuation line */
@@ -408,6 +421,16 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 					g_free(fitem->link);
 					fitem->link = tmp;
 					debug_print("RSSyl: updated link to '%s'\n", fitem->link);
+				} else if (started_clink) {
+					tmp = g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1);
+					g_free(fitem->comments_link);
+					fitem->comments_link = tmp;
+					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->comments_link);
+				} else if (started_plink) {
+					tmp = g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1);
+					g_free(fitem->parent_link);
+					fitem->parent_link = tmp;
+					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->parent_link);
 				}
 			}
 			g_strfreev(line);
@@ -460,6 +483,10 @@ void rssyl_free_feeditem(RSSylFeedItem *item)
 	item->text = NULL;
 	g_free(item->link);
 	item->link = NULL;
+	g_free(item->comments_link);
+	item->comments_link = NULL;
+	g_free(item->parent_link);
+	item->parent_link = NULL;
 	g_free(item->author);
 	item->author = NULL;
 	g_free(item->realpath);
@@ -639,7 +666,7 @@ static guint rssyl_feed_item_exists(RSSylFolderItem *ritem,
 	return 0;
 }
 
-void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
+void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlNodePtr node;
 	gchar *rootnode;
@@ -647,10 +674,12 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 	gint count;
 	gchar *msg;
 	
+	if (doc == NULL)
+		return;
+
 	rssyl_read_existing(ritem);
 
 	node = xmlDocGetRootElement(doc);
-	g_return_if_fail(doc != NULL);
 
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);
 	rootnode = g_ascii_strdown(node->name, -1);
@@ -665,19 +694,30 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem)
 
 	if( !strcmp(rootnode, "rss") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_rss()\n");
-		count = rssyl_parse_rss(doc, ritem);
+		count = rssyl_parse_rss(doc, ritem, parent);
 	} else if( !strcmp(rootnode, "rdf") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_rdf()\n");
-		count = rssyl_parse_rdf(doc, ritem);
+		if (ritem->fetch_comments) {
+			alertpanel_error(_("Fetching comments is not supported "
+					   "for RDF feeds."));
+			ritem->fetch_comments = FALSE;
+		}
+		count = rssyl_parse_rdf(doc, ritem, parent);
 	} else if( !strcmp(rootnode, "feed") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_atom()\n");
-		count = rssyl_parse_atom(doc, ritem);
+		if (ritem->fetch_comments) {
+			alertpanel_error(_("Fetching comments is not supported "
+					   "for RDF feeds."));
+			ritem->fetch_comments = FALSE;
+		}
+		count = rssyl_parse_atom(doc, ritem, parent);
 	} else {
 		alertpanel_error(_("This feed format is not supported yet."));
 		count = 0;
 	}
 
-	ritem->last_count = count;
+	if (!parent)
+		ritem->last_count = count;
 
 	folder_item_scan(&ritem->item);
 	folder_item_update_thaw();
@@ -758,7 +798,14 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	if( fitem->link )
 		fprintf(f, "X-RSSyl-URL: %s\n", fitem->link);
-
+	if( fitem->comments_link ) {
+		fprintf(f, "Message-ID: <%s>\n", fitem->link);
+		fprintf(f, "X-RSSyl-Comments: %s\n", fitem->comments_link);
+	}
+	if( fitem->parent_link) {
+		fprintf(f, "X-RSSyl-Parent: %s\n", fitem->parent_link);
+		fprintf(f, "References: <%s>\n", fitem->parent_link);
+	}
 	if (fitem->text && g_utf8_validate(fitem->text, -1, NULL)) {
 		/* if it passes UTF-8 validation, specify it. */
 		fprintf(f, "Content-Type: text/html; charset=UTF-8\n\n");		
@@ -843,10 +890,60 @@ void rssyl_remove_feed_cache(FolderItem *item)
 	g_free(path);
 }
 
+void rssyl_update_comments(RSSylFolderItem *ritem)
+{
+	FolderItem *item = &ritem->item;
+	RSSylFeedItem *fitem = NULL;
+	DIR *dp;
+	struct dirent *d;
+	gint num;
+	gchar *path;
+
+	g_return_if_fail(ritem != NULL);
+
+	if (ritem->fetch_comments == FALSE)
+		return;
+
+	path = folder_item_get_path(item);
+	g_return_if_fail(path != NULL);
+	if( change_dir(path) < 0 ) {
+		g_free(path);
+		return;
+	}
+
+	if( (dp = opendir(".")) == NULL ) {
+		FILE_OP_ERROR(item->path, "opendir");
+		g_free(path);
+		return;
+	}
+
+	while( (d = readdir(dp)) != NULL ) {
+		if( (num = to_number(d->d_name)) > 0 && dirent_is_regular_file(d) ) {
+			debug_print("RSSyl: starting to parse '%s'\n", d->d_name);
+			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
+				xmlDocPtr doc;
+				gchar *title;
+				if (fitem->comments_link) {
+					debug_print("RSSyl: fetching comments '%s'\n", fitem->comments_link);
+					doc = rssyl_fetch_feed(fitem->comments_link, ritem->item.mtime, &title);
+					rssyl_parse_feed(doc, ritem, fitem->link);
+					xmlFreeDoc(doc);
+					g_free(title);
+				}
+				rssyl_free_feeditem(fitem);
+			}
+		}
+	}
+	closedir(dp);
+	g_free(path);
+
+	debug_print("RSSyl: rssyl_update_comments() is returning\n");
+}
+
 void rssyl_update_feed(RSSylFolderItem *ritem)
 {
-	gchar *title, *dir, *dir2, *tmp;
-	xmlDocPtr doc;
+	gchar *title = NULL, *dir = NULL, *dir2, *tmp;
+	xmlDocPtr doc = NULL;
 
 	g_return_if_fail(ritem != NULL);
 
@@ -855,45 +952,50 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 	g_return_if_fail(ritem->url != NULL);
 
 	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title);
-	g_return_if_fail(doc != NULL);
-	g_return_if_fail(title != NULL);
 
-	tmp = rssyl_strreplace(title, "/", "\\");
-	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, tmp, NULL);
-	g_free(tmp);
-	if( strcmp(title, (&ritem->item)->name) ) {
-		tmp = rssyl_strreplace((&ritem->item)->name, "/", "\\");
-		dir2 = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-				G_DIR_SEPARATOR_S, tmp,
-				NULL);
+	if (doc && title) {
+		tmp = rssyl_strreplace(title, "/", "\\");
+		dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+				G_DIR_SEPARATOR_S, tmp, NULL);
 		g_free(tmp);
-		if( g_rename(dir2, dir) == -1 ) {
-			g_warning("couldn't rename directory '%s'\n", dir2);
-			g_free(dir);
+		if( strcmp(title, (&ritem->item)->name) ) {
+			tmp = rssyl_strreplace((&ritem->item)->name, "/", "\\");
+			dir2 = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+					G_DIR_SEPARATOR_S, tmp,
+					NULL);
+			g_free(tmp);
+			if( g_rename(dir2, dir) == -1 ) {
+				g_warning("couldn't rename directory '%s'\n", dir2);
+				g_free(dir);
+				g_free(dir2);
+				g_free(title);
+				return;
+			}
 			g_free(dir2);
-			g_free(title);
-			return;
+
+			rssyl_props_update_name(ritem, title);
+
+			g_free((&ritem->item)->name);
+			(&ritem->item)->name = g_strdup(title);
+			folder_item_rename(&ritem->item, title);
 		}
-		g_free(dir2);
 
-		rssyl_props_update_name(ritem, title);
+		rssyl_parse_feed(doc, ritem, NULL);
 
-		g_free((&ritem->item)->name);
-		(&ritem->item)->name = g_strdup(title);
-		folder_item_rename(&ritem->item, title);
+		rssyl_expire_items(ritem);
 	}
 
-	rssyl_parse_feed(doc, ritem);
-
-	rssyl_expire_items(ritem);
+	rssyl_update_comments(ritem);
 
 	ritem->item.mtime = time(NULL);
 	debug_print("setting %s mtime to %ld\n", ritem->item.name, time(NULL));
 
-	xmlFreeDoc(doc);
-	g_free(title);
-	g_free(dir);
+	if (doc)
+		xmlFreeDoc(doc);
+	if (title)
+		g_free(title);
+	if (dir)
+		g_free(dir);	
 }
 
 void rssyl_start_refresh_timeout(RSSylFolderItem *ritem)
@@ -994,10 +1096,12 @@ void rssyl_subscribe_new_feed(FolderItem *parent, gchar *url)
 
 	folder_write_list();
 
-	rssyl_parse_feed(doc, ritem);
+	rssyl_parse_feed(doc, ritem, NULL);
 	xmlFreeDoc(doc);
 
 	rssyl_expire_items(ritem);
+
+	rssyl_update_comments(ritem);
 
 	rssyl_start_refresh_timeout(ritem);
 

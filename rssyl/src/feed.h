@@ -19,6 +19,8 @@ struct _RSSylFeedItem {
 	gchar *title;
 	gchar *text;
 	gchar *link;
+	gchar *parent_link;
+	gchar *comments_link;
 	gchar *author;
 
 	gchar *realpath;
@@ -35,7 +37,7 @@ struct _RSSylFindByUrlCtx {
 typedef struct _RSSylFindByUrlCtx RSSylFindByUrlCtx;
 
 xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title);
-void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem);
+void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent);
 gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem);
 MsgInfo *rssyl_parse_feed_item_to_msginfo(gchar *file, MsgFlags flags,
 		gboolean a, gboolean b, FolderItem *item);

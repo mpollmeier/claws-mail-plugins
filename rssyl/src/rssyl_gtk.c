@@ -197,6 +197,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 						*ok_hbox, *ok_image, *ok_label;
 	GtkObject *refresh_adj, *expired_adj;
 	gint refresh, expired;
+	gint row = 0;
 
 	g_return_val_if_fail(ritem != NULL, NULL);
 
@@ -229,6 +230,12 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->default_expired_num),
 			ritem->default_expired_num);
+
+	feedprop->fetch_comments = gtk_check_button_new_with_mnemonic(
+			_("Fetch comments if possible"));
+	gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(feedprop->fetch_comments),
+			ritem->fetch_comments);
 
 	if( ritem->default_expired_num )
 		expired = RSSYL_DEFAULT_EXPIRED;
@@ -271,63 +278,78 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_container_add(GTK_CONTAINER(urlalign), feedprop->url);
 
 	/* Table for remaining properties */
-	table = gtk_table_new(5, 2, FALSE);
+	table = gtk_table_new(7, 2, FALSE);
 	gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
+	/* Fetch comments - checkbutton */
+	gtk_table_attach(GTK_TABLE(table), feedprop->fetch_comments,
+			0, 2, row, row+1,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 0);
+	row++;
+	hsep = gtk_hseparator_new();
+	gtk_widget_set_size_request(hsep, -1, 10);
+	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, row, row+1,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	row++;
 	/* Use default refresh interval - checkbutton */
 	gtk_table_attach(GTK_TABLE(table), feedprop->default_refresh_interval,
-			0, 2, 0, 1,
+			0, 2, row, row+1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 0);
 	g_signal_connect(G_OBJECT(feedprop->default_refresh_interval), "toggled",
 			G_CALLBACK(rssyl_default_refresh_interval_toggled_cb),
 			(gpointer)feedprop->refresh_interval);
-
+	row++;
 	/* Refresh interval - label */
 	refresh_label = gtk_label_new(_("<b>Refresh interval in minutes:</b>\n"
 			"<small>(Set to 0 to disable automatic refreshing for this feed)"
 			"</small>"));
 	gtk_label_set_use_markup(GTK_LABEL(refresh_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(refresh_label), 0, 0.5);
-	gtk_table_attach(GTK_TABLE(table), refresh_label, 0, 1, 1, 2,
+	gtk_table_attach(GTK_TABLE(table), refresh_label, 0, 1, row, row+1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 5);
 
 	/* Refresh interval - spinbutton */
 	gtk_widget_set_sensitive(feedprop->refresh_interval,
 			!ritem->default_refresh_interval);
-	gtk_table_attach(GTK_TABLE(table), feedprop->refresh_interval, 1, 2, 1, 2,
+	gtk_table_attach(GTK_TABLE(table), feedprop->refresh_interval, 1, 2, row, row+1,
 			(GtkAttachOptions) (0),
 			(GtkAttachOptions) (0), 10, 5);
-
+	row++;
 	hsep = gtk_hseparator_new();
 	gtk_widget_set_size_request(hsep, -1, 10);
-	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, 2, 3,
+	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, row, row+1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 5);
 
+	row++;
 	/* Use default number for expired - checkbutton */
-	gtk_table_attach(GTK_TABLE(table), feedprop->default_expired_num,	0, 2, 3, 4,
+	gtk_table_attach(GTK_TABLE(table), feedprop->default_expired_num,	0, 2, row, row+1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 0);
 	g_signal_connect(G_OBJECT(feedprop->default_expired_num), "toggled",
 			G_CALLBACK(rssyl_default_expired_num_toggled_cb),
 			(gpointer)feedprop->expired_num);
 
+	row++;
 	/* Expired items - label */
 	expired_label = gtk_label_new(_("<b>Number of expired entries to keep:"
 			"</b>\n<small>(Set to -1 if you want to keep expired entries)"
 			"</small>"));
 	gtk_label_set_use_markup(GTK_LABEL(expired_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(expired_label), 0, 0.5);
-	gtk_table_attach(GTK_TABLE(table), expired_label, 0, 1, 4, 5,
+	gtk_table_attach(GTK_TABLE(table), expired_label, 0, 1, row, row+1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 5);
 
 	/* Expired items - spinbutton */
 	gtk_widget_set_sensitive(feedprop->expired_num,
 			!ritem->default_expired_num);
-	gtk_table_attach(GTK_TABLE(table), feedprop->expired_num, 1, 2, 4, 5,
+	gtk_table_attach(GTK_TABLE(table), feedprop->expired_num, 1, 2, row, row+1,
 			(GtkAttachOptions) (0),
 			(GtkAttachOptions) (0), 10, 5);
 
@@ -413,7 +435,7 @@ void rssyl_gtk_prop(RSSylFolderItem *ritem)
 void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 {
 	gchar *url;
-	gint x, old_ri, old_ex;
+	gint x, old_ri, old_ex, old_fetch_comments;
 	gboolean use_default_ri = FALSE, use_default_ex = FALSE;
 
 	g_return_if_fail(ritem != NULL);
@@ -449,6 +471,16 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 		rssyl_start_refresh_timeout(ritem);
 	}
 
+	old_fetch_comments = ritem->fetch_comments;
+	ritem->fetch_comments = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(ritem->feedprop->fetch_comments));
+
+	if (!old_fetch_comments && ritem->fetch_comments) {
+		/* reset the RSSylFolderItem's mtime to be sure we get all 
+		 * available comments */
+		 ritem->item.mtime = 0;
+	}
+	
 	use_default_ex = gtk_toggle_button_get_active(
 			GTK_TOGGLE_BUTTON(ritem->feedprop->default_expired_num));
 	ritem->default_expired_num = use_default_ex;

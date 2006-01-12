@@ -33,7 +33,7 @@
 #include "feed.h"
 #include "strreplace.h"
 
-gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem)
+gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlNodePtr rnode, node, n;
 	RSSylFeedItem *fitem = NULL;
@@ -125,7 +125,7 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem)
  * This is where we parse the fetched rss document and create a
  * RSSylFolderItem from it. Returns number of parsed items
  */
-gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem)
+gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;
@@ -164,6 +164,9 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem)
 		fitem = g_new0(RSSylFeedItem, 1);
 		fitem->date = -1;
 		fitem->text = NULL;
+		if (parent)
+			fitem->parent_link = g_strdup(parent);
+
 		got_encoded = FALSE;
 		do {
 			gchar *content = NULL;
@@ -229,6 +232,13 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem)
 				xmlFree(content);
 				debug_print("RSSyl: XML - item author: '%s'\n", fitem->author);
 			}
+			/* Comments */
+			if( !strcmp(n->name, "commentRSS") ) {
+				content = xmlNodeGetContent(n);
+				fitem->comments_link = g_strdup(content);
+				xmlFree(content);
+				debug_print("RSSyl: XML - comments_link: '%s'\n", fitem->comments_link);
+			}
 		} while( (n = n->next) != NULL);
 
 		if( fitem->link && fitem->title ) {
@@ -251,7 +261,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem)
  * This is where we parse the fetched atom document and create a
  * RSSylFolderItem from it. Returns number of parsed items
  */
-gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem)
+gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlNodePtr node, n;
 	gint count = 0;
