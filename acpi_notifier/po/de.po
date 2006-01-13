@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-07 15:52+0100\n"
+"POT-Creation-Date: 2006-01-13 19:38+0100\n"
 "PO-Revision-Date: 2006-01-07 16:09+0100\n"
 "Last-Translator: Stephan Sachse <white@dev-zero.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -23,7 +23,7 @@ msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 msgstr ""
-"Stellen Sie sicher das das Kernel-Modul \"acerhk\" geladen ist.\n"
+"Stellen Sie sicher, dass das Kernel-Modul \"acerhk\" geladen ist.\n"
 "Das Kernel-Module erhalten Sie unter http://www.informatik.hu-berlin.de/"
 "~tauber/acerhk/"
 
@@ -32,17 +32,17 @@ msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
-"Stellen Sie sicher das das Kernel-Modul \"acer_acpi\" geladen ist.\n"
+"Stellen Sie sicher, dass das Kernel-Modul \"acer_acpi\" geladen ist.\n"
 "Das Kernel-Module erhalten Sie unter http://www.archernar.co.uk/acer_acpi/"
 "acer_acpi_main.html"
 
 #: src/acpi_notifier.c:65
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Stellen Sie sicher das das Kernel-Modul \"asus_acpi\" geladen ist."
+msgstr "Stellen Sie sicher, dass das Kernel-Modul \"asus_acpi\" geladen ist."
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Stellen Sie sicher das das Kernel-Modul \"ibm_acpi\" geladen ist."
+msgstr "Stellen Sie sicher, dass das Kernel-Modul \"ibm_acpi\" geladen ist."
 
 #: src/acpi_notifier.c:67
 msgid ""
@@ -113,7 +113,7 @@ msgid ""
 "Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
 "with"
 msgstr ""
-"Ihre Sylpheed-Claws Version ist neuer also die Version mit der ACPI-"
+"Ihre Sylpheed-Claws Version ist neuer als die Version mit der ACPI-"
 "Benachrichtiger kompiliert wurde"
 
 #: src/acpi_notifier.c:762
