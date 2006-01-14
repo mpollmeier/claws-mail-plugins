@@ -1,3 +1,8 @@
+2006-01-14 [colin]
+
+	* src
+		Rework buttons (HIGify)
+
 2006-01-12 [colin]
 
 	* src/vcal_folder.c

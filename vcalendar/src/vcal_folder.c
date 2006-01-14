@@ -1204,10 +1204,10 @@ static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *
 	message = g_strdup_printf
 		(_("Do you really want to unsubscribe?"));
 	avalue = alertpanel_full(_("Delete folder"), message,
-		 		 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE,
-				 NULL, ALERT_WARNING, G_ALERTALTERNATE);
+		 		 GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL, 
+				 FALSE, NULL, ALERT_WARNING, G_ALERTDEFAULT);
 	g_free(message);
-	if (avalue != G_ALERTDEFAULT) return;
+	if (avalue != G_ALERTALTERNATE) return;
 
 	Xstrdup_a(old_path, item->path, return);
 	old_id = folder_item_get_identifier(item);

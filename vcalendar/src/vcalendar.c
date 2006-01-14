@@ -969,10 +969,10 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	gint val = alertpanel_full(_("Cancel meeting"),
 				   _("Are you sure you want to cancel this meeting?\n"
 			           "A notification will be sent to attendees."),
-				   GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE,
-				   NULL, ALERT_WARNING, G_ALERTALTERNATE);
+				   GTK_STOCK_NO, GTK_STOCK_YES, NULL, FALSE,
+				   NULL, ALERT_WARNING, G_ALERTDEFAULT);
 
-	if (val != G_ALERTDEFAULT)
+	if (val != G_ALERTALTERNATE)
 		return TRUE;
 
 	event = vcal_manager_load_event(uid);
