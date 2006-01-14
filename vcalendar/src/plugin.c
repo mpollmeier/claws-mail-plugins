@@ -37,12 +37,12 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your sylpheed version is newer than the version the plugin was built with"));
+		*error = g_strdup(_("Your Sylpheed-Claws version is newer than the version vCalendar was built with."));
 		return -1;
 	}
 
 	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1,9,100,140))) {
-		*error = g_strdup(_("Your sylpheed version is too old"));
+		*error = g_strdup(_("Your Sylpheed-Claws version is too old for vCalendar."));
 		return -1;
 	}
 
