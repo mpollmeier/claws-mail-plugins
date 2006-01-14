@@ -401,7 +401,7 @@ static struct mailmime * procmime_to_etpan(struct mailprivacy * privacy,
 	if (mapping == MAP_FAILED)
 		goto close_tmp;
 	
-	r = mailprivacy_get_mime(privacy, 0, mapping, stat_info.st_size,
+	r = mailprivacy_get_mime(privacy, 0, 1, mapping, stat_info.st_size,
 				 &mime);
 	if (r != MAIL_NO_ERROR)
 		goto unmap_tmp;
@@ -553,7 +553,7 @@ static MimeInfo * decrypt(MimeInfo *mimeinfo)
 	if (mapping == MAP_FAILED)
 		goto close;
 	
-	r = mailprivacy_get_mime(privacy, 1,
+	r = mailprivacy_get_mime(privacy, 1, 1,
 				 mapping, stat_info.st_size,
 				 &decrypted_mime);
 	if (r != MAIL_NO_ERROR)
