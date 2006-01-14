@@ -43,7 +43,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if( sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 15, 0) ) {
+	if( sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 100, 140) ) {
 		*error = g_strdup(_("Your version of Sylpheed-Claws is too old for RSSyl."));
 		return -1;
 	}

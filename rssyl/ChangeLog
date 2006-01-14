@@ -1,6 +1,8 @@
 2006-01-14  21:08 Colin Leroy <colin@colino.net>
 	* src/plugin.c
+	  configure.ac
 		Fix error messages
+		Check for SC 1.9.100cvs140 (.subscribe)
 
 2006-01-12  21:08 Colin Leroy <colin@colino.net>
 	* src/feed.[ch]
