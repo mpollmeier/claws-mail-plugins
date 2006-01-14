@@ -257,11 +257,11 @@ static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *w
 		(_("Really remove the mailbox `%s' ?\n"
 		   "(The messages are NOT deleted from the disk)"), name);
 	avalue = alertpanel_full(_("Remove mailbox"), message,
-				 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE,
-				 NULL, ALERT_NOTICE, G_ALERTALTERNATE);
+				 GTK_STOCK_CANCEL, _("_Remove"), NULL, FALSE,
+				 NULL, ALERT_NOTICE, G_ALERTDEFAULT);
 	g_free(message);
 	g_free(name);
-	if (avalue != G_ALERTDEFAULT) return;
+	if (avalue != G_ALERTALTERNATE) return;
 
 	folderview_unselect(folderview);
 	summary_clear_all(folderview->summaryview);
@@ -289,10 +289,11 @@ static void delete_folder_cb(FolderView *folderview, guint action,
 	message = g_strdup_printf
 		(_("All folder(s) and message(s) under `%s' will be deleted.\n"
 		   "Do you really want to delete?"), name);
-	avalue = alertpanel(_("Delete folder"), message,
-			    _("Yes"), _("+No"), NULL);
+	avalue= alertpanel_full(_("Delete folder"), message,
+				 GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL, FALSE,
+				 NULL, ALERT_NOTICE, G_ALERTDEFAULT);
 	g_free(message);
-	if (avalue != G_ALERTDEFAULT) return;
+	if (avalue != G_ALERTALTERNATE) return;
 
 	Xstrdup_a(old_path, item->path, return);
 	old_id = folder_item_get_identifier(item);
