@@ -39,12 +39,12 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	if( sylpheed_get_version() > VERSION_NUMERIC ) {
-		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version the plugin was built with"));
+		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version RSSyl was built with."));
 		return -1;
 	}
 
 	if( sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 15, 0) ) {
-		*error = g_strdup(_("Your version of Sylpheed-Claws is too old"));
+		*error = g_strdup(_("Your version of Sylpheed-Claws is too old for RSSyl."));
 		return -1;
 	}
 

@@ -1,3 +1,7 @@
+2006-01-14  21:08 Colin Leroy <colin@colino.net>
+	* src/plugin.c
+		Fix error messages
+
 2006-01-12  21:08 Colin Leroy <colin@colino.net>
 	* src/feed.[ch]
 	* src/feedprops.[ch]
