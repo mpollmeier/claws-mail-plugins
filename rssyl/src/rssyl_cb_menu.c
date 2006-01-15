@@ -81,12 +81,13 @@ void rssyl_remove_rss_cb(FolderView *folderview, guint action,
 	name = trim_string(item->folder->name, 32);
 	message = g_strdup_printf(_("Really remove the folder tree '%s' ?\n"), name);
 	aval = alertpanel_full(_("Remove folder tree"), message,
-			 GTK_STOCK_YES, GTK_STOCK_NO, NULL, FALSE, NULL,
-			  ALERT_NOTICE, G_ALERTALTERNATE);
+			 GTK_STOCK_CANCEL, _("_Remove"), NULL, FALSE, NULL,
+			  ALERT_WARNING, G_ALERTDEFAULT);
 	g_free(message);
 	g_free(name);
 
-	g_return_if_fail(aval == G_ALERTDEFAULT);
+	if (aval != G_ALERTALTERNATE)
+		return;
 
 	folderview_unselect(folderview);
 	summary_clear_all(folderview->summaryview);

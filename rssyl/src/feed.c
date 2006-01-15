@@ -68,7 +68,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	RSSylThreadCtx *ctx = (RSSylThreadCtx *)arg;
 	CURL *eh = NULL;
 	CURLcode res;
-	int response_code, last_modified;
+	int response_code;
+	time_t last_modified;
 
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);

@@ -365,6 +365,26 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_box_set_spacing(GTK_BOX(bbox), 5);
 	gtk_box_pack_end(GTK_BOX(vbox), bbox, FALSE, FALSE, 0);
 
+	/* Cancel button */
+	cancel_button = gtk_button_new();
+	gtk_container_add(GTK_CONTAINER(bbox), cancel_button);
+
+	cancel_align = gtk_alignment_new(0.5, 0.5, 0, 0);
+	gtk_container_add(GTK_CONTAINER(cancel_button), cancel_align);
+
+	cancel_hbox = gtk_hbox_new(FALSE, 2);
+	gtk_container_add(GTK_CONTAINER(cancel_align), cancel_hbox);
+
+	cancel_image = gtk_image_new_from_stock(GTK_STOCK_CANCEL,
+			GTK_ICON_SIZE_BUTTON);
+	gtk_box_pack_start(GTK_BOX(cancel_hbox), cancel_image, FALSE, FALSE, 0);
+
+	cancel_label = gtk_label_new_with_mnemonic(_("_Cancel"));
+	gtk_box_pack_end(GTK_BOX(cancel_hbox), cancel_label, FALSE, FALSE, 0);
+
+	g_signal_connect(G_OBJECT(cancel_button), "clicked",
+			G_CALLBACK(rssyl_props_cancel_cb), ritem);
+
 	/* OK button */
 	ok_button = gtk_button_new();
 	gtk_container_add(GTK_CONTAINER(bbox), ok_button);
@@ -385,26 +405,6 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	g_signal_connect(G_OBJECT(ok_button), "clicked",
 			G_CALLBACK(rssyl_props_ok_cb), ritem);
-
-	/* Cancel button */
-	cancel_button = gtk_button_new();
-	gtk_container_add(GTK_CONTAINER(bbox), cancel_button);
-
-	cancel_align = gtk_alignment_new(0.5, 0.5, 0, 0);
-	gtk_container_add(GTK_CONTAINER(cancel_button), cancel_align);
-
-	cancel_hbox = gtk_hbox_new(FALSE, 2);
-	gtk_container_add(GTK_CONTAINER(cancel_align), cancel_hbox);
-
-	cancel_image = gtk_image_new_from_stock(GTK_STOCK_CANCEL,
-			GTK_ICON_SIZE_BUTTON);
-	gtk_box_pack_start(GTK_BOX(cancel_hbox), cancel_image, FALSE, FALSE, 0);
-
-	cancel_label = gtk_label_new_with_mnemonic(_("_Cancel"));
-	gtk_box_pack_end(GTK_BOX(cancel_hbox), cancel_label, FALSE, FALSE, 0);
-
-	g_signal_connect(G_OBJECT(cancel_button), "clicked",
-			G_CALLBACK(rssyl_props_cancel_cb), ritem);
 
 	/* Set some misc. stuff */
 	gtk_window_set_title(GTK_WINDOW(feedprop->window),
@@ -557,12 +557,12 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	aa = GTK_DIALOG(dialog)->action_area;
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(aa), GTK_BUTTONBOX_END);
 
-	byes = gtk_button_new_from_stock(GTK_STOCK_YES);
-	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), byes, GTK_RESPONSE_YES);
-
-	bno = gtk_button_new_from_stock(GTK_STOCK_NO);
+	bno = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), bno, GTK_RESPONSE_NO);
 	GTK_WIDGET_SET_FLAGS(bno, GTK_CAN_DEFAULT);
+
+	byes = gtk_button_new_with_mnemonic(_("_Unsubscribe"));
+	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), byes, GTK_RESPONSE_YES);
 
 	gtk_widget_grab_default(bno);
 	gtk_window_set_transient_for(GTK_WINDOW(dialog),
