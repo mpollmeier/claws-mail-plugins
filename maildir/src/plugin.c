@@ -31,12 +31,12 @@
 gint plugin_init(gchar **error)
 {
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
+		*error = g_strdup("Your Sylpheed-Claws version is newer than the version Maildir was built with");
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 10, 48))) {
-		*error = g_strdup("Your sylpheed version is too old");
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 100, 160))) {
+		*error = g_strdup("Your Sylpheed-Claws version is too old for Maildir");
 		return -1;
 	}
 
