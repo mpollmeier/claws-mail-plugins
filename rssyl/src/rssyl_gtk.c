@@ -536,15 +536,15 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 0);
 
 	/* Dialog text label */
-	message = g_strdup_printf("<span size='x-large'><b>%s</b></span>"
+	label = gtk_label_new("");
+	gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0);
+	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+	gtk_misc_set_padding(GTK_MISC(label), 0, 12);
+	message = g_markup_printf_escaped("<span size='x-large'><b>%s</b></span>"
 			"\n\n%s '%s' ?", _("Unsubscribe feed"),
 			_("Do you really want to remove feed"), name);
-
-	label = gtk_label_new(message);
+	gtk_label_set_markup(GTK_LABEL(label), message);
 	g_free(message);
-	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
-	gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0);
-	gtk_misc_set_padding(GTK_MISC(label), 0, 12);
 	gtk_box_pack_start(GTK_BOX(vbox2), label, FALSE, FALSE, 0);
 
 	/* Remove cache checkbutton */

@@ -1,3 +1,8 @@
+2006-01-16  10:10 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* src/rssyl_gtk.c
+		fix display markup in label
+
 2006-01-15  21:37 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c
 		src/rssyl_cb_menu.c
