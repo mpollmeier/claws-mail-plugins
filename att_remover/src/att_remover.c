@@ -57,14 +57,14 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 	if (g_slist_length(msglist) == 1) {
 		if (alertpanel_full(_("Remove attachments"),
                         _("Do you really want to remove all attachments from "
-                          "the selected message ?"), GTK_STOCK_YES, GTK_STOCK_NO, NULL,
-                          FALSE, NULL, ALERT_QUESTION, G_ALERTDEFAULT) != G_ALERTDEFAULT)
+                          "the selected message ?"), GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL,
+                          FALSE, NULL, ALERT_QUESTION, G_ALERTALTERNATE) != G_ALERTALTERNATE)
 			return;
 	} else {
 		if (alertpanel_full(_("Remove attachments"),
                         _("Do you really want to remove all attachments from "
-                          "the selected messages ?"), GTK_STOCK_YES, GTK_STOCK_NO, NULL,
-                          FALSE, NULL, ALERT_QUESTION, G_ALERTDEFAULT) != G_ALERTDEFAULT)
+                          "the selected messages ?"), GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL,
+                          FALSE, NULL, ALERT_QUESTION, G_ALERTALTERNATE) != G_ALERTALTERNATE)
 			return;
 	}
 
