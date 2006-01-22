@@ -80,6 +80,23 @@ PKG_CHECK_MODULES(libxml, "libxml-2.0",,
 CFLAGS="$CFLAGS `pkg-config --cflags libxml-2.0`"
 LIBS="$LIBS `pkg-config --libs libxml-2.0`"
 
+debug=0
+AC_MSG_CHECKING(whether to enable debugging code)
+AC_ARG_ENABLE(debug,
+							[ --enable-debug			enable debugging code],
+							[
+								case "${enableval}" in
+									yes)
+										AC_MSG_RESULT(yes)
+										AC_DEFINE(RSSYL_DEBUG, [], [Enable debug output])
+										debug=1
+										;;
+								esac
+							],
+							[
+								AC_MSG_RESULT(no)
+							])
+
 AC_OUTPUT([
 Makefile
 config/Makefile

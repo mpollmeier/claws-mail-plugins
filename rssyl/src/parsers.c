@@ -41,6 +41,9 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	gchar *content = NULL;
 	g_return_val_if_fail(doc != NULL, 0);
 	g_return_val_if_fail(ritem != NULL, 0);
+#ifdef RSSYL_DEBUG
+	gchar *fetched = NULL;
+#endif	/* RSSYL_DEBUG */
 
 	if( ritem->contents == NULL )
 		rssyl_read_existing(ritem);
@@ -52,6 +55,11 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* We've found an "item" tag, let's poke through its contents */
 			fitem = g_new0(RSSylFeedItem, 1);
 			fitem->date = -1;
+#ifdef RSSYL_DEBUG
+			fetched = xmlGetProp(rnode, "fetched");
+			fitem->debug_fetched = atoll(fetched);
+			xmlFree(fetched);
+#endif	/* RSSYL_DEBUG */
 
 			for( n = node->children; n; n = n->next ) {
 				/* Title */
@@ -129,12 +137,15 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;
-	xmlNodePtr node, n;
+	xmlNodePtr node, n, rnode;
 	gint i, count = 0;
 	RSSylFeedItem *fitem = NULL;
 	gchar *xpath;
 	gboolean got_encoded;
 	gchar *rootnode = NULL;
+#ifdef RSSYL_DEBUG
+	gchar *fetched = NULL;
+#endif	/* RSSYL_DEBUG */
 
 	g_return_val_if_fail(doc != NULL, 0);
 	g_return_val_if_fail(ritem != NULL, 0);
@@ -142,9 +153,9 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	if( ritem->contents == NULL )
 		rssyl_read_existing(ritem);
 
-	node = xmlDocGetRootElement(doc);
-	
-	rootnode = g_ascii_strdown(node->name, -1);
+	rnode = xmlDocGetRootElement(doc);
+
+	rootnode = g_ascii_strdown(rnode->name, -1);
 	xpath = g_strconcat("/", rootnode,
 				"/channel/item",	NULL);
 	g_free(rootnode);
@@ -163,6 +174,11 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		n = node->children;
 		fitem = g_new0(RSSylFeedItem, 1);
 		fitem->date = -1;
+#ifdef RSSYL_DEBUG
+		fetched = xmlGetProp(rnode, "fetched");
+		fitem->debug_fetched = atoll(fetched);
+		xmlFree(fetched);
+#endif	/* RSSYL_DEBUG */
 		fitem->text = NULL;
 		if (parent)
 			fitem->parent_link = g_strdup(parent);

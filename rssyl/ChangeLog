@@ -1,3 +1,11 @@
+2006-01-22  20:55 Andrej Kacian <andrej@kacian.sk>
+	* configure.ac
+		src: feed.[ch], parsers.c: Added --enable-debug to configure, which
+			makes fetched feeds be stored on disk, and adds X-RSSyl-Fetched header
+			to each new or changed feed. This should help in debugging of false
+			duplicates.
+	* src/rssyl_cb_menu.c: Don't add "http://" to the Add dialog.
+
 2006-01-16  10:10 Paul Mangan <claws@thewildbeast.co.uk>
 
 	* src/rssyl_gtk.c

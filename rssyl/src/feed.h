@@ -23,6 +23,10 @@ struct _RSSylFeedItem {
 	gchar *comments_link;
 	gchar *author;
 
+#ifdef RSSYL_DEBUG
+	long int debug_fetched;
+#endif	/* RSSYL_DEBUG */
+
 	gchar *realpath;
 	time_t date;
 };

@@ -156,18 +156,21 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) {
 	gchar *xpath, *rootnode, *dir;
 	xmlDocPtr doc;
-	xmlNodePtr node, n;
+	xmlNodePtr node, n, rnode;
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	RSSylThreadCtx *ctx = g_new0(RSSylThreadCtx, 1);
 	void *template = NULL;
 	gboolean not_modified = FALSE;
+#ifdef RSSYL_DEBUG
+	gchar *unixtime_str = NULL, *debugfname = NULL;
+#endif /* RSSYL_DEBUG */
 
 #ifdef USE_PTHREAD
 	pthread_t pt;
 #endif
-	gchar * msg = NULL, *tmp;
+	gchar *msg = NULL, *tmptitle = NULL;
 	gchar *content;
 	
 	ctx->url = url;
@@ -222,12 +225,11 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	file_strip_crs((gchar *)template);
 
 	doc = xmlParseFile(template);
-	g_remove((gchar *)template);
-	g_free(template);
 
 	g_return_val_if_fail(doc != NULL, NULL);
 
 	node = xmlDocGetRootElement(doc);
+	rnode = node;
 
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);
 
@@ -295,10 +297,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 
 	g_return_val_if_fail(*title != NULL, NULL);
 
-	tmp = rssyl_strreplace(*title, "/", "\\");
+	tmptitle = rssyl_strreplace(*title, "/", "\\");
 	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, tmp, NULL);
-	g_free(tmp);
+			G_DIR_SEPARATOR_S, tmptitle, NULL);
+
 	if( !is_dir_exist(dir) ) {
 		if( make_dir(dir) < 0 ) {
 			g_warning("couldn't create directory %s\n", dir);
@@ -307,6 +309,28 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			return NULL;
 		}
 	}
+
+#ifdef RSSYL_DEBUG
+	/* debug mode - get timestamp, add it to returned xmlDoc, and make a copy
+	 * of the fetched feed file */
+	unixtime_str = g_strdup_printf("%ld", time(NULL) );
+	debugfname = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+			G_DIR_SEPARATOR_S, ".", tmptitle, ".", unixtime_str, NULL);
+
+	debug_print("Storing fetched feed in file '%s' for debug purposes.",
+			debugfname);
+	link(template, debugfname);
+
+	debug_print("Adding 'fetched' property to root node: %s", unixtime_str);
+	xmlSetProp(rnode, "fetched", unixtime_str);
+	g_free(unixtime_str);
+	g_free(debugfname);
+#endif	/* RSSYL_DEBUG */
+
+	g_free(tmptitle);
+
+	g_remove((gchar *)template);
+	g_free(template);
 
 	g_free(rootnode);
 	g_free(dir);
@@ -674,7 +698,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	gint count;
 	gchar *msg;
-	
+
 	if (doc == NULL)
 		return;
 
@@ -693,22 +717,21 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 
 	folder_item_update_freeze();
 
+	/* we decide what parser to call, depending on what the root node is */
 	if( !strcmp(rootnode, "rss") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_rss()\n");
 		count = rssyl_parse_rss(doc, ritem, parent);
 	} else if( !strcmp(rootnode, "rdf") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_rdf()\n");
 		if (ritem->fetch_comments) {
-			alertpanel_error(_("Fetching comments is not supported "
-					   "for RDF feeds."));
+			alertpanel_error(_("Fetching comments is not supported for RDF feeds."));
 			ritem->fetch_comments = FALSE;
 		}
 		count = rssyl_parse_rdf(doc, ritem, parent);
 	} else if( !strcmp(rootnode, "feed") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_atom()\n");
 		if (ritem->fetch_comments) {
-			alertpanel_error(_("Fetching comments is not supported "
-					   "for RDF feeds."));
+			alertpanel_error(_("Fetching comments is not supported for Atom feeds."));
 			ritem->fetch_comments = FALSE;
 		}
 		count = rssyl_parse_atom(doc, ritem, parent);
@@ -807,6 +830,13 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		fprintf(f, "X-RSSyl-Parent: %s\n", fitem->parent_link);
 		fprintf(f, "References: <%s>\n", fitem->parent_link);
 	}
+
+#ifdef RSSYL_DEBUG
+	if( fitem->debug_fetched != -1 ) {
+		fprintf(f, "X-RSSyl-Debug-Fetched: %ld\n", fitem->debug_fetched);
+	}
+#endif	/* RSSYL_DEBUG */
+
 	if (fitem->text && g_utf8_validate(fitem->text, -1, NULL)) {
 		/* if it passes UTF-8 validation, specify it. */
 		fprintf(f, "Content-Type: text/html; charset=UTF-8\n\n");		
