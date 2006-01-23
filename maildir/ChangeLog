@@ -1,3 +1,7 @@
+2006-01-23 [paul]	0.19
+
+	* fix crash after unloading plugin
+
 2006-01-14 [colin]	0.18
 
 	* Update default items when moving them
