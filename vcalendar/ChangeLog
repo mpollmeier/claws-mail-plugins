@@ -1,3 +1,8 @@
+2006-01-24 [colin] 1.28
+
+	* src/vcalendar.c
+		Fix double free()s
+
 2006-01-14 [colin]
 
 	* src/plugin.c

@@ -469,7 +469,6 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 						_("Details follow:"), NULL);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		}
-		g_free(label);
 	}
 	else if (event->method == ICAL_METHOD_REPLY) {
 		enum icalparameter_partstat answer = get_attendee_reply(vcalviewer);
@@ -491,8 +490,6 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 			g_free(attendee);
 		}
-			
-		g_free(label);
 	} else if (event->method == ICAL_METHOD_CANCEL) {
 		label = g_strjoin(" ",
 				_("A meeting to which you had been invited has been cancelled."),
@@ -770,7 +767,6 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 			_("You have received an answer to an unknown meeting proposal."),
 			_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
-		g_free(label);
 	} else {
 		label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
 			"%s has %s the invitation whose details follow:"),
