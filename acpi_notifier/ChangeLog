@@ -5,6 +5,7 @@
 	* mkinstalldirs   ** REMOVED **
 	* config/config.rpath	** ADDED **
 	* config/mkinstalldirs	** ADDED **
+	* config/Makefile.am	** ADDED **
 	* m4/Makefile.am	** ADDED **
 		fix build
 
