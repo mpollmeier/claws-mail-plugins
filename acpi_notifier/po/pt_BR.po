@@ -1,0 +1,130 @@
+# translation of acpi_notifier-pt_BR.po to Brazilian Portuguese
+# Frederico Gonçalves Guimarães <frederico@teia.bio.br>, 2005.
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006.
+# tradução de acpi_notifier-pt_BR.po para Português do Brasil
+msgid ""
+msgstr ""
+"Project-Id-Version: acpi_notifier-pt_BR\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-01-23 16:05-0200\n"
+"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
+"Language-Team: Brazilian Portuguese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.1\n"
+
+#: src/acpi_notifier.c:61
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+msgstr ""
+"Certifique-se de que o módulo do kernel 'acerhk' foi carregado.\n"
+"Você pode obtê-lo em http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+
+#: src/acpi_notifier.c:63
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+msgstr ""
+"Certifique-se de que o módulo do kernel 'acer_acpi' foi carregado.\n"
+"Você pode obtê-lo em http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+
+#: src/acpi_notifier.c:65
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Certifique-se de que o módulo do kernel 'asus_acpi' foi carregado."
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Certifique-se de que o módulo do kernel 'ibm_acpi' foi carregado."
+
+#: src/acpi_notifier.c:67
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"Certifique-se de que apanelc está instalado.\n"
+"Você pode obtê-lo em http://apanel.sourceforge.net/"
+
+#: src/acpi_notifier.c:191
+#: src/acpi_notifier.c:197
+#: src/acpi_notifier.c:408
+msgid "Control file doesn't exist."
+msgstr "O arquivo de controle não existe."
+
+#: src/acpi_notifier.c:288
+msgid " : no new or unread mail"
+msgstr " : nenhuma mensagem nova ou não lida"
+
+#: src/acpi_notifier.c:289
+msgid " : unread mail"
+msgstr " : mensagem não lida"
+
+#: src/acpi_notifier.c:290
+msgid " : new mail"
+msgstr " : mensagem nova"
+
+#: src/acpi_notifier.c:292
+#: src/acpi_notifier.c:298
+#: src/acpi_notifier.c:304
+msgid "off"
+msgstr "apagado"
+
+#: src/acpi_notifier.c:294
+#: src/acpi_notifier.c:300
+#: src/acpi_notifier.c:306
+msgid "blinking"
+msgstr "piscando"
+
+#: src/acpi_notifier.c:296
+#: src/acpi_notifier.c:302
+#: src/acpi_notifier.c:308
+msgid "on"
+msgstr "aceso"
+
+#: src/acpi_notifier.c:330
+#: src/acpi_notifier.c:339
+#: src/acpi_notifier.c:354
+msgid "LED "
+msgstr "LED "
+
+#: src/acpi_notifier.c:369
+msgid "ACPI type: "
+msgstr "Tipo ACPI: "
+
+#: src/acpi_notifier.c:378
+msgid "ACPI file: "
+msgstr "Arquivo ACPI: "
+
+#: src/acpi_notifier.c:389
+msgid "values - On: "
+msgstr "valores - Ligado: "
+
+#: src/acpi_notifier.c:394
+msgid " - Off: "
+msgstr " - Desligado: "
+
+#: src/acpi_notifier.c:703
+msgid "Plugins"
+msgstr "Plugins"
+
+#: src/acpi_notifier.c:704
+msgid "Acpi Notifier"
+msgstr "Notificador ACPI"
+
+#: src/acpi_notifier.c:757
+msgid "Your Sylpheed-Claws version is newer than the version AcpiNotifier was built with"
+msgstr "A versão do seu Sylpheed-Claws é mais nova do que a versão na qual o Notificador ACPI foi construído"
+
+#: src/acpi_notifier.c:762
+msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
+msgstr "A sua versão do Sylpheed-Claws é muito velha para o Notificador ACPI"
+
+#: src/acpi_notifier.c:776
+msgid "Acpi notifier"
+msgstr "Notificador ACPI"
+
+#: src/acpi_notifier.c:781
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "Esse plugin manipula diversos LED's de mensagens ACPI."
+

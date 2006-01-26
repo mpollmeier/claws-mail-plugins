@@ -1,4 +1,6 @@
+AC_PREREQ(2.50)
 AC_INIT(src/acpi_notifier.c)
+AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
 PACKAGE=acpi_notifier
@@ -36,7 +38,7 @@ AM_PROG_LIBTOOL
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.14.5])
-ALL_LINGUAS="de es fi fr sk sv zh_CN"
+ALL_LINGUAS="de es fi fr pt_BR sk sv zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl find pkg-config
@@ -75,8 +77,10 @@ AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
 AC_SUBST(EXTRA_VERSION)
 
-AC_OUTPUT([ po/Makefile.in
+AC_OUTPUT([ m4/Makefile
 Makefile
+config/Makefile
+po/Makefile.in
 src/plugin_version.h
 src/Makefile
 ])

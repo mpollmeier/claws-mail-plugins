@@ -1,6 +1,6 @@
-SUBDIRS = po src
+SUBDIRS = m4 config src po
 
-EXTRA_DIST = config.rpath mkinstalldirs m4/ChangeLog  \
+EXTRA_DIST = config/config.rpath  \
 	COPYING \
 	INSTALL \
 	README \
