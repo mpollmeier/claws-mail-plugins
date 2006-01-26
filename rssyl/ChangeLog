@@ -1,3 +1,8 @@
+2006-01-26  11:03 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* po/pt_BR.po: translation submitted by Frederico Goncalves Guimaraes
+			<fggdebian@yahoo.com.br>
+
 2006-01-22  20:55 Andrej Kacian <andrej@kacian.sk>
 	* configure.ac
 		src: feed.[ch], parsers.c: Added --enable-debug to configure, which

@@ -1,3 +1,9 @@
+2006-01-26 [paul]
+
+	* po/pt_BR.po
+		translation submitted by Frederico Goncalves Guimaraes
+		<fggdebian@yahoo.com.br>
+
 2006-01-24 [colin] 1.28
 
 	* src/vcalendar.c
