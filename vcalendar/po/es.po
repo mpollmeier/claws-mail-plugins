@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vCalendar 1.19\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-08 15:37+0100\n"
-"PO-Revision-Date: 2006-01-08 16:25+0100\n"
+"POT-Creation-Date: 2006-01-26 20:49+0100\n"
+"PO-Revision-Date: 2006-01-26 23:47+0100\n"
 "Last-Translator: Ricardo Mones <mones@aic.uniovi.es>\n"
 "Language-Team: Ricardo Mones <mones@aic.uniovi.es>\n"
 "MIME-Version: 1.0\n"
@@ -18,14 +18,15 @@ msgstr ""
 
 #: src/plugin.c:40
 msgid ""
-"Your sylpheed version is newer than the version the plugin was built with"
+"Your Sylpheed-Claws version is newer than the version vCalendar was built "
+"with."
 msgstr ""
-"Su versión de sylpheed es más nueva que la versión con la que se costruyó el "
-"módulo"
+"Su versión de sylpheed es más nueva que la versión con la que se costruyó "
+"vCalendar."
 
 #: src/plugin.c:45
-msgid "Your sylpheed version is too old"
-msgstr "Su versión de sylpheed es demasiado antigua"
+msgid "Your Sylpheed-Claws version is too old for vCalendar."
+msgstr "Su versión de sylpheed es demasiado antigua para vCalendar."
 
 #: src/plugin.c:61 src/vcal_prefs.c:234
 msgid "vCalendar"
@@ -69,8 +70,8 @@ msgstr "Rehusar"
 msgid "You have created a meeting."
 msgstr "Ha creado una reunión."
 
-#: src/vcalendar.c:464 src/vcalendar.c:469 src/vcalendar.c:485
-#: src/vcalendar.c:499 src/vcalendar.c:505 src/vcalendar.c:771
+#: src/vcalendar.c:464 src/vcalendar.c:469 src/vcalendar.c:484
+#: src/vcalendar.c:496 src/vcalendar.c:502 src/vcalendar.c:768
 msgid "Details follow:"
 msgstr "Los detalles son los siguientes:"
 
@@ -78,11 +79,11 @@ msgstr "Los detalles son los siguientes:"
 msgid "You have been invited to a meeting."
 msgstr "Ha sido invitado a una reunión."
 
-#: src/vcalendar.c:484 src/vcalendar.c:770
+#: src/vcalendar.c:483 src/vcalendar.c:767
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "Ha recibido una respuesta a una proposición de reunión desconocida."
 
-#: src/vcalendar.c:488 src/vcalendar.c:775
+#: src/vcalendar.c:487 src/vcalendar.c:771
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -91,19 +92,19 @@ msgstr ""
 "Ha recibido una respuesta a una proposición de reunión.\n"
 "%s ha %s la invitación cuyos detalles se indican:"
 
-#: src/vcalendar.c:498
+#: src/vcalendar.c:495
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "Una reunión a la que había sido invitado se ha cancelado."
 
-#: src/vcalendar.c:504
+#: src/vcalendar.c:501
 msgid "You have been forwarded an appointment."
 msgstr "Le ha sido enviada una cita."
 
-#: src/vcalendar.c:969
+#: src/vcalendar.c:965
 msgid "Cancel meeting"
 msgstr "Cancelar reunión"
 
-#: src/vcalendar.c:970
+#: src/vcalendar.c:966
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -111,7 +112,7 @@ msgstr ""
 "¿Está seguro de que quiere cancelar esta reunión?\n"
 "Se enviará una notificación a los convocados."
 
-#: src/vcalendar.c:1025
+#: src/vcalendar.c:1021
 msgid ""
 "You have no account matching any attendee.\n"
 "Have you really been invited?"
@@ -119,95 +120,100 @@ msgstr ""
 "No tiene ninguna cuenta que coincida con algún convocado.\n"
 "¿Realmente ha sido invitado?"
 
-#: src/vcalendar.c:1087
+#: src/vcalendar.c:1083
 msgid "Answer"
 msgstr "Responder"
 
-#: src/vcalendar.c:1088
+#: src/vcalendar.c:1084
 msgid "Edit meeting..."
 msgstr "Editar reunión..."
 
-#: src/vcalendar.c:1089
+#: src/vcalendar.c:1085
 msgid "Cancel meeting..."
 msgstr "Cancelar reunión..."
 
-#: src/vcalendar.c:1090
+#: src/vcalendar.c:1086
 msgid "Launch website"
 msgstr "Abrir página web"
 
-#: src/vcalendar.c:1111
+#: src/vcalendar.c:1107
 msgid "Event:"
 msgstr "Evento:"
 
-#: src/vcalendar.c:1112 src/vcal_meeting_gtk.c:651
+#: src/vcalendar.c:1108 src/vcal_meeting_gtk.c:651
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: src/vcalendar.c:1113 src/vcal_meeting_gtk.c:653
+#: src/vcalendar.c:1109 src/vcal_meeting_gtk.c:653
 msgid "Summary:"
 msgstr "Resumen:"
 
-#: src/vcalendar.c:1114
+#: src/vcalendar.c:1110
 msgid "Starting:"
 msgstr "Comenzando:"
 
-#: src/vcalendar.c:1115
+#: src/vcalendar.c:1111
 msgid "Ending:"
 msgstr "Finalizando:"
 
-#: src/vcalendar.c:1116 src/vcal_meeting_gtk.c:654
+#: src/vcalendar.c:1112 src/vcal_meeting_gtk.c:654
 msgid "Description:"
 msgstr "Descripción:"
 
-#: src/vcalendar.c:1117 src/vcal_meeting_gtk.c:655
+#: src/vcalendar.c:1113 src/vcal_meeting_gtk.c:655
 msgid "Attendees:"
 msgstr "Convocados:"
 
-#: src/vcalendar.c:1118
+#: src/vcalendar.c:1114
 msgid "Action:"
 msgstr "Acción:"
 
-#: src/vcal_folder.c:129
+#: src/vcal_folder.c:132
 msgid "/_New meeting..."
 msgstr "/_Nueva reunión..."
 
-#: src/vcal_folder.c:130
+#: src/vcal_folder.c:133
 msgid "/_Export calendar..."
 msgstr "/_Exportar calendario..."
 
-#: src/vcal_folder.c:132
+#: src/vcal_folder.c:135
 msgid "/_Subscribe to webCal..."
 msgstr "/_Suscribirse a webCal..."
 
-#: src/vcal_folder.c:133
+#: src/vcal_folder.c:136
 msgid "/_Unsubscribe..."
 msgstr "/_Desuscribirse..."
 
-#: src/vcal_folder.c:135
+#: src/vcal_folder.c:138
 msgid "/U_pdate subscriptions"
 msgstr "/A_ctualizar suscripciones"
 
-#: src/vcal_folder.c:825
+#: src/vcal_folder.c:830
 msgid "/New meeting..."
 msgstr "/Nueva reunión..."
 
-#: src/vcal_folder.c:826
+#: src/vcal_folder.c:831
 msgid "/Export calendar..."
 msgstr "/Exportar calendario..."
 
-#: src/vcal_folder.c:827
+#: src/vcal_folder.c:832
 msgid "/Subscribe to webCal..."
 msgstr "/Suscribirse a webCal..."
 
-#: src/vcal_folder.c:828
+#: src/vcal_folder.c:833
 msgid "/Unsubscribe..."
 msgstr "/Desuscribirse..."
 
-#: src/vcal_folder.c:829
+#: src/vcal_folder.c:834
 msgid "/Update subscriptions"
 msgstr "/Actualizar suscripciones"
 
-#: src/vcal_folder.c:1069
+#: src/vcal_folder.c:984
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "Recuperando «%s»..."
+
+#: src/vcal_folder.c:1083
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -216,7 +222,7 @@ msgstr ""
 "No se pudo recuperar la URL de WebCal:\n"
 "%s"
 
-#: src/vcal_folder.c:1074
+#: src/vcal_folder.c:1088
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -225,7 +231,7 @@ msgstr ""
 "No se pudo recuperar la URL de WebCal:\n"
 "%s\n"
 
-#: src/vcal_folder.c:1086
+#: src/vcal_folder.c:1100
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -234,7 +240,7 @@ msgstr ""
 "Esta URL no parece una URL de WebCal:\n"
 "%s"
 
-#: src/vcal_folder.c:1092
+#: src/vcal_folder.c:1106
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -243,27 +249,27 @@ msgstr ""
 "Esta URL no parece una URL de WebCal:\n"
 "%s\n"
 
-#: src/vcal_folder.c:1153
+#: src/vcal_folder.c:1167
 msgid "Subscribe to WebCal"
 msgstr "Suscribirse a un calendario web"
 
-#: src/vcal_folder.c:1153
+#: src/vcal_folder.c:1167
 msgid "Enter the WebCal URL:"
 msgstr "Introduzca la URL del WebCal:"
 
-#: src/vcal_folder.c:1163
+#: src/vcal_folder.c:1177
 msgid "Could not parse the URL."
 msgstr "No se pudo procesar la URL."
 
-#: src/vcal_folder.c:1191
+#: src/vcal_folder.c:1205
 msgid "Do you really want to unsubscribe?"
 msgstr "¿Desea realmente desuscribirse?"
 
-#: src/vcal_folder.c:1192
+#: src/vcal_folder.c:1206
 msgid "Delete folder"
 msgstr "Eliminar carpeta"
 
-#: src/vcal_folder.c:1211
+#: src/vcal_folder.c:1225
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "No se puede eliminar la carpeta «%s»."
@@ -429,4 +435,3 @@ msgstr "Orden a ejecutar tras la exportación: "
 #: src/vcal_prefs.c:233
 msgid "Plugins"
 msgstr "Módulos"
-

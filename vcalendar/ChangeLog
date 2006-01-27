@@ -1,3 +1,11 @@
+2006-01-27 [paul]
+
+	* configure.ac
+	* po/es.po
+	* po/fr.po
+	* po/it.po
+		added/updated translations by Ricardo Mones Lastra,
+		Fabien Vantard, and Andrea Spadaccini
 2006-01-26 [paul]
 
 	* po/pt_BR.po
