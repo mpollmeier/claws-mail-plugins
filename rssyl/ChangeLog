@@ -1,3 +1,13 @@
+2006-01-27 12.07 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* configure.ac
+	* po/es.po
+	* po/fr.po
+	* po/it.po
+	* po/sr.po
+		added/updated translations by Ricardo Mones Lastra,
+		Fabien Vantard, Andrea Spadaccini, and Aleksandar Urosevic
+
 2006-01-26  11:03 Paul Mangan <claws@thewildbeast.co.uk>
 
 	* po/pt_BR.po: translation submitted by Frederico Goncalves Guimaraes

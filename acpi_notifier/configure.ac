@@ -38,7 +38,7 @@ AM_PROG_LIBTOOL
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.14.5])
-ALL_LINGUAS="de es fi fr pt_BR sk sv zh_CN"
+ALL_LINGUAS="de es fi fr it pt_BR sk sr sv zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl find pkg-config

@@ -1,3 +1,13 @@
+2006-01-27 [paul]
+
+	* configure.ac
+	* po/es.po
+	* po/fr.po
+	* po/it.po
+	* po/sr.po
+		added/updated translations by Ricardo Mones Lastra,
+		Fabien Vantard, Andrea Spadaccini, and Aleksandar Urosevic
+
 2006-01-26 [paul]
 
 	* Makefile.am

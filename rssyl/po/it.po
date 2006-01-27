@@ -1,41 +1,41 @@
-# Spanish translation of rssyl.
-# Copyright (C) 2005-2006 Ricardo Mones
+# Italian translation for RSSyl plugin for Sylpheed Claws
+# Copyright (C) 2006 Andrea Spadaccini
 # This file is distributed under the same license as the rssyl package.
-# Ricardo Mones <mones@aic.uniovi.es>, 2005.
-#
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006
+
 msgid ""
 msgstr ""
-"Project-Id-Version: rssyl 3.0\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-01-26 20:51+0100\n"
-"PO-Revision-Date: 2006-01-26 23:45+0100\n"
-"Last-Translator: Ricardo Mones <mones@aic.uniovi.es>\n"
-"Language-Team: Ricardo Mones <mones@aic.uniovi.es>\n"
+"Project-Id-Version: 2.0\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2006-01-24 09:33+0000\n"
+"PO-Revision-Date: 2006-01-26 17:12+0100\n"
+"Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/feed.c:187
 #, c-format
 msgid "Fetching '%s'..."
-msgstr "Recuperando «%s»..."
+msgstr "Prelievo di '%s' in corso"
 
 #: src/feed.c:712
 #, c-format
 msgid "Refreshing feed '%s'..."
-msgstr "Refrescando canal «%s»..."
+msgstr "Aggiornamento del feed '%s' in corso"
 
 #: src/feed.c:727
 msgid "Fetching comments is not supported for RDF feeds."
-msgstr "La recuperación de comentarios no esta soportada en canales RDF."
+msgstr "Non è presente il supporto per il prelievo di commenti da feed RDF"
 
 #: src/feed.c:734
 msgid "Fetching comments is not supported for Atom feeds."
-msgstr "La recuperación de comentarios no esta soportada en canales Atom."
+msgstr "Non è presente il supporto per il prelievo di commenti da feed Atom"
 
 #: src/feed.c:739
 msgid "This feed format is not supported yet."
-msgstr "El formato de este canal no esta aún soportado."
+msgstr "Questo formato di feed non è ancora supportato."
 
 #: src/feed.c:768
 msgid "N/A"
@@ -43,29 +43,31 @@ msgstr "N/D"
 
 #: src/feed.c:1118
 msgid "You are already subscribed to this feed."
-msgstr "Ya está suscrito a este canal."
+msgstr "È già presente una sottoscrizione a questo feed."
 
 #: src/feed.c:1126
 #, c-format
 msgid "Couldn't fetch URL '%s'."
-msgstr "No se pudo recuperar la URL «%s»."
+msgstr "Impossibile prelevare dall'URL '%s'."
 
 #: src/feed.c:1134
 #, c-format
 msgid "Can't subscribe feed '%s'."
-msgstr "No puedo suscribir el canal «%s»."
+msgstr "Impossibile sottoscrivere il feed '%s'."
 
 #: src/plugin.c:42
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version RSSyl was built "
 "with."
 msgstr ""
-"Su versión de Sylpheed-Claws es más nueva que la versión con la que se "
-"compiló RSSyl"
+"La versione di Sylpheed-Claws in esecuzione è più nuova di quella con cui è stato "
+"compilato RSSyl."
+
 
 #: src/plugin.c:47
 msgid "Your version of Sylpheed-Claws is too old for RSSyl."
-msgstr "Su versión de Sylpheed-Claws es demasiado antigua para RSSyl."
+msgstr "La versione di Sylpheed-Claws in esecuzione è troppo vecchia per RSSyl."
+
 
 #: src/plugin.c:68
 msgid ""
@@ -75,95 +77,98 @@ msgid ""
 "Each newsfeed will create a folder with appropriate entries, fetched from "
 "the web. You can read them, and delete or keep old entries."
 msgstr ""
-"Este módulo permite crear un árbol de carpetas donde se pueden añadir "
-"canales de información en formato RSS 1.0, RSS 2.0 o Atom."
+"Questo plugin permette di creare un albero di mailbox dov'è possibile "
+"aggiungere feed in formato RSS 1.0, RSS 2.0 o Atom.\n"
+"\n"
+"Ogni feed creerà una cartella con elementi appropriati, prelevati dal web. "
+"È possibile leggerli e cancellare o conservare i vecchi elementi."
 
 #: src/rssyl_cb_menu.c:57
 msgid "Subscribe feed"
-msgstr "Suscribir canal"
+msgstr "Sottoscrivi feed"
 
 #: src/rssyl_cb_menu.c:58
 msgid "Input the URL of the news feed you wish to subscribe:"
-msgstr "Introduzca la URL del canal de información al que suscribirse:"
+msgstr "Inserire l'URL del feed da sottoscrivere:"
 
 #: src/rssyl_cb_menu.c:82
 #, c-format
 msgid "Really remove the folder tree '%s' ?\n"
-msgstr "¿De verdad quiere eliminar el árbol de carpetas «%s»?\n"
+msgstr "Rimuovere realmente l'albero delle cartelle '%s'?\n"
 
 #: src/rssyl_cb_menu.c:83
 msgid "Remove folder tree"
-msgstr "Eliminar árbol de carpetas"
+msgstr "Rimuovi albero cartelle"
 
 #: src/rssyl_cb_menu.c:84
 msgid "_Remove"
-msgstr "_Eliminar"
+msgstr "_Rimuovi"
 
 #: src/rssyl_cb_menu.c:148
 #, c-format
 msgid "Can't remove feed '%s'."
-msgstr "No se puede eliminar el canal «%s»."
+msgstr "Impossibile rimuovere il feed '%s'."
 
 #: src/rssyl_gtk.c:46
 msgid "/_Refresh feed"
-msgstr "/_Refrescar canal"
+msgstr "/_Aggiorna feed"
 
 #: src/rssyl_gtk.c:47
 msgid "/Refresh _all feeds"
-msgstr "/Refrescar _todos los canales"
+msgstr "/Aggiorna _tutti i feed"
 
 #: src/rssyl_gtk.c:49
 msgid "/Subscribe _new feed..."
-msgstr "/Suscribir _nuevo canal..."
+msgstr "/Sottoscrivi _nuovo feed..."
 
 #: src/rssyl_gtk.c:50
 msgid "/_Unsubscribe feed..."
-msgstr "/_Desuscribir canal..."
+msgstr "/_Cancella sottoscrizione al feed..."
 
 #: src/rssyl_gtk.c:51
 msgid "/Feed pr_operties..."
-msgstr "/Pr_opiedades del canal..."
+msgstr "/_Proprietà feed..."
 
 #: src/rssyl_gtk.c:53
 msgid "/Remove folder _tree..."
-msgstr "/Eliminar ár_bol de carpetas..."
+msgstr "/E_limina albero cartelle..."
 
 #: src/rssyl_gtk.c:63
 msgid "/Refresh feed"
-msgstr "/Refrescar canal"
+msgstr "/Aggiorna feed"
 
 #: src/rssyl_gtk.c:64
 msgid "/Refresh all feeds"
-msgstr "/Refrescar todos los canales"
+msgstr "/Aggiorna tutti i feed"
 
 #: src/rssyl_gtk.c:65
 msgid "/Subscribe new feed..."
-msgstr "/Suscribir nuevo canal..."
+msgstr "/Sottoscrivi nuovo feed..."
 
 #: src/rssyl_gtk.c:66
 msgid "/Unsubscribe feed..."
-msgstr "/Desuscribir canal..."
+msgstr "/Cancella sottoscrizione al feed..."
 
 #: src/rssyl_gtk.c:67
 msgid "/Feed properties..."
-msgstr "/Propiedades del canal..."
+msgstr "/Proprietà feed..."
 
 #: src/rssyl_gtk.c:68
 msgid "/Remove folder tree..."
-msgstr "/Eliminar árbol de carpetas..."
+msgstr "/Elimina albero cartelle"
 
 #: src/rssyl_gtk.c:110
 msgid "Add RSS folder tree"
-msgstr "Añadir árbol de carpetas RSS"
+msgstr "Aggiungi albero cartelle RSS"
 
 #: src/rssyl_gtk.c:111
 msgid "Enter name for a new RSS folder tree."
-msgstr "Introduzca el nombre del nuevo árbol de carpetas RSS"
+msgstr "Inserire un nome per il nuovo albero cartelle RSS."
 
 #: src/rssyl_gtk.c:116
 #, c-format
 msgid "The mailbox '%s' already exists."
-msgstr "El buzón «%s» ya existe."
+msgstr "La mailbox '%s' già esiste."
 
 #: src/rssyl_gtk.c:125
 msgid ""
@@ -171,70 +176,70 @@ msgid ""
 "Maybe some files already exist, or you don't have the permission to write "
 "there?"
 msgstr ""
-"Falló la creación del árbol de carpetas.\n"
-"¿Quizás existan todavía algunos ficheros o no tiene permisos de escritura en "
-"el directorio?"
+"Creazione dell'albero delle cartelle fallita.\n"
+"Forse alcuni file già esistono, o non si dispone dei permessi adeguati per "
+"scrivere in questa posizione."
 
 #: src/rssyl_gtk.c:139
 msgid "/File/Add mailbox/RSSyl..."
-msgstr "/Fichero/Agregar buzón/RSSyl..."
+msgstr "/File/Aggiungi mailbox/RSSyl..."
 
 #: src/rssyl_gtk.c:217
 msgid "Use default refresh interval (180 minutes)"
-msgstr "Usar intervalo de refresco por omisión (180 minutes)"
+msgstr "Utilizza intervallo di aggiornamento predefinito (180 minuti)"
 
 #: src/rssyl_gtk.c:229
 msgid "Keep default number of expired entries (-1)"
-msgstr "Mantener el número de entradas caducadas por omisión (-1)"
+msgstr "Conserva il numero predefinito di elementi scaduti (-1)"
 
 #: src/rssyl_gtk.c:235
 msgid "Fetch comments if possible"
-msgstr "Recuperar comentarios si es posible"
+msgstr "Preleva commenti se possibile"
 
 #: src/rssyl_gtk.c:267
 msgid "<b>Source URL:</b>"
-msgstr "<b>URL de origen:</b>"
+msgstr "<b>URL Sorgente:</b>"
 
 #: src/rssyl_gtk.c:307
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
 msgstr ""
-"<b>Intervalo de refresco en minutos:</b>\n"
-"<small>(Establecer a 0 para desactivar el refresco automático)</small>"
+"<b>Intervallo di aggiornamento in minuti:</b>\n"
+"<small>(Impostare a 0 per disabilitare l'aggiornamento automatico per questo feed)</small>"
 
 #: src/rssyl_gtk.c:340
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
 msgstr ""
-"<b>Número de entradas caducadas a mantener:</b>\n"
-"<small>(Establecer a -1 para mantener las entradas caducadas)</small>"
+"<b>Numero di elementi scaduti da conservare:</b>\n"
+"<small>(Impostare a -1 se non si vogliono conservare elementi scaduti)</small>"
 
 #: src/rssyl_gtk.c:382
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr "_Cancella"
 
 #: src/rssyl_gtk.c:403
 msgid "_OK"
-msgstr "_Aceptar"
+msgstr "_OK"
 
 #: src/rssyl_gtk.c:411
 msgid "Set feed properties"
-msgstr "Establecer las propiedades del canal"
+msgstr "Imposta proprietà del feed"
 
 #: src/rssyl_gtk.c:519 src/rssyl_gtk.c:544
 msgid "Unsubscribe feed"
-msgstr "Desuscribir el canal"
+msgstr "Cancella sottoscrizione al feed"
 
 #: src/rssyl_gtk.c:545
 msgid "Do you really want to remove feed"
-msgstr "¿Realmente quiere eliminar el canal?"
+msgstr "Rimuovere realmente il feed"
 
 #: src/rssyl_gtk.c:551
 msgid "Remove cached entries"
-msgstr "Eliminar entradas en cache"
+msgstr "Rimuovi elementi dalla cache"
 
 #: src/rssyl_gtk.c:564
 msgid "_Unsubscribe"
-msgstr "_Desuscribir"
+msgstr "_Cancella sottoscrizione"
