@@ -1,14 +1,14 @@
 # Simplified Chinese translation of acpi_notifier plugin for Sylpheed-Claws
 # Copyright (C) 2005 Colin Leroy
 # This file is distributed under the same license as the acpi_notifier package.
-# Ralgh Young <bamanzi@gmail.com>, 2005.
+# Ralgh Young <bamanzi@gmail.com>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier 0.8\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2005-12-20 09:52+0000\n"
-"PO-Revision-Date: 2005-12-20 22:02+0800\n"
+"POT-Creation-Date: 2006-01-24 09:33+0000\n"
+"PO-Revision-Date: 2006-01-28 13:41+0800\n"
 "Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
 "Language-Team: Simplified Chinese\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,8 @@ msgid ""
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
 "请确认内核模块'acer_acpi'模块已经加载。\n"
-"您可以从 http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html 取得该模块。"
+"您可以从 http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html 取得该模"
+"块。"
 
 #: src/acpi_notifier.c:65
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
@@ -53,15 +54,15 @@ msgstr "控制文件不存在。"
 
 #: src/acpi_notifier.c:288
 msgid " : no new or unread mail"
-msgstr " ： 没有新邮件或未读邮件"
+msgstr " ：没有新邮件或未读邮件"
 
 #: src/acpi_notifier.c:289
 msgid " : unread mail"
-msgstr " ： 未读邮件"
+msgstr " ：未读邮件"
 
 #: src/acpi_notifier.c:290
 msgid " : new mail"
-msgstr " ： 新邮件"
+msgstr " ：新邮件"
 
 #: src/acpi_notifier.c:292 src/acpi_notifier.c:298 src/acpi_notifier.c:304
 msgid "off"
@@ -77,7 +78,7 @@ msgstr "打开"
 
 #: src/acpi_notifier.c:330 src/acpi_notifier.c:339 src/acpi_notifier.c:354
 msgid "LED "
-msgstr "LED"
+msgstr "LED "
 
 #: src/acpi_notifier.c:369
 msgid "ACPI type: "
@@ -107,8 +108,7 @@ msgstr "Acpi通知"
 msgid ""
 "Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
 "with"
-msgstr ""
-"您的Sylpheed-Claws比AcpiNotifier插件编译时所用的版本新。"
+msgstr "您的Sylpheed-Claws比AcpiNotifier插件编译时所用的版本新。"
 
 #: src/acpi_notifier.c:762
 msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
@@ -120,5 +120,4 @@ msgstr "Acpi通知"
 
 #: src/acpi_notifier.c:781
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "本插件处理各种ACPI邮件通知"
-
+msgstr "本插件利用ACPI来控制LED邮件通知。"
