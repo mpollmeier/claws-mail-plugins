@@ -1,3 +1,31 @@
+2006-01-29 09:35 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* po/pt_BR.po: updated by Frederico Goncalves Guimaraes
+	* po/sr.po: remove fuzzy in header
+
+2006-01-28 09:25 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* zh_CN.po: updated by  Ralgh Young <bamanzi@gmail.com>
+
+2006-01-27 12.10 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* es.po fr.po it.po sr.po: added/updated by Ricardo
+	  Mones Lastra, Fabien Vantard, Andrea Spadaccini,
+	  and Aleksandar Urosevic
+
+2006-01-26  11:03 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* pt_BR.po: submitted by Frederico Goncalves Guimaraes
+			<fggdebian@yahoo.com.br>
+
+2006-01-08  07.09 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* de.po: submitted by Stephan Sachse <white@dev-zero.com>
+
+2006-01-01  09.50 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* fi.po: submitted by Flammie Pirinen <flammie@iki.fi>
+
 2005-12-18 14:31  Andrej Kacian <andrej@kacian.sk>
 	* added French translation by Colin Leroy <colin at colino.net>
 

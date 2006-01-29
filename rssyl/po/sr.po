@@ -5,7 +5,6 @@
 # 
 # Maintainer: Александар Урошевић <urke@users.sf.net>
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.4pre\n"

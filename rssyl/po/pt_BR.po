@@ -3,9 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rssyl-pt_BR\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-01-26 11:00+0000\n"
-"PO-Revision-Date: 2006-01-24 05:18-0200\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-01-28 17:10-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +24,11 @@ msgstr "Atualizando a fonte '%s'"
 
 #: src/feed.c:727
 msgid "Fetching comments is not supported for RDF feeds."
-msgstr ""
+msgstr "A obtenção de comentários não é suportada pelas fontes RDF."
 
 #: src/feed.c:734
 msgid "Fetching comments is not supported for Atom feeds."
-msgstr ""
+msgstr "A obtenção de comentários não é suportada pelas fontes Atom."
 
 #: src/feed.c:739
 msgid "This feed format is not supported yet."
@@ -54,32 +53,22 @@ msgid "Can't subscribe feed '%s'."
 msgstr "Não foi possível inscrever-se na fonte '%s'."
 
 #: src/plugin.c:42
-#, fuzzy
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version RSSyl was built "
-"with."
-msgstr ""
-"A versão do seu Sylpheed-Claws é mais nova do que a versão na qual o o "
-"plugin foi construído"
+msgid "Your version of Sylpheed-Claws is newer than the version RSSyl was built with."
+msgstr "A versão do seu Sylpheed-Claws é mais nova do que a versão na qual o RSSyl foi construído."
 
 #: src/plugin.c:47
-#, fuzzy
 msgid "Your version of Sylpheed-Claws is too old for RSSyl."
-msgstr "A versão do seu Sylpheed-Claws é muito antiga"
+msgstr "A versão do seu Sylpheed-Claws é muito antiga para o RSSyl."
 
 #: src/plugin.c:68
 msgid ""
-"This plugin allows you to create a mailbox tree where you can add newsfeeds "
-"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"This plugin allows you to create a mailbox tree where you can add newsfeeds in RSS 1.0, RSS 2.0 or Atom format.\n"
 "\n"
-"Each newsfeed will create a folder with appropriate entries, fetched from "
-"the web. You can read them, and delete or keep old entries."
+"Each newsfeed will create a folder with appropriate entries, fetched from the web. You can read them, and delete or keep old entries."
 msgstr ""
-"Esse plugin permite criar uma árvore na caixa postal onde você pode "
-"adicionar fontes de notícias nos formatos RSS 1.0, RSS 2.0 ou Atom.\n"
+"Esse plugin permite criar uma árvore na caixa postal onde você pode adicionar fontes de notícias nos formatos RSS 1.0, RSS 2.0 ou Atom.\n"
 "\n"
-"Cada fonte de notícia irá criar uma pasta com as entradas apropriadas, "
-"buscadas na Web. Você pode lê-las e apagar ou manter as entradas antigas."
+"Cada fonte de notícia irá criar uma pasta com as entradas apropriadas, buscadas na Web. Você pode lê-las e apagar ou manter as entradas antigas."
 
 #: src/rssyl_cb_menu.c:57
 msgid "Subscribe feed"
@@ -100,7 +89,7 @@ msgstr "Remover a árvore da pasta"
 
 #: src/rssyl_cb_menu.c:84
 msgid "_Remove"
-msgstr ""
+msgstr "_Remover"
 
 #: src/rssyl_cb_menu.c:148
 #, c-format
@@ -171,8 +160,7 @@ msgstr "A caixa posta '%s' já existe."
 #: src/rssyl_gtk.c:125
 msgid ""
 "Creation of folder tree failed.\n"
-"Maybe some files already exist, or you don't have the permission to write "
-"there?"
+"Maybe some files already exist, or you don't have the permission to write there?"
 msgstr ""
 "Ocorreu um erro na criação da árvore de pastas.\n"
 "Talvez alguns arquivos já existam ou você não tem permissão para escrever lá."
@@ -191,7 +179,7 @@ msgstr "Mantenha o número padrão de entradas expiradas (-1)"
 
 #: src/rssyl_gtk.c:235
 msgid "Fetch comments if possible"
-msgstr ""
+msgstr "Obter comentários, se possível"
 
 #: src/rssyl_gtk.c:267
 msgid "<b>Source URL:</b>"
@@ -203,8 +191,7 @@ msgid ""
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
 msgstr ""
 "<b>Intervalo de atualização em minutos:</b>\n"
-"<small>(Coloque 0 para desabilitar a atualização automática dessa fonte)</"
-"small>"
+"<small>(Coloque 0 para desabilitar a atualização automática dessa fonte)</small>"
 
 #: src/rssyl_gtk.c:340
 msgid ""
@@ -226,7 +213,8 @@ msgstr "_Ok"
 msgid "Set feed properties"
 msgstr "Definir as propriedades da fonte"
 
-#: src/rssyl_gtk.c:519 src/rssyl_gtk.c:544
+#: src/rssyl_gtk.c:519
+#: src/rssyl_gtk.c:544
 msgid "Unsubscribe feed"
 msgstr "Desinscrever-se da fonte"
 
@@ -239,6 +227,6 @@ msgid "Remove cached entries"
 msgstr "Remover as entradas do cache"
 
 #: src/rssyl_gtk.c:564
-#, fuzzy
 msgid "_Unsubscribe"
-msgstr "Desinscrever-se da fonte"
+msgstr "Desinscrever-se"
+
