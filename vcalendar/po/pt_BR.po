@@ -1,58 +1,44 @@
-# translation of vcalendar-pt_BR.po to Português do Brasil
+# translation of vcalendar-pt_BR.po to Brazilian Portuguese
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2005, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: vcalendar-pt_BR\n"
-"Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-26 10:54+0000\n"
-"PO-Revision-Date: 2006-01-24 05:34-0200\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-01-28 17:19-0200\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Português do Brasil\n"
+"Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/plugin.c:40
-#, fuzzy
-msgid ""
-"Your Sylpheed-Claws version is newer than the version vCalendar was built "
-"with."
-msgstr ""
-"A versão do seu Sylpheed é mais nova do que a versão na qual o plugin foi "
-"construído"
+msgid "Your Sylpheed-Claws version is newer than the version vCalendar was built with."
+msgstr "A versão do seu Sylpheed é mais nova do que a versão na qual o vCalendar foi construído."
 
 #: src/plugin.c:45
-#, fuzzy
 msgid "Your Sylpheed-Claws version is too old for vCalendar."
-msgstr "A versão do seu Sylpheed é muito velha"
+msgstr "A versão do seu Sylpheed é muito velha para o vCalendar."
 
-#: src/plugin.c:61 src/vcal_prefs.c:234
+#: src/plugin.c:61
+#: src/vcal_prefs.c:234
 msgid "vCalendar"
 msgstr "vCalendar"
 
 #: src/plugin.c:66
 msgid ""
-"This plugin enables vCalendar message handling like produced by Evolution or "
-"Outlook.\n"
+"This plugin enables vCalendar message handling like produced by Evolution or Outlook.\n"
 "\n"
-"When loaded, it will create a vCalendar mailbox in your folder list, which "
-"will be populated by meetings that you have accepted or created.\n"
-"Meeting requests that you receive will be presented in an appropriate form "
-"and you will be able to accept or decline them.\n"
-"Finally, to create a meeting right-click on the vCalendar or Meetings folder "
-"and choose \"New meeting...\"."
+"When loaded, it will create a vCalendar mailbox in your folder list, which will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form and you will be able to accept or decline them.\n"
+"Finally, to create a meeting right-click on the vCalendar or Meetings folder and choose \"New meeting...\"."
 msgstr ""
-"Esse plugin habilita a manipulação de mensagens do vCalendar, como é feito "
-"no Evolution ou no Outlook.\n"
+"Esse plugin habilita a manipulação de mensagens do vCalendar, como é feito no Evolution ou no Outlook.\n"
 "\n"
-"Quando carregado, ele irá criar uma caixa de correio para o vCalendar na sua "
-"lista de pastas, que será preenchida pelas reuniões que você aceitou ou "
-"criou.\n"
-"As requisições de reunião que você receber serão apresentadas em um formato "
-"apropriado e você poderá aceitá-las ou recusá-las.\n"
-"Por fim, para criar uma reunião clique com o botão direito do mouse nas "
-"pastas vCalendar ou Reuniões e escolha \"Nova reunião...\"."
+"Quando carregado, ele irá criar uma caixa de correio para o vCalendar na sua lista de pastas, que será preenchida pelas reuniões que você aceitou ou criou.\n"
+"As requisições de reunião que você receber serão apresentadas em um formato apropriado e você poderá aceitá-las ou recusá-las.\n"
+"Por fim, para criar uma reunião clique com o botão direito do mouse nas pastas vCalendar ou Reuniões e escolha \"Nova reunião...\"."
 
 #: src/vcalendar.c:418
 msgid "Accept"
@@ -67,28 +53,29 @@ msgid "Decline"
 msgstr "Recusar"
 
 #: src/vcalendar.c:463
-#, fuzzy
 msgid "You have created a meeting."
-msgstr "Você criou uma reunião. Veja os detalhes:"
+msgstr "Você criou uma reunião."
 
-#: src/vcalendar.c:464 src/vcalendar.c:469 src/vcalendar.c:484
-#: src/vcalendar.c:496 src/vcalendar.c:502 src/vcalendar.c:768
+#: src/vcalendar.c:464
+#: src/vcalendar.c:469
+#: src/vcalendar.c:485
+#: src/vcalendar.c:499
+#: src/vcalendar.c:505
+#: src/vcalendar.c:771
 msgid "Details follow:"
-msgstr ""
+msgstr "Detalhes a seguir:"
 
 #: src/vcalendar.c:468
-#, fuzzy
 msgid "You have been invited to a meeting."
-msgstr "Você foi convidado para uma reunião. Veja os detalhes:"
+msgstr "Você foi convidado para uma reunião."
 
-#: src/vcalendar.c:483 src/vcalendar.c:767
-#, fuzzy
+#: src/vcalendar.c:484
+#: src/vcalendar.c:770
 msgid "You have received an answer to an unknown meeting proposal."
-msgstr ""
-"Você recebeu uma resposta para uma proposta de reunião desconhecida. Veja os "
-"detalhes:"
+msgstr "Você recebeu uma resposta para uma proposta de reunião desconhecida."
 
-#: src/vcalendar.c:487 src/vcalendar.c:771
+#: src/vcalendar.c:488
+#: src/vcalendar.c:775
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -97,22 +84,19 @@ msgstr ""
 "Você recebeu uma resposta para uma proposta de reunião.\n"
 "%s %s o convite, que tem os seguintes detalhes:"
 
-#: src/vcalendar.c:495
-#, fuzzy
+#: src/vcalendar.c:498
 msgid "A meeting to which you had been invited has been cancelled."
-msgstr ""
-"Uma reunião para a qual você foi convidado foi cancelada. Veja os detalhes:"
+msgstr "Uma reunião para a qual você foi convidado foi cancelada."
 
-#: src/vcalendar.c:501
-#, fuzzy
+#: src/vcalendar.c:504
 msgid "You have been forwarded an appointment."
-msgstr "Foi remetido um compromisso para você. Veja os detalhes:"
+msgstr "Foi remetido um compromisso para você."
 
-#: src/vcalendar.c:965
+#: src/vcalendar.c:969
 msgid "Cancel meeting"
 msgstr "Cancelar reunião"
 
-#: src/vcalendar.c:966
+#: src/vcalendar.c:970
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -120,7 +104,7 @@ msgstr ""
 "Deseja realmente cancelar essa reunião?\n"
 "Uma notificação será enviada aos participantes."
 
-#: src/vcalendar.c:1021
+#: src/vcalendar.c:1025
 msgid ""
 "You have no account matching any attendee.\n"
 "Have you really been invited?"
@@ -128,51 +112,55 @@ msgstr ""
 "Você não tem nenhuma conta correspondente aos participantes.\n"
 "Você foi realmente convidado?"
 
-#: src/vcalendar.c:1083
+#: src/vcalendar.c:1087
 msgid "Answer"
 msgstr "Responder"
 
-#: src/vcalendar.c:1084
+#: src/vcalendar.c:1088
 msgid "Edit meeting..."
 msgstr "Editar reunião..."
 
-#: src/vcalendar.c:1085
+#: src/vcalendar.c:1089
 msgid "Cancel meeting..."
 msgstr "Cancelar reunião..."
 
-#: src/vcalendar.c:1086
+#: src/vcalendar.c:1090
 msgid "Launch website"
 msgstr "Abrir site da Web"
 
-#: src/vcalendar.c:1107
+#: src/vcalendar.c:1111
 msgid "Event:"
 msgstr "Evento:"
 
-#: src/vcalendar.c:1108 src/vcal_meeting_gtk.c:651
+#: src/vcalendar.c:1112
+#: src/vcal_meeting_gtk.c:651
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: src/vcalendar.c:1109 src/vcal_meeting_gtk.c:653
+#: src/vcalendar.c:1113
+#: src/vcal_meeting_gtk.c:653
 msgid "Summary:"
 msgstr "Resumo:"
 
-#: src/vcalendar.c:1110
+#: src/vcalendar.c:1114
 msgid "Starting:"
 msgstr "Início:"
 
-#: src/vcalendar.c:1111
+#: src/vcalendar.c:1115
 msgid "Ending:"
 msgstr "Término:"
 
-#: src/vcalendar.c:1112 src/vcal_meeting_gtk.c:654
+#: src/vcalendar.c:1116
+#: src/vcal_meeting_gtk.c:654
 msgid "Description:"
 msgstr "Descrição:"
 
-#: src/vcalendar.c:1113 src/vcal_meeting_gtk.c:655
+#: src/vcalendar.c:1117
+#: src/vcal_meeting_gtk.c:655
 msgid "Attendees:"
 msgstr "Participantes:"
 
-#: src/vcalendar.c:1114
+#: src/vcalendar.c:1118
 msgid "Action:"
 msgstr "Ação:"
 
@@ -219,7 +207,7 @@ msgstr "/Atualizar inscrições"
 #: src/vcal_folder.c:984
 #, c-format
 msgid "Fetching '%s'..."
-msgstr ""
+msgstr "Obtendo '%s'..."
 
 #: src/vcal_folder.c:1083
 #, c-format
@@ -298,7 +286,8 @@ msgstr "recusado"
 msgid "did not answer"
 msgstr "sem resposta"
 
-#: src/vcal_manager.c:95 src/vcal_manager.c:128
+#: src/vcal_manager.c:95
+#: src/vcal_manager.c:128
 msgid "unknown"
 msgstr "desconhecido"
 
@@ -358,7 +347,8 @@ msgstr "Salvar & enviar"
 msgid "<b>From:</b> "
 msgstr "<b>De:</b> "
 
-#: src/vcal_meeting_gtk.c:571 src/vcal_meeting_gtk.c:587
+#: src/vcal_meeting_gtk.c:571
+#: src/vcal_meeting_gtk.c:587
 msgid "h"
 msgstr "h"
 
@@ -375,18 +365,18 @@ msgid "Date:"
 msgstr "Data:"
 
 #: src/vcal_meeting_gtk.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d hora%s"
-msgstr[1] "%d hora%s"
+msgstr[0] "%d hora"
+msgstr[1] "%d horas"
 
 #: src/vcal_meeting_gtk.c:727
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minuto%s"
-msgstr[1] "%d minuto%s"
+msgstr[0] "%d minuto"
+msgstr[1] "%d minutos"
 
 #: src/vcal_meeting_gtk.c:738
 #, c-format
@@ -444,14 +434,3 @@ msgstr "Comando a ser executado após a exportação: "
 msgid "Plugins"
 msgstr "Plugins"
 
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Meetings"
-#~ msgstr "Reuniões"
-
-#~ msgid "/Properties..."
-#~ msgstr "/Propriedades..."
-
-#~ msgid "/Processing..."
-#~ msgstr "/Processamento..."
