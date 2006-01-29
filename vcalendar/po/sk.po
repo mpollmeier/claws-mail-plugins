@@ -1,34 +1,40 @@
-# Finnish translations for sylpheed-claws package.
-# Copyright (C) 2005 Colin Leroy
-# This file is distributed under the same license as the sylpheed-claws package.
-# Flammie Pirinen <flammie@iki.fi>, 2005.
+# translation of vcalendar.sk.po to Slovak
+# Slovak translations for PACKAGE package
+# Slovenské preklady pre balík PACKAGE.
+# Copyright (C) 2006 Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
 #
+#  <andrej@kacian.sk>, 2006.
+# Andrej Kacian <andrej@kacian.sk>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: sylpheed-claws\n"
+"Project-Id-Version: vcalendar\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2006-01-24 09:35+0000\n"
-"PO-Revision-Date: 2006-01-29 12:43+0200\n"
-"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
-"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2006-01-29 14:11+0100\n"
+"Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: KBabel 1.11\n"
 
 #: src/plugin.c:40
 msgid ""
 "Your Sylpheed-Claws version is newer than the version vCalendar was built "
 "with."
-msgstr "Sylpheed-Clawsin on uudempi kuin mitä varten vKalenteri on käännetty."
+msgstr ""
+"Verzia Vašej inštalácie Sylpheed-Claws je novšia, ako verzia, ktorá bola "
+"použitá pri kompilácii pluginu vCalendar."
 
 #: src/plugin.c:45
 msgid "Your Sylpheed-Claws version is too old for vCalendar."
-msgstr "Sylpheed-Clawsisi on liian vanha vKalenterille."
+msgstr "Verzia vašej inštalácie Sylpheed-Claws je príliš stará pre plugin vCalendar."
 
 #: src/plugin.c:61 src/vcal_prefs.c:234
 msgid "vCalendar"
-msgstr "vKalenteri"
+msgstr "vCalendar"
 
 #: src/plugin.c:66
 msgid ""
@@ -42,46 +48,45 @@ msgid ""
 "Finally, to create a meeting right-click on the vCalendar or Meetings folder "
 "and choose \"New meeting...\"."
 msgstr ""
-"Tällä liitännäisellä voi käsitellä vKalenteri-viestejä Evolutionilta tai "
-"Outlookista.\n"
+"Tento plugin umožňuje prácu s vCalendar správami, aké generujú programy "
+"Evolution, alebo Outlook.\n"
 "\n"
-"Kun tämä on käytössä, se luo vKalenterille postilaatikon kansioluetteloon, "
-"ja täyttää sen tapaamisilla, jotka on sovittu tai luotu.\n"
-"Tulevat tapaamispyynnöt esitetään sopivassa muodossa, ja voit joko hyväksyä "
-"ne tai kieltäytyä niistä.\n"
-"Uuden tapaamisen voi luoda napsauttamalla oikeaa hiiren painiketta "
-"vKalenteri- tai tapaamiskansion päällä, ja valitsemalla valikosta ”Uusi "
-"tapaaminen…”."
+"Po načítaní tohoto pluginu sa vytvorí vo vašom zozname priečinkov "
+"samostatný priečinok, do ktorého sa budú ukladať stretnutia, ktoré\n"
+"vytvoríte, alebo prijmete.\n"
+"Pozvania na stretnutia budú zobrazené vo vhodnej forme, a budete ich môcť "
+"prijať, alebo odmietnuť.\n"
+"Pre vytvorenie stretnutia, kliknite pravým tlačítkom na priečinok vCalendar, "
+"alebo Stretnutia, a zvoľte \"Nové stretnutie...\"."
 
 #: src/vcalendar.c:418
 msgid "Accept"
-msgstr "Hyväksy"
+msgstr "Prijať"
 
 #: src/vcalendar.c:419
 msgid "Tentatively accept"
-msgstr "Hyväksy alustavasti"
+msgstr "Nezáväzne prijať"
 
 #: src/vcalendar.c:420
 msgid "Decline"
-msgstr "Kieltäydy"
+msgstr "Odmietnuť"
 
 #: src/vcalendar.c:463
 msgid "You have created a meeting."
-msgstr "Uusi tapaaminen on tehty."
+msgstr "Vytvorili ste stretnutie."
 
 #: src/vcalendar.c:464 src/vcalendar.c:469 src/vcalendar.c:485
 #: src/vcalendar.c:499 src/vcalendar.c:505 src/vcalendar.c:771
 msgid "Details follow:"
-msgstr "Yksityiskohdat:"
+msgstr "Nasledujú podrobnosti:"
 
 #: src/vcalendar.c:468
 msgid "You have been invited to a meeting."
-msgstr "Sinut on kutsuttu tapaamiseen."
+msgstr "Boli ste pozvaný na stretnutie."
 
 #: src/vcalendar.c:484 src/vcalendar.c:770
 msgid "You have received an answer to an unknown meeting proposal."
-msgstr ""
-"Olet saanut vastauksen tuntemattomaan tapaamispyyntöön."
+msgstr "Dostali ste odpoveď na neznámy návrh stretnutia."
 
 #: src/vcalendar.c:488 src/vcalendar.c:775
 #, c-format
@@ -89,129 +94,129 @@ msgid ""
 "You have received an answer to a meeting proposal.\n"
 "%s has %s the invitation whose details follow:"
 msgstr ""
-"Olet saanut vastauksen tapaamispyyntöön.\n"
-"Henkilö %s on %s. Yksityiskohdat:"
+"Dostali ste odpoveď na návrh stretnutia.\n"
+"%s %s pozvanie, ktorého podrobnosti nasledujú:"
 
 #: src/vcalendar.c:498
 msgid "A meeting to which you had been invited has been cancelled."
-msgstr "Sopimasi tapaaminen, on peruttu."
+msgstr "Stretnutie, na ktoré ste boli pozvaný, bolo zrušené."
 
 #: src/vcalendar.c:504
 msgid "You have been forwarded an appointment."
-msgstr "Sinulle on välitetty tapaaminen."
+msgstr "Bolo vám preposlané stretnutie."
 
 #: src/vcalendar.c:969
 msgid "Cancel meeting"
-msgstr "Peru tapaaminen"
+msgstr "Zrušiť stretnutie"
 
 #: src/vcalendar.c:970
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
 msgstr ""
-"Perutaanko tämä tapaaminen?\n"
-"Ilmoitus perumisesta lähetetään osanottajille."
+"Naozaj chcete toto stretnutie zrušiť?\n"
+"Účastníkom bude odoslané upozornenie."
 
 #: src/vcalendar.c:1025
 msgid ""
 "You have no account matching any attendee.\n"
 "Have you really been invited?"
 msgstr ""
-"Sinulla ei ole käytössäsi tiliä, joka täsmäisi osallistujiin.\n"
-"Onko sinut varmasti kutsuttu?"
+"Nemáte konto, ktoré sa nachádza na zozname účastníkov.\n"
+"Naozaj ste boli pozvaní?"
 
 #: src/vcalendar.c:1087
 msgid "Answer"
-msgstr "Vastaa"
+msgstr "Odpovedať"
 
 #: src/vcalendar.c:1088
 msgid "Edit meeting..."
-msgstr "Muokkaa tapaamista…"
+msgstr "Upraviť stretnutie..."
 
 #: src/vcalendar.c:1089
 msgid "Cancel meeting..."
-msgstr "Peru tapaaminen…"
+msgstr "Zrušiť stretnutie..."
 
 #: src/vcalendar.c:1090
 msgid "Launch website"
-msgstr "Avaa veppisivusto"
+msgstr "Otvoriť webstránku"
 
 #: src/vcalendar.c:1111
 msgid "Event:"
-msgstr "Tapahtuma:"
+msgstr "Udalosť:"
 
 #: src/vcalendar.c:1112 src/vcal_meeting_gtk.c:651
 msgid "Organizer:"
-msgstr "Järjestäjä:"
+msgstr "Organizátor:"
 
 #: src/vcalendar.c:1113 src/vcal_meeting_gtk.c:653
 msgid "Summary:"
-msgstr "Yhteenveto:"
+msgstr "Súhrn:"
 
 #: src/vcalendar.c:1114
 msgid "Starting:"
-msgstr "Alkaa:"
+msgstr "Začiatok:"
 
 #: src/vcalendar.c:1115
 msgid "Ending:"
-msgstr "Loppuu:"
+msgstr "Koniec:"
 
 #: src/vcalendar.c:1116 src/vcal_meeting_gtk.c:654
 msgid "Description:"
-msgstr "Kuvaus:"
+msgstr "Popis:"
 
 #: src/vcalendar.c:1117 src/vcal_meeting_gtk.c:655
 msgid "Attendees:"
-msgstr "Osanottajat:"
+msgstr "Účastníci:"
 
 #: src/vcalendar.c:1118
 msgid "Action:"
-msgstr "Toiminto:"
+msgstr "Činnosť:"
 
 #: src/vcal_folder.c:132
 msgid "/_New meeting..."
-msgstr "_Uusi tapaaminen…"
+msgstr "/_Nové stretnutie..."
 
 #: src/vcal_folder.c:133
 msgid "/_Export calendar..."
-msgstr "Tuo kal_enteri…"
+msgstr "/_Export kalendára..."
 
 #: src/vcal_folder.c:135
 msgid "/_Subscribe to webCal..."
-msgstr "_Tilaa webCal…"
+msgstr "/_Prihlásiť webCal..."
 
 #: src/vcal_folder.c:136
 msgid "/_Unsubscribe..."
-msgstr "_Peru tilaus…"
+msgstr "/_Odhlásiť..."
 
 #: src/vcal_folder.c:138
 msgid "/U_pdate subscriptions"
-msgstr "P_äivitä tilaukset"
+msgstr "/_Aktualizovať prihlásenia"
 
 #: src/vcal_folder.c:830
 msgid "/New meeting..."
-msgstr "Uusi tapaaminen…"
+msgstr "/Nové stretnutie..."
 
 #: src/vcal_folder.c:831
 msgid "/Export calendar..."
-msgstr "Tuo kalenteri…"
+msgstr "/Export kalendára..."
 
 #: src/vcal_folder.c:832
 msgid "/Subscribe to webCal..."
-msgstr "Tilaa webCal…"
+msgstr "/Prihlásiť webCal..."
 
 #: src/vcal_folder.c:833
 msgid "/Unsubscribe..."
-msgstr "Peru tilaus…"
+msgstr "/Odhlásiť..."
 
 #: src/vcal_folder.c:834
 msgid "/Update subscriptions"
-msgstr "Päivitä tilaukset"
+msgstr "/Aktualizovať prihlásenia"
 
 #: src/vcal_folder.c:984
 #, c-format
 msgid "Fetching '%s'..."
-msgstr "Haetaan %s…"
+msgstr "Sťahujem '%s'..."
 
 #: src/vcal_folder.c:1083
 #, c-format
@@ -219,7 +224,7 @@ msgid ""
 "Could not retrieve the Webcal URL:\n"
 "%s"
 msgstr ""
-"Ei voitu hakea Webcal-URLia:\n"
+"Nepodarilo sa stiahnuť Webcal URL:\n"
 "%s"
 
 #: src/vcal_folder.c:1088
@@ -228,7 +233,7 @@ msgid ""
 "Could not retrieve the Webcal URL:\n"
 "%s\n"
 msgstr ""
-"Ei voitu hakea Webcal-URLista:\n"
+"Nepodarilo sa stiahnuť Webcal URL:\n"
 "%s\n"
 
 #: src/vcal_folder.c:1100
@@ -237,7 +242,7 @@ msgid ""
 "This URL does not look like a WebCal URL:\n"
 "%s"
 msgstr ""
-"Tämä URL ei näytä WebCal-URLilta:\n"
+"Toto URL nevyzerá ako Webcal URL:\n"
 "%s"
 
 #: src/vcal_folder.c:1106
@@ -246,109 +251,109 @@ msgid ""
 "This URL does not look like a WebCal URL:\n"
 "%s\n"
 msgstr ""
-"Tämä URL ei näytä WebCal-URLilta:\n"
+"Toto URL nevyzerá ako Webcal URL:\n"
 "%s\n"
 
 #: src/vcal_folder.c:1167
 msgid "Subscribe to WebCal"
-msgstr "Tilaa WebCal"
+msgstr "Prihlásiť WebCal"
 
 #: src/vcal_folder.c:1167
 msgid "Enter the WebCal URL:"
-msgstr "Anna WebCal-URL:"
+msgstr "Zadajte WebCal URL:"
 
 #: src/vcal_folder.c:1177
 msgid "Could not parse the URL."
-msgstr "Ei voitu jäsentää URLia."
+msgstr "Nemôžem prečítať URL."
 
 #: src/vcal_folder.c:1205
 msgid "Do you really want to unsubscribe?"
-msgstr "Perutaanko tilaus?"
+msgstr "Naozaj sa chcete odhlásiť?"
 
 #: src/vcal_folder.c:1206
 msgid "Delete folder"
-msgstr "Poista kansio"
+msgstr "Odstrániť priečinok"
 
 #: src/vcal_folder.c:1225
 #, c-format
 msgid "Can't remove the folder '%s'."
-msgstr "Ei voitu poistaa kansiota %s."
+msgstr "Nepodarilo sa odstrániť priečinok '%s'."
 
 #: src/vcal_manager.c:91
 msgid "accepted"
-msgstr "hyväksynyt kutsun"
+msgstr "prijal"
 
 #: src/vcal_manager.c:92
 msgid "tentatively accepted"
-msgstr "alustavasti hyväksynyt kutsun"
+msgstr "nezáväzne prijal"
 
 #: src/vcal_manager.c:93
 msgid "declined"
-msgstr "kieltäytynyt kutsusta"
+msgstr "odmietol"
 
 #: src/vcal_manager.c:94
 msgid "did not answer"
-msgstr "vastaamatta kutsuun"
+msgstr "neodpovedal na"
 
 #: src/vcal_manager.c:95 src/vcal_manager.c:128
 msgid "unknown"
-msgstr "vastaus tuntematon"
+msgstr "neznámy"
 
 #: src/vcal_manager.c:124
 msgid "individual"
-msgstr "yksittäinen"
+msgstr "osoba"
 
 #: src/vcal_manager.c:125
 msgid "group"
-msgstr "ryhmä"
+msgstr "skupina"
 
 #: src/vcal_manager.c:126
 msgid "resource"
-msgstr "resurssi"
+msgstr "zdroj"
 
 #: src/vcal_manager.c:127
 msgid "room"
-msgstr "huone"
+msgstr "miestnosť"
 
 #: src/vcal_meeting_gtk.c:214
 msgid "Individual"
-msgstr "Yksittäinen"
+msgstr "Osoba"
 
 #: src/vcal_meeting_gtk.c:215
 msgid "Group"
-msgstr "Ryhmä"
+msgstr "Skupina"
 
 #: src/vcal_meeting_gtk.c:216
 msgid "Resource"
-msgstr "Resurssi"
+msgstr "Zdroj"
 
 #: src/vcal_meeting_gtk.c:217
 msgid "Room"
-msgstr "Huone"
+msgstr "Miestnosť"
 
 #: src/vcal_meeting_gtk.c:230
 msgid "Add..."
-msgstr "Lisää…"
+msgstr "Pridať..."
 
 #: src/vcal_meeting_gtk.c:231
 msgid "Remove"
-msgstr "Poista"
+msgstr "Odstrániť"
 
 #: src/vcal_meeting_gtk.c:446
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
 msgstr ""
-"Ei voitu lähettää tapaamispyyntöä.\n"
-"Tarkista osanottajat."
+"Nepodarilo sa odoslať pozvanie na stretnutie.\n"
+"Skontrolujte príjemcov."
 
 #: src/vcal_meeting_gtk.c:499
 msgid "Save & Send"
-msgstr "Tallenna ja lähetä"
+msgstr "Uložiť a odoslať"
 
 #: src/vcal_meeting_gtk.c:560
 msgid "<b>From:</b> "
-msgstr "<b>Lähettäjä:</b>"
+msgstr "<b>Od:</b> "
 
 #: src/vcal_meeting_gtk.c:571 src/vcal_meeting_gtk.c:587
 msgid "h"
@@ -356,34 +361,36 @@ msgstr "h"
 
 #: src/vcal_meeting_gtk.c:577
 msgid "<b>To:</b> "
-msgstr "<b>Vastaanottaja</b>"
+msgstr "<b>Komu:</b> "
 
 #: src/vcal_meeting_gtk.c:615
 msgid "New meeting"
-msgstr "Uusi tapaaminen"
+msgstr "Nové stretnutie"
 
 #: src/vcal_meeting_gtk.c:652
 msgid "Date:"
-msgstr "Päivä:"
+msgstr "Dátum:"
 
 #: src/vcal_meeting_gtk.c:724
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d tunti"
-msgstr[1] "%d tuntia"
+msgstr[0] "%d hodina"
+msgstr[1] "%d hodiny"
+msgstr[2] "%d hodín"
 
 #: src/vcal_meeting_gtk.c:727
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minuutti"
-msgstr[1] "%d minuuttia"
+msgstr[0] "%d minúta"
+msgstr[1] "%d minúty"
+msgstr[2] "%d minút"
 
 #: src/vcal_meeting_gtk.c:738
 #, c-format
 msgid "Upcoming event: %s"
-msgstr "Tuleva tapahtuma: %s"
+msgstr "Nadchádzajúca udalosť: %s"
 
 #: src/vcal_meeting_gtk.c:739
 #, c-format
@@ -394,56 +401,45 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Tapaaminen alkaa pian.\n"
-"Se alkaa %s ja loppuu %s myöhemmin.\n"
-"Lisätietoja:\n"
+"Čoskoro máte naplánované stretnutie.\n"
+"Začína o %s, a končí o %s neskôr.\n"
+"Ďalšie údaje:\n"
 "\n"
 "%s"
 
 #: src/vcal_meeting_gtk.c:779
 msgid "Empty calendar"
-msgstr "Tyhjä kalenteri"
+msgstr "Prázdny kalendár"
 
 #: src/vcal_meeting_gtk.c:780
 msgid "There is nothing to export."
-msgstr "Ei mitään vietävää"
+msgstr "Niet čo exportovať."
 
 #: src/vcal_meeting_gtk.c:815
 msgid "Export calendar to ICS"
-msgstr "Vie kalenteri ICS:ään"
+msgstr "Exportovať kalendár do ICS"
 
 #: src/vcal_meeting_gtk.c:821
 msgid "Could not export the calendar."
-msgstr "Ei voitu viedä kalenteria."
+msgstr "Nepodarilo sa exportovať kalendár."
 
 #: src/vcal_prefs.c:92
 msgid "Alert me "
-msgstr "Ilmoita minulle"
+msgstr "Upozorniť ma "
 
 #: src/vcal_prefs.c:101
 msgid " minutes before an event"
-msgstr " minuuttia ennen tapahtuman alkua"
+msgstr "minút pred stretnutím"
 
 #: src/vcal_prefs.c:126
 msgid "Automatically export calendar to "
-msgstr "Automaattisesti vie kalenteri "
+msgstr "Automaticky exportovať kalendár do "
 
 #: src/vcal_prefs.c:143
 msgid "Command to run after export: "
-msgstr "Viennin jälkeen ajettava komento: "
+msgstr "Po exporte spustiť príkaz: "
 
 #: src/vcal_prefs.c:233
 msgid "Plugins"
-msgstr "Liitännäiset"
+msgstr "Pluginy"
 
-#~ msgid "-"
-#~ msgstr "—"
-
-#~ msgid "Meetings"
-#~ msgstr "Tapaamiset"
-
-#~ msgid "/Properties..."
-#~ msgstr "Asetukset…"
-
-#~ msgid "/Processing..."
-#~ msgstr "Käsittely…"

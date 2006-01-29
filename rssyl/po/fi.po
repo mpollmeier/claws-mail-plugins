@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2005-12-20 09:45+0000\n"
-"PO-Revision-Date: 2005-12-21 12:43+0200\n"
+"POT-Creation-Date: 2006-01-24 09:36+0000\n"
+"PO-Revision-Date: 2006-01-29 12:43+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -16,51 +16,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/feed.c:148
+#: src/feed.c:187
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Haetaan syötettä %s…"
 
-#: src/feed.c:589
+#: src/feed.c:712
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Päivitetään syötettä %s…"
 
-#: src/feed.c:607
+#: src/feed.c:727
+msgid "Fetching comments is not supported for RDF feeds."
+msgstr "Kommentien haku ei toimi RDF-syötteillä."
+
+#: src/feed.c:734
+msgid "Fetching comments is not supported for Atom feeds."
+msgstr "Kommenttien haku ei toimi Atom-syötteillä."
+
+#: src/feed.c:739
 msgid "This feed format is not supported yet."
 msgstr "Tätä syötemuotoa ei tueta vielä."
 
-#: src/feed.c:639
+#: src/feed.c:768
 msgid "N/A"
 msgstr "—"
 
-#: src/feed.c:902
+#: src/feed.c:1118
 msgid "You are already subscribed to this feed."
 msgstr "Olet jo tilannut tämän syötteen."
 
-#: src/feed.c:908
+#: src/feed.c:1126
 #, c-format
 msgid "Couldn't fetch URL '%s'."
 msgstr "URLia %s ei voitu hakea."
 
-#: src/feed.c:914
+#: src/feed.c:1134
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Syötettä %s ei voida tilata."
 
-#: src/plugin.c:44
+#: src/plugin.c:42
 msgid ""
-"Your version of Sylpheed-Claws is newer than the version the plugin was "
-"built with"
+"Your version of Sylpheed-Claws is newer than the version RSSyl was built "
+"with."
 msgstr ""
-"Sylpheed-Clawsisi on uudempi kuin mitä varten tämä liitännäinen "
-"on käännetty"
+"Sylpheed-Claws on uudempi kuin mitä varten RSSyl on käännetty."
 
-#: src/plugin.c:49
-msgid "Your version of Sylpheed-Claws is too old"
-msgstr "Sylpheed-Clawsisi on liian vanha"
+#: src/plugin.c:47
+msgid "Your version of Sylpheed-Claws is too old for RSSyl."
+msgstr "Sylpheed-Claws on liian vanha RSSylille."
 
-#: src/plugin.c:70
+#: src/plugin.c:68
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"
@@ -91,7 +98,11 @@ msgstr "Poistetaanko syötekansiopuu %s?\n"
 msgid "Remove folder tree"
 msgstr "Poista kansiopuu"
 
-#: src/rssyl_cb_menu.c:147
+#: src/rssyl_cb_menu.c:84
+msgid "_Remove"
+msgstr "_Poista"
+
+#: src/rssyl_cb_menu.c:148
 #, c-format
 msgid "Can't remove feed '%s'."
 msgstr "Syötettä %s ei voida poistaa"
@@ -120,44 +131,44 @@ msgstr "Syötteen _ominaisuudet…"
 msgid "/Remove folder _tree..."
 msgstr "Poista kansiop_uu…"
 
-#: src/rssyl_gtk.c:62
+#: src/rssyl_gtk.c:63
 msgid "/Refresh feed"
 msgstr "Päivitä syöte"
 
-#: src/rssyl_gtk.c:63
+#: src/rssyl_gtk.c:64
 msgid "/Refresh all feeds"
 msgstr "Päivitä kaikki syötteet"
 
-#: src/rssyl_gtk.c:64
+#: src/rssyl_gtk.c:65
 msgid "/Subscribe new feed..."
 msgstr "Tilaa uusi syöte…"
 
-#: src/rssyl_gtk.c:65
+#: src/rssyl_gtk.c:66
 msgid "/Unsubscribe feed..."
 msgstr "Lakkaa tilaamasta syötettä…"
 
-#: src/rssyl_gtk.c:66
+#: src/rssyl_gtk.c:67
 msgid "/Feed properties..."
 msgstr "Syötteen ominaisuudet…"
 
-#: src/rssyl_gtk.c:67
+#: src/rssyl_gtk.c:68
 msgid "/Remove folder tree..."
 msgstr "Poista syötepuu…"
 
-#: src/rssyl_gtk.c:109
+#: src/rssyl_gtk.c:110
 msgid "Add RSS folder tree"
 msgstr "Lisää RSS-syötekansiopuu"
 
-#: src/rssyl_gtk.c:110
+#: src/rssyl_gtk.c:111
 msgid "Enter name for a new RSS folder tree."
 msgstr "Anna nimi uudelle RSS-syötekansiopuulle."
 
-#: src/rssyl_gtk.c:115
+#: src/rssyl_gtk.c:116
 #, c-format
 msgid "The mailbox '%s' already exists."
 msgstr "Postilaatikko %s on jo olemassa."
 
-#: src/rssyl_gtk.c:124
+#: src/rssyl_gtk.c:125
 msgid ""
 "Creation of folder tree failed.\n"
 "Maybe some files already exist, or you don't have the permission to write "
@@ -166,23 +177,27 @@ msgstr ""
 "Kansiopuun luonti epäonnistui.\n"
 "Ehkä sen tiedostot ovat jo olemassa, tai kansioon ei ole oikeutta kirjoittaa."
 
-#: src/rssyl_gtk.c:138
+#: src/rssyl_gtk.c:139
 msgid "/File/Add mailbox/RSSyl..."
 msgstr "RSSyl…"
 
-#: src/rssyl_gtk.c:208
+#: src/rssyl_gtk.c:217
 msgid "Use default refresh interval (180 minutes)"
 msgstr "Käytä oletuspäivitysväliä (180 minuuttia)"
 
-#: src/rssyl_gtk.c:220
+#: src/rssyl_gtk.c:229
 msgid "Keep default number of expired entries (-1)"
 msgstr "Säilytä oletusmäärä vanhentuneita juttuja (−1)"
 
-#: src/rssyl_gtk.c:252
+#: src/rssyl_gtk.c:235
+msgid "Fetch comments if possible"
+msgstr "Hae kommentit, jos mahdollista"
+
+#: src/rssyl_gtk.c:267
 msgid "<b>Source URL:</b>"
 msgstr "<b>Lähteen URL:</b>"
 
-#: src/rssyl_gtk.c:279
+#: src/rssyl_gtk.c:307
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
@@ -191,7 +206,7 @@ msgstr ""
 "<small>(Aseta nollaksi poistaaksesi tämän syötteen automaattisen päivityksen)"
 "</small>"
 
-#: src/rssyl_gtk.c:310
+#: src/rssyl_gtk.c:340
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
@@ -199,26 +214,30 @@ msgstr ""
 "<b>Säilytettävien vanhentuneiden juttujen lukumäärä:</b>\n"
 "<small>(Aseta −1:ksi, jos haluat säilyttää kaikki vanhentuneet jutut)</small>"
 
-#: src/rssyl_gtk.c:353
-msgid "_OK"
-msgstr "_OK"
-
-#: src/rssyl_gtk.c:373
+#: src/rssyl_gtk.c:382
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: src/rssyl_gtk.c:381
+#: src/rssyl_gtk.c:403
+msgid "_OK"
+msgstr "_OK"
+
+#: src/rssyl_gtk.c:411
 msgid "Set feed properties"
 msgstr "Aseta syötteen ominaisuudet"
 
-#: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
+#: src/rssyl_gtk.c:519 src/rssyl_gtk.c:544
 msgid "Unsubscribe feed"
 msgstr "Lakkaa tilaamasta syötettä"
 
-#: src/rssyl_gtk.c:501
+#: src/rssyl_gtk.c:545
 msgid "Do you really want to remove feed"
 msgstr "Poistetaanko syöte"
 
-#: src/rssyl_gtk.c:511
+#: src/rssyl_gtk.c:551
 msgid "Remove cached entries"
 msgstr "Poista jutut välimuistista"
+
+#: src/rssyl_gtk.c:564
+msgid "_Unsubscribe"
+msgstr "_Lakkaa tilaamasta syötettä"

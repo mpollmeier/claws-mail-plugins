@@ -1,14 +1,14 @@
-# translation of sk.po to Slovak
-# Andrej Kacian <andrej@kacian.sk>, 2005.
+# translation of rssyl.sk.po to Slovak
+# Andrej Kacian <andrej@kacian.sk>, 2005, 2006.
 # Slovak translations for rssyl package
 # Copyright (C) 2005 Andrej Kacian
 # This file is distributed under the same license as the rssyl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: sk\n"
+"Project-Id-Version: rssyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2005-12-19 00:57+0100\n"
-"PO-Revision-Date: 2005-12-17 18:45+0100\n"
+"POT-Creation-Date: 2006-01-24 09:36+0000\n"
+"PO-Revision-Date: 2006-01-29 13:15+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -17,51 +17,59 @@ msgstr ""
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: KBabel 1.11\n"
 
-#: src/feed.c:148
+#: src/feed.c:187
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Sťahujem '%s'..."
 
-#: src/feed.c:589
+#: src/feed.c:712
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Aktualizujem kanál '%s'..."
 
-#: src/feed.c:607
+#: src/feed.c:727
+msgid "Fetching comments is not supported for RDF feeds."
+msgstr "Sťahovanie komentárov nie je podporované pre RDF kanály."
+
+#: src/feed.c:734
+msgid "Fetching comments is not supported for Atom feeds."
+msgstr "Sťahovanie komentárov nie je podporované pre Atom kanály."
+
+#: src/feed.c:739
 msgid "This feed format is not supported yet."
 msgstr "Formát tohoto kanálu nie je podporovaný."
 
-#: src/feed.c:639
+#: src/feed.c:768
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:902
+#: src/feed.c:1118
 msgid "You are already subscribed to this feed."
 msgstr "Tento kanál už máte prihlásený."
 
-#: src/feed.c:908
+#: src/feed.c:1126
 #, c-format
 msgid "Couldn't fetch URL '%s'."
 msgstr "Nepodarilo sa stiahnuť URL '%s'."
 
-#: src/feed.c:914
+#: src/feed.c:1134
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Nepodarilo sa prihlásiť kanál '%s'."
 
-#: src/plugin.c:44
+#: src/plugin.c:42
 msgid ""
-"Your version of Sylpheed-Claws is newer than the version the plugin was "
-"built with"
+"Your version of Sylpheed-Claws is newer than the version RSSyl was built "
+"with."
 msgstr ""
 "Verzia Vašej inštalácie Sylpheed-Claws je novšia, ako verzia, ktorá bola "
-"použitá pri kompilácii tohto pluginu"
+"použitá pri kompilácii pluginu RSSyl."
 
-#: src/plugin.c:49
-msgid "Your version of Sylpheed-Claws is too old"
-msgstr "Verzia vašej inštalácie Sylpheed-Claws je príliš stará"
+#: src/plugin.c:47
+msgid "Your version of Sylpheed-Claws is too old for RSSyl."
+msgstr "Verzia vašej inštalácie Sylpheed-Claws je príliš stará pre plugin RSSyl."
 
-#: src/plugin.c:70
+#: src/plugin.c:68
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"
@@ -93,7 +101,11 @@ msgstr "Naozaj chcete odstrániť strom priečinkov '%s' ?\n"
 msgid "Remove folder tree"
 msgstr "Odstrániť strom priečinkov"
 
-#: src/rssyl_cb_menu.c:147
+#: src/rssyl_cb_menu.c:84
+msgid "_Remove"
+msgstr "_Odstrániť"
+
+#: src/rssyl_cb_menu.c:148
 #, c-format
 msgid "Can't remove feed '%s'."
 msgstr "Nepodarilo sa odhlásiť kanál '%s'."
@@ -122,44 +134,44 @@ msgstr "/Nastavenia _kanálu..."
 msgid "/Remove folder _tree..."
 msgstr "/Odstrániť _strom priečinkov..."
 
-#: src/rssyl_gtk.c:62
+#: src/rssyl_gtk.c:63
 msgid "/Refresh feed"
 msgstr "/Aktualizovať kanál"
 
-#: src/rssyl_gtk.c:63
+#: src/rssyl_gtk.c:64
 msgid "/Refresh all feeds"
 msgstr "/Aktualizovať všetky kanály"
 
-#: src/rssyl_gtk.c:64
+#: src/rssyl_gtk.c:65
 msgid "/Subscribe new feed..."
 msgstr "/Prihlásiť nový kanál..."
 
-#: src/rssyl_gtk.c:65
+#: src/rssyl_gtk.c:66
 msgid "/Unsubscribe feed..."
 msgstr "/Odhlásiť kanál..."
 
-#: src/rssyl_gtk.c:66
+#: src/rssyl_gtk.c:67
 msgid "/Feed properties..."
 msgstr "/Nastavenia kanálu..."
 
-#: src/rssyl_gtk.c:67
+#: src/rssyl_gtk.c:68
 msgid "/Remove folder tree..."
 msgstr "/Odstrániť strom priečinkov..."
 
-#: src/rssyl_gtk.c:109
+#: src/rssyl_gtk.c:110
 msgid "Add RSS folder tree"
 msgstr "Pridávanie RSSyl priečinku pre kanály"
 
-#: src/rssyl_gtk.c:110
+#: src/rssyl_gtk.c:111
 msgid "Enter name for a new RSS folder tree."
 msgstr "Zadajte názov nového RSsyl koreňového priečinku."
 
-#: src/rssyl_gtk.c:115
+#: src/rssyl_gtk.c:116
 #, c-format
 msgid "The mailbox '%s' already exists."
 msgstr "Koreňový priečinok '%s' už existuje."
 
-#: src/rssyl_gtk.c:124
+#: src/rssyl_gtk.c:125
 msgid ""
 "Creation of folder tree failed.\n"
 "Maybe some files already exist, or you don't have the permission to write "
@@ -168,23 +180,27 @@ msgstr ""
 "Vytvorenie koreňového priečinku sa nepodarilo.\n"
 "Vytvárané súbory už možno existujú, alebo nemáte práva na zápis?"
 
-#: src/rssyl_gtk.c:138
+#: src/rssyl_gtk.c:139
 msgid "/File/Add mailbox/RSSyl..."
 msgstr "/Súbor/_Pridať schránku/RSSyl..."
 
-#: src/rssyl_gtk.c:208
+#: src/rssyl_gtk.c:217
 msgid "Use default refresh interval (180 minutes)"
 msgstr "Použiť prednastavený interval aktualizácie (180 minút)"
 
-#: src/rssyl_gtk.c:220
+#: src/rssyl_gtk.c:229
 msgid "Keep default number of expired entries (-1)"
 msgstr "Ponechať si prednastavené množstvo starých položiek (-1)"
 
-#: src/rssyl_gtk.c:252
+#: src/rssyl_gtk.c:235
+msgid "Fetch comments if possible"
+msgstr "Sťahovať komentáre, ak je to možné."
+
+#: src/rssyl_gtk.c:267
 msgid "<b>Source URL:</b>"
 msgstr "<b>Zdrojová URL:</b>"
 
-#: src/rssyl_gtk.c:279
+#: src/rssyl_gtk.c:307
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
@@ -192,7 +208,7 @@ msgstr ""
 "<b>Interval aktualizácie:</b>\n"
 "<small>(Použite 0, ak tento kanál nechcete aktualizovať automaticky)</small>"
 
-#: src/rssyl_gtk.c:310
+#: src/rssyl_gtk.c:340
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
@@ -200,26 +216,31 @@ msgstr ""
 "<b>Koľko starých položiek si nechať:</b>\n"
 "<small>(Použite -1, ak staré položky nechcete mazať vôbec)</small>"
 
-#: src/rssyl_gtk.c:353
-msgid "_OK"
-msgstr "_OK"
-
-#: src/rssyl_gtk.c:373
+#: src/rssyl_gtk.c:382
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
-#: src/rssyl_gtk.c:381
+#: src/rssyl_gtk.c:403
+msgid "_OK"
+msgstr "_OK"
+
+#: src/rssyl_gtk.c:411
 msgid "Set feed properties"
 msgstr "Nastavenia kanálu"
 
-#: src/rssyl_gtk.c:479 src/rssyl_gtk.c:500
+#: src/rssyl_gtk.c:519 src/rssyl_gtk.c:544
 msgid "Unsubscribe feed"
 msgstr "Odhlásiť kanál"
 
-#: src/rssyl_gtk.c:501
+#: src/rssyl_gtk.c:545
 msgid "Do you really want to remove feed"
 msgstr "Naozaj chcete odstrániť kanál"
 
-#: src/rssyl_gtk.c:511
+#: src/rssyl_gtk.c:551
 msgid "Remove cached entries"
 msgstr "Odstrániť kópie položiek kanálu z disku"
+
+#: src/rssyl_gtk.c:564
+msgid "_Unsubscribe"
+msgstr "_Odhlásiť"
+

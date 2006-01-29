@@ -1,10 +1,17 @@
 2006-01-29 [paul]
 
+	* po/fi.po
+		updated by Flammie Pirinen
+	* po/sk.po
+		added by Andrej Kacian
+
+2006-01-29 [paul]
+
 	* configure.ac
 	* po/sr.po
 		submitted by Aleksandar Urosevic <urke.dd@urosevic.net>
 	* po/pt_BR.po
-		updated by  Frederico Goncalves Guimaraes and
+		updated by  Frederico Goncalves Guimaraes
 
 2006-01-28 [paul]
 
