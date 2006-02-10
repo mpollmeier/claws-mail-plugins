@@ -1,4 +1,8 @@
-2006-02-10 20:29 Colin Leroy <colin@colino.net>
+2006-02-11  00:43 Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c
+		Improved debug output for feed fetching
+
+2006-02-10  20:29 Colin Leroy <colin@colino.net>
 	* src/rssyl_cb_gtk.c
 		respect prefs_common.work_offline in automatic update
 

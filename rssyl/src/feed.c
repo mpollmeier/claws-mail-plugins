@@ -70,6 +70,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	CURLcode res;
 	int response_code;
 	time_t last_modified;
+	gchar *time_str = NULL;
 
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);
@@ -112,8 +113,12 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
 	
-	debug_print("last update %ld\n", ctx->last_update);
-	if (ctx->last_update != (time_t)NULL) {
+	if( ctx->last_update != -1 )
+		time_str = createRFC822Date(&ctx->last_update);
+	debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
+			(ctx->last_update != -1 ? time_str : "unknown") );
+	g_free(time_str);
+	if( ctx->last_update != -1 ) {
 		curl_easy_setopt(eh, CURLOPT_TIMECONDITION,
 			CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(eh, CURLOPT_TIMEVALUE, ctx->last_update);
@@ -121,19 +126,25 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			
 	res = curl_easy_perform(eh);
 
-	if (ctx->last_update != (time_t)NULL) {
+	if( ctx->last_update != -1 ) {
 		curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
 		curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
-		debug_print("got status %d, last mod %ld\n", response_code, last_modified);
+
+		if( last_modified != -1 )
+			time_str = createRFC822Date(&ctx->last_update);
+		debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
+				last_modified, (last_modified != -1 ? time_str : "unknown") );
+		g_free(time_str);
 	}
 
 	curl_easy_cleanup(eh);
 
 	fclose(f);
 
-	if (ctx->last_update != (time_t)NULL) {
-		if (response_code == 304
-		||  (last_modified != -1 && last_modified < ctx->last_update)) {
+	if ( ctx->last_update != -1 ) {
+		if( response_code == 304 && last_modified != -1 &&
+				last_modified < ctx->last_update ) {
+			debug_print("RSSyl: feed source not modified, not doing anything");
 			ctx->not_modified = TRUE; 
 			ctx->ready = TRUE;
 			g_unlink(template);
@@ -1120,7 +1131,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 		return FALSE;
 	}
 
-	doc = rssyl_fetch_feed(myurl, (time_t)NULL, &title);
+	doc = rssyl_fetch_feed(myurl, -1, &title);
 	if( !title ) {
 		if (verbose)
 			alertpanel_error(_("Couldn't fetch URL '%s'."), myurl);
