@@ -1,3 +1,7 @@
+2006-02-10 20:29 Colin Leroy <colin@colino.net>
+	* src/rssyl_cb_gtk.c
+		respect prefs_common.work_offline in automatic update
+
 2006-01-22  20:55 Andrej Kacian <andrej@kacian.sk>
 	* configure.ac
 		src: feed.[ch], parsers.c: Added --enable-debug to configure, which

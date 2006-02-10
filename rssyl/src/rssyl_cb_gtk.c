@@ -35,6 +35,7 @@
 #include "rssyl.h"
 #include "rssyl_gtk.h"
 #include "rssyl_cb_gtk.h"
+#include "prefs_common.h"
 
 gboolean rssyl_props_cancel_cb(GtkWidget *widget, gpointer data)
 {
@@ -63,6 +64,9 @@ gboolean rssyl_refresh_timeout_cb(gpointer data)
 	time_t tt = time(NULL);
 
 	g_return_val_if_fail(ctx != NULL, FALSE);
+
+	if( prefs_common.work_offline)
+		return TRUE;
 
 	if( ctx->ritem == NULL || ctx->ritem->url == NULL ) {
 		debug_print("RSSyl: refresh_timeout_cb - ritem or url NULL\n");
