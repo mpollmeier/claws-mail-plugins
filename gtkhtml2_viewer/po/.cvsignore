@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+POTFILES
+*.gmo
+*.po~
+stamp-po
+gtkhtml2_viewer.pot
