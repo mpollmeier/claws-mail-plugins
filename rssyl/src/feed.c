@@ -58,7 +58,6 @@ struct _RSSylThreadCtx {
 	const gchar *url;
 	time_t last_update;
 	gboolean not_modified;
-	gboolean force_fetch;
 	gboolean ready;
 };
 
@@ -114,13 +113,13 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
 	
-	if( ctx->last_update != -1 && ctx->force_fetch == FALSE ) {
+	if( ctx->last_update != -1 )
 		time_str = createRFC822Date(&ctx->last_update);
-		debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
-				(ctx->last_update != -1 ? time_str : "unknown") );
-		g_free(time_str);
-		time_str = NULL;
-
+	debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
+			(ctx->last_update != -1 ? time_str : "unknown") );
+	g_free(time_str);
+	time_str = NULL;
+	if( ctx->last_update != -1 ) {
 		curl_easy_setopt(eh, CURLOPT_TIMECONDITION,
 			CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(eh, CURLOPT_TIMEVALUE, ctx->last_update);
@@ -128,15 +127,13 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			
 	res = curl_easy_perform(eh);
 
-	curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
-
-	if( ctx->last_update != -1 && ctx->force_fetch == FALSE ) {
+	if( ctx->last_update != -1 ) {
+		curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
 		curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
 
 		if( last_modified != -1 )
-			time_str = createRFC822Date(&last_modified);
-
-		debug_print("RSSyl: got response %d, last mod %ld (%s)\n", response_code,
+			time_str = createRFC822Date(&ctx->last_update);
+		debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
 				last_modified, (last_modified != -1 ? time_str : "unknown") );
 		g_free(time_str);
 		time_str = NULL;
@@ -146,31 +143,16 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 
 	fclose(f);
 
-	if( response_code == 304 ) {
-		if ( ctx->last_update != -1 && ctx->force_fetch == FALSE ) {
-			if( last_modified != -1 || last_modified < ctx->last_update ) {
-				debug_print("RSSyl: server doesn't want to tell us the mtime, fetching"
-						" without If-Modified-Since...");
-				g_unlink(template);
-				g_free(template);
-				ctx->force_fetch = TRUE;
-				template = rssyl_fetch_feed_threaded(ctx);
-			} else {
-				debug_print("RSSyl: feed source not modified, not doing anything");
-				ctx->not_modified = TRUE; 
-				ctx->ready = TRUE;
-				g_unlink(template);
-				g_free(template);
-				return NULL;
-			}
+	if ( ctx->last_update != -1 ) {
+		if( response_code == 304 ||
+				(last_modified != -1 || last_modified < ctx->last_update) ) {
+			debug_print("RSSyl: feed source not modified, not doing anything");
+			ctx->not_modified = TRUE; 
+			ctx->ready = TRUE;
+			g_unlink(template);
+			g_free(template);
+			return NULL;
 		}
-	}
-
-	if( response_code == 404 ) {
-		debug_print("RSSyl: got 404 (notfound)");
-		g_unlink(template);
-		g_free(template);
-		return NULL;
 	}
 
 	ctx->ready = TRUE;
@@ -208,7 +190,6 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	ctx->ready = FALSE;
 	ctx->last_update = last_update;
 	ctx->not_modified = FALSE;
-	ctx->force_fetch = FALSE;
 
 	*title = NULL;
 
