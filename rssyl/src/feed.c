@@ -118,6 +118,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
 			(ctx->last_update != -1 ? time_str : "unknown") );
 	g_free(time_str);
+	time_str = NULL;
 	if( ctx->last_update != -1 ) {
 		curl_easy_setopt(eh, CURLOPT_TIMECONDITION,
 			CURL_TIMECOND_IFMODSINCE);
@@ -135,6 +136,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
 				last_modified, (last_modified != -1 ? time_str : "unknown") );
 		g_free(time_str);
+		time_str = NULL;
 	}
 
 	curl_easy_cleanup(eh);

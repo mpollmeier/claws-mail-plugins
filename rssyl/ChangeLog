@@ -1,3 +1,7 @@
+2006-02-11  18:43 Colin Leroy <colin@colino.net>
+	* src/feed.c
+		Prevent possible double-free
+
 2006-02-11  00:43 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c
 		Improved debug output for feed fetching
