@@ -146,7 +146,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	if ( ctx->last_update != -1 ) {
 		if( response_code == 304 ||
 				(last_modified != -1 || last_modified < ctx->last_update) ) {
-			debug_print("RSSyl: feed source not modified, not doing anything");
+			debug_print("RSSyl: feed source not modified, not doing anything\n");
 			ctx->not_modified = TRUE; 
 			ctx->ready = TRUE;
 			g_unlink(template);
