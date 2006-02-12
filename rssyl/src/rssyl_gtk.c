@@ -169,8 +169,14 @@ void rssyl_gtk_done(void)
 	GtkItemFactory *ifac;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	GtkWidget *widget;
-	FolderView *folderview = mainwin->folderview;
-	FolderItem *fitem = folderview->summaryview->folder_item;
+	FolderView *folderview = NULL;
+	FolderItem *fitem = NULL;
+
+	if (mainwin == NULL)
+		return;
+
+	folderview = mainwin->folderview;
+	fitem = folderview->summaryview->folder_item;
 
 	if( fitem && IS_RSSYL_FOLDER_ITEM(fitem) ) {
 		folderview_unselect(folderview);
