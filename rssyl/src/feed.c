@@ -68,9 +68,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	RSSylThreadCtx *ctx = (RSSylThreadCtx *)arg;
 	CURL *eh = NULL;
 	CURLcode res;
-	int response_code;
 	time_t last_modified;
 	gchar *time_str = NULL;
+	gint response_code;
 
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);
@@ -127,8 +127,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			
 	res = curl_easy_perform(eh);
 
+	curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
+
 	if( ctx->last_update != -1 ) {
-		curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
 		curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
 
 		if( last_modified != -1 )
@@ -143,16 +144,13 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 
 	fclose(f);
 
-	if ( ctx->last_update != -1 ) {
-		if( response_code == 304 ||
-				(last_modified != -1 || last_modified < ctx->last_update) ) {
-			debug_print("RSSyl: feed source not modified, not doing anything\n");
-			ctx->not_modified = TRUE; 
-			ctx->ready = TRUE;
-			g_unlink(template);
-			g_free(template);
-			return NULL;
-		}
+	if( response_code == 304 ) {
+		debug_print("RSSyl: feed source not modified, not doing anything\n");
+		ctx->not_modified = TRUE; 
+		ctx->ready = TRUE;
+		g_unlink(template);
+		g_free(template);
+		return NULL;
 	}
 
 	ctx->ready = TRUE;
@@ -175,7 +173,6 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	RSSylThreadCtx *ctx = g_new0(RSSylThreadCtx, 1);
 	void *template = NULL;
-	gboolean not_modified = FALSE;
 #ifdef RSSYL_DEBUG
 	gchar *unixtime_str = NULL, *debugfname = NULL;
 #endif /* RSSYL_DEBUG */
@@ -222,12 +219,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	(gchar *)template = rssyl_fetch_feed_threaded(ctx);
 #endif
 
-	not_modified = ctx->not_modified;
-
 	g_free(ctx);
 	STATUSBAR_POP(mainwin);
 
-	if (not_modified) {
+	if (ctx->not_modified) {
 		return NULL;
 	}
 
