@@ -176,9 +176,13 @@ void plugin_done(void)
 {
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	SummaryView *summaryview = mainwin->summaryview;
+	SummaryView *summaryview = NULL;
 	GtkWidget *widget;
 
+	if (mainwin == NULL)
+		return;
+
+	summaryview = mainwin->summaryview;
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	widget = gtk_item_factory_get_widget(ifactory, remove_att_menu.path);
 	gtk_widget_destroy(widget);

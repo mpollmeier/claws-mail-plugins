@@ -1,3 +1,7 @@
+2006-02-12 [colin]	0.20
+
+	* Check for mainwin before using it
+
 2006-01-23 [paul]	0.19
 
 	* fix crash after unloading plugin

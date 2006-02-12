@@ -1,3 +1,7 @@
+2006-02-12 [colin]	0.5
+
+	* Check for mainwin before using it
+
 2005-12-15 [paul]	0.4
 
 	* Add plugin_version()

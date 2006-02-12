@@ -100,6 +100,9 @@ void plugin_gtk_done(void)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	GtkWidget *widget;
 	
+	if (mainwin == NULL)
+		return;
+
 	folderview_unregister_popup(&mailmbox_popup);
 
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
