@@ -1,3 +1,7 @@
+2006-02-12  09:08 wwp <subscript@free.fr>
+	* src/feed.c
+		Added missing LF to a debug message.
+
 2006-02-11  18:43 Colin Leroy <colin@colino.net>
 	* src/feed.c
 		Prevent possible double-free
