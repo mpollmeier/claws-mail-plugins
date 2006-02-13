@@ -1,3 +1,11 @@
+2006-02-13 [colin] 1.31
+
+	* src/vcal_manager.c
+		Fix (null) in To: 
+		Fix missing DTSTAMP 
+		closes bug #910 (vCalendar-Plugin does not interact 
+		with Outlook)
+
 2006-02-12 [colin] 1.30
 
 	* src/vcalendar.c
