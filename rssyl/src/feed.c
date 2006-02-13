@@ -172,7 +172,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	xmlXPathObjectPtr result;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	RSSylThreadCtx *ctx = g_new0(RSSylThreadCtx, 1);
-	void *template = NULL;
+	gchar *template = NULL;
 #ifdef RSSYL_DEBUG
 	gchar *unixtime_str = NULL, *debugfname = NULL;
 #endif /* RSSYL_DEBUG */
@@ -212,17 +212,18 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			sylpheed_do_idle();
 		debug_print("RSSyl: thread finished\n");
 
-		pthread_join(pt, &template);
+		pthread_join(pt, (void *)&template);
 	}
 #else
 	debug_print("RSSyl: no pthreads, run blocking fetch\n");
-	(gchar *)template = rssyl_fetch_feed_threaded(ctx);
+	template = rssyl_fetch_feed_threaded(ctx);
 #endif
 
 	g_free(ctx);
 	STATUSBAR_POP(mainwin);
 
 	if (ctx->not_modified) {
+		
 		return NULL;
 	}
 
@@ -252,6 +253,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			xmlXPathFreeContext(context);
 			g_free(rootnode);
 			g_free(xpath);
+			g_unlink(template);
+			g_free(template);
 			return NULL;
 		}
 
@@ -261,6 +264,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			g_free(xpath);
 			xmlXPathFreeObject(result);
 			xmlXPathFreeContext(context);
+			g_unlink(template);
+			g_free(template);
 			return NULL;
 		}
 		g_free(xpath);
@@ -300,6 +305,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	} else {
 		g_warning("Unsupported feed type.\n");
 		g_free(rootnode);
+		g_unlink(template);
+		g_free(template);
 		return NULL;
 	}
 
@@ -314,6 +321,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			g_warning("couldn't create directory %s\n", dir);
 			g_free(rootnode);
 			g_free(dir);
+			g_unlink(template);
+			g_free(template);
 			return NULL;
 		}
 	}
