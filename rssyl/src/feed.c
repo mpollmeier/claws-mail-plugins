@@ -767,7 +767,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	gint d, fd, dif = 0;
 	FILE *f;
 	RSSylFeedItem *oldfitem = NULL;
-
+	gchar *meta_charset = NULL;
 	g_return_val_if_fail(ritem != NULL, FALSE);
 	g_return_val_if_fail(ritem->item.path != NULL, FALSE);
 	g_return_val_if_fail(fitem != NULL, FALSE);
@@ -847,7 +847,9 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	if (fitem->text && g_utf8_validate(fitem->text, -1, NULL)) {
 		/* if it passes UTF-8 validation, specify it. */
-		fprintf(f, "Content-Type: text/html; charset=UTF-8\n\n");		
+		fprintf(f, "Content-Type: text/html; charset=UTF-8\n\n");
+		meta_charset = g_strdup("<meta http-equiv=\"Content-Type\" "
+			       "content=\"text/html; charset=UTF-8\">");
 	} else {
 		/* make sure Sylpheed-Claws displays it as html */
 		fprintf(f, "Content-Type: text/html\n\n");
@@ -858,12 +860,18 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 				fitem->link, fitem->link);
 
 	if( fitem->text )
-		fprintf(f, "<html><head></head><body>\n"
+		fprintf(f, "<html><head>"
+				"%s\n"
+			        "</head><body>\n"
 				RSSYL_TEXT_START"\n"
 				"%s\n"
 				RSSYL_TEXT_END"\n"
 				"</body></html>",
+				meta_charset ? meta_charset:"",
 				fitem->text);
+
+	if (meta_charset)
+		g_free(meta_charset);
 
 	fclose(f);
 
