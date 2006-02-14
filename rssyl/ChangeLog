@@ -1,3 +1,9 @@
+2006-02-14  01:09 Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c
+		Fixed check for presence of fetched feed.
+	* configure.ac
+		Add cvsXX suffix to version.
+
 2006-02-13  23:43 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c
 		Remove temporary file with fetched feed when preliminary XML processing

@@ -222,13 +222,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	g_free(ctx);
 	STATUSBAR_POP(mainwin);
 
-	if (ctx->not_modified) {
-		
+	if( template == NULL ) {
+		debug_print("RSSyl: no feed to parse, returning\n");
 		return NULL;
 	}
-
-	g_return_val_if_fail (template != NULL, NULL);
-	
 		
 	/* Strip ugly \r\n endlines */
 	file_strip_crs((gchar *)template);
