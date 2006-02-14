@@ -1038,7 +1038,8 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		rssyl_expire_items(ritem);
 	}
 
-	rssyl_update_comments(ritem);
+	if( ritem->fetch_comments == TRUE )
+		rssyl_update_comments(ritem);
 
 	ritem->item.mtime = time(NULL);
 	debug_print("setting %s mtime to %ld\n", ritem->item.name, time(NULL));
@@ -1170,7 +1171,9 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 
 	rssyl_expire_items(ritem);
 
-	rssyl_update_comments(ritem);
+	/* TODO: allow user to enable this when adding the feed */
+	if( ritem->fetch_comments )
+		rssyl_update_comments(ritem);
 
 	rssyl_start_refresh_timeout(ritem);
 

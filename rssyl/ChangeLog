@@ -1,5 +1,9 @@
 2006-02-14  01:09 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c
+		Only update feed comments if this is set in feed preferences.
+
+2006-02-14  01:09 Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c
 		Fixed check for presence of fetched feed.
 	* configure.ac
 		Add cvsXX suffix to version.
