@@ -38,6 +38,7 @@
 #include "messageview.h"
 #include "prefs_common.h"
 #include "gtkhtml2_prefs.h"
+#include "codeconv.h"
 
 #include "pluginconfig.h"
 #include "plugin_version.h"
@@ -84,8 +85,8 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	FILE *fp;
 	gchar buf[4096];
 	gint loaded = 0;
-	gchar *tmp;
-
+	const gchar *charset = NULL;
+	
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
@@ -96,9 +97,19 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
 	if (!(procmime_get_part(viewer->filename, partinfo) < 0)) {
-		
-		
+	
+		if (_viewer && _viewer->mimeview && 
+		    _viewer->mimeview->messageview->forced_charset)
+			charset = _viewer->mimeview->messageview->forced_charset;
+		else
+			charset = procmime_mimeinfo_get_parameter(partinfo, "charset");
+		if (charset == NULL)
+			charset = conv_get_locale_charset_str();
+
+		debug_print("using charset %s\n", charset);
+
 		if (html_document_open_stream(viewer->html_doc, "text/html")) {
+			gboolean got_charset = FALSE;
 			fp = fopen(viewer->filename, "r");
 			
 			if (fp == NULL) {
@@ -107,6 +118,20 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 			}
 			
 			while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
+				if (strcasestr(buf, "<meta") && 
+				    strcasestr(buf, "http-equiv") && 
+				    strcasestr(buf, "charset"))
+					got_charset = TRUE; /* hack */
+				if (strcasestr(buf, "</head>") && got_charset == FALSE) {
+					gchar *meta_charset = g_strdup_printf(
+						"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
+						charset);
+					html_document_write_stream(
+						viewer->html_doc, meta_charset, strlen(meta_charset));
+					debug_print("injected %s\n", meta_charset);
+					g_free(meta_charset);
+				}
+				
 				html_document_write_stream(viewer->html_doc, buf, loaded);
 				if (gtk_events_pending())
 					gtk_main_iteration();
@@ -153,8 +178,11 @@ void link_clicked(HtmlDocument *doc, const gchar *url, gpointer data) {
 static void on_url(GtkWidget *widget, const gchar *url, gpointer data) 
 {
 	gchar *trimmed_uri = NULL;
-	MessageView *messageview = mainwindow_get_mainwindow()->messageview;
+	MimeViewer *viewer = (MimeViewer *)data;
+	MessageView *messageview = viewer->mimeview ? viewer->mimeview->messageview : NULL;
 	
+	g_return_if_fail(messageview != NULL);
+
 	if (url != NULL) {
 		trimmed_uri = trim_string(url, 60);
 		if (messageview->statusbar)
@@ -349,7 +377,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 42))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 56))) {
 		*error = g_strdup("Your version of Sylpheed-Claws is too old for the gtkhtml2 plugin");
 		return -1;
 	}
