@@ -349,7 +349,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 3, 86))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 42))) {
 		*error = g_strdup("Your version of Sylpheed-Claws is too old for the gtkhtml2 plugin");
 		return -1;
 	}
