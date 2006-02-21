@@ -1,3 +1,9 @@
+2006-02-21 [colin] 1.32
+
+	* src/vcalendar.c
+		Use 1 hour instead of 10 minutes to refresh the
+		feeds
+
 2006-02-13 [colin] 1.31
 
 	* src/vcal_manager.c

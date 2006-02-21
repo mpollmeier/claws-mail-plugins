@@ -1177,7 +1177,7 @@ void vcalendar_init(void)
 	alert_timeout_tag = gtk_timeout_add(60*1000, 
 				(GtkFunction)vcal_meeting_alert_check, 
 				(gpointer)NULL);
-	scan_timeout_tag = gtk_timeout_add(60*10*1000, 
+	scan_timeout_tag = gtk_timeout_add(3600*1000, 
 				(GtkFunction)vcal_webcal_check, 
 				(gpointer)NULL);
 }
