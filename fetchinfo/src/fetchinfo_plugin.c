@@ -155,6 +155,8 @@ void fetchinfo_save_config(void)
 
 gint plugin_init(gchar **error)
 {
+	gchar *rcpath;
+
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your sylpheed version is newer than the version the plugin was built with");
 		return -1;
@@ -172,7 +174,9 @@ gint plugin_init(gchar **error)
 	}
 
 	prefs_set_default(param);
-	prefs_read_config(param, "Fetchinfo", COMMON_RC, NULL);
+	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+	prefs_read_config(param, "Fetchinfo", rcpath, NULL);
+	g_free(rcpath);
 
 	debug_print("Fetchinfo plugin loaded\n");
 
