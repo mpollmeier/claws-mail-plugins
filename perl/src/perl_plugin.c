@@ -2012,6 +2012,7 @@ gint plugin_init(gchar **error)
   int status = 0;
   FILE *fp;
   gchar *perlfilter;
+  gchar *rcpath;
 
   argc = 1;
   *argv = NULL;
@@ -2045,7 +2046,9 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
-  prefs_read_config(param, "PerlPlugin", COMMON_RC, NULL);
+  rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+  prefs_read_config(param, "PerlPlugin", rcpath, NULL);
+  g_free(rcpath);
 
   /* make sure we have at least an empty scriptfile */
   perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
