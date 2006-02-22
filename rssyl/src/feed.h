@@ -7,6 +7,8 @@
 
 #include "rssyl.h"
 
+#define RSSYL_TMP_TEMPLATE	"curltmpXXXXXX"
+
 #define RSSYL_XPATH_ROOT		"/rssyl"
 #define RSSYL_XPATH_TITLE		RSSYL_XPATH_ROOT"/title"
 #define RSSYL_XPATH_LINK		RSSYL_XPATH_ROOT"/link"

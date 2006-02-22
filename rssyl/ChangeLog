@@ -1,3 +1,8 @@
+2006-02-22  21:23 Andrej Kacian <andrej@kacian.sk>
+	* src/feed.[ch], src/feedprops.c
+		Write formatted XML file, patch by Colin Leroy. Change temporary files
+		name to curltmpXXXXXX, suggested by Brian Morrison <bdm at fenrir.org.uk>.
+
 2006-02-14  01:09 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c
 		Only update feed comments if this is set in feed preferences.

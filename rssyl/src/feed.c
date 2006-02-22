@@ -73,7 +73,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	gint response_code;
 
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);
+			G_DIR_SEPARATOR_S, RSSYL_TMP_TEMPLATE, NULL);
 	int fd = mkstemp(template);
 	FILE *f;
 
@@ -805,7 +805,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	flags = g_new(MsgFlags, 1);
 	template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, "feedXXXXXX", NULL);
+			G_DIR_SEPARATOR_S, RSSYL_TMP_TEMPLATE, NULL);
 	fd = mkstemp(template);
 
 	f = fdopen(fd, "w");

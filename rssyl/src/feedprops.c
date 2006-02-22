@@ -129,7 +129,7 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 					g_strdup_printf("%d", ritem->expired_num) );
 	}
 
-	xmlSaveFile(path, doc);
+	xmlSaveFormatFile(path, doc, 1);
 	xmlFreeDoc(doc);
 	g_free(path);
 }
@@ -285,7 +285,7 @@ void rssyl_remove_feed_props(RSSylFolderItem *ritem)
 	xmlXPathFreeObject(result);
 	xmlXPathFreeContext(context);
 
-	xmlSaveFile(path, doc);
+	xmlSaveFormatFile(path, doc, 1);
 
 	xmlFreeDoc(doc);
 	g_free(path);
@@ -341,7 +341,7 @@ void rssyl_props_update_name(RSSylFolderItem *ritem, gchar *new_name)
 	if( !found )
 		debug_print("couldn't find feed\n");
 
-	xmlSaveFile(path, doc);
+	xmlSaveFormatFile(path, doc, 1);
 	xmlFreeDoc(doc);
 	g_free(path);
 }
