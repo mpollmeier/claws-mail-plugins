@@ -90,12 +90,15 @@ static gboolean mail_receive_hook(gpointer source, gpointer data)
 	gchar *newdata;
 	gchar date[PREFSBUFSIZE];
 	
-	g_return_val_if_fail( config.fetchinfo_enable
-			      && mail_receive_data
+	if (!config.fetchinfo_enable) {
+		return FALSE;
+	}
+
+	g_return_val_if_fail( 
+			      mail_receive_data
 			      && mail_receive_data->session
 			      && mail_receive_data->data,
 			      FALSE );
-
 
 	session = mail_receive_data->session;
 	get_rfc822_date(date, PREFSBUFSIZE);
@@ -199,7 +202,7 @@ const gchar *plugin_desc(void)
 {
 	return _("This plugin modifies the downloaded messages. "
 	         "It inserts headers containing some download "
-		 "information: UIDL, Sylpheeds account name, "
+		 "information: UIDL, Sylpheed-Claws account name, "
 		 "POP server, user ID and retrieval time.\n"
 		 "To configure this plugin, load the Fetchinfo "
 		 "Gtk plugin as well.");

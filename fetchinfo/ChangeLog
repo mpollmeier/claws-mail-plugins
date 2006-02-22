@@ -1,3 +1,13 @@
+2006-02-22 [wwp]    0.4.12
+
+	* src/fetchinfo_plugin.c
+		Don't warn if plugin is disabled. Replaced a reference to Sylpheed
+		with Sylpheed-Claws.
+
+	* Changelog
+	* configure.ac
+		Bumped version to 0.4.12
+
 2006-02-21 [wwp]    0.4.11
 
 	* src/fetchinfo_plugin.c
