@@ -73,13 +73,16 @@ gboolean synce_comp(void)
   gchar **email_addresses;
   gchar **eap;
   gchar *email_list;
+  gchar *rcpath;
 
   if(email_in_wince_hash == NULL)
     email_in_wince_hash = g_hash_table_new(g_str_hash, g_str_equal);
   if(email_not_in_wince_hash == NULL)
     email_not_in_wince_hash = g_hash_table_new(g_str_hash, g_str_equal);
 
-  prefs_read_config(param, "SynCEPlugin", COMMON_RC, NULL);
+  rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+  prefs_read_config(param, "SynCEPlugin", rcpath, NULL);
+  g_free(rcpath);
   synce_plugin_save_config();
 
 
