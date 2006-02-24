@@ -1129,7 +1129,7 @@ static XS(XS_SylpheedClaws_forward)
   account = account_find_from_id(account_id);
   compose = compose_forward(account, msginfo,
 			    flag == 1 ? FALSE : TRUE,
-			    NULL, TRUE);
+			    NULL, TRUE, FALSE);
   compose_entry_append(compose, dest,
 		       compose->account->protocol == A_NNTP ?
 		       COMPOSE_NEWSGROUPS : COMPOSE_TO);
@@ -1169,7 +1169,7 @@ static XS(XS_SylpheedClaws_redirect)
   dest = SvPV_nolen(ST(1));
 
   account = account_find_from_id(account_id);
-  compose = compose_redirect(account, msginfo);
+  compose = compose_redirect(account, msginfo, FALSE);
   
   if (compose->account->protocol == A_NNTP)
     XSRETURN_UNDEF;
