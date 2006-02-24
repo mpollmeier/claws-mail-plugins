@@ -1,9 +1,21 @@
+2006-02-25 [holger]     0.8.1
+
+	* src/perl_gtk.c
+		Check mainwindow before using it
+	* src/perl_plugin.c
+		Fix access to "References" header (and a few others)
+		Forward and redirect in batch mode
+		Remove double plugin version information
+		Update required Sylpheed-Claws version
+	* sc_perl.pod
+		Update documentation
+	
 2006-02-23 [wwp]	0.8
 
 	* src/perl_plugin.c
 		updated to reflect latest changes in compose.c API.
-	* Changelog
-	  configure.ac
+	* ChangeLog
+	* configure.ac
 		bumped version to 0.8
 
 2006-02-22 [wwp]	0.7
@@ -16,11 +28,13 @@
 
 2005-12-15 [paul]	0.6
 
-	* Add plugin_version()
+	* src/perl_plugin.c
+		Add plugin_version()
 
 2005-12-07 [colin]      0.5
 
-	* Add plugin_licence()
+	* src/perl_plugin.c
+		Add plugin_licence()
 	
 2005-10-06 [paul]	0.4
 

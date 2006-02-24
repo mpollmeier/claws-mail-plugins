@@ -520,10 +520,12 @@ static XS(XS_SylpheedClaws_filter_init)
    *         25 planned_download
    *
    *    general
-   *       100 manual
+   *        100 manual
    */
   char *charp;
   gchar buf[BUFFSIZE];
+  GSList *walk;
+  int ii;
 
   dXSARGS;
   if(items != 1) {
@@ -563,7 +565,10 @@ static XS(XS_SylpheedClaws_filter_init)
     msginfo->returnreceiptto ? 
       XSRETURN_PV(msginfo->returnreceiptto)                : XSRETURN_UNDEF;
   case 14:
-    msginfo->references ? XSRETURN_PV(msginfo->references) : XSRETURN_UNDEF;
+    ii = 0;
+    for(walk = msginfo->references; walk != NULL; walk = g_slist_next(walk))
+      XST_mPV(ii++,walk->data ? (gchar*) walk->data: "");
+    ii ? XSRETURN(ii) : XSRETURN_UNDEF;
   case 15:
     msginfo->score      ? XSRETURN_IV(msginfo->score)      : XSRETURN_UNDEF;
   case 17:
@@ -1129,7 +1134,7 @@ static XS(XS_SylpheedClaws_forward)
   account = account_find_from_id(account_id);
   compose = compose_forward(account, msginfo,
 			    flag == 1 ? FALSE : TRUE,
-			    NULL, TRUE, FALSE);
+			    NULL, TRUE, TRUE);
   compose_entry_append(compose, dest,
 		       compose->account->protocol == A_NNTP ?
 		       COMPOSE_NEWSGROUPS : COMPOSE_TO);
@@ -1169,7 +1174,7 @@ static XS(XS_SylpheedClaws_redirect)
   dest = SvPV_nolen(ST(1));
 
   account = account_find_from_id(account_id);
-  compose = compose_redirect(account, msginfo, FALSE);
+  compose = compose_redirect(account, msginfo, TRUE);
   
   if (compose->account->protocol == A_NNTP)
     XSRETURN_UNDEF;
@@ -1719,8 +1724,8 @@ static int perl_init(void)
 "    add_header_entries_(\"dispositionnotificationto\",\n"
 "			             SylpheedClaws::C::filter_init(12));\n"
 "    add_header_entries_(\"returnreceiptto\",\n"
-"			             SylpheedClaws::C::filter_init(11));\n"
-"    add_header_entries_(\"references\",SylpheedClaws::C::filter_init(11));\n"
+"			             SylpheedClaws::C::filter_init(13));\n"
+"    add_header_entries_(\"references\",SylpheedClaws::C::filter_init(14));\n"
 "    $msginfo{\"score\"}              = SylpheedClaws::C::filter_init(15);\n"
 "    $msginfo{\"plaintext_file\"}     = SylpheedClaws::C::filter_init(17);\n"
 "    $msginfo{\"hidden\"}             = SylpheedClaws::C::filter_init(19);\n"
@@ -2024,7 +2029,7 @@ gint plugin_init(gchar **error)
 		      "the plugin was built with");
     return -1;
   }
-  if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 0, 3, 4))) {
+  if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 81))) {
     *error = g_strdup("Your sylpheed version is too old");
     return -1;
   }
@@ -2118,8 +2123,7 @@ const gchar *plugin_desc(void)
 {
   return "This plugin provides a Perl scripting "
     "interface for mail filters.\nFeedback "
-    "to berndth@gmx.de is welcome.\n\nVersion: "
-    PLUGINVERSION;
+    "to <berndth@gmx.de> is welcome.";
 }
 
 const gchar *plugin_type(void)
@@ -2129,10 +2133,10 @@ const gchar *plugin_type(void)
 
 const gchar *plugin_licence(void)
 {
-		return "GPL";
+  return "GPL";
 }
 
 const gchar *plugin_version(void)
 {
-	return PLUGINVERSION;
+  return PLUGINVERSION;
 }

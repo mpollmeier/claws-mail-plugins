@@ -79,13 +79,16 @@ void perl_gtk_done(void)
 
   mainwin = mainwindow_get_mainwindow();
 
-  ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-  sep = gtk_item_factory_get_widget(ifactory, mainwindow_tools_sep.path);
-  gtk_widget_destroy(sep);
-  gtk_item_factory_delete_item(ifactory, mainwindow_tools_sep.path);
-  widget = gtk_item_factory_get_widget(ifactory, mainwindow_tools_perl_edit.path);
-  gtk_widget_destroy(widget);
-  gtk_item_factory_delete_item(ifactory, mainwindow_tools_perl_edit.path);
+  if(mainwin) {
+    ifactory = gtk_item_factory_from_widget(mainwin->menubar);
+    sep = gtk_item_factory_get_widget(ifactory, mainwindow_tools_sep.path);
+    gtk_widget_destroy(sep);
+    gtk_item_factory_delete_item(ifactory, mainwindow_tools_sep.path);
+    widget = gtk_item_factory_get_widget(ifactory,
+					 mainwindow_tools_perl_edit.path);
+    gtk_widget_destroy(widget);
+    gtk_item_factory_delete_item(ifactory, mainwindow_tools_perl_edit.path);
+  }
 }
 
 static void perl_filter_edit(gpointer callback_data, guint callback_action,

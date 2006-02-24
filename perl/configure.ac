@@ -6,7 +6,7 @@ PACKAGE=perl_plugin
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=8
-MICRO_VERSION=0
+MICRO_VERSION=1
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
@@ -25,7 +25,6 @@ fi
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AM_CONFIG_HEADER(pluginconfig.h)
-AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -41,7 +40,7 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 dnl check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.0.0.81)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)

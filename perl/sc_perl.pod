@@ -14,6 +14,9 @@ in email filters.
 To get started, you can use the B<matcherrc2perlfilter.pl> script
 in the B<tools>-directory to translate your old filtering rules to
 Perl. Simply execute the script and follow the instructions.
+(note that with recent versions of Sylpheed-Claws, this script might not
+work due to upstream synthax changes. This will get updated in the
+future. Send me an email if you have problems getting started).
 
 However, you might want to consider reading the rest of this
 manual and rewriting your rules if you choose to use the plugin,
@@ -393,6 +396,10 @@ header field occurs more than once in an email (eg the Received -
 header).
 
 =back
+
+The header field "References" forms a special case. In a scalar context,
+it returns the first reference. In a list context, it returns a list of
+all references.
 
 =item body
 
