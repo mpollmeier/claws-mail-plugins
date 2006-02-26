@@ -1,3 +1,9 @@
+2006-02-26  13:01 Andrej Kacian <andrej@kacian.sk>
+	* src/feed.c
+		Apply patch to defer check for feed source modification in case of 304
+		response code (patch by wwp). Make sure the temporary curl file gets
+		removed when it's not needed anymore.
+
 2006-02-22  21:23 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.[ch], src/feedprops.c
 		Write formatted XML file, patch by Colin Leroy. Change temporary files

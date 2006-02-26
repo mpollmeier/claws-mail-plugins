@@ -58,6 +58,7 @@ struct _RSSylThreadCtx {
 	const gchar *url;
 	time_t last_update;
 	gboolean not_modified;
+	gboolean defer_modified_check;
 	gboolean ready;
 };
 
@@ -103,6 +104,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		return NULL;
 	}
 
+	debug_print("TEMPLATE: %s\n", template);
+
 	curl_easy_setopt(eh, CURLOPT_URL, ctx->url);
 	curl_easy_setopt(eh, CURLOPT_NOPROGRESS, 1);
 	curl_easy_setopt(eh, CURLOPT_MUTE, 1);
@@ -113,8 +116,10 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
 	
-	if( ctx->last_update != -1 )
+	if( !ctx->defer_modified_check ) {
+		if( ctx->last_update != -1 ) {
 		time_str = createRFC822Date(&ctx->last_update);
+		}
 	debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
 			(ctx->last_update != -1 ? time_str : "unknown") );
 	g_free(time_str);
@@ -124,35 +129,51 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			CURL_TIMECOND_IFMODSINCE);
 		curl_easy_setopt(eh, CURLOPT_TIMEVALUE, ctx->last_update);
 	}
+	}
 			
 	res = curl_easy_perform(eh);
 
 	curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
 
-	if( ctx->last_update != -1 ) {
-		curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
+	if( !ctx->defer_modified_check ) {
+		if( ctx->last_update != -1 ) {
+			curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
 
-		if( last_modified != -1 )
-			time_str = createRFC822Date(&ctx->last_update);
-		debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
-				last_modified, (last_modified != -1 ? time_str : "unknown") );
-		g_free(time_str);
-		time_str = NULL;
+			if( last_modified != -1 ) {
+				time_str = createRFC822Date(&ctx->last_update);
+			}
+			debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
+					last_modified, (last_modified != -1 ? time_str : "unknown") );
+			g_free(time_str);
+			time_str = NULL;
+		} else {
+			debug_print("RSSyl: got status %d\n", response_code);
+		}
 	}
 
 	curl_easy_cleanup(eh);
 
 	fclose(f);
 
-	if( response_code == 304 ) {
-		debug_print("RSSyl: feed source not modified, not doing anything\n");
-		ctx->not_modified = TRUE; 
-		ctx->ready = TRUE;
+	if( response_code == 404 ) {
+		/* TODO: show an error dialog */
+		debug_print("RSSyl: got 404 (notfound)");
 		g_unlink(template);
 		g_free(template);
 		return NULL;
 	}
 
+	if( !ctx->defer_modified_check ) {
+		if( response_code == 304 ) {
+			debug_print("RSSyl: don't rely on server response 304, defer modified "
+					"check\n");
+			g_unlink(template);
+			g_free(template);
+			ctx->defer_modified_check = TRUE;
+			template = rssyl_fetch_feed_threaded(ctx);
+			return template;
+		}
+	}
 	ctx->ready = TRUE;
 
 	return template;
@@ -173,6 +194,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	RSSylThreadCtx *ctx = g_new0(RSSylThreadCtx, 1);
 	gchar *template = NULL;
+	gboolean defer_modified_check = FALSE;
 #ifdef RSSYL_DEBUG
 	gchar *unixtime_str = NULL, *debugfname = NULL;
 #endif /* RSSYL_DEBUG */
@@ -187,6 +209,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	ctx->ready = FALSE;
 	ctx->last_update = last_update;
 	ctx->not_modified = FALSE;
+	ctx->defer_modified_check = FALSE;
 
 	*title = NULL;
 
@@ -210,8 +233,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 		debug_print("RSSyl: waiting for thread to finish\n");
 		while( !ctx->ready )
 			sylpheed_do_idle();
-		debug_print("RSSyl: thread finished\n");
 
+		debug_print("RSSyl: thread finished\n");
 		pthread_join(pt, (void *)&template);
 	}
 #else
@@ -219,6 +242,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	template = rssyl_fetch_feed_threaded(ctx);
 #endif
 
+	defer_modified_check = ctx->defer_modified_check;
 	g_free(ctx);
 	STATUSBAR_POP(mainwin);
 
@@ -237,6 +261,26 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	node = xmlDocGetRootElement(doc);
 	rnode = node;
 
+#ifdef RSSYL_DEBUG
+	/* debug mode - get timestamp, add it to returned xmlDoc, and make a copy
+	 * of the fetched feed file */
+	unixtime_str = g_strdup_printf("%ld", time(NULL) );
+	debugfname = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
+			G_DIR_SEPARATOR_S, ".", tmptitle, ".", unixtime_str, NULL);
+
+	debug_print("Storing fetched feed in file '%s' for debug purposes.\n",
+			debugfname);
+	link(template, debugfname);
+
+	debug_print("Adding 'fetched' property to root node: %s\n", unixtime_str);
+	xmlSetProp(rnode, "fetched", unixtime_str);
+	g_free(unixtime_str);
+	g_free(debugfname);
+#endif	/* RSSYL_DEBUG */
+
+	g_unlink(template);
+	g_free(template);
+
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);
 
 	rootnode = g_ascii_strdown(node->name, -1);
@@ -250,8 +294,6 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			xmlXPathFreeContext(context);
 			g_free(rootnode);
 			g_free(xpath);
-			g_unlink(template);
-			g_free(template);
 			return NULL;
 		}
 
@@ -261,8 +303,6 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			g_free(xpath);
 			xmlXPathFreeObject(result);
 			xmlXPathFreeContext(context);
-			g_unlink(template);
-			g_free(template);
 			return NULL;
 		}
 		g_free(xpath);
@@ -275,6 +315,68 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 		*title = g_strdup(content);
 		xmlFree(content);
 		debug_print("RSSyl: XML - our title is '%s'\n", *title);
+
+		/* use the feed's pubDate to determine if it's modified */
+		if( defer_modified_check ) {
+		   time_t pub_date;
+
+		   context = xmlXPathNewContext(doc);
+		   node = rnode;
+		   xpath = g_strconcat("/", node->name, "/channel/pubDate", NULL);
+		   debug_print("RSSyl: XML - '%s'\n", xpath);
+		   if( !(result = xmlXPathEvalExpression(xpath, context)) ) {
+			   debug_print("RSSyl: XML - no result found for '%s'\n", xpath);
+			   xmlXPathFreeContext(context);
+			   g_free(rootnode);
+			   g_free(xpath);
+			   return NULL;
+		   }
+
+		   if( xmlXPathNodeSetIsEmpty(result->nodesetval) ) {
+			   debug_print("RSSyl: XML - nodeset empty for '%s'\n", xpath);
+			   g_free(rootnode);
+			   g_free(xpath);
+			   xmlXPathFreeObject(result);
+			   xmlXPathFreeContext(context);
+			   return NULL;
+		   }
+		   g_free(xpath);
+
+		   xmlXPathFreeContext(context);
+		   node = result->nodesetval->nodeTab[0];
+		   xmlXPathFreeObject(result);
+		   content = xmlNodeGetContent(node);
+		   pub_date = parseRFC822Date(content);
+		   debug_print("RSSyl: XML - pubDate is '%s'\n", content);
+		   xmlFree(content);
+
+		   /* check date validity and perform postponed modified check */
+		   if( pub_date > 0 ) {
+			   gchar *time_str = NULL;
+
+			   time_str = createRFC822Date(&pub_date);
+			   debug_print("RSSyl: XML - item date found: %ld (%s)\n",
+					   pub_date, time_str ? time_str : "unknown");
+			   if( !time_str || ( pub_date < last_update && last_update > 0) ) {
+				   if( !time_str) {
+					   debug_print("RSSyl: XML - invalid item date\n");
+				   } else {
+					   debug_print("RSSyl: XML - no update needed\n");
+				   }
+				   g_free(time_str);
+				   time_str = NULL;
+				   g_free(rootnode);
+				   return NULL;
+			   }
+			   g_free(time_str);
+			   time_str = NULL;
+		   } else {
+			   debug_print("RSSyl: XML - item date not found\n");
+			   g_free(rootnode);
+			   return NULL;
+		   }
+		}
+
 	} else if( !xmlStrcmp(rootnode, "rdf") ) {
 		node = node->children;
 		/* find "channel" */
@@ -302,8 +404,6 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	} else {
 		g_warning("Unsupported feed type.\n");
 		g_free(rootnode);
-		g_unlink(template);
-		g_free(template);
 		return NULL;
 	}
 
@@ -318,33 +418,11 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			g_warning("couldn't create directory %s\n", dir);
 			g_free(rootnode);
 			g_free(dir);
-			g_unlink(template);
-			g_free(template);
 			return NULL;
 		}
 	}
 
-#ifdef RSSYL_DEBUG
-	/* debug mode - get timestamp, add it to returned xmlDoc, and make a copy
-	 * of the fetched feed file */
-	unixtime_str = g_strdup_printf("%ld", time(NULL) );
-	debugfname = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
-			G_DIR_SEPARATOR_S, ".", tmptitle, ".", unixtime_str, NULL);
-
-	debug_print("Storing fetched feed in file '%s' for debug purposes.",
-			debugfname);
-	link(template, debugfname);
-
-	debug_print("Adding 'fetched' property to root node: %s", unixtime_str);
-	xmlSetProp(rnode, "fetched", unixtime_str);
-	g_free(unixtime_str);
-	g_free(debugfname);
-#endif	/* RSSYL_DEBUG */
-
 	g_free(tmptitle);
-
-	g_remove((gchar *)template);
-	g_free(template);
 
 	g_free(rootnode);
 	g_free(dir);
