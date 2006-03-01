@@ -115,7 +115,6 @@ static void vcal_viewer_clear_viewer(MimeViewer *_mimeviewer)
 		g_free(vcalviewer->tmpfile);
 		vcalviewer->tmpfile = NULL;
 	}
-	gtk_widget_hide(vcalviewer->scrolledwin);
 	vcalviewer->mimeinfo = NULL;
 }
 

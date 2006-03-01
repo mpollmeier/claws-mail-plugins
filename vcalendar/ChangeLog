@@ -1,3 +1,9 @@
+2006-02-21 [colin] 1.33
+
+	* src/vcalendar.c
+		Fix rendering of meeting detail with (at least) GTK+ 2.8,
+		patch by Colin
+
 2006-02-21 [colin] 1.32
 
 	* src/vcalendar.c
