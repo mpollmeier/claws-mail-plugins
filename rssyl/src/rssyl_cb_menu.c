@@ -167,7 +167,10 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 
 	ritem = (RSSylFolderItem *)item;
 
-	if (prefs_common.work_offline && !inc_offline_should_override()) {
+	if (prefs_common.work_offline && 
+	   !inc_offline_should_override(
+	   	_("Sylpheed-Claws needs network access in order "
+		  "to update the feed."))) {
 			return;
 	}
 
@@ -190,7 +193,10 @@ static void rssyl_refresh_all_func(FolderItem *item, gpointer data)
 void rssyl_refresh_all_cb(FolderView *folderview, guint action,
 		GtkWidget *widget)
 {
-	if (prefs_common.work_offline && !inc_offline_should_override()) {
+	if (prefs_common.work_offline && 
+	    !inc_offline_should_override(
+		_("Sylpheed-Claws needs network access in order "
+		  "to update the feeds."))) {
 			return;
 	}
 

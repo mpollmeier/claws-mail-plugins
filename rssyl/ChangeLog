@@ -1,3 +1,7 @@
+2006-03-01  19:01 Colin Leroy <colin@colino.net>
+	* src/rssyl_cb_menu.c
+		Add offline override message.
+
 2006-02-26  13:01 Andrej Kacian <andrej@kacian.sk>
 	* src/feed.c
 		Apply patch to defer check for feed source modification in case of 304

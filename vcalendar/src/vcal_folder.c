@@ -1141,7 +1141,10 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 static void update_subscription(const gchar *uri, gboolean verbose)
 {
 	if (prefs_common.work_offline) {
-		if (!verbose || !inc_offline_should_override())
+		if (!verbose || 
+		!inc_offline_should_override(
+		   _("Sylpheed-Claws needs network access in order "
+		     "to update the Webcal feed.")))
 			return;
 	}
 	
@@ -1153,7 +1156,9 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 {
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
-	if (prefs_common.work_offline && !inc_offline_should_override())
+	if (prefs_common.work_offline && 
+	    !inc_offline_should_override(_("Sylpheed-Claws needs network access in order "
+		     "to update the subscription.")))
 		return;
 
 	folderview_check_new(root);
