@@ -383,7 +383,8 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	
 	event = vcal_manager_new_event(uid, organizer, summary, description,
 					dtstart, dtend, tzid, NULL, meet->method, 
-					meet->sequence);
+					meet->sequence,
+					ICAL_VEVENT_COMPONENT);
 	
 	vcal_manager_update_answer(event, organizer, organizer_name, 
 				   ICAL_PARTSTAT_ACCEPTED,
@@ -609,7 +610,10 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 			g_free(answer);
 			g_free(type);
 			list = list->next;
-		}
+		} 
+		
+		if (firstadd == TRUE)
+			attendee_add(meet, NULL, NULL, NULL, NULL, TRUE);
 	}
 
 	gtk_window_set_title(GTK_WINDOW(meet->window), _("New meeting"));

@@ -303,6 +303,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	if (!account) {
 		g_free(organizer);
 		g_free(tmpfile);
+		debug_print("no account found\n");
 		return NULL;
 	}
 
@@ -592,19 +593,20 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 					 const gchar	*tzid,
 					 const gchar	*url,
 					 enum icalproperty_method method,
-					 gint 		 sequence)
+					 gint 		 sequence,
+					 enum icalproperty_kind type)
 {
 	VCalEvent *event = g_new0(VCalEvent, 1);
 	
 	event->uid 		= g_strdup(uid?uid:"");
 	event->organizer 	= g_strdup(organizer?organizer:"");
 
-	if (dtend) {
+	if (dtend && strlen(dtend)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
 		event->end	= g_strdup(ctime(&tmp));
 	}
 	
-	if (dtstart) {
+	if (dtstart && strlen(dtstart)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
 		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		event->start	= g_strdup(ctime(&tmp));
@@ -617,6 +619,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->tzid		= g_strdup(tzid?tzid:"");
 	event->method		= method;
 	event->sequence		= sequence;
+	event->type		= type;
 	return event;
 }
 					 
@@ -649,8 +652,14 @@ gchar *vcal_manager_get_event_path(void)
 
 gchar *vcal_manager_get_event_file(const gchar *uid)
 {
-	return g_strconcat(vcal_manager_get_event_path(), G_DIR_SEPARATOR_S,
-			   uid, NULL);
+	gchar *tmp = g_strdup(uid);
+	gchar *res = NULL;
+
+	subst_for_filename(tmp);
+	res = g_strconcat(vcal_manager_get_event_path(), G_DIR_SEPARATOR_S,
+			   tmp, NULL);
+	g_free(tmp);
+	return res;
 }
 
 PrefsAccount *vcal_manager_get_account_from_event(VCalEvent *event)
@@ -698,8 +707,13 @@ void vcal_manager_save_event (VCalEvent *event)
 	tmp = g_strdup_printf("%d", tmp_method);
 	xml_tag_add_attr(tag, xml_attr_new("method", tmp));
 	g_free(tmp);
+
 	tmp = g_strdup_printf("%d", event->sequence);
 	xml_tag_add_attr(tag, xml_attr_new("sequence", tmp));
+	g_free(tmp);
+	
+	tmp = g_strdup_printf("%d", event->type);
+	xml_tag_add_attr(tag, xml_attr_new("type", tmp));
 	g_free(tmp);
 	
 	xmlnode = xml_node_new(tag, NULL);
@@ -762,6 +776,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *description = NULL, *url = NULL;
 	VCalEvent *event = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
+	enum icalproperty_kind type = ICAL_VEVENT_COMPONENT;
 	gint sequence = 0;
 	
 	g_return_val_if_fail(node->data != NULL, NULL);
@@ -791,6 +806,8 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 			dtend = g_strdup(attr->value);
 		if (!strcmp(attr->name, "tzid"))
 			tzid = g_strdup(attr->value);
+		if (!strcmp(attr->name, "type"))
+			type = atoi(attr->value);
 		if (!strcmp(attr->name, "method"))
 			method = atoi(attr->value);
 		if (!strcmp(attr->name, "sequence"))
@@ -798,7 +815,8 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 	}
 
 	event = vcal_manager_new_event(uid, org, summary, description, 
-					dtstart, dtend, tzid, url, method, sequence);
+					dtstart, dtend, tzid, url, method, 
+					sequence, type);
 	
 	g_free(org); 
 	g_free(summary); 

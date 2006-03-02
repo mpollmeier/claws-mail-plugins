@@ -1,3 +1,13 @@
+2006-03-01 [colin] 1.35
+
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Handle VTODOs
+		Fix a few bugs in the process
+
 2006-03-01 [colin] 1.34
 
 	* src/vcal_folder.c

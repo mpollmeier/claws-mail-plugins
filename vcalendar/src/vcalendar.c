@@ -457,7 +457,11 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	if (!vcalviewer)
 		return;
 
-	if (event->method == ICAL_METHOD_REQUEST) {
+	if (event->type == ICAL_VTODO_COMPONENT) {
+		label = g_strjoin(" ", _("You have a Todo item."),
+				_("Details follow:"), NULL);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
+	} else if (event->method == ICAL_METHOD_REQUEST) {
 		if (account_find_from_address(event->organizer)) {
 			label = g_strjoin(" ", _("You have created a meeting."),
 					_("Details follow:"), NULL);
@@ -569,7 +573,10 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-");
 	}
 	if (!mine)
-		vcalviewer_answer_set_choices(vcalviewer, event, event->method);
+		if (event->type != ICAL_VTODO_COMPONENT)
+			vcalviewer_answer_set_choices(vcalviewer, event, event->method);
+		else
+			vcalviewer_answer_set_choices(vcalviewer, event, ICAL_METHOD_PUBLISH);
 	else {
 		vcalviewer_answer_set_choices(vcalviewer, event, ICAL_METHOD_REPLY);
 		gtk_widget_show(vcalviewer->reedit);
@@ -622,7 +629,7 @@ gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 
 }
 
-static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
+static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mimeinfo, gboolean is_todo) 
 {
 	icalproperty *iprop = NULL;
 	gchar *org = NULL, *summary = NULL, *description = NULL, *url = NULL;
@@ -719,7 +726,8 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	
 	event = vcal_manager_new_event( uid,
 					org, summary, description, 
-					dtstart, dtend, tzid, url, method, sequence);
+					dtstart, dtend, tzid, url, method, sequence, 
+					is_todo?ICAL_VTODO_COMPONENT:ICAL_VEVENT_COMPONENT);
 	vcalviewer_get_attendees(vcalviewer, event);
 	if (!saveme || strcmp(saveme,"no"))
 		vcal_manager_save_event(event);
@@ -847,7 +855,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 static void vcalviewer_get_info(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
 {
 	icalproperty *method = NULL;
-	
+	gboolean is_todo = FALSE;
 	gchar *tmpfile = get_tmpfile(vcalviewer);
 	
 	if (vcalviewer->comp) {
@@ -871,15 +879,20 @@ static void vcalviewer_get_info(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 	
 	method = vcalviewer_get_property(vcalviewer, ICAL_METHOD_PROPERTY);
 	
-	if (icalcomponent_isa(vcalviewer->comp) == ICAL_VCALENDAR_COMPONENT) {
+	if (vcalviewer->icomp && icalcomponent_isa(vcalviewer->icomp) == ICAL_VTODO_COMPONENT)
+		is_todo = TRUE;
+debug_print("is_todo %d\n", is_todo);
+	if (icalcomponent_isa(vcalviewer->comp) == ICAL_VCALENDAR_COMPONENT && method) {
 		if (icalproperty_get_method(method) == ICAL_METHOD_REQUEST
 		||  icalproperty_get_method(method) == ICAL_METHOD_PUBLISH
 		||  icalproperty_get_method(method) == ICAL_METHOD_CANCEL)
-			vcalviewer_get_request_values(vcalviewer, mimeinfo);
+			vcalviewer_get_request_values(vcalviewer, mimeinfo, is_todo);
 		else if (icalproperty_get_method(method) == ICAL_METHOD_REPLY)
 			vcalviewer_get_reply_values(vcalviewer, mimeinfo);
 		else
 			vcalviewer_reset(vcalviewer);
+	} else if (is_todo && !method) {
+		vcalviewer_get_request_values(vcalviewer, mimeinfo, is_todo);
 	} else
 		vcalviewer_reset(vcalviewer);
 }

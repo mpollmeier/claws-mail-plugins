@@ -42,6 +42,7 @@ struct _VCalEvent
 	enum icalproperty_method method;
 	gint sequence;	
 	gchar *url;
+	enum icalproperty_kind type;
 };
 
 VCalEvent *vcal_manager_new_event	(const gchar 	*uid, 
@@ -53,7 +54,8 @@ VCalEvent *vcal_manager_new_event	(const gchar 	*uid,
 					 const gchar	*tzid,
 					 const gchar	*url,
 					 enum icalproperty_method method,
-					 gint		 sequence);
+					 gint		 sequence,
+					 enum icalproperty_kind type);
 					 
 void vcal_manager_free_event (VCalEvent *event);
 void vcal_manager_save_event (VCalEvent *event);

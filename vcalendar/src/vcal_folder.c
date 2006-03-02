@@ -434,19 +434,35 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 	VCalFolderItem *item = (VCalFolderItem *)fitem;
 	MsgNumberList *msglist = NULL;
 	icalcomponent *evt = NULL;
-	gint num = 1;
+	icalcomponent_kind type = ICAL_VEVENT_COMPONENT;
+	gint num = 0;
 
-	if (!item->uri)
+	debug_print("fetching\n");
+
+	if (!item->uri) {
+		debug_print("no uri!\n");
 		return -1;
+	}
 
 	update_subscription(item->uri, TRUE);
 
 	*old_uids_valid = FALSE;
 	*list = NULL;
 
-	if (item->cal)
+	if (item->cal) {
 		evt = icalcomponent_get_first_component(
 			item->cal, ICAL_VEVENT_COMPONENT);
+		if (evt == NULL) {
+			evt = icalcomponent_get_first_component(
+				item->cal, ICAL_VTODO_COMPONENT);
+			if (evt != NULL)
+				type = ICAL_VTODO_COMPONENT;
+		}
+	} else
+		debug_print("no cal!\n");
+
+	if (evt == NULL)
+		debug_print("no event\n");
 
 	if (item->numlist) {
 		g_slist_free(item->numlist);
@@ -459,7 +475,6 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 	}
 
 	while (evt) {
-		gchar *title = NULL;
 		icalproperty *prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
 
 		if (prop) {
@@ -469,12 +484,14 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 			debug_print("add %d : %s\n", num, uid);
 			g_free(uid);
 			num++;
+		} else {
+			debug_print("no uid!\n");
 		}
 		evt = icalcomponent_get_next_component(
-			item->cal, ICAL_VEVENT_COMPONENT);
-		g_free(title);
+			item->cal, type);
 	}
 	*list = item->numlist ? g_slist_copy(item->numlist) : NULL;
+	debug_print("return %d\n", num);
 	return num;
 }
 static gint vcal_get_num_list(Folder *folder, FolderItem *item,
@@ -629,7 +646,7 @@ static gchar *feed_fetch_item(FolderItem * fitem, gint num)
 	}
 	
 	filename = vcal_manager_icalevent_dump(event, fitem->name, NULL);
-
+	debug_print("feed item dump to %s\n", filename);
 	return filename;
 }
 
@@ -1058,7 +1075,7 @@ static gchar *feed_get_title(const gchar *str)
 			*(strstr(title, "\r")) = '\0';		
 	}
 	
-	if (!strcmp(title, "Meetings")) {
+	if (title != NULL && !strcmp(title, "Meetings")) {
 		g_free(title);
 		title = NULL;
 	}
@@ -1116,7 +1133,18 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 	item = get_folder_item_for_uri(uri);
 	if (item == NULL) {
 		gchar *title = feed_get_title(feed);
-		item = folder_create_folder(root->node->data, title ? title:uri);
+		if (title == NULL) {
+			if (strstr(uri, "://"))
+				title = g_strdup(strstr(uri,"://")+3);
+			else
+				title = g_strdup(uri);
+			subst_for_filename(title);
+			if (strlen(title) > 32) {
+				title[29]=title[30]=title[31]='.';
+				title[32]='\0';
+			}
+		}
+		item = folder_create_folder(root->node->data, title);
 		debug_print("item done %s\n", title);
 		((VCalFolderItem *)item)->uri = g_strdup(uri);
 		((VCalFolderItem *)item)->feed = feed;
