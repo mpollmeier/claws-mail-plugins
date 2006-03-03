@@ -1,3 +1,15 @@
+2006-03-01 [colin] 1.40
+
+	* src/vcal_folder.c
+		Fix cache issues
+	* src/vcal_manager.c
+		Fix interop with Outlook 2K3 SP2 
+		(add VTIMEZONE, use utf8)
+	* src/vcal_meeting_gtk.c
+		return error if necessary
+	* src/vcalendar.c
+		fix undeclared utf8 from Outlook
+
 2006-03-01 [colin] 1.35
 
 	* src/vcal_folder.c

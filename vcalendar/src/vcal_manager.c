@@ -287,7 +287,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	gchar **lines = NULL;
 	gchar *tmpfile = NULL;
 	gchar *tmpstr = NULL;
-	icalcomponent *calendar, *ievent;
+	icalcomponent *calendar, *ievent, *timezone, *tzc;
+	struct icalperiodtype rtime;
 	icalproperty *attprop;
 	icalproperty *orgprop;
 	icalparameter *param = NULL;
@@ -343,21 +344,46 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		g_free(tmpstr); tmpstr = NULL;
 	}
 	
+	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
+	
+	icalcomponent_add_property(timezone,
+		icalproperty_new_tzid("GMT"));
+	
+	tzc = icalcomponent_new(ICAL_XSTANDARD_COMPONENT);
+	icalcomponent_add_property(tzc,
+		icalproperty_new_dtstart(
+			icaltime_from_string("19700101T000000")));
+	icalcomponent_add_property(tzc,
+		icalproperty_new_tzoffsetfrom(0.0));
+	icalcomponent_add_property(tzc,
+		icalproperty_new_tzoffsetto(0.0));
+	icalcomponent_add_property(tzc,
+		icalproperty_new_tzname("Greenwich meridian time"));
+
+        icalcomponent_add_component(timezone, tzc);
+
 	ievent = 
 	    icalcomponent_vanew(
                 ICAL_VEVENT_COMPONENT,
                 icalproperty_new_uid(event->uid),
 		icalproperty_vanew_dtstamp(icaltime_from_timet(time(NULL), TRUE),
-			icalparameter_new_tzid(tzname[1]), 0),
+			icalparameter_new_tzid("GMT"), 0),
 		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)),
-			icalparameter_new_tzid(tzname[1]), 0),
+			icalparameter_new_tzid("GMT"), 0),
 		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)),
-			icalparameter_new_tzid(tzname[1]), 0),
+			icalparameter_new_tzid("GMT"), 0),
 		icalproperty_new_description(event->description),
 		icalproperty_new_summary(event->summary),
 		icalproperty_new_sequence(event->sequence + 1),
 		icalproperty_new_class("PUBLIC"),
 		icalproperty_new_transp("OPAQUE"),
+		icalproperty_new_location(""),
+		icalproperty_new_status(ICAL_STATUS_CONFIRMED),
+		icalproperty_vanew_created(icaltime_from_timet(time(NULL), TRUE),
+			icalparameter_new_tzid("GMT"), 0),
+		icalproperty_vanew_lastmodified(icaltime_from_timet(time(NULL), TRUE),
+			icalparameter_new_tzid("GMT"), 0),
+		
                 orgprop,
                 0
                 );
@@ -368,6 +394,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		g_free(tmpfile);
 		return NULL;
 	}
+        icalcomponent_add_component(calendar, timezone);
         icalcomponent_add_component(calendar, ievent);
 
 	if (event->url && strlen(event->url)) {
@@ -432,33 +459,14 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		return NULL;
 	}
 
-	lines = g_strsplit(icalcomponent_as_ical_string(calendar), "\n", 0);
-	qpbody = g_strdup("");
-	
-	/* encode to quoted-printable */
-	while (lines[i]) {
-		gchar buf[256];
-		gchar *tmp = g_strdup(qpbody);
-		gchar *outline = conv_codeset_strdup(lines[i], CS_UTF_8, conv_get_outgoing_charset_str());
-		g_free(qpbody);
-		qp_encode_line(buf, outline);
-		qpbody = g_strdup_printf("%s%s", tmp, buf);
-		g_free(tmp);
-		g_free(outline);
-		i++;
-	}
-	
-	g_strfreev(lines);
-
 	body = g_strdup_printf("%s"
 			       "\n"
-			       "%s", headers, qpbody);
+			       "%s", headers, icalcomponent_as_ical_string(calendar));
 	
 	str_write_to_file(body, tmpfile); 
 	chmod(tmpfile, S_IRUSR|S_IWUSR);
 
 	g_free(body);
-	g_free(qpbody);
 	g_free(headers);
 	icalcomponent_free(calendar);
 	g_free(attendee);
@@ -952,7 +960,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *queue_headers = NULL;
 	gchar *method_str = NULL;
 	gchar *attendees = NULL;
-	
+	enum icalparameter_partstat status;
+	gchar *prefix = NULL;
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
 	
@@ -1010,9 +1019,19 @@ static gchar *write_headers(PrefsAccount 	*account,
 		queue_headers = g_strdup("");
 	}
 	
-	if (is_reply) 
+	prefix = "";
+	if (is_reply) {
 		method_str = "REPLY";
-	else if (event->method == ICAL_METHOD_PUBLISH)
+		status = vcal_manager_get_reply_for_attendee(event, account->address);
+		if (status == ICAL_PARTSTAT_ACCEPTED)
+			prefix = _("Accepted: ");
+		else if (status == ICAL_PARTSTAT_DECLINED)
+			prefix = _("Declined: ");
+		else if (status == ICAL_PARTSTAT_TENTATIVE)
+			prefix = _("Tentatively Accepted: ");
+		else 
+			prefix = "Re: ";
+	} else if (event->method == ICAL_METHOD_PUBLISH)
 		method_str = "PUBLISH";
 	else
 		method_str = "REQUEST";		
@@ -1024,15 +1043,15 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"Date: %s\n"
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
-				"Content-Transfer-Encoding: quoted-printable\n",
+				"Content-Transfer-Encoding: 8bit\n",
 				queue_headers,
 				is_reply ? account->address:event->organizer,
 				is_reply ? event->organizer:(attendees?attendees:event->organizer),
-				is_reply ? "Re: ":"",
+				prefix,
 				subject,
 				date,
 				method_str,
-				conv_get_outgoing_charset_str());
+				CS_UTF_8);
 				
 	g_free(save_folder);
 	g_free(queue_headers);

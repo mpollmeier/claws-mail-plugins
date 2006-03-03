@@ -503,7 +503,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	gchar *snmsg = NULL;
 	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
 	
-	*old_uids_valid = TRUE;
+	*old_uids_valid = FALSE;
 	
 	if (((VCalFolderItem *)item)->uri) 
 		return feed_fetch(item, list, old_uids_valid);

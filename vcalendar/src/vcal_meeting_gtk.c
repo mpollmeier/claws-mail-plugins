@@ -446,6 +446,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	} else {
 		alertpanel_error(_("Could not send the meeting invitation.\n"
 				   "Check the recipients."));
+		return res;
 	}
 	if (!found_att) {
 		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
@@ -454,7 +455,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 		vcalviewer_reload();
 	}
 
-	return TRUE;
+	return res;
 }
 
 

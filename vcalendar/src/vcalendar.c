@@ -675,26 +675,38 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);
 	if (iprop) {
 		tmp = get_email_from_organizer_property(iprop);
-		org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
+		if (!g_utf8_validate(tmp, -1, NULL))
+			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
+		else
+			org = g_strdup(tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
 	} 
 	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
 	if (iprop) {
-		summary = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
+		if (!g_utf8_validate(icalproperty_get_summary(iprop), -1, NULL))
+			summary = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
+		else
+			summary = g_strdup(icalproperty_get_summary(iprop));
 		icalproperty_free(iprop);
 	} 
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DESCRIPTION_PROPERTY);
 	if (iprop) {
-		description = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
+		if (!g_utf8_validate(icalproperty_get_description(iprop), -1, NULL))
+			description = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
+		else
+			description = g_strdup(icalproperty_get_description(iprop));
 		icalproperty_free(iprop);
 	} 
 	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
 	if (iprop) {
-		url = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
+		if (!g_utf8_validate(icalproperty_get_url(iprop), -1, NULL))
+			url = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
+		else
+			url = g_strdup(icalproperty_get_url(iprop));
 		icalproperty_free(iprop);
 	} 
 	
@@ -788,7 +800,10 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	if (iprop) {
 		gchar *org;
 		tmp = get_email_from_organizer_property(iprop);
-		org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
+		if (!g_utf8_validate(tmp, -1, NULL))
+			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
+		else 
+			org = g_strdup(tmp);
 		g_free(tmp);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), org);
 		icalproperty_free(iprop);
@@ -798,7 +813,10 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	}
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
 	if (iprop) {
-		tmp = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
+		if (!g_utf8_validate(icalproperty_get_summary(iprop), -1, NULL))
+			tmp = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
+		else
+			tmp = g_strdup(icalproperty_get_summary(iprop));
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
@@ -807,7 +825,10 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	}
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_DESCRIPTION_PROPERTY);
 	if (iprop) {
-		tmp = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
+		if (!g_utf8_validate(icalproperty_get_description(iprop), -1, NULL))
+			tmp = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
+		else
+			tmp = g_strdup(icalproperty_get_description(iprop));
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
@@ -817,7 +838,10 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
 	g_free(vcalviewer->url);
 	if (iprop) {
-		tmp = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
+		if (!g_utf8_validate(icalproperty_get_url(iprop), -1, NULL))
+			tmp = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
+		else
+			tmp = g_strdup(icalproperty_get_url(iprop));
 		vcalviewer->url = g_strdup(tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
@@ -989,7 +1013,15 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	event->method = ICAL_METHOD_CANCEL;
 	
 	meet = vcal_meeting_create_hidden(event);
-	vcal_meeting_send(meet);
+	if (!vcal_meeting_send(meet)) {
+		event->method = ICAL_METHOD_REQUEST;
+		vcal_manager_save_event(event);
+		vcal_manager_free_event(event);
+		refresh_folder_contents(vcalviewer);
+		vcalviewer_reset(vcalviewer);
+		return TRUE;
+	}
+
 	vcal_manager_save_event(event);
 	
 	file = vcal_manager_get_event_file(event->uid);
