@@ -1,3 +1,8 @@
+2006-03-06 [colin] 1.41
+
+	* src/vcal_prefs.c
+		Cleanup by Fabien Vantard
+
 2006-03-01 [colin] 1.40
 
 	* src/vcal_folder.c

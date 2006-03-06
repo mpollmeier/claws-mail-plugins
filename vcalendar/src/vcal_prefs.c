@@ -42,7 +42,7 @@ struct VcalendarPage
 	PrefsPage page;
 	
 	GtkWidget *alert_enable_btn;
-	GtkWidget *alert_delay_entry;
+	GtkWidget *alert_delay_spinbtn;
 	GtkWidget *export_enable_btn;
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_entry;
@@ -71,97 +71,85 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 {
 	struct VcalendarPage *page = (struct VcalendarPage *) _page;
 
-	/* ------------------ code made by glade -------------------- */
-	GtkWidget *table;
-	GtkWidget *hbox;
-	GtkWidget *alert_enable_btn;
-	GtkWidget *alert_delay_entry;
-	GtkWidget *export_enable_btn;
+	GtkWidget *vbox1, *vbox2;
+	GtkWidget *hbox1, *hbox2, *hbox3;
+	GtkWidget *alert_enable_checkbtn;
+	GtkObject *alert_enable_spinbtn_adj;
+	GtkWidget *alert_enable_spinbtn;
+	GtkWidget *label_alert_enable;
+	GtkWidget *export_enable_checkbtn;
 	GtkWidget *export_path_entry;
+	GtkWidget *export_command_label;
 	GtkWidget *export_command_entry;
-	GtkWidget *label;
-	gchar *delay = NULL;
-	
-	table = gtk_table_new(3, 1, FALSE);
-	gtk_widget_show(table);
-	gtk_container_set_border_width(GTK_CONTAINER(table), 8);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
+
+	vbox1 = gtk_vbox_new (FALSE, VSPACING);
+	gtk_widget_show (vbox1);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox1), VBOX_BORDER);
+
+	vbox2 = gtk_vbox_new (FALSE, 4);
+	gtk_widget_show (vbox2);
+	gtk_box_pack_start(GTK_BOX (vbox1), vbox2, FALSE, FALSE, 0);
+
 
 /* alert stuff */
-	alert_enable_btn = gtk_check_button_new_with_label(_("Alert me "));
-	gtk_widget_show(alert_enable_btn);
-	
-	alert_delay_entry = gtk_entry_new();
-	
-	gtk_widget_set_size_request(alert_delay_entry, 30, -1);
-	
-	gtk_widget_show(alert_delay_entry);
-	
-	label = gtk_label_new(_(" minutes before an event"));
+	hbox1 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox1);
+	gtk_box_pack_start(GTK_BOX (vbox2), hbox1, TRUE, TRUE, 0);
 
-	gtk_widget_show(label);
+	alert_enable_checkbtn = gtk_check_button_new_with_label(_("Alert me "));
+	gtk_widget_show (alert_enable_checkbtn);
+	gtk_box_pack_start(GTK_BOX (hbox1), alert_enable_checkbtn, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new(FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(hbox), alert_enable_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), alert_delay_entry, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	
-	gtk_widget_show(hbox);
+	alert_enable_spinbtn_adj = gtk_adjustment_new (10, 1, 24*60, 1, 10, 10);
+	alert_enable_spinbtn = gtk_spin_button_new
+		(GTK_ADJUSTMENT (alert_enable_spinbtn_adj), 1, 0);
+	gtk_widget_set_size_request (alert_enable_spinbtn, 64, -1);
+	gtk_widget_show (alert_enable_spinbtn);
+	gtk_box_pack_start(GTK_BOX (hbox1), alert_enable_spinbtn, FALSE, FALSE, 0);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (alert_enable_spinbtn), TRUE);
 
-	gtk_table_attach(GTK_TABLE(table), hbox, 0, 1, 0, 1,
-			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			 (GtkAttachOptions) (0), 0, 0);
+	label_alert_enable = gtk_label_new(_(" minutes before an event"));
+	gtk_widget_show (label_alert_enable);
+	gtk_box_pack_start(GTK_BOX (hbox1), label_alert_enable, FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(alert_enable_btn), 
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(alert_enable_checkbtn), 
 			vcalprefs.alert_enable);
-	delay = g_strdup_printf("%d", vcalprefs.alert_delay);
-	gtk_entry_set_text(GTK_ENTRY(alert_delay_entry), delay);
-	g_free(delay);
-	
-	page->alert_enable_btn = alert_enable_btn;
-	page->alert_delay_entry = alert_delay_entry;
+	SET_TOGGLE_SENSITIVITY(alert_enable_checkbtn, alert_enable_spinbtn);
 
-/* export stuff */
-	export_enable_btn = gtk_check_button_new_with_label(_("Automatically export calendar to "));
-	gtk_widget_show(export_enable_btn);
-	
+
+/* export enable + path stuff */
+	hbox2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start(GTK_BOX (vbox2), hbox2, TRUE, TRUE, 0);
+
+	export_enable_checkbtn = gtk_check_button_new_with_label(_("Automatically export calendar to "));
+	gtk_widget_show(export_enable_checkbtn);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_enable_checkbtn, FALSE, FALSE, 0);
+
 	export_path_entry = gtk_entry_new();
-		
 	gtk_widget_show(export_path_entry);
-	
-	hbox = gtk_hbox_new(FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(hbox), export_enable_btn, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), export_path_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox2), export_path_entry, TRUE, TRUE, 0);
+	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_path_entry);
 
-	gtk_widget_show(hbox);
 
-	gtk_table_attach(GTK_TABLE(table), hbox, 0, 1, 1, 2,
-			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			 (GtkAttachOptions) (0), 0, 0);
+/* run-command after export stuff */
+	hbox3 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox3);
+	gtk_box_pack_start(GTK_BOX (vbox2), hbox3, TRUE, TRUE, 0);
 
-	label = gtk_label_new(_("Command to run after export: "));
-
-	gtk_widget_show(label);
+	export_command_label = gtk_label_new(_("Command to run after export: "));
+	gtk_widget_show(export_command_label);
+	gtk_box_pack_start(GTK_BOX (hbox3), export_command_label, FALSE, FALSE, 0);
 
 	export_command_entry = gtk_entry_new();
-		
 	gtk_widget_show(export_command_entry);
-	
-	hbox = gtk_hbox_new(FALSE, 6);	
-	
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), export_command_entry, FALSE, FALSE, 0);
-	
-	gtk_widget_show(hbox);
+	gtk_box_pack_start(GTK_BOX (hbox3), export_command_entry, TRUE, TRUE, 0);
 
-	gtk_table_attach(GTK_TABLE(table), hbox, 0, 1, 2, 3,
-			 (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			 (GtkAttachOptions) (0), 0, 0);
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_enable_btn), 
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_enable_checkbtn), 
 			vcalprefs.export_enable);
-	
+        gtk_spin_button_set_value(GTK_SPIN_BUTTON(alert_enable_spinbtn),
+			vcalprefs.alert_delay);
 	if (vcalprefs.export_path == NULL)
 		vcalprefs.export_path = g_strconcat(get_rc_dir(), 
 					G_DIR_SEPARATOR_S,
@@ -173,12 +161,14 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			vcalprefs.export_path);
 	gtk_entry_set_text(GTK_ENTRY(export_command_entry), 
 			vcalprefs.export_command);
-	
-	page->export_enable_btn = export_enable_btn;
+
+	page->alert_enable_btn = alert_enable_checkbtn;
+	page->alert_delay_spinbtn = alert_enable_spinbtn;
+	page->export_enable_btn = export_enable_checkbtn;
 	page->export_path_entry = export_path_entry;
 	page->export_command_entry = export_command_entry;
 
-	page->page.widget = table;
+	page->page.widget = vbox1;
 }
 
 static void vcal_prefs_destroy_widget_func(PrefsPage *_page)
@@ -195,7 +185,8 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
 					 (page->alert_enable_btn));
 	vcalprefs.alert_delay =
-	    atoi(gtk_entry_get_text(GTK_ENTRY(page->alert_delay_entry)));
+		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON
+						 (page->alert_delay_spinbtn));
 
 	vcalprefs.export_enable = 
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
