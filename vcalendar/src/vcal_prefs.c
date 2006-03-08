@@ -44,6 +44,7 @@ struct VcalendarPage
 	GtkWidget *alert_enable_btn;
 	GtkWidget *alert_delay_spinbtn;
 	GtkWidget *export_enable_btn;
+	GtkWidget *export_subs_btn;
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_entry;
 };
@@ -57,6 +58,8 @@ static PrefParam param[] = {
 	{"alert_enable", "FALSE", &vcalprefs.alert_enable, P_BOOL,
 	 NULL, NULL, NULL},
 	{"export_enable", "FALSE", &vcalprefs.export_enable, P_BOOL,
+	 NULL, NULL, NULL},
+	{"export_subs", "TRUE", &vcalprefs.export_subs, P_BOOL,
 	 NULL, NULL, NULL},
 	{"export_path", NULL, &vcalprefs.export_path, P_STRING,
 	 NULL, NULL, NULL},
@@ -78,9 +81,13 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *alert_enable_spinbtn;
 	GtkWidget *label_alert_enable;
 	GtkWidget *export_enable_checkbtn;
+	GtkWidget *export_subs_checkbtn;
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_label;
 	GtkWidget *export_command_entry;
+	GtkTooltips *tooltips;
+
+	tooltips = gtk_tooltips_new();
 
 	vbox1 = gtk_vbox_new (FALSE, VSPACING);
 	gtk_widget_show (vbox1);
@@ -130,7 +137,23 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show(export_path_entry);
 	gtk_box_pack_start(GTK_BOX(hbox2), export_path_entry, TRUE, TRUE, 0);
 	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_path_entry);
+	gtk_tooltips_set_tip(tooltips, export_enable_checkbtn, 
+			    _("You can export to a local file or an URL"),
+			     NULL);
+	gtk_tooltips_set_tip(tooltips, export_path_entry, 
+			    _("Specify a local file or URL "
+			      "(http://user:pass@server/path/file.ics)"),
+			     NULL);
 
+/* export subscriptions too */
+	hbox2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start(GTK_BOX (vbox2), hbox2, TRUE, TRUE, 0);
+
+	export_subs_checkbtn = gtk_check_button_new_with_label(_("Include webcal subscriptions in export"));
+	gtk_widget_show(export_subs_checkbtn);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_subs_checkbtn, FALSE, FALSE, 0);
+	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_subs_checkbtn);
 
 /* run-command after export stuff */
 	hbox3 = gtk_hbox_new (FALSE, 8);
@@ -148,6 +171,8 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_enable_checkbtn), 
 			vcalprefs.export_enable);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_subs_checkbtn), 
+			vcalprefs.export_subs);
         gtk_spin_button_set_value(GTK_SPIN_BUTTON(alert_enable_spinbtn),
 			vcalprefs.alert_delay);
 	if (vcalprefs.export_path == NULL)
@@ -165,6 +190,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	page->alert_enable_btn = alert_enable_checkbtn;
 	page->alert_delay_spinbtn = alert_enable_spinbtn;
 	page->export_enable_btn = export_enable_checkbtn;
+	page->export_subs_btn = export_subs_checkbtn;
 	page->export_path_entry = export_path_entry;
 	page->export_command_entry = export_command_entry;
 
@@ -191,6 +217,10 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	vcalprefs.export_enable = 
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
 					 (page->export_enable_btn));
+	
+	vcalprefs.export_subs = 
+	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+					 (page->export_subs_btn));
 	
 	g_free(vcalprefs.export_path);
 	vcalprefs.export_path =

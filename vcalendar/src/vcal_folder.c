@@ -1203,6 +1203,8 @@ static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *wi
 	
 	if (!strncmp(tmp, "http://", 7)) {
 		uri = tmp;
+	} else if (!strncmp(tmp, "https://", 8)) {
+		uri = tmp;
 	} else if (!strncmp(tmp, "webcal://", 9)) {
 		uri = g_strconcat("http://", tmp+9, NULL);
 		g_free(tmp);

@@ -30,6 +30,7 @@ struct _VcalendarPrefs
 	gboolean	 alert_enable;
 	gint		 alert_delay;
 	gboolean	 export_enable;
+	gboolean	 export_subs;
 	gchar 		*export_path;	
 	gchar 		*export_command;	
 };

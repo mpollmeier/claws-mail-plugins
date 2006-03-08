@@ -29,6 +29,7 @@
 #include "gettext.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <curl/curl.h>
 
 #include "utils.h"
 #include "vcalendar.h"
@@ -772,11 +773,17 @@ gint vcal_meeting_alert_check(gpointer data)
 gboolean vcal_meeting_export_calendar(const gchar *path)
 {
 	GSList *list = vcal_folder_get_waiting_events();
-	GSList *subs = vcal_folder_get_webcal_events();
+	GSList *subs = NULL;
 	GSList *cur;
 	icalcomponent *calendar = NULL;
 	gchar *file = NULL;
+	gchar *tmpfile = get_tmp_file();
+	gboolean res = TRUE;
+	long filesize = 0;
 	
+	if (vcalprefs.export_subs)
+		subs = vcal_folder_get_webcal_events();
+
 	if (g_slist_length(list) == 0 && g_slist_length(subs) == 0) {
 		g_slist_free(list);
 		g_slist_free(subs);
@@ -788,8 +795,8 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 
 			return FALSE;
 		} else {
-			str_write_to_file("", path);
-			return TRUE;
+			str_write_to_file("", tmpfile);
+			goto putfile;
 		}
 		
 	}
@@ -816,25 +823,67 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 		icalcomponent_free(event);
 	}
 
-	if (!path)
-		file = filesel_select_file_save(_("Export calendar to ICS"), NULL);
-	else
-		file = g_strdup(path);
-
-	if (file) {
-		if (str_write_to_file(icalcomponent_as_ical_string(calendar), file) < 0) {
-			alertpanel_error(_("Could not export the calendar."));
-			g_free(file);
-			icalcomponent_free(calendar);
-			g_slist_free(list);
-			g_slist_free(subs);
-			return FALSE;
-		}
-
-		g_free(file);
+	if (str_write_to_file(icalcomponent_as_ical_string(calendar), tmpfile) < 0) {
+		alertpanel_error(_("Could not export the calendar."));
+		g_free(tmpfile);
+		icalcomponent_free(calendar);
+		g_slist_free(list);
+		g_slist_free(subs);
+		return FALSE;
 	}
+	filesize = strlen(icalcomponent_as_ical_string(calendar));
+
 	icalcomponent_free(calendar);
 	g_slist_free(list);
 	g_slist_free(subs);
-	return TRUE;
+	
+putfile:
+	if (!path)
+		file = filesel_select_file_save(_("Export calendar to ICS"), NULL);
+		
+	else
+		file = g_strdup(path);
+
+	if (file 
+	&& strncmp(file, "http://", 7) 
+	&& strncmp(file, "https://", 8)
+	&& strncmp(file, "webdav://", 9)
+	&& strncmp(file, "ftp://", 6)) {
+		if (move_file(tmpfile, file, TRUE) != 0)
+			res = FALSE;
+		g_free(file);
+	} else if (file) {
+		FILE *fp = fopen(tmpfile, "rb");
+		if (!strncmp(file, "webdav://", 9)) {
+			gchar *tmp = g_strdup_printf("http://%s", file+9);
+			g_free(file);
+			file = tmp;
+		}
+		if (fp) {
+			CURL *curl_ctx = curl_easy_init();
+			int response_code = 0;
+			struct curl_slist * headers = curl_slist_append(NULL, 
+				"Content-Type: text/calendar; charset=\"utf-8\"" );
+
+
+			curl_easy_setopt(curl_ctx, CURLOPT_URL, file);
+			curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
+			curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);
+			curl_easy_setopt(curl_ctx, CURLOPT_HTTPHEADER, headers);
+			curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
+				"Sylpheed-Claws vCalendar plugin "
+				"(http://claws.sylpheed.org/plugins.php)");
+			curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
+			curl_easy_perform(curl_ctx);
+			curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
+			if (response_code != 200) {
+				g_warning("Can't export calendar, got code %d\n", response_code);
+			}
+			curl_easy_cleanup(curl_ctx);
+			curl_slist_free_all(headers);
+			fclose(fp);
+		}
+	}
+	g_free(tmpfile);
+	return res;
 }
