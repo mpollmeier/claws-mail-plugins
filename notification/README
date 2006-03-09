@@ -1,0 +1,5 @@
+This plugin collects various ways to notify the user of new
+(and possibly unread) mail. Currently, a popup and a mail banner
+are implemented.
+
+All modules can be deactivated at compile time.
