@@ -53,7 +53,7 @@ gboolean newmail_hook (gpointer source, gpointer data)
 
     if (!msginfo) return (FALSE);
 
-    tof = msginfo->to_folder;
+    tof = msginfo->to_filter_folder;
     (void)fprintf (NewLog, "---\n"
 	"Date:\t%s\n"
 	"Subject:\t%s\n"
