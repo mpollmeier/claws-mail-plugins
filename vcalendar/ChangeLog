@@ -1,9 +1,17 @@
+2006-03-09 [colin] 1.50
+
+	* src/vcal_meeting_gtk.c
+	* src/vcal_manager.[ch]
+	* src/vcalendar.c
+		Implement CommonName for Organizer
+		GUI fixes
+
 2006-03-06 [colin] 1.50
 
-	* vcal_folder.c
-	* vcal_meeting_gtk.c
-	* vcal_prefs.c
-	* vcal_prefs.h
+	* src/vcal_folder.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
 		Implement export to remote locations
 		Add pref to export only our meetings, not the
 		subscriptions

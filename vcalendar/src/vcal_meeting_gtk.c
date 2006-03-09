@@ -382,7 +382,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	summary		= get_summary(meet);
 	description	= get_description(meet);
 	
-	event = vcal_manager_new_event(uid, organizer, summary, description,
+	event = vcal_manager_new_event(uid, organizer, organizer_name, summary, description,
 					dtstart, dtend, tzid, NULL, meet->method, 
 					meet->sequence,
 					ICAL_VEVENT_COMPONENT);

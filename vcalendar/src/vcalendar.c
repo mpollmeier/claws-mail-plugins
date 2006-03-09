@@ -45,6 +45,12 @@
 MimeViewerFactory vcal_viewer_factory;
 
 static void refresh_folder_contents(VCalViewer *vcalviewer);
+static GdkColor uri_color = {
+	(gulong)0,
+	(gushort)0,
+	(gushort)0,
+	(gushort)0
+};
 
 struct _VCalViewer
 {
@@ -138,6 +144,16 @@ static gchar *get_email_from_attendee_property(icalproperty *p)
 	return email;
 }
 
+static gchar *get_name_from_organizer_property(icalproperty *p)
+{
+	gchar *tmp = NULL;
+	
+	if (p && icalproperty_get_parameter_as_string(p, "CN") != NULL)
+		tmp = g_strdup(icalproperty_get_parameter_as_string(p, "CN"));
+
+	return tmp;
+}
+
 static gchar *get_email_from_organizer_property(icalproperty *p)
 {
 	gchar *tmp = NULL;
@@ -148,7 +164,7 @@ static gchar *get_email_from_organizer_property(icalproperty *p)
 
 	if (!tmp) 
 		return NULL;
-		
+
 	if (!strncasecmp(tmp, "MAILTO:", strlen("MAILTO:")))
 		email = g_strdup(tmp+strlen("MAILTO:"));
 	else
@@ -507,7 +523,11 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	}
 	g_free(label);
 
-	if (event->organizer && strlen(event->organizer)) {
+	if (event->orgname && strlen(event->orgname)) {
+		gchar *addr = g_strconcat(event->orgname, " <", event->organizer, ">", NULL);
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), addr);
+		g_free(addr);
+	} else if (event->organizer && strlen(event->organizer)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), event->organizer);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
@@ -633,7 +653,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 {
 	icalproperty *iprop = NULL;
 	gchar *org = NULL, *summary = NULL, *description = NULL, *url = NULL;
-	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL;
+	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *orgname = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
 	VCalEvent *event = NULL;
 	gchar *tmp;
@@ -681,6 +701,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 			org = g_strdup(tmp);
 		g_free(tmp);
 		icalproperty_free(iprop);
+		orgname = get_name_from_organizer_property(iprop);
 	} 
 	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
@@ -737,7 +758,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	}
 	
 	event = vcal_manager_new_event( uid,
-					org, summary, description, 
+					org, orgname, summary, description, 
 					dtstart, dtend, tzid, url, method, sequence, 
 					is_todo?ICAL_VTODO_COMPONENT:ICAL_VEVENT_COMPONENT);
 	vcalviewer_get_attendees(vcalviewer, event);
@@ -745,6 +766,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 		vcal_manager_save_event(event);
 
 	g_free(org); 
+	g_free(orgname); 
 	g_free(summary);
 	g_free(description);
 	g_free(url);
@@ -798,16 +820,30 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);
 	if (iprop) {
-		gchar *org;
+		gchar *org, *orgname;
 		tmp = get_email_from_organizer_property(iprop);
 		if (!g_utf8_validate(tmp, -1, NULL))
 			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
 		else 
 			org = g_strdup(tmp);
 		g_free(tmp);
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), org);
+		tmp = get_name_from_organizer_property(iprop);
+		printf(" %s !\n", tmp);
+		if (tmp && !g_utf8_validate(tmp, -1, NULL))
+			orgname = conv_codeset_strdup(tmp, charset, CS_UTF_8);
+		else if (tmp)
+			orgname = g_strdup(tmp);
+		g_free(tmp);
+		if (orgname) {
+			gchar *addr = g_strconcat(orgname, " <", org, ">", NULL);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), addr);
+			g_free(addr);
+		} else {
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), org);
+		}
 		icalproperty_free(iprop);
 		g_free(org);
+		g_free(orgname);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
 	}
@@ -936,6 +972,12 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	vcalviewer->file = g_strdup(file);
 	vcalviewer->mimeinfo = mimeinfo;
 	vcalviewer_get_info(vcalviewer, mimeinfo);
+	GTK_EVENTS_FLUSH();
+	gtk_widget_set_size_request(vcalviewer->description, 
+		vcalviewer->scrolledwin->allocation.width - 200, -1);
+	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->summary), TRUE);
+	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->description), TRUE);
+	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->attendees), FALSE);
 }
 
 void vcalviewer_reload(void)
@@ -1104,7 +1146,8 @@ MimeViewer *vcal_viewer_create(void)
 	VCalViewer *vcalviewer;
 	int i = 0;
 	GtkWidget *hbox = NULL;
-	
+	GtkStyle *style;
+
 	debug_print("Creating vcal view...\n");
 	vcalviewer = g_new0(VCalViewer, 1);
 	vcalviewer->mimeviewer.factory = &vcal_viewer_factory;
@@ -1136,6 +1179,30 @@ MimeViewer *vcal_viewer_create(void)
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->cancel, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vcalviewer->uribtn, FALSE, FALSE, 0);
 	
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->type), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->who), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->start), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->end), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->summary), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->description), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->attendees), TRUE);
+	
+/*	gtk_widget_ensure_style(vcalviewer->who);
+	style = gtk_style_copy
+		(gtk_widget_get_style(vcalviewer->who));
+	style->fg[GTK_STATE_NORMAL]   = uri_color;
+	style->fg[GTK_STATE_ACTIVE]   = uri_color;
+	style->fg[GTK_STATE_PRELIGHT] = uri_color;
+	gtk_widget_set_style(vcalviewer->who, style);
+
+	gtk_widget_ensure_style(vcalviewer->attendees);
+	style = gtk_style_copy
+		(gtk_widget_get_style(vcalviewer->attendees));
+	style->fg[GTK_STATE_NORMAL]   = uri_color;
+	style->fg[GTK_STATE_ACTIVE]   = uri_color;
+	style->fg[GTK_STATE_PRELIGHT] = uri_color;
+	gtk_widget_set_style(vcalviewer->attendees, style);
+*/
 	g_signal_connect(G_OBJECT(vcalviewer->button), "clicked",
 			 G_CALLBACK(vcalviewer_action_cb), vcalviewer);
 
@@ -1155,6 +1222,7 @@ MimeViewer *vcal_viewer_create(void)
 	TABLE_ADD_LINE(_("Ending:"), vcalviewer->end);
 	TABLE_ADD_LINE(_("Description:"), vcalviewer->description);
 	TABLE_ADD_LINE(_("Attendees:"), vcalviewer->attendees);
+	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->attendees), FALSE);
 	TABLE_ADD_LINE(_("Action:"), hbox);
 	
 	vcalviewer->scrolledwin = gtk_scrolled_window_new(NULL, NULL);
@@ -1166,7 +1234,6 @@ MimeViewer *vcal_viewer_create(void)
 				       GTK_POLICY_AUTOMATIC);
 	
 	gtk_widget_show_all(vcalviewer->scrolledwin);
-	
 	return (MimeViewer *) vcalviewer;
 }
 
@@ -1224,6 +1291,10 @@ void vcalendar_init(void)
 	scan_timeout_tag = gtk_timeout_add(3600*1000, 
 				(GtkFunction)vcal_webcal_check, 
 				(gpointer)NULL);
+	if (prefs_common.enable_color) {
+		gtkut_convert_int_to_gdk_color(prefs_common.uri_col,
+				       &uri_color);
+	}
 }
 
 void vcalendar_done(void)

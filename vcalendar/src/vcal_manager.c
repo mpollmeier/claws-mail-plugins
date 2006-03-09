@@ -342,6 +342,9 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		param = icalparameter_new_cn(tmpstr);
 		icalproperty_add_parameter(orgprop, param);
 		g_free(tmpstr); tmpstr = NULL;
+	} else if (event->orgname && strlen(event->orgname)) {
+		param = icalparameter_new_cn(event->orgname);
+		icalproperty_add_parameter(orgprop, param);
 	}
 	
 	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
@@ -594,6 +597,7 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 
 VCalEvent * vcal_manager_new_event	(const gchar 	*uid, 
 					 const gchar	*organizer,
+					 const gchar	*orgname,
 					 const gchar	*summary,
 					 const gchar	*description,
 					 const gchar	*dtstart,
@@ -608,6 +612,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	
 	event->uid 		= g_strdup(uid?uid:"");
 	event->organizer 	= g_strdup(organizer?organizer:"");
+	event->orgname	 	= g_strdup(orgname?orgname:"");
 
 	if (dtend && strlen(dtend)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
@@ -701,6 +706,7 @@ void vcal_manager_save_event (VCalEvent *event)
 	
 	tag = xml_tag_new("event");
 	xml_tag_add_attr(tag, xml_attr_new("organizer", event->organizer));
+	xml_tag_add_attr(tag, xml_attr_new("orgname", event->orgname));
 	xml_tag_add_attr(tag, xml_attr_new("summary", event->summary));
 	xml_tag_add_attr(tag, xml_attr_new("description", event->description));
 	xml_tag_add_attr(tag, xml_attr_new("url", event->url));
@@ -780,7 +786,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 {
 	XMLNode *xmlnode;
 	GList *list;
-	gchar *org = NULL, *summary = NULL;
+	gchar *org = NULL, *summary = NULL, *orgname = NULL;
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *description = NULL, *url = NULL;
 	VCalEvent *event = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
@@ -802,6 +808,8 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 		if (!attr || !attr->name || !attr->value) continue;
 		if (!strcmp(attr->name, "organizer"))
 			org = g_strdup(attr->value);
+		if (!strcmp(attr->name, "orgname"))
+			orgname = g_strdup(attr->value);
 		if (!strcmp(attr->name, "summary"))
 			summary = g_strdup(attr->value);
 		if (!strcmp(attr->name, "description"))
@@ -822,7 +830,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 			sequence = atoi(attr->value);
 	}
 
-	event = vcal_manager_new_event(uid, org, summary, description, 
+	event = vcal_manager_new_event(uid, org, orgname, summary, description, 
 					dtstart, dtend, tzid, url, method, 
 					sequence, type);
 	
@@ -1037,7 +1045,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 		method_str = "REQUEST";		
 					
 	result = g_strdup_printf("%s"
-				"From: <%s>\n"
+				"From: %s <%s>\n"
 				"To: <%s>\n"
 				"Subject: %s%s\n"
 				"Date: %s\n"
@@ -1045,6 +1053,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
 				"Content-Transfer-Encoding: 8bit\n",
 				queue_headers,
+				is_reply ? account->name:(event->orgname?event->orgname:""),
 				is_reply ? account->address:event->organizer,
 				is_reply ? event->organizer:(attendees?attendees:event->organizer),
 				prefix,
@@ -1072,6 +1081,7 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	gchar *attendees = NULL;
 	gchar *summary = NULL;
 	gchar *organizer = NULL;
+	gchar *orgname = NULL;
 	icalproperty *prop = NULL;
 	time_t t;
 
@@ -1089,6 +1099,9 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	prop = icalcomponent_get_first_property(ievent, ICAL_ORGANIZER_PROPERTY);
 	if (prop) {
 		organizer = g_strdup(icalproperty_get_organizer(prop));
+		if (icalproperty_get_parameter_as_string(prop, "CN") != NULL)
+			orgname = g_strdup(icalproperty_get_parameter_as_string(prop, "CN"));
+
 		icalproperty_free(prop);
 	} else {
 		organizer = orga? g_strdup(orga):g_strdup("");
@@ -1106,13 +1119,14 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 			
 	method_str = "PUBLISH";
 					
-	result = g_strdup_printf("From: %s\n"
+	result = g_strdup_printf("From: %s <%s>\n"
 				"To: <%s>\n"
 				"Subject: %s%s\n"
 				"Date: %s\n"
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"; vcalsave=\"no\"\n"
 				"Content-Transfer-Encoding: quoted-printable\n",
+				orgname?orgname:"",
 				!strncmp(organizer, "MAILTO:", 7) ? organizer+7 : organizer,
 				account->address,
 				"",
@@ -1120,7 +1134,11 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 				date,
 				method_str,
 				conv_get_outgoing_charset_str());
-				
+	
+	g_free(orgname);
+	g_free(organizer);
+	g_free(summary);
+
 	return result;			
                                                                                
 
