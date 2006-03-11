@@ -974,6 +974,7 @@ void *url_read_thread(void *data)
 		"Sylpheed-Claws vCalendar plugin "
 		"(http://claws.sylpheed.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
+	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, 60);
 	curl_easy_perform(curl_ctx);
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {

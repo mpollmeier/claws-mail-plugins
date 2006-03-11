@@ -1,4 +1,9 @@
-2006-03-09 [colin] 1.50
+2006-03-11 [colin] 1.52
+
+	* src/vcal_folder.c
+		Timeout curl ops after 1 minute
+
+2006-03-09 [colin] 1.51
 
 	* src/vcal_meeting_gtk.c
 	* src/vcal_manager.[ch]
