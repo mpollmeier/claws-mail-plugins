@@ -112,6 +112,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
+	curl_easy_setopt(eh, CURLOPT_TIMEOUT, 60);
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
