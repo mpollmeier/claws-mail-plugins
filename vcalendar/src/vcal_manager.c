@@ -397,7 +397,10 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		g_free(tmpfile);
 		return NULL;
 	}
-        icalcomponent_add_component(calendar, timezone);
+	
+	if (!icalcomponent_get_first_component(calendar, ICAL_VTIMEZONE_COMPONENT))
+	        icalcomponent_add_component(calendar, timezone);
+
         icalcomponent_add_component(calendar, ievent);
 
 	if (event->url && strlen(event->url)) {
@@ -772,13 +775,12 @@ void vcal_manager_save_event (VCalEvent *event)
 		return;
 	}
  
-	if (vcalprefs.export_enable) {
-		if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
-			if (vcalprefs.export_command &&
-			    strlen(vcalprefs.export_command))
-				execute_command_line(
-					vcalprefs.export_command, TRUE);
-		}
+	if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
+		if (vcalprefs.export_enable &&
+		    vcalprefs.export_command &&
+		    strlen(vcalprefs.export_command))
+			execute_command_line(
+				vcalprefs.export_command, TRUE);
 	}
 }
 

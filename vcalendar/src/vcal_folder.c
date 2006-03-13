@@ -524,7 +524,9 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 					  
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
-		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")) 
+		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
+		||  !strcmp(d->d_name, "internal.ics")
+		||  !strcmp(d->d_name, "multisync")) 
 			continue;
 
 		snmsg = g_strdup_printf("%d",n_msg);
@@ -780,13 +782,12 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 		}
 	}
 
-	if (vcalprefs.export_enable) {
-		if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
-			if (vcalprefs.export_command &&
-			    strlen(vcalprefs.export_command))
-				execute_command_line(
-					vcalprefs.export_command, TRUE);
-		}
+	if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
+		if (vcalprefs.export_enable &&
+		    vcalprefs.export_command &&
+		    strlen(vcalprefs.export_command))
+			execute_command_line(
+				vcalprefs.export_command, TRUE);
 	}
 }
 
@@ -874,7 +875,9 @@ GSList * vcal_folder_get_waiting_events(void)
 
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
-		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")) 
+		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
+		||  !strcmp(d->d_name, "internal.ics") 
+		||  !strcmp(d->d_name, "multisync")) 
 			continue;
 
 		event = vcal_manager_load_event(d->d_name);

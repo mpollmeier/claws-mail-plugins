@@ -770,6 +770,71 @@ gint vcal_meeting_alert_check(gpointer data)
 	return TRUE;
 }
 
+void multisync_export(void)
+{
+	GSList *list = vcal_folder_get_waiting_events();
+	gchar *path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"vcalendar", G_DIR_SEPARATOR_S, 
+				"multisync", NULL);
+	GSList *files = NULL;
+	GSList *cur = NULL;
+	gchar *file = NULL;
+	gchar *tmp = NULL;
+	gint i = 0;
+	icalcomponent *calendar = NULL;
+	FILE *fp;
+
+	if (is_dir_exist(path))
+		remove_dir_recursive(path);
+	if (!is_dir_exist(path))
+		make_dir(path);
+	if (!is_dir_exist(path)) {
+		perror(path);
+		return;
+	}
+		
+	for (cur = list; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+		file = g_strdup_printf("multisync%lu-%d", time(NULL), i);
+
+		i++;
+
+		calendar = 
+        		icalcomponent_vanew(
+        		    ICAL_VCALENDAR_COMPONENT,
+	        	    icalproperty_new_version("2.0"),
+        		    icalproperty_new_prodid(
+                		 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
+			    icalproperty_new_calscale("GREGORIAN"),
+        		    0
+        	    ); 	
+		vcal_manager_event_dump(event, FALSE, FALSE, calendar);
+		tmp = g_strconcat(path, G_DIR_SEPARATOR_S, file, NULL);
+		str_write_to_file(icalcomponent_as_ical_string(calendar), tmp);
+		g_free(tmp);
+		files = g_slist_append(files, file);
+		vcal_manager_free_event(event);
+		icalcomponent_free(calendar);
+	}
+
+	g_slist_free(list);
+	
+	file = g_strconcat(path, G_DIR_SEPARATOR_S, "backup_entries", NULL);
+	fp = fopen(file, "wb");
+	
+	if (fp) {
+		for (cur = files; cur; cur = cur->next) {
+			file = (char *)cur->data;
+			fprintf(fp, "1 1 %s\n", file);
+			g_free(file);
+		}
+		fclose(fp);
+	} else {
+		perror(file);
+	}
+	g_slist_free(files);
+}
+
 gboolean vcal_meeting_export_calendar(const gchar *path)
 {
 	GSList *list = vcal_folder_get_waiting_events();
@@ -778,10 +843,16 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 	icalcomponent *calendar = NULL;
 	gchar *file = NULL;
 	gchar *tmpfile = get_tmp_file();
+	gchar *internal_file = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"vcalendar", G_DIR_SEPARATOR_S, 
+				"internal.ics", NULL);
+
 	gboolean res = TRUE;
 	long filesize = 0;
 	
-	if (vcalprefs.export_subs)
+	multisync_export();
+
+	if (vcalprefs.export_subs && vcalprefs.export_enable)
 		subs = vcal_folder_get_webcal_events();
 
 	if (g_slist_length(list) == 0 && g_slist_length(subs) == 0) {
@@ -817,21 +888,29 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 		vcal_manager_free_event(event);
 	}
 
+	if (str_write_to_file(icalcomponent_as_ical_string(calendar), internal_file) < 0) {
+		g_warning("can't export internal cal\n");
+	}
+	
+	g_free(internal_file);
+
 	for (cur = subs; cur; cur = cur->next) {
 		icalcomponent *event = (icalcomponent *)cur->data;
 		vcal_manager_icalevent_dump(event, NULL, calendar);
 		icalcomponent_free(event);
 	}
 
-	if (str_write_to_file(icalcomponent_as_ical_string(calendar), tmpfile) < 0) {
-		alertpanel_error(_("Could not export the calendar."));
-		g_free(tmpfile);
-		icalcomponent_free(calendar);
-		g_slist_free(list);
-		g_slist_free(subs);
-		return FALSE;
+	if (vcalprefs.export_enable || path == NULL) {
+		if (str_write_to_file(icalcomponent_as_ical_string(calendar), tmpfile) < 0) {
+			alertpanel_error(_("Could not export the calendar."));
+			g_free(tmpfile);
+			icalcomponent_free(calendar);
+			g_slist_free(list);
+			g_slist_free(subs);
+			return FALSE;
+		}
+		filesize = strlen(icalcomponent_as_ical_string(calendar));
 	}
-	filesize = strlen(icalcomponent_as_ical_string(calendar));
 
 	icalcomponent_free(calendar);
 	g_slist_free(list);
