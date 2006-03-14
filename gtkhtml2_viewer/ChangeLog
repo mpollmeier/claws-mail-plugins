@@ -1,6 +1,10 @@
+2006-02-13 [colin] 0.3
+
+	* src/gtkhtml2_viewer.c
+		Properly init curl outside of any thread (thanks to Colin)
+
 2006-02-13 [colin] 0.2
 
 	* src/gtkhtml2_viewer.c
 		Use correct Mimeview for statusbar
 		Specify HTML charset if unspecified
-

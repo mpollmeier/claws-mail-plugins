@@ -386,7 +386,7 @@ gint plugin_init(gchar **error)
 	gtkhtml_prefs_init();
 #endif
 	mimeview_register_viewer_factory(&gtkhtml2_viewer_factory);
-
+	curl_global_init(CURL_GLOBAL_DEFAULT);
 	return 0;	
 }
 

@@ -46,8 +46,9 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
+	curl_global_init(CURL_GLOBAL_DEFAULT);
 	vcalendar_init();
-	
+
 	return 0;	
 }
 
