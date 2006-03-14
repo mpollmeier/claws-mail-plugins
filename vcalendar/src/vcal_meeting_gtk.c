@@ -81,25 +81,33 @@ struct _VCalAttendee {
 
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
 
-#define TABLE_ADD_LINE(label_text, widget) { 				\
-	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",\
-				label_text);				\
-	GtkWidget *label = gtk_label_new(tmpstr);		 	\
-	g_free(tmpstr);							\
-	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
-	gtk_misc_set_alignment (GTK_MISC(label), 1, 0);			\
-	gtk_table_attach (GTK_TABLE (meet->table), 			\
-			  label, 0, 1, i, i+1,				\
-			  GTK_FILL, GTK_FILL, 6, 6);			\
-	gtk_table_attach (GTK_TABLE (meet->table), 			\
-			  widget, 1, 2, i, i+1,				\
-			  GTK_FILL|GTK_EXPAND, GTK_FILL, 6, 6);		\
-	if (GTK_IS_LABEL(widget)) {					\
-		gtk_label_set_use_markup(GTK_LABEL (widget), TRUE);	\
-		gtk_misc_set_alignment (GTK_MISC(widget),0, 0);		\
-		gtk_label_set_line_wrap(GTK_LABEL(widget), TRUE);	\
-	}								\
-	i++;								\
+#define TABLE_ADD_LINE(label_text, widget) { 					\
+	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",	\
+				label_text?label_text:"");			\
+	GtkWidget *label = NULL;				 		\
+	if (label_text) {							\
+		label = gtk_label_new(tmpstr);					\
+		g_free(tmpstr);							\
+		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
+		gtk_misc_set_alignment (GTK_MISC(label), 1, 0.5);		\
+		gtk_table_attach (GTK_TABLE (meet->table), 			\
+				  label, 0, 1, i, i+1,				\
+				  GTK_FILL, GTK_FILL, 6, 6);			\
+		gtk_table_attach (GTK_TABLE (meet->table), 			\
+				  widget, 1, 2, i, i+1,				\
+				  GTK_FILL|GTK_EXPAND, GTK_FILL, 6, 6);		\
+		if (GTK_IS_LABEL(widget)) {					\
+			gtk_label_set_use_markup(GTK_LABEL (widget), TRUE);	\
+			gtk_misc_set_alignment (GTK_MISC(widget),0, 0);		\
+			gtk_label_set_line_wrap(GTK_LABEL(widget), TRUE);	\
+		}								\
+	} else {								\
+		g_free(tmpstr);							\
+		gtk_table_attach (GTK_TABLE (meet->table), 			\
+				  widget, 0, 2, i, i+1,				\
+				  GTK_FILL|GTK_EXPAND, GTK_FILL, 6, 6);		\
+	}									\
+	i++;									\
 }
 
 enum {
@@ -297,8 +305,15 @@ static gchar *get_date(VCalMeeting *meet, int start)
 	lt->tm_mday = d;
 	lt->tm_mon  = m;
 	lt->tm_year = y - 1900;
-	lt->tm_hour = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_hh:meet->end_hh)));
-	lt->tm_min  = atoi(gtk_entry_get_text(GTK_ENTRY(start?meet->start_mm:meet->end_mm)));
+	if (start) {
+		lt->tm_hour = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->start_hh));
+		lt->tm_min = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->start_mm));
+		lt->tm_sec = 0;
+	} else {
+		lt->tm_hour = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->end_hh));
+		lt->tm_min = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->end_mm));
+		lt->tm_sec = 0;
+	}
 	
 	debug_print("%d %d %d, %d:%d\n", lt->tm_mday, lt->tm_mon, lt->tm_year, lt->tm_hour, lt->tm_min);
 	t = mktime(lt);
@@ -464,24 +479,39 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 {
 	VCalMeeting *meet = g_new0(VCalMeeting, 1);
 	GtkTextBuffer *buffer = NULL;
-	GtkWidget *date_hbox, *save_hbox, *label, *vbox;
+	GtkWidget *date_hbox, *date_vbox, *save_hbox, *label, *vbox, *hbox;
 	gchar *s = NULL;
+	GtkObject *start_h_adj, *start_m_adj, *end_h_adj, *end_m_adj;
 	int i = 0, decs = -1, dece = -1, num = 0, less = 0;
 	
 	GList *accounts;
 	
+	start_h_adj = gtk_adjustment_new (0, 0, 24, 1, 10, 10);
+	start_m_adj = gtk_adjustment_new (0, 0, 60, 1, 10, 10);
+	end_h_adj   = gtk_adjustment_new (0, 0, 24, 1, 10, 10);
+	end_m_adj   = gtk_adjustment_new (0, 0, 60, 1, 10, 10);
+
 	meet->window 		= gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	meet->table  		= gtk_table_new(7, 2, FALSE);
 	meet->who    		= gtk_combo_box_new_text();
 	
 	meet->start_c		= gtk_calendar_new();
-	meet->start_mm		= gtk_entry_new();
-	meet->start_hh		= gtk_entry_new();
-	
 	meet->end_c		= gtk_calendar_new();
-	meet->end_mm		= gtk_entry_new();
-	meet->end_hh		= gtk_entry_new();
+
+	meet->start_hh		= gtk_spin_button_new
+		(GTK_ADJUSTMENT (start_h_adj), 1, 0);
+	meet->start_mm		= gtk_spin_button_new
+		(GTK_ADJUSTMENT (start_m_adj), 1, 0);
+	meet->end_hh		= gtk_spin_button_new
+		(GTK_ADJUSTMENT (end_h_adj), 1, 0);
+	meet->end_mm		= gtk_spin_button_new
+		(GTK_ADJUSTMENT (end_m_adj), 1, 0);
 	
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (meet->start_hh), TRUE);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (meet->start_mm), TRUE);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (meet->end_hh), TRUE);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (meet->end_mm), TRUE);
+
 	meet->summary		= gtk_entry_new();
 	meet->description	= gtk_text_view_new();
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(meet->description));
@@ -509,7 +539,6 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	g_signal_connect(G_OBJECT(meet->window), "key_press_event",
 			 G_CALLBACK(meeting_key_pressed), meet);
 
-
 	gtk_widget_set_size_request(meet->description, -1, 100);
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(meet->description), GTK_WRAP_WORD);
 
@@ -519,14 +548,14 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		decs = dece = 0;
 	
 	if (!event) {
-		s = g_strdup_printf("%02d", (get_curdate(HOUR)+1)%24);
-		gtk_entry_set_text(GTK_ENTRY(meet->start_hh), s);
-		g_free(s);
-		s = g_strdup_printf("%02d", (get_curdate(HOUR)+2)%24);
-		gtk_entry_set_text(GTK_ENTRY(meet->end_hh), s);
-		g_free(s);
-		gtk_entry_set_text(GTK_ENTRY(meet->start_mm), "00");
-		gtk_entry_set_text(GTK_ENTRY(meet->end_mm), "00");
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_hh),
+			(get_curdate(HOUR)+1)%24);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_hh),
+			(get_curdate(HOUR)+2)%24);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_mm),
+			0);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_mm),
+			0);
 	} else {
 		gtk_calendar_select_day(GTK_CALENDAR(meet->start_c),
 					get_dtdate(event->dtstart, DAY));
@@ -540,58 +569,57 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 					get_dtdate(event->dtend, MONTH)-1,
 					get_dtdate(event->dtend, YEAR));
 
-		s = g_strdup_printf("%02d", get_dtdate(event->dtstart, HOUR));
-		gtk_entry_set_text(GTK_ENTRY(meet->start_hh), s);
-		g_free(s);
-		s = g_strdup_printf("%02d", get_dtdate(event->dtend, HOUR));
-		gtk_entry_set_text(GTK_ENTRY(meet->end_hh), s);
-		g_free(s);
-		s = g_strdup_printf("%02d", get_dtdate(event->dtstart, MINUTE));
-		gtk_entry_set_text(GTK_ENTRY(meet->start_mm), s);
-		g_free(s);
-		s = g_strdup_printf("%02d", get_dtdate(event->dtend, MINUTE));
-		gtk_entry_set_text(GTK_ENTRY(meet->end_mm), s);
-		g_free(s);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_hh),
+			get_dtdate(event->dtstart, HOUR));
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_hh),
+			get_dtdate(event->dtend, HOUR));
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_mm),
+			get_dtdate(event->dtstart, MINUTE));
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_mm),
+			get_dtdate(event->dtend, MINUTE));
 	}
-
-	gtk_widget_set_size_request(meet->start_mm, 30, -1);
-	gtk_widget_set_size_request(meet->start_hh, 30, -1);
-	gtk_widget_set_size_request(meet->end_mm, 30, -1);
-	gtk_widget_set_size_request(meet->end_hh, 30, -1);
+	gtk_widget_set_size_request(meet->start_mm, 40, -1);
+	gtk_widget_set_size_request(meet->start_hh, 40, -1);
+	gtk_widget_set_size_request(meet->end_mm, 40, -1);
+	gtk_widget_set_size_request(meet->end_hh, 40, -1);
 	
 	date_hbox = gtk_hbox_new(FALSE, 6);
-	label = gtk_label_new(_("<b>From:</b> ")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	date_vbox = gtk_vbox_new(FALSE, 6);
+	hbox = gtk_hbox_new(FALSE, 6);
+	label = gtk_label_new(_("<b>Starts at:</b> ")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
-	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), meet->start_c, FALSE, FALSE, 0);
-	label = gtk_label_new(" "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
-
-	vbox = gtk_vbox_new(FALSE, 0);	
-	gtk_box_pack_start(GTK_BOX(vbox), meet->start_hh, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
-
-	label = gtk_label_new(_("h")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
-	vbox = gtk_vbox_new(FALSE, 0);	
-	gtk_box_pack_start(GTK_BOX(vbox), meet->start_mm, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
-
-	label = gtk_label_new(_("<b>To:</b> ")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
-	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), meet->end_c, FALSE, FALSE, 0);
-	label = gtk_label_new(" "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), label, FALSE, FALSE, 0);
 	
-	vbox = gtk_vbox_new(FALSE, 0);	
-	gtk_box_pack_start(GTK_BOX(vbox), meet->end_hh, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
-	label = gtk_label_new(_("h")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), label, TRUE, FALSE, 0);
-	vbox = gtk_vbox_new(FALSE, 0);	
-	gtk_box_pack_start(GTK_BOX(vbox), meet->end_mm, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(date_hbox), vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), meet->start_hh, FALSE, FALSE, 0);
+	label = gtk_label_new(_("h")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), meet->start_mm, FALSE, FALSE, 0);
+	label = gtk_label_new(_("<b> on:</b>")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_vbox), meet->start_c, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), date_vbox, FALSE, FALSE, 0);
+
+	label = gtk_label_new(" "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_box_pack_start(GTK_BOX(date_hbox), label, TRUE, TRUE, 0);
+
+	date_vbox = gtk_vbox_new(FALSE, 6);
+	hbox = gtk_hbox_new(FALSE, 6);
+	label = gtk_label_new(_("<b>Ends at:</b> ")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+	
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), meet->end_hh, FALSE, FALSE, 0);
+	label = gtk_label_new(_("h")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), meet->end_mm, FALSE, FALSE, 0);
+	label = gtk_label_new(_("<b> on:</b>")); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_vbox), meet->end_c, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(date_hbox), date_vbox, FALSE, FALSE, 0);
 
 	meet->attendees_vbox = gtk_vbox_new(FALSE, 6);
 	if (!event) {
@@ -618,7 +646,14 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 			attendee_add(meet, NULL, NULL, NULL, NULL, TRUE);
 	}
 
-	gtk_window_set_title(GTK_WINDOW(meet->window), _("New meeting"));
+	if (!event) {
+		gtk_window_set_title(GTK_WINDOW(meet->window), _("New meeting"));
+	} else {
+		gchar *title = g_strdup_printf(_("%s - Edit meeting"),
+			event->summary);
+		gtk_window_set_title(GTK_WINDOW(meet->window), title);
+		g_free(title);
+	}
 	address_completion_start(meet->window);
 	
 	accounts = account_get_list();
@@ -655,8 +690,8 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	save_hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
 	TABLE_ADD_LINE(_("Organizer:"), meet->who);
-	TABLE_ADD_LINE(_("Date:"), date_hbox);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary);
+	TABLE_ADD_LINE(_("Time:"), date_hbox);
 	TABLE_ADD_LINE(_("Description:"), meet->description);
 	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox);
 	TABLE_ADD_LINE("", save_hbox);
@@ -708,58 +743,79 @@ gint vcal_meeting_alert_check(gpointer data)
 	for (cur = events; cur; cur = cur->next) {
 		VCalEvent *event = (VCalEvent *)cur->data;
 		time_t start, end, current;
-		
+		gboolean warn = FALSE;
+
 		start = icaltime_as_timet(icaltime_from_string(event->dtstart));
 		end = icaltime_as_timet(icaltime_from_string(event->dtend));
 		current = time(NULL);
 		
-		if (start > current && start < (current + (vcalprefs.alert_delay*60))) {
-			if (!g_slist_find_string(alert_done, event->uid)) {
-				time_t tmpt = icaltime_as_timet((icaltime_from_string(event->dtstart)));
-				gchar *estart = NULL;
-				
-				alert_done = g_slist_append(alert_done, g_strdup(event->uid));
-				estart = g_strdup(ctime(&tmpt));
-				
-				int length = (end - start) / 60;
-				gchar *duration = NULL, *hours = NULL, *minutes = NULL;
-				gchar *message = NULL;
-				gchar *title = NULL;
+		if (start - current <= (vcalprefs.alert_delay*60) 
+		&&  start - current + 60 > (vcalprefs.alert_delay*60)) {
+			warn = TRUE;
+		} else if (event->postponed - current <= (vcalprefs.alert_delay*60)
+		&&         event->postponed - current + 60 > (vcalprefs.alert_delay*60)) {
+			warn = TRUE;
+		}
+		if (warn) {
+			time_t tmpt = icaltime_as_timet((icaltime_from_string(event->dtstart)));
+			gchar *estart = NULL;
+			AlertValue aval;
 
-				if (length >= 60)
-					hours = g_strdup_printf(ngettext("%d hour", "%d hours", 
-							(length/60) > 1 ? 2 : 1), length/60);
-				if (length%60)
-					minutes = g_strdup_printf(ngettext("%d minute", "%d minutes",
-							length%60), length%60);
-				
-				duration = g_strdup_printf("%s%s%s",
-						hours?hours:"",
-						hours && minutes ? " ":"",
-						minutes?minutes:"");
+			int length = (end - start) / 60;
+			gchar *duration = NULL, *hours = NULL, *minutes = NULL;
+			gchar *message = NULL;
+			gchar *title = NULL;
+			gchar *label = NULL;
 
-				g_free(hours);
-				g_free(minutes);
+			estart = g_strdup(ctime(&tmpt));
 
-				title = g_strdup_printf(_("Upcoming event: %s"), event->summary);
-				message = g_strdup_printf(_("You have a meeting or event soon.\n"
-						 "It starts at %s and ends %s later.\n"
-						 "More information:\n\n"
-						 "%s"),
-							estart,
-							duration,
-							event->description);
-				
-				g_free(duration);
-				g_free(estart);
+			if (length >= 60)
+				hours = g_strdup_printf(ngettext("%d hour", "%d hours", 
+						(length/60) > 1 ? 2 : 1), length/60);
+			if (length%60)
+				minutes = g_strdup_printf(ngettext("%d minute", "%d minutes",
+						length%60), length%60);
 
-				alertpanel_full(title, message,
-				   		GTK_STOCK_OK, NULL, NULL, FALSE,
-				   		NULL, ALERT_NOTICE, G_ALERTDEFAULT);
+			duration = g_strdup_printf("%s%s%s",
+					hours?hours:"",
+					hours && minutes ? " ":"",
+					minutes?minutes:"");
 
-				g_free(title);
-				g_free(message);
+			g_free(hours);
+			g_free(minutes);
+
+			title = g_strdup_printf(_("Upcoming event: %s"), event->summary);
+			message = g_strdup_printf(_("You have a meeting or event soon.\n"
+					 "It starts at %s and ends %s later.\n"
+					 "More information:\n\n"
+					 "%s"),
+						estart,
+						duration,
+						event->description);
+
+			g_free(duration);
+			g_free(estart);
+
+			label = g_strdup_printf(ngettext("Remind me in %d minute", "Remind me in %d minutes",
+						 vcalprefs.alert_delay > 1 ? 2:1), 
+						 vcalprefs.alert_delay);
+			aval = alertpanel_full(title, message,
+				   	label, GTK_STOCK_OK, NULL, FALSE,
+				   	NULL, ALERT_NOTICE, G_ALERTDEFAULT);
+			g_free(label);
+
+			g_free(title);
+			g_free(message);
+
+			if (aval == G_ALERTDEFAULT) {
+				if (event->postponed == 0)
+					event->postponed = start + (vcalprefs.alert_delay*60);
+				else
+					event->postponed += (vcalprefs.alert_delay*60);
+			} else {
+				event->postponed = (time_t)0;
 			}
+			vcal_manager_save_event(event);
 		}
 		
 		vcal_manager_free_event((VCalEvent *)cur->data);
@@ -821,7 +877,7 @@ void multisync_export(void)
 	
 	file = g_strconcat(path, G_DIR_SEPARATOR_S, "backup_entries", NULL);
 	fp = fopen(file, "wb");
-	
+	g_free(file);
 	if (fp) {
 		for (cur = files; cur; cur = cur->next) {
 			file = (char *)cur->data;

@@ -1,3 +1,13 @@
+2006-03-14 [colin] 1.56
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Fix a crash in some cases
+		Fix a leak
+		Allow 'Remind me later' in alerts
+		Better layout of the meeting editor
+
 2006-03-14 [wwp] 1.55
 	* src/plugin.c
 		Forgot a necessary #include
@@ -5,6 +15,15 @@
 2006-03-14 [wwp] 1.54
 	* src/plugin.c
 		Properly init curl outside of any thread (thanks to Colin)
+
+2006-03-13 [colin] 1.53
+
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+		Prepare some stuff for multisync
+		Put only one timezone part when exporting
+		multiple components
 
 2006-03-11 [colin] 1.52
 

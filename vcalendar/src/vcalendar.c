@@ -994,6 +994,8 @@ static void vcal_viewer_destroy_viewer(MimeViewer *_mimeviewer)
 
 	debug_print("vcal_viewer_destroy_viewer\n");
 
+	if (s_vcalviewer == vcalviewer)
+		s_vcalviewer = NULL;
 	vcal_viewer_clear_viewer(_mimeviewer);
 	g_free(vcalviewer);
 }
@@ -1003,7 +1005,8 @@ static gboolean vcalviewer_reedit_cb(GtkButton *widget, gpointer data)
 	VCalViewer *vcalviewer = (VCalViewer *)data;
 	gchar * uid = vcalviewer_get_uid_from_mimeinfo(vcalviewer->mimeinfo);
 	VCalEvent *event = NULL;
-
+	
+	s_vcalviewer = vcalviewer;
 	/* see if we have it registered and more recent */
 	event = vcal_manager_load_event(uid);
 	vcal_meeting_create(event);
@@ -1039,8 +1042,8 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	VCalEvent *event = NULL;
 	VCalMeeting *meet = NULL;
 	gchar *file = NULL;
-	
-	gint val = alertpanel_full(_("Cancel meeting"),
+	gint val = 0;
+	val = alertpanel_full(_("Cancel meeting"),
 				   _("Are you sure you want to cancel this meeting?\n"
 			           "A notification will be sent to attendees."),
 				   GTK_STOCK_NO, GTK_STOCK_YES, NULL, FALSE,
@@ -1048,7 +1051,9 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 
 	if (val != G_ALERTALTERNATE)
 		return TRUE;
-
+	
+	s_vcalviewer = vcalviewer;
+	
 	event = vcal_manager_load_event(uid);
 	if (!event)
 		return TRUE;
@@ -1091,6 +1096,8 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 		return TRUE;
 	}
 	
+	s_vcalviewer = vcalviewer;
+
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_UID_PROPERTY);
 	if (iprop) {
 		event = vcal_manager_load_event(icalproperty_get_uid(iprop));

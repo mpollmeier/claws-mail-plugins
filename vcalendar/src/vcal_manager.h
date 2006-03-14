@@ -44,6 +44,7 @@ struct _VCalEvent
 	gint sequence;	
 	gchar *url;
 	enum icalproperty_kind type;
+	time_t postponed;
 };
 
 VCalEvent *vcal_manager_new_event	(const gchar 	*uid, 
