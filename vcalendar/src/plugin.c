@@ -24,6 +24,7 @@
 #endif
 
 #include <stddef.h>
+#include <curl/curl.h>
 
 #include "plugin_version.h"
 #include "version.h"

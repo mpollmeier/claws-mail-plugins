@@ -1,4 +1,8 @@
-2006-03-14 [ wwp] 1.54
+2006-03-14 [wwp] 1.55
+	* src/plugin.c
+		Forgot a necessary #include
+
+2006-03-14 [wwp] 1.54
 	* src/plugin.c
 		Properly init curl outside of any thread (thanks to Colin)
 
