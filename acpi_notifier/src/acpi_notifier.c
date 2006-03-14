@@ -44,6 +44,8 @@
 
 #define PREFS_BLOCK_NAME "AcpiNotifier"
 
+extern gboolean alertpanel_is_open;
+
 typedef struct _PredefinedAcpis {
 	gchar *name;
 	gchar *on_param;
@@ -658,6 +660,16 @@ static gpointer update_led_thread(gpointer data)
 	while (!should_quit) {
 		sleep(1);
 		
+		if (alertpanel_is_open) {
+			int i;
+			for (i = 0; i < 4; i++) {
+				acpi_set(TRUE);
+				usleep(200000);
+				acpi_set(FALSE);
+				usleep(200000);
+			}
+			continue;
+		}
 		if (my_new > 0) {
 			action = acpiprefs.new_mail_action;
 		} else if (my_unread > 0) {
@@ -758,7 +770,7 @@ gint plugin_init(gchar **error)
 				  "version AcpiNotifier was built with"));
 		return -1;
 	}
-	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
+	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 139))) {
 		*error = g_strdup(_("Your Sylpheed-Claws version is too old for AcpiNotifier"));
 		return -1;
 	}

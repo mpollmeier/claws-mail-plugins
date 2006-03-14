@@ -7,7 +7,7 @@ PACKAGE=acpi_notifier
 
 dnl plugin version
 MAJOR_VERSION=0
-MINOR_VERSION=8
+MINOR_VERSION=9
 MICRO_VERSION=0
 EXTRA_VERSION=0
 
@@ -48,7 +48,7 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 dnl check for sylpheed-claws
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.0.0.139)
 SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)

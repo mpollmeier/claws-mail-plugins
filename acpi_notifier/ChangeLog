@@ -1,3 +1,8 @@
+2006-03-14 [colin]	0.9
+
+	* src/acpi_notifier.c
+		Quickly blink when an alertpanel is open
+
 2006-01-29 [paul]
 
 	* po/fi.po
