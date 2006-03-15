@@ -968,14 +968,19 @@ void *url_read_thread(void *data)
 	CURL *curl_ctx = NULL;
 	struct CBuf buffer = { NULL };
 
+#ifdef USE_PTHREAD
 	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+#endif
 	
 	curl_ctx = curl_easy_init();
 	
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, td->url);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
+#ifndef USE_PTHREAD
+	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+#endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
 		"Sylpheed-Claws vCalendar plugin "
 		"(http://claws.sylpheed.org/plugins.php)");

@@ -212,8 +212,10 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	gchar *template = get_tmp_file();
 	FILE *f = NULL;
 
+#ifdef USE_PTHREAD
 	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+#endif
 
 	if (template != NULL)
 		f = fopen(template, "wb");
@@ -241,6 +243,9 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
+#ifndef USE_PTHREAD
+	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+#endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws GtkHtml2 plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");

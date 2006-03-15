@@ -80,8 +80,10 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	int fd = mkstemp(template);
 	FILE *f;
 
+#ifdef USE_PTHREAD
 	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+#endif
 
 	if (fd == -1) {
 		perror("mkstemp");
@@ -117,6 +119,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
+#ifndef USE_PTHREAD
+	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+#endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
