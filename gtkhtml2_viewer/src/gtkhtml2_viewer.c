@@ -49,7 +49,6 @@
 #include <curl/curl.h>
 #endif
 
-
 typedef struct _GtkHtml2Viewer GtkHtml2Viewer;
 
 struct _GtkHtml2Viewer
@@ -210,10 +209,11 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	GtkHtmlThreadCtx *ctx = (GtkHtmlThreadCtx *)arg;
 	CURL *eh = NULL;
 	CURLcode res;
-
 	gchar *template = get_tmp_file();
-
 	FILE *f = NULL;
+
+	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 
 	if (template != NULL)
 		f = fopen(template, "wb");
@@ -267,6 +267,8 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	GtkHtmlThreadCtx *ctx = NULL;
 	gint loaded = 0;
 	char buffer[4096];
+	time_t start_time = time(NULL);
+	gboolean killed = FALSE;
 
         if (strncmp(url, "cid:", 4) == 0) {
                 MimeInfo *mimeinfo = ((MimeViewer *)data)->mimeview->mimeinfo;
@@ -311,11 +313,20 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	        } else {
 		        /* Thread created, let's wait until it finishes */
 		        debug_print("gtkhtml: waiting for thread to finish\n");
-		        while( !ctx->ready )
+		        while( !ctx->ready ) {
 			        sylpheed_do_idle();
+				if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
+					log_error(_("Timeout connecting to %s\n"), url);
+					pthread_cancel(pt);
+					ctx->ready = TRUE;
+					killed = TRUE;
+				}
+			}
 		        debug_print("gtkhtml: thread finished\n");
 
 		        pthread_join(pt, &tmpfile);
+			if (killed)
+				tmpfile = NULL;
 	        }
 #else
 	        debug_print("gtkhtml: no pthreads, run blocking fetch\n");

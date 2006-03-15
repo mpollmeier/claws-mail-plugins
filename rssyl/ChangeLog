@@ -1,3 +1,7 @@
+2006-03-15  10:30 wwp <subscript@free.fr>
+	* src/feed.c
+		Use a better solution for timeouts (thanks to Colin)
+
 2006-03-14  13:00 wwp <subscript@free.fr>
 	* src/plugin.c
 		Properly init curl outside of any thread (thanks to Colin)

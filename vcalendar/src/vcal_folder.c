@@ -967,6 +967,9 @@ void *url_read_thread(void *data)
 
 	CURL *curl_ctx = NULL;
 	struct CBuf buffer = { NULL };
+
+	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	
 	curl_ctx = curl_easy_init();
 	
@@ -977,7 +980,6 @@ void *url_read_thread(void *data)
 		"Sylpheed-Claws vCalendar plugin "
 		"(http://claws.sylpheed.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
-	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, 60);
 	curl_easy_perform(curl_ctx);
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {
@@ -997,6 +999,8 @@ static void url_read(const char *url, gboolean verbose,
 	pthread_t pt;
 	gchar *msg = NULL;
 	void *res = NULL;
+	time_t start_time = time(NULL);
+	gboolean killed = FALSE;
 	
 	td->url  = url;
 	td->result  = NULL;
@@ -1013,9 +1017,16 @@ static void url_read(const char *url, gboolean verbose,
 			url_read_thread, td) != 0) {
 		url_read_thread(td);	
 	}
-	while (!td->done) 
-		sylpheed_do_idle();
-	
+	while (!td->done)  {
+ 		sylpheed_do_idle();
+		if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
+			log_error(_("Timeout connecting to %s\n"), url);
+			pthread_cancel(pt);
+			td->done = TRUE;
+			killed = TRUE;
+		}
+	}
+ 
 	pthread_join(pt, &res);
 #else
 	url_read_thread(td);
@@ -1028,7 +1039,7 @@ static void url_read(const char *url, gboolean verbose,
 	STATUSBAR_POP(mainwindow_get_mainwindow());
 
 	if (callback)
-		callback(url, result, verbose);
+		callback(url, killed?NULL:result, verbose);
 }
 
 static gboolean folder_item_find_func(GNode *node, gpointer data)

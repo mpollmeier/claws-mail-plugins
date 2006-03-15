@@ -42,6 +42,8 @@
 #include "folder.h"
 #include "mainwindow.h"
 #include "statusbar.h"
+#include "log.h"
+#include "prefs_common.h"
 
 #include "gettext.h"
 
@@ -78,6 +80,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	int fd = mkstemp(template);
 	FILE *f;
 
+	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+
 	if (fd == -1) {
 		perror("mkstemp");
 		ctx->ready = TRUE;
@@ -112,7 +117,6 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
-	curl_easy_setopt(eh, CURLOPT_TIMEOUT, 60);
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
@@ -205,7 +209,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 #endif
 	gchar *msg = NULL, *tmptitle = NULL;
 	gchar *content;
-	
+	time_t start_time = time(NULL);
+	gboolean killed = FALSE;
+
 	ctx->url = url;
 	ctx->ready = FALSE;
 	ctx->last_update = last_update;
@@ -232,11 +238,21 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	} else {
 		/* Thread created, let's wait until it finishes */
 		debug_print("RSSyl: waiting for thread to finish\n");
-		while( !ctx->ready )
+		while( !ctx->ready ) {
 			sylpheed_do_idle();
+			if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
+				log_error(_("Timeout connecting to %s\n"), url);
+				pthread_cancel(pt);
+				ctx->ready = TRUE;
+				killed = TRUE;
+				template = NULL;
+			}
+		}
 
 		debug_print("RSSyl: thread finished\n");
 		pthread_join(pt, (void *)&template);
+		if (killed)
+			template = NULL;
 	}
 #else
 	debug_print("RSSyl: no pthreads, run blocking fetch\n");

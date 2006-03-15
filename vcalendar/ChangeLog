@@ -1,3 +1,7 @@
+2006-03-15 [wwp] 1.57
+	* src/vcal_folder.c
+		Use a better solution for timeouts (thanks to Colin)
+
 2006-03-14 [colin] 1.56
 	* src/vcal_manager.c
 	* src/vcal_manager.h
