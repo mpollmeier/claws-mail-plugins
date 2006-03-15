@@ -1,4 +1,10 @@
-2006-02-13 [colin] 0.3
+2006-03-15 [colin] 0.5
+
+	* src/gtkhtml2_viewer.c
+		Load inline images (attached to the mail).
+		Patch by Ivan Rayner <ivanr@sgi.com>
+
+2006-03-14 [wwp] 0.3
 
 	* src/gtkhtml2_viewer.c
 		Properly init curl outside of any thread (thanks to Colin)

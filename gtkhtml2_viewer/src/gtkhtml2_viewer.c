@@ -56,7 +56,7 @@ struct _GtkHtml2Viewer
 {
 	MimeViewer	 mimeviewer;
 	GtkWidget	*html_view;
-	GtkWidget	*scrollwin;	
+	GtkWidget	*scrollwin;
 	HtmlDocument	*html_doc;
 	gchar		*filename;
 };
@@ -86,7 +86,7 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	gchar buf[4096];
 	gint loaded = 0;
 	const gchar *charset = NULL;
-	
+
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
@@ -97,8 +97,8 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
 	if (!(procmime_get_part(viewer->filename, partinfo) < 0)) {
-	
-		if (_viewer && _viewer->mimeview && 
+
+		if (_viewer && _viewer->mimeview &&
 		    _viewer->mimeview->messageview->forced_charset)
 			charset = _viewer->mimeview->messageview->forced_charset;
 		else
@@ -111,15 +111,15 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 		if (html_document_open_stream(viewer->html_doc, "text/html")) {
 			gboolean got_charset = FALSE;
 			fp = fopen(viewer->filename, "r");
-			
+
 			if (fp == NULL) {
 				html_document_close_stream(viewer->html_doc);
 				return;
 			}
-			
+
 			while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
-				if (strcasestr(buf, "<meta") && 
-				    strcasestr(buf, "http-equiv") && 
+				if (strcasestr(buf, "<meta") &&
+				    strcasestr(buf, "http-equiv") &&
 				    strcasestr(buf, "charset"))
 					got_charset = TRUE; /* hack */
 				if (strcasestr(buf, "</head>") && got_charset == FALSE) {
@@ -131,7 +131,7 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 					debug_print("injected %s\n", meta_charset);
 					g_free(meta_charset);
 				}
-				
+
 				html_document_write_stream(viewer->html_doc, buf, loaded);
 				if (gtk_events_pending())
 					gtk_main_iteration();
@@ -161,7 +161,7 @@ static void gtkhtml2_destroy_viewer(MimeViewer *_viewer)
 }
 
 /* DESCRIPTION:
- * This callback gets executed if a user clicks a link, that is, if he 
+ * This callback gets executed if a user clicks a link, that is, if he
  * apparently attempts to move onto another document. Commonly handle
  * this by loading a document in same fashion as gtkhtml2_show_mimepart,
  * or just ignore it. */
@@ -175,12 +175,12 @@ void link_clicked(HtmlDocument *doc, const gchar *url, gpointer data) {
  * This callback informs whenever user has a pointer over any URL. Probably
  * only useful for debugging and for statusbar update.
  */
-static void on_url(GtkWidget *widget, const gchar *url, gpointer data) 
+static void on_url(GtkWidget *widget, const gchar *url, gpointer data)
 {
 	gchar *trimmed_uri = NULL;
 	MimeViewer *viewer = (MimeViewer *)data;
 	MessageView *messageview = viewer->mimeview ? viewer->mimeview->messageview : NULL;
-	
+
 	g_return_if_fail(messageview != NULL);
 
 	if (url != NULL) {
@@ -214,7 +214,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	gchar *template = get_tmp_file();
 
 	FILE *f = NULL;
-	
+
 	if (template != NULL)
 		f = fopen(template, "wb");
 	if (f == NULL) {
@@ -244,7 +244,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws GtkHtml2 plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
-	
+
 	res = curl_easy_perform(eh);
 
 	curl_easy_cleanup(eh);
@@ -267,32 +267,62 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	GtkHtmlThreadCtx *ctx = NULL;
 	gint loaded = 0;
 	char buffer[4096];
-	
-	if (gtkhtml_prefs.local || prefs_common.work_offline)
-		return;
 
-	debug_print("requested %s\n", url);
-	ctx = g_new0(GtkHtmlThreadCtx, 1);
-	ctx->url = url;
-	ctx->ready = FALSE;
+        if (strncmp(url, "cid:", 4) == 0) {
+                MimeInfo *mimeinfo = ((MimeViewer *)data)->mimeview->mimeinfo;
+                gchar *image = g_strconcat("<", url + 4, ">", NULL);
+
+                if (url + 4 == '\0')
+                        return;
+
+                while ((mimeinfo = procmime_mimeinfo_next(mimeinfo)) != NULL) {
+                        if (mimeinfo->id != NULL && strcmp(mimeinfo->id, image) == 0)
+                                break;
+                }
+                g_free(image);
+
+                if (mimeinfo == NULL) {
+                        return;
+                }
+
+                tmpfile = procmime_get_tmp_file_name(mimeinfo);
+                if (tmpfile == NULL)
+                        return;
+
+                if (procmime_get_part(tmpfile, mimeinfo) < 0) {
+                        g_free(tmpfile);
+                        return;
+                }
+        }
+        else
+        {
+                if (gtkhtml_prefs.local || prefs_common.work_offline)
+                        return;
+
+	        debug_print("requested %s\n", url);
+	        ctx = g_new0(GtkHtmlThreadCtx, 1);
+	        ctx->url = url;
+	        ctx->ready = FALSE;
 #ifdef USE_PTHREAD
-	if( pthread_create(&pt, PTHREAD_CREATE_JOINABLE, gtkhtml_fetch_feed_threaded,
-				(void *)ctx) != 0 ) {
-		/* Bummer, couldn't create thread. Continue non-threaded */
-		tmpfile = gtkhtml_fetch_feed_threaded(ctx);
-	} else {
-		/* Thread created, let's wait until it finishes */
-		debug_print("gtkhtml: waiting for thread to finish\n");
-		while( !ctx->ready )
-			sylpheed_do_idle();
-		debug_print("gtkhtml: thread finished\n");
+	        if( pthread_create(&pt, PTHREAD_CREATE_JOINABLE, gtkhtml_fetch_feed_threaded,
+				        (void *)ctx) != 0 ) {
+		        /* Bummer, couldn't create thread. Continue non-threaded */
+		        tmpfile = gtkhtml_fetch_feed_threaded(ctx);
+	        } else {
+		        /* Thread created, let's wait until it finishes */
+		        debug_print("gtkhtml: waiting for thread to finish\n");
+		        while( !ctx->ready )
+			        sylpheed_do_idle();
+		        debug_print("gtkhtml: thread finished\n");
 
-		pthread_join(pt, &tmpfile);
-	}
+		        pthread_join(pt, &tmpfile);
+	        }
 #else
-	debug_print("gtkhtml: no pthreads, run blocking fetch\n");
-	(gchar *)tmpfile = gtkhtml_fetch_feed_threaded(ctx);
+	        debug_print("gtkhtml: no pthreads, run blocking fetch\n");
+	        (gchar *)tmpfile = gtkhtml_fetch_feed_threaded(ctx);
 #endif
+        }
+
 	debug_print("file %s\n", (char *)tmpfile);
 	if (tmpfile) {
 		FILE *fp = fopen(tmpfile, "r");
@@ -322,14 +352,14 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	GtkAdjustment *adj;
 
 	debug_print("gtkhtml2_viewer_create\n");
-	
+
 	viewer = g_new0(GtkHtml2Viewer, 1);
 	viewer->mimeviewer.factory = &gtkhtml2_viewer_factory;
 	viewer->mimeviewer.get_widget = gtkhtml2_get_widget;
 	viewer->mimeviewer.show_mimepart = gtkhtml2_show_mimepart;
 	viewer->mimeviewer.clear_viewer = gtkhtml2_clear_viewer;
 	viewer->mimeviewer.destroy_viewer = gtkhtml2_destroy_viewer;
-	
+
 	viewer->html_doc = html_document_new();
 	viewer->html_view = html_view_new();
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
@@ -348,7 +378,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	g_signal_connect(G_OBJECT(viewer->html_doc), "request_url", G_CALLBACK(requested_url), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_doc), "link_clicked", G_CALLBACK(link_clicked), NULL);
 	g_signal_connect(G_OBJECT(viewer->html_view),"on_url", G_CALLBACK(on_url), viewer);
-	
+
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_show(GTK_WIDGET(viewer->html_view));
@@ -359,12 +389,12 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	return (MimeViewer *) viewer;
 }
 
-static gchar *content_types[] = 
+static gchar *content_types[] =
 	{"text/html", NULL};
 
 static MimeViewerFactory gtkhtml2_viewer_factory =
 {
-	content_types,	
+	content_types,
 	0,
 
 	gtkhtml2_viewer_create
@@ -387,7 +417,7 @@ gint plugin_init(gchar **error)
 #endif
 	mimeview_register_viewer_factory(&gtkhtml2_viewer_factory);
 	curl_global_init(CURL_GLOBAL_DEFAULT);
-	return 0;	
+	return 0;
 }
 
 void plugin_done(void)
