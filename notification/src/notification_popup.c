@@ -69,6 +69,10 @@ void notification_popup_msg(MsgInfo *msginfo)
   popup.timeout_id = g_timeout_add(notify_config.popup_timeout,
 				   popup_timeout_fun, NULL);
   G_UNLOCK(popup);
+
+  /* GUI update */
+  while(gtk_events_pending())
+    gtk_main_iteration();
 }
 
 static void notification_popup_add_msg(MsgInfo *msginfo)
