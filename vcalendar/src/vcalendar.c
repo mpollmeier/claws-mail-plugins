@@ -963,7 +963,11 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 {
 	VCalViewer *vcalviewer = (VCalViewer *) _mimeviewer;
 	s_vcalviewer = vcalviewer;
-	
+
+	if (mimeinfo == NULL) {
+		vcal_viewer_clear_viewer(_mimeviewer);
+		return;
+	}
 	debug_print("vcal_viewer_show_mimepart : %s\n", file);
 
 	vcal_viewer_clear_viewer(_mimeviewer);

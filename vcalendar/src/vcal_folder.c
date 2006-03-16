@@ -435,7 +435,7 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 	MsgNumberList *msglist = NULL;
 	icalcomponent *evt = NULL;
 	icalcomponent_kind type = ICAL_VEVENT_COMPONENT;
-	gint num = 0;
+	gint num = 1;
 
 	debug_print("fetching\n");
 

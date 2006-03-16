@@ -760,12 +760,12 @@ gint vcal_meeting_alert_check(gpointer data)
 			time_t tmpt = icaltime_as_timet((icaltime_from_string(event->dtstart)));
 			gchar *estart = NULL;
 			AlertValue aval;
-
 			int length = (end - start) / 60;
 			gchar *duration = NULL, *hours = NULL, *minutes = NULL;
 			gchar *message = NULL;
 			gchar *title = NULL;
 			gchar *label = NULL;
+			int postpone_min = 0;
 
 			estart = g_strdup(ctime(&tmpt));
 
@@ -796,9 +796,13 @@ gint vcal_meeting_alert_check(gpointer data)
 			g_free(duration);
 			g_free(estart);
 
+			postpone_min = (vcalprefs.alert_delay/2 > 15) ? 15: (vcalprefs.alert_delay/2);
+			if (postpone_min == 0)
+				postpone_min = 1;
+
 			label = g_strdup_printf(ngettext("Remind me in %d minute", "Remind me in %d minutes",
-						 vcalprefs.alert_delay > 1 ? 2:1), 
-						 vcalprefs.alert_delay);
+						 postpone_min > 1 ? 2:1), 
+						 postpone_min);
 			aval = alertpanel_full(title, message,
 				   	label, GTK_STOCK_OK, NULL, FALSE,
 				   	NULL, ALERT_NOTICE, G_ALERTDEFAULT);
@@ -809,9 +813,9 @@ gint vcal_meeting_alert_check(gpointer data)
 
 			if (aval == G_ALERTDEFAULT) {
 				if (event->postponed == 0)
-					event->postponed = start + (vcalprefs.alert_delay*60);
+					event->postponed = start + (postpone_min*60);
 				else
-					event->postponed += (vcalprefs.alert_delay*60);
+					event->postponed += (postpone_min*60);
 			} else {
 				event->postponed = (time_t)0;
 			}

@@ -1,3 +1,10 @@
+2006-03-16 [colin] 1.60
+	* src/vcal_folder.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Fix g_warnings, fix missing last webcal item
+		Choose the "later" duration better
+
 2006-03-15 [wwp] 1.57
 	* src/vcal_folder.c
 		Use a better solution for timeouts (thanks to Colin)

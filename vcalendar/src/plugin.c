@@ -72,8 +72,10 @@ const gchar *plugin_desc(void)
 		 "or created.\n"
 		 "Meeting requests that you receive will be presented in an "
 		 "appropriate form and you will be able to accept or decline them.\n"
-		 "Finally, to create a meeting right-click on the vCalendar or "
-		 "Meetings folder and choose \"New meeting...\".");
+		 "To create a meeting right-click on the vCalendar or "
+		 "Meetings folder and choose \"New meeting...\".\n\n"
+		 "You will also be able to subscribe to remote webCal feeds,"
+		 "and export your meetings or all your calendars.");
 }
 
 const gchar *plugin_type(void)
