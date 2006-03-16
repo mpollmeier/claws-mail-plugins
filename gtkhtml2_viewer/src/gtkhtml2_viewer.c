@@ -38,6 +38,7 @@
 #include "messageview.h"
 #include "prefs_common.h"
 #include "gtkhtml2_prefs.h"
+#include "log.h"
 #include "codeconv.h"
 
 #include "pluginconfig.h"
@@ -275,12 +276,18 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	time_t start_time = time(NULL);
 	gboolean killed = FALSE;
 
+	if (!url)
+		goto fail;
         if (strncmp(url, "cid:", 4) == 0) {
                 MimeInfo *mimeinfo = ((MimeViewer *)data)->mimeview->mimeinfo;
                 gchar *image = g_strconcat("<", url + 4, ">", NULL);
 
-                if (url + 4 == '\0')
-                        return;
+		debug_print("looking for %s in Content-ID\n", image);
+
+                if (url + 4 == '\0') {
+			g_free(image);
+                        goto fail;
+		}
 
                 while ((mimeinfo = procmime_mimeinfo_next(mimeinfo)) != NULL) {
                         if (mimeinfo->id != NULL && strcmp(mimeinfo->id, image) == 0)
@@ -289,24 +296,52 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
                 g_free(image);
 
                 if (mimeinfo == NULL) {
-                        return;
+                        goto fail;
                 }
+		debug_print("found %s in mimeinfo's Content-ID\n", mimeinfo->id);
 
                 tmpfile = procmime_get_tmp_file_name(mimeinfo);
                 if (tmpfile == NULL)
-                        return;
+                        goto fail;
 
                 if (procmime_get_part(tmpfile, mimeinfo) < 0) {
                         g_free(tmpfile);
-                        return;
+			tmpfile = NULL;
+                        goto fail;
                 }
         }
         else
         {
-                if (gtkhtml_prefs.local || prefs_common.work_offline)
-                        return;
+                MimeInfo *mimeinfo = ((MimeViewer *)data)->mimeview->mimeinfo;
+		debug_print("looking for %s in Content-Location\n", url);
+                if (url == '\0')
+                        goto fail;
 
-	        debug_print("requested %s\n", url);
+                while ((mimeinfo = procmime_mimeinfo_next(mimeinfo)) != NULL) {
+                        if (mimeinfo->location != NULL && strcmp(mimeinfo->location, url) == 0)
+                                break;
+                }
+
+                if (mimeinfo == NULL) {
+                        goto not_found_local;
+                }
+		debug_print("found %s in mimeinfo's Content-Location\n", mimeinfo->location);
+                tmpfile = procmime_get_tmp_file_name(mimeinfo);
+                if (tmpfile == NULL)
+                        goto not_found_local;
+
+                if (procmime_get_part(tmpfile, mimeinfo) < 0) {
+                        g_free(tmpfile);
+			tmpfile = NULL;
+                        goto not_found_local;
+                }
+		goto found_local;
+
+not_found_local:
+                if (gtkhtml_prefs.local || prefs_common.work_offline)
+                        goto fail;
+
+	        debug_print("looking for %s online\n", url);
 	        ctx = g_new0(GtkHtmlThreadCtx, 1);
 	        ctx->url = url;
 	        ctx->ready = FALSE;
@@ -339,6 +374,7 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 #endif
         }
 
+found_local:
 	debug_print("file %s\n", (char *)tmpfile);
 	if (tmpfile) {
 		FILE *fp = fopen(tmpfile, "r");
@@ -359,6 +395,7 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	}
 	g_free(ctx);
 #endif
+fail:
 	html_stream_close(stream);
 }
 
@@ -423,7 +460,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 56))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 141))) {
 		*error = g_strdup("Your version of Sylpheed-Claws is too old for the gtkhtml2 plugin");
 		return -1;
 	}
