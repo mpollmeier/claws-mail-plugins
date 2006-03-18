@@ -5,8 +5,8 @@ PACKAGE=perl_plugin
 
 dnl plugin version
 MAJOR_VERSION=0
-MINOR_VERSION=8
-MICRO_VERSION=1
+MINOR_VERSION=9
+MICRO_VERSION=0
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then

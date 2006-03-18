@@ -1,6 +1,23 @@
 Changes of the Perl plugin for Sylpheed-Claws
 See the ChangeLog for details.
 
+0.9
+
+    * Various little bug-fixes, code cleanups and documentation updates
+    * Use newly available batch-mode for forwarding and redirecting
+
+0.8
+
+    * Update to reflect upstream changes
+
+0.7
+
+    * Fix prefs loading bug
+
+0.4 - 0.6
+
+    * Updates to reflect upstream changes
+
 0.3
 
     * Support for manual filtering (invoked by the menu bar)
