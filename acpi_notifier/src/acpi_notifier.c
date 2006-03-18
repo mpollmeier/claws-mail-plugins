@@ -109,6 +109,7 @@ struct AcpiNotifierPage
 	GtkWidget *hbox_acpi_values;
 	GtkWidget *warning_label;
 	GtkWidget *warning_box;
+	GtkWidget *blink_on_err_chkbtn;
 };
 
 typedef struct _AcpiNotifierPrefs AcpiNotifierPrefs;
@@ -118,6 +119,7 @@ struct _AcpiNotifierPrefs
 	gint		 no_mail_action;
 	gint		 unread_mail_action;
 	gint		 new_mail_action;
+	gboolean	 blink_on_err;
 	gchar 		*on_param;	
 	gchar 		*off_param;	
 	gchar 		*file_path;	
@@ -139,6 +141,8 @@ static PrefParam param[] = {
 	{"unread_mail_action", "0", &acpiprefs.unread_mail_action, P_INT,
 	 NULL, NULL, NULL},
 	{"new_mail_action", "1", &acpiprefs.new_mail_action, P_INT,
+	 NULL, NULL, NULL},
+	{"blink_on_err", "TRUE", &acpiprefs.blink_on_err, P_BOOL,
 	 NULL, NULL, NULL},
 	{"on_param", NULL, &acpiprefs.on_param, P_STRING,
 	 NULL, NULL, NULL},
@@ -280,6 +284,7 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *warning_label;
 	GtkWidget *warning_box;
 	GtkWidget *image;
+	GtkWidget *blink_on_err_chkbtn;
 
 	int i;
 	int found = 0;
@@ -414,6 +419,14 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show_all(vbox);
 	gtk_widget_hide(warning_box);
 
+	blink_on_err_chkbtn = gtk_check_button_new_with_label(
+		_("Blink when user interaction is required"));
+	gtk_box_pack_start(GTK_BOX(vbox), blink_on_err_chkbtn, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active(
+			GTK_TOGGLE_BUTTON(blink_on_err_chkbtn),
+			acpiprefs.blink_on_err);
+	gtk_widget_show(blink_on_err_chkbtn);
+
 	switch (acpiprefs.no_mail_action) {
 	case OFF: 	
 		gtk_toggle_button_set_active(
@@ -499,6 +512,7 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	page->hbox_acpi_values = hbox_acpi_values;
 	page->warning_box = warning_box;
 	page->warning_label = warning_label;
+	page->blink_on_err_chkbtn = blink_on_err_chkbtn;
 
 	if (found != 0) {
 		gtk_widget_hide(hbox_acpi_file);
@@ -584,6 +598,9 @@ static void acpi_prefs_save_func(PrefsPage * _page)
 		GTK_TOGGLE_BUTTON(page->new_mail_on_btn)))
 		acpiprefs.new_mail_action = ON;
 	
+	acpiprefs.blink_on_err = gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->blink_on_err_chkbtn));
+
 	menu = gtk_option_menu_get_menu(
 		GTK_OPTION_MENU(page->default_implementations_optmenu));
 	menuitem = gtk_menu_get_active(GTK_MENU(menu));
@@ -660,7 +677,8 @@ static gpointer update_led_thread(gpointer data)
 	while (!should_quit) {
 		sleep(1);
 		
-		if (alertpanel_is_open) {
+		if (alertpanel_is_open
+		&&  acpiprefs.blink_on_err) {
 			int i;
 			for (i = 0; i < 4; i++) {
 				acpi_set(TRUE);
@@ -670,6 +688,7 @@ static gpointer update_led_thread(gpointer data)
 			}
 			continue;
 		}
+
 		if (my_new > 0) {
 			action = acpiprefs.new_mail_action;
 		} else if (my_unread > 0) {
