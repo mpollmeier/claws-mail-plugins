@@ -49,21 +49,25 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 	SummaryView *summaryview = mainwin->summaryview;
 	GSList *msglist = summary_get_selected_msg_list(summaryview);
 	GSList *cur;
-	gboolean reselected = FALSE;
+	gint msgnum = -1;
 
 	if (summary_is_locked(summaryview) || !msglist) 
 		return;
 	
 	if (g_slist_length(msglist) == 1) {
-		if (alertpanel_full(_("Remove attachments"),
+		if (alertpanel_full(_("Destroy attachments"),
                         _("Do you really want to remove all attachments from "
-                          "the selected message ?"), GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL,
+                          "the selected message ?\n\n"
+			  "The deleted data will be unrecoverable."), 
+			  GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL,
                           FALSE, NULL, ALERT_QUESTION, G_ALERTALTERNATE) != G_ALERTALTERNATE)
 			return;
 	} else {
-		if (alertpanel_full(_("Remove attachments"),
+		if (alertpanel_full(_("Destroy attachments"),
                         _("Do you really want to remove all attachments from "
-                          "the selected messages ?"), GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL,
+                          "the selected messages ?\n\n"
+			  "The deleted data will be unrecoverable."), 
+			  GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL,
                           FALSE, NULL, ALERT_QUESTION, G_ALERTALTERNATE) != G_ALERTALTERNATE)
 			return;
 	}
@@ -80,7 +84,6 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 		FolderItem *item = NULL;
 		MimeInfo *info = NULL;
 		MimeInfo *partinfo = NULL;
-		gint msgnum = -1;
 
 		MsgFlags flags = {0, 0};
 
@@ -103,7 +106,8 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 		}
 		partinfo->node->next = NULL;
 		partinfo->node->children = NULL;
-		
+		info->node->children->data = partinfo;
+
 		finalmsg = procmsg_msginfo_new_from_mimeinfo(newmsg, info);
 
 		if (!finalmsg) {
@@ -115,23 +119,31 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 		
 		flags.tmp_flags = msginfo->flags.tmp_flags;
 		flags.perm_flags = msginfo->flags.perm_flags;
-		
+		flags.tmp_flags &= ~MSG_HAS_ATTACHMENT;
+
 		folder_item_remove_msg(item, msginfo->msgnum);
 		msgnum = folder_item_add_msg(item, finalmsg->plaintext_file, 
 				&flags, TRUE);
+		finalmsg->msgnum = msgnum;
 		procmsg_msginfo_free(newmsg);
 		procmsg_msginfo_free(finalmsg);
 		
-		if (msgnum > 0 && !reselected) {
-			reselected = TRUE;
-			summary_select_by_msgnum(summaryview, msgnum);
+		newmsg = folder_item_get_msginfo(item, msgnum);
+		if (newmsg && item) {
+			procmsg_msginfo_unset_flags(newmsg, ~0, ~0);
+			procmsg_msginfo_set_flags(newmsg, flags.perm_flags, flags.tmp_flags);
+			procmsg_msginfo_free(newmsg);
 		}
+		
 	}
 	inc_unlock();
 	folder_item_update_thaw();
 	gtk_clist_thaw(GTK_CLIST(summaryview->ctree));
 	main_window_cursor_normal(summaryview->mainwin);
 	g_slist_free(msglist);
+	if (msgnum > 0) {
+		summary_select_by_msgnum(summaryview, msgnum);
+	}
 }
 
 static GtkItemFactoryEntry remove_att_menu = {
@@ -200,7 +212,10 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return _("This plugin removes attachments from mails.");
+	return _("This plugin removes attachments from mails.\n\n"
+		 "Warning: this operation will be completely "
+		 "un-cancellable and the deleted attachments will "
+		 "be lost forever, and ever, and ever.");
 }
 
 const gchar *plugin_type(void)
