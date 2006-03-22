@@ -433,6 +433,12 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		GSList *cur = event->answers;
 		while (cur && cur->data) {
 			Answer *a = (Answer *)cur->data;
+
+			if (a->cutype == 0)
+				a->cutype = ICAL_CUTYPE_INDIVIDUAL;
+			if (a->answer == 0)
+				a->answer = ICAL_PARTSTAT_NEEDSACTION;
+
 			attprop =
 	                	icalproperty_vanew_attendee(
                 		    a->attendee,

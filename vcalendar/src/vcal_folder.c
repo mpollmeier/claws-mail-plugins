@@ -105,6 +105,8 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 static void update_subscription(const gchar *uri, gboolean verbose);
+static void rename_cb(FolderView *folderview, guint action, GtkWidget *widget);
+
 gboolean vcal_subscribe_uri(Folder *folder, const gchar *uri);
 
 FolderClass vcal_class;
@@ -135,6 +137,8 @@ static char *vcal_popup_labels[] =
 	N_("/_Subscribe to webCal..."),
 	N_("/_Unsubscribe..."),
 	"/---",
+	N_("/_Rename..."),
+	"/---",
 	N_("/U_pdate subscriptions"),
 	"/---",
 	NULL
@@ -146,6 +150,8 @@ static GtkItemFactoryEntry vcal_popup_entries[] =
 	{NULL, NULL, NULL,    	0, "<Separator>"},
 	{NULL, NULL, subscribe_cal_cb,	0, NULL},
 	{NULL, NULL, unsubscribe_cal_cb,	0, NULL},
+	{NULL, NULL, NULL,    	0, "<Separator>"},
+	{NULL, NULL, rename_cb, 0, NULL},
 	{NULL, NULL, NULL,    	0, "<Separator>"},
 	{NULL, NULL, check_subs_cb, 0, NULL},
 	{NULL, NULL, NULL,  	0, "<Separator>"}
@@ -325,6 +331,16 @@ static XMLTag *vcal_item_get_xml(Folder *folder, FolderItem *item)
 	return tag;
 }
 
+static gint vcal_rename_folder(Folder *folder, FolderItem *item,
+			     const gchar *name)
+{
+	if (!name)
+		return -1;
+	g_free(item->name);
+	item->name = g_strdup(name);
+	return 0;
+}
+
 FolderClass *vcal_folder_get_class()
 {
 	if (vcal_class.idstr == NULL) {
@@ -349,7 +365,7 @@ FolderClass *vcal_folder_get_class()
 		vcal_class.item_get_path = vcal_item_get_path;
 		vcal_class.create_folder = vcal_create_folder;
 		vcal_class.remove_folder = vcal_remove_folder;
-		vcal_class.rename_folder = NULL;
+		vcal_class.rename_folder = vcal_rename_folder;
 		vcal_class.scan_required = vcal_scan_required;
 		vcal_class.get_num_list = vcal_get_num_list;
 
@@ -402,7 +418,8 @@ static void vcal_item_destroy(Folder *folder, FolderItem *_item)
 
 static gchar *vcal_item_get_path(Folder *folder, FolderItem *item)
 {
-	if (!strcmp(item->name, "Meetings"))
+	VCalFolderItem *fitem = (VCalFolderItem *)item;
+	if (fitem->uri == NULL)
 		return g_strdup(vcal_manager_get_event_path());
 	else {
 		gchar *path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
@@ -849,6 +866,7 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 	SET_SENS(_("/Export calendar..."), TRUE);
 	SET_SENS(_("/Subscribe to webCal..."), item->uri == NULL);
 	SET_SENS(_("/Unsubscribe..."), item->uri != NULL);
+	SET_SENS(_("/Rename..."), folder_item_parent(item) != NULL);
 	SET_SENS(_("/Update subscriptions"), TRUE);
 	
 #undef SET_SENS
@@ -1095,11 +1113,6 @@ static gchar *feed_get_title(const gchar *str)
 			*(strstr(title, "\r")) = '\0';		
 	}
 	
-	if (title != NULL && !strcmp(title, "Meetings")) {
-		g_free(title);
-		title = NULL;
-	}
-	
 	return title;
 }
 
@@ -1304,4 +1317,48 @@ gboolean vcal_subscribe_uri(Folder *folder, const gchar *uri)
 	update_subscription(tmp, FALSE);
 	folder_write_list();
 	return TRUE;
+}
+
+static void rename_cb(FolderView *folderview, guint action,
+			     GtkWidget *widget)
+{
+	FolderItem *item;
+	gchar *new_folder;
+	gchar *name;
+	gchar *message;
+
+	item = folderview_get_selected_item(folderview);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->path != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	name = trim_string(item->name, 32);
+	message = g_strdup_printf(_("Input new name for '%s':"), name);
+	new_folder = input_dialog(_("Rename folder"), message, name);
+	g_free(message);
+	g_free(name);
+	if (!new_folder) return;
+	AUTORELEASE_STR(new_folder, {g_free(new_folder); return;});
+
+	if (strchr(new_folder, G_DIR_SEPARATOR) != NULL) {
+		alertpanel_error(_("'%c' can't be included in folder name."),
+				 G_DIR_SEPARATOR);
+		return;
+	}
+
+	if (folder_find_child_item_by_name(folder_item_parent(item), new_folder)) {
+		name = trim_string(new_folder, 32);
+		alertpanel_error(_("The folder '%s' already exists."), name);
+		g_free(name);
+		return;
+	}
+
+	if (folder_item_rename(item, new_folder) < 0) {
+		alertpanel_error(_("The folder could not be renamed.\n"
+				   "The new folder name is not allowed."));
+		return;
+	}
+
+	folder_item_prefs_save_config(item);
+	folder_write_list();
 }

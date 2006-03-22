@@ -1,3 +1,9 @@
+2006-03-22 [colin] 1.70
+	* src/vcal_manager.c
+		Fix a possible crash
+	* src/vcal_folder.c
+		Implement folder renaming
+
 2006-03-16 [colin] 1.60
 	* src/vcal_folder.c
 	* src/vcal_meeting_gtk.c
