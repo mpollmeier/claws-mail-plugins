@@ -866,7 +866,7 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 	SET_SENS(_("/Export calendar..."), TRUE);
 	SET_SENS(_("/Subscribe to webCal..."), item->uri == NULL);
 	SET_SENS(_("/Unsubscribe..."), item->uri != NULL);
-	SET_SENS(_("/Rename..."), folder_item_parent(item) != NULL);
+	SET_SENS(_("/Rename..."), folder_item_parent(fitem) != NULL);
 	SET_SENS(_("/Update subscriptions"), TRUE);
 	
 #undef SET_SENS

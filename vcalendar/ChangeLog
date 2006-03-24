@@ -1,3 +1,7 @@
+2006-03-24 [colin] 1.71
+	* src/vcal_folder.c
+		Warning fix (by Fabien Vantard)
+
 2006-03-22 [colin] 1.70
 	* src/vcal_manager.c
 		Fix a possible crash
