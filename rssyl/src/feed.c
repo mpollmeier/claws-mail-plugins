@@ -1095,7 +1095,7 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 
 void rssyl_update_feed(RSSylFolderItem *ritem)
 {
-	gchar *title = NULL, *dir = NULL, *dir2, *tmp;
+	gchar *title = NULL, *dir = NULL;
 	xmlDocPtr doc = NULL;
 
 	g_return_if_fail(ritem != NULL);
@@ -1107,11 +1107,12 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title);
 
 	if (doc && title) {
+		gchar *dir2, *tmp;
 		tmp = rssyl_strreplace(title, "/", "\\");
 		dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 				G_DIR_SEPARATOR_S, tmp, NULL);
 		g_free(tmp);
-		if( strcmp(title, (&ritem->item)->name) ) {
+		if( strcmp(title, ritem->official_name) ) {
 			tmp = rssyl_strreplace((&ritem->item)->name, "/", "\\");
 			dir2 = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 					G_DIR_SEPARATOR_S, tmp,
@@ -1130,8 +1131,11 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 
 			g_free((&ritem->item)->name);
 			(&ritem->item)->name = g_strdup(title);
+			g_free(ritem->official_name);
+			ritem->official_name = g_strdup(title);
 			folder_item_rename(&ritem->item, title);
-		}
+			rssyl_store_feed_props(ritem);
+		} 
 
 		rssyl_parse_feed(doc, ritem, NULL);
 
@@ -1275,6 +1279,8 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	if( ritem->fetch_comments )
 		rssyl_update_comments(ritem);
 
+	/* update official_title */
+	rssyl_store_feed_props(ritem);
 	rssyl_start_refresh_timeout(ritem);
 
 	folder_item_scan(new_item);

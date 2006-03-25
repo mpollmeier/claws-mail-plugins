@@ -26,6 +26,7 @@ struct _RSSylFolderItem {
 	gint last_count;
 
 	gchar *url;
+	gchar *official_name;
 
 	gboolean default_refresh_interval;
 	gint refresh_interval;

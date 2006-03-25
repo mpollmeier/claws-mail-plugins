@@ -1,3 +1,14 @@
+2006-03-25  15:00 Colin Leroy <colin@colino.net>
+	* src/feed.c
+	* src/feedprops.c
+	* src/feedprops.h
+	* src/rssyl.c
+	* src/rssyl.h
+	* src/rssyl_cb_menu.c
+	* src/rssyl_cb_menu.h
+	* src/rssyl_gtk.c
+		Implement folder renaming
+
 2006-03-15  10:30 wwp <subscript@free.fr>
 	* src/feed.c
 		Use a better solution for timeouts (thanks to Colin)

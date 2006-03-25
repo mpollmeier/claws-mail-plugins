@@ -50,6 +50,8 @@ static char *rssyl_popup_menu_labels[] =
 	N_("/_Unsubscribe feed..."),
 	N_("/Feed pr_operties..."),
 	"/---",
+	N_("/Rena_me..."),
+	"/---",
 	N_("/Remove folder _tree..."),
 	"/---",
 	NULL
@@ -65,6 +67,7 @@ static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
 	SET_SENS(_("/Subscribe new feed..."), folder_item_parent(item) == NULL );
 	SET_SENS(_("/Unsubscribe feed..."), folder_item_parent(item) != NULL );
 	SET_SENS(_("/Feed properties..."), folder_item_parent(item) != NULL );
+	SET_SENS(_("/Rename..."), folder_item_parent(item) != NULL );
 	SET_SENS(_("/Remove folder tree..."), folder_item_parent(item) == NULL );
 
 #undef SET_SENS
@@ -78,6 +81,8 @@ static GtkItemFactoryEntry rssyl_popup_entries[] =
 	{ NULL, NULL, rssyl_new_feed_cb, 0, NULL },
 	{ NULL, NULL, rssyl_remove_feed_cb, 0, NULL },
 	{ NULL, NULL, rssyl_prop_cb, 0, NULL },
+	{ NULL, NULL, NULL, 0, "<Separator>" },
+	{ NULL, NULL, rssyl_rename_cb, 0, NULL },
 	{ NULL, NULL, NULL, 0, "<Separator>" },
 	{ NULL, NULL, rssyl_remove_rss_cb, 0, NULL },
 	{ NULL, NULL, NULL, 0, "<Separator>" }

@@ -8,6 +8,7 @@
 
 #define RSSYL_PROP_URL					"url"
 #define RSSYL_PROP_NAME					"name"
+#define RSSYL_PROP_OFFICIAL_NAME			"official_name"
 #define RSSYL_PROP_DEF_REFRESH	"default_refresh_interval"
 #define RSSYL_PROP_REFRESH			"refresh_interval"
 #define RSSYL_PROP_DEF_EXPIRED	"default_expired_num"

@@ -93,6 +93,8 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 			if( !strcmp(tmp, item->name) ) {
 				debug_print("RSSyl: XML - updating node for '%s'\n", item->name);
 				xmlSetProp(node, RSSYL_PROP_NAME, item->name);
+				xmlSetProp(node, RSSYL_PROP_OFFICIAL_NAME, 
+						ritem->official_name?ritem->official_name:item->name);
 				xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
 				xmlSetProp(node, RSSYL_PROP_DEF_REFRESH, (def_ri ? "1" : "0") );
 				if( !def_ri )
@@ -118,6 +120,8 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 				item->name, ritem->url);
 		node = xmlNewTextChild(rootnode, NULL, "feed", NULL);
 		xmlSetProp(node, RSSYL_PROP_NAME, item->name);
+		xmlSetProp(node, RSSYL_PROP_OFFICIAL_NAME, 
+				ritem->official_name?ritem->official_name:item->name);
 		xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
 		xmlSetProp(node, RSSYL_PROP_DEF_REFRESH, (def_ri ? "1" : "0") );
 		if( !def_ri )
@@ -147,6 +151,7 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 	xmlXPathContextPtr context;
 	FolderItem *item = &ritem->item;
 	gint i, tmpi;
+	gboolean force_update = FALSE;
 
 	g_return_if_fail(ritem != NULL);
 
@@ -174,6 +179,14 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 			node = result->nodesetval->nodeTab[i];
 			property = xmlGetProp(node, RSSYL_PROP_NAME);
 			if( !strcmp(property, item->name) ) {
+				/* official name */
+				tmp = xmlGetProp(node, RSSYL_PROP_OFFICIAL_NAME);
+				ritem->official_name = (tmp ? g_strdup(tmp) : g_strdup(item->name));
+				if (tmp == NULL)
+					force_update = TRUE;
+				xmlFree(tmp);
+				tmp = NULL;
+
 				/* URL */
 				tmp = xmlGetProp(node, RSSYL_PROP_URL);
 				ritem->url = (tmp ? g_strdup(tmp) : NULL);
@@ -245,6 +258,8 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 	xmlXPathFreeContext(context);
 	xmlFreeDoc(doc);
 	g_free(path);
+	if (force_update)
+		rssyl_store_feed_props(ritem);
 }
 
 void rssyl_remove_feed_props(RSSylFolderItem *ritem)

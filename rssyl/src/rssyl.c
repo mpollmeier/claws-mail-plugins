@@ -304,8 +304,10 @@ static gchar *rssyl_item_get_path(Folder *folder, FolderItem *item)
 }
 
 static gint rssyl_rename_folder(Folder *folder, FolderItem *item,
-								const gchar *name)
+				const gchar *name)
 {
+	gchar *oldname = NULL, *oldpath = NULL, *newpath = NULL;
+	RSSylFolderItem *ritem = NULL;
 	g_return_val_if_fail(folder != NULL, -1);
 	g_return_val_if_fail(item != NULL, -1);
 	g_return_val_if_fail(item->path != NULL, -1);
@@ -313,10 +315,33 @@ static gint rssyl_rename_folder(Folder *folder, FolderItem *item,
 
 	debug_print("RSSyl: renaming folder '%s' to '%s'\n", item->path, name);
 
-	g_free(item->name);
+	oldpath = rssyl_item_get_path(folder, item);
+	
+	/* now get the new path using the new name */
+	oldname = item->name;
 	item->name = g_strdup(name);
+	newpath = rssyl_item_get_path(folder, item);
+	
+	/* put back the old name in case the rename fails */
+	g_free(item->name);
+	item->name = oldname;
+	
+	if (g_rename(oldpath, newpath) < 0) {
+		FILE_OP_ERROR(oldpath, "rename");
+		g_free(oldpath);
+		g_free(newpath);
+		return -1;
+	}
+	
 	g_free(item->path);
 	item->path = g_strdup_printf(".%s", name);
+	
+	ritem = (RSSylFolderItem *)item;
+	rssyl_props_update_name(ritem, (gchar *)name);
+	
+	g_free(item->name);
+	item->name = g_strdup(name);
+	
 	folder_write_list();
 
 	return 0;
