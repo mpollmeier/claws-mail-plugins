@@ -1,3 +1,9 @@
+2006-03-27 09:10 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* src/feed.c
+		where comments cannot be fetched use a non-blocking
+		log_error() instead of alertpanel_error()
+
 2006-03-25  15:00 Colin Leroy <colin@colino.net>
 	* src/feed.c
 	* src/feedprops.c

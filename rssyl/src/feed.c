@@ -838,14 +838,16 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	} else if( !strcmp(rootnode, "rdf") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_rdf()\n");
 		if (ritem->fetch_comments) {
-			alertpanel_error(_("Fetching comments is not supported for RDF feeds."));
+			log_error(_("RSSyl: Fetching comments is not supported for RDF feeds. "
+				    "Cannot fetch comments of '%s'"), ritem->item.name);
 			ritem->fetch_comments = FALSE;
 		}
 		count = rssyl_parse_rdf(doc, ritem, parent);
 	} else if( !strcmp(rootnode, "feed") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_atom()\n");
 		if (ritem->fetch_comments) {
-			alertpanel_error(_("Fetching comments is not supported for Atom feeds."));
+			log_error(_("RSSyl: Fetching comments is not supported for Atom feeds. "
+				    "Cannot fetch comments of '%s'"), ritem->item.name);
 			ritem->fetch_comments = FALSE;
 		}
 		count = rssyl_parse_atom(doc, ritem, parent);
