@@ -1,4 +1,4 @@
-/* gpgsm, gnupg-agent, dirmngr
+/* 
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
  * Copyright (C) 1999-2006 Hiroyuki Yamamoto & the Sylpheed-Claws team
  *
