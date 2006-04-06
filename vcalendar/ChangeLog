@@ -1,3 +1,8 @@
+2006-04-04 [colin] 1.72
+	* src/vcal_meeting_gtk.c
+		Automatically put end of meeting after start of
+		meeting. Fix hours like 24:60 being selectable.
+
 2006-04-06 [paul]
 
 	* po/fi.po
