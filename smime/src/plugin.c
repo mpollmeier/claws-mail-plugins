@@ -71,7 +71,7 @@ const gchar *plugin_desc(void)
 		 "composing a message from /Options/Privacy System\n"
 		 "\n"
 		 "This plugin uses the GPGME library as a wrapper for GnuPG.\n"
-		 "This plugins also needs gpgsm, gnupg-agent and dirmngr "
+		 "This plugin also needs gpgsm, gnupg-agent and dirmngr "
 		 "installed and configured.\n"
 		 "\n"
 		 "GPGME is copyright 2001 by Werner Koch <dd9jn@gnu.org>");
