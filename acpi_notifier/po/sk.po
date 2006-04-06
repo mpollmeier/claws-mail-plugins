@@ -10,41 +10,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-06 12:56+0100\n"
-"PO-Revision-Date: 2006-01-06 13:11+0100\n"
+"POT-Creation-Date: 2006-03-27 11:00+0100\n"
+"PO-Revision-Date: 2006-04-03 23:41+0200\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: KBabel 1.11\n"
+"X-Generator: KBabel 1.11.1\n"
 
-#: src/acpi_notifier.c:61
+#: src/acpi_notifier.c:63
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 msgstr ""
 "Uistite sa, či je v jadre natiahnutý modul 'acerhk'.\n"
-"Tento modul je dostupný na adrese http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"Tento modul je dostupný na adrese http://www.informatik.hu-berlin.de/~tauber/"
+"acerhk/"
 
-#: src/acpi_notifier.c:63
+#: src/acpi_notifier.c:65
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
 "Uistite sa, či je v jadre natiahnutý modul 'acer_acpi'.\n"
-"Tento modul je dostupný na adrese http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"Tento modul je dostupný na adrese http://www.archernar.co.uk/acer_acpi/"
+"acer_acpi_main.html"
 
-#: src/acpi_notifier.c:65
+#: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
 msgstr "Uistite sa, či je v jadre natiahnutý modul 'asus_acpi'."
 
-#: src/acpi_notifier.c:66
+#: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
 msgstr "Uistite sa, či je v jadre natiahnutý modul 'ibm_acpi'."
 
-#: src/acpi_notifier.c:67
+#: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
@@ -52,79 +54,83 @@ msgstr ""
 "Uistite sa, že máte nainštalovaný program apanelc.\n"
 "Tento program je dostupný na adrese http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:191 src/acpi_notifier.c:197 src/acpi_notifier.c:408
+#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
 msgid "Control file doesn't exist."
 msgstr "Ovládací súbor ešte neexistuje."
 
-#: src/acpi_notifier.c:288
+#: src/acpi_notifier.c:295
 msgid " : no new or unread mail"
 msgstr " : žiadna nová alebo neprečítaná pošta"
 
-#: src/acpi_notifier.c:289
+#: src/acpi_notifier.c:296
 msgid " : unread mail"
 msgstr " : neprečítaná pošta"
 
-#: src/acpi_notifier.c:290
+#: src/acpi_notifier.c:297
 msgid " : new mail"
 msgstr " : nová pošta"
 
-#: src/acpi_notifier.c:292 src/acpi_notifier.c:298 src/acpi_notifier.c:304
+#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
 msgid "off"
 msgstr "vypnutá"
 
-#: src/acpi_notifier.c:294 src/acpi_notifier.c:300 src/acpi_notifier.c:306
+#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
 msgid "blinking"
 msgstr "blikajúca"
 
-#: src/acpi_notifier.c:296 src/acpi_notifier.c:302 src/acpi_notifier.c:308
+#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
 msgid "on"
 msgstr "zapnutá"
 
-#: src/acpi_notifier.c:330 src/acpi_notifier.c:339 src/acpi_notifier.c:354
+#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
 msgid "LED "
 msgstr "LED "
 
-#: src/acpi_notifier.c:369
+#: src/acpi_notifier.c:376
 msgid "ACPI type: "
 msgstr "Typ ACPI: "
 
-#: src/acpi_notifier.c:378
+#: src/acpi_notifier.c:385
 msgid "ACPI file: "
 msgstr "Súbor ACPI: "
 
-#: src/acpi_notifier.c:389
+#: src/acpi_notifier.c:396
 msgid "values - On: "
 msgstr "hodnoty - Zap: "
 
-#: src/acpi_notifier.c:394
+#: src/acpi_notifier.c:401
 msgid " - Off: "
 msgstr " - Vyp: "
 
-#: src/acpi_notifier.c:703
+#: src/acpi_notifier.c:423
+msgid "Blink when user interaction is required"
+msgstr "Bliká, ak je potrebný vstup od používateľa"
+
+#: src/acpi_notifier.c:734
 msgid "Plugins"
 msgstr "Pluginy"
 
-#: src/acpi_notifier.c:704
+#: src/acpi_notifier.c:735
 msgid "Acpi Notifier"
 msgstr "Acpi Oznamovač"
 
-#: src/acpi_notifier.c:757
+#: src/acpi_notifier.c:788
 msgid ""
 "Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
 "with"
 msgstr ""
-"Verzia Vašej inštalácie Sylpheed-Claws je novšia ako verzia, ktorá bola použitá "
-"pri kompilácii modulu Acpi Oznamovač"
+"Verzia Vašej inštalácie Sylpheed-Claws je novšia ako verzia, ktorá bola "
+"použitá pri kompilácii modulu Acpi Oznamovač"
 
-#: src/acpi_notifier.c:762
+#: src/acpi_notifier.c:793
 msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
 msgstr "Verzia Vašej inštalácie Sylpheed-Claws je príliš stará pre Acpi Oznamovač"
 
-#: src/acpi_notifier.c:776
+#: src/acpi_notifier.c:807
 msgid "Acpi notifier"
 msgstr "Acpi oznamovač"
 
-#: src/acpi_notifier.c:781
+#: src/acpi_notifier.c:812
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tento plugin oznamuje stav pošty cez rôzne ACPI LED diódy."
 

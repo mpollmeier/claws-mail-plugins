@@ -1,12 +1,18 @@
+2006-04-06 08:30 Paul Mangan <claws@thewildbeast.co.uk>
+
+	* fi.po fr.po pt_BR.po sk.po: updated by Flammie Pirinen
+	  Fabien Vantard, Frederico Goncalves Guimaraes, and 
+	  Andrej Kacian
+
 2006-01-29 21:16 Paul Mangan <claws@thewildbeast.co.uk>
 
-	* po/fi.po: updated by Flammie Pirinen
-	* po/sk.po: updated by Andrej Kacian
+	* fi.po: updated by Flammie Pirinen
+	* sk.po: updated by Andrej Kacian
 
 2006-01-29 09:35 Paul Mangan <claws@thewildbeast.co.uk>
 
-	* po/pt_BR.po: updated by Frederico Goncalves Guimaraes
-	* po/sr.po: remove fuzzy in header
+	* pt_BR.po: updated by Frederico Goncalves Guimaraes
+	* sr.po: remove fuzzy in header
 
 2006-01-28 09:25 Paul Mangan <claws@thewildbeast.co.uk>
 
