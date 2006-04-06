@@ -1,0 +1,28 @@
+# Spanish translation for Gtk2Html2 Viewer.
+# Copyright (C) 2006 Ricardo Mones
+# This file is distributed under the same license as the Gtk2Html2 Viewer package.
+# Ricardo Mones <mones@aic.uniovi.es>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gtkhtml2_viewer \n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2006-04-06 13:51+0200\n"
+"PO-Revision-Date: 2006-04-06 13:59+0200\n"
+"Last-Translator: Ricardo Mones <mones@aic.uniovi.es>\n"
+"Language-Team: Ricardo Mones <mones@aic.uniovi.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gtkhtml2_prefs.c:73
+msgid "Plugins"
+msgstr "Módulos"
+
+#: src/gtkhtml2_prefs.c:74
+msgid "GtkHtml2 Viewer"
+msgstr "Visor GtkHtml2"
+
+#: src/gtkhtml2_prefs.c:109
+msgid "Do not load remote links in mails"
+msgstr "No cargar enlaces remotos en los correos"
