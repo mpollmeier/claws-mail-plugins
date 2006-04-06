@@ -1,3 +1,10 @@
+2006-04-06 [paul] 0.8
+
+	* src/gtkhtml2_prefs.c
+		fix namespace conflict. prefs_page is already 
+		used (and non-static) by Dillo plugin.
+		Thanks to Colin.
+
 2006-03-16 [colin] 0.7
 
 	* src/gtkhtml2_viewer.c

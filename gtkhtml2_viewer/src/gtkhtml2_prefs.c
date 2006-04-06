@@ -57,7 +57,7 @@ static PrefParam param[] = {
         {0,0,0,0,0,0,0}
 };
 
-GtkHtmlBrowserPage prefs_page;
+static GtkHtmlBrowserPage gtkhtml_prefs_page;
 
 static void create_gtkhtml_prefs_page	(PrefsPage *page,
 					 GtkWindow *window,
@@ -79,17 +79,18 @@ void gtkhtml_prefs_init(void)
         prefs_read_config(param, PREFS_BLOCK_NAME, rcpath, NULL);
 	g_free(rcpath);
         
-        prefs_page.page.path = path;
-        prefs_page.page.create_widget = create_gtkhtml_prefs_page;
-        prefs_page.page.destroy_widget = destroy_gtkhtml_prefs_page;
-        prefs_page.page.save_page = save_gtkhtml_prefs;
+        gtkhtml_prefs_page.page.path = path;
+        gtkhtml_prefs_page.page.create_widget = create_gtkhtml_prefs_page;
+        gtkhtml_prefs_page.page.destroy_widget = destroy_gtkhtml_prefs_page;
+        gtkhtml_prefs_page.page.save_page = save_gtkhtml_prefs;
+	gtkhtml_prefs_page.page.weight = 30.0;
         
-        prefs_gtk_register_page((PrefsPage *) &prefs_page);
+        prefs_gtk_register_page((PrefsPage *) &gtkhtml_prefs_page);
 }
 
 void gtkhtml_prefs_done(void)
 {
-        prefs_gtk_unregister_page((PrefsPage *) &prefs_page);
+        prefs_gtk_unregister_page((PrefsPage *) &gtkhtml_prefs_page);
 }
 
 static void create_gtkhtml_prefs_page(PrefsPage *page,
