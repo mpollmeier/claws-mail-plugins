@@ -27,4 +27,5 @@ AM_CPPFLAGS = \
 	$(GPGME_CFLAGS)
 
 EXTRA_DIST = \
-	plugin_version.h.in
+	plugin_version.h.in \
+	smime.h
