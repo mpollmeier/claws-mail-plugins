@@ -41,7 +41,7 @@ fi
 
 dnl check for sylpheed-claws
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.0.0.81)
-if test -z $prefix ; then
+if test -z $prefix || test "${prefix}" == "NONE" ; then
   SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 else
   SYLPHEED_CLAWS_PLUGINDIR=${prefix}/lib/sylpheed-claws/plugins
