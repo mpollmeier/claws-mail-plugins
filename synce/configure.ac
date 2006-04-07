@@ -6,7 +6,7 @@ PACKAGE=synce_plugin
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
-MICRO_VERSION=0
+MICRO_VERSION=1
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
@@ -42,7 +42,11 @@ fi
 
 dnl check for sylpheed-claws
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
-SYLPHEED_CLAWS_PLUGINDIR=$($PKG_CONFIG --variable=plugindir sylpheed-claws)
+if test -z $prefix ; then
+  SYLPHEED_CLAWS_PLUGINDIR=$($PKG_CONFIG --variable=plugindir sylpheed-claws)
+else
+  SYLPHEED_CLAWS_PLUGINDIR=${prefix}/lib/sylpheed-claws/plugins
+fi
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)

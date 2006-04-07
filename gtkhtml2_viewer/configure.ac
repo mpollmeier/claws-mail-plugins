@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS(pluginconfig.h)
 
-PLUGINVERSION=0.8
+PLUGINVERSION=0.9
 AM_INIT_AUTOMAKE(gtkhtml2_viewer, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
 
@@ -46,7 +46,11 @@ dnl Check for sylpheed-claws
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.0.0.141)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
-SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+if test -z $prefix ; then
+  SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+else
+  SYLPHEED_CLAWS_PLUGINDIR=${prefix}/lib/sylpheed-claws/plugins
+fi
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
 dnl Check for GLib

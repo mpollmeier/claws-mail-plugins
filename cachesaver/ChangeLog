@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.8
+
+	* configure.ac
+		Optionnaly handle --prefix.
+		Patch by Pawel Pekala.
+
 2005-12-15 [paul]	0.7
 
 	* Add plugin_version()

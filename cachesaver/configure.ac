@@ -2,7 +2,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=0.7
+PLUGINVERSION=0.8
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(cachesaver, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
@@ -30,7 +30,11 @@ fi
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
-SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+if test -z $prefix ; then
+  SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+else
+  SYLPHEED_CLAWS_PLUGINDIR=${prefix}/lib/sylpheed-claws/plugins
+fi
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
 #

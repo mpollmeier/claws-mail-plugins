@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.5.1
+
+	* configure.ac
+		Optionnaly handle --prefix.
+		Patch by Pawel Pekala.
+
 2006-04-05 [colin]	0.5
 
 	* First release

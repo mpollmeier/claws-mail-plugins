@@ -1,7 +1,7 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=1.11
+PLUGINVERSION=1.12
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(mailmbox, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
@@ -27,7 +27,11 @@ fi
 # Check for sylpheed-claws
 #
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.160)
-SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+if test -z $prefix ; then
+  SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+else
+  SYLPHEED_CLAWS_PLUGINDIR=${prefix}/lib/sylpheed-claws/plugins
+fi
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)

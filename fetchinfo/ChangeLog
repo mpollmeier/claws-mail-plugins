@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.4.13
+
+	* configure.ac
+		Optionnaly handle --prefix.
+		Patch by Pawel Pekala.
+
 2006-02-22 [wwp]    0.4.12
 
 	* src/fetchinfo_plugin.c

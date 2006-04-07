@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.21
+
+	* configure.ac
+		Optionnaly handle --prefix.
+		Patch by Pawel Pekala.
+
 2006-02-12 [colin]	0.20
 
 	* Check for mainwin before using it

@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.9
+
+	* configure.ac
+		Optionnaly handle --prefix.
+		Patch by Pawel Pekala.
+
 2006-04-06 [paul] 0.8
 
 	* src/gtkhtml2_prefs.c

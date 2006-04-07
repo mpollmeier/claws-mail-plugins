@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.14
+
+	* configure.ac
+		Optionnaly handle --prefix.
+		Patch by Pawel Pekala.
+
 2006-01-14 [hoa]	0.13
 
 	* fix for libetpan 0.42
