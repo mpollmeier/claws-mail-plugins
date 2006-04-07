@@ -72,7 +72,7 @@ dnl -------
 dnl set my_cv_curl_vers to the version of libcurl or NONE
 dnl if libcurl is not found or is too old
 
-AC_DEFUN(MY_CURL,[
+AC_DEFUN([MY_CURL],[
  AC_CACHE_VAL(my_cv_curl_vers,[
  my_cv_curl_vers=NONE
  check="7.9.7"
