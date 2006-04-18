@@ -1,9 +1,16 @@
+2006-04-07 [colin] 1.74
+
+	* src/vcal_folder.c
+		Factorize get/set_xml
+
 2006-04-07 [colin] 1.73
+
 	* configure.ac
 		Optionnaly handle --prefix.
 		Patch by Pawel Pekala.
 
 2006-04-04 [colin] 1.72
+
 	* src/vcal_meeting_gtk.c
 		Automatically put end of meeting after start of
 		meeting. Fix hours like 24:60 being selectable.
