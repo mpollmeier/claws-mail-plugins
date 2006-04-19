@@ -1077,8 +1077,9 @@ putfile:
 			curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
 			curl_easy_perform(curl_ctx);
 			curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
-			if (response_code != 200) {
+			if (response_code < 200 || response_code >= 300) {
 				g_warning("Can't export calendar, got code %d\n", response_code);
+				res = FALSE;
 			}
 			curl_easy_cleanup(curl_ctx);
 			curl_slist_free_all(headers);

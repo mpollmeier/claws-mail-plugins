@@ -1,3 +1,8 @@
+2006-04-19 [colin] 1.75
+
+	* src/vcal_meeting_gtk.c
+		Fix return code check
+
 2006-04-07 [colin] 1.74
 
 	* src/vcal_folder.c
