@@ -1,3 +1,9 @@
+2006-04-20 [colin] 1.76
+
+	* src/vcalendar.c
+		Fix bug #941 (glibc detected *** sylpheed-claws: free():
+		invalid pointer:)
+
 2006-04-19 [colin] 1.75
 
 	* src/vcal_meeting_gtk.c

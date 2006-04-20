@@ -523,7 +523,8 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	}
 	g_free(label);
 
-	if (event->orgname && strlen(event->orgname)) {
+	if (event->orgname && strlen(event->orgname)
+	&&  event->organizer && strlen(event->organizer)) {
 		gchar *addr = g_strconcat(event->orgname, " <", event->organizer, ">", NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), addr);
 		g_free(addr);
@@ -822,24 +823,29 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	if (iprop) {
 		gchar *org, *orgname;
 		tmp = get_email_from_organizer_property(iprop);
-		if (!g_utf8_validate(tmp, -1, NULL))
+		if (tmp && !g_utf8_validate(tmp, -1, NULL))
 			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
-		else 
+		else if (tmp)
 			org = g_strdup(tmp);
+		else
+			org = NULL;
 		g_free(tmp);
 		tmp = get_name_from_organizer_property(iprop);
-		printf(" %s !\n", tmp);
 		if (tmp && !g_utf8_validate(tmp, -1, NULL))
 			orgname = conv_codeset_strdup(tmp, charset, CS_UTF_8);
 		else if (tmp)
 			orgname = g_strdup(tmp);
+		else
+			orgname = NULL;
 		g_free(tmp);
-		if (orgname) {
+		if (orgname && org) {
 			gchar *addr = g_strconcat(orgname, " <", org, ">", NULL);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), addr);
 			g_free(addr);
-		} else {
+		} else if (org) {
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), org);
+		} else {
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
 		}
 		icalproperty_free(iprop);
 		g_free(org);
