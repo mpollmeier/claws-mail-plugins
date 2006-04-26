@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS(pluginconfig.h)
 
-PLUGINVERSION=0.9
+PLUGINVERSION=0.10
 AM_INIT_AUTOMAKE(gtkhtml2_viewer, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
 
@@ -25,7 +25,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.12.1])
-ALL_LINGUAS="es pt_BR"
+ALL_LINGUAS="es pt_BR pl"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl Find pkg-config
@@ -34,7 +34,9 @@ if test x$PKG_CONFIG = xno ; then
   AC_MSG_ERROR([*** pkg-config not found. See http://www.freedesktop.org/software/pkgconfig/])
 fi
 
-prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+if test -z $prefix || test "${prefix}" == "NONE" ; then
+  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+fi
 localedir="${prefix}/share/locale"
 AC_ARG_WITH(localedir,
 	[  --with-localedir=DIR    Locale directory],

@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS(config.h)
 
-PLUGINVERSION=0.4cvs7
+PLUGINVERSION=0.4cvs8
 AM_INIT_AUTOMAKE(rssyl, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
 
@@ -25,7 +25,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.12.1])
-ALL_LINGUAS="de es fi fr it pt_BR sk sr sv zh_CN"
+ALL_LINGUAS="de es fi fr it pt_BR sk sr sv zh_CN pl"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 dnl Find pkg-config
@@ -34,7 +34,9 @@ if test x$PKG_CONFIG = xno ; then
   AC_MSG_ERROR([*** pkg-config not found. See http://www.freedesktop.org/software/pkgconfig/])
 fi
 
-prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+if test -z $prefix || test "${prefix}" == "NONE" ; then
+  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+fi
 localedir="${prefix}/share/locale"
 AC_ARG_WITH(localedir,
 	[  --with-localedir=DIR    Locale directory],

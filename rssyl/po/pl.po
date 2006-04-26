@@ -1,0 +1,294 @@
+# Polish translation of RSSyl.
+# Copyright (C) 2006 Pawe³ Pêkala
+# This file is distributed under the same license as the RSSyl package.
+# Pawe³ Pêkala <c0rn@o2.pl>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: rssyl 0.4\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2006-04-10 17:12+0200\n"
+"PO-Revision-Date: 2006-04-26 18:00+0100\n"
+"Last-Translator: Pawe³ Pêkala <c0rn@o2.pl>\n"
+"Language-Team: Pawe³ Pêkala <c0rn@o2.pl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/feed.c:232
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "Pobieranie '%s'..."
+
+#: src/feed.c:249
+#, c-format
+msgid "Timeout connecting to %s\n"
+msgstr "Up³yn±³ czas po³±czenia do %s\n"
+
+#: src/feed.c:826
+#, c-format
+msgid "Refreshing feed '%s'..."
+msgstr "Odswie¿anie '%s'..."
+
+#: src/feed.c:841
+#, c-format
+msgid ""
+"RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
+"comments of '%s'"
+msgstr "RSSyl: Pobieranie komentarzy nie jest wspierane dla formatu RDF. Nie mo¿na pobraæ "
+"komentarzy z '%s'"
+
+#: src/feed.c:849
+#, c-format
+msgid ""
+"RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
+"comments of '%s'"
+msgstr "RSSyl: Pobieranie komentarzy nie jest wspierane dla formatu Atom. Nie mo¿na pobraæ "
+"komentarzy z '%s'"
+
+#: src/feed.c:855
+msgid "This feed format is not supported yet."
+msgstr "Ten format wiadomo¶ci nie jest obs³ugiwany."
+
+#: src/feed.c:884
+msgid "N/A"
+msgstr "Niedostêpne"
+
+#: src/feed.c:1247
+msgid "You are already subscribed to this feed."
+msgstr "Pobierasz ju¿ wiadomo¶ci z tego kana³u"
+
+#: src/feed.c:1255
+#, c-format
+msgid "Couldn't fetch URL '%s'."
+msgstr "Nie mo¿na pobraæ '%s'."
+
+#: src/feed.c:1263
+#, c-format
+msgid "Can't subscribe feed '%s'."
+msgstr "Subskrypcja kana³u '%s' nie powiod³a siê."
+
+#: src/plugin.c:42
+msgid ""
+"Your version of Sylpheed-Claws is newer than the version RSSyl was built "
+"with."
+msgstr "Wersja Sylpheed-Claws, której u¿ywasz jest nowsza ni¿ ta, dla której RSSyl by³ skompilowany."
+
+#: src/plugin.c:47
+msgid "Your version of Sylpheed-Claws is too old for RSSyl."
+msgstr "Twoja wersja Sylpheed-Claws jest za stara dla RSSyl."
+
+#: src/plugin.c:69
+msgid ""
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
+"\n"
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
+msgstr "Ta wtyczka pozwala ci na zak³adanie skrzynek, które bed± obs³ugiwa³y kana³y wiadomo¶ci "
+"w formatach RSS 1.0, RSS 2.0 lub Atom.\n"
+"\n"
+"Ka¿dy kana³ bêdzie posiada³ katalog z wiadomo¶ciami, pobranymi z "
+"sieci. Mo¿esz je czytaæ, usuwaæ lub zapisywaæ."
+
+#: src/rssyl_cb_menu.c:57
+msgid "Subscribe feed"
+msgstr "Subskrybuj kana³"
+
+#: src/rssyl_cb_menu.c:58
+msgid "Input the URL of the news feed you wish to subscribe:"
+msgstr "Wprowad¼ adres kana³u, który chcesz subskrybowaæ:"
+
+#: src/rssyl_cb_menu.c:82
+#, c-format
+msgid "Really remove the folder tree '%s' ?\n"
+msgstr "Na pewno usun±æ folder '%s' ?\n"
+
+#: src/rssyl_cb_menu.c:83
+msgid "Remove folder tree"
+msgstr "Usuñ katalog"
+
+#: src/rssyl_cb_menu.c:84
+msgid "_Remove"
+msgstr "_Usuñ"
+
+#: src/rssyl_cb_menu.c:148
+#, c-format
+msgid "Can't remove feed '%s'."
+msgstr "Nie mogê usun±æ '%s'."
+
+#: src/rssyl_cb_menu.c:172
+msgid "Sylpheed-Claws needs network access in order to update the feed."
+msgstr "Sypheed-Claws potrzebuje dostêpu do sieci ¿eby odswie¿yæ kana³."
+
+#: src/rssyl_cb_menu.c:198
+msgid "Sylpheed-Claws needs network access in order to update the feeds."
+msgstr "Sypheed-Claws potrzebuje dostêpu do sieci ¿eby odswie¿yæ kana³y."
+
+#: src/rssyl_cb_menu.c:236
+#, c-format
+msgid "Input new name for '%s':"
+msgstr "Wpisz now± nazwê dla '%s':"
+
+#: src/rssyl_cb_menu.c:237
+msgid "Rename folder"
+msgstr "Zmieñ nazwê katalogu"
+
+#: src/rssyl_cb_menu.c:244
+#, c-format
+msgid "'%c' can't be included in folder name."
+msgstr "Nazwa katalogu nie mo¿e zawieraæ '%c'."
+
+#: src/rssyl_cb_menu.c:251
+#, c-format
+msgid "The folder '%s' already exists."
+msgstr "Katalog '%s' ju¿ istnieje."
+
+#: src/rssyl_cb_menu.c:257
+msgid ""
+"The folder could not be renamed.\n"
+"The new folder name is not allowed."
+msgstr "Nie mo¿na zmieniæ nazwy Katalogu.\n"
+"Nowa nazwa jest niepoprawna."
+
+#: src/rssyl_gtk.c:46
+msgid "/_Refresh feed"
+msgstr "/_Odswie¿ kana³"
+
+#: src/rssyl_gtk.c:47
+msgid "/Refresh _all feeds"
+msgstr "/Odswie¿ wszystkie kana³y"
+
+#: src/rssyl_gtk.c:49
+msgid "/Subscribe _new feed..."
+msgstr "/Subskrybuj _nowy kana³..."
+
+#: src/rssyl_gtk.c:50
+msgid "/_Unsubscribe feed..."
+msgstr "/_Odsubskrybuj kana³..."
+
+#: src/rssyl_gtk.c:51
+msgid "/Feed pr_operties..."
+msgstr "/W³a¶ciw_o¶ci kana³u"
+
+#: src/rssyl_gtk.c:53
+msgid "/Rena_me..."
+msgstr "/Z_mieñ nazwê..."
+
+#: src/rssyl_gtk.c:55
+msgid "/Remove folder _tree..."
+msgstr "/Usuñ _katalog..."
+
+#: src/rssyl_gtk.c:65
+msgid "/Refresh feed"
+msgstr "/Odswie¿ kana³"
+
+#: src/rssyl_gtk.c:66
+msgid "/Refresh all feeds"
+msgstr "/Odswie¿ wszystkie kana³y"
+
+#: src/rssyl_gtk.c:67
+msgid "/Subscribe new feed..."
+msgstr "/Subskrybuj nowy kana³..."
+
+#: src/rssyl_gtk.c:68
+msgid "/Unsubscribe feed..."
+msgstr "/Odsubskrybuj kana³..."
+
+#: src/rssyl_gtk.c:69
+msgid "/Feed properties..."
+msgstr "/W³a¶ciwo¶ci kana³u..."
+
+#: src/rssyl_gtk.c:70
+msgid "/Rename..."
+msgstr "/Zmieñ nazwê..."
+
+#: src/rssyl_gtk.c:71
+msgid "/Remove folder tree..."
+msgstr "/Usuñ katalog..."
+
+#: src/rssyl_gtk.c:115
+msgid "Add RSS folder tree"
+msgstr "Dodaj katalog RSS"
+
+#: src/rssyl_gtk.c:116
+msgid "Enter name for a new RSS folder tree."
+msgstr "Wpisz nazwê nowego katalogu RSS."
+
+#: src/rssyl_gtk.c:121
+#, c-format
+msgid "The mailbox '%s' already exists."
+msgstr "Skrzynka '%s' ju¿ istnieje."
+
+#: src/rssyl_gtk.c:130
+msgid ""
+"Creation of folder tree failed.\n"
+"Maybe some files already exist, or you don't have the permission to write "
+"there?"
+msgstr ""
+"Utworzenie katalogu nie powiod³o siê.\n"
+"Mo¿e pliki ju¿ istniej± lub nie masz praw do zapisu "
+"w tym miejscu?"
+
+#: src/rssyl_gtk.c:144
+msgid "/File/Add mailbox/RSSyl..."
+msgstr "/Plik/Dodaj skrzynkê/RSSyl..."
+
+#: src/rssyl_gtk.c:228
+msgid "Use default refresh interval (180 minutes)"
+msgstr "U¿yj domy¶lnego czasu odswie¿ania (180 minut)"
+
+#: src/rssyl_gtk.c:240
+msgid "Keep default number of expired entries (-1)"
+msgstr "Zapisuj domy¶ln± liczbê starych wiadomo¶ci (-1)"
+
+#: src/rssyl_gtk.c:246
+msgid "Fetch comments if possible"
+msgstr "Pobierz komentarze je¶li to mo¿liwe"
+
+#: src/rssyl_gtk.c:278
+msgid "<b>Source URL:</b>"
+msgstr "<b>Adres ¼ród³owy:</b>"
+
+#: src/rssyl_gtk.c:318
+msgid ""
+"<b>Refresh interval in minutes:</b>\n"
+"<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
+msgstr "<b>Czas w minutach pomiêdzy kolejnymi odswie¿eniami kana³u:</b>\n"
+"<small>(Ustaw na 0 ¿eby wy³±czyæ automatyczne odswie¿anie)</small>"
+
+#: src/rssyl_gtk.c:351
+msgid ""
+"<b>Number of expired entries to keep:</b>\n"
+"<small>(Set to -1 if you want to keep expired entries)</small>"
+msgstr "<b>Liczba zapisanych starych wiadomo¶ci:</b>\n"
+"<small>(Ustaw na -1 je¶li nie chcesz zapisywaæ starych wiadomo¶ci)</small>"
+
+#: src/rssyl_gtk.c:393
+msgid "_Cancel"
+msgstr "_Anuluj"
+
+#: src/rssyl_gtk.c:414
+msgid "_OK"
+msgstr "_OK"
+
+#: src/rssyl_gtk.c:422
+msgid "Set feed properties"
+msgstr "Ustaw w³a¶ciwo¶ci kana³u"
+
+#: src/rssyl_gtk.c:530 src/rssyl_gtk.c:555
+msgid "Unsubscribe feed"
+msgstr "Odsubskrybuj kana³"
+
+#: src/rssyl_gtk.c:556
+msgid "Do you really want to remove feed"
+msgstr "Na pewno chcesz usun±æ ten kana³"
+
+#: src/rssyl_gtk.c:562
+msgid "Remove cached entries"
+msgstr "Usuñ zapisane wiadomo¶ci"
+
+#: src/rssyl_gtk.c:575
+msgid "_Unsubscribe"
+msgstr "_Odsubskrybuj"

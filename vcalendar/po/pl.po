@@ -1,0 +1,531 @@
+# Polish translation for vCalendar plugin.
+# Copyright (C) 2006 Pawe³ Pêkala
+# This file is distributed under the same license as the vCalendar plugin package.
+# Pawe³ Pêkala <c0rn@o2.pl>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2006-04-21 17:07+0200\n"
+"PO-Revision-Date: 2006-04-26 19:00+0100\n"
+"Last-Translator: Pawe³ Pêkala <c0rn@o2.pl>\n"
+"Language-Team: Pawe³ Pêkala  <c0rn@o2.pl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%"
+"100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/plugin.c:41
+msgid ""
+"Your Sylpheed-Claws version is newer than the version vCalendar was built "
+"with."
+msgstr "Wersja twojego Sylpheed-Claws jest nowsza ni¿ ta, z któr± vCalendar by³"
+"skompilowany."
+
+#: src/plugin.c:46
+msgid "Your Sylpheed-Claws version is too old for vCalendar."
+msgstr "Wersja twojego Sylpheed-Claws jest za stara dla vClaendar."
+
+#: src/plugin.c:63 src/vcal_prefs.c:255
+msgid "vCalendar"
+msgstr "vCalendar"
+
+#: src/plugin.c:68
+msgid ""
+"This plugin enables vCalendar message handling like produced by Evolution or "
+"Outlook.\n"
+"\n"
+"When loaded, it will create a vCalendar mailbox in your folder list, which "
+"will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form "
+"and you will be able to accept or decline them.\n"
+"To create a meeting right-click on the vCalendar or Meetings folder and "
+"choose \"New meeting...\".\n"
+"\n"
+"You will also be able to subscribe to remote webCal feeds,and export your "
+"meetings or all your calendars."
+msgstr "Ta wtyczka umo¿liwia u¿ywanie wiadomo¶ci vCalendar utworzonych przez program Evolution lub "
+"Outlook.\n"
+"\n"
+"Gdy zostanie za³adowana utworzy skrzynkê vCalendar, która "
+"zawieraæ bêdzie pliki spotkañ zaakceptowanych lub stworzonych przez ciebie.\n"
+"Przys³ane Formularze spotkañ zostan± przedstawione w odpowiedniej formie "
+"i bêdziesz móg³ je zaakceptowaæ lub odrzuciæ.\n"
+"Aby utorzyæ spotkanie kliknij prawym klawiszem myszy na katalogu vCalendar i "
+"wybierz \"Nowe spotkanie...\".\n"
+"\n"  
+"Bêdziesz mia³ równie¿ mo¿liwo¶æ subskrybcji kana³ów webCal i eksportowania "
+"twoich spotkañ lub wszystkich twoich kalendarzy."
+
+#: src/vcalendar.c:433
+msgid "Accept"
+msgstr "Zaakceptuj"
+
+#: src/vcalendar.c:434
+msgid "Tentatively accept"
+msgstr "Wstêpnie zaakceptuj"
+
+#: src/vcalendar.c:435
+msgid "Decline"
+msgstr "Odmów"
+
+#: src/vcalendar.c:477
+msgid "You have a Todo item."
+msgstr "Masz pozycje Todo."
+
+#: src/vcalendar.c:478 src/vcalendar.c:483 src/vcalendar.c:488
+#: src/vcalendar.c:503 src/vcalendar.c:515 src/vcalendar.c:521
+#: src/vcalendar.c:810
+msgid "Details follow:"
+msgstr "Szczegó³y poni¿ej:"
+
+#: src/vcalendar.c:482
+msgid "You have created a meeting."
+msgstr "Zorganizowa³e¶ spotkanie."
+
+#: src/vcalendar.c:487
+msgid "You have been invited to a meeting."
+msgstr "Zosta³e¶ zaproszony na spotkanie."
+
+#: src/vcalendar.c:502 src/vcalendar.c:809
+msgid "You have received an answer to an unknown meeting proposal."
+msgstr "Otrzyma³e¶ odpowied¼ na niewiadom± propozycje spotkania"
+
+#: src/vcalendar.c:506 src/vcalendar.c:813
+#, c-format
+msgid ""
+"You have received an answer to a meeting proposal.\n"
+"%s has %s the invitation whose details follow:"
+msgstr ""
+"Otrzyma³e¶ odpowied¼ dotycz±c± propozycji spotkania.\n"
+"%s przekaza³ %s zaproszenie, szczegó³y poni¿ej:"
+
+#: src/vcalendar.c:514
+msgid "A meeting to which you had been invited has been cancelled."
+msgstr "Spotkanie, na które zosta³e¶ zaproszony zosta³o odwo³ane."
+
+#: src/vcalendar.c:520
+msgid "You have been forwarded an appointment."
+msgstr "Dosta³e¶ powiadomiony o spotkaniu."
+
+#: src/vcalendar.c:1056
+msgid "Cancel meeting"
+msgstr "Odwo³aj spotkanie"
+
+#: src/vcalendar.c:1057
+msgid ""
+"Are you sure you want to cancel this meeting?\n"
+"A notification will be sent to attendees."
+msgstr ""
+"Jeste¶ pewien, ¿e chcesz odwo³aæ to spotkanie?\n"
+"Powiadomienie zostanie wys³ane do wszystkich uczestników."
+
+#: src/vcalendar.c:1124
+msgid ""
+"You have no account matching any attendee.\n"
+"Have you really been invited?"
+msgstr ""
+"Twoje konto nie znajduje siê na li¶cie uczestników.\n"
+"Na pewno zosta³e¶ zaproszony?"
+
+#: src/vcalendar.c:1187
+msgid "Answer"
+msgstr "Odpowiedz"
+
+#: src/vcalendar.c:1188
+msgid "Edit meeting..."
+msgstr "Edytuj spotkanie..."
+
+#: src/vcalendar.c:1189
+msgid "Cancel meeting..."
+msgstr "Odwo³aj spotkanie..."
+
+#: src/vcalendar.c:1190
+msgid "Launch website"
+msgstr "Strona WWW"
+
+#: src/vcalendar.c:1235
+msgid "Event:"
+msgstr "Wydarzenie:"
+
+#: src/vcalendar.c:1236 src/vcal_meeting_gtk.c:754
+msgid "Organizer:"
+msgstr "Organizator:"
+
+#: src/vcalendar.c:1237 src/vcal_meeting_gtk.c:755
+msgid "Summary:"
+msgstr "Podsumowanie:"
+
+#: src/vcalendar.c:1238
+msgid "Starting:"
+msgstr "Pocz±tek:"
+
+#: src/vcalendar.c:1239
+msgid "Ending:"
+msgstr "Koniec:"
+
+#: src/vcalendar.c:1240 src/vcal_meeting_gtk.c:757
+msgid "Description:"
+msgstr "Opis:"
+
+#: src/vcalendar.c:1241 src/vcal_meeting_gtk.c:758
+msgid "Attendees:"
+msgstr "Uczestnicy:"
+
+#: src/vcalendar.c:1243
+msgid "Action:"
+msgstr "Akcja:"
+
+#: src/vcal_folder.c:134
+msgid "/_New meeting..."
+msgstr "/_Nowe spotkanie..."
+
+#: src/vcal_folder.c:135
+msgid "/_Export calendar..."
+msgstr "/_Eksportuj kalendarz..."
+
+#: src/vcal_folder.c:137
+msgid "/_Subscribe to webCal..."
+msgstr "/_Subskrybuj webCal..."
+
+#: src/vcal_folder.c:138
+msgid "/_Unsubscribe..."
+msgstr "/_Subskrybuj..."
+
+#: src/vcal_folder.c:140
+msgid "/_Rename..."
+msgstr "/_Zmieñ nazw..."
+
+#: src/vcal_folder.c:142
+msgid "/U_pdate subscriptions"
+msgstr "/_Odswie¿ subskrybcje"
+
+#: src/vcal_folder.c:744
+msgid "/New meeting..."
+msgstr "/Nowe spotkanie..."
+
+#: src/vcal_folder.c:745
+msgid "/Export calendar..."
+msgstr "/Eksportuj kalendarz..."
+
+#: src/vcal_folder.c:746
+msgid "/Subscribe to webCal..."
+msgstr "/Subskrybuj webCal..."
+
+#: src/vcal_folder.c:747
+msgid "/Unsubscribe..."
+msgstr "/Odsubskrybuj..."
+
+#: src/vcal_folder.c:748
+msgid "/Rename..."
+msgstr "/Zmieñ nazwê..."
+
+#: src/vcal_folder.c:749
+msgid "/Update subscriptions"
+msgstr "/Odswie¿ subskrybcje"
+
+#: src/vcal_folder.c:911
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "Pobieranie '%s'..."
+
+#: src/vcal_folder.c:925
+#, c-format
+msgid "Timeout (%d seconds) connecting to %s\n"
+msgstr "Up³yn±³ czas po³±czenia (%d sekund) do %s\n"
+
+#: src/vcal_folder.c:1012
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s"
+msgstr "Pobranie adresu Webcal nie powiod³o siê:\n"
+"%s"
+
+#: src/vcal_folder.c:1017
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s\n"
+msgstr "Pobranie adresu Webcal nie powiod³o siê:\n"
+"%s\n"
+
+#: src/vcal_folder.c:1029
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s"
+msgstr "Ten adres nie wygl±da na WebCal URL:\n"
+"%s"
+
+#: src/vcal_folder.c:1035
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+msgstr "Ten adres nie wygl±da na WebCal URL:\n"
+"%s\n"
+
+#: src/vcal_folder.c:1086
+msgid "Sylpheed-Claws needs network access in order to update the Webcal feed."
+msgstr "Sylpheed-Claws potrzebuje dostêpu do sieci w celu odswie¿enia kana³u Webcal."
+
+#: src/vcal_folder.c:1100
+msgid ""
+"Sylpheed-Claws needs network access in order to update the subscription."
+msgstr ""
+"Sylpheed-Claws potrzebuje dostêpu do sieci ¿eby odswie¿yæ subskrybcjê."
+
+#: src/vcal_folder.c:1112
+msgid "Subscribe to WebCal"
+msgstr "Subskrybuj WebCal"
+
+#: src/vcal_folder.c:1112
+msgid "Enter the WebCal URL:"
+msgstr "Wpisz adres WebCal:"
+
+#: src/vcal_folder.c:1124
+msgid "Could not parse the URL."
+msgstr "Blêdny adres URL."
+
+#: src/vcal_folder.c:1152
+msgid "Do you really want to unsubscribe?"
+msgstr "Na pewno chcesz odsubskrybowaæ?"
+
+#: src/vcal_folder.c:1153
+msgid "Delete folder"
+msgstr "Usuñ katalog"
+
+#: src/vcal_folder.c:1172
+#, c-format
+msgid "Can't remove the folder '%s'."
+msgstr "Nie mo¿na usun±æ katalogu '%s'."
+
+#: src/vcal_folder.c:1215
+#, c-format
+msgid "Input new name for '%s':"
+msgstr "Wpisz now± nazwê dla '%s':"
+
+#: src/vcal_folder.c:1216
+msgid "Rename folder"
+msgstr "Zmieñ nazwê katalogu"
+
+#: src/vcal_folder.c:1223
+#, c-format
+msgid "'%c' can't be included in folder name."
+msgstr "Nazwa katalogu nie mo¿e zawieraæ '%c'"
+
+#: src/vcal_folder.c:1230
+#, c-format
+msgid "The folder '%s' already exists."
+msgstr "Katalog '%s' ju¿ istnieje"
+
+#: src/vcal_folder.c:1236
+msgid ""
+"The folder could not be renamed.\n"
+"The new folder name is not allowed."
+msgstr "Nie mo¿na zmieniæ nazwy katalogu.\n"
+"Nowa nazwa jest niedozwolona."
+
+#: src/vcal_manager.c:91
+msgid "accepted"
+msgstr "zaakceptowano"
+
+#: src/vcal_manager.c:92
+msgid "tentatively accepted"
+msgstr "wstêpnie zaakceptowano"
+
+#: src/vcal_manager.c:93
+msgid "declined"
+msgstr "odmówiono"
+
+#: src/vcal_manager.c:94
+msgid "did not answer"
+msgstr "nie odpowiedziano"
+
+#: src/vcal_manager.c:95 src/vcal_manager.c:128
+msgid "unknown"
+msgstr "nieznany"
+
+#: src/vcal_manager.c:124
+msgid "individual"
+msgstr "inwidualny"
+
+#: src/vcal_manager.c:125
+msgid "group"
+msgstr "grupa"
+
+#: src/vcal_manager.c:126
+msgid "resource"
+msgstr "zasób"
+
+#: src/vcal_manager.c:127
+msgid "room"
+msgstr "pokój"
+
+#: src/vcal_manager.c:1052
+msgid "Accepted: "
+msgstr "Zaakceptowany: "
+
+#: src/vcal_manager.c:1054
+msgid "Declined: "
+msgstr "Odwo³any: "
+
+#: src/vcal_manager.c:1056
+msgid "Tentatively Accepted: "
+msgstr "Wstêpnie zaakceptowany: "
+
+#: src/vcal_meeting_gtk.c:223
+msgid "Individual"
+msgstr "Indywidualny"
+
+#: src/vcal_meeting_gtk.c:224
+msgid "Group"
+msgstr "Grupa"
+
+#: src/vcal_meeting_gtk.c:225
+msgid "Resource"
+msgstr "Zasób"
+
+#: src/vcal_meeting_gtk.c:226
+msgid "Room"
+msgstr "Pokój"
+
+#: src/vcal_meeting_gtk.c:239
+msgid "Add..."
+msgstr "Dodaj..."
+
+#: src/vcal_meeting_gtk.c:240
+msgid "Remove"
+msgstr "Usuñ"
+
+#: src/vcal_meeting_gtk.c:515
+msgid ""
+"Could not send the meeting invitation.\n"
+"Check the recipients."
+msgstr "Wys³anie zaproszenia na spotkanie nie powid³o siê"
+"Sprawd¼ odbiorców"
+
+#: src/vcal_meeting_gtk.c:584
+msgid "Save & Send"
+msgstr "Zapisz i wy¶lij"
+
+#: src/vcal_meeting_gtk.c:651
+msgid "<b>Starts at:</b> "
+msgstr "<b>Zaczyna siê o:</b> "
+
+#: src/vcal_meeting_gtk.c:656 src/vcal_meeting_gtk.c:676
+msgid "h"
+msgstr "g"
+
+#: src/vcal_meeting_gtk.c:659 src/vcal_meeting_gtk.c:679
+msgid "<b> on:</b>"
+msgstr "<b> o:</b>"
+
+#: src/vcal_meeting_gtk.c:671
+msgid "<b>Ends at:</b> "
+msgstr "<b>Koñczy siê o:</b> "
+
+#: src/vcal_meeting_gtk.c:712
+msgid "New meeting"
+msgstr "Nowe spotkanie"
+
+#: src/vcal_meeting_gtk.c:714
+#, c-format
+msgid "%s - Edit meeting"
+msgstr "%s - Edytuj spotkanie"
+
+#: src/vcal_meeting_gtk.c:756
+msgid "Time:"
+msgstr "Czas:"
+
+#: src/vcal_meeting_gtk.c:835
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d godzina"
+msgstr[1] "%d godziny"
+
+#: src/vcal_meeting_gtk.c:838
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuta"
+msgstr[1] "%d minuty"
+
+#: src/vcal_meeting_gtk.c:849
+#, c-format
+msgid "Upcoming event: %s"
+msgstr "Nadchodz±ce wydarzenie: %s"
+
+#: src/vcal_meeting_gtk.c:850
+#, c-format
+msgid ""
+"You have a meeting or event soon.\n"
+"It starts at %s and ends %s later.\n"
+"More information:\n"
+"\n"
+"%s"
+msgstr "Masz zaraz spotkanie albo wydarznie.\n"
+"Zaczyna siê o %s i koñczy o %s.\n"
+"Wiêcej informacji:\n"
+"\n"
+"%s"
+
+#: src/vcal_meeting_gtk.c:865
+#, c-format
+msgid "Remind me in %d minute"
+msgid_plural "Remind me in %d minutes"
+msgstr[0] "Przypomnij mi za %d minut"
+msgstr[1] "Przypomnij mi za %d minuty"
+
+#: src/vcal_meeting_gtk.c:984
+msgid "Empty calendar"
+msgstr "Pusty kalendarz"
+
+#: src/vcal_meeting_gtk.c:985
+msgid "There is nothing to export."
+msgstr "Nie ma nic do wyeksportowania."
+
+#: src/vcal_meeting_gtk.c:1027
+msgid "Could not export the calendar."
+msgstr "Eksport kalendarza nie powiód³ siê."
+
+#: src/vcal_meeting_gtk.c:1043
+msgid "Export calendar to ICS"
+msgstr "Eksportuj kalendarz do ICS"
+
+#: src/vcal_prefs.c:106
+msgid "Alert me "
+msgstr "Powiadom mnie "
+
+#: src/vcal_prefs.c:118
+msgid " minutes before an event"
+msgstr " minut przed wydarzeniem"
+
+#: src/vcal_prefs.c:132
+msgid "Automatically export calendar to "
+msgstr "Automatycznie eksportuj kalendarz do "
+
+#: src/vcal_prefs.c:141
+msgid "You can export to a local file or an URL"
+msgstr "Mo¿esz wyeksportowaæ do pliku lub na adres URL"
+
+#: src/vcal_prefs.c:144
+msgid "Specify a local file or URL (http://user:pass@server/path/file.ics)"
+msgstr "Podaj plik lokalny lub adres URL (http://u¿ytkownik:has³o@serwer/¶cie¿ka/plik.ics)"
+
+#: src/vcal_prefs.c:153
+msgid "Include webcal subscriptions in export"
+msgstr "Za³±cz subskrybcje webcal w eksporcie"
+
+#: src/vcal_prefs.c:163
+msgid "Command to run after export: "
+msgstr "Komenda uruchamiana po eksporcie: "
+
+#: src/vcal_prefs.c:254
+msgid "Plugins"
+msgstr "Wtyczki"

@@ -1,3 +1,10 @@
+2006-04-27 [colin] 	0.10
+
+	* configure.ac
+	* po/pl.po
+		Polish translation
+		Patch by Pawel Pekala.
+
 2006-04-07 [colin] 	0.9
 
 	* configure.ac

@@ -3,7 +3,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=1.76
+PLUGINVERSION=1.77
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALPACKAGE, "Sylpheed-Claws vCalendar", [package])
@@ -22,7 +22,7 @@ AC_PROG_YACC
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.14.5])
-ALL_LINGUAS="de es fi fr it pt_BR sk sr zh_CN"
+ALL_LINGUAS="de es fi fr it pt_BR sk sr zh_CN pl"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AC_CHECK_PROGS(PERL, perl5 perl)
@@ -48,7 +48,9 @@ else
 fi
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
-prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+if test -z $prefix || test "${prefix}" == "NONE" ; then
+  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+fi
 localedir="${prefix}/share/locale"
 AC_ARG_WITH(localedir,
 	[  --with-localedir=DIR    Locale directory],
