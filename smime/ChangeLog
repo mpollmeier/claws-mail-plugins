@@ -1,3 +1,9 @@
+2006-04-07 [colin] 	0.5.2
+
+	* src/smime.c
+		Fix handling of pkcs7-mime (signed-data)
+		signatures
+
 2006-04-07 [colin] 	0.5.1
 
 	* configure.ac

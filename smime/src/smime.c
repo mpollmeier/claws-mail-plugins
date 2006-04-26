@@ -82,7 +82,7 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 {
 	MimeInfo *parent;
 	MimeInfo *signature;
-	const gchar *protocol;
+	const gchar *protocol, *tmpstr;
 	PrivacyDataPGP *data = NULL;
 	
 	g_return_val_if_fail(mimeinfo != NULL, FALSE);
@@ -92,10 +92,18 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 			return data->is_signed;
 	}
 	
+	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime")) {
+		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
+		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
+			goto is_signed;
+		}
+	}
+
 	/* check parent */
 	parent = procmime_mimeinfo_parent(mimeinfo);
 	if (parent == NULL)
 		return FALSE;
+	
 	if ((parent->type != MIMETYPE_MULTIPART) ||
 	    g_ascii_strcasecmp(parent->subtype, "signed"))
 		return FALSE;
@@ -109,6 +117,7 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 	if (parent->node->children->data != mimeinfo)
 		return FALSE;
 
+
 	/* check signature */
 	signature = parent->node->children->next != NULL ? 
 	    (MimeInfo *) parent->node->children->next->data : NULL;
@@ -119,6 +128,7 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 	     g_ascii_strcasecmp(signature->subtype, "x-pkcs7-signature")))
 		return FALSE;
 
+is_signed:
 	if (data == NULL) {
 		data = smime_new_privacydata();
 		mimeinfo->privacy = (PrivacyData *) data;
@@ -170,12 +180,14 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 	FILE *fp;
 	gchar *boundary;
 	gchar *textstr;
+	const gchar *tmpstr;
 	gpgme_data_t sigdata = NULL, textdata = NULL;
 	gpgme_error_t err;
 	g_return_val_if_fail(mimeinfo != NULL, -1);
 	g_return_val_if_fail(mimeinfo->privacy != NULL, -1);
 	data = (PrivacyDataPGP *) mimeinfo->privacy;
 	gpgme_new(&data->ctx);
+	EncodingType oldenc = ENC_BINARY;
 	
 	debug_print("Checking S/MIME signature\n");
 
@@ -191,16 +203,81 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 	g_return_val_if_fail(fp != NULL, SIGNATURE_INVALID);
 	
 	boundary = g_hash_table_lookup(parent->typeparameters, "boundary");
-	if (!boundary)
-		return 0;
-
-	textstr = get_canonical_content(fp, boundary);
-
+	if (!boundary) {
+		gchar *tmpfile = get_tmp_file();
+		debug_print("no boundary\n");
+		if (tmpfile) {
+			if (mimeinfo->encoding_type != ENC_BASE64) {
+				procmime_encode_content(mimeinfo, ENC_BASE64);
+			}
+			oldenc = mimeinfo->encoding_type;
+			if (mimeinfo->encoding_type == ENC_BASE64)
+				mimeinfo->encoding_type = ENC_BINARY;
+			if (procmime_get_part(tmpfile, mimeinfo) == 0) {
+				textstr = file_read_to_str(tmpfile);
+			} else {
+				textstr = NULL;
+			}
+			if (mimeinfo->encoding_type != oldenc)
+				mimeinfo->encoding_type = oldenc;
+		}
+	} else {
+		textstr = get_canonical_content(fp, boundary);
+	}
 	err = gpgme_data_new_from_mem(&textdata, textstr, strlen(textstr), 0);
+	
 	if (err) {
 		debug_print ("gpgme_data_new_from_mem failed: %s\n",
                    gpgme_strerror (err));
 	}
+
+	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime")) {
+		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
+		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
+			gpgme_data_t cipher, plain;
+			int len;
+			if (oldenc == ENC_BASE64)
+				gpgme_data_set_encoding (textdata, GPGME_DATA_ENCODING_BASE64);
+			gpgme_data_new(&cipher);
+			data->sigstatus =
+				sgpgme_verify_signature	(data->ctx, textdata, NULL, cipher);
+			gpgme_data_release(textdata);
+			g_free(textstr);
+			gpgme_data_rewind(cipher);
+			textstr = gpgme_data_release_and_get_mem(cipher, &len);
+			fclose(fp);
+			if (textstr && len) {
+				gchar *tmp_file = get_tmp_file();
+				MimeInfo *newinfo = NULL, *decinfo = NULL, *parentinfo = NULL;
+				gint childnumber = 0;
+				str_write_to_file(textstr, tmp_file);
+				newinfo = procmime_scan_file(tmp_file);
+				decinfo = g_node_first_child(newinfo->node) != NULL ?
+					g_node_first_child(newinfo->node)->data : NULL;
+				g_node_unlink(decinfo->node);
+				procmime_mimeinfo_free_all(newinfo);
+				decinfo->tmp = TRUE;
+				parentinfo = procmime_mimeinfo_parent(mimeinfo);
+				childnumber = g_node_child_index(parentinfo->node, mimeinfo);
+				if (parentinfo->type == MIMETYPE_MESSAGE && 
+				    !strcmp(parentinfo->subtype, "rfc822")) {
+					procmime_decode_content(parentinfo);
+					procmime_encode_content(parentinfo, ENC_8BIT);
+					if (parentinfo->content == MIMECONTENT_MEM) {
+						gint newlen = 
+							(gint)(strstr(parentinfo->data.mem, "\n\n") - parentinfo->data.mem);
+						if (newlen > 0)
+							parentinfo->length = newlen;
+					}
+				}
+				g_node_prepend(parentinfo->node, decinfo->node);
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+	}
+
 	signature = (MimeInfo *) mimeinfo->node->next->data;
 	sigdata = sgpgme_data_from_mimeinfo(signature);
 
@@ -274,6 +351,10 @@ static gboolean smime_is_encrypted(MimeInfo *mimeinfo)
 	if (g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime"))
 		return FALSE;
 	
+	tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
+	if (!tmpstr || g_ascii_strcasecmp(tmpstr, "enveloped-data"))
+		return FALSE;
+
 	return TRUE;
 }
 
