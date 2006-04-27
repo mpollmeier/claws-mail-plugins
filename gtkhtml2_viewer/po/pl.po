@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the GtkHtml2 Viewer package.
 # Pawe³ Pêkala <c0rn@o2.pl>, 2006.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml_viewer \n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-04-10 17:08+0200\n"
+"POT-Creation-Date: 2006-04-27 08:16+0200\n"
 "PO-Revision-Date: 2006-04-26 18:00+0100\n"
 "Last-Translator: Pawe³ Pêkala <c0rn@o2.pl>\n"
 "Language-Team: Pawe³ Pêkala <c0rn@o2.pl>\n"

@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the RSSyl package.
 # Pawe³ Pêkala <c0rn@o2.pl>, 2006.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: rssyl 0.4\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-04-10 17:12+0200\n"
+"POT-Creation-Date: 2006-04-27 08:18+0200\n"
 "PO-Revision-Date: 2006-04-26 18:00+0100\n"
 "Last-Translator: Pawe³ Pêkala <c0rn@o2.pl>\n"
 "Language-Team: Pawe³ Pêkala <c0rn@o2.pl>\n"
@@ -36,16 +35,18 @@ msgstr "Odswie¿anie '%s'..."
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
 "comments of '%s'"
-msgstr "RSSyl: Pobieranie komentarzy nie jest wspierane dla formatu RDF. Nie mo¿na pobraæ "
-"komentarzy z '%s'"
+msgstr ""
+"RSSyl: Pobieranie komentarzy nie jest wspierane dla formatu RDF. Nie mo¿na "
+"pobraæ komentarzy z '%s'"
 
 #: src/feed.c:849
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
 "comments of '%s'"
-msgstr "RSSyl: Pobieranie komentarzy nie jest wspierane dla formatu Atom. Nie mo¿na pobraæ "
-"komentarzy z '%s'"
+msgstr ""
+"RSSyl: Pobieranie komentarzy nie jest wspierane dla formatu Atom. Nie mo¿na "
+"pobraæ komentarzy z '%s'"
 
 #: src/feed.c:855
 msgid "This feed format is not supported yet."
@@ -73,7 +74,9 @@ msgstr "Subskrypcja kana³u '%s' nie powiod³a siê."
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version RSSyl was built "
 "with."
-msgstr "Wersja Sylpheed-Claws, której u¿ywasz jest nowsza ni¿ ta, dla której RSSyl by³ skompilowany."
+msgstr ""
+"Wersja Sylpheed-Claws, której u¿ywasz jest nowsza ni¿ ta, dla której RSSyl "
+"by³ skompilowany."
 
 #: src/plugin.c:47
 msgid "Your version of Sylpheed-Claws is too old for RSSyl."
@@ -86,11 +89,12 @@ msgid ""
 "\n"
 "Each newsfeed will create a folder with appropriate entries, fetched from "
 "the web. You can read them, and delete or keep old entries."
-msgstr "Ta wtyczka pozwala ci na zak³adanie skrzynek, które bed± obs³ugiwa³y kana³y wiadomo¶ci "
-"w formatach RSS 1.0, RSS 2.0 lub Atom.\n"
+msgstr ""
+"Ta wtyczka pozwala ci na zak³adanie skrzynek, które bed± obs³ugiwa³y kana³y "
+"wiadomo¶ci w formatach RSS 1.0, RSS 2.0 lub Atom.\n"
 "\n"
-"Ka¿dy kana³ bêdzie posiada³ katalog z wiadomo¶ciami, pobranymi z "
-"sieci. Mo¿esz je czytaæ, usuwaæ lub zapisywaæ."
+"Ka¿dy kana³ bêdzie posiada³ katalog z wiadomo¶ciami, pobranymi z sieci. "
+"Mo¿esz je czytaæ, usuwaæ lub zapisywaæ."
 
 #: src/rssyl_cb_menu.c:57
 msgid "Subscribe feed"
@@ -149,7 +153,8 @@ msgstr "Katalog '%s' ju¿ istnieje."
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
-msgstr "Nie mo¿na zmieniæ nazwy Katalogu.\n"
+msgstr ""
+"Nie mo¿na zmieniæ nazwy Katalogu.\n"
 "Nowa nazwa jest niepoprawna."
 
 #: src/rssyl_gtk.c:46
@@ -228,8 +233,7 @@ msgid ""
 "there?"
 msgstr ""
 "Utworzenie katalogu nie powiod³o siê.\n"
-"Mo¿e pliki ju¿ istniej± lub nie masz praw do zapisu "
-"w tym miejscu?"
+"Mo¿e pliki ju¿ istniej± lub nie masz praw do zapisu w tym miejscu?"
 
 #: src/rssyl_gtk.c:144
 msgid "/File/Add mailbox/RSSyl..."
@@ -255,14 +259,16 @@ msgstr "<b>Adres ¼ród³owy:</b>"
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
-msgstr "<b>Czas w minutach pomiêdzy kolejnymi odswie¿eniami kana³u:</b>\n"
+msgstr ""
+"<b>Czas w minutach pomiêdzy kolejnymi odswie¿eniami kana³u:</b>\n"
 "<small>(Ustaw na 0 ¿eby wy³±czyæ automatyczne odswie¿anie)</small>"
 
 #: src/rssyl_gtk.c:351
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
-msgstr "<b>Liczba zapisanych starych wiadomo¶ci:</b>\n"
+msgstr ""
+"<b>Liczba zapisanych starych wiadomo¶ci:</b>\n"
 "<small>(Ustaw na -1 je¶li nie chcesz zapisywaæ starych wiadomo¶ci)</small>"
 
 #: src/rssyl_gtk.c:393
