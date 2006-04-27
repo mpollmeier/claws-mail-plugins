@@ -1,3 +1,10 @@
+2006-04-28 [colin] 1.78
+
+	* src/vcalendar.c
+		Charset fix
+	*po/pl.po
+		Fix update-po
+
 2006-04-27 [colin] 1.77
 
 	* configure.ac

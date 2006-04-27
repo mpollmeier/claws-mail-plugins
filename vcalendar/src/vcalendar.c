@@ -696,13 +696,22 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);
 	if (iprop) {
 		tmp = get_email_from_organizer_property(iprop);
-		if (!g_utf8_validate(tmp, -1, NULL))
+		if (tmp && !g_utf8_validate(tmp, -1, NULL))
 			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
-		else
+		else if (tmp)
 			org = g_strdup(tmp);
+		else
+			org = NULL;
 		g_free(tmp);
 		icalproperty_free(iprop);
-		orgname = get_name_from_organizer_property(iprop);
+		tmp = get_name_from_organizer_property(iprop);
+		if (tmp && !g_utf8_validate(tmp, -1, NULL))
+			orgname = conv_codeset_strdup(tmp, charset, CS_UTF_8);
+		else if (tmp)
+			orgname = g_strdup(tmp);
+		else
+			orgname = NULL;
+		g_free(tmp);
 	} 
 	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
