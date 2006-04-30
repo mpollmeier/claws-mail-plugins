@@ -2,7 +2,7 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
-PLUGINVERSION=0.21
+PLUGINVERSION=0.22
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$PLUGINVERSION", [plugin version])
 AM_INIT_AUTOMAKE(maildir, $PLUGINVERSION, no-define)
 AC_SUBST(PLUGINVERSION)
@@ -92,7 +92,7 @@ dnl Look for db3 or superior with db_create call
   case "$DBVERS" in
     3)
     AC_MSG_RESULT([version 3.x or above])
-    for lib in db-4.2 db-4.1 db-4.0 db-4 db4 db-3.2 db-3 db3 db; do
+    for lib in db-4.4 db-4.3 db-4.2 db-4.1 db-4.0 db-4 db4 db-3.2 db-3 db3 db; do
       if test "x$DBLINKED" = "x0"; then
 dnl        AC_CHECK_LIB($lib, db_create, [DBLIB="-l$lib"; DBLINKED=1], [])
 dnl installations of libdb4 function names are defined in db.h
