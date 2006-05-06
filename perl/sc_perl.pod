@@ -15,7 +15,7 @@ To get started, you can use the B<matcherrc2perlfilter.pl> script
 in the B<tools>-directory to translate your old filtering rules to
 Perl. Simply execute the script and follow the instructions.
 (note that with recent versions of Sylpheed-Claws, this script might not
-work due to upstream synthax changes. This will get updated in the
+work due to upstream syntax changes. This will get updated in the
 future. Send me an email if you have problems getting started).
 
 However, you might want to consider reading the rest of this
@@ -29,8 +29,8 @@ should give you enough information to do fancy stuff.
 =head1 USAGE
 
 The Perl plugin expects a Perl script file called B<perl_filter>
-in Sylpheed-Claws' config directory (usually $HOME/.sylpheed --
-try `sylpheed --config-dir' if you're unsure). If that file
+in Sylpheed-Claws' config directory (usually $HOME/.sylpheed-claws --
+try `sylpheed-claws --config-dir' if you're unsure). If that file
 doesn't exist on plugin start, an empty one is created.  This
 file, which doesn't need to start with a sha-bang (!#/bin/perl),
 holds the Perl instructions for your email filters. To encourage
@@ -530,7 +530,7 @@ must be any of
 =back
 
 For the meaning of those numbers, read section L</"LOGGING">. If
-VERBOSITY is omtted, the filter logfile verbosity is not changed.
+VERBOSITY is omitted, the filter logfile verbosity is not changed.
 
 This function returns the filter_log_verbosity number before the
 change (if any).
@@ -732,7 +732,7 @@ with this software.
 
 =head1 SEE ALSO
 
-sylpheed(1), perl(1)
+sylpheed-claws(1), perl(1)
 
 
 =head1 AUTHOR
