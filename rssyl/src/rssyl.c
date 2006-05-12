@@ -33,6 +33,8 @@
 #include "procheader.h"
 #include "common/utils.h"
 
+#include "gettext.h"
+
 #include "feed.h"
 #include "feedprops.h"
 #include "rssyl.h"

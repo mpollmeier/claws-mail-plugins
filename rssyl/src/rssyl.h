@@ -9,7 +9,7 @@
 #define RSSYL_DIR		"RSSyl"
 
 /* Default RSSyl mailbox name */
-#define RSSYL_DEFAULT_MAILBOX	"My RSS Feeds"
+#define RSSYL_DEFAULT_MAILBOX	_("My RSS Feeds")
 
 /* Default feed to be added when creating mailbox for the first time */
 #define RSSYL_DEFAULT_FEED	"http://planet.sylpheed.org/rss20.xml"

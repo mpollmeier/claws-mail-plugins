@@ -2,3 +2,4 @@ src/feed.c
 src/plugin.c
 src/rssyl_cb_menu.c
 src/rssyl_gtk.c
+src/rssyl.h
