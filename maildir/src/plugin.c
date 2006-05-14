@@ -50,9 +50,9 @@ gint plugin_init(gchar **error)
 
 void plugin_done(void)
 {
-	uiddb_done();
 	maildir_gtk_done();
 	folder_unregister_class(maildir_get_class());
+	uiddb_done();
 }
 
 const gchar *plugin_name(void)
