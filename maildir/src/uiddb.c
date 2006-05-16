@@ -19,6 +19,7 @@
 
 #include <glib.h>
 #include <db.h>
+#include <stdlib.h>
 
 #include "utils.h"
 #include "uiddb.h"
@@ -289,11 +290,17 @@ void uiddb_insert_entry(UIDDB *uiddb, MessageData *msgdata)
 	g_free(data.data);
 }
 
+static int uiddb_uid_compare(const void *a, const void *b)
+{
+    return *(guint32*)a - *(guint32*)b;
+}
+
 void uiddb_delete_entries_not_in_list(UIDDB *uiddb, MsgNumberList *list)
 {
 	DBC *cursor;
 	DBT key, data;
-	gint ret;
+	gint i, uidcnt, ret;
+	guint32 *uid_sorted;
 
 	g_return_if_fail(uiddb);
 	if (list == NULL)
@@ -305,17 +312,26 @@ void uiddb_delete_entries_not_in_list(UIDDB *uiddb, MsgNumberList *list)
 		return;
 	}
 
+	uidcnt = g_slist_length(list);
+	uid_sorted = g_new(guint32, uidcnt);
+	for (i = 0; i < uidcnt; i++) {
+	    uid_sorted[i] = GPOINTER_TO_INT(list->data);
+	    list = g_slist_next(list);
+	}
+	
 	memset(&key, 0, sizeof(key));
 	memset(&data, 0, sizeof(data));
 	while ((ret = cursor->c_get(cursor, &key, &data, DB_NEXT)) == 0) {
 		guint32 uid = *((guint32 *) key.data);
 
-		if (g_slist_find(list, GINT_TO_POINTER(uid)) == NULL)
+		if (bsearch(&uid, uid_sorted, uidcnt, sizeof(guint32), &uiddb_uid_compare) == NULL)
 			cursor->c_del(cursor, 0);
 
 		memset(&key, 0, sizeof(key));
 		memset(&data, 0, sizeof(data));
 	}
+
+	g_free(uid_sorted);
 
 	cursor->c_close(cursor);
 }

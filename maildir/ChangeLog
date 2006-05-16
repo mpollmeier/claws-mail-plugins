@@ -1,3 +1,20 @@
+2006-05-16 [colin] 	0.24
+
+	* src/maildir.c
+	  src/uiddb.c
+		Optimisation: 
+		- adds GLOB_NOSORT to glob() calls to avoid 
+		  useless sorting of the results
+		- tracks the tail of the linked list when 
+		  appending new entries, instead of running 
+		  from the head to tail all the time 
+		  (O(n^2) -> O(n))
+		- uses binary search in 
+		  uiddb_delete_entries_not_in_list() instead of
+		  linear lookup (O(n^2) -> O(n*log n))
+
+		Patch by Jindrich Makovicka <makovick@gmail.com>
+
 2006-05-14 [colin] 	0.23
 
 	* src/plugin.c

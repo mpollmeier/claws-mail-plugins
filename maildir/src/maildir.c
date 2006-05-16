@@ -544,12 +544,21 @@ static gchar *get_filepath_for_uid(MaildirFolderItem *item, guint32 uid)
 	return filename;
 }
 
+static gint maildir_uid_compare(gconstpointer a, gconstpointer b)
+{
+	guint gint_a = GPOINTER_TO_INT(a);
+	guint gint_b = GPOINTER_TO_INT(b);
+	
+	return (gint_a - gint_b);
+}
+
 static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 				 MsgNumberList ** list, gboolean *old_uids_valid)
 {
 	gchar *path, *globpattern;
 	glob_t globbuf;
 	int i;
+	MsgNumberList * tail;
 
         g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
 
@@ -559,23 +568,29 @@ static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 	path = maildir_item_get_path(folder, item);
 
 	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, "*", NULL);
-	glob(globpattern, 0, NULL, &globbuf);
+	glob(globpattern, GLOB_NOSORT, NULL, &globbuf);
 	g_free(globpattern);
 
 	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "new", G_DIR_SEPARATOR_S, "*", NULL);
-	glob(globpattern, GLOB_APPEND, NULL, &globbuf);
+	glob(globpattern, GLOB_NOSORT | GLOB_APPEND, NULL, &globbuf);
 	g_free(globpattern);
 
 	g_free(path);
 
+	tail = g_slist_last(*list);
 	for (i = 0; i < globbuf.gl_pathc; i++) {
 		guint32 uid;
 
 		uid = get_uid_for_filename((MaildirFolderItem *) item, globbuf.gl_pathv[i]);
-		if (uid != 0)
-			*list = g_slist_append(*list, GINT_TO_POINTER(uid));
+		if (uid != 0) {
+			tail = g_slist_append(tail, GINT_TO_POINTER(uid));
+			tail = g_slist_last(tail);
+			if (!*list) *list = tail;
+		}
 	}
 	globfree(&globbuf);
+
+	*list = g_slist_sort(*list, maildir_uid_compare);
 
 	uiddb_delete_entries_not_in_list(((MaildirFolderItem *) item)->db, *list);
 
