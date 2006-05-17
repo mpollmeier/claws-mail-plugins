@@ -46,12 +46,12 @@ gint plugin_init(gchar **error)
 	int r;
 	
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your sylpheed version is newer than the version the plugin was built with"));
+		*error = g_strdup(_("Your Sylpheed-Claws version is newer than the version the plugin was built with"));
 		return -1;
 	}
 
 	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 7, 0))) {
-		*error = g_strdup(_("Your sylpheed version is too old"));
+		*error = g_strdup(_("Your Sylpheed-Claws version is too old"));
 		return -1;
 	}
 	

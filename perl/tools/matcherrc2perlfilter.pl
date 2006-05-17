@@ -31,7 +31,7 @@ our $lines    = 0;
 our $tokens   = 0;
 
 my $home_dir   = $ENV{"HOME"}; $home_dir ||= ".";
-my $sylph_dir  = `sylpheed --config-dir`;
+my $sylph_dir  = `sylpheed-claws --config-dir`;
 my $matcherrc  = "matcherrc";
 my $perlfilter = "perl_filter";
 my $dirsep     = "/";
