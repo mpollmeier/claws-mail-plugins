@@ -1958,6 +1958,8 @@ static gboolean my_filtering_hook(gpointer source, gpointer data)
 {
   int retry;
 
+  g_return_val_if_fail(source != NULL, FALSE);
+
   mail_filtering_data = (MailFilteringData *) source;
   msginfo = mail_filtering_data->msginfo;
   stop_filtering = FALSE;

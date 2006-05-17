@@ -1,3 +1,9 @@
+2006-05-07 [holger]	0.9.2
+
+	* src/perl_plugin.c
+		Make sure the filtering hook is not called with
+		a NULL message. Fixes possible crasher.
+	
 2006-04-07 [colin] 	0.9.1
 
 	* configure.ac

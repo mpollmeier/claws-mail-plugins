@@ -50,6 +50,8 @@ static GSList *banner_collected_msgs;
 
 static gboolean my_post_filtering_hook(gpointer source, gpointer data)
 {
+  g_return_val_if_fail(source != NULL, FALSE);
+
 #ifdef NOTIFICATION_POPUP
   notification_popup_msg((MsgInfo*)source);
 #endif
@@ -60,6 +62,8 @@ static gboolean my_post_filtering_hook(gpointer source, gpointer data)
 static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
 {
   FolderItemUpdateData *update_data = source;
+
+  g_return_val_if_fail(source != NULL, FALSE);
 
   if(update_data->update_flags & F_ITEM_UPDATE_MSGCNT) {
 #ifdef NOTIFICATION_BANNER

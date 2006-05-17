@@ -1,3 +1,9 @@
+2006-05-07 [holger]	0.1.2
+
+	* src/notification_plugin.c
+		Make sure the hooks are not called with
+		NULL as source. Fixes crasher.
+
 2006-04-07 [colin] 	0.1.1
 
 	* configure.ac
@@ -6,7 +12,7 @@
 
 2006-03-18 [holger]	0.1
 
-	* first public release
+	first public release
 
 2006-03-16 [holger]	0.0.2
 
