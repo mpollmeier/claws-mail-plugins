@@ -1,8 +1,15 @@
+2006-05-21 [colin] 	0.10
+
+	* src/plugin.c
+		Fix gcc-2.9x compile
+		Patch by Pawel Pekala.
+
 2006-05-17 [wwp] 0.9
 
 	* src/plugin.c
 		Updated sylpheed-claws product name.
 
+>>>>>>> 1.1.2.5
 2006-04-07 [colin] 	0.8
 
 	* configure.ac

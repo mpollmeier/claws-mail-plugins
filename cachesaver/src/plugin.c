@@ -28,10 +28,10 @@ static guint tag = 0;
 
 static void save_all_caches(FolderItem *item, gpointer data)
 {
-	
+	gchar *id = NULL;
 	if (!item->cache)
 		return;
-	gchar *id = folder_item_get_identifier(item);
+	id = folder_item_get_identifier(item);
 	g_free(id);
 	folder_item_write_cache(item);
 }

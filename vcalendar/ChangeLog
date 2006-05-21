@@ -1,3 +1,9 @@
+2006-05-21 [colin] 1.79
+
+	* src/vcal_folder.c
+		Compile fix for gcc-2.9x
+		Patch by Pawel Pekala
+
 2006-04-28 [colin] 1.78
 
 	* src/vcalendar.c
