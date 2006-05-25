@@ -34,6 +34,7 @@
 #include "notification_prefs.h"
 #include "notification_banner.h"
 #include "notification_popup.h"
+#include "notification_command.h"
 
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
@@ -54,6 +55,9 @@ static gboolean my_post_filtering_hook(gpointer source, gpointer data)
 
 #ifdef NOTIFICATION_POPUP
   notification_popup_msg((MsgInfo*)source);
+#endif
+#ifdef NOTIFICATION_COMMAND
+  notification_command_msg((MsgInfo*)source);
 #endif
 
   return FALSE;

@@ -5,8 +5,8 @@ PACKAGE=notification_plugin
 
 dnl plugin version
 MAJOR_VERSION=0
-MINOR_VERSION=1
-MICRO_VERSION=2
+MINOR_VERSION=2
+MICRO_VERSION=0
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
@@ -79,6 +79,16 @@ if test x"$ac_cv_enable_banner" = xyes; then
 fi
 AC_MSG_RESULT($ac_cv_enable_banner)
 
+dnl Command
+AC_ARG_ENABLE(command,
+	[  --disable-command        do not include shell command support],
+ 	[ac_cv_enable_command=$enableval], [ac_cv_enable_command=yes])
+AC_MSG_CHECKING([whether to include notification shell command support])
+if test x"$ac_cv_enable_command" = xyes; then
+   AC_DEFINE(NOTIFICATION_COMMAND, 1, Activate notification shell command)
+fi
+AC_MSG_RESULT($ac_cv_enable_command)
+
 AC_OUTPUT([
 Makefile
 src/Makefile
@@ -90,10 +100,12 @@ echo "-----------------------------------------------------------"
 echo ""
 echo "Configuration Summary"
 echo ""
-echo "Popup  : $ac_cv_enable_popup"
-echo "Banner : $ac_cv_enable_banner"
+echo "Popup   : $ac_cv_enable_popup"
+echo "Banner  : $ac_cv_enable_banner"
+echo "Command : $ac_cv_enable_command"
 if test x"$ac_cv_enable_popup" = xno \
-     -a x"$ac_cv_enable_banner" = xno; then
+     -a x"$ac_cv_enable_banner" = xno \
+     -a x"$ac_cv_enable_command" = xno; then
       echo ""
       echo "No features selected. The plugin will be useless!"
 fi

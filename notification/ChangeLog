@@ -1,3 +1,19 @@
+2006-05-25 [holger]	0.2
+
+	* configure.ac
+	* src/Makefile.am
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_command.c	*** new file ***
+	* src/notification_command.h	*** new file ***
+		Add new module: command
+		Executes a command line upon new mail arrival.
+		In contrast to the builtin-command support, the
+		command ist just issued when the mail is marked as
+		"new" after sorting. This way, one can get around
+		notifications when for example just Spam arrives.
+	
 2006-05-07 [holger]	0.1.2
 
 	* src/notification_plugin.c

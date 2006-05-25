@@ -64,6 +64,16 @@ typedef struct {
 NotifyPopupPage popup_page;
 #endif /* NOTIFICATION_POPUP */
 
+#ifdef NOTIFICATION_COMMAND
+typedef struct {
+  PrefsPage page;
+  GtkWidget *command_enabled;
+  GtkWidget *command_timeout;
+  GtkWidget *command_line;
+} NotifyCommandPage;
+NotifyCommandPage command_page;
+#endif /* NOTIFICATION_COMMAND */
+
 PrefParam notify_param[] = {
 #ifdef NOTIFICATION_BANNER
   {"banner_show", "0", &notify_config.banner_show, P_INT, NULL, NULL, NULL},
@@ -104,6 +114,15 @@ PrefParam notify_param[] = {
    NULL, NULL, NULL},
 #endif
 
+#ifdef NOTIFICATION_COMMAND
+  {"command_enabled", "FALSE", &notify_config.command_enabled, P_BOOL,
+   NULL, NULL, NULL},
+  {"command_timeout", "60000", &notify_config.command_timeout, P_INT,
+   NULL, NULL, NULL},
+  {"command_line", "", &notify_config.command_line, P_STRING,
+   NULL, NULL, NULL},
+#endif
+
   {NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
 
@@ -123,6 +142,12 @@ static void notify_destroy_popup_page(PrefsPage*);
 static void notify_save_popup(PrefsPage*);
 static void notify_popup_set_cb(GtkWidget*, gpointer);
 static void notify_popup_set_done_cb(GtkWidget*, gpointer);
+#endif
+
+#ifdef NOTIFICATION_COMMAND
+static void notify_create_command_page(PrefsPage*, GtkWindow*, gpointer);
+static void notify_destroy_command_page(PrefsPage*);
+static void notify_save_command(PrefsPage*);
 #endif
 
 static gint conv_color_to_int(GdkColor*);
@@ -157,6 +182,7 @@ void notify_gtk_init(void)
    prefs_gtk_register_page((PrefsPage*) &banner_page);
  }
 #endif /* NOTIFICATION_BANNER */
+
 #ifdef NOTIFICATION_POPUP
  {
    static gchar *popup_path[4];
@@ -174,6 +200,23 @@ void notify_gtk_init(void)
  }
 #endif /* NOTIFICATION_POPUP */
 
+#ifdef NOTIFICATION_COMMAND
+ {
+   static gchar *command_path[4];
+   
+   command_path[0] = "Plugins";
+   command_path[1] = "Notification";
+   command_path[2] = "Command";
+   command_path[3] = NULL;
+   
+   command_page.page.path = command_path;
+   command_page.page.create_widget  = notify_create_command_page;
+   command_page.page.destroy_widget = notify_destroy_command_page;
+   command_page.page.save_page      = notify_save_command;
+   prefs_gtk_register_page((PrefsPage*) &command_page);
+ }
+#endif /* NOTIFICATION_COMMAND */
+
 }
 
 void notify_gtk_done(void)
@@ -184,6 +227,9 @@ void notify_gtk_done(void)
 #endif
 #ifdef NOTIFICATION_POPUP
   prefs_gtk_unregister_page((PrefsPage*) &popup_page);
+#endif
+#ifdef NOTIFICATION_COMMAND
+  prefs_gtk_unregister_page((PrefsPage*) &command_page);
 #endif
 }
 
@@ -548,6 +594,93 @@ static void notify_popup_set_done_cb(GtkWidget *widget, gpointer data)
 }
 
 #endif /* NOTIFICATION_POPUP */
+
+#ifdef NOTIFICATION_COMMAND
+static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
+				       gpointer data)
+{
+  NotifyCommandPage *command_page = (NotifyCommandPage*) page;
+  GtkWidget *vbox;
+  GtkWidget *checkbox;
+  GtkWidget *hbox;
+  GtkWidget *spinner;
+  GtkWidget *entry;
+  GtkWidget *label;
+  gdouble timeout;
+
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
+
+  /* Show check button for enabling the command */
+  checkbox = gtk_check_button_new_with_label("Enable command");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.command_enabled);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  command_page->command_enabled = checkbox;
+
+  /* entry field for command to execute */
+  hbox = gtk_hbox_new(FALSE, 10);
+  label = gtk_label_new("Command to execute:");
+  gtk_widget_show(label);
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  entry = gtk_entry_new();
+  gtk_entry_set_text(GTK_ENTRY(entry), notify_config.command_line);
+  gtk_widget_show(entry);
+  gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
+  gtk_widget_show(hbox);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  command_page->command_line = entry;
+
+  /* Spin button for command timeout */
+  hbox = gtk_hbox_new(FALSE, 10);
+  label = gtk_label_new("Block command after execution for");
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_widget_show(label);
+  spinner = gtk_spin_button_new_with_range(0., 600., 1.);
+  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 0.);
+  timeout = notify_config.command_timeout/1000.;
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner), timeout);
+  gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_widget_show(spinner);
+  label = gtk_label_new("seconds");
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_widget_show(label);
+  gtk_widget_show(hbox);
+  command_page->command_timeout = spinner;
+
+
+  /* done */
+  gtk_widget_show(vbox);
+  command_page->page.widget = vbox;
+}
+
+static void notify_destroy_command_page(PrefsPage *page)
+{
+}
+
+static void notify_save_command(PrefsPage *page)
+{
+  NotifyCommandPage *command_page = (NotifyCommandPage*) page;
+  gdouble timeout;
+  const gchar *tmp_str;
+
+  notify_config.command_enabled = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(command_page->command_enabled));
+
+  timeout =
+    gtk_spin_button_get_value(GTK_SPIN_BUTTON(command_page->command_timeout));
+  notify_config.command_timeout = (gint)floor(timeout*1000+0.5);
+
+  tmp_str = gtk_entry_get_text(GTK_ENTRY(command_page->command_line));
+  if(notify_config.command_line)
+    g_free(notify_config.command_line);
+  notify_config.command_line = g_strdup(tmp_str);
+}
+#endif /* NOTIFICATION_COMMAND */
+
 
 static gint conv_color_to_int(GdkColor *color)
 {

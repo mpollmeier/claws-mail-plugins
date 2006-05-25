@@ -55,6 +55,11 @@ typedef struct {
   gulong           popup_color_bg;
   gulong           popup_color_fg;
 #endif
+#ifdef NOTIFICATION_COMMAND
+  gboolean         command_enabled;
+  gint             command_timeout;
+  gchar*           command_line;
+#endif
 } NotifyPrefs;
 
 extern NotifyPrefs notify_config;
