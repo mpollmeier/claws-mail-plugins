@@ -31,9 +31,10 @@ PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
 AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
 AC_SUBST(SYLPHEED_CLAWS_LIBS)
 if test -z $prefix || test "${prefix}" == "NONE" ; then
+  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
   SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
 else
-  SYLPHEED_CLAWS_PLUGINDIR=${prefix}/lib/sylpheed-claws/plugins
+  SYLPHEED_CLAWS_PLUGINDIR='${libdir}/sylpheed-claws/plugins'
 fi
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
