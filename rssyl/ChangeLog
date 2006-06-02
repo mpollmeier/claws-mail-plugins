@@ -1,3 +1,11 @@
+2006-06-02 13:36 Andrej Kacian <andrej@kacian.sk>
+
+	* configure.ac
+	* src/feed.c
+		Fix compiler warnings about unused return value.
+		Optimize GSlist populating rssyl_read_existing() by prepending and
+		reversing the list at the end.
+
 2006-05-12 22:10 Colin Leroy <colin@colino.net>
 
 	* po/POTFILES.in

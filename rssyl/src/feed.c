@@ -682,12 +682,14 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 			debug_print("RSSyl: starting to parse '%s'\n", d->d_name);
 			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
 				debug_print("Appending '%s'\n", fitem->title);
-				g_slist_append(ritem->contents, fitem);
+				ritem->contents = g_slist_prepend(ritem->contents, fitem);
 			}
 		}
 	}
 	closedir(dp);
 	g_free(path);
+
+	ritem->contents = g_slist_reverse(ritem->contents);
 
 	debug_print("RSSyl: rssyl_read_existing() is returning\n");
 }
@@ -891,7 +893,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	}
 	if( dif == 2 && oldfitem != NULL ) {
 		debug_print("RSSyl: Item changed, removing old one and adding new...\n");
-		g_slist_remove(ritem->contents, oldfitem);
+		ritem->contents = g_slist_remove(ritem->contents, oldfitem);
 		g_remove(oldfitem->realpath);
 		rssyl_free_feeditem(oldfitem);
 		oldfitem = NULL;
@@ -903,7 +905,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	debug_print("RSSyl: Adding item '%s' (%d)\n", fitem->title, dif);
 
-	g_slist_append(ritem->contents, fitem);
+	ritem->contents = g_slist_append(ritem->contents, fitem);
 
 	flags = g_new(MsgFlags, 1);
 	template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
