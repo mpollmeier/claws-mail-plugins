@@ -46,9 +46,6 @@ fi
 rm -f $tmpfile
 name=`whoami`
 #change if your login isn't your name
-if [ "$name" == "ticho" ]; then
-	name="andrej";
-fi;
 if [ "$name" == "claws" ]; then
 	name="paul";
 fi;
