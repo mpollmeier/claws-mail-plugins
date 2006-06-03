@@ -1,3 +1,10 @@
+2006-06-03 [wwp]	0.4.0cvs12
+
+	* configure.ac
+	* PATCHSETS
+	* commitHelper
+		introducing commitHelper for plugins too.
+
 2006-06-02 13:36 Andrej Kacian <andrej@kacian.sk>
 
 	* configure.ac
