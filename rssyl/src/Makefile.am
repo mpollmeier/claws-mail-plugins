@@ -19,13 +19,9 @@ rssyl_la_SOURCES = \
 	gettext.h \
 	parsers.c parsers.h \
 	plugin.c \
-	plugin_version.h \
 	rssyl.c rssyl.h \
 	rssyl_cb_gtk.c rssyl_cb_gtk.h \
 	rssyl_cb_menu.c rssyl_cb_menu.h \
 	rssyl_gtk.c rssyl_gtk.h \
 	strreplace.c strreplace.h
-
-EXTRA_DIST = \
-	plugin_version.h.in
 

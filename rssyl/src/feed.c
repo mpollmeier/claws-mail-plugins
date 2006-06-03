@@ -54,7 +54,6 @@
 #include "feedprops.h"
 #include "strreplace.h"
 #include "parsers.h"
-#include "plugin_version.h"
 
 struct _RSSylThreadCtx {
 	const gchar *url;

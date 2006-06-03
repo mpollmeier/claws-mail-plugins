@@ -30,7 +30,6 @@
 
 #include "gettext.h"
 
-#include "plugin_version.h"
 #include "rssyl.h"
 
 gint plugin_init(gchar **error)
