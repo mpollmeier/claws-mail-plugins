@@ -52,6 +52,21 @@ fi;
 if [ "$name" == "leroyc" ]; then
 	name="colin";
 fi;
+if [ "$name" == "torte" ]; then
+	name="thorsten";
+fi;
+if [ "$name" == "dinh" ]; then
+	name="hoa";
+fi;
+if [ "$name" == "f" -o "$name" == "darkok" ]; then
+	name="darko";
+fi;
+if [ "$name" == "msp" ]; then
+	name="martin";
+fi;
+if [ "$name" == "devel" ]; then
+	name="mones";
+fi;
 
 log="`date --utc +%Y-%m-%d` [$name]\t$nextsversion\n\n"
 for line in $files; do
