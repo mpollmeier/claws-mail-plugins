@@ -1,3 +1,10 @@
+2006-06-03 [wwp]	1.12.0cvs1
+
+	* commitHelper
+	* PATCHSETS
+	* configure.ac
+		introducing commitHelper for plugins too.
+
 2006-04-07 [colin] 	1.12
 
 	* configure.ac
