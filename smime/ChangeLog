@@ -1,3 +1,8 @@
+2006-06-03 [colin] 	0.5.3
+
+	* src/smime.c
+		Make sure we have content before using it
+
 2006-04-07 [colin] 	0.5.2
 
 	* src/smime.c

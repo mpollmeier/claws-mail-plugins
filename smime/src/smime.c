@@ -741,6 +741,11 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	gpgme_release(ctx);
 	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
 	
+	if (!enccontent) {
+		g_warning("no enccontent\n");
+		return FALSE;
+	}
+
 	tmpfile = get_tmp_file();
 	fp = fopen(tmpfile, "wb");
 	if (fp) {
