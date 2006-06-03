@@ -1,3 +1,10 @@
+2006-06-03 [wwp]	0.24.0cvs1
+
+	* commitHelper
+	* PATCHSETS
+	* configure.ac
+		introducing commitHelper for plugins too.
+
 2006-05-16 [colin] 	0.24
 
 	* src/maildir.c

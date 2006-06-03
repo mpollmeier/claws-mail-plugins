@@ -1,0 +1,1 @@
+( diff -u /dev/null commitHelper;  diff -u /dev/null PATCHSETS;  cvs diff -u -r 1.6.2.22 -r 1.6.2.23 configure.ac;  ) > 0.24.0cvs1.patchset
