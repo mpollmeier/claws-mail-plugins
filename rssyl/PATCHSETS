@@ -2,3 +2,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 commitHelper;  ) > 0.4.0cvs13.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 commitHelper;  ) > 0.4.0cvs14.patchset
 ( cvs diff -u -r 1.1.2.49 -r 1.1.2.50 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/Makefile.am;  cvs diff -u -r 1.1.2.37 -r 1.1.2.38 src/feed.c;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/plugin.c;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  ) > 0.4.0cvs16.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/feedprops.c;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/rssyl_gtk.c;  ) > 0.4.0cvs17.patchset

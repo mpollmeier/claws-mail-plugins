@@ -476,10 +476,13 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 	old_ri = ritem->refresh_interval;
 	ritem->refresh_interval = x;
 
-	if( old_ri != x && x > 0 ) {
-		debug_print("RSSyl: GTK - refresh interval changed to %d , updating"
+	/* Update refresh interval setting if it has changed and has a sane value */
+	if( old_ri != x && x >= 0 ) {
+		debug_print("RSSyl: GTK - refresh interval changed to %d , updating "
 				"timeout\n", ritem->refresh_interval);
-		rssyl_start_refresh_timeout(ritem);
+		/* Value of 0 means we do not want to update automatically */
+		if( x > 0 )
+			rssyl_start_refresh_timeout(ritem);
 	}
 
 	old_fetch_comments = ritem->fetch_comments;

@@ -203,13 +203,15 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 
 				/* refresh_interval */
 				tmp = xmlGetProp(node, RSSYL_PROP_REFRESH);
-				tmpi = 0;
-				if( tmp )
-					tmpi = atoi(tmp);
 				if( ritem->default_refresh_interval )
 					ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
-				else
-					ritem->refresh_interval = (tmpi ? tmpi : RSSYL_DEFAULT_REFRESH);
+				else {
+					tmpi = -1;
+					if( tmp )
+						tmpi = atoi(tmp);
+
+					ritem->refresh_interval = (tmpi != -1 ? tmpi : RSSYL_DEFAULT_REFRESH);
+				}
 				
 				xmlFree(tmp);
 				tmp = NULL;
@@ -235,14 +237,17 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				tmp = NULL;
 
 				tmp = xmlGetProp(node, RSSYL_PROP_EXPIRED);
-				tmpi = 0;
-				if( tmp )
-					tmpi = atoi(tmp);
 
 				if( ritem->default_expired_num )
 					ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
-				else
-					ritem->expired_num = (tmp ? tmpi : RSSYL_DEFAULT_EXPIRED);
+				else {
+					tmpi = -2;
+					if( tmp )
+						tmpi = atoi(tmp);
+
+					ritem->expired_num = (tmpi != -2 ? tmpi : RSSYL_DEFAULT_EXPIRED);
+				}
+
 				xmlFree(tmp);
 				tmp = NULL;
 
