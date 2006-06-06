@@ -1,3 +1,11 @@
+2006-06-06 [wwp]	1.0.1cvs2
+
+	* src/plugin_version.h.in
+	* src/acpi_notifier.c
+	* src/Makefile.am
+	* configure.ac
+		fix/unify/simplify autostuff, get rid of src/plugin_version.h{,.in} (use pluginconfig.h instead).
+
 2006-06-03 [wwp]	1.0.1cvs1
 
 	* commitHelper

@@ -23,8 +23,9 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
-#  include "pluginconfig.h"
 #endif
+
+#include "pluginconfig.h"
 
 #include <string.h>
 
@@ -39,8 +40,6 @@
 #include "prefs_gtk.h"
 #include "menu.h"
 #include "hooks.h"
-
-#include "plugin_version.h"
 
 #define PREFS_BLOCK_NAME "AcpiNotifier"
 
