@@ -1,3 +1,8 @@
+2006-06-06 [wwp]	1.0.1cvs4
+
+	* src/.cvsignore
+		don't ignore deprecated files.
+
 2006-06-06 [wwp]	1.0.1cvs3
 
 	* .cvsignore
