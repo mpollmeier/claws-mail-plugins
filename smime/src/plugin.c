@@ -25,7 +25,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "version.h"
 #include "common/sylpheed.h"
 #include "smime.h"

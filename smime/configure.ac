@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=5
 MICRO_VERSION=3
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -69,6 +69,7 @@ AM_PATH_GPGME(1.0.0, AC_DEFINE(USE_GPGME, 1, Define if you use GPGME),
 	  AC_MSG_ERROR(Need gpgme))
 
 AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
 AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
@@ -76,6 +77,5 @@ AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
 Makefile
-src/plugin_version.h
 src/Makefile
 ])
