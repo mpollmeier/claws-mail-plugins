@@ -5,7 +5,8 @@
 	* src/Makefile.am
 	* src/plugin.c
 	* src/plugin_version.h.in
-		fix/unify/simplify autostuff, get rid of src/plugin_version.h{,.in} (use pluginconfig.h instead).
+		fix/unify/simplify autostuff, get rid of src/plugin_version.h{,.in} (use pluginconfig.h instead),
+		removed extra linefeeds in plugin info text.
 
 2006-06-03 [wwp]	0.24.0cvs1
 
