@@ -29,7 +29,7 @@
 #include "common/version.h"
 #include "common/utils.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "synce_gtk.h"
 
 gint plugin_init(gchar **error)
@@ -69,8 +69,7 @@ const gchar *plugin_desc(void)
     "addresses of the addressbook on a "
     "mobile device running Windows CE (tm) "
     "in sync with Claws' addressbook.\nFeedback "
-    "to <berndth@gmx.de> is welcome.\n\nVersion: "
-    PLUGINVERSION;
+    "to <berndth@gmx.de> is welcome.\n";
 }
 
 const gchar *plugin_type(void)
