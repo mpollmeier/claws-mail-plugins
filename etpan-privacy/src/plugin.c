@@ -37,7 +37,7 @@
 
 #include "pop.h"
 #include "privacy.h"
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "etpan_privacy.h"
 #include "prefs_privacy.h"
 

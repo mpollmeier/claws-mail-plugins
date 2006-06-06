@@ -1,11 +1,13 @@
 AC_INIT(src/plugin.c)
 AM_MAINTAINER_MODE
 
+PACKAGE=etpan-privacy
+
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=15
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -20,12 +22,10 @@ else
 		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
-AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
-AM_INIT_AUTOMAKE(etpan-privacy, $PLUGINVERSION, no-define)
-AC_SUBST(PLUGINVERSION)
-
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AM_CONFIG_HEADER(pluginconfig.h)
+AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -83,9 +83,15 @@ if test "x$libetpanconfig" != "x"; then
 fi
 test "x$libetpan" = "xno" && AC_MSG_ERROR([libetpan support required])
 
+AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
+AC_SUBST(MICRO_VERSION)
+AC_SUBST(EXTRA_VERSION)
+
 AC_OUTPUT([
 Makefile
-src/plugin_version.h
 config/Makefile
 src/Makefile
 ])
