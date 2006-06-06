@@ -2,13 +2,14 @@ AC_PREREQ(2.50)
 AC_INIT(src/gtkhtml2_viewer.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
-AC_CONFIG_HEADERS(pluginconfig.h)
+
+PACKAGE=gtkhtml2_viewer
 
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=10
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -23,10 +24,10 @@ else
 		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
-AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
-AM_INIT_AUTOMAKE(gtkhtml2_viewer, $PLUGINVERSION, no-define)
-AC_SUBST(PLUGINVERSION)
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
+AC_CONFIG_HEADERS(pluginconfig.h)
+AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -103,10 +104,16 @@ CURL_LIBS="`$CURL_CONFIG --libs`"
 LIBS="$LIBS $CURL_LIBS"
 AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
 
+AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
+AC_SUBST(MICRO_VERSION)
+AC_SUBST(EXTRA_VERSION)
+
 AC_OUTPUT([
 Makefile
 config/Makefile
 po/Makefile.in
-src/plugin_version.h
 src/Makefile
 ])

@@ -1,1 +1,2 @@
 ( diff -u /dev/null commitHelper;  diff -u /dev/null PATCHSETS;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 configure.ac;  ) > 0.10.0cvs1.patchset
+( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/gtkhtml2_viewer.c;  ) > 0.10.0cvs2.patchset
