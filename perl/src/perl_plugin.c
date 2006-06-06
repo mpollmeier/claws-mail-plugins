@@ -57,7 +57,7 @@
 #include <perl.h>
 #include <XSUB.h>
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "perl_plugin.h"
 #include "perl_gtk.h"
 

@@ -9,4 +9,3 @@ perl_filter_action.pl
 perl_filter_matcher.pl
 perl_persistent.pl
 perl_utils.pl
-plugin_version.h
