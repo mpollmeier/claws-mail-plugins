@@ -41,7 +41,7 @@
 #include "inc.h"
 #include "sylpheed.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 
 static void remove_attachments(gpointer callback_data, guint callback_action, GtkWidget *widget)
 {

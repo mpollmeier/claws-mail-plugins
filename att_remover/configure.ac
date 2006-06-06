@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=0
 MICRO_VERSION=1
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -62,6 +62,7 @@ AM_PATH_GTK_2_0(2.4.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
 AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
 AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
@@ -69,6 +70,5 @@ AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
 Makefile
-src/plugin_version.h
 src/Makefile
 ])
