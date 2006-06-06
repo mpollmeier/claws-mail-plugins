@@ -4,4 +4,3 @@ Makefile
 Makefile.in
 *.lo
 *.la
-plugin_version.h

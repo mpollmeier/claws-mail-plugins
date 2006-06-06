@@ -26,7 +26,7 @@
 #include <stddef.h>
 #include <curl/curl.h>
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "version.h"
 #include "vcalendar.h"
 #include "sylpheed.h"
