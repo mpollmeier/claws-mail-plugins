@@ -2,11 +2,13 @@ AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
+PACKAGE=cachesaver
+
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=10
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -21,12 +23,11 @@ else
 		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
+AM_CONFIG_HEADER(pluginconfig.h)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
-AM_INIT_AUTOMAKE(cachesaver, $PLUGINVERSION, no-define)
-AC_SUBST(PLUGINVERSION)
-
-AM_CONFIG_HEADER(pluginconfig.h)
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -67,9 +68,15 @@ AM_PATH_GLIB_2_0(2.4.0,,
 AM_PATH_GTK_2_0(2.4.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
+AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
+AC_SUBST(MICRO_VERSION)
+AC_SUBST(EXTRA_VERSION)
+
 AC_OUTPUT([
 Makefile
-src/plugin_version.h
 config/Makefile
 src/Makefile
 ])

@@ -22,7 +22,7 @@
 
 #include "folder.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 
 static guint tag = 0;
 
