@@ -2,11 +2,13 @@ AC_INIT(src/fetchinfo_plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
+PACKAGE=fetchinfo-plugin
+
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=14
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -21,12 +23,10 @@ else
 		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
-AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
-AM_INIT_AUTOMAKE(fetchinfo-plugin, $PLUGINVERSION, no-define)
-AC_SUBST(PLUGINVERSION)
-
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AM_CONFIG_HEADER(pluginconfig.h)
+AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
 AC_PROG_CC
 AC_ISC_POSIX
@@ -75,6 +75,7 @@ AC_ARG_WITH(sylpheed-dir, [  --with-sylpheed-dir=DIR     Directory of the sylphe
 AC_SUBST(sylpheed_dir)
 
 AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
 AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
@@ -86,6 +87,5 @@ AC_SUBST(SYLPHEED_EXTRA)
 
 AC_OUTPUT([
 Makefile
-src/plugin_version.h
 src/Makefile
 ])

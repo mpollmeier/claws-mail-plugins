@@ -34,7 +34,7 @@
 #include "prefs.h"
 #include "prefs_gtk.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "fetchinfo_plugin.h"
 
 struct FetchinfoPage
@@ -209,7 +209,7 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
 	return _("This plugin adds a configuration page for "
-	         "the Fetchinfo plugin.\n");
+	         "the Fetchinfo plugin.");
 }
 
 const gchar *plugin_type(void)

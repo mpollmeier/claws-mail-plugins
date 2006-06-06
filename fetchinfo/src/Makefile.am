@@ -3,12 +3,10 @@ plugin_DATA=fetchinfo_plugin_gtk.deps
 plugin_LTLIBRARIES = fetchinfo_plugin.la fetchinfo_plugin_gtk.la
 
 EXTRA_DIST= \
-	fetchinfo_plugin_gtk.deps \
-	plugin_version.h.in
+	fetchinfo_plugin_gtk.deps
 
 fetchinfo_plugin_la_SOURCES = \
-	fetchinfo_plugin.c fetchinfo_plugin.h \
-	plugin_version.h
+	fetchinfo_plugin.c fetchinfo_plugin.h
 
 fetchinfo_plugin_la_LDFLAGS = \
 	-avoid-version -module

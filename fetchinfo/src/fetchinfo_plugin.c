@@ -42,7 +42,7 @@
 /* parse headers */
 #include "procheader.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 
 static guint mail_receive_hook_id;
 
