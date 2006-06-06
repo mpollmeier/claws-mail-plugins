@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -89,6 +89,13 @@ if test x"$ac_cv_enable_command" = xyes; then
    AC_DEFINE(NOTIFICATION_COMMAND, 1, Activate notification shell command)
 fi
 AC_MSG_RESULT($ac_cv_enable_command)
+
+AC_SUBST(VERSION)
+AC_SUBST(PLUGINVERSION)
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
+AC_SUBST(MICRO_VERSION)
+AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
 Makefile
