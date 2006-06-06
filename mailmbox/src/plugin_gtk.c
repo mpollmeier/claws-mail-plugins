@@ -32,7 +32,7 @@
 #include "foldersel.h"
 #include "alertpanel.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
