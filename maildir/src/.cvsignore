@@ -4,4 +4,3 @@ Makefile.in
 .libs
 *.la
 *.lo
-plugin_version.h

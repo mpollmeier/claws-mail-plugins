@@ -1,3 +1,12 @@
+2006-06-06 [wwp]	0.24.0cvs2
+
+	* configure.ac
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/plugin.c
+	* src/plugin_version.h.in
+		fix/unify/simplify autostuff, get rid of src/plugin_version.h{,.in} (use pluginconfig.h instead).
+
 2006-06-03 [wwp]	0.24.0cvs1
 
 	* commitHelper

@@ -7,7 +7,6 @@ maildir_la_SOURCES = \
 	plugin.c \
 	maildir.c maildir.h \
 	maildir_gtk.c maildir_gtk.h \
-	plugin_version.h \
 	uiddb.c uiddb.h
 
 maildir_la_LDFLAGS = \
@@ -30,6 +29,3 @@ AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
-
-EXTRA_DIST = \
-	plugin_version.h.in

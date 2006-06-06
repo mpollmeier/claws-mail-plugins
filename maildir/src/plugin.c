@@ -24,7 +24,7 @@
 #include "common/plugin.h"
 #include "folder.h"
 
-#include "plugin_version.h"
+#include "pluginconfig.h"
 #include "maildir.h"
 #include "uiddb.h"
 
@@ -65,8 +65,7 @@ const gchar *plugin_desc(void)
 	return _("This plugin provides direct support for Maildir++ mailboxes.\n"
 	       "\n"
 	       "With this plugin you can share your Maildir++ mailbox with "
-	       "other mailers or IMAP servers.\n"
-	       "\n");
+	       "other mailers or IMAP servers.");
 }
 
 const gchar *plugin_type(void)
