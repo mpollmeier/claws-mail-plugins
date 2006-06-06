@@ -13,4 +13,5 @@ libtool
 ltmain.sh
 missing
 pluginconfig.h
+pluginconfig.h.in
 stamp-h1

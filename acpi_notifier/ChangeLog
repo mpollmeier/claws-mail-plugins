@@ -1,3 +1,11 @@
+2006-06-06 [wwp]	1.0.1cvs3
+
+	* .cvsignore
+	* config/.cvsignore
+	* m4/.cvsignore
+	* src/.cvsignore
+		ignore more generated files.
+
 2006-06-06 [wwp]	1.0.1cvs2
 
 	* src/plugin_version.h.in
