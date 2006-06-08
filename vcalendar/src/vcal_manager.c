@@ -1081,7 +1081,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				
 	g_free(save_folder);
 	g_free(queue_headers);
-
+	g_free(attendees);
 	return result;			
                                                                                
 

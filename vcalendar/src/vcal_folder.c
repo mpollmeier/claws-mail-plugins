@@ -501,6 +501,8 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 	unlink(file);
 	g_free(file);
 
+	g_free(snum);
+
 	debug_print("  got msginfo %p\n", msginfo);
 
 	return msginfo;
