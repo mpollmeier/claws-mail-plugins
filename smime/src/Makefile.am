@@ -24,3 +24,6 @@ AM_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GPGME_CFLAGS)
+
+EXTRA_DIST = \
+	smime.h
