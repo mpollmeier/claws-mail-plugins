@@ -47,6 +47,8 @@ typedef struct {
   GtkWidget *banner_enable_colors;
   GtkWidget *banner_color_bg;
   GtkWidget *banner_color_fg;
+  GtkWidget *banner_cont_enable;
+  GtkWidget *banner_cont_color_sel;
 } NotifyBannerPage;
 NotifyBannerPage banner_page;
 #endif /* NOTIFICATION_BANNER */
@@ -60,6 +62,8 @@ typedef struct {
   GtkWidget *popup_enable_colors;
   GtkWidget *popup_color_bg;
   GtkWidget *popup_color_fg;
+  GtkWidget *popup_cont_enable;
+  GtkWidget *popup_cont_color_sel;
 } NotifyPopupPage;
 NotifyPopupPage popup_page;
 #endif /* NOTIFICATION_POPUP */
@@ -70,6 +74,7 @@ typedef struct {
   GtkWidget *command_enabled;
   GtkWidget *command_timeout;
   GtkWidget *command_line;
+  GtkWidget *command_cont_enable;
 } NotifyCommandPage;
 NotifyCommandPage command_page;
 #endif /* NOTIFICATION_COMMAND */
@@ -134,6 +139,8 @@ static void notify_save_prefs(PrefsPage*);
 static void notify_create_banner_page(PrefsPage*, GtkWindow*, gpointer);
 static void notify_destroy_banner_page(PrefsPage*);
 static void notify_save_banner(PrefsPage*);
+static void notify_banner_enable_set_sensitivity(GtkComboBox*, gpointer);
+static void notify_banner_color_sel_set_sensitivity(GtkToggleButton*,gpointer);
 #endif
 
 #ifdef NOTIFICATION_POPUP
@@ -142,12 +149,15 @@ static void notify_destroy_popup_page(PrefsPage*);
 static void notify_save_popup(PrefsPage*);
 static void notify_popup_set_cb(GtkWidget*, gpointer);
 static void notify_popup_set_done_cb(GtkWidget*, gpointer);
+static void notify_popup_enable_set_sensitivity(GtkToggleButton*, gpointer);
+static void notify_popup_color_sel_set_sensitivity(GtkToggleButton*,gpointer);
 #endif
 
 #ifdef NOTIFICATION_COMMAND
 static void notify_create_command_page(PrefsPage*, GtkWindow*, gpointer);
 static void notify_destroy_command_page(PrefsPage*);
 static void notify_save_command(PrefsPage*);
+static void notify_command_enable_set_sensitivity(GtkToggleButton*, gpointer);
 #endif
 
 static gint conv_color_to_int(GdkColor*);
@@ -253,9 +263,7 @@ void notify_save_config(void)
     return;
   }
   fprintf(pfile->fp, "\n");
-
   prefs_file_close(pfile);
-
   debug_print("done\n");
 }
 
@@ -280,9 +288,10 @@ static void notify_save_prefs(PrefsPage *page)
 static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
 				      gpointer data)
 {
-  NotifyBannerPage *banner_page = (NotifyBannerPage*) page;
   GtkRequisition requisition;
+  GtkWidget *pvbox;
   GtkWidget *vbox;
+  GtkWidget *hbox;
   GtkWidget *table;
   GtkWidget *checkbox;
   GtkWidget *combo;
@@ -292,15 +301,14 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   GdkColor bg;
   GdkColor fg;
 
-  vbox = gtk_vbox_new(FALSE, 10);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
-  table = gtk_table_new(8, 3, FALSE);
-  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+  pvbox = gtk_vbox_new(FALSE, 20);
+  gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
 
-
-  /* Combo box */
+  /* Always / Never / Only when non-empty */
+  hbox = gtk_hbox_new(FALSE, 20);
+  gtk_box_pack_start(GTK_BOX(pvbox), hbox, FALSE, FALSE, 0);
   label = gtk_label_new("Show banner");
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   combo = gtk_combo_box_new_text();
   gtk_combo_box_insert_text(GTK_COMBO_BOX(combo), NOTIFY_BANNER_SHOW_NEVER,
@@ -310,21 +318,32 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   gtk_combo_box_insert_text(GTK_COMBO_BOX(combo), NOTIFY_BANNER_SHOW_NONEMPTY,
 			    "Only when not empty");
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), notify_config.banner_show);
-  gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 0, 1);
+  gtk_box_pack_start(GTK_BOX(hbox), combo, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(combo), "changed",
+		   G_CALLBACK(notify_banner_enable_set_sensitivity), NULL);
   gtk_widget_show(combo);
-  banner_page->banner_show = combo;
+  gtk_widget_show(hbox);
+  banner_page.banner_show = combo;
 
-  /* Slider */
+  /* Container vbox for greying out everything */
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+  gtk_widget_show(vbox);
+  banner_page.banner_cont_enable = vbox;
+
+  /* Banner speed */
+  table = gtk_table_new(2, 3, FALSE);
+  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
   label = gtk_label_new("slow");
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 1, 2);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
   gtk_widget_show(label);
   label = gtk_label_new("fast");
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 1, 2);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
   gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
   gtk_widget_show(label);
   label = gtk_label_new("Banner speed");
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
   gtk_widget_show(label);
   slider = gtk_hscale_new_with_range(10., 70., 10.);
   gtk_scale_set_digits(GTK_SCALE(slider), 0);
@@ -334,66 +353,69 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   gtk_range_set_inverted(GTK_RANGE(slider), TRUE);
   gtk_scale_set_draw_value(GTK_SCALE(slider), FALSE);
   gtk_range_set_value(GTK_RANGE(slider), notify_config.banner_speed);
-  gtk_table_attach_defaults(GTK_TABLE(table), slider, 1, 3, 2, 3);
+  gtk_table_attach_defaults(GTK_TABLE(table), slider, 1, 3, 1, 2);
   gtk_widget_show(slider);
-  banner_page->banner_speed = slider;
+  gtk_widget_show(table);
+  banner_page.banner_speed = slider;
 
-  /* Check button include unread */
+  /* Include unread */
   checkbox = gtk_check_button_new_with_label("Include unread mails in banner");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_include_unread);
-  gtk_table_attach_defaults(GTK_TABLE(table), checkbox, 0, 2, 3, 4);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
   gtk_widget_show(checkbox);
-  banner_page->banner_include_unread = checkbox;
+  banner_page.banner_include_unread = checkbox;
 
   /* Check button sticky */
   checkbox = gtk_check_button_new_with_label("Make banner sticky");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_sticky);
-  gtk_table_attach_defaults(GTK_TABLE(table), checkbox, 0, 2, 4, 5);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
   gtk_widget_show(checkbox);
-  banner_page->banner_sticky = checkbox;
+  banner_page.banner_sticky = checkbox;
 
   /* Check box for enabling custom colors */
   checkbox = gtk_check_button_new_with_label("Use custom colors");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_enable_colors);
-  gtk_table_attach_defaults(GTK_TABLE(table), checkbox, 0, 2, 5, 6);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_banner_color_sel_set_sensitivity), NULL);
   gtk_widget_show(checkbox);
-  banner_page->banner_enable_colors = checkbox;
+  banner_page.banner_enable_colors = checkbox;
 
   /* Color selection dialogs for foreground and background color */
   /* foreground */
+  table = gtk_table_new(2, 2, FALSE);
+  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
   label = gtk_label_new("Foreground");
-  gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,6,7);
+  gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
   gtk_widget_show(label);
   color_sel = gtk_color_button_new();
   gtkut_convert_int_to_gdk_color(notify_config.banner_color_fg,&fg);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(color_sel),&fg);
   gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Foreground color");
-  gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,6,7);
+  gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,0,1);
   gtk_widget_show(color_sel);
-  banner_page->banner_color_fg = color_sel;
+  banner_page.banner_color_fg = color_sel;
   /* background */
   label = gtk_label_new("Background");
-  gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,7,8);
+  gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,1,2);
   gtk_widget_show(label);
   color_sel = gtk_color_button_new();
   gtkut_convert_int_to_gdk_color(notify_config.banner_color_bg,&bg);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(color_sel),&bg);
   gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Background color");
-  gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,7,8);
+  gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,1,2);
   gtk_widget_show(color_sel);
-  banner_page->banner_color_bg = color_sel;
-
-  /* Table configs */
-  gtk_table_set_row_spacings(GTK_TABLE(table),20);
-  gtk_table_set_row_spacing(GTK_TABLE(table),1,0);
-  gtk_table_set_row_spacing(GTK_TABLE(table),6,0);
-
   gtk_widget_show(table);
-  gtk_widget_show(vbox);
-  banner_page->page.widget = vbox;
+  banner_page.banner_color_bg = color_sel;
+  banner_page.banner_cont_color_sel = table;
+
+  notify_banner_color_sel_set_sensitivity(GTK_TOGGLE_BUTTON(checkbox), NULL);
+  notify_banner_enable_set_sensitivity(GTK_COMBO_BOX(combo), NULL);
+  gtk_widget_show(pvbox);
+  banner_page.page.widget = pvbox;
 }
 
 static void notify_destroy_banner_page(PrefsPage *page)
@@ -402,33 +424,51 @@ static void notify_destroy_banner_page(PrefsPage *page)
 
 static void notify_save_banner(PrefsPage *page)
 {
-  NotifyBannerPage *banner_page = (NotifyBannerPage*) page;
   gdouble range_val;
   GdkColor color;
 
   notify_config.banner_show = 
-    gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page->banner_show));
+    gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page.banner_show));
   notify_config.banner_include_unread = 
     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
-				 (banner_page->banner_include_unread));
-  range_val= gtk_range_get_value(GTK_RANGE(banner_page->banner_speed));
+				 (banner_page.banner_include_unread));
+  range_val= gtk_range_get_value(GTK_RANGE(banner_page.banner_speed));
   notify_config.banner_speed = (gint)ceil(range_val);
   notify_config.banner_sticky = 
     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
-				 (banner_page->banner_sticky));
+				 (banner_page.banner_sticky));
   notify_config.banner_enable_colors = 
     gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(banner_page->banner_enable_colors));
+    (GTK_TOGGLE_BUTTON(banner_page.banner_enable_colors));
 
   /* Color dialogs are a bit more complicated */
-  gtk_color_button_get_color(GTK_COLOR_BUTTON(banner_page->banner_color_fg),
+  gtk_color_button_get_color(GTK_COLOR_BUTTON(banner_page.banner_color_fg),
 			     &color);
   notify_config.banner_color_fg = conv_color_to_int(&color);
-  gtk_color_button_get_color(GTK_COLOR_BUTTON(banner_page->banner_color_bg),
+  gtk_color_button_get_color(GTK_COLOR_BUTTON(banner_page.banner_color_bg),
 			     &color);
   notify_config.banner_color_bg = conv_color_to_int(&color);
 
   notification_update_banner();
+}
+
+static void notify_banner_enable_set_sensitivity(GtkComboBox *combo,
+						 gpointer data)
+{
+  NotifyBannerShow show;
+
+  show = gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page.banner_show));
+  gtk_widget_set_sensitive(banner_page.banner_cont_enable,
+			   (show == NOTIFY_BANNER_SHOW_NEVER) ? FALSE : TRUE);
+}
+
+static void notify_banner_color_sel_set_sensitivity(GtkToggleButton *button,
+						    gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(banner_page.banner_enable_colors));
+  gtk_widget_set_sensitive(banner_page.banner_cont_color_sel, active);
 }
 #endif /* NOTIFICATION_BANNER */
 
@@ -436,7 +476,7 @@ static void notify_save_banner(PrefsPage *page)
 static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 				     gpointer data)
 {
-  NotifyPopupPage *popup_page = (NotifyPopupPage*) page;
+  GtkWidget *pvbox;
   GtkWidget *vbox;
   GtkWidget *checkbox;
   GtkWidget *hbox;
@@ -449,20 +489,28 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   GdkColor bg;
   GdkColor fg;
 
-  vbox = gtk_vbox_new(FALSE, 10);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
+  pvbox = gtk_vbox_new(FALSE, 20);
+  gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
 
-  /* Show check button for enabling the popup */
+  /* Enable popup */
   checkbox = gtk_check_button_new_with_label("Enable popup");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.popup_show);
-  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_popup_enable_set_sensitivity), NULL);
   gtk_widget_show(checkbox);
-  popup_page->popup_show = checkbox;
+  popup_page.popup_show = checkbox;
 
-  /* Spin button for popup timeout */
+  /* Container vbox for greying out everything */
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+  gtk_widget_show(vbox);
+  popup_page.popup_cont_enable = vbox;
+
+  /* Popup timeout */
   hbox = gtk_hbox_new(FALSE, 10);
-  label = gtk_label_new("Popup timeout (seconds)");
+  label = gtk_label_new("Popup timeout:");
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   spinner = gtk_spin_button_new_with_range(0.2, 60., 0.5);
@@ -472,8 +520,11 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   gtk_widget_show(spinner);
+  label = gtk_label_new("seconds");
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_widget_show(label);
   gtk_widget_show(hbox);
-  popup_page->popup_timeout = spinner;
+  popup_page.popup_timeout = spinner;
 
   /* Sticky check button */
   checkbox = gtk_check_button_new_with_label("Make popup sticky");
@@ -481,7 +532,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 			       notify_config.popup_sticky);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
   gtk_widget_show(checkbox);
-  popup_page->popup_sticky = checkbox;
+  popup_page.popup_sticky = checkbox;
 
   /* Button to set size and position of popup window */
   button = gtk_button_new_with_label("Set popup window width and position");
@@ -495,11 +546,14 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.popup_enable_colors);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_popup_color_sel_set_sensitivity), NULL);
   gtk_widget_show(checkbox);
-  popup_page->popup_enable_colors = checkbox;
+  popup_page.popup_enable_colors = checkbox;
 
   /* Color selection dialogs for foreground and background color */
   table = gtk_table_new(2,2,FALSE);
+  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
   /* foreground */
   label = gtk_label_new("Foreground");
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
@@ -510,7 +564,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Foreground color");
   gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,0,1);
   gtk_widget_show(color_sel);
-  popup_page->popup_color_fg = color_sel;
+  popup_page.popup_color_fg = color_sel;
   /* background */
   label = gtk_label_new("Background");
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,1,2);
@@ -521,14 +575,16 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Background color");
   gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,1,2);
   gtk_widget_show(color_sel);
-  popup_page->popup_color_bg = color_sel;
-  /* table */
-  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
   gtk_widget_show(table);
+  popup_page.popup_color_bg = color_sel;
+  popup_page.popup_cont_color_sel = table;
 
-  /* done */
-  gtk_widget_show(vbox);
-  popup_page->page.widget = vbox;
+  notify_popup_color_sel_set_sensitivity
+    (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors), NULL);
+  notify_popup_enable_set_sensitivity
+    (GTK_TOGGLE_BUTTON(popup_page.popup_show), NULL);
+  gtk_widget_show(pvbox);
+  popup_page.page.widget = pvbox;
 }
 
 static void notify_destroy_popup_page(PrefsPage *page)
@@ -537,26 +593,25 @@ static void notify_destroy_popup_page(PrefsPage *page)
 
 static void notify_save_popup(PrefsPage *page)
 {
-  NotifyPopupPage *popup_page = (NotifyPopupPage*) page;
   gdouble timeout;
   GdkColor color;
 
   notify_config.popup_show = 
-    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(popup_page->popup_show));
+    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(popup_page.popup_show));
   timeout =
-    gtk_spin_button_get_value(GTK_SPIN_BUTTON(popup_page->popup_timeout));
+    gtk_spin_button_get_value(GTK_SPIN_BUTTON(popup_page.popup_timeout));
   notify_config.popup_timeout = (gint)floor(timeout*1000+0.5);
   notify_config.popup_sticky = 
-    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(popup_page->popup_sticky));
+    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(popup_page.popup_sticky));
   notify_config.popup_enable_colors = 
     gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(popup_page->popup_enable_colors));
+    (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors));
  
   /* Color dialogs are a bit more complicated */
-  gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page->popup_color_fg),
+  gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page.popup_color_fg),
 			     &color);
   notify_config.popup_color_fg = conv_color_to_int(&color);
-  gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page->popup_color_bg),
+  gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page.popup_color_bg),
 			     &color);
   notify_config.popup_color_bg = conv_color_to_int(&color);
 }
@@ -593,13 +648,30 @@ static void notify_popup_set_done_cb(GtkWidget *widget, gpointer data)
   gtk_widget_destroy(win);
 }
 
+static void notify_popup_enable_set_sensitivity(GtkToggleButton *button,
+						gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(popup_page.popup_show));
+  gtk_widget_set_sensitive(popup_page.popup_cont_enable, active);
+}
+
+static void notify_popup_color_sel_set_sensitivity(GtkToggleButton *button,
+						   gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors));
+  gtk_widget_set_sensitive(popup_page.popup_cont_color_sel, active);
+}
 #endif /* NOTIFICATION_POPUP */
 
 #ifdef NOTIFICATION_COMMAND
 static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
 				       gpointer data)
 {
-  NotifyCommandPage *command_page = (NotifyCommandPage*) page;
+  GtkWidget *pvbox;
   GtkWidget *vbox;
   GtkWidget *checkbox;
   GtkWidget *hbox;
@@ -608,16 +680,24 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   GtkWidget *label;
   gdouble timeout;
 
-  vbox = gtk_vbox_new(FALSE, 10);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
+  pvbox = gtk_vbox_new(FALSE, 20);
+  gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
 
-  /* Show check button for enabling the command */
+  /* Enable command */
   checkbox = gtk_check_button_new_with_label("Enable command");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.command_enabled);
-  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_command_enable_set_sensitivity), NULL);
   gtk_widget_show(checkbox);
-  command_page->command_enabled = checkbox;
+  command_page.command_enabled = checkbox;
+
+  /* Container vbox for greying out everything */
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+  gtk_widget_show(vbox);
+  command_page.command_cont_enable = vbox;
 
   /* entry field for command to execute */
   hbox = gtk_hbox_new(FALSE, 10);
@@ -630,7 +710,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
   gtk_widget_show(hbox);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-  command_page->command_line = entry;
+  command_page.command_line = entry;
 
   /* Spin button for command timeout */
   hbox = gtk_hbox_new(FALSE, 10);
@@ -648,12 +728,13 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   gtk_widget_show(hbox);
-  command_page->command_timeout = spinner;
+  command_page.command_timeout = spinner;
 
 
-  /* done */
-  gtk_widget_show(vbox);
-  command_page->page.widget = vbox;
+  notify_command_enable_set_sensitivity
+    (GTK_TOGGLE_BUTTON(command_page.command_enabled), NULL);
+  gtk_widget_show(pvbox);
+  command_page.page.widget = pvbox;
 }
 
 static void notify_destroy_command_page(PrefsPage *page)
@@ -662,22 +743,30 @@ static void notify_destroy_command_page(PrefsPage *page)
 
 static void notify_save_command(PrefsPage *page)
 {
-  NotifyCommandPage *command_page = (NotifyCommandPage*) page;
   gdouble timeout;
   const gchar *tmp_str;
 
   notify_config.command_enabled = 
     gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(command_page->command_enabled));
+    (GTK_TOGGLE_BUTTON(command_page.command_enabled));
 
   timeout =
-    gtk_spin_button_get_value(GTK_SPIN_BUTTON(command_page->command_timeout));
+    gtk_spin_button_get_value(GTK_SPIN_BUTTON(command_page.command_timeout));
   notify_config.command_timeout = (gint)floor(timeout*1000+0.5);
 
-  tmp_str = gtk_entry_get_text(GTK_ENTRY(command_page->command_line));
+  tmp_str = gtk_entry_get_text(GTK_ENTRY(command_page.command_line));
   if(notify_config.command_line)
     g_free(notify_config.command_line);
   notify_config.command_line = g_strdup(tmp_str);
+}
+
+static void notify_command_enable_set_sensitivity(GtkToggleButton *button,
+						  gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(command_page.command_enabled));
+  gtk_widget_set_sensitive(command_page.command_cont_enable, active);
 }
 #endif /* NOTIFICATION_COMMAND */
 

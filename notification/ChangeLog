@@ -1,3 +1,9 @@
+2006-06-10 [holger]	0.2.1
+
+	* src/notification_prefs.c
+		Rework prefs page, to make greying out inactive
+		options easier.
+
 2006-06-06 [wwp]	0.2.0cvs2
 
 	* configure.ac
