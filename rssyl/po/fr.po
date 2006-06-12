@@ -22,10 +22,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: sylpheed-claws-rssyl-plugin-0.4cvs6\n"
+"Project-Id-Version: sylpheed-claws-rssyl-plugin-0.4cvs18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-30 11:23+0200\n"
-"PO-Revision-Date: 2006-03-31 09:00+0100\n"
+"POT-Creation-Date: 2006-06-12 09:09+0200\n"
+"PO-Revision-Date: 2006-06-12 09:18+0200\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: <sylpheed-claws-translators@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -36,22 +36,22 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: src/feed.c:232
+#: src/feed.c:231
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Récupération de '%s'..."
 
-#: src/feed.c:249
+#: src/feed.c:248
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Délai d'attente dépassé lors de la connexion à %s\n"
 
-#: src/feed.c:826
+#: src/feed.c:827
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Rafraîchissement de '%s'..."
 
-#: src/feed.c:841
+#: src/feed.c:842
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -60,7 +60,7 @@ msgstr ""
 "RSSyl : La récupération des commentaires n'est pas possible pour les flux "
 "RDF. Impossible de récupérer les commentaires de '%s'."
 
-#: src/feed.c:849
+#: src/feed.c:850
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
@@ -69,29 +69,29 @@ msgstr ""
 "RSSyl : La récupération des commentaires n'est pas possible pour les flux "
 "Atom. Impossible de récupérer les commentaires de '%s'."
 
-#: src/feed.c:855
+#: src/feed.c:856
 msgid "This feed format is not supported yet."
 msgstr "Le format de cette source n'est pas encore supporté."
 
-#: src/feed.c:884
+#: src/feed.c:885
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1247
+#: src/feed.c:1248
 msgid "You are already subscribed to this feed."
 msgstr "Vous êtes déjà abonné à cette source."
 
-#: src/feed.c:1255
+#: src/feed.c:1256
 #, c-format
 msgid "Couldn't fetch URL '%s'."
 msgstr "Impossible de récupérer l'URL '%s'."
 
-#: src/feed.c:1263
+#: src/feed.c:1264
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossible de s'abonner à la source '%s'."
 
-#: src/plugin.c:42
+#: src/plugin.c:41
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version RSSyl was built "
 "with."
@@ -99,13 +99,13 @@ msgstr ""
 "La version de Sylpheed-Claws actuellement installée est plus récente que "
 "celle avec laquelle le module RSSyl a été compilé."
 
-#: src/plugin.c:47
+#: src/plugin.c:46
 msgid "Your version of Sylpheed-Claws is too old for RSSyl."
 msgstr ""
 "La version de Sylpheed-Claws actuellement installée est trop ancienne pour "
 "le module RSSyl."
 
-#: src/plugin.c:69
+#: src/plugin.c:68
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"
@@ -311,18 +311,22 @@ msgstr "_Valider"
 msgid "Set feed properties"
 msgstr "Propriétés de la source"
 
-#: src/rssyl_gtk.c:530 src/rssyl_gtk.c:555
+#: src/rssyl_gtk.c:533 src/rssyl_gtk.c:558
 msgid "Unsubscribe feed"
 msgstr "Se désabonner de la source"
 
-#: src/rssyl_gtk.c:556
+#: src/rssyl_gtk.c:559
 msgid "Do you really want to remove feed"
 msgstr "Voulez-vous vraiment vous désabonner de la source"
 
-#: src/rssyl_gtk.c:562
+#: src/rssyl_gtk.c:565
 msgid "Remove cached entries"
 msgstr "Supprimer les articles en cache"
 
-#: src/rssyl_gtk.c:575
+#: src/rssyl_gtk.c:578
 msgid "_Unsubscribe"
 msgstr "Se _désabonner"
+
+#: src/rssyl.h:12
+msgid "My RSS Feeds"
+msgstr "Mes flux RSS"
