@@ -1,3 +1,8 @@
+2006-06-12 [paul]	0.10.0cvs4
+
+	* po/Makefile.in.in
+		fix autoconf warning
+
 2006-06-12 [paul]	0.10.0cvs3
 
 	* configure.ac
