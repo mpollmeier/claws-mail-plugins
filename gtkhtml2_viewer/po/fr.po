@@ -1,0 +1,27 @@
+# French translation of GtkHtml2 viewer (plugin of Sylpheed-Claws).
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# This file is distributed under the same license as the GtkHtml2 Viewer package.
+# Fabien Vantard <fzzzzz@gmail.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: sylpheed-claws-gtkhtml2_viewer-plugin-0.10cvs2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-12 10:56+0200\n"
+"PO-Revision-Date: 2006-06-12 11:15+0200\n"
+"Last-Translator: Fabien Vantard <fzzzzz@gmail.com>\n"
+"Language-Team: <sylpheed-claws-translators@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gtkhtml2_prefs.c:73
+msgid "Plugins"
+msgstr "Modules"
+
+#: src/gtkhtml2_prefs.c:74
+msgid "GtkHtml2 Viewer"
+msgstr "Visualiseur HTML GtkHtml2"
+
+#: src/gtkhtml2_prefs.c:110
+msgid "Do not load remote links in mails"
+msgstr "Ne pas suivre les liens hypertextes dans le message (SpamSafe)"

@@ -1,3 +1,9 @@
+2006-06-12 [paul]	0.10.0cvs3
+
+	* configure.ac
+	* po/fr.po
+		new translation, submitted by Fabien Vantard <fzzzzz@gmail.com>
+
 2006-06-06 [wwp]	0.10.0cvs2
 
 	* configure.ac
