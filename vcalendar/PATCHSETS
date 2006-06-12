@@ -3,3 +3,4 @@
 ( cvs diff -u -r 1.2.2.34 -r 1.2.2.35 src/vcal_folder.c;  cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/vcal_manager.c;  ) > 1.79.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fr.po;  ) > 1.79.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makefile.in.in;  ) > 1.79.0cvs5.patchset
+( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/plugin.c;  cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/vcal_manager.c;  ) > 1.79.1cvs1.patchset

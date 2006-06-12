@@ -1032,7 +1032,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"R:<%s>\n"
 				"MAID:%d\n"
 				"%s%s%s"
-				"\n",
+				"X-Sylpheed-End-Special-Headers: 1\n",
 				account->address,
 				account->smtp_server,
 				is_reply ? event->organizer:attendees,
@@ -1195,10 +1195,14 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 	msgpath = folder_item_fetch_msg(folderitem, msgnum);
 	
 	if (!prefs_common.work_offline) {
-		gint val = procmsg_send_message_queue(msgpath);
+		gchar *err = NULL;
+		gint val = procmsg_send_message_queue(msgpath, &err);
 		if (val == 0) {
 			folder_item_remove_msg(folderitem, msgnum);
 			folder_item_scan(folderitem);
+		} else if (err) {
+			alertpanel_error_log(err);
+			g_free(err);
 		}
 	}
 	unlink(tmpfile);

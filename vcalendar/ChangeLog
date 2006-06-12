@@ -1,3 +1,9 @@
+2006-06-12 [colin]	1.79.1cvs1
+
+	* src/plugin.c
+	* src/vcal_manager.c
+		Update to follow API
+
 2006-06-12 [paul]	1.79.1
 
 	1.79.1 released

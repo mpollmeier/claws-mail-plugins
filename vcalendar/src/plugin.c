@@ -42,7 +42,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 94))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 3, 0, 5))) {
 		*error = g_strdup(_("Your Sylpheed-Claws version is too old for vCalendar."));
 		return -1;
 	}
