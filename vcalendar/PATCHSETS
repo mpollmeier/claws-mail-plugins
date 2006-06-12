@@ -2,3 +2,4 @@
 ( cvs diff -u -r 1.2.2.79 -r 1.2.2.80 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/Makefile.am;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/plugin.c;  ) > 1.79.0cvs2.patchset
 ( cvs diff -u -r 1.2.2.34 -r 1.2.2.35 src/vcal_folder.c;  cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/vcal_manager.c;  ) > 1.79.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fr.po;  ) > 1.79.0cvs4.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makefile.in.in;  ) > 1.79.0cvs5.patchset
