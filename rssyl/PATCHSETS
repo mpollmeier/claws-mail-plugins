@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/feedprops.c;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/rssyl_gtk.c;  ) > 0.4.0cvs17.patchset
 ( cvs diff -u -r 1.1.2.51 -r 1.1.2.52 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  ) > 0.4.0cvs18.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fr.po;  ) > 0.4.0cvs19.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/Makefile.in.in;  ) > 0.4.0cvs20.patchset

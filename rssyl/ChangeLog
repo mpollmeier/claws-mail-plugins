@@ -1,3 +1,8 @@
+2006-06-12 [paul]	0.4.0cvs20
+
+	* po/Makefile.in.in
+		fix autoconf warning
+
 2006-06-12 [paul]	0.4.0cvs19
 
 	* po/fr.po
