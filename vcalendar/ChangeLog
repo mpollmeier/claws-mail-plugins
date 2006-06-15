@@ -1,3 +1,10 @@
+2006-06-15 [paul]	1.79.1cvs2
+
+	* configure.ac
+		Fix pthread detection as the included
+		config.h isn't SC's anymore
+		Thanks to Colin
+
 2006-06-12 [colin]	1.79.1cvs1
 
 	* src/plugin.c
