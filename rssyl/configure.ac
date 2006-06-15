@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=5
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -90,6 +90,37 @@ fi
 CURL_CFLAGS="`$CURL_CONFIG --cflags`"
 
 CFLAGS="$CFLAGS $CURL_CFLAGS"
+
+dnl check for pthread support
+AC_ARG_ENABLE(pthread,
+	[  --disable-pthread           Disable pthread support],
+	[ac_cv_enable_pthread=$enableval], [ac_cv_enable_pthread=yes])
+AC_MSG_CHECKING([whether to use pthread])
+if test x$ac_cv_enable_pthread = xno; then
+	AC_MSG_RESULT(no)
+else
+	AC_MSG_RESULT(yes)
+
+        # For W32 we need to use a special ptrhead lib. In this case we can't
+        # use AC_CHECK_LIB because it has no means of checking for a
+        # library installed under a different name.  Checking for the
+        # header is okay.
+        if test -n "${pthread_name}" ; then
+           ac_cv_enable_pthread=yes
+        else
+	AC_CHECK_LIB(pthread, pthread_create, :, ac_cv_enable_pthread=no)
+        fi
+	AC_CHECK_HEADERS(pthread.h, :, ac_cv_enable_pthread=no)
+
+	if test x$ac_cv_enable_pthread = xyes; then
+		AC_DEFINE(USE_PTHREAD, 1, Define if you have pthread)
+                if test -z "${pthread_name}" ; then
+		PTHREAD_LIBS="-lpthread"
+	fi
+	fi
+
+fi
+AC_SUBST(PTHREAD_LIBS)
 
 CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
 AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])

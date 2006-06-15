@@ -1,3 +1,10 @@
+2006-06-15 [paul]	0.5.0cvs1
+
+	* configure.ac
+		Fix pthread detection as the included
+		config.h isn't SC's anymore
+		Thanks to Colin
+
 2006-06-12 [paul]	0.5.0
 
 	0.5 released
