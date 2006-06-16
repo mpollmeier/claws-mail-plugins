@@ -1,3 +1,8 @@
+2006-06-16 [colin]	1.79.1cvs3
+
+	* COPYING
+		Add openssl exception clause
+
 2006-06-15 [paul]	1.79.1cvs2
 
 	* configure.ac
