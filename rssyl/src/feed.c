@@ -32,6 +32,7 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include <pthread.h>
+#include <time.h>
 
 #include "common/utils.h"
 #include "common/sylpheed.h"
@@ -354,22 +355,20 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 		   }
 
 		   if( xmlXPathNodeSetIsEmpty(result->nodesetval) ) {
-			   debug_print("RSSyl: XML - nodeset empty for '%s'\n", xpath);
-			   g_free(rootnode);
-			   g_free(xpath);
-			   xmlXPathFreeObject(result);
-			   xmlXPathFreeContext(context);
-			   return NULL;
-		   }
-		   g_free(xpath);
+			   debug_print("RSSyl: XML - nodeset empty for '%s', using current time\n",
+						 xpath);
+				 pub_date = time(NULL);
+		   } else {
+			   node = result->nodesetval->nodeTab[0];
+			   content = xmlNodeGetContent(node);
+			   pub_date = parseRFC822Date(content);
+			   debug_print("RSSyl: XML - pubDate is '%s'\n", content);
+				 xmlFree(content);
+			 }
 
-		   xmlXPathFreeContext(context);
-		   node = result->nodesetval->nodeTab[0];
-		   xmlXPathFreeObject(result);
-		   content = xmlNodeGetContent(node);
-		   pub_date = parseRFC822Date(content);
-		   debug_print("RSSyl: XML - pubDate is '%s'\n", content);
-		   xmlFree(content);
+			 xmlXPathFreeObject(result);
+			 xmlXPathFreeContext(context);
+			 g_free(xpath);
 
 		   /* check date validity and perform postponed modified check */
 		   if( pub_date > 0 ) {

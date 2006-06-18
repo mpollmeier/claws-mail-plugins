@@ -1,3 +1,9 @@
+2006-06-18 [ticho]	0.5.0cvs3
+
+	* src/feed.c
+		If the feed doesn't have a main date tag, always update, regardless of
+		its last modification time.
+
 2006-06-18 [ticho]	0.5.0cvs2
 
 	* src/parsers.c
