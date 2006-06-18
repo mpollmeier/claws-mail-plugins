@@ -33,6 +33,8 @@
 #include "feed.h"
 #include "strreplace.h"
 
+static gchar *rssyl_replace_html_symbols(gchar *text);
+
 gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlNodePtr rnode, node, n;
@@ -65,7 +67,8 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				/* Title */
 				if( !xmlStrcmp(n->name, "title") ) {
 					content = xmlNodeGetContent(n);
-					fitem->title = rssyl_strreplace(content, "\n", "");
+					fitem->title = rssyl_replace_html_symbols(
+							rssyl_strreplace(content, "\n", "") );
 					xmlFree(content);
 					debug_print("RSSyl: XML - RDF title is '%s'\n", fitem->title);
 				}
@@ -186,10 +189,12 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		got_encoded = FALSE;
 		do {
 			gchar *content = NULL;
+
 			/* Title */
 			if( !strcmp(n->name, "title") ) {
 				content = xmlNodeGetContent(n);
-				fitem->title = rssyl_strreplace(content, "\n", "");
+				fitem->title = rssyl_replace_html_symbols(
+						rssyl_strreplace(content, "\n", "") );
 				xmlFree(content);
 				debug_print("RSSyl: XML - item title: '%s'\n", fitem->title);
 			}
@@ -313,7 +318,8 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* Title */
 			if( !strcmp(n->name, "title") ) {
 				content = xmlNodeGetContent(n);
-				fitem->title = g_strdup(content);
+				fitem->title = rssyl_replace_html_symbols(
+						rssyl_strreplace(content, "\n", "") );
 				xmlFree(content);
 				debug_print("RSSyl: XML - Atom item title: '%s'\n", fitem->title);
 			}
@@ -390,4 +396,43 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	}
 
 	return count;
+}
+
+typedef struct _RSSyl_HTMLSymbol RSSyl_HTMLSymbol;
+struct _RSSyl_HTMLSymbol
+{
+	gchar *const key;
+	gchar *const val;
+};
+
+static RSSyl_HTMLSymbol symbol_list[] = {
+	{ "&lt;", "<" },
+	{ "&gt;", ">" },
+	{ "&amp;", "&" },
+	{ "&quot;", "\"" },
+	{ "&lsquo;",  "'" },
+	{ "&rsquo;",  "'" },
+	{ "&ldquo;",  "\"" },
+	{ "&rdquo;",  "\"" },
+	{ "&nbsp;", " " },
+	{ "&trade;", "(TM)" },
+	{ "&#153;", "(TM)" },
+	{ "&hellip;", "..." },
+	{ NULL, NULL },
+};
+
+static gchar *rssyl_replace_html_symbols(gchar *text)
+{
+	gchar *tmp = NULL, *wtext = g_strdup(text);
+	gint i;
+
+	for( i = 0; symbol_list[i].key != NULL; i++ ) {
+		if( g_strstr_len(text, strlen(text), symbol_list[i].key) ) {
+			tmp = rssyl_strreplace(wtext, symbol_list[i].key, symbol_list[i].val);
+			wtext = g_strdup(tmp);
+			g_free(tmp);
+		}
+	}
+
+	return wtext;
 }

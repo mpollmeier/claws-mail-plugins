@@ -32,9 +32,10 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 		gchar *replacement)
 {
 	gchar *new, *c;
+	guint count = 0, final_length;
 
 /*
-	debug_print("RSSyl: strreplace: '%s': '%s'->'%s'\n", source, pattern,
+	debug_print("RSSyl: ======= strreplace: '%s': '%s'->'%s'\n", source, pattern,
 			replacement);
 */
 
@@ -53,8 +54,22 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 		return NULL;
 	}
 
-	new = malloc(2048);	/* FIXME: is it enough? */
-	memset(new, '\0', 2048);
+	c = source;
+	while( ( c = g_strstr_len(c, strlen(c), pattern) ) ) {
+		count++;
+		c++;
+	}
+
+/*
+	debug_print("RSSyl: ==== count = %d\n", count);
+*/
+
+	final_length = strlen(source)
+		- ( count * strlen(pattern) )
+		+ ( count * strlen(replacement) );
+
+	new = malloc(final_length + 1);
+	memset(new, '\0', final_length + 1);
 
 	c = source;
 

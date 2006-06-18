@@ -7,3 +7,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fr.po;  ) > 0.4.0cvs19.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/Makefile.in.in;  ) > 0.4.0cvs20.patchset
 ( cvs diff -u -r 1.1.2.55 -r 1.1.2.56 configure.ac;  ) > 0.5.0cvs1.patchset
+( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/parsers.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/strreplace.c;  ) > 0.5.0cvs2.patchset
