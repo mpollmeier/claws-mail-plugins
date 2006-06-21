@@ -1,3 +1,8 @@
+2006-06-21 [colin]	0.10.1cvs1
+
+	* configure.ac
+		Fix missing pthread support
+
 2006-06-12 [paul]	0.10.1
 
 	0.10.1 released

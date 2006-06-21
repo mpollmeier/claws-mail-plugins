@@ -2,3 +2,4 @@
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/gtkhtml2_viewer.c;  ) > 0.10.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 configure.ac;  diff -u /dev/null po/fr.po;  ) > 0.10.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makefile.in.in;  ) > 0.10.0cvs4.patchset
+( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 configure.ac;  ) > 0.10.1cvs1.patchset
