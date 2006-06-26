@@ -1,3 +1,9 @@
+2006-06-26 [colin]	0.10.1cvs2
+
+	* src/gtkhtml2_viewer.c
+		Let the scrolled window look like the
+		normal textview (Thanks to Fabien)
+
 2006-06-21 [colin]	0.10.1cvs1
 
 	* configure.ac
