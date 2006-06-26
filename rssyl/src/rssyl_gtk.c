@@ -512,8 +512,10 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 
 	rssyl_store_feed_props(ritem);
 
+	debug_print("last_count %d, x %d, old_ex %d\n", ritem->last_count, x, old_ex);
+
 	/* update if new setting is lower, or if it was changed from -1 */
-	if( ritem->last_count != 0 && (((old_ex > x || old_ex == -1) && x != -1)) ) {
+	if( ritem->last_count != 0 && x != -1 && (old_ex > x || old_ex == -1) ) {
 		debug_print("RSSyl: GTK - expired_num has changed to %d, expiring\n",
 				ritem->expired_num);
 		rssyl_expire_items(ritem);

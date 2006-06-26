@@ -1,3 +1,11 @@
+2006-06-26 [ticho]	0.5.0cvs4
+
+	* src/parsers.c
+	* src/rssyl_gtk.c
+	Added "#39" -> "'" conversion (patch by Fabien Vantard).
+	Changed the old item expiration logic when setting
+	new expiration value a bit.
+
 2006-06-18 [ticho]	0.5.0cvs3
 
 	* src/feed.c

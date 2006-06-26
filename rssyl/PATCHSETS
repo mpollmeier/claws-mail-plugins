@@ -9,3 +9,4 @@
 ( cvs diff -u -r 1.1.2.55 -r 1.1.2.56 configure.ac;  ) > 0.5.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/parsers.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/strreplace.c;  ) > 0.5.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.38 -r 1.1.2.39 src/feed.c;  ) > 0.5.0cvs3.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/parsers.c;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/rssyl_gtk.c;  ) > 0.5.0cvs4.patchset
