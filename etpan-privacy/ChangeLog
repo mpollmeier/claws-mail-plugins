@@ -1,3 +1,10 @@
+2006-06-28 [colin]	0.15.1cvs1
+
+	* configure.ac
+		Fix bug #975 (etpan-privacy does not respect 
+		LDFLAGS properly). Patch by
+		Sascha Geschwandtner <s.geschwandtner@gmx.de>
+
 2006-06-12 [paul]	0.15.1
 
 	0.15.1 released

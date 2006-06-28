@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=15
 MICRO_VERSION=1
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -76,7 +76,7 @@ if test "x$libetpanconfig" != "x"; then
   AC_CHECK_HEADER(libetpan/libetpan.h, [libetpan=yes])
   if test "x$libetpan" = "xyes"; then
     AC_MSG_CHECKING([whether libetpan-config hints compiles and links fine])
-    LDFLAGS="$LDFLAGS `$libetpanconfig --libs 2>/dev/null`"
+    LIBS="$LIBS `$libetpanconfig --libs 2>/dev/null`"
     AC_TRY_LINK([], [mailmessage_check();], [libetpan=yes], [libetpan=no])
     AC_MSG_RESULT([$libetpan])
   fi
