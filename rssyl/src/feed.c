@@ -277,7 +277,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 
 	if( template == NULL ) {
 		debug_print("RSSyl: no feed to parse, returning\n");
-		log_error(RSSYL_LOG_ERROR_NODATA, url);
+		log_error(RSSYL_LOG_ERROR_FETCH, url);
 		return NULL;
 	}
 		

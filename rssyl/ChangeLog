@@ -1,3 +1,9 @@
+2006-07-02 [ticho]	0.5.0cvs6
+
+	* src/feed.c
+	* src/feed.h
+		Use less types of error messages.
+
 2006-07-02 [ticho]	0.5.0cvs5
 
 	* po/POTFILES.in
