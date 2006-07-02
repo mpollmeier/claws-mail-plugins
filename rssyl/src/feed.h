@@ -17,10 +17,10 @@
 #define RSSYL_TEXT_START		"<!-- RSSyl text start -->"
 #define RSSYL_TEXT_END			"<!-- RSSyl text end -->"
 
-#define RSSYL_LOG_ERROR_TIMEOUT	N_("Time out connecting to %s\n")
-#define RSSYL_LOG_ERROR_FETCH		N_("Couldn't download feed from %s\n")
-#define RSSYL_LOG_ERROR_PARSE		N_("Error parsing feed from %s\n")
-#define RSSYL_LOG_ERROR_UNKNOWN	N_("Unsupported feed type at %s\n")
+#define RSSYL_LOG_ERROR_TIMEOUT	N_("Time out connecting to URL %s\n")
+#define RSSYL_LOG_ERROR_FETCH		N_("Couldn't fetch URL %s\n")
+#define RSSYL_LOG_ERROR_PARSE		N_("Error parsing feed from URL %s\n")
+#define RSSYL_LOG_ERROR_UNKNOWN	N_("Unsupported feed type at URL %s\n")
 
 struct _RSSylFeedItem {
 	gchar *title;

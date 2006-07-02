@@ -1,3 +1,11 @@
+2006-07-02 [ticho]	0.5.0cvs8
+
+	* po/sk.po
+	* src/feed.h
+	* src/rssyl.h
+		Some i18n-related changes.
+		Updated Slovak translation.
+
 2006-07-02 [ticho]	0.5.0cvs7
 
 	* src/rssyl_prefs.c
