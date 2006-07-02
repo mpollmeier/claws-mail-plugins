@@ -22,6 +22,9 @@
 #define RSSYL_LOG_ERROR_PARSE		N_("Error parsing feed from URL %s\n")
 #define RSSYL_LOG_ERROR_UNKNOWN	N_("Unsupported feed type at URL %s\n")
 
+#define RSSYL_LOG_UPDATING	N_("RSSyl: Updating feed %s\n")
+#define RSSYL_LOG_UPDATED 	N_("RSSyl: Feed update finished: %s\n")
+
 struct _RSSylFeedItem {
 	gchar *title;
 	gchar *text;

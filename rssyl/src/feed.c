@@ -263,8 +263,12 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 
 		debug_print("RSSyl: thread finished\n");
 		pthread_join(pt, (void *)&template);
-		if (killed)
+		if (killed) {
+			if( template != NULL )
+				if( g_file_test(template, G_FILE_TEST_EXISTS) )
+					g_unlink(template);
 			template = NULL;
+		}
 	}
 #else
 	debug_print("RSSyl: no pthreads, run blocking fetch\n");
@@ -1123,6 +1127,8 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		rssyl_get_feed_props(ritem);
 	g_return_if_fail(ritem->url != NULL);
 
+	log_print(RSSYL_LOG_UPDATING, ritem->url);
+
 	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title);
 
 	if (doc && title) {
@@ -1172,7 +1178,9 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 	if (title)
 		g_free(title);
 	if (dir)
-		g_free(dir);	
+		g_free(dir);
+
+	log_print(RSSYL_LOG_UPDATED, ritem->url);
 }
 
 void rssyl_start_refresh_timeout(RSSylFolderItem *ritem)
