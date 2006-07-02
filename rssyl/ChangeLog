@@ -1,3 +1,18 @@
+2006-07-02 [ticho]	0.5.0cvs5
+
+	* po/POTFILES.in
+	* src/Makefile.am
+	* src/feed.c
+	* src/feed.h
+	* src/feedprops.c
+	* src/rssyl.c
+	* src/rssyl.h
+	* src/rssyl_gtk.c
+		Added Common Preferences page for RSSyl.
+		Configurable fetch timeout for feeds.
+		Better error reporting to network log.
+		Remove a leftover curltmpXXXXXX file on one more code path.
+
 2006-06-26 [ticho]	0.5.0cvs4
 
 	* src/parsers.c

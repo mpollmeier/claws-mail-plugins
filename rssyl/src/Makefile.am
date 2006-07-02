@@ -23,5 +23,6 @@ rssyl_la_SOURCES = \
 	rssyl_cb_gtk.c rssyl_cb_gtk.h \
 	rssyl_cb_menu.c rssyl_cb_menu.h \
 	rssyl_gtk.c rssyl_gtk.h \
+	rssyl_prefs.c rssyl_prefs.h \
 	strreplace.c strreplace.h
 

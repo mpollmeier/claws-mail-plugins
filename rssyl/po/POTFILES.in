@@ -1,5 +1,11 @@
 src/feed.c
+src/feed.h
+src/feedprops.c
+src/parsers.c
 src/plugin.c
+src/rssyl.c
+src/rssyl_cb_gtk.c
 src/rssyl_cb_menu.c
 src/rssyl_gtk.c
+src/rssyl_prefs.c
 src/rssyl.h

@@ -14,12 +14,6 @@
 /* Default feed to be added when creating mailbox for the first time */
 #define RSSYL_DEFAULT_FEED	"http://planet.sylpheed.org/rss20.xml"
 
-/* Default feed refresh interval in minutes */
-#define RSSYL_DEFAULT_REFRESH		180
-
-/* Default number of expired items to keep */
-#define RSSYL_DEFAULT_EXPIRED		-1
-
 struct _RSSylFolderItem {
 	FolderItem item;
 	GSList *contents;

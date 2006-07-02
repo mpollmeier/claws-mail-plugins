@@ -55,6 +55,7 @@
 #include "feedprops.h"
 #include "strreplace.h"
 #include "parsers.h"
+#include "rssyl_prefs.h"
 
 struct _RSSylThreadCtx {
 	const gchar *url;
@@ -62,6 +63,7 @@ struct _RSSylThreadCtx {
 	gboolean not_modified;
 	gboolean defer_modified_check;
 	gboolean ready;
+	gint timeout;
 };
 
 typedef struct _RSSylThreadCtx RSSylThreadCtx;
@@ -119,9 +121,13 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
+/*
 #ifndef USE_PTHREAD
 	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
 #endif
+*/
+	curl_easy_setopt(eh, CURLOPT_TIMEOUT, rssyl_prefs_get()->timeout);
+	curl_easy_setopt(eh, CURLOPT_NOSIGNAL, 1);
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
@@ -222,6 +228,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 	ctx->last_update = last_update;
 	ctx->not_modified = FALSE;
 	ctx->defer_modified_check = FALSE;
+	ctx->timeout = rssyl_prefs_get()->timeout;
 
 	*title = NULL;
 
@@ -245,8 +252,8 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 		debug_print("RSSyl: waiting for thread to finish\n");
 		while( !ctx->ready ) {
 			sylpheed_do_idle();
-			if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
-				log_error(_("Timeout connecting to %s\n"), url);
+			if (time(NULL) - start_time > ctx->timeout) {
+				log_error(RSSYL_LOG_ERROR_TIMEOUT, url);
 				pthread_cancel(pt);
 				ctx->ready = TRUE;
 				killed = TRUE;
@@ -270,6 +277,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 
 	if( template == NULL ) {
 		debug_print("RSSyl: no feed to parse, returning\n");
+		log_error(RSSYL_LOG_ERROR_NODATA, url);
 		return NULL;
 	}
 		
@@ -278,7 +286,13 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 
 	doc = xmlParseFile(template);
 
-	g_return_val_if_fail(doc != NULL, NULL);
+	if( doc == NULL ) {
+		g_unlink(template);
+		g_free(template);
+		g_warning("Couldn't fetch feed '%s', aborting.\n", url);
+		log_error(RSSYL_LOG_ERROR_FETCH, url);
+		return NULL;
+	}
 
 	node = xmlDocGetRootElement(doc);
 	rnode = node;
@@ -316,6 +330,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			xmlXPathFreeContext(context);
 			g_free(rootnode);
 			g_free(xpath);
+			log_error(RSSYL_LOG_ERROR_PARSE, url);
 			return NULL;
 		}
 
@@ -325,6 +340,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			g_free(xpath);
 			xmlXPathFreeObject(result);
 			xmlXPathFreeContext(context);
+			log_error(RSSYL_LOG_ERROR_PARSE, url);
 			return NULL;
 		}
 		g_free(xpath);
@@ -351,6 +367,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			   xmlXPathFreeContext(context);
 			   g_free(rootnode);
 			   g_free(xpath);
+				 log_error(RSSYL_LOG_ERROR_PARSE, url);
 			   return NULL;
 		   }
 
@@ -422,7 +439,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 			}
 		}
 	} else {
-		g_warning("Unsupported feed type.\n");
+		log_error(RSSYL_LOG_ERROR_UNKNOWN, url);
 		g_free(rootnode);
 		return NULL;
 	}

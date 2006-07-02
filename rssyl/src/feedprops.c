@@ -34,6 +34,7 @@
 #include "feed.h"
 #include "feedprops.h"
 #include "rssyl.h"
+#include "rssyl_prefs.h"
 
 static gchar *rssyl_get_props_path(void)
 {
@@ -63,11 +64,11 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 
 	def_ri = ritem->default_refresh_interval;
 	if( def_ri )
-		ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
+		ritem->refresh_interval = rssyl_prefs_get()->refresh;
 
 	def_ex = ritem->default_expired_num;
 	if( def_ex )
-		ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
+		ritem->expired_num = rssyl_prefs_get()->expired;
 
 	path = rssyl_get_props_path();
 
@@ -161,8 +162,8 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 	}
 
 	ritem->default_refresh_interval = TRUE;
-	ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
-	ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
+	ritem->refresh_interval = rssyl_prefs_get()->refresh;
+	ritem->expired_num = rssyl_prefs_get()->expired;
 
 	path = rssyl_get_props_path();
 
@@ -204,13 +205,14 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				/* refresh_interval */
 				tmp = xmlGetProp(node, RSSYL_PROP_REFRESH);
 				if( ritem->default_refresh_interval )
-					ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
+					ritem->refresh_interval = rssyl_prefs_get()->refresh;
 				else {
 					tmpi = -1;
 					if( tmp )
 						tmpi = atoi(tmp);
 
-					ritem->refresh_interval = (tmpi != -1 ? tmpi : RSSYL_DEFAULT_REFRESH);
+					ritem->refresh_interval =
+						(tmpi != -1 ? tmpi : rssyl_prefs_get()->refresh);
 				}
 				
 				xmlFree(tmp);
@@ -239,13 +241,13 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				tmp = xmlGetProp(node, RSSYL_PROP_EXPIRED);
 
 				if( ritem->default_expired_num )
-					ritem->expired_num = RSSYL_DEFAULT_EXPIRED;
+					ritem->expired_num = rssyl_prefs_get()->expired;
 				else {
 					tmpi = -2;
 					if( tmp )
 						tmpi = atoi(tmp);
 
-					ritem->expired_num = (tmpi != -2 ? tmpi : RSSYL_DEFAULT_EXPIRED);
+					ritem->expired_num = (tmpi != -2 ? tmpi : rssyl_prefs_get()->expired);
 				}
 
 				xmlFree(tmp);

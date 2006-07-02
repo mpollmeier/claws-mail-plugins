@@ -39,6 +39,7 @@
 #include "feedprops.h"
 #include "rssyl.h"
 #include "rssyl_gtk.h"
+#include "rssyl_prefs.h"
 #include "strreplace.h"
 
 static gint rssyl_create_tree(Folder *folder);
@@ -102,10 +103,13 @@ void rssyl_init(void)
 
 	if( existing_tree_found == FALSE )
 		rssyl_create_default_mailbox();
+
+	rssyl_prefs_init();
 }
 
 void rssyl_done(void)
 {
+	rssyl_prefs_done();
 	rssyl_gtk_done();
 	folder_unregister_class(rssyl_folder_get_class());
 }
@@ -251,9 +255,9 @@ static FolderItem *rssyl_item_new(Folder *folder)
 	ritem->default_refresh_interval = TRUE;
 	ritem->default_expired_num = TRUE;
 	ritem->fetch_comments = FALSE;
-	ritem->refresh_interval = RSSYL_DEFAULT_REFRESH;
+	ritem->refresh_interval = rssyl_prefs_get()->refresh;
 	ritem->refresh_id = 0;
-	ritem->expired_num = -1;
+	ritem->expired_num = rssyl_prefs_get()->expired;
 	ritem->last_count = 0;
 
 	ritem->contents = NULL;

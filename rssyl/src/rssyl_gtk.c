@@ -40,6 +40,7 @@
 #include "rssyl_cb_gtk.h"
 #include "rssyl_cb_menu.h"
 #include "rssyl_gtk.h"
+#include "rssyl_prefs.h"
 
 static char *rssyl_popup_menu_labels[] =
 {
@@ -233,7 +234,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	if( ritem->refresh_interval >= 0 && !ritem->default_refresh_interval )
 		refresh = ritem->refresh_interval;
 	else
-		refresh = RSSYL_DEFAULT_REFRESH;
+		refresh = rssyl_prefs_get()->refresh;
 
 	/* "Keep default number of expired items" checkbutton */
 	feedprop->default_expired_num = gtk_check_button_new_with_mnemonic(
@@ -249,7 +250,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			ritem->fetch_comments);
 
 	if( ritem->default_expired_num )
-		expired = RSSYL_DEFAULT_EXPIRED;
+		expired = rssyl_prefs_get()->expired;
 	else
 		expired = ritem->expired_num;
 
@@ -468,7 +469,7 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 
 	/* Use default if checkbutton is set */
 	if( use_default_ri )
-		x = RSSYL_DEFAULT_REFRESH;
+		x = rssyl_prefs_get()->refresh;
 	else
 		x = gtk_spin_button_get_value_as_int(
 				GTK_SPIN_BUTTON(ritem->feedprop->refresh_interval) );
@@ -502,7 +503,7 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 
 	/* Use default if checkbutton is set */
 	if( use_default_ex )
-		x = RSSYL_DEFAULT_EXPIRED;
+		x = rssyl_prefs_get()->expired;
 	else
 		x = gtk_spin_button_get_value_as_int(
 				GTK_SPIN_BUTTON(ritem->feedprop->expired_num) );
