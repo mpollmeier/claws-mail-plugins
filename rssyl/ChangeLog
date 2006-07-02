@@ -1,3 +1,9 @@
+2006-07-02 [ticho]	0.5.0cvs7
+
+	* src/rssyl_prefs.c
+	* src/rssyl_prefs.h
+		Actually add new source files. :)
+
 2006-07-02 [ticho]	0.5.0cvs6
 
 	* src/feed.c

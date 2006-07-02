@@ -1,0 +1,184 @@
+/*
+ * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto
+ * This file (C) 2005 Andrej Kacian <andrej@kacian.sk>
+ *
+ * - Plugin preferences
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include <glib.h>
+
+#include "common/defs.h"
+#include "prefs_gtk.h"
+
+#include "gettext.h"
+#include "rssyl_prefs.h"
+
+static RSSylPrefsPage rssyl_prefs_page;
+RSSylPrefs rssyl_prefs;
+
+static void destroy_rssyl_prefs_page(PrefsPage *page);
+static void create_rssyl_prefs_page(PrefsPage *page,
+		GtkWindow *window, gpointer data);
+static void save_rssyl_prefs(PrefsPage *page);
+
+	static PrefParam param[] = {
+	{ "refresh_interval", RSSYL_PREF_DEFAULT_REFRESH, &rssyl_prefs.refresh, P_INT,
+		NULL, NULL, NULL },
+	{ "expired_keep", RSSYL_PREF_DEFAULT_EXPIRED, &rssyl_prefs.expired, P_INT,
+		NULL, NULL, NULL },
+	{ "timeout", RSSYL_PREF_DEFAULT_TIMEOUT, &rssyl_prefs.timeout, P_INT,
+		NULL, NULL, NULL },
+	{ 0, 0, 0, 0, 0, 0, 0 }
+};
+
+void rssyl_prefs_init(void)
+{
+	static gchar *path[3];
+	gchar *rcpath;
+
+	path[0] = _("Plugins");
+	path[1] = "RSSyl";		/* We don't need this translated */
+	path[2] = NULL;
+
+	prefs_set_default(param);
+	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
+	prefs_read_config(param, PREFS_BLOCK_NAME, rcpath, NULL);
+	g_free(rcpath);
+
+	rssyl_prefs_page.page.path = path;
+	rssyl_prefs_page.page.create_widget = create_rssyl_prefs_page;
+	rssyl_prefs_page.page.destroy_widget = destroy_rssyl_prefs_page;
+	rssyl_prefs_page.page.save_page = save_rssyl_prefs;
+	rssyl_prefs_page.page.weight = 30.0;
+
+	prefs_gtk_register_page((PrefsPage *) &rssyl_prefs_page);
+}
+
+void rssyl_prefs_done(void)
+{
+	prefs_gtk_unregister_page((PrefsPage *) &rssyl_prefs_page);
+}
+
+static void create_rssyl_prefs_page(PrefsPage *page,
+		GtkWindow *window, gpointer data)
+{
+	RSSylPrefsPage *prefs_page = (RSSylPrefsPage *) page;
+	GtkWidget *table;
+	GtkWidget *refresh;
+	GtkWidget *expired;
+	GtkWidget *timeout;
+	GtkWidget *label;
+	GtkObject *refresh_adj, *expired_adj, *timeout_adj;
+	GtkTooltips *tooltips;
+
+	tooltips = gtk_tooltips_new();
+	gtk_tooltips_enable(tooltips);
+
+	table = gtk_table_new(RSSYL_NUM_PREFS, 2, FALSE);
+	gtk_container_set_border_width(GTK_CONTAINER(table), 5);
+	gtk_table_set_row_spacings(GTK_TABLE(table), VSPACING_NARROW);
+	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
+
+	label = gtk_label_new(_("Default refresh interval in minutes:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
+			GTK_FILL, 0, 0, 0);
+
+	refresh_adj = gtk_adjustment_new(rssyl_prefs.refresh,
+			0, 100000, 1, 10, 10);
+	refresh = gtk_spin_button_new(GTK_ADJUSTMENT(refresh_adj), 1, 0);
+	gtk_table_attach(GTK_TABLE(table), refresh, 1, 2, 0, 1,
+			GTK_FILL, 0, 0, 0);
+	gtk_tooltips_set_tip(tooltips, refresh,
+			_("Set to 0 to disable automatic refreshing"), NULL);
+
+	label = gtk_label_new(_("Default number of expired items to keep:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2,
+			GTK_FILL, 0, 0, 0);
+
+	expired_adj = gtk_adjustment_new(rssyl_prefs.expired,
+			-1, 100000, 1, 10, 10);
+	expired = gtk_spin_button_new(GTK_ADJUSTMENT(expired_adj), 1, 0);
+	gtk_table_attach(GTK_TABLE(table), expired, 1, 2, 1, 2,
+			GTK_FILL, 0, 0, 0);
+	gtk_tooltips_set_tip(tooltips, expired,
+			_("Set tp -1 to keep expired items"), NULL);
+
+	label = gtk_label_new(_("Timeout for downloading feeds in seconds:"));
+	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3,
+			GTK_FILL, 0, 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+
+	timeout_adj = gtk_adjustment_new(rssyl_prefs.timeout,
+			1, 100000, 1, 10, 10);
+	timeout = gtk_spin_button_new(GTK_ADJUSTMENT(timeout_adj), 1, 0);
+	gtk_table_attach(GTK_TABLE(table), timeout, 1, 2, 2, 3,
+			GTK_FILL, 0, 0, 0);
+
+	gtk_widget_show_all(table);
+
+	prefs_page->page.widget = table;
+	prefs_page->refresh = refresh;
+	prefs_page->expired = expired;
+	prefs_page->timeout = timeout;
+}
+
+static void destroy_rssyl_prefs_page(PrefsPage *page)
+{
+	/* Do nothing! */
+}
+
+static void save_rssyl_prefs(PrefsPage *page)
+{
+	RSSylPrefsPage *prefs_page = (RSSylPrefsPage *)page;
+	PrefFile *pref_file;
+	gchar *rc_file_path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+			COMMON_RC, NULL);
+
+	rssyl_prefs.refresh = gtk_spin_button_get_value_as_int(
+			GTK_SPIN_BUTTON(prefs_page->refresh));
+	rssyl_prefs.expired = gtk_spin_button_get_value_as_int(
+			GTK_SPIN_BUTTON(prefs_page->expired));
+	rssyl_prefs.timeout = gtk_spin_button_get_value_as_int(
+			GTK_SPIN_BUTTON(prefs_page->timeout));
+
+	pref_file = prefs_write_open(rc_file_path);
+	g_free(rc_file_path);
+
+	if( !pref_file || prefs_set_block_label(pref_file, PREFS_BLOCK_NAME) < 0 )
+				return;
+
+	if( prefs_write_param(param, pref_file->fp) < 0 ) {
+		g_warning("Failed to write RSSyl plugin configuration\n");
+		prefs_file_close_revert(pref_file);
+		return;
+	}
+
+	fprintf(pref_file->fp, "\n");
+	prefs_file_close(pref_file);
+}
+
+RSSylPrefs *rssyl_prefs_get(void)
+{
+	return &rssyl_prefs;
+}
