@@ -14,3 +14,4 @@
 ( cvs diff -u -r 1.1.2.40 -r 1.1.2.41 src/feed.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/feed.h;  ) > 0.5.0cvs6.patchset
 ( diff -u /dev/null src/rssyl_prefs.c;  diff -u /dev/null src/rssyl_prefs.h;  ) > 0.5.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 po/sk.po;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/feed.h;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/rssyl.h;  ) > 0.5.0cvs8.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/rssyl_prefs.c;  ) > 0.5.0cvs9.patchset

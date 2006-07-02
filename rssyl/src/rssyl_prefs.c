@@ -122,7 +122,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_table_attach(GTK_TABLE(table), expired, 1, 2, 1, 2,
 			GTK_FILL, 0, 0, 0);
 	gtk_tooltips_set_tip(tooltips, expired,
-			_("Set tp -1 to keep expired items"), NULL);
+			_("Set to -1 to keep expired items"), NULL);
 
 	label = gtk_label_new(_("Timeout for downloading feeds in seconds:"));
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3,
