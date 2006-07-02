@@ -5,7 +5,6 @@
 		Remove curltmpXXXXXX file at another code path.
 		Announce feed updates in log window.					
 
-<<<<<<< ChangeLog
 2006-07-02 [ticho]	0.5.0cvs9
 
 	* src/feed.c
@@ -13,13 +12,11 @@
 		Remove curltmpXXXXXX file at another code path.
 		Announce feed updates in log window.
 
-=======
 2006-07-02 [wwp]	0.5.0cvs9
 
 	* src/rssyl_prefs.c
 		Typo.
 
->>>>>>> 1.1.2.75
 2006-07-02 [ticho]	0.5.0cvs8
 
 	* po/sk.po
