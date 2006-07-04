@@ -957,7 +957,7 @@ void multisync_export(void)
 	g_slist_free(files);
 }
 
-gboolean vcal_meeting_export_calendar(const gchar *path)
+gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
 {
 	GSList *list = vcal_folder_get_waiting_events();
 	GSList *subs = NULL;
@@ -1039,11 +1039,13 @@ gboolean vcal_meeting_export_calendar(const gchar *path)
 	g_slist_free(subs);
 	
 putfile:
-	if (!path)
+	if (!path && !automatic)
 		file = filesel_select_file_save(_("Export calendar to ICS"), NULL);
-		
 	else
 		file = g_strdup(path);
+
+	if (automatic && (!path || strlen(path) == 0))
+		return TRUE;
 
 	if (file 
 	&& strncmp(file, "http://", 7) 

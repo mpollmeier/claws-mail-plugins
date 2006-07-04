@@ -61,7 +61,7 @@ static PrefParam param[] = {
 	 NULL, NULL, NULL},
 	{"export_subs", "TRUE", &vcalprefs.export_subs, P_BOOL,
 	 NULL, NULL, NULL},
-	{"export_path", NULL, &vcalprefs.export_path, P_STRING,
+	{"export_path", "", &vcalprefs.export_path, P_STRING,
 	 NULL, NULL, NULL},
 	{"export_command", NULL, &vcalprefs.export_command, P_STRING,
 	 NULL, NULL, NULL},

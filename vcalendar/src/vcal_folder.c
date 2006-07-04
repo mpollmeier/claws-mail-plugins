@@ -680,7 +680,7 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 		}
 	}
 
-	if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
+	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
 		if (vcalprefs.export_enable &&
 		    vcalprefs.export_command &&
 		    strlen(vcalprefs.export_command))
@@ -833,7 +833,7 @@ GSList * vcal_folder_get_webcal_events(void)
 
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
-	vcal_meeting_export_calendar(NULL);
+	vcal_meeting_export_calendar(NULL, FALSE);
 }
 
 struct CBuf {

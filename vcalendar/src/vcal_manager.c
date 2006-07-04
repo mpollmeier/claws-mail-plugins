@@ -785,7 +785,7 @@ void vcal_manager_save_event (VCalEvent *event)
 		return;
 	}
  
-	if (vcal_meeting_export_calendar(vcalprefs.export_path)) {
+	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
 		if (vcalprefs.export_enable &&
 		    vcalprefs.export_command &&
 		    strlen(vcalprefs.export_command))
@@ -989,7 +989,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *prefix = NULL;
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
-	
+	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;
 	conv_encode_header(subject, 511, event->summary, strlen(event->summary), FALSE);
 	
 	if (is_pseudo_display) {
@@ -1060,7 +1060,15 @@ static gchar *write_headers(PrefsAccount 	*account,
 		method_str = "PUBLISH";
 	else
 		method_str = "REQUEST";		
-					
+	
+	conv_encode_header_full(enc_prefix, sizeof(enc_prefix), prefix, strlen(prefix), 
+			FALSE, conv_get_outgoing_charset_str());
+	conv_encode_header_full(enc_subject, sizeof(enc_subject), subject, strlen(subject), 
+			FALSE, conv_get_outgoing_charset_str());
+	from = is_reply?account->name:(event->orgname?event->orgname:"");
+	conv_encode_header_full(enc_from, sizeof(enc_from), from, strlen(from), 
+			TRUE, conv_get_outgoing_charset_str());
+
 	result = g_strdup_printf("%s"
 				"From: %s <%s>\n"
 				"To: <%s>\n"
@@ -1070,15 +1078,15 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
 				"Content-Transfer-Encoding: 8bit\n",
 				queue_headers,
-				is_reply ? account->name:(event->orgname?event->orgname:""),
+				enc_from,
 				is_reply ? account->address:event->organizer,
 				is_reply ? event->organizer:(attendees?attendees:event->organizer),
-				prefix,
-				subject,
+				enc_prefix,
+				enc_subject,
 				date,
 				method_str,
 				CS_UTF_8);
-				
+	
 	g_free(save_folder);
 	g_free(queue_headers);
 	g_free(attendees);
