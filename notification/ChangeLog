@@ -1,3 +1,19 @@
+2006-07-27 [holger]	0.3
+
+	* src/Makefile.am
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_banner.h
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_foldercheck.c	*** new file ***
+	* src/notification_foldercheck.h	*** new file ***
+		Introduce restricting notification to certain
+		folders via the options page.  Currently, the
+		new feature is only used in the "Banner" module,
+		but the others will follow soon. Hopefully.
+
 2006-06-10 [holger]	0.2.1
 
 	* src/notification_prefs.c

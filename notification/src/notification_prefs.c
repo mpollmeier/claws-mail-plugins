@@ -27,6 +27,7 @@
 
 #include "notification_prefs.h"
 #include "notification_plugin.h"
+#include "notification_foldercheck.h"
 
 
 typedef struct {
@@ -44,10 +45,12 @@ typedef struct {
   GtkWidget *banner_speed;
   GtkWidget *banner_include_unread;
   GtkWidget *banner_sticky;
+  GtkWidget *banner_folder_specific;
   GtkWidget *banner_enable_colors;
   GtkWidget *banner_color_bg;
   GtkWidget *banner_color_fg;
   GtkWidget *banner_cont_enable;
+  GtkWidget *banner_cont_folder_specific;
   GtkWidget *banner_cont_color_sel;
 } NotifyBannerPage;
 NotifyBannerPage banner_page;
@@ -91,6 +94,8 @@ PrefParam notify_param[] = {
    NULL, NULL, NULL},
   {"banner_root_y", "10", &notify_config.banner_root_y, P_INT,
    NULL, NULL, NULL},
+  {"banner_folder_specific", "FALSE", &notify_config.banner_folder_specific,
+   P_BOOL, NULL, NULL, NULL},
   {"banner_enable_colors", "FALSE", &notify_config.banner_enable_colors,
    P_BOOL, NULL, NULL, NULL},
   {"banner_color_bg", "0", &notify_config.banner_color_bg, P_COLOR,
@@ -141,6 +146,8 @@ static void notify_destroy_banner_page(PrefsPage*);
 static void notify_save_banner(PrefsPage*);
 static void notify_banner_enable_set_sensitivity(GtkComboBox*, gpointer);
 static void notify_banner_color_sel_set_sensitivity(GtkToggleButton*,gpointer);
+static void notify_banner_folder_specific_set_sensitivity(GtkToggleButton*,
+							   gpointer);
 #endif
 
 #ifdef NOTIFICATION_POPUP
@@ -294,6 +301,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   GtkWidget *hbox;
   GtkWidget *table;
   GtkWidget *checkbox;
+  GtkWidget *button;
   GtkWidget *combo;
   GtkWidget *label;
   GtkWidget *slider;
@@ -374,6 +382,27 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(checkbox);
   banner_page.banner_sticky = checkbox;
 
+  /* Check box for enabling folder specific selection */
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  checkbox = gtk_check_button_new_with_label("Only include selected folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.banner_folder_specific);
+  gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_banner_folder_specific_set_sensitivity),
+		   NULL);
+  gtk_widget_show(checkbox);
+  banner_page.banner_folder_specific = checkbox;
+  button = gtk_button_new_with_label("Select folders...");
+  g_signal_connect(G_OBJECT(button), "clicked",
+		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
+		   BANNER_SPECIFIC_FOLDER_ID_STR);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  banner_page.banner_cont_folder_specific = button;
+  gtk_widget_show(button);
+  gtk_widget_show(hbox);
+
   /* Check box for enabling custom colors */
   checkbox = gtk_check_button_new_with_label("Use custom colors");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
@@ -412,7 +441,10 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   banner_page.banner_color_bg = color_sel;
   banner_page.banner_cont_color_sel = table;
 
-  notify_banner_color_sel_set_sensitivity(GTK_TOGGLE_BUTTON(checkbox), NULL);
+  notify_banner_color_sel_set_sensitivity
+    (GTK_TOGGLE_BUTTON(banner_page.banner_enable_colors), NULL);
+  notify_banner_folder_specific_set_sensitivity
+    (GTK_TOGGLE_BUTTON(banner_page.banner_folder_specific), NULL);
   notify_banner_enable_set_sensitivity(GTK_COMBO_BOX(combo), NULL);
   gtk_widget_show(pvbox);
   banner_page.page.widget = pvbox;
@@ -430,13 +462,19 @@ static void notify_save_banner(PrefsPage *page)
   notify_config.banner_show = 
     gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page.banner_show));
   notify_config.banner_include_unread = 
-    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
-				 (banner_page.banner_include_unread));
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(banner_page.banner_include_unread));
   range_val= gtk_range_get_value(GTK_RANGE(banner_page.banner_speed));
   notify_config.banner_speed = (gint)ceil(range_val);
+
   notify_config.banner_sticky = 
-    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
-				 (banner_page.banner_sticky));
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(banner_page.banner_sticky));
+
+  notify_config.banner_folder_specific =
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(banner_page.banner_folder_specific));
+
   notify_config.banner_enable_colors = 
     gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(banner_page.banner_enable_colors));
@@ -469,6 +507,15 @@ static void notify_banner_color_sel_set_sensitivity(GtkToggleButton *button,
   active = gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(banner_page.banner_enable_colors));
   gtk_widget_set_sensitive(banner_page.banner_cont_color_sel, active);
+}
+
+static void notify_banner_folder_specific_set_sensitivity(GtkToggleButton *bu,
+							   gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(banner_page.banner_folder_specific));
+  gtk_widget_set_sensitive(banner_page.banner_cont_folder_specific, active);
 }
 #endif /* NOTIFICATION_BANNER */
 

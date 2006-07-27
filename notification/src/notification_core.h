@@ -23,11 +23,12 @@
 typedef struct {
   gchar *from;
   gchar *subject;
+  FolderItem *folder_item;
   gchar *folderitem_name;
 } CollectedMsg;
 
 
-GSList* notification_collect_msgs(gboolean);
+GSList* notification_collect_msgs(gboolean, GSList*);
 void    notification_collected_msgs_free(GSList*);
 
 #endif /* NOTIFICATION_CORE */

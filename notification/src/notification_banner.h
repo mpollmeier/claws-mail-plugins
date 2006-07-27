@@ -22,6 +22,8 @@
 
 #ifdef NOTIFICATION_BANNER
 
+#define BANNER_SPECIFIC_FOLDER_ID_STR "banner"
+
 void notification_banner_show(GSList*);
 void notification_banner_destroy(void);
 

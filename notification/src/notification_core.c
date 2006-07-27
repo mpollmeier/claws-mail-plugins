@@ -24,12 +24,14 @@
 
 typedef struct {
   GSList *collected_msgs;
+  GSList *folder_items;
   gboolean unread_also;
 } TraverseCollect;
 
 static gboolean notification_traverse_collect(GNode*, gpointer);
 
-GSList* notification_collect_msgs(gboolean unread_also)
+/* if folders is not NULL, then consider only those folder items */
+GSList* notification_collect_msgs(gboolean unread_also, GSList *folder_items)
 {
   GList *folder_list, *walk;
   Folder *folder;
@@ -37,9 +39,12 @@ GSList* notification_collect_msgs(gboolean unread_also)
 
   collect_data.unread_also = unread_also;
   collect_data.collected_msgs = NULL;
+  collect_data.folder_items = folder_items;
+
   folder_list = folder_get_list();
   for(walk = folder_list; walk != NULL; walk = g_list_next(walk)) {
     folder = walk->data;
+    
     g_node_traverse(folder->node, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
 		    notification_traverse_collect, &collect_data);
   }
@@ -68,6 +73,31 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
 {
   TraverseCollect *cdata = data;
   FolderItem *item = node->data;
+  gchar *folder_id_cur;
+
+  /* If a folder_items list was given, check it first */
+  if((cdata->folder_items) && (item->path != NULL) &&
+     ((folder_id_cur  = folder_item_get_identifier(item)) != NULL)) {
+    FolderItem *list_item;
+    GSList *walk;
+    gchar *folder_id_list;
+    gboolean eq;
+    gboolean folder_in_list = FALSE;
+
+    for(walk = cdata->folder_items; walk != NULL; walk = g_slist_next(walk)) {
+      list_item = walk->data;
+      folder_id_list = folder_item_get_identifier(list_item);
+      eq = !strcmp2(folder_id_list,folder_id_cur);
+      g_free(folder_id_list);
+      if(eq) {
+	folder_in_list = TRUE;
+	break;
+      }
+    }
+    g_free(folder_id_cur);
+    if(!folder_in_list)
+      return FALSE;
+  }
 
   if(item->new_msgs || (cdata->unread_also && item->unread_msgs)) {
     GSList *msg_list = folder_item_get_msg_list(item);

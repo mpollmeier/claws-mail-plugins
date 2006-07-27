@@ -35,6 +35,7 @@
 #include "notification_banner.h"
 #include "notification_popup.h"
 #include "notification_command.h"
+#include "notification_foldercheck.h"
 
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
@@ -46,7 +47,7 @@ static guint hook_pfilter;
 
 
 #ifdef NOTIFICATION_BANNER
-static GSList *banner_collected_msgs;
+static GSList       *banner_collected_msgs;
 #endif
 
 static gboolean my_post_filtering_hook(gpointer source, gpointer data)
@@ -121,6 +122,9 @@ gint plugin_init(gchar **error)
   prefs_read_config(notify_param, "NotificationPlugin", rcpath, NULL);
   g_free(rcpath);
 
+  /* Folder specific stuff */
+  notification_foldercheck_read_array();
+
 #ifdef NOTIFICATION_BANNER
   notification_update_banner();
 #endif
@@ -143,6 +147,11 @@ void plugin_done(void)
 
   hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_msgcnt);
   notify_gtk_done();
+
+  /* foldercheck cleanup */
+  notification_foldercheck_write_array();
+  notification_free_folder_specific_array();
+
   debug_print("Notification plugin unloaded\n");
 }
 
@@ -178,9 +187,24 @@ void notification_update_banner(void)
 {
   notification_collected_msgs_free(banner_collected_msgs);
   banner_collected_msgs = NULL;
-  if(notify_config.banner_show != NOTIFY_BANNER_SHOW_NEVER)
-    banner_collected_msgs =
-      notification_collect_msgs(notify_config.banner_include_unread);
+
+  if(notify_config.banner_show != NOTIFY_BANNER_SHOW_NEVER) {
+    guint id;
+    GSList *folder_list = NULL;
+
+    if(notify_config.banner_folder_specific) {
+      id = notification_register_folder_specific_list
+	(BANNER_SPECIFIC_FOLDER_ID_STR);
+      folder_list = notification_foldercheck_get_list(id);
+    }
+
+    if(!(notify_config.banner_folder_specific && (folder_list == NULL)))
+      banner_collected_msgs =
+	notification_collect_msgs(notify_config.banner_include_unread,
+				  notify_config.banner_folder_specific ? 
+				  folder_list : NULL);
+  }
+  
   notification_banner_show(banner_collected_msgs);
 }
 #endif

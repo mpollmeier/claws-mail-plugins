@@ -24,6 +24,8 @@
 
 #include "prefs_gtk.h"
 
+#include "notification_banner.h"
+
 #ifdef NOTIFICATION_BANNER
 typedef enum {
   NOTIFY_BANNER_SHOW_NEVER = 0,
@@ -40,6 +42,7 @@ typedef struct {
   gboolean         banner_sticky;
   gint             banner_root_x;
   gint             banner_root_y;
+  gboolean         banner_folder_specific;
   gboolean         banner_enable_colors;
   gulong           banner_color_bg;
   gulong           banner_color_fg;
