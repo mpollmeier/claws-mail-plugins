@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 configure.ac;  ) > 0.10.1cvs1.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/gtkhtml2_viewer.c;  ) > 0.10.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs1.patchset
+( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs2.patchset

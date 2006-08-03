@@ -162,14 +162,52 @@ static void gtkhtml2_destroy_viewer(MimeViewer *_viewer)
     	g_free(viewer);
 }
 
+static gchar *make_url(const gchar *url, const gchar *base)
+{
+	if (url == NULL) {
+		return NULL;
+	} else if (strstr(url, "http://") ||
+	    strstr(url, "https://") ||
+	    strstr(url, "ftp://") ||
+	    strstr(url, "sftp://") ||
+	    strstr(url, "mailto:")) {
+		return g_strdup(url);
+	} else if (base == NULL || !strstr(base, "://")) {
+		return g_strdup(url);
+	} else {
+		gchar *prefix = g_strdup(base);
+		gchar *real_base = g_strdup(strstr(base, "://")+3);
+		gchar *result = NULL;
+		gboolean insert_sep = FALSE;
+		*(strstr(prefix, "://")+3) = '\0';
+		if (url[0] == '/') { /* absolute */
+			if (strchr(real_base, '/'))
+				*strchr(real_base, '/') = '\0';
+		} else { /* relative */
+			if (strrchr(real_base, '/'))
+				*(strrchr(real_base, '/')+1) = '\0';
+			else
+				insert_sep = TRUE;
+		}
+		result = g_strdup_printf("%s%s%s%s", prefix, real_base, insert_sep?"/":"", url);
+		g_free(prefix);
+		g_free(real_base);
+		return result;
+	}
+}
+
 /* DESCRIPTION:
  * This callback gets executed if a user clicks a link, that is, if he
  * apparently attempts to move onto another document. Commonly handle
  * this by loading a document in same fashion as gtkhtml2_show_mimepart,
  * or just ignore it. */
 void link_clicked(HtmlDocument *doc, const gchar *url, gpointer data) {
-	if (url)
+	gchar *real_url = make_url(url, ((GtkHtml2Viewer *)data)->base);
+	if (real_url)
+		open_uri(real_url, prefs_common.uri_cmd);
+	else
 		open_uri(url, prefs_common.uri_cmd);
+	g_free(real_url);
 }
 
 
@@ -186,11 +224,12 @@ static void on_url(GtkWidget *widget, const gchar *url, gpointer data)
 	g_return_if_fail(messageview != NULL);
 
 	if (url != NULL) {
-		trimmed_uri = trim_string(url, 60);
+		gchar *real_url = make_url(url, ((GtkHtml2Viewer *)data)->base);
+		trimmed_uri = trim_string(real_url?real_url:url, 60);
 		if (messageview->statusbar)
 			gtk_statusbar_push(GTK_STATUSBAR(messageview->statusbar),
 				   messageview->statusbar_cid, trimmed_uri);
-
+		g_free(real_url);
 		g_free(trimmed_uri);
 	} else {
 		if (messageview->statusbar)
@@ -272,40 +311,6 @@ static void set_base(HtmlDocument *doc, const gchar *url, gpointer data)
 	g_free(viewer->base);
 	viewer->base = g_strdup(url);
 	
-}
-
-static gchar *make_url(const gchar *url, const gchar *base)
-{
-	if (url == NULL) {
-		return NULL;
-	} else if (strstr(url, "http://") ||
-	    strstr(url, "https://") ||
-	    strstr(url, "ftp://") ||
-	    strstr(url, "sftp://") ||
-	    strstr(url, "mailto:")) {
-		return g_strdup(url);
-	} else if (base == NULL || !strstr(base, "://")) {
-		return g_strdup(url);
-	} else {
-		gchar *prefix = g_strdup(base);
-		gchar *real_base = g_strdup(strstr(base, "://")+3);
-		gchar *result = NULL;
-		gboolean insert_sep = FALSE;
-		*(strstr(prefix, "://")+3) = '\0';
-		if (url[0] == '/') { /* absolute */
-			if (strchr(real_base, '/'))
-				*strchr(real_base, '/') = '\0';
-		} else { /* relative */
-			if (strrchr(real_base, '/'))
-				*(strrchr(real_base, '/')+1) = '\0';
-			else
-				insert_sep = TRUE;
-		}
-		result = g_strdup_printf("%s%s%s%s", prefix, real_base, insert_sep?"/":"", url);
-		g_free(prefix);
-		g_free(real_base);
-		return result;
-	}
 }
 
 static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *stream, gpointer data)
@@ -486,7 +491,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	html_view_set_document(HTML_VIEW(viewer->html_view), viewer->html_doc);
 	g_signal_connect(G_OBJECT(viewer->html_doc), "set_base", G_CALLBACK(set_base), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_doc), "request_url", G_CALLBACK(requested_url), viewer);
-	g_signal_connect(G_OBJECT(viewer->html_doc), "link_clicked", G_CALLBACK(link_clicked), NULL);
+	g_signal_connect(G_OBJECT(viewer->html_doc), "link_clicked", G_CALLBACK(link_clicked), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_view),"on_url", G_CALLBACK(on_url), viewer);
 
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
