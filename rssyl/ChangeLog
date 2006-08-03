@@ -1,3 +1,9 @@
+2006-08-03 [colin]	0.6.0cvs1
+
+	* src/feed.c
+		Add base href header for use in Dillo 
+		or gtkhtml2_viewer
+
 2006-08-02 [paul]	0.6.0
 
 	0.6 released

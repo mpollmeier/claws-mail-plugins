@@ -991,12 +991,14 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	if( fitem->text )
 		fprintf(f, "<html><head>"
 				"%s\n"
+				"<base href=\"%s\">\n"
 			        "</head><body>\n"
 				RSSYL_TEXT_START"\n"
 				"%s\n"
 				RSSYL_TEXT_END"\n"
 				"</body></html>",
 				meta_charset ? meta_charset:"",
+				fitem->link,
 				fitem->text);
 
 	if (meta_charset)
