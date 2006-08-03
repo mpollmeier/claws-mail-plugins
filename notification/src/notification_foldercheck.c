@@ -39,6 +39,7 @@
 #include "common/utils.h"
 #include "common/prefs.h"
 #include "common/xml.h"
+#include "common/hooks.h"
 
 /* local includes */
 #include "notification_foldercheck.h"
@@ -76,6 +77,9 @@ static GtkWidget *treeview;
 static GArray *specific_folder_array;
 static guint   specific_folder_array_size;
 
+static guint hook_folder_update;
+
+
 /* defines */
 #define FOLDERCHECK_ARRAY "notification_foldercheck.xml"
 #define foldercheck_get_entry_from_id(id) \
@@ -109,6 +113,8 @@ static gboolean foldercheck_foreach_check(GtkTreeModel*, GtkTreePath*,
 static gboolean foldercheck_foreach_update_to_list(GtkTreeModel*, GtkTreePath*,
 						   GtkTreeIter*, gpointer);
 static gchar *foldercheck_get_array_path(void);
+static gboolean my_folder_update_hook(gpointer, gpointer);
+
 
 /* Creates an entry in the specific_folder_array, and fills it with a new
  * SpecificFolderArrayEntry*. If specific_folder_array already has an entry
@@ -123,6 +129,16 @@ guint notification_register_folder_specific_list(gchar *node_name)
     specific_folder_array = g_array_new(FALSE, FALSE,
 					sizeof(SpecificFolderArrayEntry*));
     specific_folder_array_size = 0;
+
+    /* Register hook for folder update */
+    /* "The hook is registered" is bound to "the array is allocated" */
+    hook_folder_update = hooks_register_hook(FOLDER_UPDATE_HOOKLIST,
+					     my_folder_update_hook, NULL);
+    if(hook_folder_update == (guint) -1) {
+      debug_print("Warning: Failed to register hook to folder update "
+		  "hooklist. "
+		  "Strange things can occur when deleting folders.\n");
+    }
   }
 
   /* Check if we already have such a name. If so, return its id. */
@@ -170,8 +186,13 @@ void notification_free_folder_specific_array(void)
       g_free(entry);
     }
   }
-  if(specific_folder_array)
+  if(specific_folder_array) {
+    /* Free array */
     g_array_free(specific_folder_array, TRUE);
+
+    /* Unregister hook */
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_folder_update);
+  }
   specific_folder_array = NULL;
   specific_folder_array_size = 0;
 }
@@ -909,4 +930,23 @@ void notification_foldercheck_sel_folders_cb(GtkButton *button, gpointer data)
   id = notification_register_folder_specific_list(name);
 
   folder_checked(id);
+}
+
+static gboolean my_folder_update_hook(gpointer source, gpointer data)
+{
+  FolderUpdateData *hookdata = (FolderUpdateData*) source;
+
+  if(hookdata->update_flags & FOLDER_REMOVE_FOLDERITEM) {
+    gint ii;
+    SpecificFolderArrayEntry *entry;
+    FolderItem *item = hookdata->item;
+
+    /* If that folder is in anywhere in the array, cut it out. */
+    for(ii = 0; ii < specific_folder_array_size; ii++) {
+      entry = foldercheck_get_entry_from_id(ii);
+      entry->list = g_slist_remove(entry->list, item);
+    } /* for all entries in the array */
+  } /* A FolderItem was deleted */
+
+  return FALSE;
 }

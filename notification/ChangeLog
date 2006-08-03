@@ -1,3 +1,10 @@
+2006-08-03 [holger]	0.3.0cvs1
+
+	* src/notification_foldercheck.c
+		Make specific folder list safe against deleted
+		folders. Fixes crasher when an already deleted
+		folder was accessed.
+
 2006-08-02 [paul]
 
 	0.3 released

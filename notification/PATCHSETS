@@ -1,2 +1,3 @@
 ( diff -u /dev/null commitHelper;  diff -u /dev/null PATCHSETS;  ) > 0.2.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  ) > 0.2.0cvs2.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/notification_foldercheck.c;  ) > 0.3.0cvs1.patchset
