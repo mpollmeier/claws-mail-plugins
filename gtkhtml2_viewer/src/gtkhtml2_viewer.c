@@ -58,6 +58,7 @@ struct _GtkHtml2Viewer
 	GtkWidget	*scrollwin;
 	HtmlDocument	*html_doc;
 	gchar		*filename;
+	gchar		*base;
 };
 
 static MimeViewerFactory gtkhtml2_viewer_factory;
@@ -92,6 +93,8 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 		g_unlink(viewer->filename);
 		g_free(viewer->filename);
 	}
+	g_free(viewer->base);
+	viewer->base = NULL;
 
 	viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
@@ -198,7 +201,7 @@ static void on_url(GtkWidget *widget, const gchar *url, gpointer data)
 
 #ifdef HAVE_LIBCURL
 struct _GtkHtmlThreadCtx {
-	const gchar *url;
+	gchar *url;
 	gboolean ready;
 };
 
@@ -261,6 +264,49 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	return template;
 }
 #endif
+
+static void set_base(HtmlDocument *doc, const gchar *url, gpointer data)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)data;
+	printf("set base %s\n", url);
+	g_free(viewer->base);
+	viewer->base = g_strdup(url);
+	
+}
+
+static gchar *make_url(const gchar *url, const gchar *base)
+{
+	if (url == NULL) {
+		return NULL;
+	} else if (strstr(url, "http://") ||
+	    strstr(url, "https://") ||
+	    strstr(url, "ftp://") ||
+	    strstr(url, "sftp://") ||
+	    strstr(url, "mailto:")) {
+		return g_strdup(url);
+	} else if (base == NULL || !strstr(base, "://")) {
+		return g_strdup(url);
+	} else {
+		gchar *prefix = g_strdup(base);
+		gchar *real_base = g_strdup(strstr(base, "://")+3);
+		gchar *result = NULL;
+		gboolean insert_sep = FALSE;
+		*(strstr(prefix, "://")+3) = '\0';
+		if (url[0] == '/') { /* absolute */
+			if (strchr(real_base, '/'))
+				*strchr(real_base, '/') = '\0';
+		} else { /* relative */
+			if (strrchr(real_base, '/'))
+				*(strrchr(real_base, '/')+1) = '\0';
+			else
+				insert_sep = TRUE;
+		}
+		result = g_strdup_printf("%s%s%s%s", prefix, real_base, insert_sep?"/":"", url);
+		g_free(prefix);
+		g_free(real_base);
+		return result;
+	}
+}
 
 static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *stream, gpointer data)
 {
@@ -341,9 +387,11 @@ not_found_local:
                         goto fail;
 
 	        debug_print("looking for %s online\n", url);
+		debug_print("using %s base\n", ((GtkHtml2Viewer *)data)->base);
 	        ctx = g_new0(GtkHtmlThreadCtx, 1);
-	        ctx->url = url;
+	        ctx->url = make_url(url, ((GtkHtml2Viewer *)data)->base);
 	        ctx->ready = FALSE;
+		debug_print("final URL: %s\n", ctx->url);
 #ifdef USE_PTHREAD
 	        if( pthread_create(&pt, PTHREAD_CREATE_JOINABLE, gtkhtml_fetch_feed_threaded,
 				        (void *)ctx) != 0 ) {
@@ -367,6 +415,7 @@ not_found_local:
 			if (killed)
 				tmpfile = NULL;
 	        }
+		g_free(ctx->url);
 #else
 	        debug_print("gtkhtml: no pthreads, run blocking fetch\n");
 	        (gchar *)tmpfile = gtkhtml_fetch_feed_threaded(ctx);
@@ -415,6 +464,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->html_doc = html_document_new();
 	viewer->html_view = html_view_new();
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
+	viewer->base      = NULL;
+
 	gtk_scrolled_window_set_policy(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin), 
 			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -433,6 +484,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 			 G_CALLBACK(scrolled_cb), viewer);
 
 	html_view_set_document(HTML_VIEW(viewer->html_view), viewer->html_doc);
+	g_signal_connect(G_OBJECT(viewer->html_doc), "set_base", G_CALLBACK(set_base), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_doc), "request_url", G_CALLBACK(requested_url), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_doc), "link_clicked", G_CALLBACK(link_clicked), NULL);
 	g_signal_connect(G_OBJECT(viewer->html_view),"on_url", G_CALLBACK(on_url), viewer);
@@ -460,6 +512,18 @@ static MimeViewerFactory gtkhtml2_viewer_factory =
 
 gint plugin_init(gchar **error)
 {
+/*	make_url tests - leaky 
+	printf("%s\n", make_url("http://abs_url_w_host", NULL));
+	printf("%s\n", make_url("http://abs_url_w_host", "ftp://base/"));
+	printf("%s\n", make_url("/abs_url", NULL));
+	printf("%s\n", make_url("/abs_url", "ftp://base"));
+	printf("%s\n", make_url("/abs_url", "ftp://base/a"));
+	printf("%s\n", make_url("/abs_url", "ftp://base/a/"));
+	printf("%s\n", make_url("rel_url", NULL));
+	printf("%s\n", make_url("rel_url", "ftp://base"));
+	printf("%s\n", make_url("rel_url", "ftp://base/a/b"));
+	printf("%s\n", make_url("rel_url", "ftp://base/a/b/"));
+*/
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your version of Sylpheed-Claws is newer than the version the gtkhtml2 plugin was built with");
 		return -1;

@@ -1,3 +1,12 @@
+2006-08-03 [colin]	0.10.2cvs1
+
+	* src/gtkhtml2_viewer.c
+		Handle base_url property as
+		given by libgtkhtml2, for use in
+		request_url callback. Why can't
+		libgtkhtml2 handle it by itself
+		is another question.
+
 2006-08-02 [paul]	0.10.2
 
 	0.10.2 released
