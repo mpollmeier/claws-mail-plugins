@@ -24,6 +24,8 @@
 
 #include "procmsg.h"
 
+#define POPUP_SPECIFIC_FOLDER_ID_STR "popup"
+
 void notification_popup_msg(MsgInfo*);
 
 #endif /* NOTIFICATION_POPUP */

@@ -27,7 +27,7 @@
 
 #include "notification_popup.h"
 #include "notification_prefs.h"
-
+#include "notification_foldercheck.h"
 
 typedef struct {
   GtkWidget *window;
@@ -56,8 +56,38 @@ G_LOCK_DEFINE_STATIC(popup);
 
 void notification_popup_msg(MsgInfo *msginfo)
 {
-  if(!notify_config.popup_show || !MSG_IS_NEW(msginfo->flags))
+  if(!msginfo || !notify_config.popup_show || !MSG_IS_NEW(msginfo->flags))
     return;
+
+  if(notify_config.popup_folder_specific) {
+    guint id;
+    GSList *list;
+    gchar *identifier;
+    gboolean found = FALSE;
+
+    if(!(msginfo->folder))
+      return;
+
+    identifier = folder_item_get_identifier(msginfo->folder);
+      
+    id =
+      notification_register_folder_specific_list(POPUP_SPECIFIC_FOLDER_ID_STR);
+    list = notification_foldercheck_get_list(id);
+    for(; (list != NULL) && !found; list = g_slist_next(list)) {
+      gchar *list_identifier;
+      FolderItem *list_item = (FolderItem*) list->data;
+      
+      list_identifier = folder_item_get_identifier(list_item);
+      if(!strcmp2(list_identifier, identifier))
+	found = TRUE;
+
+      g_free(list_identifier);
+    }
+    g_free(identifier);
+
+    if(!found)
+      return;
+  }
 
   G_LOCK(popup);
   if(popup.window)

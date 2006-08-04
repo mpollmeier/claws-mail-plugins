@@ -27,6 +27,7 @@
 
 #include "notification_prefs.h"
 #include "notification_plugin.h"
+#include "notification_popup.h"
 #include "notification_foldercheck.h"
 
 
@@ -62,10 +63,12 @@ typedef struct {
   GtkWidget *popup_show;
   GtkWidget *popup_timeout;
   GtkWidget *popup_sticky;
+  GtkWidget *popup_folder_specific;
   GtkWidget *popup_enable_colors;
   GtkWidget *popup_color_bg;
   GtkWidget *popup_color_fg;
   GtkWidget *popup_cont_enable;
+  GtkWidget *popup_cont_folder_specific;
   GtkWidget *popup_cont_color_sel;
 } NotifyPopupPage;
 NotifyPopupPage popup_page;
@@ -116,6 +119,8 @@ PrefParam notify_param[] = {
    P_INT, NULL, NULL, NULL},
   {"popup_width", "100", &notify_config.popup_width,
    P_INT, NULL, NULL, NULL},
+  {"popup_folder_specific", "FALSE", &notify_config.popup_folder_specific,
+   P_BOOL, NULL, NULL, NULL},
   {"popup_enable_colors", "FALSE", &notify_config.popup_enable_colors, P_BOOL, 
    NULL, NULL, NULL},
   {"popup_color_bg", "0", &notify_config.popup_color_bg, P_COLOR,
@@ -158,6 +163,8 @@ static void notify_popup_set_cb(GtkWidget*, gpointer);
 static void notify_popup_set_done_cb(GtkWidget*, gpointer);
 static void notify_popup_enable_set_sensitivity(GtkToggleButton*, gpointer);
 static void notify_popup_color_sel_set_sensitivity(GtkToggleButton*,gpointer);
+static void notify_popup_folder_specific_set_sensitivity(GtkToggleButton*,
+							 gpointer);
 #endif
 
 #ifdef NOTIFICATION_COMMAND
@@ -588,6 +595,27 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);  
   gtk_widget_show(button);
 
+  /* Check box for enabling folder specific selection */
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  checkbox = gtk_check_button_new_with_label("Only include selected folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.popup_folder_specific);
+  gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_popup_folder_specific_set_sensitivity),
+		   NULL);
+  gtk_widget_show(checkbox);
+  popup_page.popup_folder_specific = checkbox;
+  button = gtk_button_new_with_label("Select folders...");
+  g_signal_connect(G_OBJECT(button), "clicked",
+		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
+		   POPUP_SPECIFIC_FOLDER_ID_STR);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  popup_page.popup_cont_folder_specific = button;
+  gtk_widget_show(button);
+  gtk_widget_show(hbox);
+
   /* Check box for enabling custom colors */
   checkbox = gtk_check_button_new_with_label("Use custom colors");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
@@ -630,6 +658,8 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
     (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors), NULL);
   notify_popup_enable_set_sensitivity
     (GTK_TOGGLE_BUTTON(popup_page.popup_show), NULL);
+  notify_popup_folder_specific_set_sensitivity
+    (GTK_TOGGLE_BUTTON(popup_page.popup_folder_specific), NULL);
   gtk_widget_show(pvbox);
   popup_page.page.widget = pvbox;
 }
@@ -653,7 +683,10 @@ static void notify_save_popup(PrefsPage *page)
   notify_config.popup_enable_colors = 
     gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors));
- 
+  notify_config.popup_folder_specific =
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(popup_page.popup_folder_specific));
+
   /* Color dialogs are a bit more complicated */
   gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page.popup_color_fg),
 			     &color);
@@ -711,6 +744,15 @@ static void notify_popup_color_sel_set_sensitivity(GtkToggleButton *button,
   active = gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors));
   gtk_widget_set_sensitive(popup_page.popup_cont_color_sel, active);
+}
+
+static void notify_popup_folder_specific_set_sensitivity(GtkToggleButton *bu,
+							 gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(popup_page.popup_folder_specific));
+  gtk_widget_set_sensitive(popup_page.popup_cont_folder_specific, active);
 }
 #endif /* NOTIFICATION_POPUP */
 

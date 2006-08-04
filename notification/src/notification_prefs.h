@@ -54,6 +54,7 @@ typedef struct {
   gint             popup_root_x;
   gint             popup_root_y;
   gint             popup_width;
+  gboolean         popup_folder_specific;
   gboolean         popup_enable_colors;
   gulong           popup_color_bg;
   gulong           popup_color_fg;

@@ -55,24 +55,22 @@ enum {
 };
 
 typedef struct {
+  /* Data */
   gchar        *name;
   GSList       *list;
   GtkTreeStore *tree_store;
+  /* Dialog box*/
+  GtkWidget *window;
+  GtkWidget *treeview;
+  gboolean cancelled;
+  gboolean finished;
+  gboolean recursive;
 } SpecificFolderArrayEntry;
 
 /* variables with file scope */ 
 static GdkPixbuf *folder_pixbuf;
 static GdkPixbuf *folderopen_pixbuf;
 static GdkPixbuf *foldernoselect_pixbuf;
-
-static gboolean cancelled;
-static gboolean finished;
-static gboolean recursive;
-
-static GtkWidget *window;
-static GtkWidget *ok_button;
-static GtkWidget *cancel_button;
-static GtkWidget *treeview;
 
 static GArray *specific_folder_array;
 static guint   specific_folder_array_size;
@@ -88,8 +86,8 @@ static guint hook_folder_update;
 
 /* function prototypes */
 static void folder_checked(guint);
-static void foldercheck_create(GtkTreeStore*);
-static void foldercheck_init(void);
+static void foldercheck_create_window(SpecificFolderArrayEntry*);
+static void foldercheck_destroy_window(SpecificFolderArrayEntry*);
 static gint foldercheck_folder_name_compare(GtkTreeModel*, GtkTreeIter*,
 					    GtkTreeIter*, gpointer);
 static gboolean foldercheck_selected(GtkTreeSelection*,
@@ -99,7 +97,7 @@ static gboolean foldercheck_selected(GtkTreeSelection*,
 static gint delete_event(GtkWidget*, GdkEventAny*, gpointer);
 static void foldercheck_ok(GtkButton*, gpointer);
 static void foldercheck_cancel(GtkButton*, gpointer);
-static void foldercheck_set_tree(GtkTreeStore*);
+static void foldercheck_set_tree(SpecificFolderArrayEntry*);
 static void foldercheck_insert_gnode_in_store(GtkTreeStore*, GNode*,
 					      GtkTreeIter*);
 static void foldercheck_append_item(GtkTreeStore*, FolderItem*,
@@ -155,6 +153,11 @@ guint notification_register_folder_specific_list(gchar *node_name)
   entry = g_new(SpecificFolderArrayEntry, 1);
   entry->name = g_strdup(node_name);
   entry->list = NULL;
+  entry->window = NULL;
+  entry->treeview = NULL;
+  entry->cancelled = FALSE;
+  entry->finished  = FALSE;
+  entry->recursive = FALSE;
   entry->tree_store = gtk_tree_store_new(N_FOLDERCHECK_COLUMNS,
 					 G_TYPE_STRING,
 					 G_TYPE_POINTER,
@@ -180,9 +183,10 @@ void notification_free_folder_specific_array(void)
     entry = g_array_index(specific_folder_array,SpecificFolderArrayEntry*,ii);
     if(entry) {
       g_free(entry->name);
-      gtk_tree_store_clear(entry->tree_store);
       if(entry->list)
 	g_slist_free(entry->list);
+      if(entry->tree_store)
+	g_object_unref(G_OBJECT(entry->tree_store));
       g_free(entry);
     }
   }
@@ -211,7 +215,7 @@ GSList* notification_foldercheck_get_list(guint id)
     return NULL;
 }
 
-/* Save selections in a common rc-file. Called when unloading the plugin.
+/* Save selections in a common xml-file. Called when unloading the plugin.
  * This is analog to folder.h::folder_write_list. */
 void notification_foldercheck_write_array(void)
 {
@@ -259,9 +263,9 @@ void notification_foldercheck_write_array(void)
 
     /* Write out the list as leaf nodes */
     for(walk = entry->list; walk != NULL; walk = g_slist_next(walk)) {
-      FolderItem *item = (FolderItem*) walk->data;
       gchar *identifier;
       GNode *node;
+      FolderItem *item = (FolderItem*) walk->data;
 
       identifier = folder_item_get_identifier(item);
 
@@ -287,7 +291,7 @@ void notification_foldercheck_write_array(void)
   xml_free_tree(rootnode);
 }
 
-/* Read selections from a common rc-file. Called when loading the plugin.
+/* Read selections from a common xml-file. Called when loading the plugin.
  * Returns TRUE if data has been read, FALSE if no data is available
  * or an error occured.
  * This is analog to folder.h::folder_read_list. */
@@ -394,20 +398,11 @@ gboolean notification_foldercheck_read_array(void)
 
     } /* for all subnodes in branch */
 
-    /* Now we have the list complete, and need to update the
-       data storage tree */
-    /* Basically, that's the inverse to folder_checked */
-
-
-    foldercheck_set_tree(entry->tree_store);
-    gtk_tree_model_foreach(GTK_TREE_MODEL(entry->tree_store),
-			   foldercheck_foreach_update_to_list, entry);
-
   } /* for all branches */
   return success;
 }
 
-/* Stolen from folder.c. Return value should be freed. */
+/* Stolen from folder.c. Return value should NOT be freed. */
 static gchar *foldercheck_get_array_path(void)
 {
   static gchar *filename = NULL;
@@ -428,25 +423,18 @@ static void folder_checked(guint id)
 
   entry = foldercheck_get_entry_from_id(id);
 
-  if(!window) {
-    foldercheck_create(entry->tree_store);
-    foldercheck_init();
-  }
+  /* Create window */
+  foldercheck_create_window(entry);
+  gtk_widget_show(entry->window);
+  manage_window_set_transient(GTK_WINDOW(entry->window));
 
-  foldercheck_set_tree(entry->tree_store);
-
-  gtk_widget_show(window);
-
-  manage_window_set_transient(GTK_WINDOW(window));
-
-  cancelled = finished = FALSE;
-
-  while(finished == FALSE)
+  entry->cancelled = entry->finished = FALSE;
+  while(entry->finished == FALSE)
     gtk_main_iteration();
   
-  gtk_widget_hide(window);
+  foldercheck_destroy_window(entry);
 
-  if(!cancelled) {
+  if(!entry->cancelled) {
     /* recurse through the whole model, add all selected items to the list */
     gtk_tree_model_foreach(GTK_TREE_MODEL(entry->tree_store),
 			   foldercheck_foreach_check, &checked_list);
@@ -458,36 +446,43 @@ static void folder_checked(guint id)
     entry->list = g_slist_copy(checked_list);
     g_slist_free(checked_list);
   }
+
+  gtk_tree_store_clear(entry->tree_store);
+
+  entry->cancelled = FALSE;
+  entry->finished  = FALSE;
 }
 
 /* Create the window for selecting folders with checkboxes */
-static void foldercheck_create(GtkTreeStore *tree_store)
+static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
 {
   GtkWidget *vbox;
   GtkWidget *scrolledwin;
   GtkWidget *confirm_area;
   GtkWidget *checkbox;
+  GtkWidget *cancel_button;
+  GtkWidget *ok_button;
   GtkTreeSelection *selection;
   GtkTreeViewColumn *column;
   GtkCellRenderer *renderer;
   static GdkGeometry geometry;
 
   /* Create window */
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(window), "Select folder(s)");
-  gtk_container_set_border_width(GTK_CONTAINER(window), 4);
-  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-  gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-  gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+  entry->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(entry->window), "Select folder(s)");
+  gtk_container_set_border_width(GTK_CONTAINER(entry->window), 4);
+  gtk_window_set_position(GTK_WINDOW(entry->window), GTK_WIN_POS_CENTER);
+  gtk_window_set_modal(GTK_WINDOW(entry->window), TRUE);
+  gtk_window_set_policy(GTK_WINDOW(entry->window), FALSE, TRUE, FALSE);
   gtk_window_set_wmclass
-    (GTK_WINDOW(window), "folder_selection", "Sylpheed-Claws");  
-  g_signal_connect(G_OBJECT(window), "delete_event",
-		   G_CALLBACK(delete_event), NULL);
-  MANAGE_WINDOW_SIGNALS_CONNECT(window);
+    (GTK_WINDOW(entry->window), "folder_selection", "Sylpheed-Claws");  
+  g_signal_connect(G_OBJECT(entry->window), "delete_event",
+		   G_CALLBACK(delete_event), entry);
+  MANAGE_WINDOW_SIGNALS_CONNECT(entry->window);
 
   /* vbox */
   vbox = gtk_vbox_new(FALSE, 4);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  gtk_container_add(GTK_CONTAINER(entry->window), vbox);
 
   /* scrolled window */
   scrolledwin = gtk_scrolled_window_new(NULL, NULL);
@@ -497,18 +492,36 @@ static void foldercheck_create(GtkTreeStore *tree_store)
 				      GTK_SHADOW_IN);
   gtk_box_pack_start(GTK_BOX(vbox), scrolledwin, TRUE, TRUE, 0);
 
+  /* pixbufs */
+  if(!folder_pixbuf)
+    stock_pixbuf_gdk(scrolledwin, STOCK_PIXMAP_DIR_CLOSE,
+		     &folder_pixbuf);
+  if(!folderopen_pixbuf)
+    stock_pixbuf_gdk(scrolledwin, STOCK_PIXMAP_DIR_OPEN,
+		     &folderopen_pixbuf);
+  if(!foldernoselect_pixbuf)
+    stock_pixbuf_gdk(scrolledwin, STOCK_PIXMAP_DIR_NOSELECT,
+		     &foldernoselect_pixbuf);
+
+  /* Tree store */
+  foldercheck_set_tree(entry);
+  gtk_tree_model_foreach(GTK_TREE_MODEL(entry->tree_store),
+			 foldercheck_foreach_update_to_list, entry);
+
+
   /* tree view */
-  treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(tree_store));
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), FALSE);
-  gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),
+  entry->treeview =
+    gtk_tree_view_new_with_model(GTK_TREE_MODEL(entry->tree_store));
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(entry->treeview), FALSE);
+  gtk_tree_view_set_search_column(GTK_TREE_VIEW(entry->treeview),
 				  FOLDERCHECK_FOLDERNAME);
 
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(entry->treeview));
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
   gtk_tree_selection_set_select_function(selection, foldercheck_selected,
 					 NULL, NULL);
 
-  gtk_container_add(GTK_CONTAINER(scrolledwin), treeview);
+  gtk_container_add(GTK_CONTAINER(scrolledwin), entry->treeview);
 
   /* --- column 1 --- */
   column = gtk_tree_view_column_new();
@@ -519,14 +532,12 @@ static void foldercheck_create(GtkTreeStore *tree_store)
   renderer = gtk_cell_renderer_toggle_new();
   g_object_set(renderer, "xalign", 0.0, NULL);
   gtk_tree_view_column_pack_start(column, renderer, TRUE);
-  g_signal_connect(renderer, "toggled", G_CALLBACK(folder_toggle_cb),
-		   tree_store);
+  g_signal_connect(renderer, "toggled", G_CALLBACK(folder_toggle_cb),entry);
   gtk_tree_view_column_set_attributes(column, renderer,
-				      "active", FOLDERCHECK_CHECK,
-				      NULL);
+				      "active", FOLDERCHECK_CHECK,NULL);
 
   gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(entry->treeview), column);
 
   /* --- column 2 --- */
   column = gtk_tree_view_column_new();
@@ -551,13 +562,13 @@ static void foldercheck_create(GtkTreeStore *tree_store)
 				      NULL);
 
   gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(entry->treeview), column);
 
   /* recursive */
   checkbox = gtk_check_button_new_with_label("select recursively");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), FALSE);
   g_signal_connect(G_OBJECT(checkbox), "toggled",
-		   G_CALLBACK(foldercheck_recursive_cb), NULL);
+		   G_CALLBACK(foldercheck_recursive_cb), entry);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 10);
 
   gtkut_stock_button_set_create(&confirm_area,
@@ -568,25 +579,35 @@ static void foldercheck_create(GtkTreeStore *tree_store)
   gtk_widget_grab_default(ok_button);
 
   g_signal_connect(G_OBJECT(ok_button), "clicked",
-		   G_CALLBACK(foldercheck_ok), NULL);
+		   G_CALLBACK(foldercheck_ok), entry);
   g_signal_connect(G_OBJECT(cancel_button), "clicked",
-		   G_CALLBACK(foldercheck_cancel), NULL);
+		   G_CALLBACK(foldercheck_cancel), entry);
 
   if(!geometry.min_height) {
     geometry.min_width = 360;
     geometry.min_height = 360;
   }
 
-  gtk_window_set_geometry_hints(GTK_WINDOW(window), NULL, &geometry,
+  gtk_window_set_geometry_hints(GTK_WINDOW(entry->window), NULL, &geometry,
 				GDK_HINT_MIN_SIZE);
 
+  gtk_tree_view_expand_all(GTK_TREE_VIEW(entry->treeview));
+
   gtk_widget_show_all(vbox);
+}
+
+static void foldercheck_destroy_window(SpecificFolderArrayEntry *entry)
+{
+  gtk_widget_destroy(entry->window);
+  entry->window = NULL;
+  entry->treeview = NULL;
+  entry->recursive = FALSE;
 }
 
 /* Handler for the delete event of the windows for selecting folders */
 static gint delete_event(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
-  foldercheck_cancel(NULL, NULL);
+  foldercheck_cancel(NULL, data);
   return TRUE;
 }
 
@@ -637,17 +658,6 @@ static gint foldercheck_folder_name_compare(GtkTreeModel *model,
   return val;
 }
 
-/* Initialize folderselection (stock pixbufs) */
-static void foldercheck_init(void)
-{
-  stock_pixbuf_gdk(treeview, STOCK_PIXMAP_DIR_CLOSE,
-		   &folder_pixbuf);
-  stock_pixbuf_gdk(treeview, STOCK_PIXMAP_DIR_OPEN,
-		   &folderopen_pixbuf);
-  stock_pixbuf_gdk(treeview, STOCK_PIXMAP_DIR_NOSELECT,
-		   &foldernoselect_pixbuf);
-}
-
 /* select_function of the gtk tree selection */
 static gboolean foldercheck_selected(GtkTreeSelection *selection,
 				     GtkTreeModel *model, GtkTreePath *path,
@@ -670,20 +680,24 @@ static gboolean foldercheck_selected(GtkTreeSelection *selection,
 /* Callback for the OK-button of the folderselection dialog */
 static void foldercheck_ok(GtkButton *button, gpointer data)
 {
-  finished = TRUE;
+  SpecificFolderArrayEntry *entry = (SpecificFolderArrayEntry*) data;
+
+  entry->finished = TRUE;
 }
 
 /* Callback for the Cancel-button of the folderselection dialog. Gets also
  * called on a delete-event of the folderselection window. */
 static void foldercheck_cancel(GtkButton *button, gpointer data)
 {
-  cancelled = TRUE;
-  finished  = TRUE;
+  SpecificFolderArrayEntry *entry = (SpecificFolderArrayEntry*) data;
+
+  entry->cancelled = TRUE;
+  entry->finished  = TRUE;
 }
 
 /* Set tree of the tree-store. This includes getting the folder tree and
  * storing it */
-static void foldercheck_set_tree(GtkTreeStore *tree_store)
+static void foldercheck_set_tree(SpecificFolderArrayEntry *entry)
 {
   Folder *folder;
   GList *list;
@@ -692,15 +706,15 @@ static void foldercheck_set_tree(GtkTreeStore *tree_store)
     folder = FOLDER(list->data);
     g_return_if_fail(folder != NULL);
 
-    foldercheck_insert_gnode_in_store(tree_store, folder->node, NULL);
+    foldercheck_insert_gnode_in_store(entry->tree_store, folder->node, NULL);
   }
 
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(tree_store),
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(entry->tree_store),
 				       FOLDERCHECK_FOLDERNAME,
 				       GTK_SORT_ASCENDING);
 
-  if(GTK_IS_TREE_VIEW(treeview))
-     gtk_tree_view_expand_all(GTK_TREE_VIEW(treeview));
+  if(GTK_IS_TREE_VIEW(entry->treeview))
+    gtk_tree_view_expand_all(GTK_TREE_VIEW(entry->treeview));
 }
 
 /* Helper function for foldercheck_set_tree */
@@ -806,7 +820,9 @@ static void foldercheck_append_item(GtkTreeStore *store, FolderItem *item,
 /* Callback of the recursive-checkbox */
 static void foldercheck_recursive_cb(GtkToggleButton *button, gpointer data)
 {
-  recursive = gtk_toggle_button_get_active(button);
+  SpecificFolderArrayEntry *entry = (SpecificFolderArrayEntry*) data;
+
+  entry->recursive = gtk_toggle_button_get_active(button);
 }
 
 /* Callback of the checkboxes corresponding to the folders. Obeys
@@ -816,24 +832,28 @@ static void folder_toggle_cb(GtkCellRendererToggle *cell_renderer,
 {
   gboolean toggle_item;
   GtkTreeIter iter;
-  GtkTreeStore *tree_store = GTK_TREE_STORE(data);
+  SpecificFolderArrayEntry *entry = (SpecificFolderArrayEntry*) data;
   GtkTreePath *path = gtk_tree_path_new_from_string(path_str);
 
-  gtk_tree_model_get_iter(GTK_TREE_MODEL(tree_store), &iter, path);
+  gtk_tree_model_get_iter(GTK_TREE_MODEL(entry->tree_store), &iter, path);
   gtk_tree_path_free(path);
-  gtk_tree_model_get(GTK_TREE_MODEL(tree_store), &iter,
+  gtk_tree_model_get(GTK_TREE_MODEL(entry->tree_store), &iter,
 		     FOLDERCHECK_CHECK, &toggle_item, -1);
   toggle_item = !toggle_item;
 
-  if(!recursive)
-    gtk_tree_store_set(tree_store, &iter, FOLDERCHECK_CHECK, toggle_item, -1);
+  if(!entry->recursive)
+    gtk_tree_store_set(entry->tree_store, &iter,
+		       FOLDERCHECK_CHECK, toggle_item, -1);
   else {
     GtkTreeIter child;
-    gtk_tree_store_set(tree_store, &iter, FOLDERCHECK_CHECK, toggle_item, -1);
-    if(gtk_tree_model_iter_children(GTK_TREE_MODEL(tree_store),&child, &iter))
-      folder_toggle_recurse_tree(tree_store,&child,FOLDERCHECK_CHECK,
-				 toggle_item);
+    gtk_tree_store_set(entry->tree_store, &iter,
+		       FOLDERCHECK_CHECK, toggle_item, -1);
+    if(gtk_tree_model_iter_children(GTK_TREE_MODEL(entry->tree_store),
+				    &child, &iter))
+      folder_toggle_recurse_tree(entry->tree_store,&child,
+				 FOLDERCHECK_CHECK,toggle_item);
   }
+
 }
 
 /* Helper function for folder_toggle_cb */

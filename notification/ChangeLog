@@ -1,3 +1,13 @@
+2006-08-04 [holger]	0.3.0cvs2
+
+	* src/notification_foldercheck.c
+	* src/notification_popup.c
+	* src/notification_popup.h
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Expand folder specific settings to the
+		popup module, and fix several bugs on the way.
+
 2006-08-03 [holger]	0.3.0cvs1
 
 	* src/notification_foldercheck.c
