@@ -168,9 +168,11 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 	ritem = (RSSylFolderItem *)item;
 
 	if (prefs_common.work_offline && 
-	   !inc_offline_should_override(
-	   	_("Sylpheed-Claws needs network access in order "
-		  "to update the feed."))) {
+	   !inc_offline_should_override(ngettext(
+			   "Sylpheed-Claws needs network access in order "
+			   "to update the feed.",
+			   "Sylpheed-Claws needs network access in order "
+			   "to update the feeds.", 1))) {
 			return;
 	}
 
@@ -194,9 +196,11 @@ void rssyl_refresh_all_cb(FolderView *folderview, guint action,
 		GtkWidget *widget)
 {
 	if (prefs_common.work_offline && 
-	    !inc_offline_should_override(
-		_("Sylpheed-Claws needs network access in order "
-		  "to update the feeds."))) {
+	    !inc_offline_should_override(ngettext(
+			    "Sylpheed-Claws needs network access in order "
+			    "to update the feed.",
+			    "Sylpheed-Claws needs network access in order "
+			    "to update the feeds.", 2))) {
 			return;
 	}
 

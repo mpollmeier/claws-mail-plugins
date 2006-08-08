@@ -1,3 +1,12 @@
+2006-08-08 [paul]	0.6.0cvs2
+
+	* src/feed.h
+		fix non-translation of strings
+	* src/rssyl_cb_menu.c
+		use gettext plural forms
+
+	Both patches by "Fabien Vantard" <fzzzzz@gmail.com>
+
 2006-08-03 [colin]	0.6.0cvs1
 
 	* src/feed.c
