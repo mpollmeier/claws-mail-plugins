@@ -38,6 +38,7 @@
 #include "version.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
+#include "main.h"
 #include "menu.h"
 #include "hooks.h"
 
@@ -757,6 +758,8 @@ void acpi_prefs_init(void)
 
 void acpi_prefs_done(void)
 {
+	if (sylpheed_is_exiting())
+		return;
 	prefs_gtk_unregister_page((PrefsPage *) &acpi_prefs_page);
 	hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_id);
 	should_quit = TRUE;
@@ -788,7 +791,7 @@ gint plugin_init(gchar **error)
 				  "version AcpiNotifier was built with"));
 		return -1;
 	}
-	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 139))) {
+	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
 		*error = g_strdup(_("Your Sylpheed-Claws version is too old for AcpiNotifier"));
 		return -1;
 	}
