@@ -1,3 +1,9 @@
+2006-08-09 [colin]	0.10.2cvs4
+
+	* src/gtkhtml2_viewer.c
+		Don't wait for stuff loading if we're
+		exiting. Requires SC 2.4.0cvs36
+
 2006-08-09 [colin]	0.10.2cvs3
 
 	* src/gtkhtml2_viewer.c

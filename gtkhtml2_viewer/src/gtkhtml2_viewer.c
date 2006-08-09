@@ -32,6 +32,7 @@
 #include <libgtkhtml/gtkhtml.h>
 #include "common/sylpheed.h"
 #include "common/version.h"
+#include "main.h"
 #include "plugin.h"
 #include "utils.h"
 #include "mimeview.h"
@@ -143,7 +144,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					got_charset = TRUE; /* hack */
 				
 				g_mutex_lock(viewer->mutex);
-				if (!viewer->stop_previous &&
+				if (!viewer->stop_previous && !sylpheed_is_exiting() &&
 				    strcasestr(buf, "</head>") && got_charset == FALSE) {
 					gchar *meta_charset = g_strdup_printf(
 						"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
@@ -153,7 +154,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					debug_print("injected %s\n", meta_charset);
 					g_free(meta_charset);
 				}
-				if (!viewer->stop_previous)
+				if (!viewer->stop_previous && !sylpheed_is_exiting())
 					html_document_write_stream(viewer->html_doc, buf, loaded);
 				else {
 					g_mutex_unlock(viewer->mutex);
@@ -491,7 +492,7 @@ not_found_local:
 					ctx->ready = TRUE;
 					killed = TRUE;
 				} 
-				if (viewer->stop_previous) {
+				if (viewer->stop_previous || sylpheed_is_exiting()) {
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
 					killed = TRUE;
@@ -522,7 +523,7 @@ found_local:
 		}
 
 		while ((loaded = fread(buffer, 1, sizeof(buffer), fp)) > 0) {
-			if (viewer->stop_previous)
+			if (viewer->stop_previous || sylpheed_is_exiting())
 				break;
 			html_stream_write(stream, buffer, loaded);
 			while (gtk_events_pending())
@@ -642,12 +643,12 @@ gint plugin_init(gchar **error)
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b/"));
 */
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your version of Sylpheed-Claws is newer than the version the gtkhtml2 plugin was built with");
+		*error = g_strdup("Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer plugin was built with");
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 141))) {
-		*error = g_strdup("Your version of Sylpheed-Claws is too old for the gtkhtml2 plugin");
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
+		*error = g_strdup("Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin");
 		return -1;
 	}
 
