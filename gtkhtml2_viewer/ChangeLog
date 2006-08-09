@@ -1,3 +1,13 @@
+2006-08-09 [colin]	0.10.2cvs3
+
+	* src/gtkhtml2_viewer.c
+		- Implement non-blocking I/O (allows switching to 
+		  another mail before images are loaded on the
+		  current one
+		- Add a NoticeView to tell there were images if
+		  they weren't loaded for some reason
+		Please test :)
+
 2006-08-03 [colin]	0.10.2cvs2
 
 	* src/gtkhtml2_viewer.c

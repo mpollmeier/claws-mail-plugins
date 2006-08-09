@@ -59,6 +59,13 @@ struct _GtkHtml2Viewer
 	HtmlDocument	*html_doc;
 	gchar		*filename;
 	gchar		*base;
+	MimeInfo	*mimeinfo;
+	MimeInfo	*to_load;
+	gboolean	 force_image_loading;
+	gint		 tag;
+	gint		 loading;
+	gint		 stop_previous;
+	GMutex		*mutex;
 };
 
 static MimeViewerFactory gtkhtml2_viewer_factory;
@@ -77,16 +84,19 @@ static GtkWidget *gtkhtml2_get_widget(MimeViewer *_viewer)
 	return GTK_WIDGET(viewer->scrollwin);
 }
 
-static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
-				const gchar *infile,
-				MimeInfo *partinfo)
+static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
 	FILE *fp;
 	gchar buf[4096];
 	gint loaded = 0;
 	const gchar *charset = NULL;
+	MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
+					? ((MimeViewer *)viewer)->mimeview->messageview 
+					: NULL;
+	MimeInfo *partinfo = viewer->to_load;
 
+	viewer->loading = 1;
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
@@ -94,10 +104,17 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 		g_free(viewer->filename);
 	}
 	g_free(viewer->base);
+
 	viewer->base = NULL;
+	viewer->mimeinfo = NULL;
+	if (messageview) {
+		NoticeView *noticeview = messageview->noticeview;
+		noticeview_hide(noticeview);
+	}
 
 	viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
+
 	if (!(procmime_get_part(viewer->filename, partinfo) < 0)) {
 
 		if (_viewer && _viewer->mimeview &&
@@ -109,14 +126,14 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 			charset = conv_get_locale_charset_str();
 
 		debug_print("using charset %s\n", charset);
-
+		
 		if (html_document_open_stream(viewer->html_doc, "text/html")) {
 			gboolean got_charset = FALSE;
 			fp = fopen(viewer->filename, "r");
 
 			if (fp == NULL) {
 				html_document_close_stream(viewer->html_doc);
-				return;
+				goto out;
 			}
 
 			while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
@@ -124,7 +141,10 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 				    strcasestr(buf, "http-equiv") &&
 				    strcasestr(buf, "charset"))
 					got_charset = TRUE; /* hack */
-				if (strcasestr(buf, "</head>") && got_charset == FALSE) {
+				
+				g_mutex_lock(viewer->mutex);
+				if (!viewer->stop_previous &&
+				    strcasestr(buf, "</head>") && got_charset == FALSE) {
 					gchar *meta_charset = g_strdup_printf(
 						"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
 						charset);
@@ -133,15 +153,70 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 					debug_print("injected %s\n", meta_charset);
 					g_free(meta_charset);
 				}
-
-				html_document_write_stream(viewer->html_doc, buf, loaded);
+				if (!viewer->stop_previous)
+					html_document_write_stream(viewer->html_doc, buf, loaded);
+				else {
+					g_mutex_unlock(viewer->mutex);
+					break;
+				}
+				g_mutex_unlock(viewer->mutex);
 				if (gtk_events_pending())
 					gtk_main_iteration();
 			}
 			fclose(fp);
 			html_document_close_stream(viewer->html_doc);
+			viewer->mimeinfo = partinfo;
 		}
 	}
+	g_mutex_lock(viewer->mutex);
+out:
+	viewer->tag = -1;
+	viewer->loading = 0;
+	viewer->stop_previous = FALSE;
+	viewer->force_image_loading = FALSE;	
+	g_mutex_unlock(viewer->mutex);
+	return FALSE;
+}
+
+static gint gtkhtml2_show_mimepart_prepare(MimeViewer *_viewer)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
+
+	if (!g_mutex_trylock(viewer->mutex)) {
+		if (viewer->loading)
+			viewer->stop_previous = TRUE;
+		return TRUE;
+	}
+
+	if (viewer->tag > 0) {
+		gtk_timeout_remove(viewer->tag);
+		viewer->tag = -1;
+		if (viewer->loading) {
+			viewer->stop_previous = TRUE;
+		}
+	}
+	if (viewer->stop_previous) {
+		g_mutex_unlock(viewer->mutex);
+		return TRUE;
+	}
+	viewer->tag = gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_real, viewer);
+	g_mutex_unlock(viewer->mutex);
+	return FALSE;
+}
+
+static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
+				const gchar *infile,
+				MimeInfo *partinfo)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
+	viewer->to_load = partinfo;
+	gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_prepare, viewer);
+}
+
+static void reload_with_img(NoticeView *noticeview, GtkHtml2Viewer *viewer)
+{
+	viewer->force_image_loading = TRUE;
+	gtkhtml2_show_mimepart((MimeViewer *)viewer, NULL, viewer->mimeinfo);
 }
 
 static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
@@ -307,7 +382,6 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 static void set_base(HtmlDocument *doc, const gchar *url, gpointer data)
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)data;
-	printf("set base %s\n", url);
 	g_free(viewer->base);
 	viewer->base = g_strdup(url);
 	
@@ -325,6 +399,8 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	char buffer[4096];
 	time_t start_time = time(NULL);
 	gboolean killed = FALSE;
+	gboolean remote_not_loaded = FALSE;
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)data;
 
 	if (!url)
 		goto fail;
@@ -388,11 +464,13 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 		goto found_local;
 
 not_found_local:
-                if (gtkhtml_prefs.local || prefs_common.work_offline)
+                if (!viewer->force_image_loading && (gtkhtml_prefs.local || prefs_common.work_offline)) {
+			remote_not_loaded = TRUE;
                         goto fail;
+		}
 
 	        debug_print("looking for %s online\n", url);
-		debug_print("using %s base\n", ((GtkHtml2Viewer *)data)->base);
+		debug_print("using %s base\n", viewer->base);
 	        ctx = g_new0(GtkHtmlThreadCtx, 1);
 	        ctx->url = make_url(url, ((GtkHtml2Viewer *)data)->base);
 	        ctx->ready = FALSE;
@@ -412,7 +490,12 @@ not_found_local:
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
 					killed = TRUE;
-				}
+				} 
+				if (viewer->stop_previous) {
+					pthread_cancel(pt);
+					ctx->ready = TRUE;
+					killed = TRUE;
+				} 
 			}
 		        debug_print("gtkhtml: thread finished\n");
 
@@ -439,6 +522,8 @@ found_local:
 		}
 
 		while ((loaded = fread(buffer, 1, sizeof(buffer), fp)) > 0) {
+			if (viewer->stop_previous)
+				break;
 			html_stream_write(stream, buffer, loaded);
 			while (gtk_events_pending())
 				gtk_main_iteration();
@@ -449,6 +534,29 @@ found_local:
 	g_free(ctx);
 #endif
 fail:
+	if (remote_not_loaded) {
+		MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
+						? ((MimeViewer *)viewer)->mimeview->messageview 
+						: NULL;
+		if (messageview) {
+			gchar *text = NULL;
+			NoticeView *noticeview = messageview->noticeview;
+			if (gtkhtml_prefs.local) {
+				text = _("Remote images exist, but weren't loaded\naccording to your preferences.");
+			} else if (prefs_common.work_offline) {
+				text = _("Remote images exist, but weren't loaded\nbecause you are offline.");
+			} else {
+				text = _("Remote images exist, but loading them failed.");
+			}
+			noticeview_set_text(noticeview, text);
+			noticeview_set_button_text(noticeview, _("Load images"));
+			noticeview_set_button_press_callback(noticeview,
+				     G_CALLBACK(reload_with_img), (gpointer)viewer);
+
+			noticeview_set_2ndbutton_text(noticeview, NULL);
+			noticeview_show(noticeview);
+		}
+	}
 	html_stream_close(stream);
 }
 
@@ -470,6 +578,10 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->html_view = html_view_new();
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	viewer->base      = NULL;
+	viewer->mimeinfo  = NULL;
+	viewer->force_image_loading = FALSE;
+	viewer->tag       = -1;
+	viewer->mutex     = g_mutex_new();
 
 	gtk_scrolled_window_set_policy(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin), 
