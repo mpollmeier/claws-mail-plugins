@@ -1,3 +1,9 @@
+2006-08-13 [colin]	1.79.2cvs1
+
+	* src/vcal_meeting_gtk.c
+		Fix account selection offset when there's
+		NNTP accounts
+
 2006-08-02 [paul]	1.79.2
 
 	1.79.2 released

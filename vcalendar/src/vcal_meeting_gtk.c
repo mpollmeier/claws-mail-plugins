@@ -534,7 +534,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	GtkWidget *date_hbox, *date_vbox, *save_hbox, *label, *vbox, *hbox;
 	gchar *s = NULL;
 	GtkObject *start_h_adj, *start_m_adj, *end_h_adj, *end_m_adj;
-	int i = 0, decs = -1, dece = -1, num = 0, less = 0;
+	int i = 0, decs = -1, dece = -1, num = 0;
 	
 	GList *accounts;
 	
@@ -721,11 +721,10 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	accounts = account_get_list();
 	g_return_val_if_fail(accounts != NULL, NULL);
 
-	for (i = 0; accounts != NULL; accounts = accounts->next, i++) {
+	for (i = 0; accounts != NULL; accounts = accounts->next) {
 		PrefsAccount *ac = (PrefsAccount *)accounts->data;
 		
 		if (ac->protocol == A_NNTP) {
-			less ++;
 			continue;
 		}
 		if (!event && ac == cur_account) {
@@ -746,8 +745,9 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 
 		gtk_combo_box_append_text(GTK_COMBO_BOX(meet->who), s);
 		g_free(s);
+		i++;
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(meet->who), num-less);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(meet->who), num);
 	
 	save_hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
