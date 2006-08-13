@@ -987,9 +987,10 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *attendees = NULL;
 	enum icalparameter_partstat status;
 	gchar *prefix = NULL;
+	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;	
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
-	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;
+
 	conv_encode_header(subject, 511, event->summary, strlen(event->summary), FALSE);
 	
 	if (is_pseudo_display) {

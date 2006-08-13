@@ -1,3 +1,9 @@
+2006-08-13 [wwp]	1.79.2cvs2
+
+	* src/vcal_manager.c
+		fix strict ISO C90 compliance (and thus, compiling w/ gcc 2.x).
+		Patch by Pawel Pekala <c0rn@o2.pl>.
+
 2006-08-13 [colin]	1.79.2cvs1
 
 	* src/vcal_meeting_gtk.c
