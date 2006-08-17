@@ -1,3 +1,11 @@
+2006-08-17 [colin]	1.79.2cvs3
+
+	* src/vcal_manager.c
+		Fix header encoding - header_len is the length
+		of the prefixing header name, like 'Subject: ',
+		not the actual content's length. Fixes infinite
+		loops in codeconversion.
+
 2006-08-13 [wwp]	1.79.2cvs2
 
 	* src/vcal_manager.c

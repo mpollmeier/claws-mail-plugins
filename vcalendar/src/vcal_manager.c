@@ -991,7 +991,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
 
-	conv_encode_header(subject, 511, event->summary, strlen(event->summary), FALSE);
+	conv_encode_header(subject, 511, event->summary, strlen("Subject: "), FALSE);
 	
 	if (is_pseudo_display) {
 		struct icaltimetype itt = (icaltime_from_string(event->dtstart));
@@ -1062,12 +1062,12 @@ static gchar *write_headers(PrefsAccount 	*account,
 	else
 		method_str = "REQUEST";		
 	
-	conv_encode_header_full(enc_prefix, sizeof(enc_prefix), prefix, strlen(prefix), 
+	conv_encode_header_full(enc_prefix, sizeof(enc_prefix), prefix, strlen("Subject: "), 
 			FALSE, conv_get_outgoing_charset_str());
-	conv_encode_header_full(enc_subject, sizeof(enc_subject), subject, strlen(subject), 
+	conv_encode_header_full(enc_subject, sizeof(enc_subject), subject, strlen("Subject: "), 
 			FALSE, conv_get_outgoing_charset_str());
 	from = is_reply?account->name:(event->orgname?event->orgname:"");
-	conv_encode_header_full(enc_from, sizeof(enc_from), from, strlen(from), 
+	conv_encode_header_full(enc_from, sizeof(enc_from), from, strlen("From: "), 
 			TRUE, conv_get_outgoing_charset_str());
 
 	result = g_strdup_printf("%s"
@@ -1141,7 +1141,7 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 		get_rfc822_date(date, sizeof(date));
 	}
 
-	conv_encode_header(subject, 511, summary, strlen(summary), FALSE);
+	conv_encode_header(subject, 511, summary, strlen("Subject: "), FALSE);
 			
 	method_str = "PUBLISH";
 					
