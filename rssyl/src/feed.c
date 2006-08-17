@@ -943,7 +943,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	if( fitem->author ) {
 		if (g_utf8_validate(fitem->author, -1, NULL)) {
 			conv_encode_header_full(tmp, 511, fitem->author, 
-				strlen(fitem->author), TRUE, CS_UTF_8);
+				strlen("From: "), TRUE, CS_UTF_8);
 			fprintf(f, "From: %s\n", tmp);
 		} else
 			fprintf(f, "From: %s\n", fitem->author);
@@ -951,7 +951,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	if( fitem->title ) {
 		if (g_utf8_validate(fitem->title, -1, NULL)) {
 			conv_encode_header_full(tmp, 511, fitem->title, 
-				strlen(fitem->author), FALSE, CS_UTF_8);
+				strlen("Subject: "), FALSE, CS_UTF_8);
 			fprintf(f, "Subject: %s\n", tmp);
 		} else
 			fprintf(f, "Subject: %s\n", fitem->title);

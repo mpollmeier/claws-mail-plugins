@@ -1,3 +1,11 @@
+2006-08-17 [colin]	0.6.0cvs3
+
+	* src/feed.c
+		Fix header encoding - header_len is the length
+		of the prefixing header name, like 'Subject: ',
+		not the actual content's length. Fixes infinite
+		loops in codeconversion.
+
 2006-08-08 [paul]	0.6.0cvs2
 
 	* src/feed.h
