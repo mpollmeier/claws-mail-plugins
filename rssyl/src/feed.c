@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 
 #include <curl/curl.h>
+#include <curl/curlver.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include <pthread.h>
@@ -64,6 +65,7 @@ struct _RSSylThreadCtx {
 	gboolean defer_modified_check;
 	gboolean ready;
 	gint timeout;
+	gchar *error;
 };
 
 typedef struct _RSSylThreadCtx RSSylThreadCtx;
@@ -75,7 +77,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	CURLcode res;
 	time_t last_modified;
 	gchar *time_str = NULL;
-	gint response_code;
+	long response_code;
 
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, RSSYL_TMP_TEMPLATE, NULL);
@@ -97,6 +99,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	f = fdopen(fd, "w");
 	if (f == NULL) {
 		perror("fdopen");
+		ctx->error = g_strdup(_("Cannot open temporary file"));
 		ctx->ready = TRUE;
 		g_unlink(template);
 		g_free(template);
@@ -107,6 +110,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 
 	if (eh == NULL) {
 		g_warning("can't init curl");
+		ctx->error = g_strdup(_("Cannot init libCURL"));
 		ctx->ready = TRUE;
 		g_unlink(template);
 		g_free(template);
@@ -121,13 +125,12 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
-/*
-#ifndef USE_PTHREAD
-	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
-#endif
-*/
 	curl_easy_setopt(eh, CURLOPT_TIMEOUT, rssyl_prefs_get()->timeout);
 	curl_easy_setopt(eh, CURLOPT_NOSIGNAL, 1);
+#if LIBCURL_VERSION_NUM >= 0x070a00
+	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0);
+#endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
@@ -149,6 +152,13 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			
 	res = curl_easy_perform(eh);
 
+	if (res != 0) {
+		ctx->error = g_strdup(curl_easy_strerror(res));
+		ctx->ready = TRUE;
+		g_unlink(template);
+		g_free(template);
+		return NULL;
+	}
 	curl_easy_getinfo(eh, CURLINFO_RESPONSE_CODE, &response_code);
 
 	if( !ctx->defer_modified_check ) {
@@ -171,9 +181,23 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 
 	fclose(f);
 
-	if( response_code == 404 ) {
-		/* TODO: show an error dialog */
-		debug_print("RSSyl: got 404 (notfound)");
+	if( response_code >= 400 && response_code < 500 ) {
+		debug_print("RSSyl: got %d\n", response_code);
+		switch(response_code) {
+			case 401: 
+				ctx->error = g_strdup(_("401 (Authorisation required)"));
+				break;
+			case 403:
+				ctx->error = g_strdup(_("403 (Unauthorised)"));
+				break;
+			case 404:
+				ctx->error = g_strdup(_("404 (Not found)"));
+				break;
+			default:
+				ctx->error = g_strdup_printf(_("Error %d"), response_code);
+				break;
+		}
+		ctx->ready = TRUE;
 		g_unlink(template);
 		g_free(template);
 		return NULL;
@@ -201,7 +225,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
  * it for title, create a directory based on the title. It returns a xmlDocPtr
  * for libxml2 to parse further.
  */
-xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) {
+xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, gchar **error) {
 	gchar *xpath, *rootnode, *dir;
 	xmlDocPtr doc;
 	xmlNodePtr node, n, rnode;
@@ -276,6 +300,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title) 
 #endif
 
 	defer_modified_check = ctx->defer_modified_check;
+
+	if (error)
+		*error = ctx->error;
+
 	g_free(ctx);
 	STATUSBAR_POP(mainwin);
 
@@ -1103,7 +1131,7 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 				gchar *title;
 				if (fitem->comments_link) {
 					debug_print("RSSyl: fetching comments '%s'\n", fitem->comments_link);
-					doc = rssyl_fetch_feed(fitem->comments_link, ritem->item.mtime, &title);
+					doc = rssyl_fetch_feed(fitem->comments_link, ritem->item.mtime, &title, NULL);
 					rssyl_parse_feed(doc, ritem, fitem->link);
 					xmlFreeDoc(doc);
 					g_free(title);
@@ -1122,7 +1150,7 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 {
 	gchar *title = NULL, *dir = NULL;
 	xmlDocPtr doc = NULL;
-
+	gchar *error = NULL;
 	g_return_if_fail(ritem != NULL);
 
 	if( !ritem->url )
@@ -1131,7 +1159,12 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 
 	log_print(RSSYL_LOG_UPDATING, ritem->url);
 
-	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title);
+	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title, &error);
+
+	if (error) {
+		log_error(_("RSSyl: Cannot update feed %s:\n%s\n"), ritem->url, error);
+	}
+	g_free(error);
 
 	if (doc && title) {
 		gchar *dir2, *tmp;
@@ -1259,6 +1292,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	gchar *myurl = NULL;
 	g_return_val_if_fail(parent != NULL, FALSE);
 	g_return_val_if_fail(url != NULL, FALSE);
+	gchar *error = NULL;
 
 	myurl = g_strdup(url);
 
@@ -1276,13 +1310,17 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 		return FALSE;
 	}
 
-	doc = rssyl_fetch_feed(myurl, -1, &title);
+	doc = rssyl_fetch_feed(myurl, -1, &title, &error);
 	if( !title ) {
 		if (verbose)
-			alertpanel_error(_("Couldn't fetch URL '%s'."), myurl);
+			alertpanel_error(_("Couldn't fetch URL '%s':\n%s"), myurl, error ? error:_("Unknown error"));
+		else
+			log_error(_("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
 		g_free(myurl);
+		g_free(error);
 		return FALSE;
 	}
+	g_free(error);
 
 	new_item = folder_create_folder(parent, title);
 	if( !new_item ) {

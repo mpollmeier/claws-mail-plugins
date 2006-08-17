@@ -1,3 +1,10 @@
+2006-08-17 [colin]	0.6.0cvs4
+
+	* src/feed.c
+	* src/feed.h
+		Don't check SSL certificate (CURL default changed since 7.10)
+		Better error report
+
 2006-08-17 [colin]	0.6.0cvs3
 
 	* src/feed.c

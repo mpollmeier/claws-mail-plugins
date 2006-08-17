@@ -20,3 +20,4 @@
 ( cvs diff -u -r 1.1.2.42 -r 1.1.2.43 src/feed.c;  ) > 0.6.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/feed.h;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/rssyl_cb_menu.c;  ) > 0.6.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.43 -r 1.1.2.44 src/feed.c;  ) > 0.6.0cvs3.patchset
+( cvs diff -u -r 1.1.2.44 -r 1.1.2.45 src/feed.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/feed.h;  ) > 0.6.0cvs4.patchset
