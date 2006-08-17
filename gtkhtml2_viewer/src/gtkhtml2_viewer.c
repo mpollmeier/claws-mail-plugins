@@ -48,6 +48,7 @@
 #endif
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
+#include <curl/curlver.h>
 #endif
 
 typedef struct _GtkHtml2Viewer GtkHtml2Viewer;
@@ -363,6 +364,10 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
 #ifndef USE_PTHREAD
 	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+#endif
+#if LIBCURL_VERSION_NUM >= 0x070a00
+	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0);
 #endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Sylpheed-Claws GtkHtml2 plugin "PLUGINVERSION
