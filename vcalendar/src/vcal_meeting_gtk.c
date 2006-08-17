@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <curl/curl.h>
+#include <curl/curlver.h>
 
 #include "utils.h"
 #include "vcalendar.h"
@@ -1073,6 +1074,10 @@ putfile:
 			curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
 			curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);
 			curl_easy_setopt(curl_ctx, CURLOPT_HTTPHEADER, headers);
+#if LIBCURL_VERSION_NUM >= 0x070a00
+			curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
+#endif
 			curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
 				"Sylpheed-Claws vCalendar plugin "
 				"(http://claws.sylpheed.org/plugins.php)");

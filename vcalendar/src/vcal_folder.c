@@ -32,6 +32,7 @@
 #include <unistd.h>
 #include "gettext.h"
 #include <curl/curl.h>
+#include <curl/curlver.h>
 
 #include "account.h"
 #include "utils.h"
@@ -65,6 +66,7 @@
 typedef struct _thread_data {
 	const gchar *url;
 	gchar *result;
+	gchar *error;
 	gboolean done;
 } thread_data;
 
@@ -845,7 +847,7 @@ static int curl_recv(void *buf, size_t size, size_t nmemb, void *stream)
 	struct CBuf *buffer = (struct CBuf *)stream;
 	gchar *tmp = NULL;
 	gchar tmpbuf[size*nmemb + 1];
-	
+
 	memcpy(tmpbuf, buf, size*nmemb);
 	tmpbuf[size*nmemb] = '\0';
 
@@ -863,8 +865,9 @@ static int curl_recv(void *buf, size_t size, size_t nmemb, void *stream)
 void *url_read_thread(void *data)
 {
 	thread_data *td = (thread_data *)data;
-
+	CURLcode res;
 	CURL *curl_ctx = NULL;
+	long response_code;
 	struct CBuf buffer = { NULL };
 
 #ifdef USE_PTHREAD
@@ -880,11 +883,39 @@ void *url_read_thread(void *data)
 #ifndef USE_PTHREAD
 	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
 #endif
+#if LIBCURL_VERSION_NUM >= 0x070a00
+	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
+#endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
 		"Sylpheed-Claws vCalendar plugin "
 		"(http://claws.sylpheed.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
-	curl_easy_perform(curl_ctx);
+	res = curl_easy_perform(curl_ctx);
+	
+	if (res != 0) {
+		printf("res %d %s\n", res, curl_easy_strerror(res));
+		td->error = g_strdup(curl_easy_strerror(res));
+	}
+
+	curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
+	if( response_code >= 400 && response_code < 500 ) {
+		debug_print("VCalendar: got %d\n", response_code);
+		switch(response_code) {
+			case 401: 
+				td->error = g_strdup(_("401 (Authorisation required)"));
+				break;
+			case 403:
+				td->error = g_strdup(_("403 (Unauthorised)"));
+				break;
+			case 404:
+				td->error = g_strdup(_("404 (Not found)"));
+				break;
+			default:
+				td->error = g_strdup_printf(_("Error %d"), response_code);
+				break;
+		}
+	}
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {
 		td->result = g_strdup(buffer.str);
@@ -896,7 +927,7 @@ void *url_read_thread(void *data)
 }
 
 static void url_read(const char *url, gboolean verbose, 
-	void (*callback)(const gchar *url, gchar *data, gboolean verbose))
+	void (*callback)(const gchar *url, gchar *data, gboolean verbose, gchar *error))
 {
 	gchar *result;
 	thread_data *td;
@@ -907,7 +938,7 @@ static void url_read(const char *url, gboolean verbose,
 	void *res;
 	time_t start_time;
 	gboolean killed;
-
+	gchar *error = NULL;
 	result = NULL;
 	td = g_new0(thread_data, 1);
 	msg = NULL;
@@ -946,13 +977,13 @@ static void url_read(const char *url, gboolean verbose,
 #endif
 	
 	result = td->result;
-	
+	error = td->error;
 	g_free(td);
 	
 	STATUSBAR_POP(mainwindow_get_mainwindow());
 
 	if (callback)
-		callback(url, killed?NULL:result, verbose);
+		callback(url, killed?NULL:result, verbose, error);
 }
 
 static gboolean folder_item_find_func(GNode *node, gpointer data)
@@ -1006,7 +1037,7 @@ static gchar *feed_get_title(const gchar *str)
 	return title;
 }
 
-static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean verbose)
+static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean verbose, gchar *error)
 {
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	FolderItem *item = NULL;
@@ -1015,44 +1046,52 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 	if (root == NULL) {
 		g_warning("can't get root folder\n");
 		g_free(feed);
+		if (error)
+			g_free(error);
 		return;
 	}
 
 	if (feed == NULL) {
 		if (verbose && manual_update) {
-			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s"),
-					uri);
+			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n%s"),
+					uri, error ? error:_("Unknown error"));
 			alertpanel_error(buf);
 			g_free(buf);
 		} else  {
-			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n"),
-					uri);
+			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n%s\n"),
+					uri, error ? error:_("Unknown error"));
 			log_error(buf);
 			g_free(buf);
 		}
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 		g_free(feed);
+		if (error)
+			g_free(error);
 		return;
 	}
 	if (strncmp(feed, "BEGIN:VCALENDAR", strlen("BEGIN:VCALENDAR"))) {
 		if (verbose && manual_update) {
 			gchar *buf = g_strdup_printf(
-					_("This URL does not look like a WebCal URL:\n%s"),
-					uri);
+					_("This URL does not look like a WebCal URL:\n%s\n%s"),
+					uri, error ? error:_("Unknown error"));
 			alertpanel_error(buf);
 			g_free(buf);
 		} else  {
 			gchar *buf = g_strdup_printf(
-					_("This URL does not look like a WebCal URL:\n%s\n"),
-					uri);
+					_("This URL does not look like a WebCal URL:\n%s\n%s\n"),
+					uri, error ? error:_("Unknown error"));
 			log_error(buf);
 			g_free(buf);
 		}
 		g_free(feed);
 		main_window_cursor_normal(mainwindow_get_mainwindow());
+		if (error)
+			g_free(error);
 		return;
 	}
 	
+	if (error)
+		g_free(error);
 	item = get_folder_item_for_uri(uri);
 	if (item == NULL) {
 		gchar *title = feed_get_title(feed);

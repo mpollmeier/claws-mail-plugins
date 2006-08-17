@@ -1,3 +1,10 @@
+2006-08-17 [colin]	1.79.2cvs4
+
+	* src/vcal_folder.c
+	* src/vcal_meeting_gtk.c
+		Don't check SSL certificate (CURL default changed since 7.10)
+                Better error report
+
 2006-08-17 [colin]	1.79.2cvs3
 
 	* src/vcal_manager.c
