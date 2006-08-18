@@ -1,3 +1,9 @@
+2006-08-18 [paul]	1.0.2cvs2
+
+	* configure.ac
+		bump up GLib and GTK+ minimum required versions,
+		following Claws
+
 2006-08-09 [colin]	1.0.2cvs1
 
 	* src/acpi_notifier.c
