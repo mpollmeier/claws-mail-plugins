@@ -1,3 +1,9 @@
+2006-08-18 [paul]	1.79.2cvs5
+
+	* configure.ac
+		bump up GLib and GTK+ minimum required versions,
+		following Claws
+
 2006-08-17 [colin]	1.79.2cvs4
 
 	* src/vcal_folder.c
