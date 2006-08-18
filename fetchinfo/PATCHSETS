@@ -1,2 +1,3 @@
 ( diff -u /dev/null commitHelper;  diff -u /dev/null PATCHSETS;  cvs diff -u -r 1.7.2.13 -r 1.7.2.14 configure.ac;  ) > 0.4.14cvs1.patchset
 ( cvs diff -u -r 1.7.2.14 -r 1.7.2.15 configure.ac;  cvs diff -u -r 1.2.2.5 -r 1.2.2.6 src/Makefile.am;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/.cvsignore;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  cvs diff -u -r 1.4.2.7 -r 1.4.2.8 src/fetchinfo_plugin.c;  cvs diff -u -r 1.3.2.6 -r 1.3.2.7 src/fetchinfo_plugin_gtk.c;  ) > 0.4.14cvs2.patchset
+( cvs diff -u -r 1.7.2.16 -r 1.7.2.17 configure.ac;  ) > 0.4.15cvs1.patchset

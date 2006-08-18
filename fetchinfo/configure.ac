@@ -8,7 +8,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=15
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -60,14 +60,14 @@ AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 #
 # Check for GLib
 #
-AM_PATH_GLIB_2_0(2.4.0,,
+AM_PATH_GLIB_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
         gmodule gobject gthread)
 
 #
 # Check for GTK
 #
-AM_PATH_GTK_2_0(2.4.0,,
+AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
 AC_ARG_WITH(sylpheed-dir, [  --with-sylpheed-dir=DIR     Directory of the sylpheed source directory],
