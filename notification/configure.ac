@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=3
 MICRO_VERSION=0
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -53,11 +53,11 @@ AC_SUBST(SYLPHEED_CLAWS_LIBS)
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
 dnl Check for GLib
-AM_PATH_GLIB_2_0(2.4.0,,
+AM_PATH_GLIB_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GLIB failed.),
         gmodule gobject gthread)
 
-AM_PATH_GTK_2_0(2.4.0,,
+AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed.))
 
 dnl Popup for new email
