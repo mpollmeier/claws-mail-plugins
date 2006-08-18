@@ -1,3 +1,9 @@
+2006-08-18 [paul]	0.10.2cvs6
+
+	* configure.ac
+		bump up GLib and GTK+ minimum required versions,
+		following Claws
+
 2006-08-17 [colin]	0.10.2cvs5
 
 	* src/gtkhtml2_viewer.c
