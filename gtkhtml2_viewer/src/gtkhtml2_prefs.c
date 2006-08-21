@@ -38,22 +38,29 @@
 #include "prefs.h"
 #include "prefs_gtk.h"
 #include "prefswindow.h"
+#include "alertpanel.h"
 
 #include "gtkhtml2_prefs.h"
 
 #define PREFS_BLOCK_NAME "gtkhtml2"
 
 GtkHtmlBrowserPrefs gtkhtml_prefs;
+void gtkhtml2_viewer_clear_cache(void);
 
 typedef struct _GtkHtmlBrowserPage GtkHtmlBrowserPage;
 
 struct _GtkHtmlBrowserPage {
         PrefsPage page;
         GtkWidget *local;
+	GtkWidget *cache_images;
+	GtkWidget *clear_cache;
+	GtkWidget *empty_cache;
 };
 
 static PrefParam param[] = {
         {"local_browse", "TRUE", &gtkhtml_prefs.local, P_BOOL, NULL, NULL, NULL},
+        {"cache_images", "TRUE", &gtkhtml_prefs.cache_images, P_BOOL, NULL, NULL, NULL},
+        {"clear_cache", "TRUE", &gtkhtml_prefs.clear_cache, P_BOOL, NULL, NULL, NULL},
         {0,0,0,0,0,0,0}
 };
 
@@ -93,27 +100,94 @@ void gtkhtml_prefs_done(void)
         prefs_gtk_unregister_page((PrefsPage *) &gtkhtml_prefs_page);
 }
 
+static void local_checkbox_toggled(GtkToggleButton *button,
+					  gpointer user_data)
+{
+	gboolean active = gtk_toggle_button_get_active(button);
+        GtkHtmlBrowserPage *prefs_page = (GtkHtmlBrowserPage *) user_data;
+
+	gtk_widget_set_sensitive(prefs_page->cache_images, active);
+	
+	active &= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->cache_images));
+	gtk_widget_set_sensitive(prefs_page->clear_cache, active);
+}
+
+static void cache_images_checkbox_toggled(GtkToggleButton *button,
+					  gpointer user_data)
+{
+	gboolean active = gtk_toggle_button_get_active(button);
+        GtkHtmlBrowserPage *prefs_page = (GtkHtmlBrowserPage *) user_data;
+
+	gtk_widget_set_sensitive(prefs_page->clear_cache, active);
+}
+
+static void empty_cache_btn_clicked(GtkButton *button,
+					  gpointer user_data)
+{
+	gtkhtml2_viewer_clear_cache();
+	alertpanel_notice(_("Cache cleared."));
+}
+
 static void create_gtkhtml_prefs_page(PrefsPage *page,
 				    GtkWindow *window,
                                     gpointer data)
 {
         GtkHtmlBrowserPage *prefs_page = (GtkHtmlBrowserPage *) page;
 
-        GtkWidget *vbox;
+        GtkWidget *vbox, *hbox;
         GtkWidget *local_checkbox;
+        GtkWidget *cache_images_checkbox;
+        GtkWidget *clear_cache_checkbox;
+        GtkWidget *empty_cache_btn;
 
         vbox = gtk_vbox_new(FALSE, 3);
         gtk_container_set_border_width(GTK_CONTAINER(vbox), VBOX_BORDER);
         gtk_widget_show(vbox);
         
         local_checkbox = gtk_check_button_new_with_label
-				(_("Do not load remote links in mails"));
+				(_("Load remote images in mails"));
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(local_checkbox),
-                                     gtkhtml_prefs.local);
+                                     !gtkhtml_prefs.local);
         gtk_box_pack_start(GTK_BOX(vbox), local_checkbox, FALSE, FALSE, 0);
         gtk_widget_show(local_checkbox);
         
+        cache_images_checkbox = gtk_check_button_new_with_label
+				(_("Cache remote images locally"));
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cache_images_checkbox),
+                                     gtkhtml_prefs.cache_images);
+        gtk_box_pack_start(GTK_BOX(vbox), cache_images_checkbox, FALSE, FALSE, 0);
+        gtk_widget_show(cache_images_checkbox);
+        
+        clear_cache_checkbox = gtk_check_button_new_with_label
+				(_("Clear images cache when quitting"));
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(clear_cache_checkbox),
+                                     gtkhtml_prefs.clear_cache);
+        gtk_box_pack_start(GTK_BOX(vbox), clear_cache_checkbox, FALSE, FALSE, 0);
+        gtk_widget_show(clear_cache_checkbox);
+        
+        empty_cache_btn = gtk_button_new_with_label
+				(_("Clear image cache now"));
+	hbox = gtk_hbox_new(FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(hbox), empty_cache_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+	gtk_widget_show(empty_cache_btn);
+        
+	g_signal_connect(G_OBJECT(local_checkbox), "toggled",
+			 G_CALLBACK(local_checkbox_toggled),
+			 prefs_page);
+	g_signal_connect(G_OBJECT(cache_images_checkbox), "toggled",
+			 G_CALLBACK(cache_images_checkbox_toggled),
+			 prefs_page);
+	g_signal_connect(G_OBJECT(empty_cache_btn), "clicked",
+			 G_CALLBACK(empty_cache_btn_clicked),
+			 prefs_page);
+
         prefs_page->local = local_checkbox;
+        prefs_page->cache_images = cache_images_checkbox;
+        prefs_page->clear_cache = clear_cache_checkbox;
+        prefs_page->empty_cache = empty_cache_btn;
+
         prefs_page->page.widget = vbox;
 }
 
@@ -129,8 +203,12 @@ static void save_gtkhtml_prefs(PrefsPage *page)
         gchar *rc_file_path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
                                           COMMON_RC, NULL);
         
-        gtkhtml_prefs.local = gtk_toggle_button_get_active
+        gtkhtml_prefs.local = !gtk_toggle_button_get_active
 				(GTK_TOGGLE_BUTTON(prefs_page->local));
+        gtkhtml_prefs.cache_images = gtk_toggle_button_get_active
+				(GTK_TOGGLE_BUTTON(prefs_page->cache_images));
+        gtkhtml_prefs.clear_cache = gtk_toggle_button_get_active
+				(GTK_TOGGLE_BUTTON(prefs_page->clear_cache));
 
         pref_file = prefs_write_open(rc_file_path);
         g_free(rc_file_path);

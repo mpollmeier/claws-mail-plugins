@@ -71,6 +71,7 @@ struct _GtkHtml2Viewer
 };
 
 static MimeViewerFactory gtkhtml2_viewer_factory;
+static gchar *gtkhtml2_viewer_tmpdir = NULL;
 
 static void scrolled_cb (GtkAdjustment *adj, GtkHtml2Viewer *viewer)
 {
@@ -445,6 +446,8 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
         else
         {
                 MimeInfo *mimeinfo = ((MimeViewer *)data)->mimeview->mimeinfo;
+		gchar *real_url = NULL;
+		gchar *cache_file = NULL;
 		debug_print("looking for %s in Content-Location\n", url);
                 if (url == '\0')
                         goto fail;
@@ -470,6 +473,8 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 		goto found_local;
 
 not_found_local:
+		real_url = NULL;
+		cache_file = NULL;
                 if (!viewer->force_image_loading && (gtkhtml_prefs.local || prefs_common.work_offline)) {
 			remote_not_loaded = TRUE;
                         goto fail;
@@ -477,8 +482,23 @@ not_found_local:
 
 	        debug_print("looking for %s online\n", url);
 		debug_print("using %s base\n", viewer->base);
+		real_url = make_url(url, ((GtkHtml2Viewer *)data)->base);
+		if (gtkhtml_prefs.cache_images) {
+			cache_file = g_strconcat(gtkhtml2_viewer_tmpdir, G_DIR_SEPARATOR_S,
+							itos(g_str_hash(real_url)), NULL);
+			if (is_file_exist(cache_file)) {
+				debug_print("cache file found (%s)\n", cache_file);
+				tmpfile = get_tmp_file();
+				if (link(cache_file, tmpfile) == 0) {
+					g_free(cache_file);
+					g_free(real_url);
+					goto found_local;
+				}
+			} 
+			debug_print("cache file not found (%s)\n", cache_file);
+		}
 	        ctx = g_new0(GtkHtmlThreadCtx, 1);
-	        ctx->url = make_url(url, ((GtkHtml2Viewer *)data)->base);
+	        ctx->url = real_url;
 	        ctx->ready = FALSE;
 		debug_print("final URL: %s\n", ctx->url);
 #ifdef USE_PTHREAD
@@ -514,6 +534,11 @@ not_found_local:
 	        debug_print("gtkhtml: no pthreads, run blocking fetch\n");
 	        (gchar *)tmpfile = gtkhtml_fetch_feed_threaded(ctx);
 #endif
+		if (gtkhtml_prefs.cache_images && tmpfile) {
+			link(tmpfile, cache_file);
+			debug_print("cache file created (%s)\n", cache_file);
+			g_free(cache_file);
+		}
         }
 
 found_local:
@@ -647,6 +672,9 @@ gint plugin_init(gchar **error)
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b"));
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b/"));
 */
+	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"gtkhtml2_viewer", NULL);
+
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer plugin was built with");
 		return -1;
@@ -662,11 +690,26 @@ gint plugin_init(gchar **error)
 #endif
 	mimeview_register_viewer_factory(&gtkhtml2_viewer_factory);
 	curl_global_init(CURL_GLOBAL_DEFAULT);
+
+	if (!is_dir_exist(gtkhtml2_viewer_tmpdir))
+		make_dir_hier(gtkhtml2_viewer_tmpdir);
+
 	return 0;
+}
+
+void gtkhtml2_viewer_clear_cache(void)
+{
+	remove_dir_recursive(gtkhtml2_viewer_tmpdir);
+	make_dir_hier(gtkhtml2_viewer_tmpdir);
 }
 
 void plugin_done(void)
 {
+	if (gtkhtml_prefs.clear_cache)
+		remove_dir_recursive(gtkhtml2_viewer_tmpdir);
+	g_free(gtkhtml2_viewer_tmpdir);
+	gtkhtml2_viewer_tmpdir = NULL;
+
 #ifdef HAVE_LIBCURL
 	gtkhtml_prefs_done();
 #endif

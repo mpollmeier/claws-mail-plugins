@@ -1,3 +1,10 @@
+2006-08-21 [colin]	0.10.2cvs7
+
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_prefs.h
+	* src/gtkhtml2_viewer.c
+		Implement image cache
+
 2006-08-18 [paul]	0.10.2cvs6
 
 	* configure.ac

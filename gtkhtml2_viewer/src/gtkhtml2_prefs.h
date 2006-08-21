@@ -33,6 +33,8 @@ typedef struct _GtkHtmlBrowserPrefs	GtkHtmlBrowserPrefs;
 struct _GtkHtmlBrowserPrefs
 {
 	gboolean local;   /**< local browsing */
+	gboolean cache_images;
+	gboolean clear_cache;
 };
 
 extern GtkHtmlBrowserPrefs gtkhtml_prefs;
