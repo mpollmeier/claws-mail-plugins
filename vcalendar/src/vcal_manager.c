@@ -301,6 +301,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
 				      G_DIR_SEPARATOR, getuid(), sanitized_uid);
 	g_free(sanitized_uid);
+
 	if (!account) {
 		g_free(organizer);
 		g_free(tmpfile);
@@ -333,6 +334,9 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 
 	if (!calendar) {
 		g_warning ("can't generate calendar");
+		g_free(organizer);
+		g_free(tmpfile);
+		g_free(attendee);
 		return NULL;
 	}
 
@@ -395,6 +399,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		g_warning ("can't generate event");
 		g_free(organizer);
 		g_free(tmpfile);
+		g_free(attendee);
 		return NULL;
 	}
 	
@@ -461,13 +466,19 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		}
 	}
 
-	if (use_calendar)
+	if (use_calendar) {
+		g_free(organizer);
+		g_free(tmpfile);
+		g_free(attendee);
 		return NULL;
-
+	}
 	headers = write_headers(account, event, is_pseudo_event, is_reply, is_pseudo_event);
 
 	if (!headers) {
 		g_warning("can't get headers");
+		g_free(organizer);
+		g_free(tmpfile);
+		g_free(attendee);
 		return NULL;
 	}
 
@@ -651,6 +662,7 @@ void vcal_manager_free_event (VCalEvent *event)
 		return;
 	g_free(event->uid);
 	g_free(event->organizer);
+	g_free(event->orgname);
 	g_free(event->start);
 	g_free(event->end);
 	g_free(event->summary);
@@ -852,6 +864,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 	event->postponed = postponed;
 
 	g_free(org); 
+	g_free(orgname); 
 	g_free(summary); 
 	g_free(description); 
 	g_free(url); 

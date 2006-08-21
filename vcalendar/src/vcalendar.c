@@ -1329,6 +1329,8 @@ void vcalendar_done(void)
 	FolderView *folderview = NULL;
 	FolderItem *fitem = NULL;
 
+	icalmemory_free_ring();
+
 	if (mainwin == NULL)
 		return;
 	folderview = mainwin->folderview;
