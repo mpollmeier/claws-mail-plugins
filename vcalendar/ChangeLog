@@ -1,3 +1,13 @@
+2006-08-23 [colin]	1.79.2cvs7
+
+	* configure.ac
+	* src/plugin.c
+	* src/vcalendar.c
+		Implement get_selection(), which will return
+		either the selected part of Description, the
+		complete Description, or the Summary, depen-
+		ding on what's available.
+
 2006-08-21 [colin]	1.79.2cvs6
 
 	* src/vcal_folder.c

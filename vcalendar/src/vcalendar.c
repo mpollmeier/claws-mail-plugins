@@ -1167,6 +1167,29 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 	i++;								\
 }
 
+static gchar *vcal_viewer_get_selection(MimeViewer *_viewer)
+{
+	VCalViewer *viewer = (VCalViewer *)_viewer;
+	if (viewer->summary == NULL)
+		return NULL;
+	if (gtk_label_get_text(viewer->description)
+	&&  strlen(gtk_label_get_text(viewer->description)) > 2) {
+		gint start, end;
+		if (gtk_label_get_selection_bounds(viewer->description, &start, &end)) {
+			gchar *tmp = g_strdup(gtk_label_get_text(viewer->description)+start);
+			tmp[end-start] = '\0';
+			return tmp;
+		} else {
+			return g_strdup(gtk_label_get_text(viewer->description));
+		}
+	}
+	else if (gtk_label_get_text(viewer->summary)
+	&&  strlen(gtk_label_get_text(viewer->summary)) > 2)
+		return g_strdup(gtk_label_get_text(viewer->summary));
+	else 
+		return NULL;
+}
+
 MimeViewer *vcal_viewer_create(void)
 {
 	VCalViewer *vcalviewer;
@@ -1182,6 +1205,7 @@ MimeViewer *vcal_viewer_create(void)
 	vcalviewer->mimeviewer.show_mimepart = vcal_viewer_show_mimepart;
 	vcalviewer->mimeviewer.clear_viewer = vcal_viewer_clear_viewer;
 	vcalviewer->mimeviewer.destroy_viewer = vcal_viewer_destroy_viewer;
+	vcalviewer->mimeviewer.get_selection = vcal_viewer_get_selection;
 	
 	vcalviewer->table = gtk_table_new(8, 2, FALSE);
 	vcalviewer->type = gtk_label_new("meeting");
