@@ -591,6 +591,15 @@ fail:
 	html_stream_close(stream);
 }
 
+static gchar *gtkhtml2_get_selection(MimeViewer *_viewer)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)_viewer;
+	
+	if (viewer->html_view == NULL)
+		return NULL;
+	return html_selection_get_text(viewer->html_view);
+}
+
 static MimeViewer *gtkhtml2_viewer_create(void)
 {
 	GtkHtml2Viewer *viewer;
@@ -604,6 +613,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->mimeviewer.show_mimepart = gtkhtml2_show_mimepart;
 	viewer->mimeviewer.clear_viewer = gtkhtml2_clear_viewer;
 	viewer->mimeviewer.destroy_viewer = gtkhtml2_destroy_viewer;
+	viewer->mimeviewer.get_selection = gtkhtml2_get_selection;
 
 	viewer->html_doc = html_document_new();
 	viewer->html_view = html_view_new();
@@ -655,7 +665,7 @@ static MimeViewerFactory gtkhtml2_viewer_factory =
 	content_types,
 	0,
 
-	gtkhtml2_viewer_create
+	gtkhtml2_viewer_create,
 };
 
 gint plugin_init(gchar **error)
@@ -680,7 +690,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
+	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 78))) {
 		*error = g_strdup("Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin");
 		return -1;
 	}

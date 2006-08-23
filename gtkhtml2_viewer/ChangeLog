@@ -1,3 +1,10 @@
+2006-08-23 [colin]	0.10.2cvs8
+
+	* configure.ac
+	* src/gtkhtml2_viewer.c
+		Implement get_selection(), which will return
+		the selected text
+
 2006-08-21 [colin]	0.10.2cvs7
 
 	* src/gtkhtml2_prefs.c
