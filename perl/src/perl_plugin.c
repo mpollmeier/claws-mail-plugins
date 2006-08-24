@@ -557,13 +557,14 @@ static XS(XS_SylpheedClaws_filter_init)
   case 10:
     msginfo->xref       ? XSRETURN_PV(msginfo->xref)       : XSRETURN_UNDEF;
   case 11:
-    msginfo->xface      ? XSRETURN_PV(msginfo->xface)      : XSRETURN_UNDEF;
+    (msginfo->extradata && msginfo->extradata->xface) ?
+      XSRETURN_PV(msginfo->extradata->xface)               : XSRETURN_UNDEF;
   case 12:
-    msginfo->dispositionnotificationto ?
-      XSRETURN_PV(msginfo->dispositionnotificationto)      : XSRETURN_UNDEF;
+    (msginfo->extradata && msginfo->extradata->dispositionnotificationto) ?
+      XSRETURN_PV(msginfo->extradata->dispositionnotificationto) : XSRETURN_UNDEF;
   case 13:
-    msginfo->returnreceiptto ? 
-      XSRETURN_PV(msginfo->returnreceiptto)                : XSRETURN_UNDEF;
+    msginfo->extradata->returnreceiptto ? 
+      XSRETURN_PV(msginfo->extradata->returnreceiptto)     : XSRETURN_UNDEF;
   case 14:
     ii = 0;
     for(walk = msginfo->references; walk != NULL; walk = g_slist_next(walk))
@@ -585,16 +586,16 @@ static XS(XS_SylpheedClaws_filter_init)
     else
       XSRETURN_UNDEF;
   case 21:
-    msginfo->partial_recv ?
-      XSRETURN_PV(msginfo->partial_recv)                   : XSRETURN_UNDEF;
+    (msginfo->extradata && msginfo->extradata->partial_recv) ?
+      XSRETURN_PV(msginfo->extradata->partial_recv)        : XSRETURN_UNDEF;
   case 22:
     msginfo->total_size ? XSRETURN_IV(msginfo->total_size) : XSRETURN_UNDEF;
   case 23:
-    msginfo->account_server ?
-      XSRETURN_PV(msginfo->account_server)                 : XSRETURN_UNDEF;
+    (msginfo->extradata && msginfo->extradata->account_server) ?
+      XSRETURN_PV(msginfo->extradata->account_server)      : XSRETURN_UNDEF;
   case 24:
-    msginfo->account_login ?
-      XSRETURN_PV(msginfo->account_login)                  : XSRETURN_UNDEF;
+    (msginfo->extradata && msginfo->extradata->account_login) ?
+      XSRETURN_PV(msginfo->extradata->account_login)       : XSRETURN_UNDEF;
   case 25:
     msginfo->planned_download ?
       XSRETURN_IV(msginfo->planned_download)               : XSRETURN_UNDEF;

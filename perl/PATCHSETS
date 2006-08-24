@@ -1,3 +1,4 @@
 ( diff -u /dev/null commitHelper;  diff -u /dev/null PATCHSETS;  ) > 0.9.3cvs1.patchset
 ( cvs diff -u -r 1.19.2.15 -r 1.19.2.16 configure.ac;  cvs diff -u -r 1.2.2.3 -r 1.2.2.4 src/.cvsignore;  cvs diff -u -r 1.4.2.4 -r 1.4.2.5 src/Makefile.am;  cvs diff -u -r 1.19.2.10 -r 1.19.2.11 src/perl_plugin.c;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  ) > 0.9.3cvs2.patchset
 ( cvs diff -u -r 1.19.2.17 -r 1.19.2.18 configure.ac;  ) > 0.9.4cvs1.patchset
+( cvs diff -u -r 1.19.2.11 -r 1.19.2.12 src/perl_plugin.c;  ) > 0.9.4cvs2.patchset
