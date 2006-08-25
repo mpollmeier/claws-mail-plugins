@@ -1172,20 +1172,22 @@ static gchar *vcal_viewer_get_selection(MimeViewer *_viewer)
 	VCalViewer *viewer = (VCalViewer *)_viewer;
 	if (viewer->summary == NULL)
 		return NULL;
-	if (gtk_label_get_text(viewer->description)
-	&&  strlen(gtk_label_get_text(viewer->description)) > 2) {
+	if (gtk_label_get_text(GTK_LABEL(viewer->description))
+	&&  strlen(gtk_label_get_text(GTK_LABEL(viewer->description))) > 2) {
 		gint start, end;
-		if (gtk_label_get_selection_bounds(viewer->description, &start, &end)) {
-			gchar *tmp = g_strdup(gtk_label_get_text(viewer->description)+start);
+		if (gtk_label_get_selection_bounds(GTK_LABEL(viewer->description), 
+						   &start, &end)) {
+			gchar *tmp = g_strdup(gtk_label_get_text(
+						GTK_LABEL(viewer->description))+start);
 			tmp[end-start] = '\0';
 			return tmp;
 		} else {
-			return g_strdup(gtk_label_get_text(viewer->description));
+			return g_strdup(gtk_label_get_text(GTK_LABEL(viewer->description)));
 		}
 	}
-	else if (gtk_label_get_text(viewer->summary)
-	&&  strlen(gtk_label_get_text(viewer->summary)) > 2)
-		return g_strdup(gtk_label_get_text(viewer->summary));
+	else if (gtk_label_get_text(GTK_LABEL(viewer->summary))
+	&&  strlen(gtk_label_get_text(GTK_LABEL(viewer->summary))) > 2)
+		return g_strdup(gtk_label_get_text(GTK_LABEL(viewer->summary)));
 	else 
 		return NULL;
 }
