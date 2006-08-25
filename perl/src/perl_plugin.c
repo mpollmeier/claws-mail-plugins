@@ -563,7 +563,7 @@ static XS(XS_SylpheedClaws_filter_init)
     (msginfo->extradata && msginfo->extradata->dispositionnotificationto) ?
       XSRETURN_PV(msginfo->extradata->dispositionnotificationto) : XSRETURN_UNDEF;
   case 13:
-    msginfo->extradata->returnreceiptto ? 
+    (msginfo->extradata && msginfo->extradata->returnreceiptto) ?
       XSRETURN_PV(msginfo->extradata->returnreceiptto)     : XSRETURN_UNDEF;
   case 14:
     ii = 0;

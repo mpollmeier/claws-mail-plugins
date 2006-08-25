@@ -1,3 +1,8 @@
+2006-08-25 [wwp]	0.9.4cvs4
+
+	* src/perl_plugin.c
+		fix a potential crash (complete and fix my commit 0.9.4cvs2).
+
 2006-08-24 [colin]	0.9.4cvs3
 
 	* configure.ac
