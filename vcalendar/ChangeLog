@@ -1,3 +1,9 @@
+2006-08-27 [colin]	1.79.2cvs10
+
+	* configure.ac
+	* src/vcal_manager.c
+		Follow 2.4.0cvs98 API change for sending mail
+
 2006-08-27 [colin]	1.79.2cvs9
 
 	* src/plugin.c
