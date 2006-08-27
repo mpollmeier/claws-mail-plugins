@@ -53,6 +53,9 @@ static char *rssyl_popup_menu_labels[] =
 	"/---",
 	N_("/Rena_me..."),
 	"/---",
+	N_("/_Create new folder..."),
+	N_("/_Delete folder..."),
+	"/---",
 	N_("/Remove folder _tree..."),
 	"/---",
 	NULL
@@ -62,13 +65,15 @@ static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
 {
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(ifac, name, sens)
-
-	SET_SENS(_("/Refresh feed"), folder_item_parent(item) != NULL );
+	RSSylFolderItem *ritem = (RSSylFolderItem *)item;
+	SET_SENS(_("/Refresh feed"), folder_item_parent(item) != NULL && ritem->url);
 	SET_SENS(_("/Refresh all feeds"), folder_item_parent(item) == NULL );
-	SET_SENS(_("/Subscribe new feed..."), folder_item_parent(item) == NULL );
-	SET_SENS(_("/Unsubscribe feed..."), folder_item_parent(item) != NULL );
-	SET_SENS(_("/Feed properties..."), folder_item_parent(item) != NULL );
+	SET_SENS(_("/Subscribe new feed..."), TRUE);
+	SET_SENS(_("/Unsubscribe feed..."), folder_item_parent(item) != NULL && ritem->url );
+	SET_SENS(_("/Feed properties..."), folder_item_parent(item) != NULL && ritem->url );
 	SET_SENS(_("/Rename..."), folder_item_parent(item) != NULL );
+	SET_SENS(_("/Create new folder..."), TRUE );
+	SET_SENS(_("/Delete folder..."), folder_item_parent(item) != NULL && !ritem->url );
 	SET_SENS(_("/Remove folder tree..."), folder_item_parent(item) == NULL );
 
 #undef SET_SENS
@@ -84,6 +89,9 @@ static GtkItemFactoryEntry rssyl_popup_entries[] =
 	{ NULL, NULL, rssyl_prop_cb, 0, NULL },
 	{ NULL, NULL, NULL, 0, "<Separator>" },
 	{ NULL, NULL, rssyl_rename_cb, 0, NULL },
+	{ NULL, NULL, NULL, 0, "<Separator>" },
+	{ NULL, NULL, rssyl_new_folder_cb, 0, NULL },
+	{ NULL, NULL, rssyl_remove_folder_cb, 0, NULL },
 	{ NULL, NULL, NULL, 0, "<Separator>" },
 	{ NULL, NULL, rssyl_remove_rss_cb, 0, NULL },
 	{ NULL, NULL, NULL, 0, "<Separator>" }

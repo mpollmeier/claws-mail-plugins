@@ -64,6 +64,57 @@ void rssyl_new_feed_cb(FolderView *folderview, guint action,
 	g_free(new_feed);
 }
 
+void rssyl_new_folder_cb(FolderView *folderview, guint action,
+		GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	FolderItem *item;
+	FolderItem *new_item;
+	gchar *new_folder;
+	gchar *name;
+	gchar *p;
+	RSSylFolderItem *ritem = NULL;
+
+	if (!folderview->selected) return;
+
+	item = gtk_ctree_node_get_row_data(ctree, folderview->selected);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	new_folder = input_dialog(_("New folder"),
+				  _("Input the name of new folder:"),
+				  _("NewFolder"));
+	if (!new_folder) return;
+	AUTORELEASE_STR(new_folder, {g_free(new_folder); return;});
+
+	p = strchr(new_folder, G_DIR_SEPARATOR);
+	if (p) {
+		alertpanel_error(_("'%c' can't be included in folder name."),
+				 G_DIR_SEPARATOR);
+		return;
+	}
+
+	name = trim_string(new_folder, 32);
+	AUTORELEASE_STR(name, {g_free(name); return;});
+
+	/* find whether the directory already exists */
+	if (folder_find_child_item_by_name(item, new_folder)) {
+		alertpanel_error(_("The folder '%s' already exists."), name);
+		return;
+	}
+
+	new_item = folder_create_folder(item, new_folder);
+	if (!new_item) {
+		alertpanel_error(_("Can't create the folder '%s'."), name);
+		return;
+	}
+
+	ritem = (RSSylFolderItem *)new_item;
+	ritem->url = NULL;
+
+	folder_write_list();
+}
+
 void rssyl_remove_rss_cb(FolderView *folderview, guint action,
 		GtkWidget *widget)
 {
@@ -103,7 +154,6 @@ void rssyl_remove_feed_cb(FolderView *folderview, guint action,
 	gint response;
 	GtkWidget *dialog, *rmcache_widget = NULL;
 	gboolean rmcache = FALSE;
-
 	debug_print("RSSyl: remove_feed_cb\n");
 
 	item = folderview_get_selected_item(folderview);
@@ -155,6 +205,58 @@ void rssyl_remove_feed_cb(FolderView *folderview, guint action,
 	folder_write_list();
 }
 
+void rssyl_remove_folder_cb(FolderView *folderview, guint action,
+			     GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	FolderItem *item;
+	gchar *message, *name;
+	AlertValue avalue;
+	gchar *old_path;
+	gchar *old_id;
+
+	item = folderview_get_selected_item(folderview);
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(item->path != NULL);
+	g_return_if_fail(item->folder != NULL);
+
+	name = trim_string(item->name, 32);
+	AUTORELEASE_STR(name, {g_free(name); return;});
+	message = g_strdup_printf
+		(_("All folders and messages under '%s' will be permanently deleted. "
+		   "Recovery will not be possible.\n\n"
+		   "Do you really want to delete?"), name);
+	avalue = alertpanel_full(_("Delete folder"), message,
+				 GTK_STOCK_CANCEL, GTK_STOCK_DELETE, NULL, FALSE,
+				 NULL, ALERT_WARNING, G_ALERTDEFAULT);
+	g_free(message);
+	if (avalue != G_ALERTALTERNATE) return;
+
+	Xstrdup_a(old_path, item->path, return);
+	old_id = folder_item_get_identifier(item);
+
+	if (folderview->opened == folderview->selected ||
+	    gtk_ctree_is_ancestor(ctree,
+				  folderview->selected,
+				  folderview->opened)) {
+		summary_clear_all(folderview->summaryview);
+		folderview->opened = NULL;
+	}
+
+	if (item->folder->klass->remove_folder(item->folder, item) < 0) {
+		folder_item_scan(item);
+		alertpanel_error(_("Can't remove the folder '%s'."), name);
+		g_free(old_id);
+		return;
+	}
+
+	folder_write_list();
+
+	prefs_filtering_delete_path(old_id);
+	g_free(old_id);
+
+}
+
 void rssyl_refresh_cb(FolderView *folderview, guint action,
 		GtkWidget *widget)
 {
@@ -181,6 +283,7 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 
 static void rssyl_refresh_all_func(FolderItem *item, gpointer data)
 {
+	RSSylFolderItem *ritem = (RSSylFolderItem *)item;
 	/* Only try to refresh our feed folders */
 	if( !IS_RSSYL_FOLDER_ITEM(item) )
 		return;
@@ -188,7 +291,9 @@ static void rssyl_refresh_all_func(FolderItem *item, gpointer data)
 	/* Don't try to refresh the root folder */
 	if( folder_item_parent(item) == NULL )
 		return;
-
+	/* Don't try to update normal folders */
+	if (ritem->url == NULL)
+		return;
 	rssyl_update_feed((RSSylFolderItem *)item);
 }
 

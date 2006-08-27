@@ -1,3 +1,12 @@
+2006-08-27 [colin]	0.6.0cvs7
+
+	* src/rssyl.c
+	* src/rssyl_cb_menu.c
+	* src/rssyl_cb_menu.h
+	* src/rssyl_gtk.c
+		Allow arbitrary folder hierarchy, and normal folders
+		with no subscriptions to store other folders
+
 2006-08-27 [colin]	0.6.0cvs6
 
 	* src/plugin.c

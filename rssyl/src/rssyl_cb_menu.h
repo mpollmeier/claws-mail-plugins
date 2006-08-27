@@ -20,5 +20,9 @@ void rssyl_refresh_all_cb(FolderView *folderview, guint action,
 		GtkWidget *widget);
 void rssyl_rename_cb(FolderView *folderview, guint action,
 		GtkWidget *widget);
+void rssyl_new_folder_cb(FolderView *folderview, guint action,
+		GtkWidget *widget);
+void rssyl_remove_folder_cb(FolderView *folderview, guint action,
+		GtkWidget *widget);
 
 #endif /* __RSSYL_MENU_FEED */

@@ -343,7 +343,9 @@ static gint rssyl_rename_folder(Folder *folder, FolderItem *item,
 	item->path = g_strdup_printf(".%s", name);
 	
 	ritem = (RSSylFolderItem *)item;
-	rssyl_props_update_name(ritem, (gchar *)name);
+	
+	if (ritem->url)
+		rssyl_props_update_name(ritem, (gchar *)name);
 	
 	g_free(item->name);
 	item->name = g_strdup(name);
@@ -381,7 +383,9 @@ static gint rssyl_get_num_list(Folder *folder, FolderItem *item,
 	debug_print("RSSyl: scanning '%s'...\n", item->path);
 
 	rssyl_get_feed_props(ritem);
-	g_return_val_if_fail(ritem->url != NULL, -1);
+
+	if (ritem->url == NULL)
+		return -1;
 
 	*old_uids_valid = TRUE;
 
