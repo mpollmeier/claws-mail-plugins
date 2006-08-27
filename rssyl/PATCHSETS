@@ -22,3 +22,4 @@
 ( cvs diff -u -r 1.1.2.43 -r 1.1.2.44 src/feed.c;  ) > 0.6.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.44 -r 1.1.2.45 src/feed.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/feed.h;  ) > 0.6.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 configure.ac;  ) > 0.6.0cvs5.patchset
+( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/plugin.c;  ) > 0.6.0cvs6.patchset

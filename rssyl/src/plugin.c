@@ -31,6 +31,7 @@
 #include "gettext.h"
 
 #include "rssyl.h"
+#include "plugin.h"
 
 gint plugin_init(gchar **error)
 {
@@ -86,3 +87,10 @@ const gchar *plugin_version(void)
 	return PLUGINVERSION;
 }
 
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_FOLDERCLASS, N_("RSS feed")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
+}
