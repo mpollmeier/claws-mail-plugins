@@ -4,3 +4,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/notification_foldercheck.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/notification_popup.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/notification_popup.h;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_prefs.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/notification_prefs.h;  ) > 0.3.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 configure.ac;  ) > 0.3.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_plugin.c;  ) > 0.3.0cvs4.patchset
+( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/notification_plugin.c;  ) > 0.3.0cvs5.patchset

@@ -38,6 +38,8 @@
 #include "notification_foldercheck.h"
 #include "plugin.h"
 
+#include <glib/gi18n.h>
+
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
 static gboolean my_post_filtering_hook    (gpointer, gpointer);
