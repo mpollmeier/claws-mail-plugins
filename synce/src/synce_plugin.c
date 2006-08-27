@@ -31,6 +31,7 @@
 
 #include "pluginconfig.h"
 #include "synce_gtk.h"
+#include "plugin.h"
 
 gint plugin_init(gchar **error)
 {
@@ -87,3 +88,10 @@ const gchar *plugin_version(void)
 	return PLUGINVERSION;
 }
 
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_UTILITY, N_("SynCE Synchronisation")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
+}
