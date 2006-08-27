@@ -27,6 +27,7 @@
 #include "pluginconfig.h"
 #include "maildir.h"
 #include "uiddb.h"
+#include "plugin.h"
 
 gint plugin_init(gchar **error)
 {
@@ -81,4 +82,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_FOLDERCLASS, N_("Maildir")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
