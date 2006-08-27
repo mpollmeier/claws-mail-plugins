@@ -1,3 +1,8 @@
+2006-08-27 [wwp]	1.0.2cvs4
+
+	* src/acpi_notifier.c
+		fix plugin compilation (N_ undefined).
+
 2006-08-27 [colin]	1.0.2cvs3
 
 	* src/acpi_notifier.c
