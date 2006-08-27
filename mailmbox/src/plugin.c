@@ -26,6 +26,7 @@
 #include "common/version.h"
 #include "plugin_gtk.h"
 #include "pluginconfig.h"
+#include "plugin.h"
 
 gint plugin_init(gchar **error)
 {
@@ -73,4 +74,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_FOLDERCLASS, N_("MBOX")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
