@@ -41,6 +41,7 @@
 #include "main.h"
 #include "menu.h"
 #include "hooks.h"
+#include "plugin.h"
 
 #define PREFS_BLOCK_NAME "AcpiNotifier"
 
@@ -827,4 +828,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_NOTIFIER, N_("Laptop LED")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
