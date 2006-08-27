@@ -23,6 +23,7 @@
 #include "folder.h"
 
 #include "pluginconfig.h"
+#include "plugin.h"
 
 static guint tag = 0;
 
@@ -93,4 +94,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_UTILITY, N_("Cache saving")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
