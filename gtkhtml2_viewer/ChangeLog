@@ -1,3 +1,8 @@
+2006-08-27 [colin]	0.10.2cvs9
+
+	* src/gtkhtml2_viewer.c
+		Implement plugin_provides()
+
 2006-08-23 [colin]	0.10.2cvs8
 
 	* configure.ac

@@ -41,6 +41,7 @@
 #include "gtkhtml2_prefs.h"
 #include "log.h"
 #include "codeconv.h"
+#include "plugin.h"
 
 #include "pluginconfig.h"
 #ifdef USE_PTHREAD
@@ -750,4 +751,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_MIMEVIEWER, N_("text/html")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
