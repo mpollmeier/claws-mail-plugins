@@ -34,6 +34,7 @@
 #include "procmsg.h"
 
 #include "pluginconfig.h"
+#include "plugin.h"
 
 static guint hook_id;
 
@@ -162,3 +163,11 @@ const gchar *plugin_version (void)
 {
     return (PLUGINVERSION);
     } /* plugin_version */
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_NOTIFIER, N_("Log file")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
+}

@@ -1,3 +1,8 @@
+2006-08-27 [colin]	0.0.6cvs2
+
+	* src/newmail.c
+		Implement plugin_provides()
+
 2006-08-18 [paul]	0.0.6cvs1
 
 	* configure.ac
