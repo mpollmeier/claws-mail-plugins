@@ -41,6 +41,7 @@
 #include "quoted-printable.h"
 /* parse headers */
 #include "procheader.h"
+#include "plugin.h"
 
 #include "pluginconfig.h"
 
@@ -221,4 +222,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_UTILITY, N_("Mail marking")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }

@@ -1,3 +1,8 @@
+2006-08-27 [colin]	0.4.15cvs2
+
+	* src/fetchinfo_plugin.c
+		Implement plugin_provides()
+
 2006-08-18 [paul]	0.4.15cvs1
 
 	* configure.ac
