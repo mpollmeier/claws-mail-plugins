@@ -46,6 +46,7 @@
 #include "prefs_common.h"
 #include "prefs_gtk.h"
 #include "log.h"
+#include "plugin.h"
 
 #include <string.h>
 #include <sys/types.h>
@@ -2142,4 +2143,12 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
   return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_FILTERING, N_("Perl integration")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
