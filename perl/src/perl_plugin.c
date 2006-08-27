@@ -27,6 +27,7 @@
 #include "pluginconfig.h"
 
 #include <glib.h>
+#include <glib/gi18n.h>
 
 #include "common/version.h"
 #include "common/defs.h"

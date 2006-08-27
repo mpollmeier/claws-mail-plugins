@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.19.2.19 -r 1.19.2.20 configure.ac;  cvs diff -u -r 1.19.2.12 -r 1.19.2.13 src/perl_plugin.c;  ) > 0.9.4cvs3.patchset
 ( cvs diff -u -r 1.19.2.13 -r 1.19.2.14 src/perl_plugin.c;  ) > 0.9.4cvs4.patchset
 ( cvs diff -u -r 1.19.2.14 -r 1.19.2.15 src/perl_plugin.c;  ) > 0.9.4cvs5.patchset
+( cvs diff -u -r 1.19.2.15 -r 1.19.2.16 src/perl_plugin.c;  ) > 0.9.4cvs6.patchset
