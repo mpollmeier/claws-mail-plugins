@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <gpgme.h>
 #include <ctype.h>
+#include <glib/gi18n.h>
 
 #include "utils.h"
 #include "privacy.h"
@@ -40,6 +41,7 @@
 #include "alertpanel.h"
 #include "prefs_common.h"
 #include "procmime.h"
+#include "plugin.h"
 
 typedef struct _PrivacyDataPGP PrivacyDataPGP;
 
@@ -805,4 +807,11 @@ void smime_done()
 	privacy_unregister_system(&smime_system);
 }
 
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_PRIVACY, N_("S/MIME")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
+}
 #endif /* USE_GPGME */

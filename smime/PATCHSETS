@@ -2,3 +2,4 @@
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/plugin.c;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  ) > 0.5.3cvs2.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/Makefile.am;  ) > 0.5.3cvs3.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 configure.ac;  ) > 0.5.4cvs1.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/smime.c;  ) > 0.5.4cvs2.patchset
