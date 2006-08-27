@@ -33,6 +33,8 @@
 #include "synce_gtk.h"
 #include "plugin.h"
 
+#include <glib/gi18n.h>
+
 gint plugin_init(gchar **error)
 {
   /* version check */
