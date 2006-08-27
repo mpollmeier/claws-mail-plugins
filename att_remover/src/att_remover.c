@@ -40,6 +40,7 @@
 #include "alertpanel.h"
 #include "inc.h"
 #include "sylpheed.h"
+#include "plugin.h"
 
 #include "pluginconfig.h"
 
@@ -233,4 +234,10 @@ const gchar *plugin_version(void)
 	return PLUGINVERSION;
 }
 
-
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_UTILITY, N_("Attachment handling")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
+}
