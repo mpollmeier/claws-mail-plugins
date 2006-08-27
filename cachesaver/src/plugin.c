@@ -25,6 +25,8 @@
 #include "pluginconfig.h"
 #include "plugin.h"
 
+#include <glib/gi18n.h>
+
 static guint tag = 0;
 
 static void save_all_caches(FolderItem *item, gpointer data)
