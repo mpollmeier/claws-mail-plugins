@@ -36,6 +36,7 @@
 #include "notification_popup.h"
 #include "notification_command.h"
 #include "notification_foldercheck.h"
+#include "plugin.h"
 
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
@@ -206,5 +207,13 @@ void notification_update_banner(void)
   }
   
   notification_banner_show(banner_collected_msgs);
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_NOTIFIER, N_("Various tools")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
 #endif

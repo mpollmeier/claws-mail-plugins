@@ -1,3 +1,8 @@
+2006-08-27 [colin]	0.3.0cvs4
+
+	* src/notification_plugin.c
+		Implement plugin_provides()
+
 2006-08-18 [paul]	0.3.0cvs3
 
 	* configure.ac
