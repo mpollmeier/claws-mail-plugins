@@ -226,3 +226,11 @@ const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
 }
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_UTILITY, N_("GTK prefs for Mail marking plugin")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
+}

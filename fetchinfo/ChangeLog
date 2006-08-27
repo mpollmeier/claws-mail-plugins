@@ -1,3 +1,9 @@
+2006-08-27 [wwp]	0.4.15cvs3
+
+	* src/fetchinfo_plugin_gtk.c
+		updated to match the plugin API changes, we really need to merge
+		the fetchinfo_GTK plugin to the core fetchinfo one.
+
 2006-08-27 [colin]	0.4.15cvs2
 
 	* src/fetchinfo_plugin.c
