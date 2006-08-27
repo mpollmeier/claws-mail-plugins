@@ -40,6 +40,7 @@
 #include "pluginconfig.h"
 #include "etpan_privacy.h"
 #include "prefs_privacy.h"
+#include "plugin.h"
 
 gint plugin_init(gchar **error)
 {
@@ -98,4 +99,15 @@ const gchar *plugin_licence(void)
 const gchar *plugin_version(void)
 {
 	return PLUGINVERSION;
+}
+
+struct PluginFeature *plugin_provides(void)
+{
+	static struct PluginFeature features[] = 
+		{ {PLUGIN_PRIVACY, N_("Core operations")},
+		  {PLUGIN_PRIVACY, N_("PGP/Mime")},
+		  {PLUGIN_PRIVACY, N_("PGP/Inline")},
+		  {PLUGIN_PRIVACY, N_("S/MIME")},
+		  {PLUGIN_NOTHING, NULL}};
+	return features;
 }
