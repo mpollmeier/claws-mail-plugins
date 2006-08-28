@@ -1,4 +1,4 @@
-AC_PREREQ(2.50)
+AC_PREREQ(2.60)
 AC_INIT(src/plugin.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=79
 MICRO_VERSION=2
-EXTRA_VERSION=10
+EXTRA_VERSION=11
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -32,7 +32,6 @@ AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AM_CONFIG_HEADER(pluginconfig.h)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
-
 AC_PROG_CC
 AC_ISC_POSIX
 AM_PROG_CC_STDC
@@ -41,13 +40,6 @@ AC_PROG_CPP
 AC_PROG_LIBTOOL
 AM_PROG_LEX
 AC_PROG_YACC
-
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.14.5])
-ALL_LINGUAS="de es fi fr it pt_BR sk sr zh_CN pl"
-AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
-
-AC_CHECK_PROGS(PERL, perl5 perl)
 
 #
 # Find pkg-config
@@ -71,13 +63,14 @@ else
 fi
 AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
 
-localedir="${prefix}/share/locale"
-AC_ARG_WITH(localedir,
-	[  --with-localedir=DIR    Locale directory],
-	[localedir="$withval"])
-AC_SUBST(localedir)
 AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
 
+ALL_LINGUAS="de es fi fr it pt_BR sk sr zh_CN pl"
+AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
+AM_GNU_GETTEXT_VERSION([0.15])
+AM_GNU_GETTEXT([external])
+
+AC_CHECK_PROGS(PERL, perl5 perl)
 
 #
 # Check for GLib

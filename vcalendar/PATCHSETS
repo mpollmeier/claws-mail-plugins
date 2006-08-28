@@ -17,3 +17,4 @@
 ( cvs diff -u -r 1.2.2.35 -r 1.2.2.36 src/vcalendar.c;  ) > 1.79.2cvs8.patchset
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/plugin.c;  ) > 1.79.2cvs9.patchset
 ( cvs diff -u -r 1.2.2.98 -r 1.2.2.99 configure.ac;  cvs diff -u -r 1.1.2.35 -r 1.1.2.36 src/vcal_manager.c;  ) > 1.79.2cvs10.patchset
+( cvs diff -u -r 1.2.2.99 -r 1.2.2.100 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/Makefile.in.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makevars;  cvs diff -u -r 1.1.2.16 -r 1.1.2.17 src/plugin.c;  ) > 1.79.2cvs11.patchset
