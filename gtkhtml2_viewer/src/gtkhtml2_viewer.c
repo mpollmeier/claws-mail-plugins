@@ -43,7 +43,6 @@
 #include "codeconv.h"
 #include "plugin.h"
 
-#include "pluginconfig.h"
 #ifdef USE_PTHREAD
 #include <pthread.h>
 #endif

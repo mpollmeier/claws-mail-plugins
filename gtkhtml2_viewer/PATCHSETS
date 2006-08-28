@@ -14,3 +14,4 @@
 ( cvs diff -u -r 1.1.2.28 -r 1.1.2.29 configure.ac;  cvs diff -u -r 1.1.2.16 -r 1.1.2.17 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs8.patchset
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs9.patchset
 ( cvs diff -u -r 1.1.2.30 -r 1.1.2.31 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/Makefile.in.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makevars;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/POTFILES.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  diff -u /dev/null po/remove-potcdate.sin;  diff -u /dev/null po/stamp-po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/gtkhtml2_prefs.c;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs10.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  diff -u /dev/null src/gettext.h;  cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs11.patchset

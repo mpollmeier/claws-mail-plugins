@@ -1,3 +1,11 @@
+2006-08-28 [paul]	0.10.2cvs11
+
+	* src/Makefile.am
+	* src/gettext.h
+	* src/gtkhtml2_viewer.c
+		added missing gettext.h
+		removed #include "pluginconfig.h"
+
 2006-08-28 [paul]	0.10.2cvs10
 
 	* configure.ac

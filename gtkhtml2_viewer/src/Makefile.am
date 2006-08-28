@@ -5,7 +5,8 @@ plugin_LTLIBRARIES = gtkhtml2_viewer.la
 gtkhtml2_viewer_la_SOURCES = \
          gtkhtml2_viewer.c \
 	 gtkhtml2_prefs.c \
-	 gtkhtml2_prefs.h
+	 gtkhtml2_prefs.h \
+	 gettext.h
 
 gtkhtml2_viewer_la_LDFLAGS = \
 	-avoid-version -module \
