@@ -25,4 +25,5 @@ vcalendar_la_LIBADD = \
 AM_CPPFLAGS = \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	-DLOCALEDIR=\""$(localedir)"\"
