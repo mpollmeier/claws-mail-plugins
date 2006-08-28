@@ -1,3 +1,9 @@
+2006-08-28 [paul]	0.6.0cvs10
+
+	* po/remove-potcdate.sin
+	* po/stamp-po
+		add missing files
+
 2006-08-28 [paul]	0.6.0cvs9
 
 	* configure.ac
