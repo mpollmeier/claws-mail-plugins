@@ -1,3 +1,14 @@
+2006-08-28 [paul]	0.6.0cvs8
+
+	* configure.ac
+	* po/Makefile.in.in
+	* po/Makevars
+	* src/plugin.c
+		require autoconf 2.60, enabling building
+		with gettext 0.15 (gettext 0.14.x build still
+		possible). Replace Makefiles with versions
+		from gettext 0.15.
+
 2006-08-27 [colin]	0.6.0cvs7
 
 	* src/rssyl.c

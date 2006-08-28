@@ -35,7 +35,6 @@
 
 gint plugin_init(gchar **error)
 {
-	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	if( sylpheed_get_version() > VERSION_NUMERIC ) {

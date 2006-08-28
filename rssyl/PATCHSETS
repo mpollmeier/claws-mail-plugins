@@ -24,3 +24,4 @@
 ( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 configure.ac;  ) > 0.6.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/plugin.c;  ) > 0.6.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/rssyl.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/rssyl_cb_menu.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_cb_menu.h;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/rssyl_gtk.c;  ) > 0.6.0cvs7.patchset
+( cvs diff -u -r 1.1.2.73 -r 1.1.2.74 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/Makefile.in.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makevars;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/plugin.c;  ) > 0.6.0cvs8.patchset
