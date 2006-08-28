@@ -1,3 +1,21 @@
+2006-08-28 [paul]	1.0.2cvs5
+
+	* configure.ac
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/stamp-po
+	* src/Makefile.am
+	* src/acpi_notifier.c
+                require autoconf 2.60, enabling building
+		with gettext 0.15 (gettext 0.14.x build still
+		possible). Replace Makefiles with versions
+		from gettext 0.15.
+		Remove configure option --with-localedir. The
+		option that is provided directly by autoconf
+		2.60 can be used instead: --localedir
+		Add missing file in po/
+		All thanks to Colin																
+
 2006-08-27 [wwp]	1.0.2cvs4
 
 	* src/acpi_notifier.c

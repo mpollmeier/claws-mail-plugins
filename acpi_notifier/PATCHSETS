@@ -8,3 +8,4 @@
 ( cvs diff -u -r 1.1.2.26 -r 1.1.2.27 configure.ac;  ) > 1.0.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/acpi_notifier.c;  ) > 1.0.2cvs3.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/acpi_notifier.c;  ) > 1.0.2cvs4.patchset
+( cvs diff -u -r 1.1.2.29 -r 1.1.2.30 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/Makefile.in.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makevars;  diff -u /dev/null po/stamp-po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/Makefile.am;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/acpi_notifier.c;  ) > 1.0.2cvs5.patchset
