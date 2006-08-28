@@ -26,7 +26,7 @@
 #include <stdio.h>
 
 #include <glib.h>
-#include <glib/gi18n.h>
+#include "gettext.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <libgtkhtml/gtkhtml.h>
@@ -683,6 +683,9 @@ gint plugin_init(gchar **error)
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b"));
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b/"));
 */
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
+
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 

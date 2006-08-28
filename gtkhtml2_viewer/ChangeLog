@@ -1,3 +1,27 @@
+2006-08-28 [paul]	0.10.2cvs10
+
+	* configure.ac
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/fr.po
+	* po/remove-potcdate.sin
+	* src/Makefile.am
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_viewer.c
+		require autoconf 2.60, enabling building
+		with gettext 0.15 (gettext 0.14.x build still
+		possible). Replace Makefiles with versions
+		from gettext 0.15.
+		Remove configure option --with-localedir. The
+		option that is provided directly by autoconf
+		2.60 can be used instead: --localedir
+		Add missing files in po/
+		All thanks to Colin
+
+	* po/fr.po
+		updated by Colin
+
 2006-08-27 [colin]	0.10.2cvs9
 
 	* src/gtkhtml2_viewer.c

@@ -1,4 +1,4 @@
-AC_PREREQ(2.50)
+AC_PREREQ(2.60)
 AC_INIT(src/gtkhtml2_viewer.c)
 AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=10
 MICRO_VERSION=2
-EXTRA_VERSION=9
+EXTRA_VERSION=10
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -26,7 +26,7 @@ else
 fi
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
-AC_CONFIG_HEADERS(pluginconfig.h)
+AC_CONFIG_HEADERS(config.h)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
 AC_PROG_CC
@@ -44,10 +44,11 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 		 sys/param.h sys/utsname.h sys/select.h \
 		 wchar.h wctype.h locale.h netdb.h)
 
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.12.1])
 ALL_LINGUAS="es fr pt_BR pl"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
+
+AM_GNU_GETTEXT_VERSION([0.15])
+AM_GNU_GETTEXT([external])
 
 dnl Find pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
@@ -61,12 +62,6 @@ if test -z $prefix || test "${prefix}" == "NONE" ; then
 else
   SYLPHEED_CLAWS_PLUGINDIR='${libdir}/sylpheed-claws/plugins'
 fi
-localedir="${prefix}/share/locale"
-AC_ARG_WITH(localedir,
-	[  --with-localedir=DIR    Locale directory],
-	[localedir="$withval"])
-AC_SUBST(localedir)
-AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
 
 dnl Check for sylpheed-claws
 PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.4.0.78)
