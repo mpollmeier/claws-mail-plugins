@@ -77,7 +77,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	CURLcode res;
 	time_t last_modified;
 	gchar *time_str = NULL;
-	long response_code;
+	gint response_code;
 
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, RSSYL_TMP_TEMPLATE, NULL);
@@ -323,6 +323,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 		g_free(template);
 		g_warning("Couldn't fetch feed '%s', aborting.\n", url);
 		log_error(RSSYL_LOG_ERROR_FETCH, url);
+		if (error && !(*error)) {
+			*error = g_strdup(_("Malformed feed"));
+		}
 		return NULL;
 	}
 
