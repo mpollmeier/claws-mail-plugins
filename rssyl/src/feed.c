@@ -1057,7 +1057,8 @@ MsgInfo *rssyl_parse_feed_item_to_msginfo(gchar *file, MsgFlags flags,
 	g_return_val_if_fail(item != NULL, NULL);
 
 	msginfo = procheader_parse_file(file, flags, a, b);
-	msginfo->folder = item;
+	if (msginfo)
+		msginfo->folder = item;
 
 	return msginfo;
 }

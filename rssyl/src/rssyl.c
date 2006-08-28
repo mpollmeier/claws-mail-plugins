@@ -519,10 +519,28 @@ static gint rssyl_add_msg(Folder *folder, FolderItem *dest, const gchar *file,
 	return ret;
 }
 
+static gint rssyl_dummy_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *info)
+{
+	if (info->folder->folder != dest->folder) {
+		return -1;
+	}
+	if (info->folder && info->folder->name && dest->name
+	&&  !strcmp(info->folder->name, dest->name)) {
+		/* this is a folder move */
+		gchar *file = procmsg_get_message_file(info);
+		gchar *tmp = g_strdup_printf("%s.tmp", file);
+		copy_file(file, tmp, TRUE);
+		g_free(file);
+		g_free(tmp);
+		return info->msgnum;
+	} else {
+		return -1;
+	}
+}
 static gint rssyl_remove_msg(Folder *folder, FolderItem *item, gint num)
 {
 	gboolean need_scan = FALSE;
-	gchar *file;
+	gchar *file, *tmp;
 
 	g_return_val_if_fail(item != NULL, -1);
 
@@ -531,6 +549,15 @@ static gint rssyl_remove_msg(Folder *folder, FolderItem *item, gint num)
 
 	need_scan = rssyl_scan_required(folder, item);
 
+	/* are we doing a folder move ? */
+	tmp = g_strdup_printf("%s.tmp", file);
+	if (is_file_exist(tmp)) {
+		g_unlink(tmp);
+		g_free(tmp);
+		g_free(file);
+		return 0;
+	}
+	g_free(tmp);
 	if( g_unlink(file) < 0 ) {
 		FILE_OP_ERROR(file, "unlink");
 		g_free(file);
@@ -582,6 +609,7 @@ FolderClass *rssyl_folder_get_class()
 		/* Message functions */
 		rssyl_class.get_msginfo = rssyl_get_msginfo;
 		rssyl_class.fetch_msg = rssyl_fetch_msg;
+		rssyl_class.copy_msg = rssyl_dummy_copy_msg;
 		rssyl_class.add_msg = rssyl_add_msg;
 		rssyl_class.add_msgs = rssyl_add_msgs;
 		rssyl_class.remove_msg = rssyl_remove_msg;

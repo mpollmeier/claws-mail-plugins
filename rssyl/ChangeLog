@@ -1,3 +1,9 @@
+2006-08-28 [ticho]	0.6.0cvs12
+
+	* src/feed.c
+	* src/rssyl.c
+		Small fix for unwanted behavior when moving a feed between folders.
+
 2006-08-28 [ticho]	0.6.0cvs11
 
 	* src/feed.c
