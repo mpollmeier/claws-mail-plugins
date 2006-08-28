@@ -1,3 +1,11 @@
+2006-08-28 [paul]	0.6.0cvs9
+
+	* configure.ac
+	* src/Makefile.am
+	* src/plugin.c
+		fix setting of localedir
+		Thanks to Colin
+
 2006-08-28 [paul]	0.6.0cvs8
 
 	* configure.ac

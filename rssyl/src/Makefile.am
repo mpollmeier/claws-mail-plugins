@@ -10,7 +10,8 @@ AM_CPPFLAGS = \
 	-Wall \
 	$(SYLPHEED_CLAWS_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	-DLOCALEDIR=\""$(localedir)"\" 
 
 rssyl_la_SOURCES = \
 	date.c date.h \

@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=0
-EXTRA_VERSION=8
+EXTRA_VERSION=9
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -56,8 +56,6 @@ if test -z $prefix || test "${prefix}" == "NONE" ; then
 else
   SYLPHEED_CLAWS_PLUGINDIR='${libdir}/sylpheed-claws/plugins'
 fi
-
-AC_DEFINE_UNQUOTED(LOCALEDIR, "${localedir}", [Locale directory])
 
 ALL_LINGUAS="de es fi fr it pt_BR sk sr sv zh_CN pl"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
