@@ -1,3 +1,9 @@
+2006-08-29 [paul]	0.6.0cvs13
+
+	* .cvsignore
+		remove references to pluginconfig.h(.in),
+		the files ceased to exist
+
 2006-08-28 [ticho]	0.6.0cvs12
 
 	* src/feed.c

@@ -29,3 +29,4 @@
 ( diff -u /dev/null po/remove-potcdate.sin;  diff -u /dev/null po/stamp-po;  ) > 0.6.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.45 -r 1.1.2.46 src/feed.c;  ) > 0.6.0cvs11.patchset
 ( cvs diff -u -r 1.1.2.46 -r 1.1.2.47 src/feed.c;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/rssyl.c;  ) > 0.6.0cvs12.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 .cvsignore;  ) > 0.6.0cvs13.patchset
