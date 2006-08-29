@@ -1,3 +1,10 @@
+2006-08-29 [colin]	0.6.0cvs14
+
+	* src/feed.c
+	* src/parsers.c
+		Fix trailing spaces making items new
+		at each refresh
+
 2006-08-29 [paul]	0.6.0cvs13
 
 	* .cvsignore

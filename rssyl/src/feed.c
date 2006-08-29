@@ -558,7 +558,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Author */
 				if( !strcmp(line[0], "From") ) {
-					fitem->author = g_strdup(line[1]);
+					fitem->author = strtailchomp(g_strdup(line[1]), ' ');
 					debug_print("RSSyl: got author '%s'\n", fitem->author);
 					started_author = TRUE;
 				}
@@ -571,24 +571,24 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Title */
 				if( !strcmp(line[0], "Subject") ) {
-					fitem->title = g_strdup(line[1]);
+					fitem->title = strtailchomp(g_strdup(line[1]), ' ');
 					debug_print("RSSyl: got title '%s'\n", fitem->title);
 					started_subject = TRUE;
 				}
 
 				/* Link */
 				if( !strcmp(line[0], "X-RSSyl-URL") ) {
-					fitem->link = g_strdup(line[1]);
+					fitem->link = strtailchomp(g_strdup(line[1]), ' ');
 					debug_print("RSSyl: got link '%s'\n", fitem->link);
 					started_link = TRUE;
 				}
 				if( !strcmp(line[0], "X-RSSyl-Comments") ) {
-					fitem->comments_link = g_strdup(line[1]);
+					fitem->comments_link = strtailchomp(g_strdup(line[1]), ' ');
 					debug_print("RSSyl: got clink '%s'\n", fitem->comments_link);
 					started_clink = TRUE;
 				}
 				if( !strcmp(line[0], "X-RSSyl-Parent") ) {
-					fitem->parent_link = g_strdup(line[1]);
+					fitem->parent_link = strtailchomp(g_strdup(line[1]), ' ');
 					debug_print("RSSyl: got plink '%s'\n", fitem->parent_link);
 					started_plink = TRUE;
 				}
@@ -596,27 +596,27 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 				gchar *tmp = NULL;
 				/* continuation line */
 				if (started_author) {
-					tmp = g_strdup_printf("%s %s", fitem->author, lines[i]+1);
+					tmp = strtailchomp(g_strdup_printf("%s %s", fitem->author, lines[i]+1), ' ');
 					g_free(fitem->author);
 					fitem->author = tmp;
 					debug_print("RSSyl: updated author to '%s'\n", fitem->author);
 				} else if (started_subject) {
-					tmp = g_strdup_printf("%s %s", fitem->title, lines[i]+1);
+					tmp = strtailchomp(g_strdup_printf("%s %s", fitem->title, lines[i]+1), ' ');
 					g_free(fitem->title);
 					fitem->title = tmp;
 					debug_print("RSSyl: updated title to '%s'\n", fitem->title);
 				} else if (started_link) {
-					tmp = g_strdup_printf("%s%s", fitem->link, lines[i]+1);
+					tmp = strtailchomp(g_strdup_printf("%s%s", fitem->link, lines[i]+1), ' ');
 					g_free(fitem->link);
 					fitem->link = tmp;
 					debug_print("RSSyl: updated link to '%s'\n", fitem->link);
 				} else if (started_clink) {
-					tmp = g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1);
+					tmp = strtailchomp(g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1), ' ');
 					g_free(fitem->comments_link);
 					fitem->comments_link = tmp;
 					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->comments_link);
 				} else if (started_plink) {
-					tmp = g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1);
+					tmp = strtailchomp(g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1), ' ');
 					g_free(fitem->parent_link);
 					fitem->parent_link = tmp;
 					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->parent_link);
@@ -788,6 +788,8 @@ static gboolean rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *
 	if( old_item->title && new_item->title ) {
 		gchar *old = conv_unmime_header(old_item->title, CS_UTF_8);
 		gchar *new = conv_unmime_header(new_item->title, CS_UTF_8);
+		printf("1   '%s' | '%s'\n", old_item->title, new_item->title);
+		printf("2   '%s' | '%s'\n", old, new);
 		if( strcmp(old, new) ) {	/* ... compare "unmimed" titles */
 			g_free(old);
 			g_free(new);
@@ -983,9 +985,9 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		if (g_utf8_validate(fitem->title, -1, NULL)) {
 			conv_encode_header_full(tmp, 511, fitem->title, 
 				strlen("Subject: "), FALSE, CS_UTF_8);
-			fprintf(f, "Subject: %s\n", tmp);
+			fprintf(f, "Subject: %s\n", strtailchomp(tmp, ' '));
 		} else
-			fprintf(f, "Subject: %s\n", fitem->title);
+			fprintf(f, "Subject: %s\n", strtailchomp(tmp, ' '));
 	}
 
 	if( fitem->link )
