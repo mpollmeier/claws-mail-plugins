@@ -1,3 +1,9 @@
+2006-08-29 [paul]	0.10.2cvs12
+
+	* .cvsignore
+		remove references to pluginconfig.h(.in),
+		the files ceased to exist
+
 2006-08-28 [paul]	0.10.2cvs11
 
 	* src/Makefile.am
