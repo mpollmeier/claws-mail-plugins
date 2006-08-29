@@ -21,3 +21,4 @@
 ( cvs diff -u -r 1.2.2.100 -r 1.2.2.101 configure.ac;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/Makefile.am;  cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/plugin.c;  ) > 1.79.2cvs12.patchset
 ( diff -u /dev/null po/stamp-po;  ) > 1.79.2cvs13.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 .cvsignore;  cvs diff -u -r 1.2.2.102 -r 1.2.2.103 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/zh_CN.po;  cvs diff -u -r 1.1 -r 1.2 src/icaltime_as_local.h;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/plugin.c;  cvs diff -u -r 1.2.2.38 -r 1.2.2.39 src/vcal_folder.c;  cvs diff -u -r 1.1.2.36 -r 1.1.2.37 src/vcal_manager.c;  cvs diff -u -r 1.1.2.31 -r 1.1.2.32 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/vcal_prefs.c;  cvs diff -u -r 1.2.2.36 -r 1.2.2.37 src/vcalendar.c;  ) > 1.79.2cvs14.patchset
+( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/plugin.c;  cvs diff -u -r 1.2.2.37 -r 1.2.2.38 src/vcalendar.c;  ) > 1.79.2cvs15.patchset

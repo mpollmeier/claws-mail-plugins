@@ -1,3 +1,11 @@
+2006-08-29 [colin]	1.79.2cvs15
+
+	* src/plugin.c
+		Complete 1.79.2cvs10 - Follow 
+		2.4.0cvs98 API change for sending mail
+	* src/vcalendar.c
+		Implement scroll
+
 2006-08-29 [paul]	1.79.2cvs14
 
 	* .cvsignore

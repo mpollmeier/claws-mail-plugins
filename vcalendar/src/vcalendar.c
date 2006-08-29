@@ -1191,6 +1191,25 @@ static gchar *vcal_viewer_get_selection(MimeViewer *_viewer)
 		return NULL;
 }
 
+
+static gboolean vcal_viewer_scroll_page(MimeViewer *_viewer, gboolean up)
+{
+	VCalViewer *viewer = (VCalViewer *)_viewer;
+	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrolledwin));
+	
+	return gtkutils_scroll_page(viewer->table, vadj, up);
+}
+
+static void vcal_viewer_scroll_one_line(MimeViewer *_viewer, gboolean up)
+{
+	VCalViewer *viewer = (VCalViewer *)_viewer;
+	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrolledwin));
+	
+	gtkutils_scroll_one_line(viewer->table, vadj, up);
+}
+
 MimeViewer *vcal_viewer_create(void)
 {
 	VCalViewer *vcalviewer;
@@ -1207,7 +1226,9 @@ MimeViewer *vcal_viewer_create(void)
 	vcalviewer->mimeviewer.clear_viewer = vcal_viewer_clear_viewer;
 	vcalviewer->mimeviewer.destroy_viewer = vcal_viewer_destroy_viewer;
 	vcalviewer->mimeviewer.get_selection = vcal_viewer_get_selection;
-	
+	vcalviewer->mimeviewer.scroll_page = vcal_viewer_scroll_page;
+	vcalviewer->mimeviewer.scroll_one_line = vcal_viewer_scroll_one_line;
+
 	vcalviewer->table = gtk_table_new(8, 2, FALSE);
 	vcalviewer->type = gtk_label_new("meeting");
 	vcalviewer->who = gtk_label_new("who");
