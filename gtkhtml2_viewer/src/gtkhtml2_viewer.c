@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <libgtkhtml/gtkhtml.h>
+#include <libgtkhtml/view/htmlselection.h>
 #include "common/sylpheed.h"
 #include "common/version.h"
 #include "main.h"
@@ -99,12 +100,15 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					: NULL;
 	MimeInfo *partinfo = viewer->to_load;
 
+	memset(buf, 0, sizeof(buf));
+
 	viewer->loading = 1;
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
 		g_unlink(viewer->filename);
 		g_free(viewer->filename);
+		viewer->filename = NULL;
 	}
 	g_free(viewer->base);
 
@@ -115,10 +119,11 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 		noticeview_hide(noticeview);
 	}
 
-	viewer->filename = procmime_get_tmp_file_name(partinfo);
+	if (partinfo)
+		viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
 
-	if (!(procmime_get_part(viewer->filename, partinfo) < 0)) {
+	if (partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
 
 		if (_viewer && _viewer->mimeview &&
 		    _viewer->mimeview->messageview->forced_charset)
@@ -224,7 +229,9 @@ static void reload_with_img(NoticeView *noticeview, GtkHtml2Viewer *viewer)
 
 static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 {
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
 	debug_print("gtkhtml2_clear_viewer\n");
+	viewer->to_load = NULL;
 }
 
 static void gtkhtml2_destroy_viewer(MimeViewer *_viewer)
@@ -597,7 +604,31 @@ static gchar *gtkhtml2_get_selection(MimeViewer *_viewer)
 	
 	if (viewer->html_view == NULL)
 		return NULL;
-	return html_selection_get_text(viewer->html_view);
+	return html_selection_get_text((HtmlView *)viewer->html_view);
+}
+
+static gboolean gtkhtml2_scroll_page(MimeViewer *_viewer, gboolean up)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)_viewer;
+	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrollwin));
+
+	if (viewer->html_view == NULL)
+		return FALSE;
+
+	return gtkutils_scroll_page(viewer->html_view, vadj, up);
+}
+
+static void gtkhtml2_scroll_one_line(MimeViewer *_viewer, gboolean up)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)_viewer;
+	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrollwin));
+
+	if (viewer->html_view == NULL)
+		return;
+
+	gtkutils_scroll_one_line(viewer->html_view, vadj, up);
 }
 
 static MimeViewer *gtkhtml2_viewer_create(void)
@@ -614,6 +645,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->mimeviewer.clear_viewer = gtkhtml2_clear_viewer;
 	viewer->mimeviewer.destroy_viewer = gtkhtml2_destroy_viewer;
 	viewer->mimeviewer.get_selection = gtkhtml2_get_selection;
+	viewer->mimeviewer.scroll_page = gtkhtml2_scroll_page;
+	viewer->mimeviewer.scroll_one_line = gtkhtml2_scroll_one_line;
 
 	viewer->html_doc = html_document_new();
 	viewer->html_view = html_view_new();
