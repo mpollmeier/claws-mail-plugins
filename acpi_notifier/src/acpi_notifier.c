@@ -25,8 +25,6 @@
 #  include "config.h"
 #endif
 
-#include "pluginconfig.h"
-
 #include <string.h>
 
 #include <glib.h>

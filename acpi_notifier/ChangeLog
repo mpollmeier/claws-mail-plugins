@@ -1,3 +1,10 @@
+2006-08-29 [paul]	1.0.2cvs6
+
+	* .cvsignore
+	* src/acpi_notifier.c
+		remove references to pluginconfig.h(.in),
+		the files ceased to exist
+
 2006-08-28 [paul]	1.0.2cvs5
 
 	* configure.ac
