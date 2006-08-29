@@ -20,13 +20,11 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
-#  include "pluginconfig.h"
 #endif
 
 #include <stddef.h>
 #include <curl/curl.h>
 
-#include "pluginconfig.h"
 #include "version.h"
 #include "vcalendar.h"
 #include "sylpheed.h"

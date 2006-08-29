@@ -1,3 +1,20 @@
+2006-08-29 [paul]	1.79.2cvs14
+
+	* .cvsignore
+	* configure.ac
+	* src/icaltime_as_local.h
+	* src/plugin.c
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+	* src/vcalendar.c
+		remove references to pluginconfig.h,
+		the file ceased to exist
+
+	* po/zh_CN.po
+		fix broken plural forms
+
 2006-08-28 [paul]	1.79.2cvs13
 
 	* po/stamp-po

@@ -20,7 +20,6 @@
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
-#  include "pluginconfig.h"
 #endif
 
 #include <sys/types.h>
