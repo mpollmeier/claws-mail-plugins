@@ -757,13 +757,14 @@ void acpi_prefs_init(void)
 
 void acpi_prefs_done(void)
 {
+	should_quit = TRUE;
+	g_thread_join(thread);
+	thread = NULL;
+	acpi_set(FALSE); 
 	if (sylpheed_is_exiting())
 		return;
 	prefs_gtk_unregister_page((PrefsPage *) &acpi_prefs_page);
 	hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_id);
-	should_quit = TRUE;
-	g_thread_join(thread);
-	thread = NULL;
 }
 
 

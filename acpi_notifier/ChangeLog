@@ -1,3 +1,8 @@
+2006-08-30 [colin]	1.0.2cvs7
+
+	* src/acpi_notifier.c
+		Put LED off when unloading
+
 2006-08-29 [paul]	1.0.2cvs6
 
 	* .cvsignore
