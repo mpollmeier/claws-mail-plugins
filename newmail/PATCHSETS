@@ -2,3 +2,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/.cvsignore;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 src/plugin_version.h.in;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/newmail.c;  ) > 0.0.5cvs2.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 configure.ac;  ) > 0.0.6cvs1.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/newmail.c;  ) > 0.0.6cvs2.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 commitHelper;  ) > 0.0.6cvs3.patchset
