@@ -1,3 +1,9 @@
+2006-09-01 [wwp]	0.3.0cvs6
+
+	* commitHelper
+		sync w/ commitHelper in sylpheed-claws module:
+		use CVSEDITOR env. var. if set.
+
 2006-08-27 [wwp]	0.3.0cvs5
 
 	* src/notification_plugin.c

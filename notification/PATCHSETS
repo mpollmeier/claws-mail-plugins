@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 configure.ac;  ) > 0.3.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_plugin.c;  ) > 0.3.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/notification_plugin.c;  ) > 0.3.0cvs5.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 commitHelper;  ) > 0.3.0cvs6.patchset
