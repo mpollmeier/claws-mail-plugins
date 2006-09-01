@@ -1,3 +1,9 @@
+2006-09-01 [wwp]	0.6.0cvs15
+
+	* commitHelper
+		sync w/ commitHelper in sylpheed-claws module:
+		use CVSEDITOR env. var. if set.
+
 2006-08-29 [colin]	0.6.0cvs14
 
 	* src/feed.c
