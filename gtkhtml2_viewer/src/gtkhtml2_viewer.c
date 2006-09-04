@@ -103,6 +103,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 	memset(buf, 0, sizeof(buf));
 
 	viewer->loading = 1;
+	messageview->updating = TRUE;
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
@@ -183,6 +184,7 @@ out:
 	viewer->stop_previous = FALSE;
 	viewer->force_image_loading = FALSE;	
 	g_mutex_unlock(viewer->mutex);
+	messageview->updating = FALSE;
 	return FALSE;
 }
 
