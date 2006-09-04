@@ -788,8 +788,6 @@ static gboolean rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *
 	if( old_item->title && new_item->title ) {
 		gchar *old = conv_unmime_header(old_item->title, CS_UTF_8);
 		gchar *new = conv_unmime_header(new_item->title, CS_UTF_8);
-		printf("1   '%s' | '%s'\n", old_item->title, new_item->title);
-		printf("2   '%s' | '%s'\n", old, new);
 		if( strcmp(old, new) ) {	/* ... compare "unmimed" titles */
 			g_free(old);
 			g_free(new);
