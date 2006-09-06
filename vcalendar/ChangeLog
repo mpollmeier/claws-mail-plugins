@@ -1,3 +1,18 @@
+2006-09-06 [colin]	1.79.2cvs17
+
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_meeting_gtk.h
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
+	* src/vcalendar.c
+		Implement free/busy support (export and import)
+		The Full Corporate Potential is now 
+		unleashed on Sylpheed-Claws!
+		
+
 2006-09-01 [wwp]	1.79.2cvs16
 
 	* commitHelper

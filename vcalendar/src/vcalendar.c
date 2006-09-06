@@ -227,7 +227,7 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 	while ((n_read = fread(buf, sizeof(gchar), sizeof(buf), fp)) > 0) {
 		if (n_read < sizeof(buf) && ferror(fp))
 			break;
-		g_byte_array_append(array, buf, n_read);
+		g_byte_array_append(array, (guchar *)buf, n_read);
 	}
 
 	if (ferror(fp)) {
@@ -237,7 +237,7 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 	}
 
 	buf[0] = '\0';
-	g_byte_array_append(array, buf, 1);
+	g_byte_array_append(array, (guchar *)buf, 1);
 	compstr = (gchar *)array->data;
 	g_byte_array_free(array, FALSE);
 
@@ -1140,6 +1140,7 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 		g_warning("couldn't send reply\n");
 	}
 	
+	vcal_manager_save_event(event);
 	vcal_manager_free_event(event);
 	
         return TRUE;
@@ -1340,7 +1341,12 @@ void vcalendar_init(void)
 	Folder *folder = NULL;
 	GSList *events = NULL;
 	GSList *cur = NULL;
-	
+	gchar *directory = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"vcalendar", NULL);
+	if (!is_dir_exist(directory))
+		make_dir (directory);
+	g_free(directory);
+
 	mimeview_register_viewer_factory(&vcal_viewer_factory);
 	folder_register_class(vcal_folder_get_class());
 

@@ -42,10 +42,17 @@ struct VcalendarPage
 	
 	GtkWidget *alert_enable_btn;
 	GtkWidget *alert_delay_spinbtn;
+
 	GtkWidget *export_enable_btn;
 	GtkWidget *export_subs_btn;
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_entry;
+	
+	GtkWidget *export_freebusy_enable_btn;
+	GtkWidget *export_freebusy_path_entry;
+	GtkWidget *export_freebusy_command_entry;
+	
+	GtkWidget *freebusy_get_url_entry;
 };
 
 VcalendarPrefs vcalprefs;
@@ -56,6 +63,7 @@ static PrefParam param[] = {
 	 NULL, NULL, NULL},
 	{"alert_enable", "FALSE", &vcalprefs.alert_enable, P_BOOL,
 	 NULL, NULL, NULL},
+
 	{"export_enable", "FALSE", &vcalprefs.export_enable, P_BOOL,
 	 NULL, NULL, NULL},
 	{"export_subs", "TRUE", &vcalprefs.export_subs, P_BOOL,
@@ -63,6 +71,15 @@ static PrefParam param[] = {
 	{"export_path", "", &vcalprefs.export_path, P_STRING,
 	 NULL, NULL, NULL},
 	{"export_command", NULL, &vcalprefs.export_command, P_STRING,
+	 NULL, NULL, NULL},
+
+	{"export_freebusy_enable", "FALSE", &vcalprefs.export_freebusy_enable, P_BOOL,
+	 NULL, NULL, NULL},
+	{"export_freebusy_path", "", &vcalprefs.export_freebusy_path, P_STRING,
+	 NULL, NULL, NULL},
+	{"export_freebusy_command", NULL, &vcalprefs.export_freebusy_command, P_STRING,
+	 NULL, NULL, NULL},
+	{"freebusy_get_url", NULL, &vcalprefs.freebusy_get_url, P_STRING,
 	 NULL, NULL, NULL},
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
@@ -73,17 +90,31 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 {
 	struct VcalendarPage *page = (struct VcalendarPage *) _page;
 
-	GtkWidget *vbox1, *vbox2;
+	GtkWidget *vbox1, *vbox2, *vbox3;
 	GtkWidget *hbox1, *hbox2, *hbox3;
+	
+	GtkWidget *frame_alert;
 	GtkWidget *alert_enable_checkbtn;
 	GtkObject *alert_enable_spinbtn_adj;
 	GtkWidget *alert_enable_spinbtn;
 	GtkWidget *label_alert_enable;
+
+	GtkWidget *frame_export;
 	GtkWidget *export_enable_checkbtn;
 	GtkWidget *export_subs_checkbtn;
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_label;
 	GtkWidget *export_command_entry;
+
+	GtkWidget *frame_freebusy_export;
+	GtkWidget *export_freebusy_enable_checkbtn;
+	GtkWidget *export_freebusy_path_entry;
+	GtkWidget *export_freebusy_command_label;
+	GtkWidget *export_freebusy_command_entry;
+
+	GtkWidget *freebusy_get_url_label;
+	GtkWidget *freebusy_get_url_entry;
+
 	GtkTooltips *tooltips;
 
 	tooltips = gtk_tooltips_new();
@@ -98,9 +129,13 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 
 
 /* alert stuff */
+	PACK_FRAME(vbox2, frame_alert, _("Reminders"));
+	vbox3 = gtk_vbox_new (FALSE, 8);
+	gtk_widget_show (vbox3);
+	gtk_container_add (GTK_CONTAINER (frame_alert), vbox3);
 	hbox1 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox1);
-	gtk_box_pack_start(GTK_BOX (vbox2), hbox1, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox1, TRUE, TRUE, 0);
 
 	alert_enable_checkbtn = gtk_check_button_new_with_label(_("Alert me "));
 	gtk_widget_show (alert_enable_checkbtn);
@@ -120,13 +155,19 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(alert_enable_checkbtn), 
 			vcalprefs.alert_enable);
+        gtk_spin_button_set_value(GTK_SPIN_BUTTON(alert_enable_spinbtn),
+			vcalprefs.alert_delay);
 	SET_TOGGLE_SENSITIVITY(alert_enable_checkbtn, alert_enable_spinbtn);
 
-
+/* calendar export */
 /* export enable + path stuff */
+	PACK_FRAME(vbox2, frame_export, _("Calendar export"));
+	vbox3 = gtk_vbox_new (FALSE, 8);
+	gtk_widget_show (vbox3);
+	gtk_container_add (GTK_CONTAINER (frame_export), vbox3);
 	hbox2 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox2);
-	gtk_box_pack_start(GTK_BOX (vbox2), hbox2, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
 	export_enable_checkbtn = gtk_check_button_new_with_label(_("Automatically export calendar to "));
 	gtk_widget_show(export_enable_checkbtn);
@@ -147,7 +188,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 /* export subscriptions too */
 	hbox2 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox2);
-	gtk_box_pack_start(GTK_BOX (vbox2), hbox2, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
 	export_subs_checkbtn = gtk_check_button_new_with_label(_("Include webcal subscriptions in export"));
 	gtk_widget_show(export_subs_checkbtn);
@@ -157,9 +198,9 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 /* run-command after export stuff */
 	hbox3 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox3);
-	gtk_box_pack_start(GTK_BOX (vbox2), hbox3, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
 
-	export_command_label = gtk_label_new(_("Command to run after export: "));
+	export_command_label = gtk_label_new(_("Command to run after calendar export: "));
 	gtk_widget_show(export_command_label);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_command_label, FALSE, FALSE, 0);
 
@@ -172,26 +213,105 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			vcalprefs.export_enable);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_subs_checkbtn), 
 			vcalprefs.export_subs);
-        gtk_spin_button_set_value(GTK_SPIN_BUTTON(alert_enable_spinbtn),
-			vcalprefs.alert_delay);
 	if (vcalprefs.export_path == NULL)
 		vcalprefs.export_path = g_strconcat(get_rc_dir(), 
 					G_DIR_SEPARATOR_S,
                                         "sylpheed-claws.ics", NULL);
 	if (vcalprefs.export_command == NULL)
 		vcalprefs.export_command = g_strdup("");
-
 	gtk_entry_set_text(GTK_ENTRY(export_path_entry), 
 			vcalprefs.export_path);
 	gtk_entry_set_text(GTK_ENTRY(export_command_entry), 
 			vcalprefs.export_command);
 
+/* freebusy export */
+/* export enable + path stuff */
+	PACK_FRAME(vbox2, frame_freebusy_export, _("Free/busy informations"));
+	vbox3 = gtk_vbox_new (FALSE, 8);
+	gtk_widget_show (vbox3);
+	gtk_container_add (GTK_CONTAINER (frame_freebusy_export), vbox3);
+	hbox2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
+
+	export_freebusy_enable_checkbtn = gtk_check_button_new_with_label(
+		_("Automatically export free/busy to "));
+	gtk_widget_show(export_freebusy_enable_checkbtn);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_enable_checkbtn, FALSE, FALSE, 0);
+
+	export_freebusy_path_entry = gtk_entry_new();
+	gtk_widget_show(export_freebusy_path_entry);
+	gtk_box_pack_start(GTK_BOX(hbox2), export_freebusy_path_entry, TRUE, TRUE, 0);
+	SET_TOGGLE_SENSITIVITY(export_freebusy_enable_checkbtn, export_freebusy_path_entry);
+	gtk_tooltips_set_tip(tooltips, export_freebusy_enable_checkbtn, 
+			    _("You can export to a local file or an URL"),
+			     NULL);
+	gtk_tooltips_set_tip(tooltips, export_freebusy_path_entry, 
+			    _("Specify a local file or URL "
+			      "(http://user:pass@server/path/file.ifb)"),
+			     NULL);
+
+/* run-command after export stuff */
+	hbox3 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox3);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
+
+	export_freebusy_command_label = gtk_label_new(_("Command to run after free/busy export: "));
+	gtk_widget_show(export_freebusy_command_label);
+	gtk_box_pack_start(GTK_BOX (hbox3), export_freebusy_command_label, FALSE, FALSE, 0);
+
+	export_freebusy_command_entry = gtk_entry_new();
+	gtk_widget_show(export_freebusy_command_entry);
+	gtk_box_pack_start(GTK_BOX (hbox3), export_freebusy_command_entry, TRUE, TRUE, 0);
+
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_freebusy_enable_checkbtn), 
+			vcalprefs.export_freebusy_enable);
+	if (vcalprefs.export_freebusy_path == NULL)
+		vcalprefs.export_freebusy_path = g_strconcat(get_rc_dir(), 
+					G_DIR_SEPARATOR_S,
+                                        "sylpheed-claws.ifb", NULL);
+	if (vcalprefs.export_freebusy_command == NULL)
+		vcalprefs.export_freebusy_command = g_strdup("");
+	if (vcalprefs.freebusy_get_url == NULL)
+		vcalprefs.freebusy_get_url = g_strdup("");
+
+/* free/busy import */
+	hbox2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
+
+	freebusy_get_url_label = gtk_label_new(
+		_("Get free/busy for others on "));
+	gtk_widget_show(freebusy_get_url_label);
+	gtk_box_pack_start(GTK_BOX (hbox2), freebusy_get_url_label, FALSE, FALSE, 0);
+
+	freebusy_get_url_entry = gtk_entry_new();
+	gtk_widget_show(freebusy_get_url_entry);
+	gtk_box_pack_start(GTK_BOX(hbox2), freebusy_get_url_entry, TRUE, TRUE, 0);
+	gtk_tooltips_set_tip(tooltips, freebusy_get_url_entry, 
+			    _("Specify a local file or URL "
+			      "(http://user:pass@server/path/file.ifb). Use %u "
+			      "for the left part of the email address, %d for "
+			      "the domain"),
+			     NULL);
+
+	gtk_entry_set_text(GTK_ENTRY(freebusy_get_url_entry), 
+			vcalprefs.freebusy_get_url);
+
 	page->alert_enable_btn = alert_enable_checkbtn;
 	page->alert_delay_spinbtn = alert_enable_spinbtn;
+
 	page->export_enable_btn = export_enable_checkbtn;
 	page->export_subs_btn = export_subs_checkbtn;
 	page->export_path_entry = export_path_entry;
 	page->export_command_entry = export_command_entry;
+
+	page->export_freebusy_enable_btn = export_freebusy_enable_checkbtn;
+	page->export_freebusy_path_entry = export_freebusy_path_entry;
+	page->export_freebusy_command_entry = export_freebusy_command_entry;
+
+	page->freebusy_get_url_entry = freebusy_get_url_entry;
 
 	page->page.widget = vbox1;
 }
@@ -206,6 +326,7 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	PrefFile *pfile;
 	gchar *rcpath;
 
+/* alert */
 	vcalprefs.alert_enable =
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
 					 (page->alert_enable_btn));
@@ -213,6 +334,7 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON
 						 (page->alert_delay_spinbtn));
 
+/* calendar export */
 	vcalprefs.export_enable = 
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
 					 (page->export_enable_btn));
@@ -229,6 +351,25 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	vcalprefs.export_command =
 	    gtk_editable_get_chars(GTK_EDITABLE(page->export_command_entry), 0, -1);
 	
+/* free/busy export */
+	vcalprefs.export_freebusy_enable = 
+	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+					 (page->export_freebusy_enable_btn));
+	
+	g_free(vcalprefs.export_freebusy_path);
+	vcalprefs.export_freebusy_path =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_freebusy_path_entry), 0, -1);
+
+	g_free(vcalprefs.export_freebusy_command);
+	vcalprefs.export_freebusy_command =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_freebusy_command_entry), 0, -1);
+
+/* free/busy import */
+	g_free(vcalprefs.freebusy_get_url);
+	vcalprefs.freebusy_get_url =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->freebusy_get_url_entry), 0, -1);
+
+
 	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
 	pfile = prefs_write_open(rcpath);
 	g_free(rcpath);
@@ -243,6 +384,8 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	fprintf(pfile->fp, "\n");
 
 	prefs_file_close(pfile);
+	
+	vcal_folder_export();
 }
 
 void vcal_prefs_init(void)

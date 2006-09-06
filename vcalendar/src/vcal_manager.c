@@ -591,7 +591,7 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 		gchar *tmp = g_strdup(qpbody);
 		gchar *outline = conv_codeset_strdup(lines[i], CS_UTF_8, conv_get_outgoing_charset_str());
 		g_free(qpbody);
-		qp_encode_line(buf, outline);
+		qp_encode_line(buf, (guchar *)outline);
 		qpbody = g_strdup_printf("%s%s", tmp, buf);
 		g_free(tmp);
 		g_free(outline);
@@ -796,13 +796,7 @@ void vcal_manager_save_event (VCalEvent *event)
 		return;
 	}
  
-	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
-		if (vcalprefs.export_enable &&
-		    vcalprefs.export_command &&
-		    strlen(vcalprefs.export_command))
-			execute_command_line(
-				vcalprefs.export_command, TRUE);
-	}
+	vcal_folder_export();
 }
 
 static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)

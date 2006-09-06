@@ -423,6 +423,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		VCalEvent *event = NULL;
 		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
 		||  !strcmp(d->d_name, "internal.ics")
+		||  !strcmp(d->d_name, "internal.ifb")
 		||  !strcmp(d->d_name, "multisync")) 
 			continue;
 
@@ -663,6 +664,24 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 	return TRUE;
 }
 
+void vcal_folder_export(void)
+{
+	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
+		if (vcalprefs.export_enable &&
+		    vcalprefs.export_command &&
+		    strlen(vcalprefs.export_command))
+			execute_command_line(
+				vcalprefs.export_command, TRUE);
+	}
+	if (vcal_meeting_export_freebusy(vcalprefs.export_freebusy_path)) {
+		if (vcalprefs.export_freebusy_enable &&
+		    vcalprefs.export_freebusy_command &&
+		    strlen(vcalprefs.export_freebusy_command))
+			execute_command_line(
+				vcalprefs.export_freebusy_command, TRUE);
+	}
+}
+
 static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 {
 	MimeInfo *mime = procmime_scan_message(msginfo);
@@ -681,14 +700,7 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 			g_free(file);
 		}
 	}
-
-	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
-		if (vcalprefs.export_enable &&
-		    vcalprefs.export_command &&
-		    strlen(vcalprefs.export_command))
-			execute_command_line(
-				vcalprefs.export_command, TRUE);
-	}
+	vcal_folder_export();
 }
 
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags)
@@ -778,6 +790,7 @@ GSList * vcal_folder_get_waiting_events(void)
 		VCalEvent *event = NULL;
 		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
 		||  !strcmp(d->d_name, "internal.ics") 
+		||  !strcmp(d->d_name, "internal.ifb") 
 		||  !strcmp(d->d_name, "multisync")) 
 			continue;
 
@@ -918,7 +931,12 @@ void *url_read_thread(void *data)
 	}
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {
-		td->result = g_strdup(buffer.str);
+		if (!g_utf8_validate(buffer.str, -1, NULL))
+			td->result = g_strdup(buffer.str);
+		else
+			td->result = conv_codeset_strdup(buffer.str, CS_UTF_8, CS_ISO_8859_1);
+		if (td->result == NULL)
+			td->result = g_strdup(buffer.str);
 		g_free(buffer.str);
 	}
 
@@ -926,7 +944,7 @@ void *url_read_thread(void *data)
 	return GINT_TO_POINTER(0);
 }
 
-static void url_read(const char *url, gboolean verbose, 
+gchar *vcal_curl_read(const char *url, gboolean verbose, 
 	void (*callback)(const gchar *url, gchar *data, gboolean verbose, gchar *error))
 {
 	gchar *result;
@@ -982,8 +1000,51 @@ static void url_read(const char *url, gboolean verbose,
 	
 	STATUSBAR_POP(mainwindow_get_mainwindow());
 
-	if (callback)
+	if (callback) {
 		callback(url, killed?NULL:result, verbose, error);
+		return NULL;
+	} else {
+		return killed?NULL:result;
+	}
+}
+
+gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
+{
+	gboolean res = TRUE;
+	CURL *curl_ctx = curl_easy_init();
+	int response_code = 0;
+	struct curl_slist * headers = curl_slist_append(NULL, 
+		"Content-Type: text/calendar; charset=\"utf-8\"" );
+
+
+	curl_easy_setopt(curl_ctx, CURLOPT_URL, url);
+	curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
+	curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);
+	curl_easy_setopt(curl_ctx, CURLOPT_HTTPHEADER, headers);
+#if LIBCURL_VERSION_NUM >= 0x070a00
+	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
+#endif
+	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
+		"Sylpheed-Claws vCalendar plugin "
+		"(http://claws.sylpheed.org/plugins.php)");
+	curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
+	res = curl_easy_perform(curl_ctx);
+
+	if (res != 0) {
+		printf("res %d %s\n", res, curl_easy_strerror(res));
+	} else {
+		res = TRUE;
+	}
+
+	curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
+	if (response_code < 200 || response_code >= 300) {
+		g_warning("Can't export calendar, got code %d\n", response_code);
+		res = FALSE;
+	}
+	curl_easy_cleanup(curl_ctx);
+	curl_slist_free_all(headers);
+	return res;
 }
 
 static gboolean folder_item_find_func(GNode *node, gpointer data)
@@ -1139,7 +1200,7 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 	}
 	
 	main_window_cursor_wait(mainwindow_get_mainwindow());
-	url_read(uri, verbose, update_subscription_finish);
+	vcal_curl_read(uri, verbose, update_subscription_finish);
 }
 
 static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget)

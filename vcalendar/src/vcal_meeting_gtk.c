@@ -77,6 +77,7 @@ struct _VCalAttendee {
 	GtkWidget *hbox;
 	VCalMeeting *meet;
 	gchar *status;
+	gchar *cached_contents;
 };
 
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
@@ -415,6 +416,281 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 				end_lt->tm_min);	
 }
 
+gboolean attendee_available(const gchar *dtstart, const gchar *dtend, const gchar *contents)
+{
+	icalcomponent *toplvl, *vfreebusy;
+	icalproperty *busyprop;
+	struct icaltimetype start = icaltime_from_string(dtstart);
+	struct icaltimetype end = icaltime_from_string(dtend);
+	gboolean result = TRUE;
+	
+	if (contents == NULL)
+		return TRUE;
+
+	toplvl = icalcomponent_new_from_string((gchar *)contents);
+	
+	vfreebusy = icalcomponent_get_first_component(toplvl, ICAL_VFREEBUSY_COMPONENT);
+	while (vfreebusy && icalcomponent_isa(vfreebusy) != ICAL_VFREEBUSY_COMPONENT)
+		vfreebusy = icalcomponent_get_next_component(toplvl, ICAL_VFREEBUSY_COMPONENT);
+	
+	if (vfreebusy) {
+		busyprop = icalcomponent_get_first_property(vfreebusy, ICAL_FREEBUSY_PROPERTY);
+		while (busyprop) {
+			struct icalperiodtype ipt = icalproperty_get_freebusy(busyprop);
+			
+			if ( icaltime_compare(start, ipt.end) >= 0 || icaltime_compare(end, ipt.start) <= 0 ) {
+				result = TRUE;
+			} else {
+				result = FALSE;
+				break;
+			}
+			busyprop = icalcomponent_get_next_property(vfreebusy, ICAL_FREEBUSY_PROPERTY);
+		}
+	}
+
+	icalcomponent_free(toplvl);
+	return result;
+}
+
+static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSList *attendees)
+{
+	GSList *cur;
+	gint offset = -1800, offset_before = 0, offset_after = 0;
+	gboolean found = FALSE;
+	gchar *unavailable_persons = NULL, *intro = NULL, *outro = NULL, *before = NULL, *after = NULL;
+	gchar *msg = NULL;
+	struct icaltimetype start = icaltime_from_string(dtstart);
+	struct icaltimetype end = icaltime_from_string(dtend);
+	AlertValue val;
+	for (cur = attendees; cur; cur = cur->next) {
+		VCalAttendee *attendee = (VCalAttendee *)cur->data;
+		if (!attendee_available(icaltime_as_ical_string(start), icaltime_as_ical_string(end),
+				attendee->cached_contents)) {
+			gchar *mail = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
+			if (unavailable_persons == NULL) {
+				unavailable_persons = g_strdup_printf("- %s", mail);
+			} else {
+				gchar *tmp = g_strdup_printf("%s,\n-%s", unavailable_persons, mail);
+				g_free(unavailable_persons);
+				unavailable_persons = tmp;
+			}
+			g_free(mail);
+			break;
+		}
+	}
+	while (!found && offset > -3600*6) {
+		gboolean ok = TRUE;
+		struct icaltimetype new_start = icaltime_from_timet(icaltime_as_timet(start)+offset, FALSE);
+		struct icaltimetype new_end   = icaltime_from_timet(icaltime_as_timet(end)+offset, FALSE);
+		for (cur = attendees; cur; cur = cur->next) {
+			VCalAttendee *attendee = (VCalAttendee *)cur->data;
+			if (!attendee_available(icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
+					attendee->cached_contents)) {
+				ok = FALSE;
+				break;
+			}
+		}
+		if (ok) {
+			found = TRUE;
+			offset_before = -offset;
+		}
+		offset -= 1800;
+	}
+	found = FALSE;
+	offset = 1800;
+	while (!found && offset < 1800*6) {
+		gboolean ok = TRUE;
+		struct icaltimetype new_start = icaltime_from_timet(icaltime_as_timet(start)+offset, FALSE);
+		struct icaltimetype new_end   = icaltime_from_timet(icaltime_as_timet(end)+offset, FALSE);
+		for (cur = attendees; cur; cur = cur->next) {
+			VCalAttendee *attendee = (VCalAttendee *)cur->data;
+			if (!attendee_available(icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
+					attendee->cached_contents)) {
+				ok = FALSE;
+				break;
+			}
+		}
+		if (ok) {
+			found = TRUE;
+			offset_after = offset;
+		}
+
+		offset += 1800;
+	}
+	intro = g_strdup(_("The following person(s) are busy at the time of your planned meeting:\n"));
+	
+	if (offset_before == 3600)
+		before = g_strdup_printf(_("%d hours before"), offset_before/3600);
+	else if (offset_before > 3600 && offset_before%3600 == 0)
+		before = g_strdup_printf(_("%d hours before"), offset_before/3600);
+	else if (offset_before > 3600)
+		before = g_strdup_printf(_("%d hours and %d minutes before"), offset_before/3600, (offset_before%3600)/60);
+	else if (offset_before == 1800)
+		before = g_strdup_printf(_("%d minutes"), offset_before/60);
+	else
+		before = NULL;
+	
+	if (offset_after == 3600)
+		after = g_strdup_printf(_("%d hour after"), offset_after/3600);
+	else if (offset_after > 3600 && offset_after%3600 == 0)
+		after = g_strdup_printf(_("%d hours after"), offset_after/3600);
+	else if (offset_after > 3600)
+		after = g_strdup_printf(_("%d hours and %d minutes after"), offset_after/3600, (offset_after%3600)/60);
+	else if (offset_after == 1800)
+		after = g_strdup_printf(_("%d minutes"), offset_after/60);
+	else
+		after = NULL;
+	
+	if (before && after)
+		outro = g_strdup_printf(_("\n\nEveryone is available either %s, or %s."), before, after);
+	else if (before || after)
+		outro = g_strdup_printf(_("\n\nEveryone is available %s."), before?before:after);
+	else
+		outro = g_strdup_printf(_("\n\nIt isn't possible to have this meeting with everyone "
+					"in the previous or next 6 hours."));
+	
+	msg = g_strconcat(intro, unavailable_persons, outro, NULL);
+	g_free(intro);
+	g_free(unavailable_persons);
+	g_free(outro);
+	g_free(before);
+	g_free(after);
+	val = alertpanel_full(_("Not everyone is available"), msg,
+				   	GTK_STOCK_CANCEL, _("Send anyway"), NULL, FALSE,
+				   	NULL, ALERT_QUESTION, G_ALERTDEFAULT);
+	g_free(msg);
+	return (val == G_ALERTALTERNATE);
+}
+
+static gboolean check_attendees_availability(VCalMeeting *meet)
+{
+	GSList *cur;
+	gchar *tmp = NULL;
+	gchar *real_url = NULL;
+	gint num_format = 0;
+	gint change_user = -1, change_dom = -1;
+	gchar *problems = NULL;
+	gchar *dtstart = NULL;
+	gchar *dtend = NULL;
+	gboolean find_avail = FALSE;
+	gboolean res = TRUE;
+
+	if (vcalprefs.freebusy_get_url == NULL
+	||  *vcalprefs.freebusy_get_url == '\0')
+		return TRUE;
+
+	real_url = g_strdup(vcalprefs.freebusy_get_url);
+	tmp = real_url;
+		
+	while (strchr(tmp, '%')) {
+		tmp = strchr(tmp, '%')+1;
+		num_format++;
+	}
+	if (num_format > 2) {
+		g_warning("wrong format in %s!\n", real_url);
+		g_free(real_url);
+		return FALSE;
+	}
+
+	tmp = NULL;
+	if (strstr(real_url, "%u") != NULL) {
+		change_user = (gint)strstr(real_url, "%u");
+		*(strstr(real_url, "%u")+1) = 's';
+	} 
+	if (strstr(real_url, "%d") != NULL) {
+		change_dom = (gint)strstr(real_url, "%d");
+		*(strstr(real_url, "%d")+1) = 's';
+	} 
+	debug_print("url format %s\n", real_url);
+
+	dtstart = get_date(meet, TRUE);
+	dtend = get_date(meet, FALSE);
+
+	for (cur = meet->attendees; cur && cur->data; cur = cur->next) {
+		VCalAttendee *attendee = (VCalAttendee *)cur->data;
+		gchar *email = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
+		gchar *remail, *user, *domain;
+		gchar *contents = NULL;
+		if (*email == '\0') {
+			g_free(email);
+			continue;
+		}
+
+		remail = g_strdup(email);
+		extract_address(remail);
+		if (strrchr(remail, ' '))
+			user = g_strdup(strrchr(remail, ' ')+1);
+		else
+			user = g_strdup(remail);
+		if (strchr(user, '@')) {
+			domain = g_strdup(strchr(user, '@')+1);
+			*(strchr(user, '@')) = '\0';
+		} else {
+			domain = g_strdup("");
+		}
+		g_free(remail);
+		if (change_user > 0 && change_dom > 0) {
+			if (change_user < change_dom)
+				tmp = g_strdup_printf(real_url, user, domain);
+			else
+				tmp = g_strdup_printf(real_url, domain, user);
+		} else if (change_user > 0) {
+			tmp = g_strdup_printf(real_url, user);
+		} else if (change_dom > 0) {
+			tmp = g_strdup_printf(real_url, domain);
+		} else {
+			tmp = g_strdup(real_url);
+		}
+		g_free(user);
+		g_free(domain);
+		debug_print("url to get %s\n", tmp);
+		
+		if (strncmp(tmp, "http://", 7) 
+		&& strncmp(tmp, "https://", 8)
+		&& strncmp(tmp, "webdav://", 9)
+		&& strncmp(tmp, "ftp://", 6))
+			contents = file_read_to_str(tmp);
+		else {
+			if (!strncmp(tmp, "webdav://", 9)) {
+				gchar *tmp2 = g_strdup_printf("http://%s", tmp+9);
+				g_free(tmp);
+				tmp = tmp2;
+			}
+			contents = vcal_curl_read(tmp, FALSE, NULL);
+		}
+		g_free(tmp);
+		if (contents == NULL) {
+			continue;
+		}
+		else {
+			if (!attendee_available(dtstart, dtend, contents)) {
+				find_avail = TRUE;
+				debug_print("not available!\n");
+			} else {
+				debug_print("available!\n");
+			}
+			attendee->cached_contents = contents;
+			
+		}
+	}
+	
+	if (find_avail) {
+		res = find_availability((dtstart), (dtend), meet->attendees);
+	} else {
+		res = TRUE;
+	}
+
+	for (cur = meet->attendees; cur && cur->data; cur = cur->next) {
+		VCalAttendee *attendee = (VCalAttendee *)cur->data;
+		g_free(attendee->cached_contents);
+		attendee->cached_contents = NULL;
+	}
+
+	g_free(real_url);
+	g_free(dtstart);
+	g_free(dtend);
+	return res;
+}
 
 static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 {
@@ -435,6 +711,10 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	gboolean found_att = FALSE;
 
 	generate_msgid(buf, 255);
+
+	if (!check_attendees_availability(meet)) {
+		return FALSE;
+	}
 
 	if (meet->uid) {
 		uid 	= g_strdup(meet->uid);
@@ -991,7 +1271,6 @@ gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
 			str_write_to_file("", tmpfile);
 			goto putfile;
 		}
-		
 	}
 	
 	calendar = 
@@ -1063,32 +1342,300 @@ putfile:
 			file = tmp;
 		}
 		if (fp) {
-			CURL *curl_ctx = curl_easy_init();
-			int response_code = 0;
-			struct curl_slist * headers = curl_slist_append(NULL, 
-				"Content-Type: text/calendar; charset=\"utf-8\"" );
+			res = vcal_curl_put(file, fp, filesize);
+			fclose(fp);
+		}
+	}
+	g_free(tmpfile);
+	return res;
+}
 
+#if 0
+typedef struct _BusySpot BusySpot;
+struct _BusySpot {
+	time_t start;
+	time_t end;
+};
 
-			curl_easy_setopt(curl_ctx, CURLOPT_URL, file);
-			curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
-			curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);
-			curl_easy_setopt(curl_ctx, CURLOPT_HTTPHEADER, headers);
-#if LIBCURL_VERSION_NUM >= 0x070a00
-			curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
-			curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
-#endif
-			curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
-				"Sylpheed-Claws vCalendar plugin "
-				"(http://claws.sylpheed.org/plugins.php)");
-			curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
-			curl_easy_perform(curl_ctx);
-			curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
-			if (response_code < 200 || response_code >= 300) {
-				g_warning("Can't export calendar, got code %d\n", response_code);
-				res = FALSE;
+static GSList *vcal_g_slist_merge(GSList *list, BusySpot *spot, gboolean append_if_not_merged)
+{
+	BusySpot *newspot = g_new0(BusySpot, 1);
+	newspot->start = spot->start;
+	newspot->end = spot->end;
+	gchar a[100], b[100], c[100], d[100];
+
+	if (list == NULL) {
+		debug_print("%p (%s-%s) fits nowhere because list empty, %smerging\n",
+			spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
+			append_if_not_merged?"":"not ");
+		if (append_if_not_merged)
+			return g_slist_append(NULL, newspot);
+		else 
+			return NULL;
+	} else {
+		GSList *cur = list;
+		for (; cur; cur = cur->next) {
+			BusySpot *curspot = (BusySpot *)cur->data;
+			if (curspot == spot) {
+				/* same one ! don't merge. */
+				debug_print("not merging %p (%s-%s) with itself\n", spot, ctime_r(&spot->start, a),
+					ctime_r(&spot->end, b));
+				continue;
+			} else if (curspot->start <= newspot->start && curspot->end >= newspot->end) {
+				/* fits in, remove the new one */
+				debug_print("%p:\n%s%s fits in %p:\n%s%s\n\n",
+					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
+					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
+				g_free(newspot);
+				return list;
+			} else if (newspot->start < curspot->start && newspot->end > curspot->end) {
+				/* the new one extends the existing one */
+				debug_print("%p:\n%s%s extends %p:\n%s%s\n\n",
+					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
+					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
+				curspot->start = newspot->start;
+				curspot->end = newspot->end;
+				g_free(newspot);
+				return list;
+			} else if (newspot->start < curspot->start && newspot->end >= curspot->start) {
+				/* the new one starts before, update the existing */
+				debug_print("%p:\n%s%s starts before %p:\n%s%s\n\n",
+					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
+					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
+				curspot->start = newspot->start;
+				g_free(newspot);
+				return list;
+			} else if (newspot->end > curspot->end && newspot->start <= curspot->end) {
+				/* the new one ends after, update the existing */
+				debug_print("%p:\n%s%s ends after %p:\n%s%s\n\n",
+					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
+					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
+				curspot->end = newspot->end;
+				g_free(newspot);
+				return list;
+			} else {
+				/* they don't overlap. continue searching. */
 			}
-			curl_easy_cleanup(curl_ctx);
-			curl_slist_free_all(headers);
+		}
+		debug_print("%p (%s-%s) fits nowhere, %sadding\n",
+			spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
+			append_if_not_merged?"":"not ");
+
+		/* if we reach that, we found nowhere to overlap, so insert */
+		if (append_if_not_merged)
+			return g_slist_append(list, newspot);
+		else
+			return list;
+	}
+}
+
+static GSList *vcal_g_slist_merge_all(GSList *list)
+{
+	int length = 0;
+	
+merge_again:
+	length = g_slist_length(list);
+	
+	if (length <= 1) {
+		/* unmergeable */
+		return list;
+	} else {
+		GSList *cur = list;
+		GSList *new_list = NULL;
+		for (cur = list; cur; cur = cur->next) {
+			new_list = vcal_g_slist_merge(new_list, (BusySpot *)cur->data, TRUE);
+			g_free(cur->data);
+		}
+		g_slist_free(list);
+		list = new_list;
+		if (g_slist_length(new_list) < length) {
+			/* we did merge stuff */
+			goto merge_again;
+		}
+		return list;
+	}
+}
+#endif
+
+gboolean vcal_meeting_export_freebusy(const gchar *path)
+{
+	GSList *list = vcal_folder_get_waiting_events();
+	GSList *cur;
+	icalcomponent *calendar = NULL, *timezone = NULL, *tzc = NULL, *vfreebusy = NULL;
+	gchar *file = NULL;
+	gchar *tmpfile = get_tmp_file();
+	gchar *internal_file = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"vcalendar", G_DIR_SEPARATOR_S, 
+				"internal.ifb", NULL);
+	time_t whole_start = time(NULL);
+	time_t whole_end = whole_start + (60*60*24*365);
+	gboolean res = TRUE;
+	GSList *busy_spots = NULL;
+	struct icaltimetype itt_start, itt_end;
+	long filesize = 0;
+	
+	multisync_export();
+
+	if (g_slist_length(list) == 0) {
+		g_slist_free(list);
+		if (path == NULL) {
+			return FALSE;
+		} else {
+			str_write_to_file("", tmpfile);
+			goto putfile;
+		}
+		
+	}
+	
+	calendar = 
+        	icalcomponent_vanew(
+        	    ICAL_VCALENDAR_COMPONENT,
+	            icalproperty_new_version("2.0"),
+        	    icalproperty_new_prodid(
+                	 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
+		    icalproperty_new_calscale("GREGORIAN"),
+        	    0
+            ); 	
+
+	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
+	
+	icalcomponent_add_property(timezone,
+		icalproperty_new_tzid("GMT"));
+	
+	tzc = icalcomponent_new(ICAL_XSTANDARD_COMPONENT);
+	icalcomponent_add_property(tzc,
+		icalproperty_new_dtstart(
+			icaltime_from_string("19700101T000000")));
+	icalcomponent_add_property(tzc,
+		icalproperty_new_tzoffsetfrom(0.0));
+	icalcomponent_add_property(tzc,
+		icalproperty_new_tzoffsetto(0.0));
+	icalcomponent_add_property(tzc,
+		icalproperty_new_tzname("Greenwich meridian time"));
+
+        icalcomponent_add_component(timezone, tzc);
+
+	icalcomponent_add_component(calendar, timezone);
+
+#if 0
+	for (cur = list; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+		BusySpot *busy = g_new0(BusySpot, 1);
+		BusySpot *merged;
+		busy->start = icaltime_as_timet((icaltime_from_string(event->dtstart)));
+		busy->end = icaltime_as_timet((icaltime_from_string(event->dtend)));
+		busy_spots = vcal_g_slist_merge(busy_spots, busy, TRUE);
+		g_free(busy);
+		vcal_manager_free_event(event);
+	}
+
+	busy_spots = vcal_g_slist_merge_all(busy_spots);
+	debug_print("merged to %d events\n", g_slist_length(busy_spots));
+#endif
+
+	itt_start = icaltime_from_timet(whole_start, FALSE);
+	itt_end = icaltime_from_timet(whole_end, FALSE);
+	itt_start.second = itt_start.minute = itt_start.hour = 0;
+	itt_end.second = 59; itt_end.minute = 59; itt_end.hour = 23;
+
+
+	vfreebusy = 
+	    icalcomponent_vanew(
+                ICAL_VFREEBUSY_COMPONENT,
+		icalproperty_vanew_dtstart(itt_start,
+			icalparameter_new_tzid("GMT"), 0),
+		icalproperty_vanew_dtend(itt_end,
+			icalparameter_new_tzid("GMT"), 0),
+                0
+                );
+
+	debug_print("DTSTART:%s\nDTEND:%s\n",
+		icaltime_as_ical_string(itt_start),
+		icaltime_as_ical_string(itt_end));
+
+#if 0
+	for (cur = busy_spots; cur; cur = cur->next) {
+		icalproperty *prop;
+		struct icalperiodtype ipt;
+
+		BusySpot *spot = (BusySpot *)cur->data;
+		debug_print("FREEBUSY:%s/%s\n",
+			icaltime_as_ical_string(icaltime_from_timet(spot->start, FALSE)),
+			icaltime_as_ical_string(icaltime_from_timet(spot->end, FALSE)));
+		
+		ipt.start = icaltime_from_timet(spot->start, FALSE);
+		ipt.end = icaltime_from_timet(spot->end, FALSE);
+		ipt.duration = icaltime_subtract(ipt.end, ipt.start);
+		prop = icalproperty_new_freebusy(ipt);
+		icalcomponent_add_property(vfreebusy, prop);
+
+		g_free(spot);
+	}
+	g_slist_free(busy_spots);
+#endif
+
+	for (cur = list; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+		icalproperty *prop;
+		struct icalperiodtype ipt;
+	
+		ipt.start = icaltime_from_string(event->dtstart);
+		ipt.end = icaltime_from_string(event->dtend);
+		ipt.duration = icaltime_subtract(ipt.end, ipt.start);
+		if (icaltime_as_timet(ipt.start) <= icaltime_as_timet(itt_end) 
+		 && icaltime_as_timet(ipt.end) >= icaltime_as_timet(itt_start)) {
+			prop = icalproperty_new_freebusy(ipt);
+			icalcomponent_add_property(vfreebusy, prop);
+		}
+		vcal_manager_free_event(event);
+	}
+
+	icalcomponent_add_component(calendar, vfreebusy);
+	
+	if (str_write_to_file(icalcomponent_as_ical_string(calendar), internal_file) < 0) {
+		g_warning("can't export freebusy\n");
+	}
+	
+	g_free(internal_file);
+
+	if (vcalprefs.export_freebusy_enable) {
+		if (str_write_to_file(icalcomponent_as_ical_string(calendar), tmpfile) < 0) {
+			alertpanel_error(_("Could not export the freebusy info."));
+			g_free(tmpfile);
+			icalcomponent_free(calendar);
+			g_slist_free(list);
+			return FALSE;
+		}
+		filesize = strlen(icalcomponent_as_ical_string(calendar));
+	}
+
+	icalcomponent_free(calendar);
+	g_slist_free(list);
+	
+putfile:
+	if ((!path || strlen(path) == 0))
+		return TRUE;
+
+	file = g_strdup(path);
+
+
+	if (file 
+	&& strncmp(file, "http://", 7) 
+	&& strncmp(file, "https://", 8)
+	&& strncmp(file, "webdav://", 9)
+	&& strncmp(file, "ftp://", 6)) {
+		if (move_file(tmpfile, file, TRUE) != 0)
+			res = FALSE;
+		g_free(file);
+	} else if (file) {
+		FILE *fp = fopen(tmpfile, "rb");
+		if (!strncmp(file, "webdav://", 9)) {
+			gchar *tmp = g_strdup_printf("http://%s", file+9);
+			g_free(file);
+			file = tmp;
+		}
+		if (fp) {
+			res = vcal_curl_put(file, fp, filesize);
 			fclose(fp);
 		}
 	}
