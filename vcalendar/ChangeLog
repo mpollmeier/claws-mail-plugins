@@ -1,3 +1,9 @@
+2006-09-06 [colin]	1.79.2cvs18
+
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+		Fix prefs woes
+
 2006-09-06 [colin]	1.79.2cvs17
 
 	* src/vcal_folder.c

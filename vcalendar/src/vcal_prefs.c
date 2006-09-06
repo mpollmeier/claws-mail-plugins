@@ -213,7 +213,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			vcalprefs.export_enable);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_subs_checkbtn), 
 			vcalprefs.export_subs);
-	if (vcalprefs.export_path == NULL)
+	if (vcalprefs.export_path == NULL || *vcalprefs.export_path == '\0')
 		vcalprefs.export_path = g_strconcat(get_rc_dir(), 
 					G_DIR_SEPARATOR_S,
                                         "sylpheed-claws.ics", NULL);
@@ -267,7 +267,8 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_freebusy_enable_checkbtn), 
 			vcalprefs.export_freebusy_enable);
-	if (vcalprefs.export_freebusy_path == NULL)
+	if (vcalprefs.export_freebusy_path == NULL || 
+	    *vcalprefs.export_freebusy_path == '\0')
 		vcalprefs.export_freebusy_path = g_strconcat(get_rc_dir(), 
 					G_DIR_SEPARATOR_S,
                                         "sylpheed-claws.ifb", NULL);
@@ -295,6 +296,11 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			      "for the left part of the email address, %d for "
 			      "the domain"),
 			     NULL);
+
+	gtk_entry_set_text(GTK_ENTRY(export_freebusy_path_entry), 
+			vcalprefs.export_freebusy_path);
+	gtk_entry_set_text(GTK_ENTRY(export_freebusy_command_entry), 
+			vcalprefs.export_freebusy_command);
 
 	gtk_entry_set_text(GTK_ENTRY(freebusy_get_url_entry), 
 			vcalprefs.freebusy_get_url);

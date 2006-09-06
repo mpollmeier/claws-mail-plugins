@@ -526,7 +526,7 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	else if (offset_before > 3600)
 		before = g_strdup_printf(_("%d hours and %d minutes before"), offset_before/3600, (offset_before%3600)/60);
 	else if (offset_before == 1800)
-		before = g_strdup_printf(_("%d minutes"), offset_before/60);
+		before = g_strdup_printf(_("%d minutes before"), offset_before/60);
 	else
 		before = NULL;
 	
@@ -537,7 +537,7 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	else if (offset_after > 3600)
 		after = g_strdup_printf(_("%d hours and %d minutes after"), offset_after/3600, (offset_after%3600)/60);
 	else if (offset_after == 1800)
-		after = g_strdup_printf(_("%d minutes"), offset_after/60);
+		after = g_strdup_printf(_("%d minutes after"), offset_after/60);
 	else
 		after = NULL;
 	
@@ -1323,7 +1323,7 @@ putfile:
 	else
 		file = g_strdup(path);
 
-	if (automatic && (!path || strlen(path) == 0))
+	if (automatic && (!path || strlen(path) == 0 || !vcalprefs.export_enable))
 		return TRUE;
 
 	if (file 
@@ -1613,7 +1613,7 @@ gboolean vcal_meeting_export_freebusy(const gchar *path)
 	g_slist_free(list);
 	
 putfile:
-	if ((!path || strlen(path) == 0))
+	if ((!path || strlen(path) == 0 || !vcalprefs.export_freebusy_enable))
 		return TRUE;
 
 	file = g_strdup(path);
