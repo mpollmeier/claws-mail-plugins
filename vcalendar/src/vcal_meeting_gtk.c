@@ -520,7 +520,7 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	intro = g_strdup(_("The following person(s) are busy at the time of your planned meeting:\n"));
 	
 	if (offset_before == 3600)
-		before = g_strdup_printf(_("%d hours before"), offset_before/3600);
+		before = g_strdup_printf(_("%d hour before"), offset_before/3600);
 	else if (offset_before > 3600 && offset_before%3600 == 0)
 		before = g_strdup_printf(_("%d hours before"), offset_before/3600);
 	else if (offset_before > 3600)
