@@ -574,6 +574,11 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 	gchar *dtend = NULL;
 	gboolean find_avail = FALSE;
 	gboolean res = TRUE;
+	gchar *organizer = NULL;
+	VCalAttendee *dummy_org = NULL;
+	gchar *internal_ifb = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"vcalendar", G_DIR_SEPARATOR_S, 
+				"internal.ifb", NULL);
 
 	if (vcalprefs.freebusy_get_url == NULL
 	||  *vcalprefs.freebusy_get_url == '\0')
@@ -605,6 +610,16 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 
 	dtstart = get_date(meet, TRUE);
 	dtend = get_date(meet, FALSE);
+
+	/* hack to check our own avail. */
+	organizer = get_organizer(meet);
+	dummy_org = g_new0(VCalAttendee, 1);
+	dummy_org->address	= gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(dummy_org->address), organizer);
+	g_free(organizer);
+	dummy_org->cached_contents = file_read_to_str(internal_ifb);
+	g_free(internal_ifb);
+	meet->attendees = g_slist_prepend(meet->attendees, dummy_org);
 
 	for (cur = meet->attendees; cur && cur->data; cur = cur->next) {
 		VCalAttendee *attendee = (VCalAttendee *)cur->data;
@@ -645,18 +660,23 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 		g_free(domain);
 		debug_print("url to get %s\n", tmp);
 		
-		if (strncmp(tmp, "http://", 7) 
-		&& strncmp(tmp, "https://", 8)
-		&& strncmp(tmp, "webdav://", 9)
-		&& strncmp(tmp, "ftp://", 6))
-			contents = file_read_to_str(tmp);
-		else {
-			if (!strncmp(tmp, "webdav://", 9)) {
-				gchar *tmp2 = g_strdup_printf("http://%s", tmp+9);
-				g_free(tmp);
-				tmp = tmp2;
+		if (attendee->cached_contents != NULL) {
+			contents = attendee->cached_contents;
+			attendee->cached_contents = NULL;
+		} else {
+			if (strncmp(tmp, "http://", 7) 
+			&& strncmp(tmp, "https://", 8)
+			&& strncmp(tmp, "webdav://", 9)
+			&& strncmp(tmp, "ftp://", 6))
+				contents = file_read_to_str(tmp);
+			else {
+				if (!strncmp(tmp, "webdav://", 9)) {
+					gchar *tmp2 = g_strdup_printf("http://%s", tmp+9);
+					g_free(tmp);
+					tmp = tmp2;
+				}
+				contents = vcal_curl_read(tmp, FALSE, NULL);
 			}
-			contents = vcal_curl_read(tmp, FALSE, NULL);
 		}
 		g_free(tmp);
 		if (contents == NULL) {
@@ -686,6 +706,10 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 		attendee->cached_contents = NULL;
 	}
 
+	meet->attendees = g_slist_remove(meet->attendees, dummy_org);
+	gtk_widget_destroy(dummy_org->address);
+	g_free(dummy_org);
+
 	g_free(real_url);
 	g_free(dtstart);
 	g_free(dtend);
@@ -712,7 +736,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 
 	generate_msgid(buf, 255);
 
-	if (!check_attendees_availability(meet)) {
+	if (meet->uid == NULL && !check_attendees_availability(meet)) {
 		return FALSE;
 	}
 

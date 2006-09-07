@@ -1001,8 +1001,15 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 void vcalviewer_reload(void)
 {
 	if (s_vcalviewer) {
-		debug_print("reload: %p, %p\n", (MimeViewer *)s_vcalviewer, s_vcalviewer->mimeinfo);
-		vcal_viewer_show_mimepart((MimeViewer *)s_vcalviewer, NULL, s_vcalviewer->mimeinfo);
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+
+		folder_item_scan(folder->inbox);
+		folderview_check_new(folder);
+		if (mainwin && mainwin->summaryview->folder_item == folder->inbox) {
+			debug_print("reload: %p, %p\n", (MimeViewer *)s_vcalviewer, s_vcalviewer->mimeinfo);
+			summary_redisplay_msg(mainwin->summaryview);
+		}
 	}
 }
 
