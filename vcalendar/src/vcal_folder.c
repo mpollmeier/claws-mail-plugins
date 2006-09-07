@@ -931,12 +931,7 @@ void *url_read_thread(void *data)
 	}
 	curl_easy_cleanup(curl_ctx);
 	if (buffer.str) {
-		if (!g_utf8_validate(buffer.str, -1, NULL))
-			td->result = g_strdup(buffer.str);
-		else
-			td->result = conv_codeset_strdup(buffer.str, CS_UTF_8, CS_ISO_8859_1);
-		if (td->result == NULL)
-			td->result = g_strdup(buffer.str);
+		td->result = g_strdup(buffer.str);
 		g_free(buffer.str);
 	}
 

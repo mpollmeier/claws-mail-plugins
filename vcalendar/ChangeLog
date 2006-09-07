@@ -1,3 +1,9 @@
+2006-09-07 [paul]	1.79.2cvs24
+
+	* src/vcal_folder.c
+		encoding for ical subs should be UTF-8
+		Thanks to Colin
+
 2006-09-07 [paul]	1.79.2cvs23
 
 	* src/plugin.c
