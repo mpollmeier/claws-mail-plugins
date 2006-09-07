@@ -478,12 +478,16 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 			break;
 		}
 	}
-	while (!found && offset > -3600*6) {
+	offset = -1800;
+	found = FALSE;
+	while (!found && offset >= -3600*6) {
 		gboolean ok = TRUE;
 		struct icaltimetype new_start = icaltime_from_timet(icaltime_as_timet(start)+offset, FALSE);
 		struct icaltimetype new_end   = icaltime_from_timet(icaltime_as_timet(end)+offset, FALSE);
 		for (cur = attendees; cur; cur = cur->next) {
 			VCalAttendee *attendee = (VCalAttendee *)cur->data;
+			debug_print("trying %s - %s (offset %d)\n", 
+				icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end), offset);
 			if (!attendee_available(icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
 					attendee->cached_contents)) {
 				ok = FALSE;
@@ -498,12 +502,14 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	}
 	found = FALSE;
 	offset = 1800;
-	while (!found && offset < 1800*6) {
+	while (!found && offset <= 3600*6) {
 		gboolean ok = TRUE;
 		struct icaltimetype new_start = icaltime_from_timet(icaltime_as_timet(start)+offset, FALSE);
 		struct icaltimetype new_end   = icaltime_from_timet(icaltime_as_timet(end)+offset, FALSE);
 		for (cur = attendees; cur; cur = cur->next) {
 			VCalAttendee *attendee = (VCalAttendee *)cur->data;
+			debug_print("trying %s - %s (offset %d)\n", 
+				icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end), offset);
 			if (!attendee_available(icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
 					attendee->cached_contents)) {
 				ok = FALSE;

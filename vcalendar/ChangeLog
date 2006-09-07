@@ -1,3 +1,10 @@
+2006-09-07 [cleroy]	1.79.2cvs25
+
+	* src/vcal_folder.c
+		Trim URIs
+	* src/vcal_meeting_gtk.c
+		Fix availability searching
+
 2006-09-07 [paul]	1.79.2cvs24
 
 	* src/vcal_folder.c

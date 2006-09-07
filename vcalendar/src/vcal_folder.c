@@ -882,6 +882,12 @@ void *url_read_thread(void *data)
 	CURL *curl_ctx = NULL;
 	long response_code;
 	struct CBuf buffer = { NULL };
+	gchar *t_url = td->url;
+
+	while (*t_url == ' ')
+		t_url++;
+	if (strchr(t_url, ' '))
+		*(strchr(t_url, ' ')) = '\0';
 
 #ifdef USE_PTHREAD
 	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
@@ -890,7 +896,7 @@ void *url_read_thread(void *data)
 	
 	curl_ctx = curl_easy_init();
 	
-	curl_easy_setopt(curl_ctx, CURLOPT_URL, td->url);
+	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
 #ifndef USE_PTHREAD
@@ -1008,11 +1014,16 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
 	gboolean res = TRUE;
 	CURL *curl_ctx = curl_easy_init();
 	int response_code = 0;
+	gchar *t_url = url;
 	struct curl_slist * headers = curl_slist_append(NULL, 
 		"Content-Type: text/calendar; charset=\"utf-8\"" );
 
+	while (*t_url == ' ')
+		t_url++;
+	if (strchr(t_url, ' '))
+		*(strchr(t_url, ' ')) = '\0';
 
-	curl_easy_setopt(curl_ctx, CURLOPT_URL, url);
+	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
 	curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);
 	curl_easy_setopt(curl_ctx, CURLOPT_HTTPHEADER, headers);
