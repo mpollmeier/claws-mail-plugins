@@ -29,3 +29,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fr.po;  ) > 1.79.2cvs20.patchset
 ( cvs diff -u -r 1.1.2.35 -r 1.1.2.36 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.39 -r 1.2.2.40 src/vcalendar.c;  ) > 1.79.2cvs21.patchset
 ( cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/plugin.c;  ) > 1.79.2cvs22.patchset
+( cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/plugin.c;  ) > 1.79.2cvs23.patchset

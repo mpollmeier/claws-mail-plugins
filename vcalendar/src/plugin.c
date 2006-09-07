@@ -64,18 +64,18 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return _("This plugin enables vCalendar message handling like produced "
+	return _("This plugin enables vCalendar message handling like that produced "
 		 "by Evolution or Outlook.\n\n"
-		 "When loaded, it will create a vCalendar mailbox in your folder "
-		 "list, which will be populated by meetings that you have accepted "
+		 "When loaded, it will create a vCalendar mailbox in the Folder "
+		 "List, which will be populated by meetings that you have accepted "
 		 "or created.\n"
 		 "Meeting requests that you receive will be presented in an "
 		 "appropriate form and you will be able to accept or decline them.\n"
 		 "To create a meeting right-click on the vCalendar or "
 		 "Meetings folder and choose \"New meeting...\".\n\n"
 		 "You will also be able to subscribe to remote webCal feeds,"
-		 "export your meetings or all your calendars, publish your "
-		 "free/busy informations and retrieve those of others.");
+		 "export your meetings and calendars, publish your free/busy "
+		 "information and retrieve that information from others.");
 }
 
 const gchar *plugin_type(void)
