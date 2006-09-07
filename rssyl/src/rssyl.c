@@ -101,10 +101,10 @@ void rssyl_init(void)
 
 	folder_func_to_all_folders((FolderItemFunc)rssyl_init_read_func, NULL);
 
+	rssyl_prefs_init();
+
 	if( existing_tree_found == FALSE )
 		rssyl_create_default_mailbox();
-
-	rssyl_prefs_init();
 }
 
 void rssyl_done(void)

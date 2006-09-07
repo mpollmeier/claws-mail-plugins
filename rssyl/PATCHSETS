@@ -33,3 +33,4 @@
 ( cvs diff -u -r 1.1.2.47 -r 1.1.2.48 src/feed.c;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/parsers.c;  ) > 0.6.0cvs14.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 commitHelper;  ) > 0.6.0cvs15.patchset
 ( cvs diff -u -r 1.1.2.48 -r 1.1.2.49 src/feed.c;  ) > 0.6.0cvs16.patchset
+( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/rssyl.c;  ) > 0.6.0cvs17.patchset

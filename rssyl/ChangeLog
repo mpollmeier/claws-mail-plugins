@@ -1,3 +1,8 @@
+2006-09-07 [colin]	0.6.0cvs17
+
+	* src/rssyl.c
+		Init prefs before grabbing default feed
+
 2006-09-04 [colin]	0.6.0cvs16
 
 	* src/feed.c
