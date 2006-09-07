@@ -74,7 +74,8 @@ const gchar *plugin_desc(void)
 		 "To create a meeting right-click on the vCalendar or "
 		 "Meetings folder and choose \"New meeting...\".\n\n"
 		 "You will also be able to subscribe to remote webCal feeds,"
-		 "and export your meetings or all your calendars.");
+		 "export your meetings or all your calendars, publish your "
+		 "free/busy informations and retrieve those of others.");
 }
 
 const gchar *plugin_type(void)
