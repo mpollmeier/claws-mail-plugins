@@ -429,6 +429,9 @@ gboolean attendee_available(const gchar *dtstart, const gchar *dtend, const gcha
 
 	toplvl = icalcomponent_new_from_string((gchar *)contents);
 	
+	if (toplvl == NULL)
+		return TRUE;
+
 	vfreebusy = icalcomponent_get_first_component(toplvl, ICAL_VFREEBUSY_COMPONENT);
 	while (vfreebusy && icalcomponent_isa(vfreebusy) != ICAL_VFREEBUSY_COMPONENT)
 		vfreebusy = icalcomponent_get_next_component(toplvl, ICAL_VFREEBUSY_COMPONENT);

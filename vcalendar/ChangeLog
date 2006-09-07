@@ -1,3 +1,8 @@
+2006-09-07 [colin]	1.79.2cvs26
+
+	* src/vcal_meeting_gtk.c
+		Fix segfault with empty free/busy
+
 2006-09-07 [cleroy]	1.79.2cvs25
 
 	* src/vcal_folder.c
