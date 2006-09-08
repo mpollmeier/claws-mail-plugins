@@ -1,3 +1,11 @@
+2006-09-08 [colin]	1.79.2cvs27
+
+	* src/vcal_meeting_gtk.c
+		Avoid exporting empty IFB files - Outlook chokes
+		on them. If we don't have any meeting, just 
+		export a VFREEBUSY component with zero
+		FREEBUSY properties.
+
 2006-09-07 [colin]	1.79.2cvs26
 
 	* src/vcal_meeting_gtk.c

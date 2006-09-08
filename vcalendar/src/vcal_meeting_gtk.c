@@ -1509,17 +1509,6 @@ gboolean vcal_meeting_export_freebusy(const gchar *path)
 	
 	multisync_export();
 
-	if (g_slist_length(list) == 0) {
-		g_slist_free(list);
-		if (path == NULL) {
-			return FALSE;
-		} else {
-			str_write_to_file("", tmpfile);
-			goto putfile;
-		}
-		
-	}
-	
 	calendar = 
         	icalcomponent_vanew(
         	    ICAL_VCALENDAR_COMPONENT,

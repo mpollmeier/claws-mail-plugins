@@ -33,3 +33,4 @@
 ( cvs diff -u -r 1.2.2.40 -r 1.2.2.41 src/vcal_folder.c;  ) > 1.79.2cvs24.patchset
 ( cvs diff -u -r 1.2.2.41 -r 1.2.2.42 src/vcal_folder.c;  cvs diff -u -r 1.1.2.36 -r 1.1.2.37 src/vcal_meeting_gtk.c;  ) > 1.79.2cvs25.patchset
 ( cvs diff -u -r 1.1.2.37 -r 1.1.2.38 src/vcal_meeting_gtk.c;  ) > 1.79.2cvs26.patchset
+( cvs diff -u -r 1.1.2.38 -r 1.1.2.39 src/vcal_meeting_gtk.c;  ) > 1.79.2cvs27.patchset
