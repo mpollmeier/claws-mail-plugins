@@ -88,12 +88,23 @@ struct _VCalAttendee {
 	gboolean org;
 };
 
+static GdkCursor *watch_cursor = NULL;
+
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
 
-#define TABLE_ADD_LINE(label_text, widget) { 					\
+#define TABLE_ADD_LINE(label_text, widget, do_space) {				\
 	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",	\
 				label_text?label_text:"");			\
 	GtkWidget *label = NULL;				 		\
+	GtkWidget *spacer = NULL;						\
+	GtkWidget *s_hbox = NULL;						\
+	if (do_space) {								\
+		spacer = gtk_label_new("");					\
+		gtk_widget_set_usize(spacer, 18, 16);				\
+		s_hbox = gtk_hbox_new(FALSE, 6);				\
+		gtk_box_pack_start(GTK_BOX(s_hbox), spacer, FALSE, FALSE, 0);	\
+		gtk_box_pack_start(GTK_BOX(s_hbox), widget, TRUE, TRUE, 0);	\
+	}									\
 	if (label_text) {							\
 		label = gtk_label_new(tmpstr);					\
 		g_free(tmpstr);							\
@@ -103,7 +114,7 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 				  label, 0, 1, i, i+1,				\
 				  GTK_FILL, GTK_FILL, 6, 6);			\
 		gtk_table_attach (GTK_TABLE (meet->table), 			\
-				  widget, 1, 2, i, i+1,				\
+				  do_space?s_hbox:widget, 1, 2, i, i+1,		\
 				  GTK_FILL|GTK_EXPAND, GTK_FILL, 6, 6);		\
 		if (GTK_IS_LABEL(widget)) {					\
 			gtk_label_set_use_markup(GTK_LABEL (widget), TRUE);	\
@@ -113,7 +124,7 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	} else {								\
 		g_free(tmpstr);							\
 		gtk_table_attach (GTK_TABLE (meet->table), 			\
-				  widget, 0, 2, i, i+1,				\
+				  do_space?s_hbox:widget, 0, 2, i, i+1,		\
 				  GTK_FILL|GTK_EXPAND, GTK_FILL, 6, 6);		\
 	}									\
 	i++;									\
@@ -513,7 +524,7 @@ static gchar *get_avail_msg(const gchar *unavailable_persons, gboolean multiple,
 	else if (!strcmp(unavailable_persons, _("You")))
 		intro = g_strdup(_("You are busy at the time of your planned meeting"));
 	else
-		intro = g_markup_printf_escaped(_("%s is busy at the time of your planned meeting"), unavailable_persons);
+		intro = g_strdup_printf(_("%s is busy at the time of your planned meeting"), unavailable_persons);
 	if (offset_before == 3600)
 		before = g_strdup_printf(_("%d hour sooner"), offset_before/3600);
 	else if (offset_before > 3600 && offset_before%3600 == 0)
@@ -711,7 +722,8 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 		GTK_STOCK_DIALOG_WARNING, 
 		GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_widget_show(meet->total_avail_img);
-	gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Not everyone is available."));
+	gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Not everyone is available. "
+				"See tooltips for more info..."));
 	gtk_tooltips_set_tip(avail_tips, meet->total_avail_evtbox, msg, NULL);
 	g_free(msg);
 	return (val == G_ALERTALTERNATE);
@@ -786,7 +798,10 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 	} else {
 		attlist = g_slist_prepend(NULL, dummy_org);
 	}
-		
+	
+	gtk_widget_set_sensitive(meet->save_btn, FALSE);
+	gtk_widget_set_sensitive(meet->avail_btn, FALSE);
+	gdk_window_set_cursor(meet->window->window, watch_cursor);
 	for (cur = attlist; cur && cur->data; cur = cur->next) {
 		VCalAttendee *attendee = (VCalAttendee *)cur->data;
 		gchar *email = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
@@ -902,6 +917,9 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 		g_free(attendee->cached_contents);
 		attendee->cached_contents = NULL;
 	}
+	gtk_widget_set_sensitive(meet->save_btn, TRUE);
+	gtk_widget_set_sensitive(meet->avail_btn, TRUE);
+	gdk_window_set_cursor(meet->window->window, NULL);
 
 	if (!local_only)
 		meet->attendees = g_slist_remove(meet->attendees, dummy_org);
@@ -949,6 +967,10 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	    !check_attendees_availability(meet, FALSE, TRUE)) {
 		return FALSE;
 	}
+
+	gtk_widget_set_sensitive(meet->save_btn, FALSE);
+	gtk_widget_set_sensitive(meet->avail_btn, FALSE);
+	gdk_window_set_cursor(meet->window->window, watch_cursor);
 
 	if (meet->uid) {
 		uid 	= g_strdup(meet->uid);
@@ -1023,6 +1045,10 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	g_free(summary);
 	vcal_manager_free_event(event);
 
+	gtk_widget_set_sensitive(meet->save_btn, TRUE);
+	gtk_widget_set_sensitive(meet->avail_btn, TRUE);
+	gdk_window_set_cursor(meet->window->window, NULL);
+
 	if (res) {
 		gtk_widget_destroy(meet->window);
 	} else {
@@ -1049,9 +1075,13 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gchar *s = NULL;
 	GtkObject *start_h_adj, *start_m_adj, *end_h_adj, *end_m_adj;
 	int i = 0, decs = -1, dece = -1, num = 0;
-	
+	GtkWidget *scrolledwin;
+
 	GList *accounts;
 	
+	if (!watch_cursor)
+		watch_cursor = gdk_cursor_new(GDK_WATCH);
+
 	meet->visible = visible;
 	start_h_adj = gtk_adjustment_new (0, 0, 23, 1, 10, 10);
 	start_m_adj = gtk_adjustment_new (0, 0, 59, 1, 10, 10);
@@ -1088,7 +1118,15 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(meet->description));
         gtk_text_view_set_editable(GTK_TEXT_VIEW(meet->description), TRUE);
         gtk_text_buffer_add_selection_clipboard(buffer, gtk_clipboard_get(GDK_SELECTION_PRIMARY));
-	
+
+	scrolledwin = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwin),
+				       GTK_POLICY_AUTOMATIC,
+				       GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
+					    GTK_SHADOW_IN);
+	gtk_container_add(GTK_CONTAINER(scrolledwin), meet->description);
+
 	if (event) {
 		meet->uid = g_strdup(event->uid);
 		meet->sequence = event->sequence + 1;
@@ -1296,12 +1334,12 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(meet->avail_evtbox), FALSE);
 	gtk_container_add (GTK_CONTAINER(meet->avail_evtbox), meet->avail_img);
 
-	TABLE_ADD_LINE(_("Organizer:"), hbox);
-	TABLE_ADD_LINE(_("Summary:"), meet->summary);
-	TABLE_ADD_LINE(_("Time:"), date_hbox);
-	TABLE_ADD_LINE(_("Description:"), meet->description);
-	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox);
-	TABLE_ADD_LINE("", save_hbox);
+	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE);
+	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE);
+	TABLE_ADD_LINE(_("Time:"), date_hbox, TRUE);
+	TABLE_ADD_LINE(_("Description:"), scrolledwin, TRUE);
+	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox, FALSE);
+	TABLE_ADD_LINE("", save_hbox, TRUE);
 	
 	gtk_widget_set_size_request(meet->window, -1, -1);
 	gtk_container_add(GTK_CONTAINER(meet->window), meet->table);

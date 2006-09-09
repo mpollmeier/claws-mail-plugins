@@ -1,3 +1,10 @@
+2006-09-09 [colin]	1.89.0cvs1
+
+	* src/vcal_meeting_gtk.c
+		GUI fixups - Add scrolledwindow for description,
+		make stuff unsensitive when needed, wait cursor,
+		and alignment.
+
 2006-09-09 [colin]	1.89
 
 	* Release 1.89
