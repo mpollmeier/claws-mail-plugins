@@ -124,6 +124,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 		viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
 
+	html_view_zoom_reset(viewer->html_view);
 	if (partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
 
 		if (_viewer && _viewer->mimeview &&
@@ -633,6 +634,20 @@ static void gtkhtml2_scroll_one_line(MimeViewer *_viewer, gboolean up)
 	gtkutils_scroll_one_line(viewer->html_view, vadj, up);
 }
 
+static gboolean htmlview_scrolled(GtkWidget *widget, GdkEventScroll *event,
+				    GtkHtml2Viewer *viewer)
+{
+	if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
+		if (event->direction == GDK_SCROLL_UP) {
+			html_view_zoom_out(viewer->html_view);
+		} else {
+			html_view_zoom_in(viewer->html_view);
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static MimeViewer *gtkhtml2_viewer_create(void)
 {
 	GtkHtml2Viewer *viewer;
@@ -702,6 +717,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	g_signal_connect(G_OBJECT(viewer->html_doc), "request_url", G_CALLBACK(requested_url), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_doc), "link_clicked", G_CALLBACK(link_clicked), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_view),"on_url", G_CALLBACK(on_url), viewer);
+	g_signal_connect(G_OBJECT(viewer->html_view), "scroll_event",
+			 G_CALLBACK(htmlview_scrolled), viewer);
 
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
