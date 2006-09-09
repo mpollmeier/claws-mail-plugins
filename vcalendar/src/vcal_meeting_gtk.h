@@ -26,6 +26,7 @@
 #include "vcal_manager.h"
 
 typedef struct _VCalMeeting VCalMeeting;
+typedef struct _VCalAttendee VCalAttendee;
 
 VCalMeeting *vcal_meeting_create(VCalEvent *event);
 VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event);
@@ -33,5 +34,5 @@ gboolean vcal_meeting_send(VCalMeeting *meet);
 gint vcal_meeting_alert_check(gpointer data);
 gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic);
 gboolean vcal_meeting_export_freebusy(const gchar *path);
-gboolean attendee_available(const gchar *dtstart, const gchar *dtend, const gchar *contents);
+gboolean attendee_available(VCalAttendee *attendee, const gchar *dtstart, const gchar *dtend, const gchar *contents);
 #endif

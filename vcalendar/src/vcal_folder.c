@@ -437,7 +437,8 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
 			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
 
-			if (status != ICAL_PARTSTAT_DECLINED) {
+			if (status == ICAL_PARTSTAT_ACCEPTED
+			||  status == ICAL_PARTSTAT_TENTATIVE) {
 				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
 				debug_print("add %d:%s\n", n_msg, d->d_name);
 				n_msg++;
@@ -801,7 +802,8 @@ GSList * vcal_folder_get_waiting_events(void)
 			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
 			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
 
-			if (status != ICAL_PARTSTAT_DECLINED) {
+			if (status == ICAL_PARTSTAT_ACCEPTED
+			||  status == ICAL_PARTSTAT_TENTATIVE) {
 				list = g_slist_append(list, event);
 			}
 		}
@@ -882,7 +884,7 @@ void *url_read_thread(void *data)
 	CURL *curl_ctx = NULL;
 	long response_code;
 	struct CBuf buffer = { NULL };
-	gchar *t_url = td->url;
+	gchar *t_url = (gchar *)td->url;
 
 	while (*t_url == ' ')
 		t_url++;

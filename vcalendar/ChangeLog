@@ -1,3 +1,16 @@
+2006-09-09 [colin]	1.79.2cvs28
+
+	* src/vcal_folder.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_meeting_gtk.h
+	* src/vcalendar.c
+		o Only save received meetings in my Meetings
+		  if I accept them
+		o Better availability check when planning
+		  meetings
+		o Warn if not available when receiving a meeting
+		o Various fixes
+
 2006-09-08 [colin]	1.79.2cvs27
 
 	* src/vcal_meeting_gtk.c

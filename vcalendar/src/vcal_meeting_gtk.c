@@ -52,6 +52,8 @@ struct _VCalMeeting
 	GtkWidget *table;
 	GtkWidget *type;
 	GtkWidget *who;
+	GtkWidget *avail_evtbox;
+	GtkWidget *avail_img;
 	GtkWidget *start_c;
 	GtkWidget *start_hh;
 	GtkWidget *start_mm;
@@ -63,11 +65,14 @@ struct _VCalMeeting
 	GSList 	  *attendees;
 	GtkWidget *attendees_vbox;
 	GtkWidget *save_btn;
+	GtkWidget *avail_btn;
 	GSList 	  *avail_accounts;
+	GtkWidget *total_avail_evtbox;
+	GtkWidget *total_avail_img;
+	GtkWidget *total_avail_msg;
 	PrefsAccount *account;
+	gboolean visible;
 };
-
-typedef struct _VCalAttendee VCalAttendee;
 
 struct _VCalAttendee {
 	GtkWidget *address;
@@ -77,7 +82,10 @@ struct _VCalAttendee {
 	GtkWidget *hbox;
 	VCalMeeting *meet;
 	gchar *status;
+	GtkWidget *avail_evtbox;
+	GtkWidget *avail_img;
 	gchar *cached_contents;
+	gboolean org;
 };
 
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
@@ -195,9 +203,6 @@ static gboolean remove_btn_cb(GtkButton *widget, gpointer data)
 	
 	g_free(attendee->status);
 
-	/* resizing doesn't work :-( */
-	gtk_widget_set_size_request(attendee->meet->window, -1, -1);
-	gtk_widget_show_all(attendee->meet->window);
 	return TRUE;
 }
 
@@ -207,6 +212,17 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	VCalAttendee *attendee 	= g_new0(VCalAttendee, 1);
 	attendee->address	= gtk_entry_new();
 	attendee->cutype	= gtk_combo_box_new_text();
+	attendee->avail_evtbox  = gtk_event_box_new();
+	attendee->avail_img	= gtk_image_new_from_stock
+                        (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	gtk_widget_show(attendee->address);
+	gtk_widget_show(attendee->cutype);
+	gtk_widget_show(attendee->avail_evtbox);
+
+	gtk_widget_set_usize(attendee->avail_evtbox, 18, 16);
+	gtk_event_box_set_visible_window(GTK_EVENT_BOX(attendee->avail_evtbox), FALSE);
+	gtk_container_add (GTK_CONTAINER(attendee->avail_evtbox), attendee->avail_img);
 
 	if (address) {
 		gchar *str = g_strdup_printf("%s%s%s%s",
@@ -242,6 +258,11 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	attendee->meet		= meet;
 	attendee->hbox		= att_hbox;
 
+	gtk_widget_show(attendee->add_btn);
+	gtk_widget_show(attendee->remove_btn);
+	gtk_widget_show(attendee->hbox);
+
+	gtk_box_pack_start(GTK_BOX(attendee->hbox), attendee->avail_evtbox, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive(attendee->remove_btn, !first);
 	meet->attendees 	= g_slist_append(meet->attendees, attendee);
 	
@@ -257,7 +278,6 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	gtk_box_pack_start(GTK_BOX(meet->attendees_vbox), att_hbox, FALSE, FALSE, 0);
 	address_completion_register_entry(GTK_ENTRY(attendee->address));
 	gtk_widget_set_size_request(attendee->address, 320, -1);
-	gtk_widget_show_all(meet->attendees_vbox);
 	return attendee;
 }
 
@@ -416,7 +436,34 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 				end_lt->tm_min);	
 }
 
-gboolean attendee_available(const gchar *dtstart, const gchar *dtend, const gchar *contents)
+GtkTooltips *avail_tips = NULL;
+
+static void att_update_icon(VCalAttendee *attendee, gint avail, gchar *text)
+{
+	const gchar *icon = GTK_STOCK_DIALOG_INFO;
+
+	switch (avail) {
+		case 0:  icon = GTK_STOCK_DIALOG_WARNING;	break;
+		case 1:  icon = GTK_STOCK_DIALOG_INFO;		break;
+		default: icon = GTK_STOCK_DIALOG_QUESTION;	break;
+	}
+	if (!gtk_entry_get_text(GTK_ENTRY(attendee->address)) 
+	 || strlen(gtk_entry_get_text(GTK_ENTRY(attendee->address)))==0) {
+		if (attendee->avail_img) {
+			gtk_widget_hide(attendee->avail_img);
+		}
+		gtk_tooltips_set_tip(avail_tips, attendee->avail_evtbox, NULL, NULL);
+	} else if (attendee->avail_img) {
+		gtk_image_set_from_stock
+		        (GTK_IMAGE(attendee->avail_img), 
+			icon, 
+			GTK_ICON_SIZE_SMALL_TOOLBAR);
+		gtk_widget_show(attendee->avail_img);
+		gtk_tooltips_set_tip(avail_tips, attendee->avail_evtbox, text, NULL);
+	}
+}
+
+gboolean attendee_available(VCalAttendee *attendee, const gchar *dtstart, const gchar *dtend, const gchar *contents)
 {
 	icalcomponent *toplvl, *vfreebusy;
 	icalproperty *busyprop;
@@ -424,6 +471,7 @@ gboolean attendee_available(const gchar *dtstart, const gchar *dtend, const gcha
 	struct icaltimetype end = icaltime_from_string(dtend);
 	gboolean result = TRUE;
 	
+
 	if (contents == NULL)
 		return TRUE;
 
@@ -455,30 +503,123 @@ gboolean attendee_available(const gchar *dtstart, const gchar *dtend, const gcha
 	return result;
 }
 
-static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSList *attendees)
+static gchar *get_avail_msg(const gchar *unavailable_persons, gboolean multiple, 
+	gboolean short_version, gint offset_before, gint offset_after)
+{
+	gchar *msg, *intro = NULL, *outro = NULL, *before = NULL, *after = NULL;
+
+	if (multiple)
+		intro = g_strdup(_("The following person(s) are busy at the time of your planned meeting:\n- "));
+	else if (!strcmp(unavailable_persons, _("You")))
+		intro = g_strdup(_("You are busy at the time of your planned meeting"));
+	else
+		intro = g_markup_printf_escaped(_("%s is busy at the time of your planned meeting"), unavailable_persons);
+	if (offset_before == 3600)
+		before = g_strdup_printf(_("%d hour sooner"), offset_before/3600);
+	else if (offset_before > 3600 && offset_before%3600 == 0)
+		before = g_strdup_printf(_("%d hours sooner"), offset_before/3600);
+	else if (offset_before > 3600)
+		before = g_strdup_printf(_("%d hours and %d minutes sooner"), offset_before/3600, (offset_before%3600)/60);
+	else if (offset_before == 1800)
+		before = g_strdup_printf(_("%d minutes sooner"), offset_before/60);
+	else
+		before = NULL;
+	
+	if (offset_after == 3600)
+		after = g_strdup_printf(_("%d hour later"), offset_after/3600);
+	else if (offset_after > 3600 && offset_after%3600 == 0)
+		after = g_strdup_printf(_("%d hours later"), offset_after/3600);
+	else if (offset_after > 3600)
+		after = g_strdup_printf(_("%d hours and %d minutes later"), offset_after/3600, (offset_after%3600)/60);
+	else if (offset_after == 1800)
+		after = g_strdup_printf(_("%d minutes later"), offset_after/60);
+	else
+		after = NULL;
+	
+	if (multiple) {
+		if (before && after)
+			outro = g_strdup_printf(_("\n\nEveryone would be available %s or %s."), before, after);
+		else if (before || after)
+			outro = g_strdup_printf(_("\n\nEveryone would be available %s."), before?before:after);
+		else
+			outro = g_strdup_printf(_("\n\nIt isn't possible to have this meeting with everyone "
+						"in the previous or next 6 hours."));
+	} else {
+		if (short_version) {
+			if (before && after)
+				outro = g_markup_printf_escaped(_("would be available %s or %s"), before, after);
+			else if (before || after)
+				outro = g_markup_printf_escaped(_("would be available %s"), before?before:after);
+			else
+				outro = g_strdup_printf(_("not available"));
+		} else {
+			if (before && after)
+				outro = g_markup_printf_escaped(_(", but would be available %s or %s."), before, after);
+			else if (before || after)
+				outro = g_markup_printf_escaped(_(", but would be available %s."), before?before:after);
+			else
+				outro = g_strdup_printf(_(", and isn't available "
+							"in the previous or next 6 hours."));
+		}
+	}
+	if (multiple && short_version)
+		msg = g_strconcat(outro+2, NULL);
+	else if (multiple)
+		msg = g_strconcat(intro, unavailable_persons, outro, NULL);
+	else if (short_version)
+		msg = g_strdup(outro);
+	else
+		msg = g_strconcat(intro, outro, NULL);
+	g_free(intro);
+	g_free(outro);
+	g_free(before);
+	g_free(after);
+	return msg;
+}
+
+static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSList *attendees, gboolean for_send, VCalMeeting *meet)
 {
 	GSList *cur;
 	gint offset = -1800, offset_before = 0, offset_after = 0;
 	gboolean found = FALSE;
-	gchar *unavailable_persons = NULL, *intro = NULL, *outro = NULL, *before = NULL, *after = NULL;
+	gchar *unavailable_persons = NULL;
 	gchar *msg = NULL;
 	struct icaltimetype start = icaltime_from_string(dtstart);
 	struct icaltimetype end = icaltime_from_string(dtend);
 	AlertValue val;
+	gint total = 0;
+	GHashTable *avail_table_avail = g_hash_table_new(NULL, g_direct_equal);
+	GHashTable *avail_table_before = g_hash_table_new(NULL, g_direct_equal);
+	GHashTable *avail_table_after = g_hash_table_new(NULL, g_direct_equal);
+	
 	for (cur = attendees; cur; cur = cur->next) {
 		VCalAttendee *attendee = (VCalAttendee *)cur->data;
-		if (!attendee_available(icaltime_as_ical_string(start), icaltime_as_ical_string(end),
+		if (!attendee_available(attendee, icaltime_as_ical_string(start), icaltime_as_ical_string(end),
 				attendee->cached_contents)) {
-			gchar *mail = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
+			gchar *mail = NULL;
+			
+			if (attendee->org)
+				mail = g_strdup(_("You"));
+			else
+				mail = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
+
 			if (unavailable_persons == NULL) {
-				unavailable_persons = g_strdup_printf("- %s", mail);
+				unavailable_persons = g_markup_printf_escaped("%s", mail);
 			} else {
-				gchar *tmp = g_strdup_printf("%s,\n-%s", unavailable_persons, mail);
+				gchar *tmp = g_markup_printf_escaped("%s,\n- %s", unavailable_persons, mail);
 				g_free(unavailable_persons);
 				unavailable_persons = tmp;
 			}
+			total++;
 			g_free(mail);
-			break;
+			att_update_icon(attendee, 0, _("not available"));
+		} else {
+			if (attendee->cached_contents != NULL)
+				att_update_icon(attendee, 1, _("available"));
+			else
+				att_update_icon(attendee, 2, _("Free/busy retrieval failed"));
+
+			g_hash_table_insert(avail_table_avail, attendee, GINT_TO_POINTER(1));
 		}
 	}
 	offset = -1800;
@@ -491,10 +632,14 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 			VCalAttendee *attendee = (VCalAttendee *)cur->data;
 			debug_print("trying %s - %s (offset %d)\n", 
 				icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end), offset);
-			if (!attendee_available(icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
+			if (!attendee_available(attendee, icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
 					attendee->cached_contents)) {
 				ok = FALSE;
 				break;
+			} else {
+				if (!g_hash_table_lookup(avail_table_before, attendee)
+				&&  !g_hash_table_lookup(avail_table_avail, attendee))
+					g_hash_table_insert(avail_table_before, attendee, GINT_TO_POINTER(-offset));
 			}
 		}
 		if (ok) {
@@ -513,10 +658,14 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 			VCalAttendee *attendee = (VCalAttendee *)cur->data;
 			debug_print("trying %s - %s (offset %d)\n", 
 				icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end), offset);
-			if (!attendee_available(icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
+			if (!attendee_available(attendee, icaltime_as_ical_string(new_start), icaltime_as_ical_string(new_end),
 					attendee->cached_contents)) {
 				ok = FALSE;
 				break;
+			} else {
+				if (!g_hash_table_lookup(avail_table_after, attendee)
+				&&  !g_hash_table_lookup(avail_table_avail, attendee))
+					g_hash_table_insert(avail_table_after, attendee, GINT_TO_POINTER(offset));
 			}
 		}
 		if (ok) {
@@ -526,52 +675,49 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 
 		offset += 1800;
 	}
-	intro = g_strdup(_("The following person(s) are busy at the time of your planned meeting:\n"));
 	
-	if (offset_before == 3600)
-		before = g_strdup_printf(_("%d hour before"), offset_before/3600);
-	else if (offset_before > 3600 && offset_before%3600 == 0)
-		before = g_strdup_printf(_("%d hours before"), offset_before/3600);
-	else if (offset_before > 3600)
-		before = g_strdup_printf(_("%d hours and %d minutes before"), offset_before/3600, (offset_before%3600)/60);
-	else if (offset_before == 1800)
-		before = g_strdup_printf(_("%d minutes before"), offset_before/60);
-	else
-		before = NULL;
-	
-	if (offset_after == 3600)
-		after = g_strdup_printf(_("%d hour after"), offset_after/3600);
-	else if (offset_after > 3600 && offset_after%3600 == 0)
-		after = g_strdup_printf(_("%d hours after"), offset_after/3600);
-	else if (offset_after > 3600)
-		after = g_strdup_printf(_("%d hours and %d minutes after"), offset_after/3600, (offset_after%3600)/60);
-	else if (offset_after == 1800)
-		after = g_strdup_printf(_("%d minutes after"), offset_after/60);
-	else
-		after = NULL;
-	
-	if (before && after)
-		outro = g_strdup_printf(_("\n\nEveryone is available either %s, or %s."), before, after);
-	else if (before || after)
-		outro = g_strdup_printf(_("\n\nEveryone is available %s."), before?before:after);
-	else
-		outro = g_strdup_printf(_("\n\nIt isn't possible to have this meeting with everyone "
-					"in the previous or next 6 hours."));
-	
-	msg = g_strconcat(intro, unavailable_persons, outro, NULL);
-	g_free(intro);
-	g_free(unavailable_persons);
-	g_free(outro);
-	g_free(before);
-	g_free(after);
-	val = alertpanel_full(_("Not everyone is available"), msg,
+	for (cur = attendees; cur; cur = cur->next) {
+		VCalAttendee *attendee = (VCalAttendee *)cur->data;
+		gint ok = GPOINTER_TO_INT(g_hash_table_lookup(avail_table_avail, attendee));
+		gint o_before = GPOINTER_TO_INT(g_hash_table_lookup(avail_table_before, attendee));
+		gint o_after = GPOINTER_TO_INT(g_hash_table_lookup(avail_table_after, attendee));
+		if (!o_before && !o_after && !ok) {
+			att_update_icon(attendee, 0, _("not available"));
+		} else if ((o_before != 0 || o_after != 0) && !ok) {
+			if (attendee->org)
+				msg = get_avail_msg(_("You"), FALSE, TRUE, o_before, o_after);
+			else
+				msg = get_avail_msg(gtk_entry_get_text(GTK_ENTRY(attendee->address)), FALSE, TRUE, o_before, o_after);
+			att_update_icon(attendee, 0, msg);
+			g_free(msg);
+		}
+		
+	}
+	g_hash_table_destroy(avail_table_before);
+	g_hash_table_destroy(avail_table_after);
+
+	if (for_send) {
+		msg = get_avail_msg(unavailable_persons, (total > 1), FALSE, offset_before, offset_after);
+
+		val = alertpanel_full(_("Not everyone is available"), msg,
 				   	GTK_STOCK_CANCEL, _("Send anyway"), NULL, FALSE,
 				   	NULL, ALERT_QUESTION, G_ALERTDEFAULT);
+		g_free(msg);
+	}
+	msg = get_avail_msg(unavailable_persons, TRUE, TRUE, offset_before, offset_after);
+	g_free(unavailable_persons);
+	gtk_image_set_from_stock
+		(GTK_IMAGE(meet->total_avail_img), 
+		GTK_STOCK_DIALOG_WARNING, 
+		GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_widget_show(meet->total_avail_img);
+	gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Not everyone is available."));
+	gtk_tooltips_set_tip(avail_tips, meet->total_avail_evtbox, msg, NULL);
 	g_free(msg);
 	return (val == G_ALERTALTERNATE);
 }
 
-static gboolean check_attendees_availability(VCalMeeting *meet)
+static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if_ok, gboolean for_send)
 {
 	GSList *cur;
 	gchar *tmp = NULL;
@@ -582,41 +728,43 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
 	gboolean find_avail = FALSE;
-	gboolean res = TRUE;
+	gboolean res = TRUE, uncertain = FALSE;
 	gchar *organizer = NULL;
 	VCalAttendee *dummy_org = NULL;
 	gchar *internal_ifb = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"vcalendar", G_DIR_SEPARATOR_S, 
 				"internal.ifb", NULL);
+	gboolean local_only = FALSE;
+	GSList *attlist;
 
 	if (vcalprefs.freebusy_get_url == NULL
-	||  *vcalprefs.freebusy_get_url == '\0')
-		return TRUE;
+	||  *vcalprefs.freebusy_get_url == '\0') {
+		local_only = TRUE;
+	} else {
+		real_url = g_strdup(vcalprefs.freebusy_get_url);
+		tmp = real_url;
 
-	real_url = g_strdup(vcalprefs.freebusy_get_url);
-	tmp = real_url;
-		
-	while (strchr(tmp, '%')) {
-		tmp = strchr(tmp, '%')+1;
-		num_format++;
+		while (strchr(tmp, '%')) {
+			tmp = strchr(tmp, '%')+1;
+			num_format++;
+		}
+		if (num_format > 2) {
+			g_warning("wrong format in %s!\n", real_url);
+			g_free(real_url);
+			return FALSE;
+		}
+
+		tmp = NULL;
+		if (strstr(real_url, "%u") != NULL) {
+			change_user = (gint)strstr(real_url, "%u");
+			*(strstr(real_url, "%u")+1) = 's';
+		} 
+		if (strstr(real_url, "%d") != NULL) {
+			change_dom = (gint)strstr(real_url, "%d");
+			*(strstr(real_url, "%d")+1) = 's';
+		} 
+		debug_print("url format %s\n", real_url);
 	}
-	if (num_format > 2) {
-		g_warning("wrong format in %s!\n", real_url);
-		g_free(real_url);
-		return FALSE;
-	}
-
-	tmp = NULL;
-	if (strstr(real_url, "%u") != NULL) {
-		change_user = (gint)strstr(real_url, "%u");
-		*(strstr(real_url, "%u")+1) = 's';
-	} 
-	if (strstr(real_url, "%d") != NULL) {
-		change_dom = (gint)strstr(real_url, "%d");
-		*(strstr(real_url, "%d")+1) = 's';
-	} 
-	debug_print("url format %s\n", real_url);
-
 	dtstart = get_date(meet, TRUE);
 	dtend = get_date(meet, FALSE);
 
@@ -624,55 +772,68 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 	organizer = get_organizer(meet);
 	dummy_org = g_new0(VCalAttendee, 1);
 	dummy_org->address	= gtk_entry_new();
+	dummy_org->avail_img	= meet->avail_img;
+	dummy_org->avail_evtbox	= meet->avail_evtbox;
+	dummy_org->org = TRUE;
 	gtk_entry_set_text(GTK_ENTRY(dummy_org->address), organizer);
 	g_free(organizer);
 	dummy_org->cached_contents = file_read_to_str(internal_ifb);
 	g_free(internal_ifb);
-	meet->attendees = g_slist_prepend(meet->attendees, dummy_org);
-
-	for (cur = meet->attendees; cur && cur->data; cur = cur->next) {
+	
+	if (!local_only) {
+		meet->attendees = g_slist_prepend(meet->attendees, dummy_org);
+		attlist = meet->attendees;
+	} else {
+		attlist = g_slist_prepend(NULL, dummy_org);
+	}
+		
+	for (cur = attlist; cur && cur->data; cur = cur->next) {
 		VCalAttendee *attendee = (VCalAttendee *)cur->data;
 		gchar *email = gtk_editable_get_chars(GTK_EDITABLE(attendee->address), 0, -1);
 		gchar *remail, *user, *domain;
 		gchar *contents = NULL;
+
 		if (*email == '\0') {
 			g_free(email);
+			att_update_icon(attendee, 0, NULL);
 			continue;
 		}
 
-		remail = g_strdup(email);
-		extract_address(remail);
-		if (strrchr(remail, ' '))
-			user = g_strdup(strrchr(remail, ' ')+1);
-		else
-			user = g_strdup(remail);
-		if (strchr(user, '@')) {
-			domain = g_strdup(strchr(user, '@')+1);
-			*(strchr(user, '@')) = '\0';
-		} else {
-			domain = g_strdup("");
-		}
-		g_free(remail);
-		if (change_user > 0 && change_dom > 0) {
-			if (change_user < change_dom)
-				tmp = g_strdup_printf(real_url, user, domain);
+		if (!local_only) {
+			remail = g_strdup(email);
+			extract_address(remail);
+			if (strrchr(remail, ' '))
+				user = g_strdup(strrchr(remail, ' ')+1);
 			else
-				tmp = g_strdup_printf(real_url, domain, user);
-		} else if (change_user > 0) {
-			tmp = g_strdup_printf(real_url, user);
-		} else if (change_dom > 0) {
-			tmp = g_strdup_printf(real_url, domain);
-		} else {
-			tmp = g_strdup(real_url);
+				user = g_strdup(remail);
+			if (strchr(user, '@')) {
+				domain = g_strdup(strchr(user, '@')+1);
+				*(strchr(user, '@')) = '\0';
+			} else {
+				domain = g_strdup("");
+			}
+			g_free(remail);
+			if (change_user > 0 && change_dom > 0) {
+				if (change_user < change_dom)
+					tmp = g_strdup_printf(real_url, user, domain);
+				else
+					tmp = g_strdup_printf(real_url, domain, user);
+			} else if (change_user > 0) {
+				tmp = g_strdup_printf(real_url, user);
+			} else if (change_dom > 0) {
+				tmp = g_strdup_printf(real_url, domain);
+			} else {
+				tmp = g_strdup(real_url);
+			}
+			g_free(user);
+			g_free(domain);
+			debug_print("url to get %s\n", tmp);
 		}
-		g_free(user);
-		g_free(domain);
-		debug_print("url to get %s\n", tmp);
-		
+
 		if (attendee->cached_contents != NULL) {
 			contents = attendee->cached_contents;
 			attendee->cached_contents = NULL;
-		} else {
+		} else if (!local_only) {
 			if (strncmp(tmp, "http://", 7) 
 			&& strncmp(tmp, "https://", 8)
 			&& strncmp(tmp, "webdav://", 9)
@@ -686,17 +847,22 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 				}
 				contents = vcal_curl_read(tmp, FALSE, NULL);
 			}
+		} else {
+			contents = NULL;
 		}
 		g_free(tmp);
 		if (contents == NULL) {
+			uncertain = TRUE;
+			att_update_icon(attendee, 2, _("Free/busy retrieval failed"));
 			continue;
 		}
 		else {
-			if (!attendee_available(dtstart, dtend, contents)) {
+			if (!attendee_available(attendee, dtstart, dtend, contents)) {
 				find_avail = TRUE;
 				debug_print("not available!\n");
 			} else {
 				debug_print("available!\n");
+				att_update_icon(attendee, 1, _("Available"));
 			}
 			attendee->cached_contents = contents;
 			
@@ -704,25 +870,59 @@ static gboolean check_attendees_availability(VCalMeeting *meet)
 	}
 	
 	if (find_avail) {
-		res = find_availability((dtstart), (dtend), meet->attendees);
+		res = find_availability((dtstart), (dtend), attlist, for_send, meet);
 	} else {
 		res = TRUE;
+		if (tell_if_ok) {
+			if (for_send)
+				alertpanel_notice(_("Everyone is available."));
+			else if (!uncertain) {
+				gtk_image_set_from_stock
+		        		(GTK_IMAGE(meet->total_avail_img), 
+					GTK_STOCK_DIALOG_INFO, 
+					GTK_ICON_SIZE_SMALL_TOOLBAR);
+				gtk_widget_show(meet->total_avail_img);
+				gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Everyone is available."));
+				gtk_tooltips_set_tip(avail_tips, meet->total_avail_evtbox, NULL, NULL);
+			} else {
+				gtk_image_set_from_stock
+		        		(GTK_IMAGE(meet->total_avail_img), 
+					GTK_STOCK_DIALOG_QUESTION, 
+					GTK_ICON_SIZE_SMALL_TOOLBAR);
+				gtk_widget_show(meet->total_avail_img);
+				gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Everyone is available."));
+				gtk_tooltips_set_tip(avail_tips, meet->total_avail_evtbox, 
+					_("Everyone seems available, but some free/busy information failed to be retrieved."), NULL);
+			}
+		}
 	}
 
-	for (cur = meet->attendees; cur && cur->data; cur = cur->next) {
+	for (cur = attlist; cur && cur->data; cur = cur->next) {
 		VCalAttendee *attendee = (VCalAttendee *)cur->data;
 		g_free(attendee->cached_contents);
 		attendee->cached_contents = NULL;
 	}
 
-	meet->attendees = g_slist_remove(meet->attendees, dummy_org);
+	if (!local_only)
+		meet->attendees = g_slist_remove(meet->attendees, dummy_org);
+	else
+		g_slist_free(attlist);
 	gtk_widget_destroy(dummy_org->address);
 	g_free(dummy_org);
 
-	g_free(real_url);
+	if (!local_only)
+		g_free(real_url);
+
 	g_free(dtstart);
 	g_free(dtend);
 	return res;
+}
+
+static gboolean check_avail_cb(GtkButton *widget, gpointer data)
+{
+	VCalMeeting *meet = (VCalMeeting *)data;
+	check_attendees_availability(meet, TRUE, FALSE);
+	return TRUE;
 }
 
 static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
@@ -745,7 +945,8 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 
 	generate_msgid(buf, 255);
 
-	if (meet->uid == NULL && !check_attendees_availability(meet)) {
+	if (meet->uid == NULL && meet->visible && 
+	    !check_attendees_availability(meet, FALSE, TRUE)) {
 		return FALSE;
 	}
 
@@ -851,6 +1052,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	GList *accounts;
 	
+	meet->visible = visible;
 	start_h_adj = gtk_adjustment_new (0, 0, 23, 1, 10, 10);
 	start_m_adj = gtk_adjustment_new (0, 0, 59, 1, 10, 10);
 	end_h_adj   = gtk_adjustment_new (0, 0, 23, 1, 10, 10);
@@ -862,6 +1064,10 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	meet->start_c		= gtk_calendar_new();
 	meet->end_c		= gtk_calendar_new();
+
+	meet->avail_evtbox  = gtk_event_box_new();
+	meet->avail_img	= gtk_image_new_from_stock
+                        (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 	meet->start_hh		= gtk_spin_button_new
 		(GTK_ADJUSTMENT (start_h_adj), 1, 0);
@@ -895,9 +1101,22 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		meet->method = ICAL_METHOD_REQUEST;
 	
 	meet->save_btn		= gtk_button_new_with_label(_("Save & Send"));
+	meet->avail_btn		= gtk_button_new_with_label(_("Check availability"));
+
+	meet->total_avail_evtbox  = gtk_event_box_new();
+	meet->total_avail_img	= gtk_image_new_from_stock
+                        (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR);
+	meet->total_avail_msg = gtk_label_new("");
+	
+	gtk_widget_set_usize(meet->total_avail_evtbox, 18, 16);
+	gtk_event_box_set_visible_window(GTK_EVENT_BOX(meet->total_avail_evtbox), FALSE);
+	gtk_container_add (GTK_CONTAINER(meet->total_avail_evtbox), meet->total_avail_img);
 
 	g_signal_connect(G_OBJECT(meet->save_btn), "clicked",
 			 G_CALLBACK(send_meeting_cb), meet);
+
+	g_signal_connect(G_OBJECT(meet->avail_btn), "clicked",
+			 G_CALLBACK(check_avail_cb), meet);
 
 	g_signal_connect(G_OBJECT(meet->window), "destroy",
 			 G_CALLBACK(destroy_meeting_cb), meet);
@@ -997,6 +1216,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_box_pack_start(GTK_BOX(date_hbox), date_vbox, FALSE, FALSE, 0);
 
 	meet->attendees_vbox = gtk_vbox_new(FALSE, 6);
+	gtk_widget_show_all(meet->attendees_vbox);
 	if (!event) {
 		attendee_add(meet, NULL, NULL, NULL, NULL, TRUE);
 	} else {
@@ -1064,7 +1284,19 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	save_hbox = gtk_hbox_new(FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(save_hbox), meet->save_btn, FALSE, FALSE, 0);
-	TABLE_ADD_LINE(_("Organizer:"), meet->who);
+	gtk_box_pack_start(GTK_BOX(save_hbox), meet->avail_btn, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(save_hbox), meet->total_avail_evtbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(save_hbox), meet->total_avail_msg, FALSE, FALSE, 0);
+	
+	hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox), meet->avail_evtbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), meet->who, TRUE, TRUE, 0);
+
+	gtk_widget_set_usize(meet->avail_evtbox, 18, 16);
+	gtk_event_box_set_visible_window(GTK_EVENT_BOX(meet->avail_evtbox), FALSE);
+	gtk_container_add (GTK_CONTAINER(meet->avail_evtbox), meet->avail_img);
+
+	TABLE_ADD_LINE(_("Organizer:"), hbox);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary);
 	TABLE_ADD_LINE(_("Time:"), date_hbox);
 	TABLE_ADD_LINE(_("Description:"), meet->description);
@@ -1073,9 +1305,19 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	gtk_widget_set_size_request(meet->window, -1, -1);
 	gtk_container_add(GTK_CONTAINER(meet->window), meet->table);
-	if (visible)
+	if (visible) {
+		GSList *cur;
 		gtk_widget_show_all(meet->window);
-	
+		for (cur = meet->attendees; cur; cur = cur->next) {
+			gtk_widget_hide(((VCalAttendee *)cur->data)->avail_img);
+		}
+		gtk_widget_hide(meet->avail_img);
+		gtk_widget_hide(meet->total_avail_img);
+		if (vcalprefs.freebusy_get_url == NULL
+		||  *vcalprefs.freebusy_get_url == '\0')
+			gtk_widget_hide(meet->avail_btn);
+	}
+	avail_tips = gtk_tooltips_new();
 	return meet;
 }
 
