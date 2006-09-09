@@ -637,6 +637,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 {
 	GtkHtml2Viewer *viewer;
 	GtkAdjustment *adj;
+	gfloat min_size, min_size_new;
+	PangoFontDescription *font_desc = NULL;
 
 	debug_print("gtkhtml2_viewer_create\n");
 
@@ -658,6 +660,25 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->force_image_loading = FALSE;
 	viewer->tag       = -1;
 	viewer->mutex     = g_mutex_new();
+
+	font_desc = pango_font_description_from_string
+			(prefs_common.textfont);
+	min_size_new = (gfloat)(pango_font_description_get_size(font_desc)/PANGO_SCALE);
+	pango_font_description_free(font_desc);
+
+	g_object_get (gtk_settings_get_default (),
+			"gtkhtml-minimum-font-size",
+			&min_size, NULL);
+
+	if (min_size > 0.0 && min_size < min_size_new) {
+		debug_print("setting minimum size to %.2f (overriding %.2f)\n",
+				min_size_new, min_size);
+		gtk_settings_set_double_property(gtk_settings_get_default(),
+                                       "gtkhtml-minimum-font-size",
+                                       (gdouble)min_size_new, "XProperty");
+	} else if (min_size <= 0.0) {
+		g_warning("Can't set minimum font size - you need libgtkhtml > 2.11.0\n");
+	}
 
 	gtk_scrolled_window_set_policy(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin), 

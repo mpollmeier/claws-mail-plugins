@@ -1,3 +1,10 @@
+2006-09-09 [colin]	0.10.2cvs16
+
+	* src/gtkhtml2_viewer.c
+		Set minimum font size to our normal font size.
+		Requires libgtkhtml > 2.11.0 (for now, CVS
+		checkout more recent than Sep 9, 2006, 18:00 UTC)
+
 2006-09-04 [colin]	0.10.2cvs15
 
 	* src/gtkhtml2_viewer.c
