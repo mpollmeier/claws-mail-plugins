@@ -353,7 +353,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
 	
 	icalcomponent_add_property(timezone,
-		icalproperty_new_tzid("GMT"));
+		icalproperty_new_tzid("UTC"));
 	
 	tzc = icalcomponent_new(ICAL_XSTANDARD_COMPONENT);
 	icalcomponent_add_property(tzc,
@@ -372,12 +372,9 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	    icalcomponent_vanew(
                 ICAL_VEVENT_COMPONENT,
                 icalproperty_new_uid(event->uid),
-		icalproperty_vanew_dtstamp(icaltime_from_timet(time(NULL), TRUE),
-			icalparameter_new_tzid("GMT"), 0),
-		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)),
-			icalparameter_new_tzid("GMT"), 0),
-		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)),
-			icalparameter_new_tzid("GMT"), 0),
+		icalproperty_vanew_dtstamp(icaltime_from_timet(time(NULL), TRUE), 0),
+		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)), 0),
+		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)), 0),
 		icalproperty_new_description(event->description),
 		icalproperty_new_summary(event->summary),
 		icalproperty_new_sequence(event->sequence + 1),
@@ -385,10 +382,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_new_transp("OPAQUE"),
 		icalproperty_new_location(""),
 		icalproperty_new_status(ICAL_STATUS_CONFIRMED),
-		icalproperty_vanew_created(icaltime_from_timet(time(NULL), TRUE),
-			icalparameter_new_tzid("GMT"), 0),
-		icalproperty_vanew_lastmodified(icaltime_from_timet(time(NULL), TRUE),
-			icalparameter_new_tzid("GMT"), 0),
+		icalproperty_vanew_created(icaltime_from_timet(time(NULL), TRUE), 0),
+		icalproperty_vanew_lastmodified(icaltime_from_timet(time(NULL), TRUE), 0),
 		
                 orgprop,
                 0

@@ -1802,7 +1802,7 @@ gboolean vcal_meeting_export_freebusy(const gchar *path)
 	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
 	
 	icalcomponent_add_property(timezone,
-		icalproperty_new_tzid("GMT"));
+		icalproperty_new_tzid("UTC"));
 	
 	tzc = icalcomponent_new(ICAL_XSTANDARD_COMPONENT);
 	icalcomponent_add_property(tzc,
@@ -1844,10 +1844,8 @@ gboolean vcal_meeting_export_freebusy(const gchar *path)
 	vfreebusy = 
 	    icalcomponent_vanew(
                 ICAL_VFREEBUSY_COMPONENT,
-		icalproperty_vanew_dtstart(itt_start,
-			icalparameter_new_tzid("GMT"), 0),
-		icalproperty_vanew_dtend(itt_end,
-			icalparameter_new_tzid("GMT"), 0),
+		icalproperty_vanew_dtstart(itt_start, 0),
+		icalproperty_vanew_dtend(itt_end, 0),
                 0
                 );
 

@@ -1,3 +1,11 @@
+2006-09-09 [colin]	1.89.0cvs2
+
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+		From RFC 2445: TZID is UTC not GMT, and
+		DT* shouldn't contain TZID parameter when
+		it is UTC.
+
 2006-09-09 [colin]	1.89.0cvs1
 
 	* src/vcal_meeting_gtk.c
