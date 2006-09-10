@@ -124,7 +124,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 		viewer->filename = procmime_get_tmp_file_name(partinfo);
 	html_document_clear(viewer->html_doc);
 
-	html_view_zoom_reset(viewer->html_view);
+	html_view_zoom_reset(HTML_VIEW(viewer->html_view));
 	if (partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
 
 		if (_viewer && _viewer->mimeview &&
@@ -639,9 +639,9 @@ static gboolean htmlview_scrolled(GtkWidget *widget, GdkEventScroll *event,
 {
 	if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
 		if (event->direction == GDK_SCROLL_UP) {
-			html_view_zoom_out(viewer->html_view);
+			html_view_zoom_out(HTML_VIEW(viewer->html_view));
 		} else {
-			html_view_zoom_in(viewer->html_view);
+			html_view_zoom_in(HTML_VIEW(viewer->html_view));
 		}
 		return TRUE;
 	}
