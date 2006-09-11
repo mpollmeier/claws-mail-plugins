@@ -22,3 +22,4 @@
 ( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs16.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs17.patchset
 ( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs18.patchset
+( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs19.patchset

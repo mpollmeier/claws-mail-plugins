@@ -1,3 +1,8 @@
+2006-09-11 [wwp]	0.10.2cvs19
+
+	* src/gtkhtml2_viewer.c
+		gettext-ize more strings (plugin error messages).
+
 2006-09-10 [paul]	0.10.2cvs18
 
 	* src/gtkhtml2_viewer.c
