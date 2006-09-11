@@ -61,7 +61,7 @@ void plugin_done(void)
 
 const gchar *plugin_name(void)
 {
-	return "RSSyl";
+	return _("RSSyl");
 }
 
 const gchar *plugin_desc(void)
