@@ -47,6 +47,7 @@
 #ifdef USE_PTHREAD
 #include <pthread.h>
 #endif
+
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
 #include <curl/curlver.h>
@@ -224,11 +225,13 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_prepare, viewer);
 }
 
+#ifdef HAVE_LIBCURL
 static void reload_with_img(NoticeView *noticeview, GtkHtml2Viewer *viewer)
 {
 	viewer->force_image_loading = TRUE;
 	gtkhtml2_show_mimepart((MimeViewer *)viewer, NULL, viewer->mimeinfo);
 }
+#endif
 
 static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 {
@@ -406,17 +409,18 @@ static void set_base(HtmlDocument *doc, const gchar *url, gpointer data)
 
 static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *stream, gpointer data)
 {
+	void *tmpfile = NULL;
+#ifdef HAVE_LIBCURL
 #ifdef USE_PTHREAD
 	pthread_t pt;
 #endif
-#ifdef HAVE_LIBCURL
-	void *tmpfile = NULL;
 	GtkHtmlThreadCtx *ctx = NULL;
-	gint loaded = 0;
-	char buffer[4096];
 	time_t start_time = time(NULL);
 	gboolean killed = FALSE;
 	gboolean remote_not_loaded = FALSE;
+#endif
+	gint loaded = 0;
+	char buffer[4096];
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)data;
 
 	if (!url)
@@ -456,8 +460,10 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
         else
         {
                 MimeInfo *mimeinfo = ((MimeViewer *)data)->mimeview->mimeinfo;
+#ifdef HAVE_LIBCURL
 		gchar *real_url = NULL;
 		gchar *cache_file = NULL;
+#endif
 		debug_print("looking for %s in Content-Location\n", url);
                 if (url == '\0')
                         goto fail;
@@ -483,6 +489,7 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 		goto found_local;
 
 not_found_local:
+#ifdef HAVE_LIBCURL
 		real_url = NULL;
 		cache_file = NULL;
                 if (!viewer->force_image_loading && (gtkhtml_prefs.local || prefs_common.work_offline)) {
@@ -549,6 +556,9 @@ not_found_local:
 			debug_print("cache file created (%s)\n", cache_file);
 			g_free(cache_file);
 		}
+#else
+		debug_print("image not found locally, and no libcurl support.\n");
+#endif
         }
 
 found_local:
@@ -558,7 +568,9 @@ found_local:
 		if (fp == NULL) {
 			html_stream_close(stream);
 			g_unlink(tmpfile);
+#ifdef HAVE_LIBCURL
 			g_free(ctx);
+#endif
 			return;
 		}
 
@@ -572,9 +584,11 @@ found_local:
 		fclose(fp);
 		g_unlink(tmpfile);
 	}
+#ifdef HAVE_LIBCURL
 	g_free(ctx);
 #endif
 fail:
+#ifdef HAVE_LIBCURL
 	if (remote_not_loaded) {
 		MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
 						? ((MimeViewer *)viewer)->mimeview->messageview 
@@ -598,6 +612,7 @@ fail:
 			noticeview_show(noticeview);
 		}
 	}
+#endif
 	html_stream_close(stream);
 }
 
@@ -773,9 +788,9 @@ gint plugin_init(gchar **error)
 
 #ifdef HAVE_LIBCURL
 	gtkhtml_prefs_init();
+	curl_global_init(CURL_GLOBAL_DEFAULT);
 #endif
 	mimeview_register_viewer_factory(&gtkhtml2_viewer_factory);
-	curl_global_init(CURL_GLOBAL_DEFAULT);
 
 	if (!is_dir_exist(gtkhtml2_viewer_tmpdir))
 		make_dir_hier(gtkhtml2_viewer_tmpdir);
