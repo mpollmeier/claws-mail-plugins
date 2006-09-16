@@ -1965,6 +1965,8 @@ static gboolean my_filtering_hook(gpointer source, gpointer data)
 
   mail_filtering_data = (MailFilteringData *) source;
   msginfo = mail_filtering_data->msginfo;
+  if (!msginfo)
+    return FALSE;
   stop_filtering = FALSE;
   wrote_filter_log_head = FALSE;
   filter_log_verbosity = config.filter_log_verbosity;
