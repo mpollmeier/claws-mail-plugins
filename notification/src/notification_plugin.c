@@ -36,49 +36,45 @@
 #include "notification_popup.h"
 #include "notification_command.h"
 #include "notification_foldercheck.h"
+#include "notification_pixbuf.h"
 #include "plugin.h"
 
-#include <glib/gi18n.h>
+#if HAVE_LIBNOTIFY
+#  include <libnotify/notify.h>
+#endif
 
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
-static gboolean my_post_filtering_hook    (gpointer, gpointer);
+static gboolean my_msginfo_update_hook(gpointer, gpointer);
 
-
-static guint hook_msgcnt;
-static guint hook_pfilter;
-
+static guint hook_f_item;
+static guint hook_m_info;
 
 #ifdef NOTIFICATION_BANNER
-static GSList       *banner_collected_msgs;
+static GSList* banner_collected_msgs;
 #endif
 
-static gboolean my_post_filtering_hook(gpointer source, gpointer data)
-{
-  g_return_val_if_fail(source != NULL, FALSE);
-
-#ifdef NOTIFICATION_POPUP
-  notification_popup_msg((MsgInfo*)source);
-#endif
-#ifdef NOTIFICATION_COMMAND
-  notification_command_msg((MsgInfo*)source);
-#endif
-
-  return FALSE;
-}
 
 static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
 {
   FolderItemUpdateData *update_data = source;
 
-  g_return_val_if_fail(source != NULL, FALSE);
+  g_return_val_if_fail(source != NULL, FALSE);  
 
   if(update_data->update_flags & F_ITEM_UPDATE_MSGCNT) {
-#ifdef NOTIFICATION_BANNER
+#if NOTIFICATION_BANNER
     notification_update_banner();
+#endif
+#if defined(NOTIFICATION_POPUP) || defined(NOTIFICATION_COMMAND)
+    notification_new_unnotified_msgs(update_data);
 #endif
   }
   return FALSE;
+}
+
+static gboolean my_msginfo_update_hook(gpointer source, gpointer data)
+{
+  return notification_notified_hash_msginfo_update((MsgInfoUpdate*)source);
 }
 
 gint plugin_init(gchar **error)
@@ -103,19 +99,20 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
-  hook_msgcnt = hooks_register_hook(FOLDER_ITEM_UPDATE_HOOKLIST,
-				my_folder_item_update_hook, NULL);
-  if(hook_msgcnt == (guint) -1) {
+  hook_f_item = hooks_register_hook(FOLDER_ITEM_UPDATE_HOOKLIST,
+				    my_folder_item_update_hook, NULL);
+  if(hook_f_item == (guint) -1) {
     *error = g_strdup("Failed to register folder item update hook in the "
 		      "notification plugin");
     return -1;
   }
-  hook_pfilter = hooks_register_hook(MAIL_POSTFILTERING_HOOKLIST,
-				     my_post_filtering_hook, NULL);
-  if(hook_pfilter == (guint) -1) {
-    *error = g_strdup("Failed to register mail postfiltering hook in the "
+
+  hook_m_info = hooks_register_hook(MSGINFO_UPDATE_HOOKLIST,
+				    my_msginfo_update_hook, NULL);
+  if(hook_m_info == (guint) -1) {
+    *error = g_strdup("Failed to register msginfo update hook in the "
 		      "notification plugin");
-    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_msgcnt);
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
     return -1;
   }
 
@@ -131,6 +128,8 @@ gint plugin_init(gchar **error)
 #ifdef NOTIFICATION_BANNER
   notification_update_banner();
 #endif
+
+  notification_notified_hash_startup_init();
 
   notify_gtk_init();
   debug_print("Notification plugin loaded\n");
@@ -148,12 +147,22 @@ void plugin_done(void)
   notification_banner_destroy();
 #endif
 
-  hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_msgcnt);
+  notification_notified_hash_free();
+
+  hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+  hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
   notify_gtk_done();
 
   /* foldercheck cleanup */
   notification_foldercheck_write_array();
   notification_free_folder_specific_array();
+
+#ifdef HAVE_LIBNOTIFY
+  if(notify_is_initted())
+    notify_uninit();
+#endif
+
+  notification_pixbuf_free_all();
 
   debug_print("Notification plugin unloaded\n");
 }
@@ -185,6 +194,14 @@ const gchar *plugin_version(void)
   return PLUGINVERSION;
 }
 
+struct PluginFeature *plugin_provides(void)
+{
+  static struct PluginFeature features[] = 
+    { {PLUGIN_NOTIFIER, "Various tools"},
+      {PLUGIN_NOTHING, NULL}};
+  return features;
+}
+
 #ifdef NOTIFICATION_BANNER
 void notification_update_banner(void)
 {
@@ -209,13 +226,5 @@ void notification_update_banner(void)
   }
   
   notification_banner_show(banner_collected_msgs);
-}
-
-struct PluginFeature *plugin_provides(void)
-{
-	static struct PluginFeature features[] = 
-		{ {PLUGIN_NOTIFIER, N_("Various tools")},
-		  {PLUGIN_NOTHING, NULL}};
-	return features;
 }
 #endif

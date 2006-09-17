@@ -50,14 +50,16 @@ typedef struct {
 #ifdef NOTIFICATION_POPUP
   gboolean         popup_show;
   gint             popup_timeout;
+  gboolean         popup_folder_specific;
+#ifndef HAVE_LIBNOTIFY
   gboolean         popup_sticky;
   gint             popup_root_x;
   gint             popup_root_y;
   gint             popup_width;
-  gboolean         popup_folder_specific;
   gboolean         popup_enable_colors;
   gulong           popup_color_bg;
   gulong           popup_color_fg;
+#endif /* !HAVE_LIBNOTIFY */
 #endif
 #ifdef NOTIFICATION_COMMAND
   gboolean         command_enabled;

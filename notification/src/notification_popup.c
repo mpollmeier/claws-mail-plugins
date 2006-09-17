@@ -1,5 +1,5 @@
 /* Notification Plugin for Sylpheed-Claws
- * Copyright (C) 2005 Holger Berndt
+ * Copyright (C) 2005-2006 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the version 2 of the GNU General Public License
@@ -28,34 +28,64 @@
 #include "notification_popup.h"
 #include "notification_prefs.h"
 #include "notification_foldercheck.h"
+#include "notification_pixbuf.h"
+
+#ifdef HAVE_LIBNOTIFY
+#  include <libnotify/notify.h>
+#endif
+
 
 typedef struct {
+  gint count;
+  guint timeout_id;
+#ifdef HAVE_LIBNOTIFY
+  NotifyNotification *notification;
+  GError *error;
+#else /* !HAVE_LIBNOTIFY */
   GtkWidget *window;
   GtkWidget *frame;
   GtkWidget *event_box;
   GtkWidget *vbox;
   GtkWidget *label1;
   GtkWidget *label2;
-  gint amount;
-  guint timeout_id;
+#endif
 } NotificationPopup;
 
-
-static void     notification_popup_add_msg(MsgInfo*);
-static void     notification_popup_create(MsgInfo*);
-static gboolean popup_timeout_fun(gpointer data);
-
-static gboolean notification_popup_button(GtkWidget*, GdkEventButton*,
-					  gpointer);
-
-
-static NotificationPopup popup;
+static NotificationPopup popup = {
+  0,
+  0,
+#ifdef HAVE_LIBNOTIFY
+  NULL,
+  NULL
+#else /* !HAVE_LIBNOTIFY */
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL  
+#endif
+};
 
 G_LOCK_DEFINE_STATIC(popup);
+
+static gboolean popup_timeout_fun(gpointer data);
+
+#ifdef HAVE_LIBNOTIFY
+static gboolean notification_libnotify_create(MsgInfo*);
+static gboolean notification_libnotify_add_msg(MsgInfo*);
+#else /* !HAVE_LIBNOTIFY */
+static gboolean notification_popup_add_msg(MsgInfo*);
+static gboolean notification_popup_create(MsgInfo*);
+static gboolean notification_popup_button(GtkWidget*, GdkEventButton*,
+					  gpointer);
+#endif /* !HAVE_LIBNOTIFY */
 
 
 void notification_popup_msg(MsgInfo *msginfo)
 {
+  gboolean retval;
+
   if(!msginfo || !notify_config.popup_show || !MSG_IS_NEW(msginfo->flags))
     return;
 
@@ -90,36 +120,159 @@ void notification_popup_msg(MsgInfo *msginfo)
   }
 
   G_LOCK(popup);
-  if(popup.window)
-    notification_popup_add_msg(msginfo);
+#ifdef HAVE_LIBNOTIFY
+  if(popup.notification)
+    retval = notification_libnotify_add_msg(msginfo);
   else
-    notification_popup_create(msginfo);
-  if(popup.timeout_id)
-    g_source_remove(popup.timeout_id);
-  popup.timeout_id = g_timeout_add(notify_config.popup_timeout,
-				   popup_timeout_fun, NULL);
+    retval = notification_libnotify_create(msginfo);
+#else /* !HAVE_LIBNOTIFY */
+  if(popup.window)
+    retval = notification_popup_add_msg(msginfo);
+  else
+    retval = notification_popup_create(msginfo);
+#endif /* !HAVE_LIBNOTIFY */
+  /* Renew timeout only when the above call was successful */
+  if(retval) {
+    if(popup.timeout_id)
+      g_source_remove(popup.timeout_id);
+    popup.timeout_id = g_timeout_add(notify_config.popup_timeout,
+				     popup_timeout_fun, NULL);
+  }
   G_UNLOCK(popup);
 
+#ifndef HAVE_LIBNOTIFY
   /* GUI update */
   while(gtk_events_pending())
     gtk_main_iteration();
+#endif /* !HAVE_LIBNOTIFY */
+  
 }
 
-static void notification_popup_add_msg(MsgInfo *msginfo)
+static gboolean popup_timeout_fun(gpointer data)
+{
+  G_LOCK(popup);
+#ifdef HAVE_LIBNOTIFY
+  if(!notify_notification_close(popup.notification, &(popup.error))) {
+    debug_print("Notification Plugin: Failed to close notification: %s.\n",
+		popup.error->message);
+  }
+  else {
+    g_object_unref(G_OBJECT(popup.notification));
+    popup.notification = NULL;
+  }
+  g_clear_error(&(popup.error));
+#else /* !HAVE_LIBNOTIFY */
+  if(popup.window) {
+    gtk_widget_destroy(popup.window);
+    popup.window = NULL;
+  }
+#endif
+  popup.timeout_id = 0;
+  popup.count = 0;
+  G_UNLOCK(popup);
+  debug_print("Notification Plugin: Popup closed due to timeout.\n");
+  return FALSE;
+}
+
+#ifdef HAVE_LIBNOTIFY
+static gboolean notification_libnotify_create(MsgInfo *msginfo)
+{
+  GdkPixbuf *pixbuf;
+
+  /* init libnotify if necessary */
+  if(!notify_is_initted()) {
+    if(!notify_init("sylpheed-claws")) {
+      debug_print("Notification Plugin: Failed to initialize libnotify. "
+		  "No popup will be shown.\n");
+      return FALSE;
+    }
+  }
+
+  popup.notification = notify_notification_new("Sylpheed-Claws", 
+					       "A new message arrived.",
+					       NULL, NULL);
+  if(popup.notification == NULL) {
+    debug_print("Notification Plugin: Failed to create a new "
+		"notification.\n");
+    return FALSE;
+  }
+
+  /* Icon */
+  pixbuf = notification_pixbuf_get_logo_64x64();
+  if(pixbuf)
+    notify_notification_set_icon_from_pixbuf(popup.notification, pixbuf);
+  else /* This is not fatal */
+    debug_print("Notification plugin: Icon could not be loaded.\n");
+
+  /* Never time out, close is handled manually. */
+  notify_notification_set_timeout(popup.notification, NOTIFY_EXPIRES_NEVER);
+
+  /* Category */
+  notify_notification_set_category(popup.notification, "email.arrived");
+
+  /* hhb: todo: close handler / default action */
+
+  /* Show the popup */
+  if(!notify_notification_show(popup.notification, &(popup.error))) {
+    debug_print("Notification Plugin: Failed to send notification: %s\n",
+		popup.error->message);
+    g_clear_error(&(popup.error));
+    g_object_unref(G_OBJECT(popup.notification));
+    popup.notification = NULL;
+    return FALSE;
+  }
+
+  debug_print("Notification Plugin: Popup created with libnotify.\n");
+  popup.count = 1;
+  return TRUE;
+}
+
+static gboolean notification_libnotify_add_msg(MsgInfo *msginfo)
+{
+  gchar *message;
+  gboolean retval;
+
+  popup.count++;
+
+  message = g_strdup_printf("%d new messages arrived", popup.count);
+  retval = notify_notification_update(popup.notification, "Sylpheed-Claws", 
+				      message, NULL);
+  g_free(message);
+  if(!retval) {
+    debug_print("Notification Plugin: Failed to update notification.\n");
+    return FALSE;
+  }
+
+  /* Show the popup */
+  if(!notify_notification_show(popup.notification, &(popup.error))) {
+    debug_print("Notification Plugin: Failed to send updated notification: "
+		"%s\n",	popup.error->message);
+    g_clear_error(&(popup.error));
+    return FALSE;
+  }
+
+  debug_print("Notification Plugin: Popup successfully modified "
+	      "with libnotify.\n");
+  return TRUE;
+}
+
+#else /* !HAVE_LIBNOTIFY */
+static gboolean notification_popup_add_msg(MsgInfo *msginfo)
 {
   gchar *message;
 
-  popup.amount++;
+  popup.count++;
 
   if(popup.label2)
     gtk_widget_destroy(popup.label2);
 
-  message = g_strdup_printf("%d new messages", popup.amount);
+  message = g_strdup_printf("%d new messages", popup.count);
   gtk_label_set_text(GTK_LABEL(popup.label1), message);
   g_free(message);
+  return TRUE;
 }
 
-static void notification_popup_create(MsgInfo *msginfo)
+static gboolean notification_popup_create(MsgInfo *msginfo)
 {
   GdkColor bg;
   GdkColor fg;
@@ -174,20 +327,9 @@ static void notification_popup_create(MsgInfo *msginfo)
 
   gtk_widget_show_all(popup.window);
 
-  popup.amount = 1;
-}
+  popup.count = 1;
 
-static gboolean popup_timeout_fun(gpointer data)
-{
-  G_LOCK(popup);
-  if(popup.window) {
-    gtk_widget_destroy(popup.window);
-    popup.window = NULL;
-    popup.timeout_id = 0;
-    popup.amount = 0;
-  }
-  G_UNLOCK(popup);
-  return FALSE;
+  return TRUE;
 }
 
 static gboolean notification_popup_button(GtkWidget *widget,
@@ -206,5 +348,6 @@ static gboolean notification_popup_button(GtkWidget *widget,
   }
   return TRUE;
 }
+#endif /* HAVE_LIBNOTIFY */
 
 #endif /* NOTIFICATION_POPUP */

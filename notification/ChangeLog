@@ -1,3 +1,27 @@
+2006-09-17 [holger]	0.3cvs7
+
+	* commitHelper
+		Use the same version number in ChangeLog and plugin.
+	* configure.ac
+		Update to check for libnotify. Required libnotify version
+		is set to a very high value. 0.4.3 should work, but I didn't
+		verify yet.
+	* src/Makefile.am
+	* src/notification_pixbuf.c
+	* src/notification_pixbuf.h
+	* src/notification_plugin.c
+	* src/notification_popup.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/raw_sylpheed_claws_logo_64x64.h
+		Include support for libnotify.
+	* src/notification_core.c
+	* src/notification_core.h
+		Try to make the notification also work on IMAP folders. This
+		requires major rework. The postfiltering-hook has been dropped
+		in favor of connecting to the folderitem update hook directly.
+		The implementation of this is likely to change again, though.
+
 2006-09-01 [wwp]	0.3.0cvs6
 
 	* commitHelper

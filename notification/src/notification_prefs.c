@@ -62,14 +62,16 @@ typedef struct {
   PrefsPage page;
   GtkWidget *popup_show;
   GtkWidget *popup_timeout;
-  GtkWidget *popup_sticky;
   GtkWidget *popup_folder_specific;
+  GtkWidget *popup_cont_enable;
+  GtkWidget *popup_cont_folder_specific;
+#ifndef HAVE_LIBNOTIFY
+  GtkWidget *popup_sticky;
   GtkWidget *popup_enable_colors;
   GtkWidget *popup_color_bg;
   GtkWidget *popup_color_fg;
-  GtkWidget *popup_cont_enable;
-  GtkWidget *popup_cont_folder_specific;
   GtkWidget *popup_cont_color_sel;
+#endif /* !HAVE_LIBNOTIFY */
 } NotifyPopupPage;
 NotifyPopupPage popup_page;
 #endif /* NOTIFICATION_POPUP */
@@ -111,6 +113,9 @@ PrefParam notify_param[] = {
   {"popup_show", "TRUE", &notify_config.popup_show, P_BOOL, NULL, NULL, NULL},
   {"popup_timeout", "5000", &notify_config.popup_timeout,
    P_INT, NULL, NULL, NULL},
+  {"popup_folder_specific", "FALSE", &notify_config.popup_folder_specific,
+   P_BOOL, NULL, NULL, NULL},
+#ifndef HAVE_LIBNOTIFY
   {"popup_sticky", "TRUE", &notify_config.popup_sticky, P_BOOL,
    NULL, NULL, NULL},
   {"popup_root_x", "10", &notify_config.popup_root_x,
@@ -119,14 +124,13 @@ PrefParam notify_param[] = {
    P_INT, NULL, NULL, NULL},
   {"popup_width", "100", &notify_config.popup_width,
    P_INT, NULL, NULL, NULL},
-  {"popup_folder_specific", "FALSE", &notify_config.popup_folder_specific,
-   P_BOOL, NULL, NULL, NULL},
   {"popup_enable_colors", "FALSE", &notify_config.popup_enable_colors, P_BOOL, 
    NULL, NULL, NULL},
   {"popup_color_bg", "0", &notify_config.popup_color_bg, P_COLOR,
    NULL, NULL, NULL},
   {"popup_color_fg", "16776704", &notify_config.popup_color_fg, P_COLOR,
    NULL, NULL, NULL},
+#endif /* !HAVE_LIBNOTIFY */
 #endif
 
 #ifdef NOTIFICATION_COMMAND
@@ -159,12 +163,14 @@ static void notify_banner_folder_specific_set_sensitivity(GtkToggleButton*,
 static void notify_create_popup_page(PrefsPage*, GtkWindow*, gpointer);
 static void notify_destroy_popup_page(PrefsPage*);
 static void notify_save_popup(PrefsPage*);
-static void notify_popup_set_cb(GtkWidget*, gpointer);
-static void notify_popup_set_done_cb(GtkWidget*, gpointer);
-static void notify_popup_enable_set_sensitivity(GtkToggleButton*, gpointer);
-static void notify_popup_color_sel_set_sensitivity(GtkToggleButton*,gpointer);
 static void notify_popup_folder_specific_set_sensitivity(GtkToggleButton*,
 							 gpointer);
+static void notify_popup_enable_set_sensitivity(GtkToggleButton*, gpointer);
+#ifndef HAVE_LIBNOTIFY
+static void notify_popup_set_done_cb(GtkWidget*, gpointer);
+static void notify_popup_set_cb(GtkWidget*, gpointer);
+static void notify_popup_color_sel_set_sensitivity(GtkToggleButton*,gpointer);
+#endif /* !HAVE_LIBNOTIFY */
 #endif
 
 #ifdef NOTIFICATION_COMMAND
@@ -530,6 +536,7 @@ static void notify_banner_folder_specific_set_sensitivity(GtkToggleButton *bu,
 static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 				     gpointer data)
 {
+  gdouble timeout;
   GtkWidget *pvbox;
   GtkWidget *vbox;
   GtkWidget *checkbox;
@@ -537,11 +544,12 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   GtkWidget *spinner;
   GtkWidget *label;
   GtkWidget *button;
-  GtkWidget *color_sel;
-  GtkWidget *table;
-  gdouble timeout;
+#ifndef HAVE_LIBNOTIFY
   GdkColor bg;
   GdkColor fg;
+  GtkWidget *table;
+  GtkWidget *color_sel;
+#endif /* !HAVE_LIBNOTIFY */
 
   pvbox = gtk_vbox_new(FALSE, 20);
   gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
@@ -580,21 +588,6 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(hbox);
   popup_page.popup_timeout = spinner;
 
-  /* Sticky check button */
-  checkbox = gtk_check_button_new_with_label("Make popup sticky");
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
-			       notify_config.popup_sticky);
-  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
-  gtk_widget_show(checkbox);
-  popup_page.popup_sticky = checkbox;
-
-  /* Button to set size and position of popup window */
-  button = gtk_button_new_with_label("Set popup window width and position");
-  g_signal_connect(G_OBJECT(button), "clicked",
-		   G_CALLBACK(notify_popup_set_cb), NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);  
-  gtk_widget_show(button);
-
   /* Check box for enabling folder specific selection */
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
@@ -615,6 +608,22 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   popup_page.popup_cont_folder_specific = button;
   gtk_widget_show(button);
   gtk_widget_show(hbox);
+
+#ifndef HAVE_LIBNOTIFY
+  /* Sticky check button */
+  checkbox = gtk_check_button_new_with_label("Make popup sticky");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.popup_sticky);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  popup_page.popup_sticky = checkbox;
+
+  /* Button to set size and position of popup window */
+  button = gtk_button_new_with_label("Set popup window width and position");
+  g_signal_connect(G_OBJECT(button), "clicked",
+		   G_CALLBACK(notify_popup_set_cb), NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);  
+  gtk_widget_show(button);
 
   /* Check box for enabling custom colors */
   checkbox = gtk_check_button_new_with_label("Use custom colors");
@@ -656,6 +665,8 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 
   notify_popup_color_sel_set_sensitivity
     (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors), NULL);
+#endif /* !HAVE_LIBNOTIFY */
+
   notify_popup_enable_set_sensitivity
     (GTK_TOGGLE_BUTTON(popup_page.popup_show), NULL);
   notify_popup_folder_specific_set_sensitivity
@@ -671,21 +682,26 @@ static void notify_destroy_popup_page(PrefsPage *page)
 static void notify_save_popup(PrefsPage *page)
 {
   gdouble timeout;
+
+#ifndef HAVE_LIBNOTIFY
   GdkColor color;
+#endif /* !HAVE_LIBNOTIFY */
 
   notify_config.popup_show = 
     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(popup_page.popup_show));
   timeout =
     gtk_spin_button_get_value(GTK_SPIN_BUTTON(popup_page.popup_timeout));
   notify_config.popup_timeout = (gint)floor(timeout*1000+0.5);
+  notify_config.popup_folder_specific =
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(popup_page.popup_folder_specific));
+
+#ifndef HAVE_LIBNOTIFY
   notify_config.popup_sticky = 
     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(popup_page.popup_sticky));
   notify_config.popup_enable_colors = 
     gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors));
-  notify_config.popup_folder_specific =
-    gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(popup_page.popup_folder_specific));
 
   /* Color dialogs are a bit more complicated */
   gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page.popup_color_fg),
@@ -694,8 +710,10 @@ static void notify_save_popup(PrefsPage *page)
   gtk_color_button_get_color(GTK_COLOR_BUTTON(popup_page.popup_color_bg),
 			     &color);
   notify_config.popup_color_bg = conv_color_to_int(&color);
+#endif /* !HAVE_LIBNOTIFY */
 }
 
+#ifndef HAVE_LIBNOTIFY
 static void notify_popup_set_cb(GtkWidget *widget, gpointer data)
 {
   GtkWidget *win;
@@ -728,15 +746,6 @@ static void notify_popup_set_done_cb(GtkWidget *widget, gpointer data)
   gtk_widget_destroy(win);
 }
 
-static void notify_popup_enable_set_sensitivity(GtkToggleButton *button,
-						gpointer data)
-{
-  gboolean active;
-  active = gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(popup_page.popup_show));
-  gtk_widget_set_sensitive(popup_page.popup_cont_enable, active);
-}
-
 static void notify_popup_color_sel_set_sensitivity(GtkToggleButton *button,
 						   gpointer data)
 {
@@ -744,6 +753,16 @@ static void notify_popup_color_sel_set_sensitivity(GtkToggleButton *button,
   active = gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(popup_page.popup_enable_colors));
   gtk_widget_set_sensitive(popup_page.popup_cont_color_sel, active);
+}
+#endif /* !HAVE_LIBNOTIFY */
+
+static void notify_popup_enable_set_sensitivity(GtkToggleButton *button,
+						gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(popup_page.popup_show));
+  gtk_widget_set_sensitive(popup_page.popup_cont_enable, active);
 }
 
 static void notify_popup_folder_specific_set_sensitivity(GtkToggleButton *bu,

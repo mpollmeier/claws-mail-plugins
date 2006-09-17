@@ -15,26 +15,30 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef NOTIFICATION_CORE_H
-#define NOTIFICATION_CORE_H NOTIFICATION_CORE_H
+#include "notification_pixbuf.h"
 
-#include "folder.h"
+/* The following file was created from the .png file of the SC distribution
+ * with the command 
+ * gdk-pixbuf-csource --raw --name=<name> file.png > <name>.h
+ */
+#include "raw_sylpheed_claws_logo_64x64.h"
 
-typedef struct {
-  gchar *from;
-  gchar *subject;
-  FolderItem *folder_item;
-  gchar *folderitem_name;
-} CollectedMsg;
+GdkPixbuf *sylpheed_claws_logo_64x64 = NULL;
 
+GdkPixbuf* notification_pixbuf_get_logo_64x64(void)
+{
+  if(!sylpheed_claws_logo_64x64) {
+    sylpheed_claws_logo_64x64 =
+      gdk_pixbuf_new_from_inline(-1, raw_sylpheed_claws_logo_64x64,
+				 FALSE, NULL);
+  }
+  return sylpheed_claws_logo_64x64;
+}
 
-/* Collect new and possibly unread messages in all folders */
-GSList*  notification_collect_msgs(gboolean, GSList*);
-void     notification_collected_msgs_free(GSList*);
-
-void     notification_new_unnotified_msgs(FolderItemUpdateData*);
-void     notification_notified_hash_free(void);
-gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);
-void     notification_notified_hash_startup_init(void);
-
-#endif /* NOTIFICATION_CORE_H */
+void notification_pixbuf_free_all(void)
+{
+  if(sylpheed_claws_logo_64x64) {
+    g_object_unref(sylpheed_claws_logo_64x64);
+    sylpheed_claws_logo_64x64 = NULL;
+  }
+}

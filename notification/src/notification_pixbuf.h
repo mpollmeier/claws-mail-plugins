@@ -15,26 +15,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef NOTIFICATION_CORE_H
-#define NOTIFICATION_CORE_H NOTIFICATION_CORE_H
+#ifndef NOTIFICATION_PIXBUF_H
+#define NOTIFICATION_PIXBUF_H NOTIFICATION_PIXBUF_H
 
-#include "folder.h"
+#include <gdk/gdk.h>
 
-typedef struct {
-  gchar *from;
-  gchar *subject;
-  FolderItem *folder_item;
-  gchar *folderitem_name;
-} CollectedMsg;
+/* The reference to the returned GdkPixbuf's belongs to notification_pixbuf,
+ * and shall not be removed outside. */
+GdkPixbuf* notification_pixbuf_get_logo_64x64(void);
 
+void notification_pixbuf_free_all(void);
 
-/* Collect new and possibly unread messages in all folders */
-GSList*  notification_collect_msgs(gboolean, GSList*);
-void     notification_collected_msgs_free(GSList*);
-
-void     notification_new_unnotified_msgs(FolderItemUpdateData*);
-void     notification_notified_hash_free(void);
-gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);
-void     notification_notified_hash_startup_init(void);
-
-#endif /* NOTIFICATION_CORE_H */
+#endif /* NOTIFICATION_PIXBUF_H */
