@@ -22,29 +22,29 @@
 		in favor of connecting to the folderitem update hook directly.
 		The implementation of this is likely to change again, though.
 
-2006-09-01 [wwp]	0.3.0cvs6
+2006-09-01 [wwp]	0.3cvs6
 
 	* commitHelper
 		sync w/ commitHelper in sylpheed-claws module:
 		use CVSEDITOR env. var. if set.
 
-2006-08-27 [wwp]	0.3.0cvs5
+2006-08-27 [wwp]	0.3cvs5
 
 	* src/notification_plugin.c
 		fix plugin compilation (N_ undefined).
 
-2006-08-27 [colin]	0.3.0cvs4
+2006-08-27 [colin]	0.3cvs4
 
 	* src/notification_plugin.c
 		Implement plugin_provides()
 
-2006-08-18 [paul]	0.3.0cvs3
+2006-08-18 [paul]	0.3cvs3
 
 	* configure.ac
 		bump up GLib and GTK+ minimum required versions,
 		following Claws
 
-2006-08-04 [holger]	0.3.0cvs2
+2006-08-04 [holger]	0.3cvs2
 
 	* src/notification_foldercheck.c
 	* src/notification_popup.c
@@ -54,7 +54,7 @@
 		Expand folder specific settings to the
 		popup module, and fix several bugs on the way.
 
-2006-08-03 [holger]	0.3.0cvs1
+2006-08-03 [holger]	0.3cvs1
 
 	* src/notification_foldercheck.c
 		Make specific folder list safe against deleted
@@ -87,13 +87,13 @@
 		Rework prefs page, to make greying out inactive
 		options easier.
 
-2006-06-06 [wwp]	0.2.0cvs2
+2006-06-06 [wwp]	0.2cvs2
 
 	* configure.ac
 	* src/.cvsignore
 		fix/unify/simplify autostuff.
 
-2006-06-03 [wwp]	0.2.0cvs1
+2006-06-03 [wwp]	0.2cvs1
 
 	* commitHelper
 	* PATCHSETS
