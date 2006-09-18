@@ -1,3 +1,8 @@
+2006-09-18 [colin]	0.10.2cvs21
+
+	* src/gtkhtml2_viewer.c
+		Popup contextual menu when right-clicking links
+
 2006-09-12 [colin]	0.10.2cvs20
 
 	* src/gtkhtml2_viewer.c

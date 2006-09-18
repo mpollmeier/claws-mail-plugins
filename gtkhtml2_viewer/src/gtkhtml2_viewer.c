@@ -43,6 +43,7 @@
 #include "log.h"
 #include "codeconv.h"
 #include "plugin.h"
+#include "menu.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
@@ -70,10 +71,25 @@ struct _GtkHtml2Viewer
 	gint		 loading;
 	gint		 stop_previous;
 	GMutex		*mutex;
+	GtkWidget 	*link_popupmenu;
+	GtkItemFactory 	*link_popupfactory;
 };
 
 static MimeViewerFactory gtkhtml2_viewer_factory;
 static gchar *gtkhtml2_viewer_tmpdir = NULL;
+
+static void gtkhtml_open_uri_cb			(GtkHtml2Viewer *viewer,
+						 guint		 action,
+						 void		*data);
+static void gtkhtml_copy_uri_cb			(GtkHtml2Viewer *viewer,
+						 guint		 action,
+						 void		*data);
+
+static GtkItemFactoryEntry gtkhtml_link_popup_entries[] = 
+{
+	{N_("/_Open with Web browser"),	NULL, gtkhtml_open_uri_cb, 0, NULL},
+	{N_("/Copy this _link"),	NULL, gtkhtml_copy_uri_cb, 0, NULL},
+};
 
 static void scrolled_cb (GtkAdjustment *adj, GtkHtml2Viewer *viewer)
 {
@@ -287,17 +303,59 @@ static gchar *make_url(const gchar *url, const gchar *base)
 	}
 }
 
+static void gtkhtml_open_uri_cb (GtkHtml2Viewer *viewer, guint action, void *data)
+{
+	gchar *uri = g_object_get_data(G_OBJECT(viewer->link_popupmenu),
+					   "uri");
+	g_object_set_data(G_OBJECT(viewer->link_popupmenu), "uri", NULL);
+	open_uri(uri, prefs_common.uri_cmd);
+	g_free(uri);
+}
+
+static void gtkhtml_copy_uri_cb (GtkHtml2Viewer *viewer, guint action, void *data)
+{
+	gchar *uri = g_object_get_data(G_OBJECT(viewer->link_popupmenu),
+					   "uri");
+	g_object_set_data(G_OBJECT(viewer->link_popupmenu), "uri", NULL);
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_PRIMARY), uri, -1);
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), uri, -1);
+	g_free(uri);
+}
+
 /* DESCRIPTION:
  * This callback gets executed if a user clicks a link, that is, if he
  * apparently attempts to move onto another document. Commonly handle
  * this by loading a document in same fashion as gtkhtml2_show_mimepart,
  * or just ignore it. */
-void link_clicked(HtmlDocument *doc, const gchar *url, gpointer data) {
-	gchar *real_url = make_url(url, ((GtkHtml2Viewer *)data)->base);
-	if (real_url)
-		open_uri(real_url, prefs_common.uri_cmd);
-	else
-		open_uri(url, prefs_common.uri_cmd);
+void link_clicked(HtmlDocument *doc, const gchar *url, GtkHtml2Viewer *viewer) {
+	gchar *real_url = make_url(url, viewer->base);
+	GdkEvent *event = gtk_get_current_event();
+	GdkEventButton *bevent = NULL;
+	gint button = 1;
+	gchar *tmp = g_object_get_data(G_OBJECT(viewer->link_popupmenu),
+					   "uri");
+	if (tmp)
+		g_free(tmp);
+	g_object_set_data(G_OBJECT(viewer->link_popupmenu), "uri", NULL);
+
+	if (event && event->type == GDK_BUTTON_RELEASE) {
+		bevent = (GdkEventButton *)event;
+		button = bevent->button;
+	}
+	gdk_event_free(event);
+
+	if (button == 1 || button == 2) {
+		if (real_url)
+			open_uri(real_url, prefs_common.uri_cmd);
+		else
+			open_uri(url, prefs_common.uri_cmd);
+	} else if (button == 3) {
+		g_object_set_data(G_OBJECT(viewer->link_popupmenu), "uri",
+			  real_url ? g_strdup(real_url):g_strdup(url));
+		gtk_menu_popup(GTK_MENU(viewer->link_popupmenu), 
+			       NULL, NULL, NULL, NULL, 
+			       bevent->button, bevent->time);
+	}
 	g_free(real_url);
 }
 
@@ -669,6 +727,9 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	GtkAdjustment *adj;
 	gfloat min_size, min_size_new;
 	PangoFontDescription *font_desc = NULL;
+	gint n_entries;
+	GtkWidget *link_popupmenu;
+	GtkItemFactory *link_popupfactory;
 
 	debug_print("gtkhtml2_viewer_create\n");
 
@@ -740,6 +801,13 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	gtk_widget_show(GTK_WIDGET(viewer->html_view));
 	gtk_widget_ref(GTK_WIDGET(viewer->html_view));
 
+	n_entries = sizeof(gtkhtml_link_popup_entries) /
+		sizeof(gtkhtml_link_popup_entries[0]);
+	link_popupmenu = menu_create_items(gtkhtml_link_popup_entries, n_entries,
+				      "<UriPopupMenu>", &link_popupfactory,
+				      viewer);
+	viewer->link_popupmenu = link_popupmenu;
+	viewer->link_popupfactory = link_popupfactory;
 	viewer->filename = NULL;
 
 	return (MimeViewer *) viewer;
