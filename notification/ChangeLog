@@ -4,8 +4,10 @@
 		Use the same version number in ChangeLog and plugin.
 	* configure.ac
 		Update to check for libnotify. Required libnotify version
-		is set to a very high value. 0.4.3 should work, but I didn't
-		verify yet.
+		is set to a high value. 0.4.3 or later will probably
+		work, but is not released yet, and I didn't verify
+		svn. Consider libnotify support to be deactivated for
+		now.
 	* src/Makefile.am
 	* src/notification_pixbuf.c
 	* src/notification_pixbuf.h
