@@ -32,7 +32,6 @@ typedef struct {
 
 static gboolean notification_traverse_collect(GNode*, gpointer);
 static void     notification_new_unnotified_do_msg(MsgInfo*);
-static void     notification_foreach_free_val(gpointer, gpointer, gpointer);
 static gboolean notification_traverse_hash_startup(GNode*, gpointer);
 
 #if 0
@@ -59,11 +58,8 @@ hook on MSGINFO_UPDATE_HOOKLIST
 */
 
 /* This hash table holds all mails that we already notified about,
-   and that still are marked as "new". The keys are the msgnum's,
-   the values are lists which contain the folderitems in which the
-   msg is. (It would be more intuitive the other way round, but this
-   way is supposed to be faster, since folders are much more likely to
-   collide than message numbers) */
+   and that still are marked as "new". The keys are the msgid's,
+   the values are just 1's stored in a pointer. */
 static GHashTable *notified_hash = NULL;
 
 
@@ -78,34 +74,17 @@ gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate *msg_update)
 
   if((msg_update->flags & MSGINFO_UPDATE_FLAGS) &&
      !MSG_IS_NEW(msg_update->msginfo->flags)) {
-    GSList *folder_list;
+
     MsgInfo *msg;
-    
     msg = msg_update->msginfo;
     
     g_return_val_if_fail(msg != NULL, FALSE);
 
-    folder_list = (GSList*) g_hash_table_lookup(notified_hash,
-						GUINT_TO_POINTER(msg->msgnum));
-    if(folder_list) {
-
-      folder_list = g_slist_remove(folder_list, msg->folder);
-
-      debug_print("Notification Plugin: Message id number %u is in hash "
-		  "table, removing folder %p from list, new list starts "
-		  "at %p\n", msg->msgnum, msg->folder,folder_list);
-
-      if(!folder_list) {
-	debug_print("Notification Plugin: Removing entry %u from hash table, "
-		    "because folder list is now empty\n", msg->msgnum);
-	g_hash_table_remove(notified_hash, GUINT_TO_POINTER(msg->msgnum));
-      }
-      else {
-	debug_print("Notification Plugin: Replacing entry %u in hash, because "
-		    "list is not yet empty\n", msg->msgnum);
-	g_hash_table_replace(notified_hash, GUINT_TO_POINTER(msg->msgnum),
-			     folder_list);
-      }
+    if(g_hash_table_lookup(notified_hash, msg->msgid) != NULL) {
+      
+      debug_print("Notification Plugin: Removing message id %s from hash "
+		  "table\n", msg->msgid);
+      g_hash_table_remove(notified_hash, msg->msgid);
     }
   }
   return FALSE;
@@ -119,7 +98,8 @@ void notification_notified_hash_startup_init(void)
   Folder *folder;
 
   if(!notified_hash) {
-    notified_hash = g_hash_table_new(g_direct_hash, g_direct_equal);
+    notified_hash = g_hash_table_new_full(g_str_hash, g_str_equal,
+					  g_free, NULL);
     debug_print("Notification Plugin: Hash table created\n");
   }  
 
@@ -147,21 +127,12 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
   
   for(walk = msg_list; walk; walk = g_slist_next(walk)) {
     MsgInfo *msg = (MsgInfo*) walk->data;
-    if(MSG_IS_NEW(msg->flags)) {
-      GSList *folder_list;
-      
-      /* The message/folder combination can not yet be in the hash table, add
-	 it right away. */
-      folder_list =
-	(GSList*)g_hash_table_lookup(notified_hash,
-				     GUINT_TO_POINTER(msg->msgnum));
-      folder_list = g_slist_prepend(folder_list,msg->folder);
-      /* then replace the old value pointer or insert a new key */
-      g_hash_table_insert(notified_hash, GUINT_TO_POINTER(msg->msgnum),
-			  folder_list);
-      debug_print("Notification Plugin: Init: Adding (%u,%p) to the hash\n",
-		  msg->msgnum, msg->folder);
-
+    if(MSG_IS_NEW(msg->flags)) {      
+      /* If the message id is not yet in the hash, add it */
+      g_hash_table_insert(notified_hash, g_strdup(msg->msgid),
+			  GINT_TO_POINTER(1));
+      debug_print("Notification Plugin: Init: Added msg id %s to the hash\n",
+		  msg->msgid);
       /* Decrement left count and check if we're already done */
       new_msgs_left--;
       if(new_msgs_left == 0)
@@ -174,23 +145,18 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
 
 void notification_notified_hash_free(void)
 {
-  if(notified_hash) { 
-    debug_print("Notification Plugin: Destroying hash table...\n");
-    g_hash_table_foreach(notified_hash, notification_foreach_free_val, NULL);
+  if(notified_hash) {
     g_hash_table_destroy(notified_hash);
+    notified_hash = NULL;
+    debug_print("Notification Plugin: Hash table destroyed\n");
   }
-  notified_hash = NULL;
-  debug_print("Notification Plugin: Hash table destroyed\n");
 }
 
 void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
 {
   GSList *msg_list, *walk;
 
-  if(!notified_hash) {
-    notified_hash = g_hash_table_new(g_direct_hash, g_direct_equal);
-    debug_print("Notification Plugin: Hash table created\n");
-  }
+  g_return_if_fail(notified_hash != NULL);
 
   msg_list = folder_item_get_msg_list(update_data->item);
 
@@ -199,31 +165,18 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
     msg = (MsgInfo*) walk->data;
     
     if(MSG_IS_NEW(msg->flags)) {
-      GSList *walk, *folder_list;
-      gboolean found = FALSE;
-      debug_print("Notification Plugin: Found msg %u, "
-		  "checking if it is in hash... ", msg->msgnum);
+
+      debug_print("Notification Plugin: Found msg %s, "
+		  "checking if it is in hash... ", msg->msgid);
       /* Check if message is in hash table */
-      folder_list =
-	(GSList*) g_hash_table_lookup(notified_hash,
-				      GUINT_TO_POINTER(msg->msgnum));
-      for(walk = folder_list; walk; walk = g_slist_next(walk)) {
-	if(g_direct_equal(walk->data, (gpointer)msg->folder)) {
-	  found = TRUE;
-	  debug_print("yes, folderlist at %p\n",folder_list);
-	  break;
-	}
-      }
-
-      if(!found) {
+      if(g_hash_table_lookup(notified_hash, msg->msgid) != NULL)
+	debug_print("yes.\n");
+      else {
 	/* Add to hashtable */
-	/* First add the new folderitem to the list... */
-	folder_list = g_slist_prepend(folder_list,msg->folder);
-	debug_print("no, adding folderlist at %p\n",folder_list);
-	/* then replace the old value pointer or insert a new key */
-	g_hash_table_insert(notified_hash, GUINT_TO_POINTER(msg->msgnum),
-			    folder_list);
-
+	g_hash_table_insert(notified_hash, g_strdup(msg->msgid),
+			    GINT_TO_POINTER(1));
+	debug_print("no, added to table.\n");
+	
 	/* Do the notification */
 	notification_new_unnotified_do_msg(msg);
       }
@@ -231,15 +184,6 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
     } /* msg is 'new' */
   } /* for all messages */
   procmsg_msg_list_free(msg_list);
-}
-
-static void notification_foreach_free_val(gpointer key, gpointer val,
-					  gpointer data)
-{
-  debug_print("Notification Plugin: Destroying value %p in the hash table\n",
-	      val);
-  if(val)
-    g_slist_free(val);
 }
 
 static void notification_new_unnotified_do_msg(MsgInfo *msg)

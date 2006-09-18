@@ -1,3 +1,13 @@
+2006-09-18 [holger]	0.3cvs8
+
+	* src/notification_core.c
+		Change notification implementation in a way
+		that every msg is only warned about once,
+		distinguished by msgid. This will result in
+		getting only one notification for receiving
+		double messages, but this is probably the
+		smaller annoyance.
+
 2006-09-17 [holger]	0.3cvs7
 
 	* commitHelper
