@@ -869,10 +869,16 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 	if (renamefile) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		SummaryView *summaryview = mainwin->summaryview;
-		messageview_show(
-			summaryview->messageview, 
-			msginfo,
-			summaryview->messageview->all_headers);
+		gint displayed_msgnum = -1;
+		if (summaryview->displayed)
+			displayed_msgnum = summary_get_msgnum(summaryview,
+						      summaryview->displayed);
+		if (displayed_msgnum == msginfo->msgnum
+		&& summaryview->folder_item == msginfo->folder)
+			messageview_show(
+				summaryview->messageview, 
+				msginfo,
+				summaryview->messageview->all_headers);
 	}
 }
 
