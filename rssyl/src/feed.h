@@ -64,5 +64,6 @@ void rssyl_expire_items(RSSylFolderItem *ritem);
 
 gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url, gboolean verbose);
 void rssyl_free_feeditem(RSSylFeedItem *item);
+gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_returns);
 
 #endif /* __FEED_H */

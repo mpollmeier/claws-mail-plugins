@@ -35,3 +35,4 @@
 ( cvs diff -u -r 1.1.2.48 -r 1.1.2.49 src/feed.c;  ) > 0.6.0cvs16.patchset
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/rssyl.c;  ) > 0.6.0cvs17.patchset
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/plugin.c;  ) > 0.6.0cvs18.patchset
+( cvs diff -u -r 1.1.2.49 -r 1.1.2.50 src/feed.c;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/feed.h;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/feedprops.c;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/parsers.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/strreplace.c;  ) > 0.6.0cvs19.patchset

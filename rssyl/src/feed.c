@@ -502,6 +502,76 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	return doc;
 }
 
+typedef struct _RSSyl_HTMLSymbol RSSyl_HTMLSymbol;
+struct _RSSyl_HTMLSymbol
+{
+	gchar *const key;
+	gchar *const val;
+};
+
+static RSSyl_HTMLSymbol symbol_list[] = {
+	{ "&lt;", "<" },
+	{ "&gt;", ">" },
+	{ "&amp;", "&" },
+	{ "&quot;", "\"" },
+	{ "&lsquo;",  "'" },
+	{ "&rsquo;",  "'" },
+	{ "&ldquo;",  "\"" },
+	{ "&rdquo;",  "\"" },
+	{ "&nbsp;", " " },
+	{ "&trade;", "(TM)" },
+	{ "&#153;", "(TM)" },
+	{ "&#39;", "'" },
+	{ "&hellip;", "..." },
+	{ NULL, NULL },
+};
+
+static gchar *rssyl_replace_html_symbols(gchar *text)
+{
+	gchar *tmp = NULL, *wtext = g_strdup(text);
+	gint i;
+
+	for( i = 0; symbol_list[i].key != NULL; i++ ) {
+		if( g_strstr_len(text, strlen(text), symbol_list[i].key) ) {
+			tmp = rssyl_strreplace(wtext, symbol_list[i].key, symbol_list[i].val);
+			wtext = g_strdup(tmp);
+			g_free(tmp);
+		}
+	}
+
+	return wtext;
+}
+
+gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_returns)
+{
+	gchar *res = NULL;
+	gchar *tmp = NULL;
+
+	if (replace_html)
+		res = rssyl_replace_html_symbols(str);
+	else
+		res = g_strdup(str);
+
+	if (replace_returns) {
+		tmp = rssyl_strreplace(res, "\n", "");
+		g_free(res);
+		res = tmp;
+	}
+
+	tmp = rssyl_strreplace(res, "\t", " ");
+	g_free(res);
+	res = tmp;
+	while (strstr(res, "  ")) {
+		tmp = rssyl_strreplace(res, "  ", " ");
+		g_free(res);
+		res = tmp;
+	}
+	res = strtailchomp(res, ' ');
+	strncpy(str, res, strlen(str));
+	g_free(res);
+	return str;
+}
+
 /* rssyl_parse_folder_item_file()
  *
  * Parse the RFC822-formatted feed item given by "path", and returns a
@@ -558,7 +628,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Author */
 				if( !strcmp(line[0], "From") ) {
-					fitem->author = strtailchomp(g_strdup(line[1]), ' ');
+					fitem->author = rssyl_format_string(g_strdup(line[1]), TRUE, TRUE);
 					debug_print("RSSyl: got author '%s'\n", fitem->author);
 					started_author = TRUE;
 				}
@@ -571,24 +641,24 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Title */
 				if( !strcmp(line[0], "Subject") ) {
-					fitem->title = strtailchomp(g_strdup(line[1]), ' ');
+					fitem->title = rssyl_format_string(g_strdup(line[1]), TRUE, TRUE);
 					debug_print("RSSyl: got title '%s'\n", fitem->title);
 					started_subject = TRUE;
 				}
 
 				/* Link */
 				if( !strcmp(line[0], "X-RSSyl-URL") ) {
-					fitem->link = strtailchomp(g_strdup(line[1]), ' ');
+					fitem->link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
 					debug_print("RSSyl: got link '%s'\n", fitem->link);
 					started_link = TRUE;
 				}
 				if( !strcmp(line[0], "X-RSSyl-Comments") ) {
-					fitem->comments_link = strtailchomp(g_strdup(line[1]), ' ');
+					fitem->comments_link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
 					debug_print("RSSyl: got clink '%s'\n", fitem->comments_link);
 					started_clink = TRUE;
 				}
 				if( !strcmp(line[0], "X-RSSyl-Parent") ) {
-					fitem->parent_link = strtailchomp(g_strdup(line[1]), ' ');
+					fitem->parent_link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
 					debug_print("RSSyl: got plink '%s'\n", fitem->parent_link);
 					started_plink = TRUE;
 				}
@@ -596,27 +666,27 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 				gchar *tmp = NULL;
 				/* continuation line */
 				if (started_author) {
-					tmp = strtailchomp(g_strdup_printf("%s %s", fitem->author, lines[i]+1), ' ');
+					tmp = rssyl_format_string(g_strdup_printf("%s %s", fitem->author, lines[i]+1), TRUE, TRUE);
 					g_free(fitem->author);
 					fitem->author = tmp;
 					debug_print("RSSyl: updated author to '%s'\n", fitem->author);
 				} else if (started_subject) {
-					tmp = strtailchomp(g_strdup_printf("%s %s", fitem->title, lines[i]+1), ' ');
+					tmp = rssyl_format_string(g_strdup_printf("%s %s", fitem->title, lines[i]+1), TRUE, TRUE);
 					g_free(fitem->title);
 					fitem->title = tmp;
 					debug_print("RSSyl: updated title to '%s'\n", fitem->title);
 				} else if (started_link) {
-					tmp = strtailchomp(g_strdup_printf("%s%s", fitem->link, lines[i]+1), ' ');
+					tmp = rssyl_format_string(g_strdup_printf("%s%s", fitem->link, lines[i]+1), FALSE, FALSE);
 					g_free(fitem->link);
 					fitem->link = tmp;
 					debug_print("RSSyl: updated link to '%s'\n", fitem->link);
 				} else if (started_clink) {
-					tmp = strtailchomp(g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1), ' ');
+					tmp = rssyl_format_string(g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1), FALSE, FALSE);
 					g_free(fitem->comments_link);
 					fitem->comments_link = tmp;
 					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->comments_link);
 				} else if (started_plink) {
-					tmp = strtailchomp(g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1), ' ');
+					tmp = rssyl_format_string(g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1), FALSE, FALSE);
 					g_free(fitem->parent_link);
 					fitem->parent_link = tmp;
 					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->parent_link);
@@ -979,13 +1049,14 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		} else
 			fprintf(f, "From: %s\n", fitem->author);
 	} 
+
 	if( fitem->title ) {
 		if (g_utf8_validate(fitem->title, -1, NULL)) {
 			conv_encode_header_full(tmp, 511, fitem->title, 
 				strlen("Subject: "), FALSE, CS_UTF_8);
-			fprintf(f, "Subject: %s\n", strtailchomp(tmp, ' '));
+			fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE));
 		} else
-			fprintf(f, "Subject: %s\n", strtailchomp(tmp, ' '));
+			fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE));
 	}
 
 	if( fitem->link )

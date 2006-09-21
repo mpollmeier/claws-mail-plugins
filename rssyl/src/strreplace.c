@@ -57,7 +57,7 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 	c = source;
 	while( ( c = g_strstr_len(c, strlen(c), pattern) ) ) {
 		count++;
-		c++;
+		c += strlen(pattern);
 	}
 
 /*
@@ -75,7 +75,12 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 
 	while( *c != '\0' ) {
 		if( !memcmp(c, pattern, strlen(pattern)) ) {
+			gboolean break_after_rep = FALSE;
+			if (*(c + strlen(pattern)) == '\0')
+				break_after_rep = TRUE;
 			strncat(new, replacement, strlen(replacement));
+			if (break_after_rep)
+				break;
 			c = c + strlen(pattern);
 		} else {
 			strncat(new, c, 1);

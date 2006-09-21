@@ -1,3 +1,16 @@
+2006-09-21 [colin]	0.6.0cvs19
+
+	* src/feed.c
+	* src/feed.h
+	* src/parsers.c
+	* src/strreplace.c
+		Fix feeds that mark themselves unread for real
+		** this will mark about everything unread, but
+		   only once **
+	* src/feedprops.c
+		Fix double-free
+
+
 2006-09-11 [wwp]	0.6.0cvs18
 
 	* src/plugin.c

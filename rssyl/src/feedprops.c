@@ -298,7 +298,6 @@ void rssyl_remove_feed_props(RSSylFolderItem *ritem)
 			if( !strcmp(tmp, item->name) ) {
 				debug_print("RSSyl: XML - found node for '%s', removing\n", item->name);
 				xmlUnlinkNode(node);
-				xmlFreeNode(node);
 			}
 			xmlFree(tmp);
 		}
