@@ -1,3 +1,8 @@
+2006-09-21 [holger]	0.3cvs9
+
+	* src/notification_core.c
+		Make plugin safe against msgid set to NULL.
+
 2006-09-18 [holger]	0.3cvs8
 
 	* src/notification_core.c

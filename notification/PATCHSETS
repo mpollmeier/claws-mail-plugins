@@ -8,3 +8,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 commitHelper;  ) > 0.3.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 commitHelper;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/Makefile.am;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/notification_core.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/notification_core.h;  diff -u /dev/null src/notification_pixbuf.c;  diff -u /dev/null src/notification_pixbuf.h;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/notification_plugin.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/notification_popup.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/notification_prefs.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_prefs.h;  diff -u /dev/null src/raw_sylpheed_claws_logo_64x64.h;  ) > 0.3cvs7.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/notification_core.c;  ) > 0.3cvs8.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_core.c;  ) > 0.3cvs9.patchset

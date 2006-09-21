@@ -76,15 +76,21 @@ gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate *msg_update)
      !MSG_IS_NEW(msg_update->msginfo->flags)) {
 
     MsgInfo *msg;
+    gchar *msgid;
+
     msg = msg_update->msginfo;
+    if(msg->msgid)
+      msgid = msg->msgid;
+    else
+      msgid = "";
     
     g_return_val_if_fail(msg != NULL, FALSE);
 
-    if(g_hash_table_lookup(notified_hash, msg->msgid) != NULL) {
+    if(g_hash_table_lookup(notified_hash, msgid) != NULL) {
       
       debug_print("Notification Plugin: Removing message id %s from hash "
-		  "table\n", msg->msgid);
-      g_hash_table_remove(notified_hash, msg->msgid);
+		  "table\n", msgid);
+      g_hash_table_remove(notified_hash, msgid);
     }
   }
   return FALSE;
@@ -127,12 +133,18 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
   
   for(walk = msg_list; walk; walk = g_slist_next(walk)) {
     MsgInfo *msg = (MsgInfo*) walk->data;
-    if(MSG_IS_NEW(msg->flags)) {      
+    if(MSG_IS_NEW(msg->flags)) {
+      gchar *msgid;
+
+      if(msg->msgid)
+	msgid = msg->msgid;
+      else
+	msgid = "";
       /* If the message id is not yet in the hash, add it */
-      g_hash_table_insert(notified_hash, g_strdup(msg->msgid),
+      g_hash_table_insert(notified_hash, g_strdup(msgid),
 			  GINT_TO_POINTER(1));
       debug_print("Notification Plugin: Init: Added msg id %s to the hash\n",
-		  msg->msgid);
+		  msgid);
       /* Decrement left count and check if we're already done */
       new_msgs_left--;
       if(new_msgs_left == 0)
@@ -165,15 +177,21 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
     msg = (MsgInfo*) walk->data;
     
     if(MSG_IS_NEW(msg->flags)) {
+      gchar *msgid;
+
+      if(msg->msgid)
+	msgid = msg->msgid;
+      else
+	msgid = "";
 
       debug_print("Notification Plugin: Found msg %s, "
-		  "checking if it is in hash... ", msg->msgid);
+		  "checking if it is in hash... ", msgid);
       /* Check if message is in hash table */
-      if(g_hash_table_lookup(notified_hash, msg->msgid) != NULL)
+      if(g_hash_table_lookup(notified_hash, msgid) != NULL)
 	debug_print("yes.\n");
       else {
 	/* Add to hashtable */
-	g_hash_table_insert(notified_hash, g_strdup(msg->msgid),
+	g_hash_table_insert(notified_hash, g_strdup(msgid),
 			    GINT_TO_POINTER(1));
 	debug_print("no, added to table.\n");
 	
