@@ -384,6 +384,13 @@ static void destroy_meeting_cb(GtkWidget *widget, gpointer data)
 	vcal_meeting_free(meet);
 }
 
+static void vcal_destroy(VCalMeeting *meet)
+{
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(meet->description));
+	gtk_text_buffer_remove_selection_clipboard(buffer, gtk_clipboard_get(GDK_SELECTION_PRIMARY));
+	gtk_widget_destroy(meet->window);
+}
+
 static gboolean meeting_key_pressed(GtkWidget *widget,
 				    GdkEventKey *event,
 				    gpointer data)
@@ -391,7 +398,7 @@ static gboolean meeting_key_pressed(GtkWidget *widget,
 	VCalMeeting *meet = (VCalMeeting *)data;
 	
 	if (event && event->keyval == GDK_Escape) {
-		gtk_widget_destroy(meet->window);
+		vcal_destroy(meet);
 	}
 	return FALSE;
 }
@@ -1050,7 +1057,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	gdk_window_set_cursor(meet->window->window, NULL);
 
 	if (res) {
-		gtk_widget_destroy(meet->window);
+		vcal_destroy(meet);
 	} else {
 		alertpanel_error(_("Could not send the meeting invitation.\n"
 				   "Check the recipients."));

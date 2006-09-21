@@ -1,3 +1,10 @@
+2006-09-21 [colin]	1.89.0cvs4
+
+	* src/vcal_meeting_gtk.c
+		Workaround possible GTK crash: remove selection
+		clipboard before destroying widget, or GTK+-2.10
+		dies. Thanks to Hiro.
+
 2006-09-11 [wwp]	1.89.0cvs3
 
 	* config.h.in
