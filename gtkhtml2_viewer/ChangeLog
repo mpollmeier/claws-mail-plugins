@@ -1,3 +1,8 @@
+2006-09-22 [ticho]	0.10.2cvs23
+
+	* configure.ac
+		Update required sylpheed-claws version to 2.4.0.200.
+
 2006-09-18 [colin]	0.10.2cvs22
 
 	* src/gtkhtml2_viewer.c
