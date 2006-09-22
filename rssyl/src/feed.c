@@ -1298,8 +1298,18 @@ void rssyl_start_refresh_timeout(RSSylFolderItem *ritem)
 {
 	RSSylRefreshCtx *ctx;
 	guint source_id;
+	RSSylPrefs *rsprefs = NULL;
 
 	g_return_if_fail(ritem != NULL);
+
+	if( ritem->default_refresh_interval ) {
+		rsprefs = rssyl_prefs_get();
+		ritem->refresh_interval = rsprefs->refresh;
+	}
+
+	/* Do not start refreshing if the interval is set to 0 */
+	if( ritem->refresh_interval == 0 )
+		return;
 
 	ctx = g_new0(RSSylRefreshCtx, 1);
 	ctx->ritem = ritem;
@@ -1408,6 +1418,9 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 
 	ritem = (RSSylFolderItem *)new_item;
 	ritem->url = myurl;
+	
+	ritem->default_refresh_interval = TRUE;
+	ritem->default_expired_num = TRUE;
 
 	rssyl_store_feed_props(ritem);
 

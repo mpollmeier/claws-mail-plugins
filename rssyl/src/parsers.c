@@ -34,8 +34,6 @@
 #include "strreplace.h"
 #include "utils.h"
 
-static gchar *rssyl_replace_html_symbols(gchar *text);
-
 gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
 	xmlNodePtr rnode, node, n;

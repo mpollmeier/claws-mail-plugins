@@ -153,6 +153,7 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 	FolderItem *item = &ritem->item;
 	gint i, tmpi;
 	gboolean force_update = FALSE;
+	RSSylPrefs *rsprefs = NULL;
 
 	g_return_if_fail(ritem != NULL);
 
@@ -254,8 +255,19 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				tmp = NULL;
 
 				debug_print("RSSyl: XML - props for '%s' loaded\n", item->name);
-				if( ritem->refresh_id == 0 && ritem->refresh_interval > 0 )
-					rssyl_start_refresh_timeout(ritem);
+
+				/* Start automatic refresh timer, if necessary */
+				if( ritem->refresh_id == 0 ) {
+					/* Check if user wants the default for this feed */
+					if( ritem->default_refresh_interval ) {
+						rsprefs = rssyl_prefs_get();
+						ritem->refresh_interval = rsprefs->refresh;
+					}
+
+					/* Start the timer, if determined interval is >0 */
+					if( ritem->refresh_interval >= 0 )
+						rssyl_start_refresh_timeout(ritem);
+				}
 			}
 			xmlFree(property);
 		}

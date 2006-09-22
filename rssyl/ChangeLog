@@ -1,3 +1,14 @@
+2006-09-22 [ticho]	0.6.0cvs21
+
+	* configure.ac
+		Upgrade required sylpheed-claws version to 2.4.0.200
+	* src/parsers.c
+		Remove unneeded static prototype declaration.
+	* src/feed.c
+	* src/feedprops.c
+	* src/rssyl.c
+		Fix automatic refreshing for feeds with default interval set.
+
 2006-09-22 [ticho]	0.6.0cvs20
 
 	* src/feed.c
