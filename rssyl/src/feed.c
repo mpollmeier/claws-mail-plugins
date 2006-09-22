@@ -523,6 +523,7 @@ static RSSyl_HTMLSymbol symbol_list[] = {
 	{ "&#153;", "(TM)" },
 	{ "&#39;", "'" },
 	{ "&hellip;", "..." },
+	{ "&mdash;", "-" },
 	{ NULL, NULL },
 };
 
