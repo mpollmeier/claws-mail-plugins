@@ -1,3 +1,8 @@
+2006-09-22 [ticho]	1.0.2cvs10
+
+	* configure.ac
+		Update required sylpheed-claws version to 2.4.0.200.
+
 2006-09-01 [wwp]	1.0.2cvs9
 
 	* .cvsignore
