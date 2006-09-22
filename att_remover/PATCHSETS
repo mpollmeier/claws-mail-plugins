@@ -3,3 +3,4 @@
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 configure.ac;  ) > 1.0.2cvs1.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/att_remover.c;  ) > 1.0.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 commitHelper;  ) > 1.0.2cvs3.patchset
+( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 configure.ac;  ) > 1.0.2cvs4.patchset
