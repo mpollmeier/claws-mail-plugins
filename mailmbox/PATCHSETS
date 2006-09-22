@@ -4,3 +4,4 @@
 ( cvs diff -u -r 1.8.2.20 -r 1.8.2.21 configure.ac;  ) > 1.12.1cvs1.patchset
 ( cvs diff -u -r 1.4.2.8 -r 1.4.2.9 src/plugin.c;  ) > 1.12.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 commitHelper;  ) > 1.12.1cvs3.patchset
+( cvs diff -u -r 1.8.2.23 -r 1.8.2.24 configure.ac;  ) > 1.12.1cvs4.patchset
