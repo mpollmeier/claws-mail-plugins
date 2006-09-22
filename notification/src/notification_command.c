@@ -1,5 +1,5 @@
 /* Notification Plugin for Sylpheed-Claws
- * Copyright (C) 2005 Holger Berndt
+ * Copyright (C) 2005-2006 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the version 2 of the GNU General Public License
@@ -22,6 +22,7 @@
 #include <string.h>
 #include <glib.h>
 #include "common/utils.h"
+#include "folder.h"
 #include "notification_command.h"
 #include "notification_prefs.h"
 
@@ -40,8 +41,14 @@ void notification_command_msg(MsgInfo *msginfo)
 {
   gchar *ret_str, *buf;
   gsize by_read = 0, by_written = 0;
+  FolderType ftype;
 
   if(!notify_config.command_enabled || !MSG_IS_NEW(msginfo->flags))
+    return;
+
+  ftype = msginfo->folder->folder->klass->type;
+  /* For now, ignore F_UNKNOWN and F_NEWS */
+  if(ftype == F_UNKNOWN || ftype == F_NEWS)
     return;
 
   buf = g_strdup(notify_config.command_line);

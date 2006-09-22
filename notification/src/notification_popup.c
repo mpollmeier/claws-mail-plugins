@@ -23,6 +23,7 @@
 
 #include "mainwindow.h"
 #include "procmsg.h"
+#include "folder.h"
 #include "gtk/gtkutils.h"
 
 #include "notification_popup.h"
@@ -85,8 +86,15 @@ static gboolean notification_popup_button(GtkWidget*, GdkEventButton*,
 void notification_popup_msg(MsgInfo *msginfo)
 {
   gboolean retval;
+  FolderType ftype;
 
-  if(!msginfo || !notify_config.popup_show || !MSG_IS_NEW(msginfo->flags))
+  if(!msginfo || !notify_config.popup_show)
+    return;
+
+  ftype = msginfo->folder->folder->klass->type;
+
+  /* For now, ignore F_UNKNOWN and F_NEWS */
+  if(ftype == F_UNKNOWN || ftype == F_NEWS)
     return;
 
   if(notify_config.popup_folder_specific) {

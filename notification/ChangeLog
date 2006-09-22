@@ -1,3 +1,12 @@
+2006-09-22 [holger]	0.3cvs10
+
+	* src/notification_core.c
+		Add some debugging info.
+	* src/notification_command.c
+	* src/notification_popup.c
+		For now, ignore folders with foldertype
+		F_NEWS and F_UNKNOWN.
+
 2006-09-21 [holger]	0.3cvs9
 
 	* src/notification_core.c

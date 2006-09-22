@@ -64,9 +64,9 @@ static GHashTable *notified_hash = NULL;
 
 
 /* Remove message from the notified_hash if
-   - the message flags changed
-   - the message is not new
-   - the message is in the hash
+ *  - the message flags changed
+ *  - the message is not new
+ *  - the message is in the hash
 */
 gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate *msg_update)
 {
@@ -81,8 +81,10 @@ gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate *msg_update)
     msg = msg_update->msginfo;
     if(msg->msgid)
       msgid = msg->msgid;
-    else
+    else {
+      debug_print("Notification Plugin: Message has not message ID!\n");
       msgid = "";
+    }
     
     g_return_val_if_fail(msg != NULL, FALSE);
 
@@ -107,7 +109,7 @@ void notification_notified_hash_startup_init(void)
     notified_hash = g_hash_table_new_full(g_str_hash, g_str_equal,
 					  g_free, NULL);
     debug_print("Notification Plugin: Hash table created\n");
-  }  
+  }
 
   folder_list = folder_get_list();
   for(walk = folder_list; walk != NULL; walk = g_list_next(walk)) {
@@ -138,8 +140,11 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
 
       if(msg->msgid)
 	msgid = msg->msgid;
-      else
+      else {
+	debug_print("Notification Plugin: Message has not message ID!\n");
 	msgid = "";
+      }
+
       /* If the message id is not yet in the hash, add it */
       g_hash_table_insert(notified_hash, g_strdup(msgid),
 			  GINT_TO_POINTER(1));
@@ -181,8 +186,10 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
 
       if(msg->msgid)
 	msgid = msg->msgid;
-      else
+      else {
+	debug_print("Notification Plugin: Message has not message ID!\n");
 	msgid = "";
+      }
 
       debug_print("Notification Plugin: Found msg %s, "
 		  "checking if it is in hash... ", msgid);
