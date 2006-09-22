@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=15
 MICRO_VERSION=2
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -45,7 +45,7 @@ fi
 #
 # Check for sylpheed-claws
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 1.9.100.93)
+PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.4.0.200)
 if test -z $prefix || test "${prefix}" == "NONE" ; then
   prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
   SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
