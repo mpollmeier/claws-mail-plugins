@@ -1,3 +1,8 @@
+2006-09-22 [ticho]	0.6.3cvs5
+
+	* configure.ac
+		Update required sylpheed-claws version to 2.4.0.200.
+
 2006-09-01 [wwp]	0.6.3cvs4
 
 	* commitHelper
