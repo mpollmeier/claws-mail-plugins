@@ -1,3 +1,8 @@
+2006-09-23 [colin]	1.12.1cvs5
+
+	* src/plugin_gtk.c
+		Don't do gtk stuff when quitting
+
 2006-09-22 [ticho]	1.12.1cvs4
 
 	* configure.ac
