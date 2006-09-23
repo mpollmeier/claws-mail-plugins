@@ -52,7 +52,8 @@ gint plugin_init(gchar **error)
 void plugin_done(void)
 {
 	maildir_gtk_done();
-	folder_unregister_class(maildir_get_class());
+	if (!sylpheed_is_exiting())
+		folder_unregister_class(maildir_get_class());
 	uiddb_done();
 }
 

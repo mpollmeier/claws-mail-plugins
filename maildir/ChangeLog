@@ -1,3 +1,9 @@
+2006-09-23 [colin]	0.24.1cvs6
+
+	* src/maildir_gtk.c
+	* src/plugin.c
+		Don't do gtk stuff on exit
+
 2006-09-22 [ticho]	0.24.1cvs5
 
 	* configure.ac
