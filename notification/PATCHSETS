@@ -11,3 +11,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_core.c;  ) > 0.3cvs9.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/notification_command.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/notification_core.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_popup.c;  ) > 0.3cvs10.patchset
 ( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 configure.ac;  ) > 0.3cvs11.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/notification_prefs.c;  ) > 0.3cvs12.patchset

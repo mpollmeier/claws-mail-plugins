@@ -1,3 +1,10 @@
+2006-09-23 [holger]	0.3cvs12
+
+	* src/notification_prefs.c
+		Make it clear that the window manager is free
+		to ignore the popup width and position selected
+		by the user.
+
 2006-09-22 [ticho]	0.3cvs11
 
 	* configure.ac

@@ -619,11 +619,17 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   popup_page.popup_sticky = checkbox;
 
   /* Button to set size and position of popup window */
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   button = gtk_button_new_with_label("Set popup window width and position");
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notify_popup_set_cb), NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);  
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
   gtk_widget_show(button);
+  label = gtk_label_new("(the window manager is free to ignore this)");
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_widget_show(label);
+  gtk_widget_show(hbox);
 
   /* Check box for enabling custom colors */
   checkbox = gtk_check_button_new_with_label("Use custom colors");
