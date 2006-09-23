@@ -370,24 +370,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 
 	ievent = 
 	    icalcomponent_vanew(
-                ICAL_VEVENT_COMPONENT,
-                icalproperty_new_uid(event->uid),
-		icalproperty_vanew_dtstamp(icaltime_from_timet(time(NULL), TRUE), 0),
-		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)), 0),
-		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)), 0),
-		icalproperty_new_description(event->description),
-		icalproperty_new_summary(event->summary),
-		icalproperty_new_sequence(event->sequence + 1),
-		icalproperty_new_class("PUBLIC"),
-		icalproperty_new_transp("OPAQUE"),
-		icalproperty_new_location(""),
-		icalproperty_new_status(ICAL_STATUS_CONFIRMED),
-		icalproperty_vanew_created(icaltime_from_timet(time(NULL), TRUE), 0),
-		icalproperty_vanew_lastmodified(icaltime_from_timet(time(NULL), TRUE), 0),
-		
-                orgprop,
-                0
-                );
+                ICAL_VEVENT_COMPONENT, 0);
 
 	if (!ievent) {
 		g_warning ("can't generate event");
@@ -397,6 +380,35 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		return NULL;
 	}
 	
+	icalcomponent_add_property(ievent,
+                icalproperty_new_uid(event->uid));
+	icalcomponent_add_property(ievent,
+		icalproperty_vanew_dtstamp(icaltime_from_timet(time(NULL), TRUE), 0));
+	icalcomponent_add_property(ievent,
+		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)), 0));
+	icalcomponent_add_property(ievent,
+		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)), 0));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_description(event->description));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_summary(event->summary));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_sequence(event->sequence + 1));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_class("PUBLIC"));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_transp("OPAQUE"));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_location(""));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_status(ICAL_STATUS_CONFIRMED));
+	icalcomponent_add_property(ievent,
+		icalproperty_vanew_created(icaltime_from_timet(time(NULL), TRUE), 0));
+	icalcomponent_add_property(ievent,
+		icalproperty_vanew_lastmodified(icaltime_from_timet(time(NULL), TRUE), 0));
+	icalcomponent_add_property(ievent,		
+                orgprop);
+
 	if (!icalcomponent_get_first_component(calendar, ICAL_VTIMEZONE_COMPONENT))
 	        icalcomponent_add_component(calendar, timezone);
 
