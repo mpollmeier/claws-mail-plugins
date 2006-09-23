@@ -1,3 +1,11 @@
+2006-09-23 [holger]	0.3cvs13
+
+	* src/notification_popup.c
+		Make code more flexible, preparing for
+		having seperate popups for different
+		types of incomming messages (will most
+		likely only get into the libnotify part).
+
 2006-09-23 [holger]	0.3cvs12
 
 	* src/notification_prefs.c

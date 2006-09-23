@@ -35,6 +35,12 @@
 #  include <libnotify/notify.h>
 #endif
 
+typedef enum {
+  F_TYPE_MAIL=0,
+  F_TYPE_CALENDAR,
+  F_TYPE_RSS,
+  F_TYPE_LAST
+} NotificationFolderType;
 
 typedef struct {
   gint count;
@@ -52,29 +58,22 @@ typedef struct {
 #endif
 } NotificationPopup;
 
-static NotificationPopup popup = {
-  0,
-  0,
-#ifdef HAVE_LIBNOTIFY
-  NULL,
-  NULL
-#else /* !HAVE_LIBNOTIFY */
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL  
-#endif
-};
-
 G_LOCK_DEFINE_STATIC(popup);
+
+static NotificationPopup popup;
+#if 0
+#ifdef HAVE_LIBNOTIFY
+static NotificationPopup popup[F_TYPE_LAST];
+#else
+static NotificationPopup popup;
+#endif
+#endif
 
 static gboolean popup_timeout_fun(gpointer data);
 
 #ifdef HAVE_LIBNOTIFY
-static gboolean notification_libnotify_create(MsgInfo*);
-static gboolean notification_libnotify_add_msg(MsgInfo*);
+static gboolean notification_libnotify_create(MsgInfo*,FolderType);
+static gboolean notification_libnotify_add_msg(MsgInfo*,FolderType);
 #else /* !HAVE_LIBNOTIFY */
 static gboolean notification_popup_add_msg(MsgInfo*);
 static gboolean notification_popup_create(MsgInfo*);
@@ -87,15 +86,12 @@ void notification_popup_msg(MsgInfo *msginfo)
 {
   gboolean retval;
   FolderType ftype;
+  NotificationPopup *ppopup;
 
   if(!msginfo || !notify_config.popup_show)
     return;
 
   ftype = msginfo->folder->folder->klass->type;
-
-  /* For now, ignore F_UNKNOWN and F_NEWS */
-  if(ftype == F_UNKNOWN || ftype == F_NEWS)
-    return;
 
   if(notify_config.popup_folder_specific) {
     guint id;
@@ -127,24 +123,23 @@ void notification_popup_msg(MsgInfo *msginfo)
       return;
   }
 
+  /* For now, ignore F_UNKNOWN and F_NEWS */
+  if(ftype == F_UNKNOWN || ftype == F_NEWS)
+    return;
+
   G_LOCK(popup);
+  ppopup = &popup;
 #ifdef HAVE_LIBNOTIFY
-  if(popup.notification)
-    retval = notification_libnotify_add_msg(msginfo);
-  else
-    retval = notification_libnotify_create(msginfo);
+  retval = notification_libnotify_add_msg(msginfo, ftype);
 #else /* !HAVE_LIBNOTIFY */
-  if(popup.window)
-    retval = notification_popup_add_msg(msginfo);
-  else
-    retval = notification_popup_create(msginfo);
+  retval = notification_popup_add_msg(msginfo);
 #endif /* !HAVE_LIBNOTIFY */
   /* Renew timeout only when the above call was successful */
   if(retval) {
-    if(popup.timeout_id)
-      g_source_remove(popup.timeout_id);
-    popup.timeout_id = g_timeout_add(notify_config.popup_timeout,
-				     popup_timeout_fun, NULL);
+    if(ppopup->timeout_id)
+      g_source_remove(ppopup->timeout_id);
+    ppopup->timeout_id = g_timeout_add(notify_config.popup_timeout,
+				       popup_timeout_fun, NULL);
   }
   G_UNLOCK(popup);
 
@@ -153,39 +148,47 @@ void notification_popup_msg(MsgInfo *msginfo)
   while(gtk_events_pending())
     gtk_main_iteration();
 #endif /* !HAVE_LIBNOTIFY */
-  
+
 }
 
 static gboolean popup_timeout_fun(gpointer data)
 {
+  NotificationPopup *ppopup;
+
+  ppopup = &popup;
+  
   G_LOCK(popup);
 #ifdef HAVE_LIBNOTIFY
-  if(!notify_notification_close(popup.notification, &(popup.error))) {
+  if(!notify_notification_close(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to close notification: %s.\n",
-		popup.error->message);
+		ppopup->error->message);
   }
   else {
-    g_object_unref(G_OBJECT(popup.notification));
-    popup.notification = NULL;
+    g_object_unref(G_OBJECT(ppopup->notification));
+    ppopup->notification = NULL;
   }
-  g_clear_error(&(popup.error));
+  g_clear_error(&(ppopup->error));
 #else /* !HAVE_LIBNOTIFY */
-  if(popup.window) {
-    gtk_widget_destroy(popup.window);
-    popup.window = NULL;
+  if(ppopup->window) {
+    gtk_widget_destroy(ppopup->window);
+    ppopup->window = NULL;
   }
 #endif
-  popup.timeout_id = 0;
-  popup.count = 0;
+  ppopup->timeout_id = 0;
+  ppopup->count = 0;
   G_UNLOCK(popup);
   debug_print("Notification Plugin: Popup closed due to timeout.\n");
   return FALSE;
 }
 
 #ifdef HAVE_LIBNOTIFY
-static gboolean notification_libnotify_create(MsgInfo *msginfo)
+static gboolean notification_libnotify_create(MsgInfo *msginfo,
+					      FolderType ftype)
 {
   GdkPixbuf *pixbuf;
+  NotificationPopup *ppopup;
+
+  ppopup = &popup;
 
   /* init libnotify if necessary */
   if(!notify_is_initted()) {
@@ -196,10 +199,10 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo)
     }
   }
 
-  popup.notification = notify_notification_new("Sylpheed-Claws", 
-					       "A new message arrived.",
-					       NULL, NULL);
-  if(popup.notification == NULL) {
+  ppopup->notification = notify_notification_new("Sylpheed-Claws", 
+						 "A new message arrived.",
+						 NULL, NULL);
+  if(ppopup->notification == NULL) {
     debug_print("Notification Plugin: Failed to create a new "
 		"notification.\n");
     return FALSE;
@@ -208,42 +211,49 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo)
   /* Icon */
   pixbuf = notification_pixbuf_get_logo_64x64();
   if(pixbuf)
-    notify_notification_set_icon_from_pixbuf(popup.notification, pixbuf);
+    notify_notification_set_icon_from_pixbuf(ppopup->notification, pixbuf);
   else /* This is not fatal */
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
   /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(popup.notification, NOTIFY_EXPIRES_NEVER);
+  notify_notification_set_timeout(ppopup->notification, NOTIFY_EXPIRES_NEVER);
 
   /* Category */
-  notify_notification_set_category(popup.notification, "email.arrived");
+  notify_notification_set_category(ppopup->notification, "email.arrived");
 
   /* hhb: todo: close handler / default action */
 
   /* Show the popup */
-  if(!notify_notification_show(popup.notification, &(popup.error))) {
+  if(!notify_notification_show(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to send notification: %s\n",
-		popup.error->message);
-    g_clear_error(&(popup.error));
-    g_object_unref(G_OBJECT(popup.notification));
-    popup.notification = NULL;
+		ppopup->error->message);
+    g_clear_error(&(ppopup->error));
+    g_object_unref(G_OBJECT(ppopup->notification));
+    ppopup->notification = NULL;
     return FALSE;
   }
 
   debug_print("Notification Plugin: Popup created with libnotify.\n");
-  popup.count = 1;
+  ppopup->count = 1;
   return TRUE;
 }
 
-static gboolean notification_libnotify_add_msg(MsgInfo *msginfo)
+static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
+					       FolderType ftype)
 {
   gchar *message;
   gboolean retval;
+  NotificationPopup *ppopup;
 
-  popup.count++;
+  ppopup = &popup;
 
-  message = g_strdup_printf("%d new messages arrived", popup.count);
-  retval = notify_notification_update(popup.notification, "Sylpheed-Claws", 
+  ppopup->count++;
+
+  if(!ppopup->notification)
+    return notification_libnotify_create(msginfo,ftype);
+
+  message = g_strdup_printf("%d new messages arrived", ppopup->count);
+  retval = notify_notification_update(ppopup->notification, "Sylpheed-Claws", 
 				      message, NULL);
   g_free(message);
   if(!retval) {
@@ -252,10 +262,10 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo)
   }
 
   /* Show the popup */
-  if(!notify_notification_show(popup.notification, &(popup.error))) {
+  if(!notify_notification_show(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to send updated notification: "
-		"%s\n",	popup.error->message);
-    g_clear_error(&(popup.error));
+		"%s\n",	ppopup->error->message);
+    g_clear_error(&(ppopup->error));
     return FALSE;
   }
 
@@ -268,14 +278,20 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo)
 static gboolean notification_popup_add_msg(MsgInfo *msginfo)
 {
   gchar *message;
+  NotificationPopup *ppopup;
 
-  popup.count++;
+  ppopup = &popup;
 
-  if(popup.label2)
-    gtk_widget_destroy(popup.label2);
+  ppopup->count++;
 
-  message = g_strdup_printf("%d new messages", popup.count);
-  gtk_label_set_text(GTK_LABEL(popup.label1), message);
+  if(!ppopup->window)
+    return notification_popup_create(msginfo);
+
+  if(ppopup->label2)
+    gtk_widget_destroy(ppopup->label2);
+
+  message = g_strdup_printf("%d new messages", ppopup->count);
+  gtk_label_set_text(GTK_LABEL(ppopup->label1), message);
   g_free(message);
   return TRUE;
 }
@@ -284,58 +300,61 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
 {
   GdkColor bg;
   GdkColor fg;
+  NotificationPopup *ppopup;
 
+  ppopup = &popup;
+  
   /* Window */
-  popup.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_decorated(GTK_WINDOW(popup.window), FALSE);
-  gtk_window_set_keep_above(GTK_WINDOW(popup.window), TRUE);
-  gtk_window_set_accept_focus(GTK_WINDOW(popup.window), FALSE);
-  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(popup.window), TRUE);
-  gtk_window_set_skip_pager_hint(GTK_WINDOW(popup.window), TRUE);
-  gtk_window_move(GTK_WINDOW(popup.window), notify_config.popup_root_x,
+  ppopup->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_decorated(GTK_WINDOW(ppopup->window), FALSE);
+  gtk_window_set_keep_above(GTK_WINDOW(ppopup->window), TRUE);
+  gtk_window_set_accept_focus(GTK_WINDOW(ppopup->window), FALSE);
+  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(ppopup->window), TRUE);
+  gtk_window_set_skip_pager_hint(GTK_WINDOW(ppopup->window), TRUE);
+  gtk_window_move(GTK_WINDOW(ppopup->window), notify_config.popup_root_x,
 		  notify_config.popup_root_y);
-  gtk_window_resize(GTK_WINDOW(popup.window), notify_config.popup_width, 1);
+  gtk_window_resize(GTK_WINDOW(ppopup->window), notify_config.popup_width, 1);
   if(notify_config.popup_sticky)
-    gtk_window_stick(GTK_WINDOW(popup.window));
+    gtk_window_stick(GTK_WINDOW(ppopup->window));
   /* Signals */
-  gtk_widget_set_events(popup.window,
+  gtk_widget_set_events(ppopup->window,
 			GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-  g_signal_connect(popup.window, "button_press_event",
+  g_signal_connect(ppopup->window, "button_press_event",
 		   G_CALLBACK(notification_popup_button), NULL);
 
   /* Event box */
-  popup.event_box = gtk_event_box_new();
-  gtk_container_add(GTK_CONTAINER(popup.window), popup.event_box);  
+  ppopup->event_box = gtk_event_box_new();
+  gtk_container_add(GTK_CONTAINER(ppopup->window), ppopup->event_box);  
 
   /* Frame */
-  popup.frame = gtk_frame_new(NULL);
-  gtk_frame_set_shadow_type(GTK_FRAME(popup.frame), GTK_SHADOW_ETCHED_OUT);
-  gtk_container_add(GTK_CONTAINER(popup.event_box), popup.frame);
+  ppopup->frame = gtk_frame_new(NULL);
+  gtk_frame_set_shadow_type(GTK_FRAME(ppopup->frame), GTK_SHADOW_ETCHED_OUT);
+  gtk_container_add(GTK_CONTAINER(ppopup->event_box), ppopup->frame);
 
   /* Vbox with labels */
-  popup.vbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_set_border_width(GTK_CONTAINER(popup.vbox), 5);
-  popup.label1 = gtk_label_new(msginfo->from);
-  gtk_box_pack_start(GTK_BOX(popup.vbox), popup.label1, FALSE, FALSE, 0);
+  ppopup->vbox = gtk_vbox_new(FALSE, 2);
+  gtk_container_set_border_width(GTK_CONTAINER(ppopup->vbox), 5);
+  ppopup->label1 = gtk_label_new(msginfo->from);
+  gtk_box_pack_start(GTK_BOX(ppopup->vbox), ppopup->label1, FALSE, FALSE, 0);
 
-  popup.label2 = gtk_label_new(msginfo->subject);
-  gtk_box_pack_start(GTK_BOX(popup.vbox), popup.label2, FALSE, FALSE, 0);
+  ppopup->label2 = gtk_label_new(msginfo->subject);
+  gtk_box_pack_start(GTK_BOX(ppopup->vbox), ppopup->label2, FALSE, FALSE, 0);
 
-  gtk_container_add(GTK_CONTAINER(popup.frame), popup.vbox);
-  gtk_widget_set_size_request(popup.vbox, notify_config.popup_width, -1);
+  gtk_container_add(GTK_CONTAINER(ppopup->frame), ppopup->vbox);
+  gtk_widget_set_size_request(ppopup->vbox, notify_config.popup_width, -1);
 
   /* Color */
   if(notify_config.popup_enable_colors) {
     gtkut_convert_int_to_gdk_color(notify_config.popup_color_bg,&bg);
     gtkut_convert_int_to_gdk_color(notify_config.popup_color_fg,&fg);
-    gtk_widget_modify_bg(popup.event_box,GTK_STATE_NORMAL,&bg);
-    gtk_widget_modify_fg(popup.label1,GTK_STATE_NORMAL,&fg);
-    gtk_widget_modify_fg(popup.label2,GTK_STATE_NORMAL,&fg);
+    gtk_widget_modify_bg(ppopup->event_box,GTK_STATE_NORMAL,&bg);
+    gtk_widget_modify_fg(ppopup->label1,GTK_STATE_NORMAL,&fg);
+    gtk_widget_modify_fg(ppopup->label2,GTK_STATE_NORMAL,&fg);
   }
 
-  gtk_widget_show_all(popup.window);
+  gtk_widget_show_all(ppopup->window);
 
-  popup.count = 1;
+  ppopup->count = 1;
 
   return TRUE;
 }
