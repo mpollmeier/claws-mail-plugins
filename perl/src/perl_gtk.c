@@ -79,7 +79,7 @@ void perl_gtk_done(void)
 
   mainwin = mainwindow_get_mainwindow();
 
-  if(mainwin) {
+  if(mainwin && !sylpheed_is_exiting()) {
     ifactory = gtk_item_factory_from_widget(mainwin->menubar);
     sep = gtk_item_factory_get_widget(ifactory, mainwindow_tools_sep.path);
     gtk_widget_destroy(sep);
