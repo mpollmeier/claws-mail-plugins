@@ -61,7 +61,7 @@ AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed.))
 
 dnl Check for libnotify support
-LIBNOTIFY_REQUIRED=0.1.9
+LIBNOTIFY_REQUIRED=0.9.9
 dnl LIBNOTIFY_REQUIRED=0.4.3
 AC_ARG_ENABLE(libnotify,
 	[  --disable-libnotify     do not include libnotify support],
