@@ -111,7 +111,8 @@ void rssyl_done(void)
 {
 	rssyl_prefs_done();
 	rssyl_gtk_done();
-	folder_unregister_class(rssyl_folder_get_class());
+	if (!sylpheed_is_exiting())
+		folder_unregister_class(rssyl_folder_get_class());
 }
 
 static gchar *rssyl_get_new_msg_filename(FolderItem *dest)

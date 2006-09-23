@@ -186,7 +186,7 @@ void rssyl_gtk_done(void)
 	FolderView *folderview = NULL;
 	FolderItem *fitem = NULL;
 
-	if (mainwin == NULL)
+	if (mainwin == NULL || sylpheed_is_exiting())
 		return;
 
 	folderview = mainwin->folderview;
