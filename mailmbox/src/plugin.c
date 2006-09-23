@@ -48,7 +48,8 @@ gint plugin_init(gchar **error)
 void plugin_done(void)
 {
 	plugin_gtk_done();
-	folder_unregister_class(mailmbox_get_class());
+	if (!sylpheed_is_exiting())
+		folder_unregister_class(mailmbox_get_class());
 }
 
 const gchar *plugin_name(void)
