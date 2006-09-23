@@ -1060,10 +1060,11 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 			fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE));
 	}
 
-	if( fitem->link )
+	if( fitem->link ) {
 		fprintf(f, "X-RSSyl-URL: %s\n", fitem->link);
-	if( fitem->comments_link ) {
 		fprintf(f, "Message-ID: <%s>\n", fitem->link);
+	}
+	if( fitem->comments_link ) {
 		fprintf(f, "X-RSSyl-Comments: %s\n", fitem->comments_link);
 	}
 	if( fitem->parent_link) {
