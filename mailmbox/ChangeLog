@@ -1,3 +1,9 @@
+2006-09-24 [colin]	1.12.1cvs7
+
+	* src/plugin.c
+	* src/plugin_gtk.c
+		Include main.h for sylpheed_is_exiting()
+
 2006-09-23 [colin]	1.12.1cvs6
 
 	* src/plugin.c

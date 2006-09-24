@@ -31,6 +31,7 @@
 #include "inputdialog.h"
 #include "foldersel.h"
 #include "alertpanel.h"
+#include "main.h"
 
 #include "pluginconfig.h"
 

@@ -27,6 +27,7 @@
 #include "plugin_gtk.h"
 #include "pluginconfig.h"
 #include "plugin.h"
+#include "main.h"
 
 gint plugin_init(gchar **error)
 {
