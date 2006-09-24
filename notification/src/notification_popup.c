@@ -37,6 +37,7 @@
 
 typedef enum {
   F_TYPE_MAIL=0,
+  F_TYPE_NEWS,
   F_TYPE_CALENDAR,
   F_TYPE_RSS,
   F_TYPE_LAST
@@ -60,20 +61,21 @@ typedef struct {
 
 G_LOCK_DEFINE_STATIC(popup);
 
-static NotificationPopup popup;
-#if 0
 #ifdef HAVE_LIBNOTIFY
 static NotificationPopup popup[F_TYPE_LAST];
 #else
 static NotificationPopup popup;
 #endif
-#endif
 
 static gboolean popup_timeout_fun(gpointer data);
 
 #ifdef HAVE_LIBNOTIFY
-static gboolean notification_libnotify_create(MsgInfo*,FolderType);
-static gboolean notification_libnotify_add_msg(MsgInfo*,FolderType);
+static gboolean notification_libnotify_create(MsgInfo*,
+					      NotificationFolderType);
+static gboolean notification_libnotify_add_msg(MsgInfo*,
+					       NotificationFolderType);
+static void default_action_cb(NotifyNotification*, const char*,
+			      void*);
 #else /* !HAVE_LIBNOTIFY */
 static gboolean notification_popup_add_msg(MsgInfo*);
 static gboolean notification_popup_create(MsgInfo*);
@@ -87,11 +89,15 @@ void notification_popup_msg(MsgInfo *msginfo)
   gboolean retval;
   FolderType ftype;
   NotificationPopup *ppopup;
+#if HAVE_LIBNOTIFY
+  gchar *uistr;
+#endif
+  NotificationFolderType nftype;
+
+  nftype = F_TYPE_MAIL;
 
   if(!msginfo || !notify_config.popup_show)
     return;
-
-  ftype = msginfo->folder->folder->klass->type;
 
   if(notify_config.popup_folder_specific) {
     guint id;
@@ -103,7 +109,7 @@ void notification_popup_msg(MsgInfo *msginfo)
       return;
 
     identifier = folder_item_get_identifier(msginfo->folder);
-      
+
     id =
       notification_register_folder_specific_list(POPUP_SPECIFIC_FOLDER_ID_STR);
     list = notification_foldercheck_get_list(id);
@@ -123,15 +129,45 @@ void notification_popup_msg(MsgInfo *msginfo)
       return;
   }
 
-  /* For now, ignore F_UNKNOWN and F_NEWS */
-  if(ftype == F_UNKNOWN || ftype == F_NEWS)
-    return;
+  ftype = msginfo->folder->folder->klass->type;
 
   G_LOCK(popup);
-  ppopup = &popup;
 #ifdef HAVE_LIBNOTIFY
-  retval = notification_libnotify_add_msg(msginfo, ftype);
+  /* Check out which type to notify about */
+  switch(ftype) {
+  case F_MH:
+  case F_MBOX:
+  case F_MAILDIR:
+  case F_IMAP:
+    nftype = F_TYPE_MAIL;
+    break;
+  case F_NEWS:
+    nftype = F_TYPE_NEWS;
+    break;
+  case F_UNKNOWN:
+    if((uistr = msginfo->folder->folder->klass->uistr) == NULL)
+      return;
+    else if(!strcmp(uistr, "vCalendar"))
+      nftype = F_TYPE_CALENDAR;
+    else if(!strcmp(uistr, "RSSyl"))
+      nftype = F_TYPE_RSS;
+    else {
+      debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+      return;
+    } 
+    break;
+  default:
+    debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+    return;
+  }
+
+  ppopup = &(popup[nftype]);
+  retval = notification_libnotify_add_msg(msginfo, nftype);
 #else /* !HAVE_LIBNOTIFY */
+  /* Ignore F_UNKNOWN and F_NEWS */
+  if(ftype == F_UNKNOWN || ftype == F_NEWS)
+    return;
+  ppopup = &popup;
   retval = notification_popup_add_msg(msginfo);
 #endif /* !HAVE_LIBNOTIFY */
   /* Renew timeout only when the above call was successful */
@@ -139,7 +175,8 @@ void notification_popup_msg(MsgInfo *msginfo)
     if(ppopup->timeout_id)
       g_source_remove(ppopup->timeout_id);
     ppopup->timeout_id = g_timeout_add(notify_config.popup_timeout,
-				       popup_timeout_fun, NULL);
+				       popup_timeout_fun,
+				       GINT_TO_POINTER(nftype));
   }
   G_UNLOCK(popup);
 
@@ -154,11 +191,13 @@ void notification_popup_msg(MsgInfo *msginfo)
 static gboolean popup_timeout_fun(gpointer data)
 {
   NotificationPopup *ppopup;
+  NotificationFolderType nftype;
 
-  ppopup = &popup;
-  
+  nftype = GPOINTER_TO_INT(data);
+
   G_LOCK(popup);
 #ifdef HAVE_LIBNOTIFY
+  ppopup = &(popup[nftype]);
   if(!notify_notification_close(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to close notification: %s.\n",
 		ppopup->error->message);
@@ -169,6 +208,7 @@ static gboolean popup_timeout_fun(gpointer data)
   }
   g_clear_error(&(ppopup->error));
 #else /* !HAVE_LIBNOTIFY */
+  ppopup = &popup;
   if(ppopup->window) {
     gtk_widget_destroy(ppopup->window);
     ppopup->window = NULL;
@@ -182,13 +222,29 @@ static gboolean popup_timeout_fun(gpointer data)
 }
 
 #ifdef HAVE_LIBNOTIFY
+static void default_action_cb(NotifyNotification *notification,
+			      const char *action,
+			      void *user_data)
+{
+  if(strcmp("default", action))
+    return;
+
+  MainWindow *mainwin;
+  /* Let mainwindow pop up */
+  mainwin = mainwindow_get_mainwindow();
+  if(mainwin)
+    gtk_window_present(GTK_WINDOW(mainwin->window));
+}
+
 static gboolean notification_libnotify_create(MsgInfo *msginfo,
-					      FolderType ftype)
+					      NotificationFolderType nftype)
 {
   GdkPixbuf *pixbuf;
   NotificationPopup *ppopup;
+  gchar *summary;
+  gchar *text;
 
-  ppopup = &popup;
+  ppopup = &(popup[nftype]);
 
   /* init libnotify if necessary */
   if(!notify_is_initted()) {
@@ -199,14 +255,41 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     }
   }
 
-  ppopup->notification = notify_notification_new("Sylpheed-Claws", 
-						 "A new message arrived.",
-						 NULL, NULL);
+  switch(nftype) {
+  case F_TYPE_MAIL:
+    summary = "Mail message";
+    text    = "A new message arrived.";
+    break;
+  case F_TYPE_NEWS:
+    summary = "News message";
+    text    = "A new mesesage arrived";
+    break;
+  case F_TYPE_CALENDAR:
+    summary = "Calendar message";
+    text    = "A new calendar message arrived";
+    break;
+  case F_TYPE_RSS:
+    summary = "RSS news feed";
+    text = "A new article in a RSS feed arrived";
+    break;
+  default:
+    summary = "Unknown message";
+    text = "Unknown message type arrived";
+    break;
+  }
+
+  ppopup->notification = notify_notification_new(summary, text, NULL, NULL);
   if(ppopup->notification == NULL) {
     debug_print("Notification Plugin: Failed to create a new "
 		"notification.\n");
     return FALSE;
   }
+
+  /* Default action */
+  notify_notification_add_action(ppopup->notification,
+				 "default", "Present main window",
+				 (NotifyActionCallback)default_action_cb,
+				 NULL, NULL);
 
   /* Icon */
   pixbuf = notification_pixbuf_get_logo_64x64();
@@ -239,23 +322,48 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 }
 
 static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
-					       FolderType ftype)
+					       NotificationFolderType nftype)
 {
-  gchar *message;
+  gchar *summary;
+  gchar *text;
   gboolean retval;
   NotificationPopup *ppopup;
 
-  ppopup = &popup;
+  ppopup = &(popup[nftype]);
+
+  if(!ppopup->notification)
+    return notification_libnotify_create(msginfo,nftype);
 
   ppopup->count++;
 
-  if(!ppopup->notification)
-    return notification_libnotify_create(msginfo,ftype);
+  switch(nftype) {
+  case F_TYPE_MAIL:
+    summary = "Mail message";
+    text = g_strdup_printf("%d new messages arrived", ppopup->count);
+    break;
+  case F_TYPE_NEWS:
+    summary = "News message";
+    text = g_strdup_printf("%d new messages arrived", ppopup->count);
+    break;
+  case F_TYPE_CALENDAR:
+    summary = "Calendar message";
+    text = g_strdup_printf("%d new calendar messages arrived", ppopup->count);
+    break;
+  case F_TYPE_RSS:
+    summary = "RSS news feed";
+    text = g_strdup_printf("%d new articles in a RSS feed arrived",
+			   ppopup->count);
+    break;
+  default:
+    /* Should not happen */
+    debug_print("Notification Plugin: Unknown folder type ignored\n");
+    return FALSE;
+    break;
+  }
 
-  message = g_strdup_printf("%d new messages arrived", ppopup->count);
-  retval = notify_notification_update(ppopup->notification, "Sylpheed-Claws", 
-				      message, NULL);
-  g_free(message);
+  retval = notify_notification_update(ppopup->notification, summary, 
+				      text, NULL);
+  g_free(text);
   if(!retval) {
     debug_print("Notification Plugin: Failed to update notification.\n");
     return FALSE;
@@ -282,10 +390,10 @@ static gboolean notification_popup_add_msg(MsgInfo *msginfo)
 
   ppopup = &popup;
 
-  ppopup->count++;
-
   if(!ppopup->window)
     return notification_popup_create(msginfo);
+
+  ppopup->count++;
 
   if(ppopup->label2)
     gtk_widget_destroy(ppopup->label2);
