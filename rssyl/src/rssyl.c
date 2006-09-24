@@ -34,6 +34,7 @@
 #include "common/utils.h"
 
 #include "gettext.h"
+#include "main.h"
 
 #include "feed.h"
 #include "feedprops.h"

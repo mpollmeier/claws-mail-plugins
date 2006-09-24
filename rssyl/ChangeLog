@@ -1,3 +1,9 @@
+2006-09-24 [colin]	0.6.0cvs24
+
+	* src/rssyl.c
+	* src/rssyl_gtk.c
+		Include main.h for sylpheed_is_exiting()
+
 2006-09-23 [colin]	0.6.0cvs23
 
 	* src/feed.c
