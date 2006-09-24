@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "main.h"
 #include "mainwindow.h"
 
 #include "synce_comp.h"
