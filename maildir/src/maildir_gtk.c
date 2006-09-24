@@ -37,6 +37,7 @@
 #include "inputdialog.h"
 #include "maildir.h"
 #include "foldersel.h"
+#include "main.h"
 
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void delete_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);

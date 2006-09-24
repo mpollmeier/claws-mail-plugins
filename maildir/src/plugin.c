@@ -23,6 +23,7 @@
 #include "common/version.h"
 #include "common/plugin.h"
 #include "folder.h"
+#include "main.h"
 
 #include "pluginconfig.h"
 #include "maildir.h"
