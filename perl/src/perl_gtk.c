@@ -34,6 +34,7 @@
 #include "common/utils.h"
 #include "mainwindow.h"
 #include "prefs_common.h"
+#include "main.h"
 
 #include "perl_plugin.h"
 #include "perl_gtk.h"

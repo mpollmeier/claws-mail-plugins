@@ -1,3 +1,8 @@
+2006-09-24 [colin]	0.9.4cvs11
+
+	* src/perl_gtk.c
+		Include main.h for sylpheed_is_exiting()
+
 2006-09-23 [colin]	0.9.4cvs10
 
 	* src/perl_gtk.c
