@@ -30,3 +30,4 @@
 ( cvs diff -u -r 1.1.2.44 -r 1.1.2.45 configure.ac;  diff -u /dev/null po/de.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/es.po;  diff -u /dev/null po/fi.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/pt_BR.po;  diff -u /dev/null po/sk.po;  diff -u /dev/null po/sr.po;  ) > 0.10.2cvs24.patchset
 ( cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs25.patchset
 ( cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/gtkhtml2_viewer.c;  ) > 0.10.2cvs26.patchset
+( cvs diff -u -r 1.1.2.31 -r 1.1.2.32 src/gtkhtml2_viewer.c;  ) > 0.11.0cvs1.patchset
