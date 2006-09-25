@@ -1,94 +1,99 @@
-# translation of pt_BR.po to Português do Brasil
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006.
+# Finnish translations for gtkhtml package.
+# Copyright (C) 2006 Andrej Kacian
+# This file is distributed under the same license as the gtkhtml package.
+# tpirinen <flammie@iki.fi>, 2006.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-13 17:09+0200\n"
-"PO-Revision-Date: 2006-09-24 12:35-0300\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Português do Brasil\n"
+"POT-Creation-Date: 2006-09-18 09:23+0100\n"
+"PO-Revision-Date: 2006-09-19 06:25+0300\n"
+"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
+"Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/gtkhtml2_prefs.c:80
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Liitännäiset"
 
 #: src/gtkhtml2_prefs.c:81
 msgid "GtkHtml2 Viewer"
-msgstr "Visualizador GtkHtml2"
+msgstr "GtkHtml2-näytin"
 
 #: src/gtkhtml2_prefs.c:128
 msgid "Cache cleared."
-msgstr "O cache foi limpo."
+msgstr "Välimuisti tyhjennetty."
 
 #: src/gtkhtml2_prefs.c:148
 msgid "Load remote images in mails"
-msgstr "Carregar imagens externas às mensagens"
+msgstr "Lataa etäkuvat viesteissä"
 
 #: src/gtkhtml2_prefs.c:155
 msgid "Cache remote images locally"
-msgstr "Armazenar as imagens remotas no cache local"
+msgstr "Hae etäkuvat paikalliseen välimuistiin"
 
 #: src/gtkhtml2_prefs.c:162
 msgid "Clear images cache when quitting"
-msgstr "Limpar as imagens do cache ao sair"
+msgstr "Poista kuvat välimuistista lopetettaessa"
 
 #: src/gtkhtml2_prefs.c:169
 msgid "Clear image cache now"
-msgstr "Limpar as imagens do cache agora"
+msgstr "Poista kuvat välimuistista"
 
 #: src/gtkhtml2_viewer.c:532
 #, c-format
 msgid "Timeout connecting to %s\n"
-msgstr "Tempo esgotado na conexão com %s\n"
+msgstr "Aikakatkaisu yhdistettäessä kohteeseen %s\n"
 
 #: src/gtkhtml2_viewer.c:600
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
 msgstr ""
-"Existem imagens remotas, mas, como definido\n"
-"em suas preferências, elas não foram carregadas."
+"Etäkuvia ei ladattu\n"
+"asetusten mukaan."
 
 #: src/gtkhtml2_viewer.c:602
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
 msgstr ""
-"Existem imagens remotas, mas elas não foram\n"
-"carregadas porque você está offline."
+"Etäkuvia ei ladattu\n"
+"yhteydettömässä tilassa."
 
 #: src/gtkhtml2_viewer.c:604
 msgid "Remote images exist, but loading them failed."
-msgstr "Existem imagens remotas, mas não foi possível carregá-las."
+msgstr "Etäkuvia ei onnistuttu lataamaan."
 
 #: src/gtkhtml2_viewer.c:607
 msgid "Load images"
-msgstr "Carregar imagens"
+msgstr "Lataa kuvat"
 
 #: src/gtkhtml2_viewer.c:780
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer "
 "plugin was built with"
-msgstr "A sua versão do Sylpheed-Claws é mais recente do que aquela utilizada para construir o plugin do Gtkhtml2Viewer"
+msgstr ""
+"Sylpheed-Claws on uudempi kuin versio jota varten Gtkhtml2-näytinliitännäinen "
+"on käännetty"
 
 #: src/gtkhtml2_viewer.c:785
 msgid "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
-msgstr "A sua versão do Sylpheed-Claws é muito antiga para o plugin do Gtkhtml2Viewer"
+msgstr "Sylpheed-Claws on liian vanha Gtkhtml2-näytinliitännäiselle"
 
 #: src/gtkhtml2_viewer.c:822
 msgid "GtkHtml2 HTML Viewer"
-msgstr "Visualizador HTML GtkHtml2"
+msgstr "GtkHtml2 HTML-näytin"
 
 #: src/gtkhtml2_viewer.c:827
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
-msgstr "Esse plugin renderiza mensagens em HTML usando o widget gtkhtml2rendering."
+msgstr "Tämä liitännäinen piirtää HTML-viestit käyttäen "
+"gtkhtml2rendering-vuorovaikutinta"
 
 #: src/gtkhtml2_viewer.c:849
 msgid "text/html"
-msgstr "texto/html"
-
+msgstr "text/html"
