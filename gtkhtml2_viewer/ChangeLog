@@ -1,3 +1,8 @@
+2006-09-25 [colin]	0.10.2cvs26
+
+	* src/gtkhtml2_viewer.c
+		Now you see me, now you don't... Oops.
+
 2006-09-25 [colin]	0.10.2cvs25
 
 	* src/gtkhtml2_viewer.c
