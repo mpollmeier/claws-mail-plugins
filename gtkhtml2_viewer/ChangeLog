@@ -1,3 +1,8 @@
+2006-09-25 [colin]	0.10.2cvs25
+
+	* src/gtkhtml2_viewer.c
+		Put back 0.10.2cvs21 (contextual menu on links)
+
 2006-09-25 [paul]	0.10.2cvs24
 
 	* configure.ac
