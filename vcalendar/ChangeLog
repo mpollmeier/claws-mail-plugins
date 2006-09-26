@@ -1,3 +1,9 @@
+2006-09-26 [colin]	1.89.1cvs1
+
+	* src/plugin.c
+	* src/vcal_meeting_gtk.c
+		Follow SC 2.5.2cvs1 API change
+
 2009-05-25 [paul]	1.89.1
 
 	1.89.1 released

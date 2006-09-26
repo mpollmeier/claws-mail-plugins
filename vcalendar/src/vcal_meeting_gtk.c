@@ -287,7 +287,7 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->add_btn, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->remove_btn, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(meet->attendees_vbox), att_hbox, FALSE, FALSE, 0);
-	address_completion_register_entry(GTK_ENTRY(attendee->address));
+	address_completion_register_entry(GTK_ENTRY(attendee->address), FALSE);
 	gtk_widget_set_size_request(attendee->address, 320, -1);
 	return attendee;
 }
