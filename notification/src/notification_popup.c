@@ -145,19 +145,23 @@ void notification_popup_msg(MsgInfo *msginfo)
     nftype = F_TYPE_NEWS;
     break;
   case F_UNKNOWN:
-    if((uistr = msginfo->folder->folder->klass->uistr) == NULL)
+    if((uistr = msginfo->folder->folder->klass->uistr) == NULL) {
+      G_UNLOCK(popup);
       return;
+    }
     else if(!strcmp(uistr, "vCalendar"))
       nftype = F_TYPE_CALENDAR;
     else if(!strcmp(uistr, "RSSyl"))
       nftype = F_TYPE_RSS;
     else {
       debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+      G_UNLOCK(popup);
       return;
     } 
     break;
   default:
     debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+    G_UNLOCK(popup);
     return;
   }
 
@@ -165,8 +169,10 @@ void notification_popup_msg(MsgInfo *msginfo)
   retval = notification_libnotify_add_msg(msginfo, nftype);
 #else /* !HAVE_LIBNOTIFY */
   /* Ignore F_UNKNOWN and F_NEWS */
-  if(ftype == F_UNKNOWN || ftype == F_NEWS)
+  if(ftype == F_UNKNOWN || ftype == F_NEWS) {
+    G_UNLOCK(popup);
     return;
+  }
   ppopup = &popup;
   retval = notification_popup_add_msg(msginfo);
 #endif /* !HAVE_LIBNOTIFY */
@@ -334,8 +340,6 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
   if(!ppopup->notification)
     return notification_libnotify_create(msginfo,nftype);
 
-  ppopup->count++;
-
   switch(nftype) {
   case F_TYPE_MAIL:
     summary = "Mail message";
@@ -360,6 +364,8 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
     return FALSE;
     break;
   }
+
+  ppopup->count++;
 
   retval = notify_notification_update(ppopup->notification, summary, 
 				      text, NULL);
