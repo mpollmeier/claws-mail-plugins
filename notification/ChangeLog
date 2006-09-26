@@ -2,6 +2,8 @@
 
 	* src/notification_popup.c
 		Fix several possible deadlock situations.
+		Thanks to Brian Morrison and Colin for
+		debugging this.
 
 2006-09-25 [paul]	0.4
 
