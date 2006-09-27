@@ -1255,7 +1255,7 @@ static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *
 {
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item;
-	gchar *message, *name;
+	gchar *message;
 	AlertValue avalue;
 	gchar *old_path;
 	gchar *old_id;
@@ -1288,7 +1288,7 @@ static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *
 
 	if (item->folder->klass->remove_folder(item->folder, item) < 0) {
 		folder_item_scan(item);
-		alertpanel_error(_("Can't remove the folder '%s'."), name);
+		alertpanel_error(_("Can't remove the folder '%s'."), item->name);
 		g_free(old_id);
 		return;
 	}

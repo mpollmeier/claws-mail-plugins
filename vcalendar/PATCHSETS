@@ -43,3 +43,4 @@
 ( cvs diff -u -r 1.1.2.39 -r 1.1.2.40 src/vcal_manager.c;  ) > 1.89.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/de.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/es.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fi.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fr.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pt_BR.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/sk.po;  ) > 1.89.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/plugin.c;  cvs diff -u -r 1.1.2.43 -r 1.1.2.44 src/vcal_meeting_gtk.c;  ) > 1.89.1cvs1.patchset
+( cvs diff -u -r 1.2.2.43 -r 1.2.2.44 src/vcal_folder.c;  ) > 1.89.1cvs2.patchset
