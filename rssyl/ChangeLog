@@ -1,3 +1,14 @@
+2006-09-28 [colin]	0.6.1cvs1
+
+	* src/strreplace.c
+		Optimize rssyl_strreplace(). strncat is slow because it
+		has to walk to the end of the string each time it's called.
+		It's called 330.000 times when refreshing a 300 items feed,
+		thus making a nice O(n^2) algo.
+		Use string walking instead. Down from 31% execution time
+		in rssyl_strreplace(), to 1.18% :-) (start, refresh feed,
+		exit).
+
 2006-09-25 [paul]	0.6.1
 
 	0.6.1 released

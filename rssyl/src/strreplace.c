@@ -31,7 +31,7 @@
 gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 		gchar *replacement)
 {
-	gchar *new, *c;
+	gchar *new, *w_new, *c;
 	guint count = 0, final_length;
 
 /*
@@ -69,6 +69,7 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 		+ ( count * strlen(replacement) );
 
 	new = malloc(final_length + 1);
+	w_new = new;
 	memset(new, '\0', final_length + 1);
 
 	c = source;
@@ -76,18 +77,22 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 	while( *c != '\0' ) {
 		if( !memcmp(c, pattern, strlen(pattern)) ) {
 			gboolean break_after_rep = FALSE;
+			int i;
 			if (*(c + strlen(pattern)) == '\0')
 				break_after_rep = TRUE;
-			strncat(new, replacement, strlen(replacement));
+			for (i = 0; i < strlen(replacement); i++) {
+				*w_new = replacement[i];
+				w_new++;
+			}
 			if (break_after_rep)
 				break;
 			c = c + strlen(pattern);
 		} else {
-			strncat(new, c, 1);
+			*w_new = *c;
+			w_new++;
 			c++;
 		}
 	}
-
 	return new;
 }
 
