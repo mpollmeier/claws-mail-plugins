@@ -1,3 +1,12 @@
+2006-09-28 [colin]	0.6.1cvs2
+
+	* src/feed.c
+		Get rid of g_strsplit and g_strconcat in 
+		potentially big items, and in while loops.
+		Use zero-copy for the split, and realloc
+		for the concatenation. 40% less CPU usage 
+		than previously. Valgrinded, Callgrinded.
+
 2006-09-28 [colin]	0.6.1cvs1
 
 	* src/strreplace.c

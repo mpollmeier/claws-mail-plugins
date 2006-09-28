@@ -573,6 +573,34 @@ gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_r
 	return str;
 }
 
+/* this functions splits a string into an array of string, by 
+ * returning an array of pointers to positions of the delimiter
+ * in the original string and replacing this delimiter with a
+ * NULL. It does not duplicate memory, hence you should only
+ * free the array and not its elements, and you should not
+ * free the original string before you're done with the array.
+ * maybe could be part of the core (utils.c).
+ */
+static gchar **strplit_no_copy(gchar *str, char delimiter)
+{
+	gchar **array = g_new(gchar *, 1);
+	int i = 0;
+	gchar *cur = str, *next;
+	
+	array[i] = cur;
+	i++;
+	while ((next = strchr(cur, delimiter)) != NULL) {
+		*(next) = '\0';
+		array = g_realloc(array, (sizeof(gchar *)) * (i + 1));
+		array[i] = next + 1;
+		cur = next + 1;
+		i++;
+	}
+	array = g_realloc(array, (sizeof(gchar *)) * (i + 1));
+	array[i] = NULL;
+	return array;
+}
+
 /* rssyl_parse_folder_item_file()
  *
  * Parse the RFC822-formatted feed item given by "path", and returns a
@@ -596,7 +624,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 		g_warning("GError: '%s'\n", error->message);
 
 	if( contents ) {
-		lines = g_strsplit(contents, "\n", 0);
+		lines = strplit_no_copy(contents, '\n');
 	} else {
 		g_warning("Badly formatted file found, ignoring: '%s'\n", path);
 		g_free(contents);
@@ -709,11 +737,14 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 					continue;
 				}
 				if( fitem->text != NULL ) {
-					text = g_strdup(fitem->text);
-					g_free(fitem->text);
-					fitem->text = g_strconcat(text, "\n", lines[i], NULL);
-					g_free(text);
-				}	else {
+					gint e_len, n_len;
+					e_len = strlen(fitem->text);
+					n_len = strlen(lines[i]);
+					fitem->text = g_realloc(fitem->text, e_len + n_len + 2);
+					*(fitem->text+e_len) = '\n';
+					strcpy(fitem->text+e_len+1, lines[i]);
+					*(fitem->text+e_len+n_len+1) = '\0';
+				} else {
 					fitem->text = g_strdup(lines[i]);
 				}
 				i++;
@@ -725,7 +756,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 		i++;
 	}
-	g_strfreev(lines);
+	g_free(lines);
 	g_free(contents);
 	return fitem;
 }
