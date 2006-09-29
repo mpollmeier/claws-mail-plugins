@@ -107,6 +107,9 @@ static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 static void update_subscription(const gchar *uri, gboolean verbose);
 static void rename_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void vcal_folder_set_batch	(Folder		*folder,
+					 FolderItem	*item,
+					 gboolean	 batch);
 
 gboolean vcal_subscribe_uri(Folder *folder, const gchar *uri);
 
@@ -128,6 +131,8 @@ struct _VCalFolderItem
 	icalcomponent *cal;
 	GSList *numlist;
 	GSList *evtlist;
+	gboolean batching;
+	gboolean dirty;
 };
 
 static char *vcal_popup_labels[] =
@@ -248,6 +253,7 @@ FolderClass *vcal_folder_get_class()
 		vcal_class.rename_folder = vcal_rename_folder;
 		vcal_class.scan_required = vcal_scan_required;
 		vcal_class.get_num_list = vcal_get_num_list;
+		vcal_class.set_batch = vcal_folder_set_batch;
 
 		/* Message functions */
 		vcal_class.get_msginfo = vcal_get_msginfo;
@@ -262,6 +268,30 @@ FolderClass *vcal_folder_get_class()
 	}
 
 	return &vcal_class;
+}
+
+static void vcal_folder_set_batch	(Folder		*folder,
+					 FolderItem	*_item,
+					 gboolean	 batch)
+{
+	VCalFolderItem *item = (VCalFolderItem *)_item;
+
+	g_return_if_fail(item != NULL);
+	
+	if (item->batching == batch)
+		return;
+	
+	if (batch) {
+		item->batching = TRUE;
+		debug_print("vcal switching to batch mode\n");
+	} else {
+		debug_print("vcal switching away from batch mode\n");
+		/* ici */
+		item->batching = FALSE;
+		if (item->dirty)
+			vcal_folder_export();
+		item->dirty = FALSE;
+	}
 }
 
 static Folder *vcal_folder_new(const gchar * name,
@@ -668,6 +698,7 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 void vcal_folder_export(void)
 {
 	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
+		debug_print("exporting calendar\n");
 		if (vcalprefs.export_enable &&
 		    vcalprefs.export_command &&
 		    strlen(vcalprefs.export_command))
@@ -675,6 +706,7 @@ void vcal_folder_export(void)
 				vcalprefs.export_command, TRUE);
 	}
 	if (vcal_meeting_export_freebusy(vcalprefs.export_freebusy_path)) {
+		debug_print("exporting freebusy\n");
 		if (vcalprefs.export_freebusy_enable &&
 		    vcalprefs.export_freebusy_command &&
 		    strlen(vcalprefs.export_freebusy_command))
@@ -687,7 +719,7 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 {
 	MimeInfo *mime = procmime_scan_message(msginfo);
 	gchar *uid = NULL;
-
+	VCalFolderItem *item = (VCalFolderItem *)msginfo->folder;
 	if (mime)
 		mime = procmime_mimeinfo_next(mime);
 	
@@ -701,7 +733,12 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 			g_free(file);
 		}
 	}
-	vcal_folder_export();
+	
+	if (!item || !item->batching)
+		vcal_folder_export();
+	else if (item) {
+		item->dirty = TRUE;
+	}
 }
 
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags)

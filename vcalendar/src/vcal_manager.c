@@ -283,7 +283,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	PrefsAccount *account = vcal_manager_get_account_from_event(event);
 	gchar *attendee  = NULL;
 	gchar *body, *headers, *qpbody;
-	gchar **lines = NULL;
 	gchar *tmpfile = NULL;
 	gchar *tmpstr = NULL;
 	icalcomponent *calendar, *ievent, *timezone, *tzc;
@@ -595,12 +594,16 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 	/* encode to quoted-printable */
 	while (lines[i]) {
 		gchar buf[256];
-		gchar *tmp = g_strdup(qpbody);
+		gint e_len = strlen(qpbody), n_len = 0;
 		gchar *outline = conv_codeset_strdup(lines[i], CS_UTF_8, conv_get_outgoing_charset_str());
-		g_free(qpbody);
+		
 		qp_encode_line(buf, (guchar *)outline);
-		qpbody = g_strdup_printf("%s%s", tmp, buf);
-		g_free(tmp);
+		n_len = strlen(buf);
+		
+		qpbody = g_realloc(qpbody, e_len + n_len + 1);
+		strcpy(qpbody+e_len, buf);
+		*(qpbody+n_len+e_len) = '\0';
+		
 		g_free(outline);
 		i++;
 	}
@@ -612,6 +615,7 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 	str_write_to_file(body, tmpfile); 
 	chmod(tmpfile, S_IRUSR|S_IWUSR);
 
+	g_strfreev(lines);
 	g_free(body);
 	g_free(qpbody);
 	g_free(headers);
