@@ -1,3 +1,9 @@
+2006-10-04 [wwp]	0.6.1cvs3
+
+	* src/rssyl_prefs.c
+		Remove label's trailing ':' in prefs. Suggested by
+		Fabien Vantard <fzzzzz@gmail.com>.
+
 2006-09-28 [colin]	0.6.1cvs2
 
 	* src/feed.c

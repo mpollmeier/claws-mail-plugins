@@ -98,7 +98,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_table_set_row_spacings(GTK_TABLE(table), VSPACING_NARROW);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
 
-	label = gtk_label_new(_("Default refresh interval in minutes:"));
+	label = gtk_label_new(_("Default refresh interval in minutes"));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
 			GTK_FILL, 0, 0, 0);
@@ -111,7 +111,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_tooltips_set_tip(tooltips, refresh,
 			_("Set to 0 to disable automatic refreshing"), NULL);
 
-	label = gtk_label_new(_("Default number of expired items to keep:"));
+	label = gtk_label_new(_("Default number of expired items to keep"));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2,
 			GTK_FILL, 0, 0, 0);
@@ -124,7 +124,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_tooltips_set_tip(tooltips, expired,
 			_("Set to -1 to keep expired items"), NULL);
 
-	label = gtk_label_new(_("Timeout for downloading feeds in seconds:"));
+	label = gtk_label_new(_("Timeout for downloading feeds in seconds"));
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3,
 			GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
