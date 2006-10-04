@@ -1,10 +1,11 @@
 plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
 
 plugin_LTLIBRARIES = smime.la
+plugin_DATA = smime.deps
 
 smime_la_SOURCES = \
 	plugin.c \
-	smime.c
+	smime.c prefs_smime.c
 
 smime_la_LDFLAGS = \
 	-avoid-version -module
@@ -26,4 +27,4 @@ AM_CPPFLAGS = \
 	$(GPGME_CFLAGS)
 
 EXTRA_DIST = \
-	smime.h
+	smime.h smime.deps

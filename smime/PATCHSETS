@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/smime.c;  ) > 0.5.4cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 commitHelper;  ) > 0.5.4cvs3.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 configure.ac;  ) > 0.5.4cvs4.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/Makefile.am;  ) > 0.5.5cvs1.patchset

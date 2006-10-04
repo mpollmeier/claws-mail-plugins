@@ -1,3 +1,9 @@
+2006-10-04 [paul]	0.5.5cvs1
+
+	* src/Makefile.am
+		fix bug 1027, 'plugin smime not possible to load'
+		Thanks to Colin
+
 2006-09-25 [paul]	0.5.5
 
 	0.5.5 released
