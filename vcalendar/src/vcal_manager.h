@@ -25,6 +25,11 @@
 #include <ical.h>
 #include "prefs_account.h"
 
+#define EVENT_PAST_ID "past-events@vcal"
+#define EVENT_TODAY_ID "today-events@vcal"
+#define EVENT_TOMORROW_ID "tomorrow-events@vcal"
+#define EVENT_THISWEEK_ID "thisweek-events@vcal"
+#define EVENT_LATER_ID "later-events@vcal"
 typedef struct _VCalEvent VCalEvent;
 
 struct _VCalEvent 
@@ -47,6 +52,13 @@ struct _VCalEvent
 	time_t postponed;
 };
 
+typedef enum {
+	EVENT_PAST = 0,
+	EVENT_TODAY,
+	EVENT_TOMORROW,
+	EVENT_THISWEEK,
+	EVENT_LATER
+} EventTime;
 VCalEvent *vcal_manager_new_event	(const gchar 	*uid, 
 					 const gchar	*organizer,
 					 const gchar	*orgname,
@@ -82,13 +94,17 @@ enum icalparameter_partstat vcal_manager_get_reply_for_attendee(VCalEvent *event
 enum icalparameter_partstat vcal_manager_get_cutype_for_attendee(VCalEvent *event, const gchar *att);
 gchar *vcal_manager_get_event_path(void);
 gchar *vcal_manager_get_event_file(const gchar *uid);
-gchar *vcal_manager_event_dump(VCalEvent *event, gboolean change_date, gboolean change_from, icalcomponent *use_calendar);
+gchar *vcal_manager_event_dump(VCalEvent *event, gboolean change_date, gboolean
+		change_from, icalcomponent *use_calendar, gboolean modif);
 gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcomponent *use_calendar);
+gchar *vcal_manager_dateevent_dump(const gchar *uid, FolderItem *item);
+
 gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans);
 gchar *vcal_manager_cutype_get_text(enum icalparameter_cutype type);
 
 PrefsAccount *vcal_manager_get_account_from_event(VCalEvent *event);
 
 void vcal_manager_event_print(VCalEvent *event);
-
+EventTime event_to_today(VCalEvent *event, time_t t);
+const gchar *event_to_today_str(VCalEvent *event, time_t t);
 #endif

@@ -258,6 +258,8 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 	g_free(tmplbl);						\
 }
 
+static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *event, enum icalproperty_method method);
+
 static void vcalviewer_reset(VCalViewer *vcalviewer) 
 {
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), "-");
@@ -270,6 +272,7 @@ static void vcalviewer_reset(VCalViewer *vcalviewer)
 	g_free(vcalviewer->url);
 	vcalviewer->url = NULL;
 	gtk_widget_hide(vcalviewer->uribtn);
+	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_CANCEL);
 }
 
 static gchar *get_attendee_replying(VCalViewer *vcalviewer)
@@ -626,37 +629,49 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");
 	}
+	attendees = g_strdup("");
 	for (list = vcal_manager_get_answers_emails(event); 
 	     list && list->data; list = list->next) {
 	     	gchar *attendee = (gchar *)list->data;
 		gchar *name = vcal_manager_get_attendee_name(event, attendee);
+		gchar *ename = g_markup_printf_escaped("%s", name);
+		gchar *eatt = g_markup_printf_escaped("%s", attendee);
+		enum icalparameter_partstat acode = vcal_manager_get_reply_for_attendee(event, attendee);
 		gchar *answer = vcal_manager_get_reply_text_for_attendee(event, attendee);
 		gchar *type = vcal_manager_get_cutype_text_for_attendee(event, attendee);
-		if (firstatt) {
-			attendees = g_strdup_printf("%s%s<%s> (%s, %s)", 
-					(name && strlen(name))?name:"",
-					(name && strlen(name))?" ":"",
-					attendee, type, answer);
-			firstatt = FALSE;
+		gchar *tmp = NULL;
+		gint e_len, n_len;
+		tmp = g_strdup_printf(
+				"%s%s&lt;%s&gt; (%s, <span%s>%s</span>)", 
+				(ename && strlen(ename))?ename:"",
+				(ename && strlen(ename))?" ":"",
+				eatt, type, 
+				(acode != ICAL_PARTSTAT_ACCEPTED ? " foreground=\"red\"":""),
+				answer);
+		e_len = strlen(attendees);
+		n_len = strlen(tmp);
+		if (e_len) {
+			attendees = g_realloc(attendees, e_len+n_len+2);
+			*(attendees+e_len) = '\n';
+			strcpy(attendees+e_len+1, tmp);
 		} else {
-			gchar *tmp = g_strdup(attendees);
-			g_free(attendees);
-			attendees = g_strdup_printf("%s\n%s%s<%s> (%s, %s)", 
-					tmp, (name && strlen(name))?name:"",
-					(name && strlen(name))?" ":"", 
-					attendee, type, answer);
-			g_free(tmp);
+			attendees = g_realloc(attendees, e_len+n_len+1);
+			strcpy(attendees, tmp);
 		}
+		g_free(tmp);
 		g_free(answer);
 		g_free(type);
 		g_free(name);
+		g_free(ename);
+		g_free(eatt);
 	}
-
+	
 	if (attendees && strlen(attendees)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), attendees);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-");
 	}
+	gtk_label_set_use_markup(GTK_LABEL(vcalviewer->attendees), TRUE);
 	if (!mine)
 		if (event->type != ICAL_VTODO_COMPONENT)
 			vcalviewer_answer_set_choices(vcalviewer, event, event->method);
@@ -1316,6 +1331,7 @@ MimeViewer *vcal_viewer_create(void)
 	vcalviewer->summary = gtk_label_new("summary");
 	vcalviewer->description = gtk_label_new("description");
 	vcalviewer->attendees = gtk_label_new("attendees");
+
 	vcalviewer->answer = gtk_combo_box_new_text();
 	vcalviewer->url = NULL;
 	vcalviewer->button = gtk_button_new_with_label(_("Answer"));

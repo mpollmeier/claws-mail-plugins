@@ -1530,7 +1530,7 @@ void multisync_export(void)
 			    icalproperty_new_calscale("GREGORIAN"),
         		    0
         	    ); 	
-		vcal_manager_event_dump(event, FALSE, FALSE, calendar);
+		vcal_manager_event_dump(event, FALSE, FALSE, calendar, FALSE);
 		tmp = g_strconcat(path, G_DIR_SEPARATOR_S, file, NULL);
 		str_write_to_file(icalcomponent_as_ical_string(calendar), tmp);
 		g_free(tmp);
@@ -1605,7 +1605,7 @@ gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
 
 	for (cur = list; cur; cur = cur->next) {
 		VCalEvent *event = (VCalEvent *)cur->data;
-		vcal_manager_event_dump(event, FALSE, FALSE, calendar);
+		vcal_manager_event_dump(event, FALSE, FALSE, calendar, FALSE);
 		vcal_manager_free_event(event);
 	}
 

@@ -277,7 +277,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 			    gboolean 		 is_pseudo_event);
 
 gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_pseudo_event,
-				icalcomponent *use_calendar)
+				icalcomponent *use_calendar, gboolean modif)
 {
 	gchar *organizer = g_strdup_printf("MAILTO:%s", event->organizer);
 	PrefsAccount *account = vcal_manager_get_account_from_event(event);
@@ -392,7 +392,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	icalcomponent_add_property(ievent,
 		icalproperty_new_summary(event->summary));
 	icalcomponent_add_property(ievent,
-		icalproperty_new_sequence(event->sequence + 1));
+		icalproperty_new_sequence(modif ? event->sequence + 1 : event->sequence));
 	icalcomponent_add_property(ievent,
 		icalproperty_new_class("PUBLIC"));
 	icalcomponent_add_property(ievent,
@@ -499,6 +499,120 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	icalcomponent_free(calendar);
 	g_free(attendee);
 	g_free(organizer);
+	
+	return tmpfile;	
+}
+
+static void get_rfc822_date_from_time_t(gchar *buf, gint len, time_t t)
+{
+	struct tm *lt;
+	gchar day[4], mon[4];
+	gint dd, hh, mm, ss, yyyy;
+
+	lt = localtime(&t);
+
+	sscanf(asctime(lt), "%3s %3s %d %d:%d:%d %d\n",
+	       day, mon, &dd, &hh, &mm, &ss, &yyyy);
+	g_snprintf(buf, len, "%s, %d %s %d %02d:%02d:%02d %s",
+		   day, dd, mon, yyyy, hh, mm, ss, tzoffset(&t));
+}
+
+static gchar *write_headers_date(const gchar *uid)
+{
+	gchar subject[512];
+	gchar *t_subject;
+	gchar date[128];
+	time_t t;
+	struct tm lt;
+
+	memset(subject, 0, sizeof(subject));
+	memset(date, 0, sizeof(date));
+	
+	if (!strcmp(uid, EVENT_PAST_ID)) {
+		t = 1;
+		t_subject = _("Past");
+	} else if (!strcmp(uid, EVENT_TODAY_ID)) {
+		t = time(NULL);
+		t_subject = _("Today");
+	}  else if (!strcmp(uid, EVENT_TOMORROW_ID)) {
+		t = time(NULL) + 86400;
+		t_subject = _("Tomorrow");
+	}  else if (!strcmp(uid, EVENT_THISWEEK_ID)) {
+		t = time(NULL) + (86400*2);
+		t_subject = _("This week");
+	}  else if (!strcmp(uid, EVENT_LATER_ID)) {
+		t = time(NULL) + (86400*7);
+		t_subject = _("Later");
+	}  else {
+		g_warning("unknown spec date\n");
+		return NULL;
+	} 
+	
+	lt = *localtime(&t);
+	lt.tm_hour = lt.tm_min = lt.tm_sec = 0;
+	t = mktime(&lt);
+
+	get_rfc822_date_from_time_t(date, sizeof(date), t);
+
+	conv_encode_header(subject, 511, t_subject, strlen("Subject: "), FALSE);
+					
+	return g_strdup_printf("From: -\n"
+				"To: -\n"
+				"Subject: %s\n"
+				"Date: %s\n"
+				"MIME-Version: 1.0\n"
+				"Content-Type: text/plain; charset=\"UTF-8\";\n"
+				"Content-Transfer-Encoding: quoted-printable\n"
+				"Message-ID: <%s>\n",
+				subject,
+				date,
+				uid);
+}
+
+gchar *vcal_manager_dateevent_dump(const gchar *uid, FolderItem *item)
+{
+	gchar *sanitized_uid = g_strdup(uid);
+	gchar *headers = NULL;
+	gchar *lines, *body, *tmpfile;
+	EventTime date;
+	
+	subst_for_filename(sanitized_uid);
+	
+	tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
+				   G_DIR_SEPARATOR, getuid(), sanitized_uid);
+	g_free(sanitized_uid);
+
+	headers = write_headers_date(uid);
+
+	if (!headers) {
+		g_warning("can't get headers");
+		g_free(tmpfile);
+		return NULL;
+	}
+
+	if (!strcmp(uid, EVENT_PAST_ID))
+		date = EVENT_PAST;
+	else if (!strcmp(uid, EVENT_TODAY_ID))
+		date = EVENT_TODAY;
+	else if (!strcmp(uid, EVENT_TOMORROW_ID))
+		date = EVENT_TOMORROW;
+	else if (!strcmp(uid, EVENT_THISWEEK_ID))
+		date = EVENT_THISWEEK;
+	else if (!strcmp(uid, EVENT_LATER_ID))
+		date = EVENT_LATER;
+	else
+		date = EVENT_PAST;
+
+	lines = get_item_event_list_for_date(item, date);
+	body = g_strdup_printf("%s"
+			       "\n"
+			       "%s", headers, lines);
+	g_free(lines);
+	str_write_to_file(body, tmpfile); 
+	chmod(tmpfile, S_IRUSR|S_IWUSR);
+
+	g_free(body);
+	g_free(headers);
 	
 	return tmpfile;	
 }
@@ -917,7 +1031,7 @@ VCalEvent *vcal_manager_load_event (const gchar *uid)
 	GNode *node;
 	gchar *path = NULL;
 	VCalEvent *event = NULL;
-	
+
 	path = vcal_manager_get_event_file(uid);
 	
 	if (!is_file_exist(path)) {
@@ -973,21 +1087,6 @@ void vcal_manager_update_answer (VCalEvent 	*event,
 	
 	vcal_manager_save_event(event);
 }
-
-static void get_rfc822_date_from_time_t(gchar *buf, gint len, time_t t)
-{
-	struct tm *lt;
-	gchar day[4], mon[4];
-	gint dd, hh, mm, ss, yyyy;
-
-	lt = localtime(&t);
-
-	sscanf(asctime(lt), "%3s %3s %d %d:%d:%d %d\n",
-	       day, mon, &dd, &hh, &mm, &ss, &yyyy);
-	g_snprintf(buf, len, "%s, %d %s %d %02d:%02d:%02d %s",
-		   day, dd, mon, yyyy, hh, mm, ss, tzoffset(&t));
-}
-
 
 static gchar *write_headers(PrefsAccount 	*account, 
 			    VCalEvent 		*event,
@@ -1094,7 +1193,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"Date: %s\n"
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
-				"Content-Transfer-Encoding: 8bit\n",
+				"Content-Transfer-Encoding: 8bit\n"
+				"In-Reply-To: <%s>\n",
 				queue_headers,
 				enc_from,
 				is_reply ? account->address:event->organizer,
@@ -1103,7 +1203,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 				enc_subject,
 				date,
 				method_str,
-				CS_UTF_8);
+				CS_UTF_8,
+				event_to_today_str(event, 0));
 	
 	g_free(save_folder);
 	g_free(queue_headers);
@@ -1126,7 +1227,7 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	gchar *organizer = NULL;
 	gchar *orgname = NULL;
 	icalproperty *prop = NULL;
-	time_t t;
+	time_t t = (time_t)0;
 
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
@@ -1168,7 +1269,8 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 				"Date: %s\n"
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"; vcalsave=\"no\"\n"
-				"Content-Transfer-Encoding: quoted-printable\n",
+				"Content-Transfer-Encoding: quoted-printable\n"
+				"In-Reply-To: <%s>\n",
 				orgname?orgname:"",
 				!strncmp(organizer, "MAILTO:", 7) ? organizer+7 : organizer,
 				account->address,
@@ -1176,7 +1278,8 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 				subject,
 				date,
 				method_str,
-				conv_get_outgoing_charset_str());
+				conv_get_outgoing_charset_str(),
+				event_to_today_str(NULL, t));
 	
 	g_free(orgname);
 	g_free(organizer);
@@ -1197,7 +1300,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 	gchar *msgpath = NULL;
 	Folder *folder = NULL;
 	
-	tmpfile = vcal_manager_event_dump(event, is_reply, FALSE, NULL);
+	tmpfile = vcal_manager_event_dump(event, is_reply, FALSE, NULL, TRUE);
 
 	if (!tmpfile)
 		return FALSE;
@@ -1253,4 +1356,61 @@ gboolean vcal_manager_request (PrefsAccount 	*account,
 			       VCalEvent 	*event)
 {
 	return vcal_manager_send(account, event, FALSE);
+}
+
+EventTime event_to_today(VCalEvent *event, time_t t)
+{
+	struct tm evtstart, today;
+	time_t evtstart_t, today_t;
+	struct icaltimetype itt;
+	
+	tzset();
+	
+	today_t = time(NULL);
+	if (event) {
+		itt = icaltime_from_string(event->dtstart);
+		evtstart_t = icaltime_as_timet(itt);
+	} else {
+		evtstart_t = t;
+	}
+	
+	today = *localtime(&today_t);
+	localtime_r(&evtstart_t, &evtstart);
+	
+	if (today.tm_year == evtstart.tm_year) {
+		int days = evtstart.tm_yday - today.tm_yday;
+		if (days < 0) {
+			return EVENT_PAST;
+		} else if (days == 0) {
+			return EVENT_TODAY;
+		} else if (days == 1) {
+			return EVENT_TOMORROW;
+		} else if (days > 1 && days < 7) {
+			return EVENT_THISWEEK;
+		} else if (days >= 7) {
+			return EVENT_LATER;
+		}
+	} else if (today.tm_year > evtstart.tm_year) {
+		return EVENT_PAST;
+	} else {
+		return EVENT_LATER;
+	}
+}
+
+const gchar *event_to_today_str(VCalEvent *event, time_t t)
+{
+	EventTime days = event_to_today(event, t);
+	switch(days) {
+	case EVENT_PAST:
+		return EVENT_PAST_ID;
+	case EVENT_TODAY:
+		return EVENT_TODAY_ID;
+	case EVENT_TOMORROW:
+		return EVENT_TOMORROW_ID;
+	case EVENT_THISWEEK:
+		return EVENT_THISWEEK_ID;
+	case EVENT_LATER:
+		return EVENT_LATER_ID;
+	}
+	return NULL;
 }

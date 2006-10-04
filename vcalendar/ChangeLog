@@ -1,3 +1,17 @@
+2006-10-04 [colin]	1.89.1cvs5
+
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Color people who didn't respond to invitations
+		Add Past/Today/Tomorrow/This week and Later items
+		in the message list, and make events children of
+		these items. Mark Today and Tomorrow so that the
+		view selects them if they're present. 
+
 2006-10-04 [wwp]	1.89.1cvs4
 
 	* src/vcal_prefs.c
