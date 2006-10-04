@@ -1,3 +1,9 @@
+2006-10-04 [wwp]	1.89.1cvs4
+
+	* src/vcal_prefs.c
+		Remove label's trailing ':' in prefs. Suggested by
+		Fabien Vantard <fzzzzz@gmail.com>.
+
 2006-09-29 [colin]	1.89.1cvs3
 
 	* src/vcal_folder.c

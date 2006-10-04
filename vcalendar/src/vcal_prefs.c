@@ -200,7 +200,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (hbox3);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
 
-	export_command_label = gtk_label_new(_("Command to run after calendar export: "));
+	export_command_label = gtk_label_new(_("Command to run after calendar export"));
 	gtk_widget_show(export_command_label);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_command_label, FALSE, FALSE, 0);
 
@@ -256,7 +256,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (hbox3);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
 
-	export_freebusy_command_label = gtk_label_new(_("Command to run after free/busy export: "));
+	export_freebusy_command_label = gtk_label_new(_("Command to run after free/busy export"));
 	gtk_widget_show(export_freebusy_command_label);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_freebusy_command_label, FALSE, FALSE, 0);
 
