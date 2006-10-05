@@ -1,3 +1,8 @@
+2006-10-05 [ticho]	0.6.1cvs4
+
+	* src/feed.c
+		Fix for gcc2.x. Spotted by <c0rn at o2.pl>.
+
 2006-10-04 [wwp]	0.6.1cvs3
 
 	* src/rssyl_prefs.c

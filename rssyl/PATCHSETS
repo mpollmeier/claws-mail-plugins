@@ -45,3 +45,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/strreplace.c;  ) > 0.6.1cvs1.patchset
 ( cvs diff -u -r 1.1.2.53 -r 1.1.2.54 src/feed.c;  ) > 0.6.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_prefs.c;  ) > 0.6.1cvs3.patchset
+( cvs diff -u -r 1.1.2.54 -r 1.1.2.55 src/feed.c;  ) > 0.6.1cvs4.patchset

@@ -1408,9 +1408,10 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	FolderItem *new_item;
 	RSSylFolderItem *ritem;
 	gchar *myurl = NULL;
+	gchar *error = NULL;
+
 	g_return_val_if_fail(parent != NULL, FALSE);
 	g_return_val_if_fail(url != NULL, FALSE);
-	gchar *error = NULL;
 
 	myurl = g_strdup(url);
 
