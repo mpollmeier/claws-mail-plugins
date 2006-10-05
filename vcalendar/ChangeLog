@@ -1,3 +1,8 @@
+2006-10-05 [colin]	1.89.1cvs6
+
+	* src/vcal_manager.c
+		Set Message-ID on sent invitations
+
 2006-10-04 [colin]	1.89.1cvs5
 
 	* src/vcal_folder.c

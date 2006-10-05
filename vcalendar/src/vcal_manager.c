@@ -1103,7 +1103,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *attendees = NULL;
 	enum icalparameter_partstat status;
 	gchar *prefix = NULL;
-	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;	
+	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;
+	gchar msgid[128];	
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
 
@@ -1186,6 +1187,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	conv_encode_header_full(enc_from, sizeof(enc_from), from, strlen("From: "), 
 			TRUE, conv_get_outgoing_charset_str());
 
+	generate_msgid(msgid, sizeof(msgid));
 	result = g_strdup_printf("%s"
 				"From: %s <%s>\n"
 				"To: <%s>\n"
@@ -1194,7 +1196,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
 				"Content-Transfer-Encoding: 8bit\n"
-				"In-Reply-To: <%s>\n",
+				"%s: <%s>\n",
 				queue_headers,
 				enc_from,
 				is_reply ? account->address:event->organizer,
@@ -1204,7 +1206,10 @@ static gchar *write_headers(PrefsAccount 	*account,
 				date,
 				method_str,
 				CS_UTF_8,
-				event_to_today_str(event, 0));
+				is_pseudo_display?
+					"In-Reply-To":"Message-ID",
+				is_pseudo_display?
+					event_to_today_str(event, 0):msgid);
 	
 	g_free(save_folder);
 	g_free(queue_headers);
