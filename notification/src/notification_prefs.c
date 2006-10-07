@@ -29,6 +29,7 @@
 #include "notification_prefs.h"
 #include "notification_plugin.h"
 #include "notification_popup.h"
+#include "notification_command.h"
 #include "notification_foldercheck.h"
 
 
@@ -82,8 +83,10 @@ typedef struct {
   PrefsPage page;
   GtkWidget *command_enabled;
   GtkWidget *command_timeout;
+  GtkWidget *command_folder_specific;
   GtkWidget *command_line;
   GtkWidget *command_cont_enable;
+  GtkWidget *command_cont_folder_specific;
 } NotifyCommandPage;
 NotifyCommandPage command_page;
 #endif /* NOTIFICATION_COMMAND */
@@ -139,6 +142,8 @@ PrefParam notify_param[] = {
    NULL, NULL, NULL},
   {"command_timeout", "60000", &notify_config.command_timeout, P_INT,
    NULL, NULL, NULL},
+  {"command_folder_specific", "FALSE", &notify_config.command_folder_specific,
+   P_BOOL, NULL, NULL, NULL},
   {"command_line", "", &notify_config.command_line, P_STRING,
    NULL, NULL, NULL},
 #endif
@@ -179,6 +184,8 @@ static void notify_create_command_page(PrefsPage*, GtkWindow*, gpointer);
 static void notify_destroy_command_page(PrefsPage*);
 static void notify_save_command(PrefsPage*);
 static void notify_command_enable_set_sensitivity(GtkToggleButton*, gpointer);
+static void notify_command_folder_specific_set_sensitivity(GtkToggleButton*,
+							   gpointer);
 #endif
 
 static gint conv_color_to_int(GdkColor*);
@@ -795,6 +802,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   GtkWidget *spinner;
   GtkWidget *entry;
   GtkWidget *label;
+  GtkWidget *button;
   gdouble timeout;
 
   pvbox = gtk_vbox_new(FALSE, 20);
@@ -847,9 +855,31 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(hbox);
   command_page.command_timeout = spinner;
 
+  /* Check box for enabling folder specific selection */
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  checkbox = gtk_check_button_new_with_label("Only include selected folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.command_folder_specific);
+  gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_command_folder_specific_set_sensitivity),
+		   NULL);
+  gtk_widget_show(checkbox);
+  command_page.command_folder_specific = checkbox;
+  button = gtk_button_new_with_label("Select folders...");
+  g_signal_connect(G_OBJECT(button), "clicked",
+		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
+		   COMMAND_SPECIFIC_FOLDER_ID_STR);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  command_page.command_cont_folder_specific = button;
+  gtk_widget_show(button);
+  gtk_widget_show(hbox);
 
   notify_command_enable_set_sensitivity
     (GTK_TOGGLE_BUTTON(command_page.command_enabled), NULL);
+  notify_command_folder_specific_set_sensitivity
+    (GTK_TOGGLE_BUTTON(command_page.command_folder_specific), NULL);
   gtk_widget_show(pvbox);
   command_page.page.widget = pvbox;
 }
@@ -870,6 +900,9 @@ static void notify_save_command(PrefsPage *page)
   timeout =
     gtk_spin_button_get_value(GTK_SPIN_BUTTON(command_page.command_timeout));
   notify_config.command_timeout = (gint)floor(timeout*1000+0.5);
+  notify_config.command_folder_specific =
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(command_page.command_folder_specific));
 
   tmp_str = gtk_entry_get_text(GTK_ENTRY(command_page.command_line));
   if(notify_config.command_line)
@@ -884,6 +917,15 @@ static void notify_command_enable_set_sensitivity(GtkToggleButton *button,
   active = gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(command_page.command_enabled));
   gtk_widget_set_sensitive(command_page.command_cont_enable, active);
+}
+
+static void notify_command_folder_specific_set_sensitivity(GtkToggleButton *bu,
+							   gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(command_page.command_folder_specific));
+  gtk_widget_set_sensitive(command_page.command_cont_folder_specific, active);
 }
 #endif /* NOTIFICATION_COMMAND */
 

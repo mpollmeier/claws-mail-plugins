@@ -24,8 +24,10 @@
 
 #include "procmsg.h"
 
+#define COMMAND_SPECIFIC_FOLDER_ID_STR "command"
+
 void notification_command_msg(MsgInfo*);
 
 #endif /* NOTIFICATION_COMMAND */
 
-#endif /* NOTIFICATION_BANNER_H */
+#endif /* include guard */

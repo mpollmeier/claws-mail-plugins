@@ -1,3 +1,12 @@
+2006-10-07 [holger]	0.5cvs1
+
+	* src/notification_command.c
+	* src/notification_command.h
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Expand folder specific settings to
+		the command module.
+
 2006-09-26 [colin]	0.5
 
 	* 0.5 released

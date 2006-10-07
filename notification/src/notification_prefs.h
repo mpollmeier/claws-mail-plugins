@@ -64,6 +64,7 @@ typedef struct {
 #ifdef NOTIFICATION_COMMAND
   gboolean         command_enabled;
   gint             command_timeout;
+  gboolean         command_folder_specific;
   gchar*           command_line;
 #endif
 } NotifyPrefs;

@@ -25,6 +25,7 @@
 #include "folder.h"
 #include "notification_command.h"
 #include "notification_prefs.h"
+#include "notification_foldercheck.h"
 
 typedef struct {
   gboolean blocked;
@@ -43,8 +44,41 @@ void notification_command_msg(MsgInfo *msginfo)
   gsize by_read = 0, by_written = 0;
   FolderType ftype;
 
+  if(!msginfo || !notify_config.command_enabled || !MSG_IS_NEW(msginfo->flags))
+    return;
+
   if(!notify_config.command_enabled || !MSG_IS_NEW(msginfo->flags))
     return;
+
+  if(notify_config.command_folder_specific) {
+    guint id;
+    GSList *list;
+    gchar *identifier;
+    gboolean found = FALSE;
+
+    if(!(msginfo->folder))
+      return;
+
+    identifier = folder_item_get_identifier(msginfo->folder);
+
+    id =
+      notification_register_folder_specific_list(COMMAND_SPECIFIC_FOLDER_ID_STR);
+    list = notification_foldercheck_get_list(id);
+    for(; (list != NULL) && !found; list = g_slist_next(list)) {
+      gchar *list_identifier;
+      FolderItem *list_item = (FolderItem*) list->data;
+      
+      list_identifier = folder_item_get_identifier(list_item);
+      if(!strcmp2(list_identifier, identifier))
+	found = TRUE;
+
+      g_free(list_identifier);
+    }
+    g_free(identifier);
+    
+    if(!found)
+      return;
+  } /* folder specific */
 
   ftype = msginfo->folder->folder->klass->type;
   /* For now, ignore F_UNKNOWN and F_NEWS */
