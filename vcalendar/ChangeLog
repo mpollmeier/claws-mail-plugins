@@ -1,3 +1,10 @@
+2006-10-10 [paul]	1.89.1cvs7
+
+	* src/vcal_prefs.c
+		fix sensitivity issues (thanks to Colin)
+		give the frames some space around the edges
+		rewrite some of the English
+
 2006-10-05 [colin]	1.89.1cvs6
 
 	* src/vcal_manager.c

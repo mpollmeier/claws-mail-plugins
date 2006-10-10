@@ -133,6 +133,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	vbox3 = gtk_vbox_new (FALSE, 8);
 	gtk_widget_show (vbox3);
 	gtk_container_add (GTK_CONTAINER (frame_alert), vbox3);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox3), VBOX_BORDER);
 	hbox1 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox1);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox1, TRUE, TRUE, 0);
@@ -165,6 +166,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	vbox3 = gtk_vbox_new (FALSE, 8);
 	gtk_widget_show (vbox3);
 	gtk_container_add (GTK_CONTAINER (frame_export), vbox3);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox3), VBOX_BORDER);
 	hbox2 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox2);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
@@ -178,7 +180,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX(hbox2), export_path_entry, TRUE, TRUE, 0);
 	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_path_entry);
 	gtk_tooltips_set_tip(tooltips, export_enable_checkbtn, 
-			    _("You can export to a local file or an URL"),
+			    _("You can export to a local file or URL"),
 			     NULL);
 	gtk_tooltips_set_tip(tooltips, export_path_entry, 
 			    _("Specify a local file or URL "
@@ -203,10 +205,12 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	export_command_label = gtk_label_new(_("Command to run after calendar export"));
 	gtk_widget_show(export_command_label);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_command_label, FALSE, FALSE, 0);
+	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_command_label);
 
 	export_command_entry = gtk_entry_new();
 	gtk_widget_show(export_command_entry);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_command_entry, TRUE, TRUE, 0);
+	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_command_entry);
 
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_enable_checkbtn), 
@@ -226,16 +230,17 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 
 /* freebusy export */
 /* export enable + path stuff */
-	PACK_FRAME(vbox2, frame_freebusy_export, _("Free/busy informations"));
+	PACK_FRAME(vbox2, frame_freebusy_export, _("Free/Busy information"));
 	vbox3 = gtk_vbox_new (FALSE, 8);
 	gtk_widget_show (vbox3);
 	gtk_container_add (GTK_CONTAINER (frame_freebusy_export), vbox3);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox3), VBOX_BORDER);
 	hbox2 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox2);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
 	export_freebusy_enable_checkbtn = gtk_check_button_new_with_label(
-		_("Automatically export free/busy to "));
+		_("Automatically export free/busy status to "));
 	gtk_widget_show(export_freebusy_enable_checkbtn);
 	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_enable_checkbtn, FALSE, FALSE, 0);
 
@@ -244,7 +249,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX(hbox2), export_freebusy_path_entry, TRUE, TRUE, 0);
 	SET_TOGGLE_SENSITIVITY(export_freebusy_enable_checkbtn, export_freebusy_path_entry);
 	gtk_tooltips_set_tip(tooltips, export_freebusy_enable_checkbtn, 
-			    _("You can export to a local file or an URL"),
+			    _("You can export to a local file or URL"),
 			     NULL);
 	gtk_tooltips_set_tip(tooltips, export_freebusy_path_entry, 
 			    _("Specify a local file or URL "
@@ -256,14 +261,14 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (hbox3);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
 
-	export_freebusy_command_label = gtk_label_new(_("Command to run after free/busy export"));
+	export_freebusy_command_label = gtk_label_new(_("Command to run after free/busy status export"));
 	gtk_widget_show(export_freebusy_command_label);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_freebusy_command_label, FALSE, FALSE, 0);
-
+	SET_TOGGLE_SENSITIVITY(export_freebusy_enable_checkbtn, export_freebusy_command_label);
 	export_freebusy_command_entry = gtk_entry_new();
 	gtk_widget_show(export_freebusy_command_entry);
 	gtk_box_pack_start(GTK_BOX (hbox3), export_freebusy_command_entry, TRUE, TRUE, 0);
-
+	SET_TOGGLE_SENSITIVITY(export_freebusy_enable_checkbtn, export_freebusy_command_entry);
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(export_freebusy_enable_checkbtn), 
 			vcalprefs.export_freebusy_enable);
@@ -283,7 +288,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
 	freebusy_get_url_label = gtk_label_new(
-		_("Get free/busy for others on "));
+		_("Get free/busy status of others from "));
 	gtk_widget_show(freebusy_get_url_label);
 	gtk_box_pack_start(GTK_BOX (hbox2), freebusy_get_url_label, FALSE, FALSE, 0);
 
