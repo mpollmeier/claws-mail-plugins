@@ -42,6 +42,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#include "procheader.h"
+
 /* converts a ISO 8601 time string to a time_t value */
 time_t parseISO8601Date(gchar *date) {
 	struct tm	tm;
@@ -118,101 +120,4 @@ gchar *createRFC822Date(const time_t *time) {
 	tm = gmtime(time); /* No need to free because it is statically allocated */
 	return g_strdup_printf("%s, %2d %s %4d %02d:%02d:%02d GMT", dayofweek[tm->tm_wday], tm->tm_mday,
 					   months[tm->tm_mon], 1900 + tm->tm_year, tm->tm_hour, tm->tm_min, tm->tm_sec);
-}
-
-/* this table of RFC822 timezones is from gmime-utils.c of the gmime API */
-static struct {
-	char *name;
-	int offset;
-} tz_offsets [] = {
-	{ "UT", 0 },
-	{ "GMT", 0 },
-	{ "EST", -500 },        /* these are all US timezones.  bloody yanks */
-	{ "EDT", -400 },
-	{ "CST", -600 },
-	{ "CDT", -500 },
-	{ "MST", -700 },
-	{ "MDT", -600 },
-	{ "PST", -800 },
-	{ "PDT", -700 },
-	{ "Z", 0 },
-	{ "A", -100 },
-	{ "M", -1200 },
-	{ "N", 100 },
-	{ "Y", 1200 }
-};
-/** @returns timezone offset in seconds */
-static time_t common_parse_rfc822_tz(char *token) {
-	int offset = 0;
-	const char *inptr = token;
-	
-	if (*inptr == '+' || *inptr == '-') {
-		offset = atoi (inptr);
-	} else {
-		int t;
-
-		if (*inptr == '(')
-			inptr++;
-
-		for (t = 0; t < 15; t++)
-			if (!strncmp (inptr, tz_offsets[t].name, strlen (tz_offsets[t].name)))
-				offset = tz_offsets[t].offset;
-	}
-	
-	return 60 * ((offset / 100) * 60 + (offset % 100));
-}
-
-
-/* converts a RFC822 time string to a time_t value */
-time_t parseRFC822Date(gchar *date) {
-	struct tm	tm;
-	time_t		t, t2;
-	char 		*oldlocale;
-	char		*pos;
-	gboolean	success = FALSE;
-
-	memset(&tm, 0, sizeof(struct tm));
-
-	/* we expect at least something like "03 Dec 12 01:38:34" 
-	   and don't require a day of week or the timezone
-
-	   the most specific format we expect:  "Fri, 03 Dec 12 01:38:34 CET"
-	 */
-	/* skip day of week */
-	if(NULL != (pos = g_utf8_strchr(date, -1, ',')))
-		date = ++pos;
-
-	/* we expect English month names, so we set the locale */
-	oldlocale = g_strdup(setlocale(LC_TIME, NULL));
-	setlocale(LC_TIME, "C");
-	
-	/* standard format with 4 digit year */
-	if(NULL != (pos = strptime((const char *)date, " %d %b %Y %T", &tm)))
-		success = TRUE;
-	/* non-standard format with 2 digit year */
-	else if(NULL != (pos = strptime((const char *)date, " %d %b %y %T", &tm)))
-		success = TRUE;
-	
-	while(pos != NULL && *pos != '\0' && isspace((int)*pos))       /* skip whitespaces before timezone */
-		pos++;
-	
-	if(NULL != oldlocale) {
-		setlocale(LC_TIME, oldlocale);	/* and reset it again */
-		g_free(oldlocale);
-	}
-	
-	if(TRUE == success) {
-		if((time_t)(-1) != (t = mktime(&tm))) {
-			/* GMT time, with no daylight savings time
-			   correction. (Usually, there is no daylight savings
-			   time since the input is GMT.) */
-			t = t - common_parse_rfc822_tz(pos);
-			t2 = mktime(gmtime(&t));
-			t = t - (t2 - t);
-			return t;
-		} else
-			g_warning("internal error! time conversion error! mktime failed!\n");
-	}
-	
-	return 0;
 }

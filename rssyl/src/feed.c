@@ -413,7 +413,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 		   } else {
 			   node = result->nodesetval->nodeTab[0];
 			   content = xmlNodeGetContent(node);
-			   pub_date = parseRFC822Date(content);
+			   pub_date = procheader_date_parse(NULL, content, 0);
 			   debug_print("RSSyl: XML - pubDate is '%s'\n", content);
 				 xmlFree(content);
 			 }
@@ -664,7 +664,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Date */
 				if( !strcmp(line[0], "Date") ) {
-					fitem->date = parseRFC822Date(line[1]);
+					fitem->date = procheader_date_parse(NULL, line[1], 0);
 					debug_print("RSSyl: got date \n" );
 				}
 

@@ -33,6 +33,7 @@
 #include "feed.h"
 #include "strreplace.h"
 #include "utils.h"
+#include "procheader.h"
 
 gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
@@ -90,7 +91,7 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				/* Date - rfc822 format */
 				if( !xmlStrcmp(n->name, "pubDate") ) {
 					content = xmlNodeGetContent(n);
-					fitem->date = parseRFC822Date(content);
+					fitem->date = procheader_date_parse(NULL, content, 0);
 					xmlFree(content);
 					if( fitem->date > 0 ) {
 						debug_print("RSSyl: XML - RDF date found\n" );
@@ -228,7 +229,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* Date - rfc822 format */
 			if( !strcmp(n->name, "pubDate") ) {
 				content = xmlNodeGetContent(n);
-				fitem->date = parseRFC822Date(content);
+				fitem->date = procheader_date_parse(NULL, content, 0);
 				xmlFree(content);
 				if( fitem->date > 0 ) {
 					debug_print("RSSyl: XML - item date found\n" );

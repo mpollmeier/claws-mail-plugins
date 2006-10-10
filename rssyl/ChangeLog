@@ -1,3 +1,12 @@
+2006-10-10 [colin]	0.6.1cvs5
+
+	* src/date.c
+	* src/date.h
+	* src/feed.c
+	* src/parsers.c
+		Get rid of parseRFC822Date() (from liferea, slow)
+		and use procheader_date_parse() instead.
+
 2006-10-05 [ticho]	0.6.1cvs4
 
 	* src/feed.c
