@@ -46,6 +46,7 @@
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
 static gboolean my_msginfo_update_hook(gpointer, gpointer);
+static gboolean notify_include_folder_type(FolderType, gchar*);
 
 static guint hook_f_item;
 static guint hook_m_info;
@@ -58,8 +59,16 @@ static GSList* banner_collected_msgs;
 static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
 {
   FolderItemUpdateData *update_data = source;
+  FolderType ftype;
+  gchar *uistr;
 
   g_return_val_if_fail(source != NULL, FALSE);  
+
+  /* Check if the folder types is to be notified about */
+  ftype = update_data->item->folder->klass->type;
+  uistr = update_data->item->folder->klass->uistr;
+  if(!notify_include_folder_type(ftype, uistr))
+    return FALSE;
 
   if(update_data->update_flags & F_ITEM_UPDATE_MSGCNT) {
 #if NOTIFICATION_BANNER
@@ -84,18 +93,18 @@ gint plugin_init(gchar **error)
   /* Version check */
   if(sylpheed_get_version() > VERSION_NUMERIC) {
     *error = g_strdup("Your Sylpheed-Claws version is newer than the version "
-		      "the notification plugin was built with");
+		      "the Notification plugin was built with");
     return -1;
   }
   if(sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 15, 94)) {
     *error = g_strdup("Your Sylpheed-Claws version is too old for the "
-		      "notification plugin");
+		      "Notification plugin");
     return -1;
   }
 
   /* Check if threading is enabled */
   if(!g_thread_supported()) {
-    *error = g_strdup("The notification plugin needs threading support.");
+    *error = g_strdup("The Notification plugin needs threading support.");
     return -1;
   }
 
@@ -103,7 +112,7 @@ gint plugin_init(gchar **error)
 				    my_folder_item_update_hook, NULL);
   if(hook_f_item == (guint) -1) {
     *error = g_strdup("Failed to register folder item update hook in the "
-		      "notification plugin");
+		      "Notification plugin");
     return -1;
   }
 
@@ -111,7 +120,7 @@ gint plugin_init(gchar **error)
 				    my_msginfo_update_hook, NULL);
   if(hook_m_info == (guint) -1) {
     *error = g_strdup("Failed to register msginfo update hook in the "
-		      "notification plugin");
+		      "Notification plugin");
     hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
     return -1;
   }
@@ -200,6 +209,44 @@ struct PluginFeature *plugin_provides(void)
     { {PLUGIN_NOTIFIER, "Various tools"},
       {PLUGIN_NOTHING, NULL}};
   return features;
+}
+
+static gboolean notify_include_folder_type(FolderType ftype, gchar *uistr)
+{
+  gboolean retval;
+
+  retval = FALSE;
+  switch(ftype) {
+  case F_MH:
+  case F_MBOX:
+  case F_MAILDIR:
+  case F_IMAP:
+    if(notify_config.include_mail)
+      retval = TRUE;
+    break;
+  case F_NEWS:
+    if(notify_config.include_news)
+      retval = TRUE;
+    break;
+  case F_UNKNOWN:
+    if(uistr == NULL)
+      retval = FALSE;
+    else if(!strcmp(uistr, "vCalendar")) {
+      if(notify_config.include_calendar)
+	retval = TRUE;
+    }
+    else if(!strcmp(uistr, "RSSyl")) {
+      if(notify_config.include_rss)
+	retval = TRUE;
+    }
+    else
+      debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+    break;
+  default:
+    debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+  }
+
+  return retval;
 }
 
 #ifdef NOTIFICATION_BANNER

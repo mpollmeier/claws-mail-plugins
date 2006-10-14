@@ -1,3 +1,15 @@
+2006-10-14 [holger]	0.5cvs2
+
+	* src/notification_command.c
+	* src/notification_core.c
+	* src/notification_plugin.c
+	* src/notification_popup.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Implement global configuration options
+		to include or exclude certain folder types
+		(mail, news, RSS, calendar) from notification.
+
 2006-10-07 [holger]	0.5cvs1
 
 	* src/notification_command.c

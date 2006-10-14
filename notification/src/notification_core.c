@@ -34,13 +34,6 @@ static gboolean notification_traverse_collect(GNode*, gpointer);
 static void     notification_new_unnotified_do_msg(MsgInfo*);
 static gboolean notification_traverse_hash_startup(GNode*, gpointer);
 
-#if 0
-#if defined debug_print
-#undef debug_print
-#define debug_print g_print
-#endif
-#endif
-
 /* Replacement for the post-filtering hook:
    Pseudocode by Colin:
 hook on FOLDER_ITEM_UPDATE_HOOKLIST

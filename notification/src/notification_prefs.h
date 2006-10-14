@@ -35,6 +35,10 @@ typedef enum {
 #endif
 
 typedef struct {
+  gboolean         include_mail;
+  gboolean         include_news;
+  gboolean         include_rss;
+  gboolean         include_calendar;
 #ifdef NOTIFICATION_BANNER
   NotifyBannerShow banner_show;
   gint             banner_speed;

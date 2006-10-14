@@ -81,9 +81,6 @@ void notification_command_msg(MsgInfo *msginfo)
   } /* folder specific */
 
   ftype = msginfo->folder->folder->klass->type;
-  /* For now, ignore F_UNKNOWN and F_NEWS */
-  if(ftype == F_UNKNOWN || ftype == F_NEWS)
-    return;
 
   buf = g_strdup(notify_config.command_line);
 

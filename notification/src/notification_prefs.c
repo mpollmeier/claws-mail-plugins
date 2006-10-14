@@ -1,5 +1,5 @@
 /* Notification Plugin for Sylpheed-Claws
- * Copyright (C) 2005 Holger Berndt
+ * Copyright (C) 2005-2006 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the version 2 of the GNU General Public License
@@ -35,8 +35,11 @@
 
 typedef struct {
   PrefsPage page;
+  GtkWidget *include_mail;
+  GtkWidget *include_news;
+  GtkWidget *include_rss;
+  GtkWidget *include_calendar;
 } NotifyPage;
-
 
 NotifyPrefs notify_config;
 NotifyPage  notify_page;
@@ -92,6 +95,16 @@ NotifyCommandPage command_page;
 #endif /* NOTIFICATION_COMMAND */
 
 PrefParam notify_param[] = {
+
+  {"include_mail", "TRUE", &notify_config.include_mail, P_BOOL, NULL,
+   NULL, NULL},
+  {"include_news", "TRUE", &notify_config.include_news, P_BOOL, NULL,
+   NULL, NULL},
+  {"include_rss", "TRUE", &notify_config.include_rss, P_BOOL, NULL,
+   NULL, NULL},
+  {"include_calendar", "TRUE", &notify_config.include_calendar, P_BOOL, NULL,
+   NULL, NULL},
+
 #ifdef NOTIFICATION_BANNER
   {"banner_show", "0", &notify_config.banner_show, P_INT, NULL, NULL, NULL},
   {"banner_speed", "30", &notify_config.banner_speed, P_INT, NULL, NULL, NULL},
@@ -259,7 +272,7 @@ void notify_gtk_init(void)
 
 void notify_gtk_done(void)
 {
-  if (sylpheed_is_exiting())
+  if(sylpheed_is_exiting())
     return;
   prefs_gtk_unregister_page((PrefsPage*) &notify_page);
 #ifdef NOTIFICATION_BANNER
@@ -278,7 +291,7 @@ void notify_save_config(void)
   PrefFile *pfile;
   gchar *rcpath;
 
-  debug_print("Saving Notification plugin configuration...");
+  debug_print("Saving Notification plugin configuration... ");
 
   rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
   pfile = prefs_write_open(rcpath);
@@ -287,6 +300,7 @@ void notify_save_config(void)
     return;
 
   if(prefs_write_param(notify_param, pfile->fp) < 0) {
+    debug_print("failed!");
     g_warning("\nNotification Plugin: Failed to write plugin configuration "
 	      "to file");
     prefs_file_close_revert(pfile);
@@ -294,16 +308,75 @@ void notify_save_config(void)
   }
   fprintf(pfile->fp, "\n");
   prefs_file_close(pfile);
-  debug_print("done\n");
+  debug_print("done.\n");
 }
 
 static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
 				     gpointer data)
 {
+  GtkWidget *pvbox;
+  GtkWidget *vbox;
+  GtkWidget *checkbox;
+  GtkWidget *frame;
   GtkWidget *label;
-  label = gtk_label_new("Please choose from the submenus");
+
+  /* Page vbox */
+  pvbox = gtk_vbox_new(FALSE, 0);
+
+  /* Frame */
+  frame = gtk_frame_new("Include folder types");
+  gtk_container_set_border_width(GTK_CONTAINER(frame), 10);
+  gtk_box_pack_start(GTK_BOX(pvbox), frame, FALSE, FALSE, 0);
+  
+  /* Frame vbox */
+  vbox = gtk_vbox_new(FALSE, 4);
+  gtk_container_add(GTK_CONTAINER(frame), vbox);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
+
+  /* Include mail folders */
+  checkbox = gtk_check_button_new_with_label("Mail folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.include_mail);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  notify_page.include_mail = checkbox;
+  
+  /* Include news folders */
+  checkbox = gtk_check_button_new_with_label("News folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.include_news);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  notify_page.include_news = checkbox;
+
+  /* Include RSS folders */
+  checkbox = gtk_check_button_new_with_label("RSS folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.include_rss);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  notify_page.include_rss = checkbox;
+
+  /* Include calendar folders */
+  checkbox = gtk_check_button_new_with_label("Calendar folders");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.include_calendar);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  notify_page.include_calendar = checkbox;
+
+  /* Warning-Label */
+  label = gtk_label_new("These settings overwrite folder-specific "
+			"selections.");
+  gtk_misc_set_alignment(GTK_MISC(label),0,0.5);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
   gtk_widget_show(label);
-  page->widget = label;
+
+  /* Done. */
+  gtk_widget_show(frame);
+  gtk_widget_show(vbox);
+  gtk_widget_show(pvbox);
+  page->widget = pvbox;
 }
 
 static void notify_destroy_prefs_page(PrefsPage *page)
@@ -312,6 +385,15 @@ static void notify_destroy_prefs_page(PrefsPage *page)
 
 static void notify_save_prefs(PrefsPage *page)
 {
+  notify_config.include_mail = 
+    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_mail));
+  notify_config.include_news = 
+    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_news));
+  notify_config.include_rss = 
+    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_rss));
+  notify_config.include_calendar = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(notify_page.include_calendar));
 }
 
 #ifdef NOTIFICATION_BANNER

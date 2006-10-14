@@ -168,11 +168,6 @@ void notification_popup_msg(MsgInfo *msginfo)
   ppopup = &(popup[nftype]);
   retval = notification_libnotify_add_msg(msginfo, nftype);
 #else /* !HAVE_LIBNOTIFY */
-  /* Ignore F_UNKNOWN and F_NEWS */
-  if(ftype == F_UNKNOWN || ftype == F_NEWS) {
-    G_UNLOCK(popup);
-    return;
-  }
   ppopup = &popup;
   retval = notification_popup_add_msg(msginfo);
 #endif /* !HAVE_LIBNOTIFY */
