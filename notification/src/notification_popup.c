@@ -335,6 +335,8 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
   if(!ppopup->notification)
     return notification_libnotify_create(msginfo,nftype);
 
+  ppopup->count++;
+
   switch(nftype) {
   case F_TYPE_MAIL:
     summary = "Mail message";
@@ -359,8 +361,6 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
     return FALSE;
     break;
   }
-
-  ppopup->count++;
 
   retval = notify_notification_update(ppopup->notification, summary, 
 				      text, NULL);
