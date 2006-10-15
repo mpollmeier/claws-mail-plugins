@@ -75,7 +75,7 @@ gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate *msg_update)
     if(msg->msgid)
       msgid = msg->msgid;
     else {
-      debug_print("Notification Plugin: Message has not message ID!\n");
+      debug_print("Notification Plugin: Message has no message ID!\n");
       msgid = "";
     }
     
