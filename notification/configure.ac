@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=5
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -61,7 +61,7 @@ AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed.))
 
 dnl Check for libnotify support
-LIBNOTIFY_REQUIRED=0.9.9
+LIBNOTIFY_REQUIRED=9.3.2
 dnl LIBNOTIFY_REQUIRED=0.4.3
 AC_ARG_ENABLE(libnotify,
 	[  --disable-libnotify     do not include libnotify support],

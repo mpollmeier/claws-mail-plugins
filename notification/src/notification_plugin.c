@@ -46,7 +46,6 @@
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
 static gboolean my_msginfo_update_hook(gpointer, gpointer);
-static gboolean notify_include_folder_type(FolderType, gchar*);
 
 static guint hook_f_item;
 static guint hook_m_info;
@@ -209,44 +208,6 @@ struct PluginFeature *plugin_provides(void)
     { {PLUGIN_NOTIFIER, "Various tools"},
       {PLUGIN_NOTHING, NULL}};
   return features;
-}
-
-static gboolean notify_include_folder_type(FolderType ftype, gchar *uistr)
-{
-  gboolean retval;
-
-  retval = FALSE;
-  switch(ftype) {
-  case F_MH:
-  case F_MBOX:
-  case F_MAILDIR:
-  case F_IMAP:
-    if(notify_config.include_mail)
-      retval = TRUE;
-    break;
-  case F_NEWS:
-    if(notify_config.include_news)
-      retval = TRUE;
-    break;
-  case F_UNKNOWN:
-    if(uistr == NULL)
-      retval = FALSE;
-    else if(!strcmp(uistr, "vCalendar")) {
-      if(notify_config.include_calendar)
-	retval = TRUE;
-    }
-    else if(!strcmp(uistr, "RSSyl")) {
-      if(notify_config.include_rss)
-	retval = TRUE;
-    }
-    else
-      debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
-    break;
-  default:
-    debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
-  }
-
-  return retval;
 }
 
 #ifdef NOTIFICATION_BANNER

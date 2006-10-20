@@ -32,9 +32,13 @@ typedef struct {
 GSList*  notification_collect_msgs(gboolean, GSList*);
 void     notification_collected_msgs_free(GSList*);
 
+/* New mail notification */
 void     notification_new_unnotified_msgs(FolderItemUpdateData*);
 void     notification_notified_hash_free(void);
 gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);
 void     notification_notified_hash_startup_init(void);
+
+/* folder type specific settings */
+gboolean notify_include_folder_type(FolderType, gchar*);
 
 #endif /* NOTIFICATION_CORE_H */

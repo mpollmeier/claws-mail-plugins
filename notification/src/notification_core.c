@@ -19,6 +19,7 @@
 
 #include "folder.h"
 
+#include "notification_prefs.h"
 #include "notification_core.h"
 #include "notification_banner.h"
 #include "notification_popup.h"
@@ -259,6 +260,11 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
   FolderItem *item = node->data;
   gchar *folder_id_cur;
 
+  /* Obey global folder type limitations */
+  if(!notify_include_folder_type(item->folder->klass->type,
+				 item->folder->klass->uistr))
+    return FALSE;
+
   /* If a folder_items list was given, check it first */
   if((cdata->folder_items) && (item->path != NULL) &&
      ((folder_id_cur  = folder_item_get_identifier(item)) != NULL)) {
@@ -267,6 +273,8 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
     gchar *folder_id_list;
     gboolean eq;
     gboolean folder_in_list = FALSE;
+
+    
 
     for(walk = cdata->folder_items; walk != NULL; walk = g_slist_next(walk)) {
       list_item = walk->data;
@@ -305,4 +313,42 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
   }
 
   return FALSE;
+}
+
+gboolean notify_include_folder_type(FolderType ftype, gchar *uistr)
+{
+  gboolean retval;
+
+  retval = FALSE;
+  switch(ftype) {
+  case F_MH:
+  case F_MBOX:
+  case F_MAILDIR:
+  case F_IMAP:
+    if(notify_config.include_mail)
+      retval = TRUE;
+    break;
+  case F_NEWS:
+    if(notify_config.include_news)
+      retval = TRUE;
+    break;
+  case F_UNKNOWN:
+    if(uistr == NULL)
+      retval = FALSE;
+    else if(!strcmp(uistr, "vCalendar")) {
+      if(notify_config.include_calendar)
+	retval = TRUE;
+    }
+    else if(!strcmp(uistr, "RSSyl")) {
+      if(notify_config.include_rss)
+	retval = TRUE;
+    }
+    else
+      debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+    break;
+  default:
+    debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
+  }
+
+  return retval;
 }
