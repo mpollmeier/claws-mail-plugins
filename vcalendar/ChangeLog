@@ -1,3 +1,11 @@
+2006-10-25 [paul]	1.89.1cvs8
+
+	* libical/design-data/parameters.csv
+	* libical/libical/icalyacc.y
+		Add support for the CHARSET parameter
+		Fixes crashes when the SUMMARY property
+		has a CHARSET parameter
+
 2006-10-10 [paul]	1.89.1cvs7
 
 	* src/vcal_prefs.c

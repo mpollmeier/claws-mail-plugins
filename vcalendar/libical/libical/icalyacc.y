@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.1.2.1 2005-07-04 17:06:58 colinleroy Exp $
+  $Id: icalyacc.y,v 1.1.2.2 2006-10-25 10:48:10 colinler Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -168,6 +168,7 @@ int yylex(void); /* Or this. */
 
 %token ALTREP CN CUTYPE DAYLIGHT DIR ENCODING EVENT FBTYPE FMTTYPE LANGUAGE 
 %token MEMBER PARTSTAT RANGE RELATED RELTYPE ROLE RSVP SENTBY STANDARD URI
+%token CHARSET
 
 %token TIME_CHAR UTC_CHAR
 
