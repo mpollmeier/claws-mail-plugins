@@ -1,3 +1,9 @@
+2006-10-31 [colin]	0.11.0cvs2
+
+	* src/gtkhtml2_viewer.c
+		Fix bug 1047, 'CURLOPT_MUTE removed in
+		libcurl 7.16.0' (it was deprecated)
+
 2006-09-25 [colin]	0.11.0cvs1
 
 	* src/gtkhtml2_viewer.c
