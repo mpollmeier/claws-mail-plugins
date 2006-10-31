@@ -1,3 +1,9 @@
+2006-10-31 [colin]	0.6.1cvs6
+
+	* src/feed.c
+		Fix bug 1047, 'CURLOPT_MUTE removed in
+		libcurl 7.16.0' (it was deprecated)
+
 2006-10-10 [colin]	0.6.1cvs5
 
 	* src/date.c

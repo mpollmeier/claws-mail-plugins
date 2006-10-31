@@ -47,3 +47,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_prefs.c;  ) > 0.6.1cvs3.patchset
 ( cvs diff -u -r 1.1.2.54 -r 1.1.2.55 src/feed.c;  ) > 0.6.1cvs4.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/date.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/date.h;  cvs diff -u -r 1.1.2.55 -r 1.1.2.56 src/feed.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/parsers.c;  ) > 0.6.1cvs5.patchset
+( cvs diff -u -r 1.1.2.56 -r 1.1.2.57 src/feed.c;  ) > 0.6.1cvs6.patchset
