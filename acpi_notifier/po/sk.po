@@ -1,20 +1,24 @@
-# translation of Acpi notifier plugin to Slovak
+# translation of acpi_notifier-sk.po to Slovak
+# Slovak translations for acpi_notifier package
+# Slovenské preklady pre balík acpi_notifier.
 # Copyright (C) 2006 Colin Leroy
 # This file is distributed under the same license as the acpi_notifier package.
+#
+#  <andrej@kacian.sk>, 2006.
 # Andrej Kacian <andrej@kacian.sk>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: Acpi notifier\n"
+"Project-Id-Version: acpi_notifier-sk\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-18 09:20+0100\n"
-"PO-Revision-Date: 2006-09-20 15:54+0200\n"
+"POT-Creation-Date: 2006-10-30 07:59+0000\n"
+"PO-Revision-Date: 2006-11-05 23:03+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/acpi_notifier.c:62
 msgid ""
@@ -120,7 +124,7 @@ msgstr ""
 
 #: src/acpi_notifier.c:795
 msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
-msgstr "Verzia Vašej inštalácie Sylpheed-Claws je príliš zastaralá pre Acpi Oznamovač"
+msgstr "Verzia Vašej inštalácie Sylpheed-Claws je príliš stará pre Acpi Oznamovač"
 
 #: src/acpi_notifier.c:809
 msgid "Acpi notifier"
@@ -132,5 +136,5 @@ msgstr "Tento plugin oznamuje stav pošty cez rôzne ACPI LED diódy."
 
 #: src/acpi_notifier.c:835
 msgid "Laptop LED"
-msgstr "LED diódy laptopu"
+msgstr "LED dióda laptopu"
 
