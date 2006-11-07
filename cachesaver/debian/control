@@ -1,14 +1,14 @@
-Source: sylpheed-claws-cachesaver-plugin
+Source: claws-mail-cachesaver-plugin
 Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (=2.0.0-ubuntu1-1), libgtk2.0-dev
+Build-Depends: debhelper (>= 4.0.0), libclaws-mail-dev (=2.0.0-ubuntu1-1), libgtk2.0-dev
 Standards-Version: 3.6.1
 
-Package: sylpheed-claws-cachesaver-plugin
+Package: claws-mail-cachesaver-plugin
 Architecture: any
-Depends: ${shlibs:Depends}, sylpheed-claws (=2.0.0-ubuntu1-1)
-Conflicts: sylpheed-claws (>= 2.0.1)
-Recommends: sylpheed-claws-plugins
-Description: This plugin saves Sylpheed-Claws caches every so often.
+Depends: ${shlibs:Depends}, claws-mail (=2.0.0-ubuntu1-1)
+Conflicts: claws-mail (>= 2.0.1)
+Recommends: claws-mail-plugins
+Description: This plugin saves Claws Mail caches every so often.

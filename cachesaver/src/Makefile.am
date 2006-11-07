@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = cachesaver.la
 
@@ -11,6 +11,6 @@ cachesaver_la_LDFLAGS = \
 	-avoid-version -module
 
 cachesaver_la_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
