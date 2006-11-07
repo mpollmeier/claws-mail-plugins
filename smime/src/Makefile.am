@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = smime.la
 plugin_DATA = smime.deps
@@ -21,7 +21,7 @@ INCLUDES = \
 	-I$(sylpheed_dir)/src/gtk
 
 AM_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GPGME_CFLAGS)
