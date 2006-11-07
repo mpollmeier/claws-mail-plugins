@@ -3,7 +3,7 @@ The building process should follow the usual
  make
  make install
 procedure. The plugin gets installed into
-/usr/local/lib/sylpheed-claws/plugins/
+/usr/local/lib/claws-mail/plugins/
 
 If the building process fails, consult `perlembed' from the Perl
 documentation, section `Compiling your C program' (yes, that is

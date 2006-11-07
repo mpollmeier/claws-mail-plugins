@@ -1,3 +1,24 @@
+2006-11-07 [paul]	0.9.5cvs1
+
+	* ChangeLog
+	* INSTALL
+	* NEWS
+	* configure.ac
+	* sc_perl.pod
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/files
+	* debian/rules
+	* src/Makefile.am
+	* src/perl_gtk.c
+	* src/perl_gtk.h
+	* src/perl_plugin.c
+	* src/perl_plugin.h
+	* tools/matcherrc2perlfilter.pl
+		Name change
+
 2006-09-25 [paul]	0.9.5
 
 	0.9.5 released
@@ -15,7 +36,7 @@
 2006-09-22 [ticho]	0.9.4cvs9
 
 	* configure.ac
-		Update required sylpheed-claws version to 2.4.0.200.
+		Update required claws-mail version to 2.4.0.200.
 
 2006-09-16 [colin]	0.9.4cvs8
 
@@ -26,7 +47,7 @@
 2006-09-01 [wwp]	0.9.4cvs7
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-27 [wwp]	0.9.4cvs6
@@ -84,10 +105,10 @@
 2006-05-17 [wwp] 0.9.3
 
 	* src/plugin.c
-		Updated sylpheed-claws product name.
+		Updated claws-mail product name.
 
 	* src/tools/matcherrc2perlfilter.pl
-		Updated sylpheed-claws product name (matching this plugin doc).
+		Updated claws-mail product name (matching this plugin doc).
 
 2006-05-07 [holger]	0.9.2
 
@@ -113,7 +134,7 @@
 		Fix access to "References" header (and a few others)
 		Forward and redirect in batch mode
 		Remove double plugin version information
-		Update required Sylpheed-Claws version
+		Update required Claws Mail version
 	* sc_perl.pod
 		Update documentation
 	

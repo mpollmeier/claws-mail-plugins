@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = perl_plugin.la
 
@@ -14,7 +14,7 @@ perl_plugin_la_LIBADD = \
 	$(GTK_LIBS)
 
 AM_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(PERL_CFLAGS)

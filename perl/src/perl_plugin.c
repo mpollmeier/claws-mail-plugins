@@ -1,10 +1,10 @@
 /*
- * perl_plugin -- Perl Support for Sylpheed-Claws
+ * perl_plugin -- Perl Support for Claws Mail
  *
  * Copyright (C) 2004-2005   Holger Berndt
  *
  * Sylpheed is a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Claws Mail Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -2032,12 +2032,12 @@ gint plugin_init(gchar **error)
 
   /* version check */
   if((sylpheed_get_version() > VERSION_NUMERIC)) {
-    *error = g_strdup("Your Sylpheed-Claws version is newer than the version "
+    *error = g_strdup("Your Claws Mail version is newer than the version "
 		      "the Perl plugin was built with");
     return -1;
   }
   if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 81))) {
-    *error = g_strdup("Your Sylpheed-Claws version is too old for the Perl plugin");
+    *error = g_strdup("Your Claws Mail version is too old for the Perl plugin");
     return -1;
   }
 

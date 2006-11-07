@@ -1,12 +1,12 @@
 =head1 NAME
 
-sc_perl -- A Perl Plugin for Sylpheed-Claws
+sc_perl -- A Perl Plugin for Claws Mail
 
 
 =head1 DESCRIPTION
 
 This plugin provides an extended filtering engine for the email
-client Sylpheed-Claws. It allows for the use of full Perl power
+client Claws Mail. It allows for the use of full Perl power
 in email filters.
 
 =head1 QUICK START
@@ -14,7 +14,7 @@ in email filters.
 To get started, you can use the B<matcherrc2perlfilter.pl> script
 in the B<tools>-directory to translate your old filtering rules to
 Perl. Simply execute the script and follow the instructions.
-(note that with recent versions of Sylpheed-Claws, this script might not
+(note that with recent versions of Claws Mail, this script might not
 work due to upstream syntax changes. This will get updated in the
 future. Send me an email if you have problems getting started).
 
@@ -29,15 +29,15 @@ should give you enough information to do fancy stuff.
 =head1 USAGE
 
 The Perl plugin expects a Perl script file called B<perl_filter>
-in Sylpheed-Claws' config directory (usually $HOME/.sylpheed-claws --
-try `sylpheed-claws --config-dir' if you're unsure). If that file
+in Claws Mail' config directory (usually $HOME/.claws-mail --
+try `claws-mail --config-dir' if you're unsure). If that file
 doesn't exist on plugin start, an empty one is created.  This
 file, which doesn't need to start with a sha-bang (!#/bin/perl),
 holds the Perl instructions for your email filters. To encourage
 some good manners, the code is executed in a C<use strict;>
 environment.
 
-Both Sylpheed-Claws' filtering B<conditions> and B<actions> are
+Both Claws Mail' filtering B<conditions> and B<actions> are
 mapped to Perl functions with corresponding names, wherever this
 is possible.
 
@@ -283,7 +283,7 @@ Unmark the message.
 
 =item dele
 
-Delete the message. Note the name change of Sylpheed-Claws'
+Delete the message. Note the name change of Claws Mail'
 "delete" to "dele". This is because "delete" is one of Perl's
 builtin commands which cannot be redefined (if it can, tell me
 how).
@@ -309,7 +309,7 @@ Remove the message lock
 =item move DESTINATION
 
 Move the message to folder DESTINATION. The folder notation is
-the same that Sylpheed-Claws uses. You can copy & paste from the
+the same that Claws Mail uses. You can copy & paste from the
 move dialog of the normal filtering, until you get a feeling for
 the notation.
 
@@ -318,7 +318,7 @@ This is a I<final> rule.
 =item copy DESTINATION
 
 Copy the message to folder DESTINATION. The folder notation is
-the same that Sylpheed-Claws uses. You can copy & paste from the
+the same that Claws Mail uses. You can copy & paste from the
 move dialog of the normal filtering, until you get a feeling for
 the notation.
 
@@ -471,7 +471,7 @@ not test 'spamc -c < %F > /dev/null'
 =item exit
 
 Has been redefined to be an alias to 'stop'. You shouldn't use
-Perl's own 'exit' command, since it would exit Sylpheed-Claws.
+Perl's own 'exit' command, since it would exit Claws Mail.
 
 =item manual
 
@@ -575,7 +575,7 @@ log manual messages, filter actions and filter matches
 
 =back
 
-The messages are logged in Sylpheed-Claws' log window.
+The messages are logged in Claws Mail' log window.
 The default log level is 2. Log level 3 is not
 recommended, because the matcher functions log a message if they
 succeeded, and thus, if you have negative checks, you'll get
@@ -584,14 +584,14 @@ manually, using C<filter_log>, or do it by temporary enabling
 matcher logging using C<filter_log_verbosity>.
 
 The first time you unload this plugin (or shut down
-Sylpheed-Claws), a section called B<[PerlPlugin]> will be created
-in Sylpheed-Claws' configuration file B<sylpheedrc>, containing
+Claws Mail), a section called B<[PerlPlugin]> will be created
+in Claws Mail' configuration file B<sylpheedrc>, containing
 one variable:
 
  * filter_log_verbosity
 
 If you want to change the default behaviour, you can edit this
-line. Make sure Sylpheed-Claws is not running while you do
+line. Make sure Claws Mail is not running while you do
 this.
 
 It will be possible to access these setting via the GUI, as soon
@@ -634,8 +634,8 @@ sure you get the idea..
  # Perl script execution starts here.
  
  # Some specific sorting
- learn_and_move '#mh/mail/MailLists/Sylpheed-Claws/user'
-   if matchcase('sender','sylpheed-claws-users-admin@lists.sourceforge.net');
+ learn_and_move '#mh/mail/MailLists/Claws Mail/user'
+   if matchcase('sender','claws-mail-users-admin@lists.sourceforge.net');
  learn_and_move '#mh/mail/MailLists/Sylpheed'
    if matchcase('list-id','sylpheed.good-day.net');
  
@@ -732,7 +732,7 @@ with this software.
 
 =head1 SEE ALSO
 
-sylpheed-claws(1), perl(1)
+claws-mail(1), perl(1)
 
 
 =head1 AUTHOR
