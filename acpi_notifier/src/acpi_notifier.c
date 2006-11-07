@@ -1,10 +1,10 @@
 /*
- * acpi_notifier -- for Sylpheed-Claws
+ * acpi_notifier -- for Claws Mail
  *
  * Copyright (C) 2005 Colin Leroy <colin@colino.net>
  *
  * Sylpheed is a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Claws Mail Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -787,12 +787,12 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
 	if((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your Sylpheed-Claws version is newer than the "
+		*error = g_strdup(_("Your Claws Mail version is newer than the "
 				  "version AcpiNotifier was built with"));
 		return -1;
 	}
 	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
-		*error = g_strdup(_("Your Sylpheed-Claws version is too old for AcpiNotifier"));
+		*error = g_strdup(_("Your Claws Mail version is too old for AcpiNotifier"));
 		return -1;
 	}
 	acpi_init();

@@ -1,3 +1,19 @@
+2006-11-07 [paul]	1.0.4cvs1
+
+	* ChangeLog
+	* INSTALL
+	* NEWS
+	* configure.ac
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/files
+	* debian/rules
+	* src/Makefile.am
+	* src/acpi_notifier.c
+		Name change
+
 2006-11-07 [paul]	1.0.4
 
 	1.0.4 released
@@ -28,7 +44,7 @@
 2006-09-22 [ticho]	1.0.2cvs10
 
 	* configure.ac
-		Update required sylpheed-claws version to 2.4.0.200.
+		Update required claws-mail version to 2.4.0.200.
 
 2006-09-01 [wwp]	1.0.2cvs9
 
@@ -38,7 +54,7 @@
 2006-09-01 [wwp]	1.0.2cvs8
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-30 [colin]	1.0.2cvs7
