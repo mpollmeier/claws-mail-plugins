@@ -1,10 +1,10 @@
 /*
- * synce_plugin -- SynCE Support for Sylpheed-Claws
+ * synce_plugin -- SynCE Support for Claws Mail
  *
  * Copyright (C) 2005   Holger Berndt
  *
  * Sylpheed is a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Claws Mail Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

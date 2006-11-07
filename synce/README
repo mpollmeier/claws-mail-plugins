@@ -1,4 +1,4 @@
-SynCE Plugin for Sylpheed-Claws
+SynCE Plugin for Claws Mail
 ===============================
 
 This plugin assists in keeping the addressbook of a Windows CE
@@ -51,7 +51,7 @@ warn_double_addresses_wince
 		Same as above with email addresses on the WinCE
 		device.
 
-Note that Sylpheed-Claws must not be running while this file is
+Note that Claws Mail must not be running while this file is
 edited.
 
 The plugin depends on the libraries libsynce and librapi2, both part of
