@@ -1,0 +1,5 @@
+This Claws Mail plugin handles the vCalendar format (or rather, the 
+meeting subset of it). It displays such mails in a nice format, lets you
+create and send meetings, and creates a virtual folder with the meetings you
+sent or received.
+This is a GTK2 plugin.

@@ -1,6 +1,6 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2005 Hiroyuki Yamamoto & the Sylpheed-Claws team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto & the Claws Mail team
  * This file (C) 2004-2005 Colin Leroy <colin@colino.net>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1181,7 +1181,7 @@ void *url_read_thread(void *data)
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
 #endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
-		"Sylpheed-Claws vCalendar plugin "
+		"Claws Mail vCalendar plugin "
 		"(http://claws.sylpheed.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
 	res = curl_easy_perform(curl_ctx);
@@ -1306,7 +1306,7 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
 #endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
-		"Sylpheed-Claws vCalendar plugin "
+		"Claws Mail vCalendar plugin "
 		"(http://claws.sylpheed.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
 	res = curl_easy_perform(curl_ctx);
@@ -1474,7 +1474,7 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 	if (prefs_common.work_offline) {
 		if (!verbose || 
 		!inc_offline_should_override(
-		   _("Sylpheed-Claws needs network access in order "
+		   _("Claws Mail needs network access in order "
 		     "to update the Webcal feed.")))
 			return;
 	}
@@ -1488,7 +1488,7 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
 	if (prefs_common.work_offline && 
-	    !inc_offline_should_override(_("Sylpheed-Claws needs network access in order "
+	    !inc_offline_should_override(_("Claws Mail needs network access in order "
 		     "to update the subscription.")))
 		return;
 

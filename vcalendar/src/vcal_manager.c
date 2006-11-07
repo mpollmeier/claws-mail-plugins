@@ -1,6 +1,6 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Sylpheed-Claws team
+ * Copyright (C) 1999-2004 Hiroyuki Yamamoto & the Claws Mail team
  * This file (C) 2004 Colin Leroy <colin@colino.net>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -324,7 +324,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
         		    ICAL_VCALENDAR_COMPONENT,
 	        	    icalproperty_new_version("2.0"),
         		    icalproperty_new_prodid(
-                		 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
+                		 "-//Claws Mail//NONSGML Claws Mail Calendar//EN"),
 			    icalproperty_new_calscale("GREGORIAN"),
 			    icalproperty_new_method(is_reply ? ICAL_METHOD_REPLY:event->method),
         		    0
@@ -675,7 +675,7 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
         		    ICAL_VCALENDAR_COMPONENT,
 	        	    icalproperty_new_version("2.0"),
         		    icalproperty_new_prodid(
-                		 "-//Sylpheed-Claws//NONSGML Sylpheed-Claws Calendar//EN"),
+                		 "-//Claws Mail//NONSGML Claws Mail Calendar//EN"),
 			    icalproperty_new_calscale("GREGORIAN"),
 			    icalproperty_new_method(ICAL_METHOD_PUBLISH),
         		    0

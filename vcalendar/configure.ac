@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=90
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -26,7 +26,7 @@ else
 fi
 
 AC_DEFINE_UNQUOTED(CALVERSION, "$PLUGINVERSION", [plugin version])
-AC_DEFINE_UNQUOTED(CALPACKAGE, "Sylpheed-Claws vCalendar", [package])
+AC_DEFINE_UNQUOTED(CALPACKAGE, "Claws Mail vCalendar", [package])
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
@@ -49,18 +49,18 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 #
-# Check for sylpheed-claws
+# Check for claws-mail
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.5.2.42)
-AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
-AC_SUBST(SYLPHEED_CLAWS_LIBS)
+PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 2.5.2.42)
+AC_SUBST(CLAWS_MAIL_CFLAGS)
+AC_SUBST(CLAWS_MAIL_LIBS)
 if test -z $prefix || test "${prefix}" == "NONE" ; then
-  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
-  SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+  prefix=$( $PKG_CONFIG --variable=prefix claws-mail )
+  CLAWS_MAIL_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir claws-mail )
 else
-  SYLPHEED_CLAWS_PLUGINDIR='${libdir}/sylpheed-claws/plugins'
+  CLAWS_MAIL_PLUGINDIR='${libdir}/claws-mail/plugins'
 fi
-AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
+AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
 ALL_LINGUAS="de es fi fr it pt_BR sk sr zh_CN pl"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])

@@ -56,9 +56,9 @@ install: build
 	dh_clean -k 
 	dh_installdirs
 
-	# Add here commands to install the package into debian/sylpheed-claws-vcalendar-plugin.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/sylpheed-claws-vcalendar-plugin
-	rm -f $(CURDIR)/debian/sylpheed-claws-vcalendar-plugin/usr/lib/sylpheed-claws/plugins/*.*a
+	# Add here commands to install the package into debian/claws-mail-vcalendar-plugin.
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/claws-mail-vcalendar-plugin
+	rm -f $(CURDIR)/debian/claws-mail-vcalendar-plugin/usr/lib/claws-mail/plugins/*.*a
 
 
 # Build architecture-independent files here.

@@ -37,12 +37,12 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your Sylpheed-Claws version is newer than the version vCalendar was built with."));
+		*error = g_strdup(_("Your Claws Mail version is newer than the version vCalendar was built with."));
 		return -1;
 	}
 
 	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 5, 2, 1))) {
-		*error = g_strdup(_("Your Sylpheed-Claws version is too old for vCalendar."));
+		*error = g_strdup(_("Your Claws Mail version is too old for vCalendar."));
 		return -1;
 	}
 

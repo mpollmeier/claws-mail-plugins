@@ -1,6 +1,6 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2005 Hiroyuki Yamamoto & the Sylpheed-Claws team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto & the Claws Mail team
  * This file (C) 2005 Colin Leroy <colin@colino.net>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -220,7 +220,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	if (vcalprefs.export_path == NULL || *vcalprefs.export_path == '\0')
 		vcalprefs.export_path = g_strconcat(get_rc_dir(), 
 					G_DIR_SEPARATOR_S,
-                                        "sylpheed-claws.ics", NULL);
+                                        "claws-mail.ics", NULL);
 	if (vcalprefs.export_command == NULL)
 		vcalprefs.export_command = g_strdup("");
 	gtk_entry_set_text(GTK_ENTRY(export_path_entry), 
@@ -276,7 +276,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	    *vcalprefs.export_freebusy_path == '\0')
 		vcalprefs.export_freebusy_path = g_strconcat(get_rc_dir(), 
 					G_DIR_SEPARATOR_S,
-                                        "sylpheed-claws.ifb", NULL);
+                                        "claws-mail.ifb", NULL);
 	if (vcalprefs.export_freebusy_command == NULL)
 		vcalprefs.export_freebusy_command = g_strdup("");
 	if (vcalprefs.freebusy_get_url == NULL)

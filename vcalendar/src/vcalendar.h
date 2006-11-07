@@ -18,24 +18,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __VCAL_FOLDER_H__
-#define __VCAL_FOLDER_H__
+#include <ical.h>
+#include "vcal_manager.h"
+#include "prefs_account.h"
+#include "procmime.h"
 
-#include <glib.h>
-#include "folder.h"
+typedef struct _VCalViewer VCalViewer;
 
-extern gboolean manual_update;
-
-FolderClass *vcal_folder_get_class();
-void vcal_folder_gtk_init(void);
-void vcal_folder_gtk_done(void);
-GSList *vcal_folder_get_waiting_events(void);
-GSList *vcal_folder_get_webcal_events(void);
-void vcal_folder_export(void);
-
-gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize);
-gchar *vcal_curl_read(const char *url, gboolean verbose, 
-	void (*callback)(const gchar *url, gchar *data, gboolean verbose, gchar
-		*error));
-gchar* get_item_event_list_for_date(FolderItem *item, EventTime date);
-#endif
+void vcalendar_init(void);
+void vcalendar_done(void);
+void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event);
+gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo);
+void vcalviewer_reload(void);
