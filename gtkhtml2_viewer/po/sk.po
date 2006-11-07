@@ -1,20 +1,20 @@
-# Slovak translation of gtkhtml2 viewer plugin
-# Copyright (C) 2006 Free Software Foundation, Inc.
-# This file is distributed under the same license as the GtkHtml2 Viewer package.
-# Andrej Kacian <andrej@kacian.sk>, 2006.
+# translation of gtkhtml2_viewer-sk.po to Slovak
+# Copyright (C) 2006 Andrej Kacian
+# This file is distributed under the same license as the Sylpheed-Claws package.
 #
+# Andrej Kacian <andrej@kacian.sk>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer-sk\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-18 09:23+0100\n"
-"PO-Revision-Date: 2006-09-20 16:02+0200\n"
+"POT-Creation-Date: 2006-10-30 08:09+0000\n"
+"PO-Revision-Date: 2006-11-05 23:09+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/gtkhtml2_prefs.c:80
@@ -23,80 +23,86 @@ msgstr "Pluginy"
 
 #: src/gtkhtml2_prefs.c:81
 msgid "GtkHtml2 Viewer"
-msgstr "GtkHtmlľ Prehliadač"
+msgstr "HTML Prehliadač GtkHtml2"
 
 #: src/gtkhtml2_prefs.c:128
 msgid "Cache cleared."
-msgstr "Cache vyčistená"
+msgstr "Cache vyčistená."
 
 #: src/gtkhtml2_prefs.c:148
 msgid "Load remote images in mails"
-msgstr "Načítať vzdialené obrázky v správach"
+msgstr "Načítať vzdialené odkazy v správach"
 
 #: src/gtkhtml2_prefs.c:155
 msgid "Cache remote images locally"
-msgstr "Uložiť vzdialené obrázky lokálne"
+msgstr "Ukladať vzdialené obrázky lokálne"
 
 #: src/gtkhtml2_prefs.c:162
 msgid "Clear images cache when quitting"
-msgstr "Vyčistiť uložené obrázky pri ukončení"
+msgstr "Vyčistiť cache pri ukončení"
 
 #: src/gtkhtml2_prefs.c:169
 msgid "Clear image cache now"
-msgstr "Vyčistiť uložené obrázky teraz"
+msgstr "Vyčistiť cache teraz"
 
-#: src/gtkhtml2_viewer.c:532
+#: src/gtkhtml2_viewer.c:90
+msgid "/_Open with Web browser"
+msgstr "/_Otvoriť v prehliadači"
+
+#: src/gtkhtml2_viewer.c:91
+msgid "/Copy this _link"
+msgstr "/_Kopírovať linku"
+
+#: src/gtkhtml2_viewer.c:590
 #, c-format
 msgid "Timeout connecting to %s\n"
-msgstr "Vypršal časový limit pripojenia sa k %s\n"
+msgstr "Vypršal časový limit pri pripájaní sa k %s\n"
 
-#: src/gtkhtml2_viewer.c:600
+#: src/gtkhtml2_viewer.c:658
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
 msgstr ""
-"Správa sa odkazuje na vzdialené obrázky, ktoré ale\n"
-"kvôli nastaveniu neboli načítané."
+"Správa obsahuje vzdialené obrázky, ktoré neboli\n"
+"načítané kvôli nastaveniu pluginu."
 
-#: src/gtkhtml2_viewer.c:602
+#: src/gtkhtml2_viewer.c:660
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
 msgstr ""
-"Správa sa odkazuje na vzdialené obrázky, ktoré ale\n"
-"neboli načítané, lebo pracujete v režime offline."
+"Správa obsahuje vzdialené obrázky, ktoré neboli\n"
+"načítané, pretože pracujete offline."
 
-#: src/gtkhtml2_viewer.c:604
+#: src/gtkhtml2_viewer.c:662
 msgid "Remote images exist, but loading them failed."
-msgstr ""
-"Správa sa odkazuje na vzdialené obrázky, ktoré\n"
-"sa ale nepodarilo načítať"
+msgstr "Správa obsahuje vzdialené obrázky, ktoré sa nepodarilo načítať."
 
-#: src/gtkhtml2_viewer.c:607
+#: src/gtkhtml2_viewer.c:665
 msgid "Load images"
 msgstr "Načítať obrázky"
 
-#: src/gtkhtml2_viewer.c:780
+#: src/gtkhtml2_viewer.c:848
 msgid ""
 "Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer "
 "plugin was built with"
 msgstr ""
-"Vaša verzia Sylpheed-Claws je novšia ako verzia, pre ktorú bol Gtkhtml2 "
-"prehliadač skompilovaný"
+"Vaša verzia Sylpheed-Claws je novšia ako tá, pre ktorú bol plugin "
+"GtkHtml2Viewer skompilovaný"
 
-#: src/gtkhtml2_viewer.c:785
+#: src/gtkhtml2_viewer.c:853
 msgid "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
-msgstr "Vaša verzia Sylpheed-Claws je príliš zastaralá pre Gtkhtml2 prehliadač"
+msgstr "Vaša verzia Sylpheed-Claws je príliš stará pre plugin GtkHtml2Viewer"
 
-#: src/gtkhtml2_viewer.c:822
+#: src/gtkhtml2_viewer.c:890
 msgid "GtkHtml2 HTML Viewer"
-msgstr "GtkHtml2 HTML prehliadač"
+msgstr "Prehliadač HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:827
+#: src/gtkhtml2_viewer.c:895
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
-msgstr "Tento plugin zobrazuje HTML správy pomocou prvku gtkhtml2rendering."
+msgstr "Tento plugin vykresľuje HTML správy pomocou prvku gtkhtml2rendering."
 
-#: src/gtkhtml2_viewer.c:849
+#: src/gtkhtml2_viewer.c:917
 msgid "text/html"
 msgstr "text/html"
 

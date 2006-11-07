@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2006-09-13 17:09+0200\n"
-"PO-Revision-Date: 2006-09-24 12:35-0300\n"
+"PO-Revision-Date: 2006-11-02 21:10-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/gtkhtml2_prefs.c:80
 msgid "Plugins"
@@ -41,12 +41,20 @@ msgstr "Limpar as imagens do cache ao sair"
 msgid "Clear image cache now"
 msgstr "Limpar as imagens do cache agora"
 
-#: src/gtkhtml2_viewer.c:532
+#: src/gtkhtml2_viewer.c:90
+msgid "/_Open with Web browser"
+msgstr "/Abrir com o navegador _web"
+
+#: src/gtkhtml2_viewer.c:91
+msgid "/Copy this _link"
+msgstr "/Copiar esse _link"
+
+#: src/gtkhtml2_viewer.c:590
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Tempo esgotado na conexão com %s\n"
 
-#: src/gtkhtml2_viewer.c:600
+#: src/gtkhtml2_viewer.c:658
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -54,7 +62,7 @@ msgstr ""
 "Existem imagens remotas, mas, como definido\n"
 "em suas preferências, elas não foram carregadas."
 
-#: src/gtkhtml2_viewer.c:602
+#: src/gtkhtml2_viewer.c:660
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -62,33 +70,31 @@ msgstr ""
 "Existem imagens remotas, mas elas não foram\n"
 "carregadas porque você está offline."
 
-#: src/gtkhtml2_viewer.c:604
+#: src/gtkhtml2_viewer.c:662
 msgid "Remote images exist, but loading them failed."
 msgstr "Existem imagens remotas, mas não foi possível carregá-las."
 
-#: src/gtkhtml2_viewer.c:607
+#: src/gtkhtml2_viewer.c:665
 msgid "Load images"
 msgstr "Carregar imagens"
 
-#: src/gtkhtml2_viewer.c:780
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer "
-"plugin was built with"
+#: src/gtkhtml2_viewer.c:848
+msgid "Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer plugin was built with"
 msgstr "A sua versão do Sylpheed-Claws é mais recente do que aquela utilizada para construir o plugin do Gtkhtml2Viewer"
 
-#: src/gtkhtml2_viewer.c:785
+#: src/gtkhtml2_viewer.c:853
 msgid "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
 msgstr "A sua versão do Sylpheed-Claws é muito antiga para o plugin do Gtkhtml2Viewer"
 
-#: src/gtkhtml2_viewer.c:822
+#: src/gtkhtml2_viewer.c:890
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visualizador HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:827
+#: src/gtkhtml2_viewer.c:895
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Esse plugin renderiza mensagens em HTML usando o widget gtkhtml2rendering."
 
-#: src/gtkhtml2_viewer.c:849
+#: src/gtkhtml2_viewer.c:917
 msgid "text/html"
 msgstr "texto/html"
 
