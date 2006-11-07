@@ -1,3 +1,15 @@
+2006-11-07 [paul]	1.89.1cvs9
+
+	* po/de.po
+	* po/fr.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/zh_CN.po
+		updated by Stephan Sachse, Fabien Vantard,
+		Andrea Spadaccini, Frederico Goncalves Guimaraes,
+		Andrej Kacian, and Ralgh Young
+
 2006-10-25 [paul]	1.89.1cvs8
 
 	* libical/design-data/parameters.csv

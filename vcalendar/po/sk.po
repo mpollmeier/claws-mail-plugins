@@ -1,20 +1,20 @@
-# translation of vCalendar plugin to Slovak
-# Copyright (C) 2006 Colin Leroy
-# This file is distributed under the same license as the vCalendar package.
+# translation of vcalendar-sk.po to Slovak
 # Andrej Kacian <andrej@kacian.sk>, 2006.
+# Copyright (C) 2006 Colin Leroy
+# This file is distributed under the same license as the vcalendar package.
 msgid ""
 msgstr ""
 "Project-Id-Version: vcalendar-sk\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-09-18 09:15+0100\n"
-"PO-Revision-Date: 2006-09-20 16:30+0200\n"
+"POT-Creation-Date: 2006-10-30 08:13+0000\n"
+"PO-Revision-Date: 2006-11-05 23:24+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/plugin.c:40
 msgid ""
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Your Sylpheed-Claws version is too old for vCalendar."
 msgstr "Verzia vašej inštalácie Sylpheed-Claws je príliš stará pre plugin vCalendar."
 
-#: src/plugin.c:62 src/vcal_prefs.c:403
+#: src/plugin.c:62 src/vcal_prefs.c:408
 msgid "vCalendar"
 msgstr "vCalendar"
 
@@ -49,19 +49,17 @@ msgid ""
 "information from others."
 msgstr ""
 "Tento plugin umožňuje prácu s vCalendar správami, aké generujú programy "
-"Evolution alebo Outlook.\n"
+"Evolution, alebo Outlook.\n"
 "\n"
 "Po načítaní tohoto pluginu sa vytvorí vo Vašom zozname priečinkov samostatný "
-"priečinok, do ktorého sa budú ukladať stretnutia, ktoré\n"
-"vytvoríte, alebo prijmete.\n"
+"priečinok, do ktorého sa budú ukladať vytvorené, alebo prijaté stretnutia.\n"
 "Pozvania na stretnutia budú zobrazené vo vhodnej forme, a budete ich môcť "
 "prijať, alebo odmietnuť.\n"
 "Pre vytvorenie stretnutia, kliknite pravým tlačítkom na priečinok vCalendar, "
 "alebo Stretnutia, a zvoľte \"Nové stretnutie...\".\n"
 "\n"
-"Budete tiež môcť odoberať vzdialené webCal kanály, exportovať Vaše "
-"stretnutia, alebo celé Vaše kalendáre, publikovať časy vašej dostupnosti, "
-"a získavať tieto časy od iných."
+"Budete tiež môcť odoberať vzdialené webCal kanály, a exportovať Vaše "
+"stretnutia, alebo celé Vaše kalendáre."
 
 #: src/plugin.c:99
 msgid "text/calendar"
@@ -71,41 +69,41 @@ msgstr "text/calendar"
 msgid "Calendar"
 msgstr "Kalendár"
 
-#: src/vcalendar.c:476
+#: src/vcalendar.c:479
 msgid "Accept"
 msgstr "Prijať"
 
-#: src/vcalendar.c:477
+#: src/vcalendar.c:480
 msgid "Tentatively accept"
 msgstr "Nezáväzne prijať"
 
-#: src/vcalendar.c:478
+#: src/vcalendar.c:481
 msgid "Decline"
 msgstr "Odmietnuť"
 
-#: src/vcalendar.c:541
+#: src/vcalendar.c:544
 msgid "You have a Todo item."
 msgstr "Máte úlohu."
 
-#: src/vcalendar.c:542 src/vcalendar.c:547 src/vcalendar.c:552
-#: src/vcalendar.c:567 src/vcalendar.c:579 src/vcalendar.c:585
-#: src/vcalendar.c:874
+#: src/vcalendar.c:545 src/vcalendar.c:550 src/vcalendar.c:555
+#: src/vcalendar.c:570 src/vcalendar.c:582 src/vcalendar.c:588
+#: src/vcalendar.c:889
 msgid "Details follow:"
 msgstr "Nasledujú podrobnosti:"
 
-#: src/vcalendar.c:546
+#: src/vcalendar.c:549
 msgid "You have created a meeting."
 msgstr "Vytvorili ste stretnutie."
 
-#: src/vcalendar.c:551
+#: src/vcalendar.c:554
 msgid "You have been invited to a meeting."
 msgstr "Boli ste pozvaný na stretnutie."
 
-#: src/vcalendar.c:566 src/vcalendar.c:873
+#: src/vcalendar.c:569 src/vcalendar.c:888
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "Dostali ste odpoveď na neznámy návrh stretnutia."
 
-#: src/vcalendar.c:570 src/vcalendar.c:877
+#: src/vcalendar.c:573 src/vcalendar.c:892
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -114,19 +112,19 @@ msgstr ""
 "Dostali ste odpoveď na návrh stretnutia.\n"
 "%s %s pozvanie, ktorého podrobnosti nasledujú:"
 
-#: src/vcalendar.c:578
+#: src/vcalendar.c:581
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "Stretnutie, na ktoré ste boli pozvaný, bolo zrušené."
 
-#: src/vcalendar.c:584
+#: src/vcalendar.c:587
 msgid "You have been forwarded an appointment."
 msgstr "Bolo vám preposlané stretnutie."
 
-#: src/vcalendar.c:1127
+#: src/vcalendar.c:1142
 msgid "Cancel meeting"
 msgstr "Zrušiť stretnutie"
 
-#: src/vcalendar.c:1128
+#: src/vcalendar.c:1143
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -134,11 +132,11 @@ msgstr ""
 "Naozaj chcete toto stretnutie zrušiť?\n"
 "Účastníkom bude odoslané upozornenie."
 
-#: src/vcalendar.c:1195
+#: src/vcalendar.c:1210
 msgid "No account found"
 msgstr "Nebolo nájdené žiadne konto"
 
-#: src/vcalendar.c:1196
+#: src/vcalendar.c:1211
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
@@ -146,138 +144,167 @@ msgstr ""
 "Nemáte konto, ktoré sa nachádza na zozname účastníkov.\n"
 "Chcete odpovedať aj tak ?"
 
-#: src/vcalendar.c:1198
+#: src/vcalendar.c:1213
 msgid "+Reply anyway"
 msgstr "+Odpovedať aj tak"
 
-#: src/vcalendar.c:1321
+#: src/vcalendar.c:1337
 msgid "Answer"
 msgstr "Odpovedať"
 
-#: src/vcalendar.c:1322
+#: src/vcalendar.c:1338
 msgid "Edit meeting..."
 msgstr "Upraviť stretnutie..."
 
-#: src/vcalendar.c:1323
+#: src/vcalendar.c:1339
 msgid "Cancel meeting..."
 msgstr "Zrušiť stretnutie..."
 
-#: src/vcalendar.c:1324
+#: src/vcalendar.c:1340
 msgid "Launch website"
 msgstr "Otvoriť webstránku"
 
-#: src/vcalendar.c:1328
+#: src/vcalendar.c:1344
 msgid "You are already busy at this time."
-msgstr "V tomto čase ste už zaneprázdnený"
+msgstr "V tom čase ste už zaneprázdnený."
 
-#: src/vcalendar.c:1382
+#: src/vcalendar.c:1398
 msgid "Event:"
 msgstr "Udalosť:"
 
-#: src/vcalendar.c:1383 src/vcal_meeting_gtk.c:1337
+#: src/vcalendar.c:1399 src/vcal_meeting_gtk.c:1344
 msgid "Organizer:"
 msgstr "Organizátor:"
 
-#: src/vcalendar.c:1384 src/vcal_meeting_gtk.c:1338
+#: src/vcalendar.c:1400 src/vcal_meeting_gtk.c:1345
 msgid "Summary:"
 msgstr "Súhrn:"
 
-#: src/vcalendar.c:1385
+#: src/vcalendar.c:1401
 msgid "Starting:"
 msgstr "Začiatok:"
 
-#: src/vcalendar.c:1386
+#: src/vcalendar.c:1402
 msgid "Ending:"
 msgstr "Koniec:"
 
-#: src/vcalendar.c:1387 src/vcal_meeting_gtk.c:1340
+#: src/vcalendar.c:1403 src/vcal_meeting_gtk.c:1347
 msgid "Description:"
 msgstr "Popis:"
 
-#: src/vcalendar.c:1388 src/vcal_meeting_gtk.c:1341
+#: src/vcalendar.c:1404 src/vcal_meeting_gtk.c:1348
 msgid "Attendees:"
 msgstr "Účastníci:"
 
-#: src/vcalendar.c:1390
+#: src/vcalendar.c:1406
 msgid "Action:"
 msgstr "Činnosť:"
 
-#: src/vcal_folder.c:135
+#: src/vcal_folder.c:144
 msgid "/_New meeting..."
 msgstr "/_Nové stretnutie..."
 
-#: src/vcal_folder.c:136
+#: src/vcal_folder.c:145
 msgid "/_Export calendar..."
 msgstr "/_Export kalendára..."
 
-#: src/vcal_folder.c:138
+#: src/vcal_folder.c:147
 msgid "/_Subscribe to webCal..."
 msgstr "/_Prihlásiť webCal..."
 
-#: src/vcal_folder.c:139
+#: src/vcal_folder.c:148
 msgid "/_Unsubscribe..."
 msgstr "/_Odhlásiť..."
 
-#: src/vcal_folder.c:141
+#: src/vcal_folder.c:150
 msgid "/_Rename..."
 msgstr "/P_remenovať..."
 
-#: src/vcal_folder.c:143
+#: src/vcal_folder.c:152
 msgid "/U_pdate subscriptions"
 msgstr "/_Aktualizovať prihlásenia"
 
-#: src/vcal_folder.c:761
+#: src/vcal_folder.c:938
 msgid "/New meeting..."
 msgstr "/Nové stretnutie..."
 
-#: src/vcal_folder.c:762
+#: src/vcal_folder.c:939
 msgid "/Export calendar..."
 msgstr "/Export kalendára..."
 
-#: src/vcal_folder.c:763
+#: src/vcal_folder.c:940
 msgid "/Subscribe to webCal..."
 msgstr "/Prihlásiť webCal..."
 
-#: src/vcal_folder.c:764
+#: src/vcal_folder.c:941
 msgid "/Unsubscribe..."
 msgstr "/Odhlásiť..."
 
-#: src/vcal_folder.c:765
+#: src/vcal_folder.c:942
 msgid "/Rename..."
 msgstr "/Premenovať..."
 
-#: src/vcal_folder.c:766
+#: src/vcal_folder.c:943
 msgid "/Update subscriptions"
 msgstr "/Aktualizovať prihlásenia"
 
-#: src/vcal_folder.c:927
+#: src/vcal_folder.c:1085
+msgid "in the past"
+msgstr "v minulosti"
+
+#: src/vcal_folder.c:1088
+msgid "today"
+msgstr "dnes"
+
+#: src/vcal_folder.c:1091
+msgid "tomorrow"
+msgstr "zajtra"
+
+#: src/vcal_folder.c:1094
+msgid "this week"
+msgstr "tento týždeň"
+
+#: src/vcal_folder.c:1097
+msgid "later"
+msgstr "neskôr"
+
+#: src/vcal_folder.c:1101
+#, c-format
+msgid ""
+"\n"
+"These are the events planned %s:\n"
+msgstr ""
+"\n"
+"Udalosti naplánované %s:\n"
+
+#: src/vcal_folder.c:1199
 msgid "401 (Authorisation required)"
 msgstr "401 (Vyžadovaná autorizácia)"
 
-#: src/vcal_folder.c:930
+#: src/vcal_folder.c:1202
 msgid "403 (Unauthorised)"
 msgstr "403 (Neautorizovaný)"
 
-#: src/vcal_folder.c:933
+#: src/vcal_folder.c:1205
 msgid "404 (Not found)"
 msgstr "404 (Nenájdené)"
 
-#: src/vcal_folder.c:936
+#: src/vcal_folder.c:1208
 #, c-format
 msgid "Error %d"
 msgstr "Chyba %d"
 
-#: src/vcal_folder.c:974
+#: src/vcal_folder.c:1246
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Sťahujem '%s'..."
 
-#: src/vcal_folder.c:988
+#: src/vcal_folder.c:1260
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
-msgstr "Vypršal limit (%d sekúnd) pre pripojenie sa k %s\n"
+msgstr "Vypršal čas (%d sekúnd) pre pripojenie sa k %s\n"
 
-#: src/vcal_folder.c:1125
+#: src/vcal_folder.c:1397
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -288,12 +315,12 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1126 src/vcal_folder.c:1131 src/vcal_folder.c:1145
-#: src/vcal_folder.c:1151
+#: src/vcal_folder.c:1398 src/vcal_folder.c:1403 src/vcal_folder.c:1417
+#: src/vcal_folder.c:1423
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/vcal_folder.c:1130
+#: src/vcal_folder.c:1402
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -304,7 +331,7 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1144
+#: src/vcal_folder.c:1416
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -315,7 +342,7 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1150
+#: src/vcal_folder.c:1422
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -326,59 +353,59 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1205
+#: src/vcal_folder.c:1477
 msgid "Sylpheed-Claws needs network access in order to update the Webcal feed."
-msgstr "Sylpheed-Claws potrebuje pre aktualizáciu Webcal kanálu pripojenie na sieť."
+msgstr "Sylpheed-Claws potrebuje pre aktualizáciu Webcal kanálu prístup na sieť."
 
-#: src/vcal_folder.c:1219
+#: src/vcal_folder.c:1491
 msgid "Sylpheed-Claws needs network access in order to update the subscription."
-msgstr "Sylpheed-Claws potrebuje pre aktualizáciu kanálu pripojenie na sieť."
+msgstr "Sylpheed-Claws potrebuje pre aktualizáciu kanálu prístup na sieť."
 
-#: src/vcal_folder.c:1231
+#: src/vcal_folder.c:1503
 msgid "Subscribe to WebCal"
 msgstr "Prihlásiť WebCal"
 
-#: src/vcal_folder.c:1231
+#: src/vcal_folder.c:1503
 msgid "Enter the WebCal URL:"
 msgstr "Zadajte WebCal URL:"
 
-#: src/vcal_folder.c:1243
+#: src/vcal_folder.c:1515
 msgid "Could not parse the URL."
 msgstr "Nemôžem prečítať URL."
 
-#: src/vcal_folder.c:1271
+#: src/vcal_folder.c:1543
 msgid "Do you really want to unsubscribe?"
 msgstr "Naozaj sa chcete odhlásiť?"
 
-#: src/vcal_folder.c:1272
+#: src/vcal_folder.c:1544
 msgid "Delete folder"
 msgstr "Odstrániť priečinok"
 
-#: src/vcal_folder.c:1291
+#: src/vcal_folder.c:1563
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "Nepodarilo sa odstrániť priečinok '%s'."
 
-#: src/vcal_folder.c:1334
+#: src/vcal_folder.c:1606
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Zadajte nový názov pre '%s':"
 
-#: src/vcal_folder.c:1335
+#: src/vcal_folder.c:1607
 msgid "Rename folder"
 msgstr "Premenovať priečinok"
 
-#: src/vcal_folder.c:1342
+#: src/vcal_folder.c:1614
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "Názov priečinku nemôže obsahovať znak '%c'."
 
-#: src/vcal_folder.c:1349
+#: src/vcal_folder.c:1621
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "Priečinok '%s' už existuje."
 
-#: src/vcal_folder.c:1355
+#: src/vcal_folder.c:1627
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
@@ -422,15 +449,35 @@ msgstr "zdroj"
 msgid "room"
 msgstr "miestnosť"
 
-#: src/vcal_manager.c:1054
+#: src/vcal_manager.c:533
+msgid "Past"
+msgstr "Minulosť"
+
+#: src/vcal_manager.c:536
+msgid "Today"
+msgstr "Dnes"
+
+#: src/vcal_manager.c:539
+msgid "Tomorrow"
+msgstr "Zajtra"
+
+#: src/vcal_manager.c:542
+msgid "This week"
+msgstr "Tento týždeň"
+
+#: src/vcal_manager.c:545
+msgid "Later"
+msgstr "Neskôr"
+
+#: src/vcal_manager.c:1170
 msgid "Accepted: "
 msgstr "Prijali: "
 
-#: src/vcal_manager.c:1056
+#: src/vcal_manager.c:1172
 msgid "Declined: "
 msgstr "Odmietli: "
 
-#: src/vcal_manager.c:1058
+#: src/vcal_manager.c:1174
 msgid "Tentatively Accepted: "
 msgstr "Nezáväzne prijali: "
 
@@ -458,7 +505,7 @@ msgstr "Pridať..."
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: src/vcal_meeting_gtk.c:523
+#: src/vcal_meeting_gtk.c:530
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
@@ -466,61 +513,61 @@ msgstr ""
 "Tieto osoby sú v plánovanom čase zaneprázdnené:\n"
 "- "
 
-#: src/vcal_meeting_gtk.c:524 src/vcal_meeting_gtk.c:613
-#: src/vcal_meeting_gtk.c:699
+#: src/vcal_meeting_gtk.c:531 src/vcal_meeting_gtk.c:620
+#: src/vcal_meeting_gtk.c:706
 msgid "You"
 msgstr "Vy"
 
-#: src/vcal_meeting_gtk.c:525
+#: src/vcal_meeting_gtk.c:532
 msgid "You are busy at the time of your planned meeting"
-msgstr "V plánovanom čase ste zaneprázdnený(á)"
+msgstr "V plánovanom čase ste zaneprázdnený"
 
-#: src/vcal_meeting_gtk.c:527
+#: src/vcal_meeting_gtk.c:534
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
-msgstr "%s je v plánovanom čase zaneprázdnený(á)"
+msgstr "%s je v plánovanom čase zaneprázdnený"
 
-#: src/vcal_meeting_gtk.c:529
+#: src/vcal_meeting_gtk.c:536
 #, c-format
 msgid "%d hour sooner"
 msgstr "%d hodinu skôr"
 
-#: src/vcal_meeting_gtk.c:531
+#: src/vcal_meeting_gtk.c:538
 #, c-format
 msgid "%d hours sooner"
-msgstr "%d hodín neskôr"
+msgstr "%d hodín skôr"
 
-#: src/vcal_meeting_gtk.c:533
+#: src/vcal_meeting_gtk.c:540
 #, c-format
 msgid "%d hours and %d minutes sooner"
 msgstr "%d hodín a %d minút skôr"
 
-#: src/vcal_meeting_gtk.c:535
+#: src/vcal_meeting_gtk.c:542
 #, c-format
 msgid "%d minutes sooner"
 msgstr "%d minút skôr"
 
-#: src/vcal_meeting_gtk.c:540
+#: src/vcal_meeting_gtk.c:547
 #, c-format
 msgid "%d hour later"
 msgstr "%d hodinu neskôr"
 
-#: src/vcal_meeting_gtk.c:542
+#: src/vcal_meeting_gtk.c:549
 #, c-format
 msgid "%d hours later"
 msgstr "%d hodín neskôr"
 
-#: src/vcal_meeting_gtk.c:544
+#: src/vcal_meeting_gtk.c:551
 #, c-format
 msgid "%d hours and %d minutes later"
 msgstr "%d hodín a %d minút neskôr"
 
-#: src/vcal_meeting_gtk.c:546
+#: src/vcal_meeting_gtk.c:553
 #, c-format
 msgid "%d minutes later"
 msgstr "%d minút neskôr"
 
-#: src/vcal_meeting_gtk.c:552
+#: src/vcal_meeting_gtk.c:559
 #, c-format
 msgid ""
 "\n"
@@ -529,9 +576,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Všetci by boli voľní o %s alebo o %s."
+"Všetci sú dostupní %s alebo %s."
 
-#: src/vcal_meeting_gtk.c:554
+#: src/vcal_meeting_gtk.c:561
 #, c-format
 msgid ""
 "\n"
@@ -540,9 +587,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Všetci by boli voľní o %s."
+"Všetci sú dostupní %s."
 
-#: src/vcal_meeting_gtk.c:556
+#: src/vcal_meeting_gtk.c:563
 msgid ""
 "\n"
 "\n"
@@ -551,76 +598,76 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"V časovom rozsahu 6 hodín pred alebo po termíne nie je možné zorganizovať "
-"stretnutie so všetkými."
-
-#: src/vcal_meeting_gtk.c:561
-#, c-format
-msgid "would be available %s or %s"
-msgstr "by bol(a) dostupný(á) o %s alebo o %s"
-
-#: src/vcal_meeting_gtk.c:563
-#, c-format
-msgid "would be available %s"
-msgstr "by bol(a) dostupný(á) o %s"
-
-#: src/vcal_meeting_gtk.c:565 src/vcal_meeting_gtk.c:626
-#: src/vcal_meeting_gtk.c:696
-msgid "not available"
-msgstr "nedostupný(á)"
+"V rozsahu šiestich hodín dopredu alebo dozadu nie je možné uskutočniť schôdzu "
+"so všetkými."
 
 #: src/vcal_meeting_gtk.c:568
 #, c-format
-msgid ", but would be available %s or %s."
-msgstr ", ale bol(a) by dostupný(á) o %s alebo o %s."
+msgid "would be available %s or %s"
+msgstr "je dostupný %s alebo %s"
 
 #: src/vcal_meeting_gtk.c:570
 #, c-format
+msgid "would be available %s"
+msgstr "je dostupný %s"
+
+#: src/vcal_meeting_gtk.c:572 src/vcal_meeting_gtk.c:633
+#: src/vcal_meeting_gtk.c:703
+msgid "not available"
+msgstr "nie je dostupný"
+
+#: src/vcal_meeting_gtk.c:575
+#, c-format
+msgid ", but would be available %s or %s."
+msgstr ", ale je dostupný %s alebo %s."
+
+#: src/vcal_meeting_gtk.c:577
+#, c-format
 msgid ", but would be available %s."
-msgstr ", ale bol(a) by dostupný(á) o %s."
+msgstr ", ale je dostupný %s."
 
-#: src/vcal_meeting_gtk.c:572
+#: src/vcal_meeting_gtk.c:579
 msgid ", and isn't available in the previous or next 6 hours."
-msgstr ", a nie je dostupný(á) v časovom rozsahu 6 hodín pred alebo po termíne."
+msgstr ", a nie je dostupný v rozsahu šiestich hodín dopredu alebo dozadu."
 
-#: src/vcal_meeting_gtk.c:629
+#: src/vcal_meeting_gtk.c:636
 msgid "available"
-msgstr "dostupný(á)"
+msgstr "dostupný"
 
-#: src/vcal_meeting_gtk.c:631 src/vcal_meeting_gtk.c:871
+#: src/vcal_meeting_gtk.c:638 src/vcal_meeting_gtk.c:878
 msgid "Free/busy retrieval failed"
-msgstr "Zlyhalo získanie informácie o zaneprázdnenosti"
+msgstr "Zistenie dostupnosti zlyhalo"
 
-#: src/vcal_meeting_gtk.c:713
+#: src/vcal_meeting_gtk.c:720
 msgid "Not everyone is available"
-msgstr "Všetci nie sú dostupní"
+msgstr "Nie všetci sú dostupní"
 
-#: src/vcal_meeting_gtk.c:714
+#: src/vcal_meeting_gtk.c:721
 msgid "Send anyway"
-msgstr "Odoslať aj tak"
+msgstr "Odoslať aj napriek tomu"
 
-#: src/vcal_meeting_gtk.c:725
+#: src/vcal_meeting_gtk.c:732
 msgid "Not everyone is available. See tooltips for more info..."
-msgstr "Všetci nie sú dostupní. Pre viac informácií si prečítajtet tipy..."
+msgstr "Nie všetci účastníci sú dostupní. Viď tip pre viac informácií..."
 
-#: src/vcal_meeting_gtk.c:880
+#: src/vcal_meeting_gtk.c:887
 msgid "Available"
-msgstr "Dostupný(á)"
+msgstr "Dostupný"
 
-#: src/vcal_meeting_gtk.c:893 src/vcal_meeting_gtk.c:900
-#: src/vcal_meeting_gtk.c:908
+#: src/vcal_meeting_gtk.c:900 src/vcal_meeting_gtk.c:907
+#: src/vcal_meeting_gtk.c:915
 msgid "Everyone is available."
 msgstr "Všetci sú dostupní."
 
-#: src/vcal_meeting_gtk.c:910
+#: src/vcal_meeting_gtk.c:917
 msgid ""
 "Everyone seems available, but some free/busy information failed to be "
 "retrieved."
 msgstr ""
-"Zrejme sú všetci dostupní, ale u niektorých sa nepodarilo zistiť "
-"dostupnosť."
+"Zdá sa, že sú všetci dostupní, ale nie všetky informácie o dostupnosti "
+"sa podarilo získať."
 
-#: src/vcal_meeting_gtk.c:1055
+#: src/vcal_meeting_gtk.c:1062
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
@@ -628,44 +675,44 @@ msgstr ""
 "Nepodarilo sa odoslať pozvanie na stretnutie.\n"
 "Skontrolujte príjemcov."
 
-#: src/vcal_meeting_gtk.c:1141
+#: src/vcal_meeting_gtk.c:1148
 msgid "Save & Send"
 msgstr "Uložiť a odoslať"
 
-#: src/vcal_meeting_gtk.c:1142
+#: src/vcal_meeting_gtk.c:1149
 msgid "Check availability"
 msgstr "Zistiť dostupnosť"
 
-#: src/vcal_meeting_gtk.c:1221
+#: src/vcal_meeting_gtk.c:1228
 msgid "<b>Starts at:</b> "
 msgstr "<b>Začiatok:</b> "
 
-#: src/vcal_meeting_gtk.c:1226 src/vcal_meeting_gtk.c:1246
+#: src/vcal_meeting_gtk.c:1233 src/vcal_meeting_gtk.c:1253
 msgid "h"
 msgstr "h"
 
-#: src/vcal_meeting_gtk.c:1229 src/vcal_meeting_gtk.c:1249
+#: src/vcal_meeting_gtk.c:1236 src/vcal_meeting_gtk.c:1256
 msgid "<b> on:</b>"
 msgstr "<b> dňa:</b> "
 
-#: src/vcal_meeting_gtk.c:1241
+#: src/vcal_meeting_gtk.c:1248
 msgid "<b>Ends at:</b> "
 msgstr "<b>Koniec:</b> "
 
-#: src/vcal_meeting_gtk.c:1283
+#: src/vcal_meeting_gtk.c:1290
 msgid "New meeting"
 msgstr "Nové stretnutie"
 
-#: src/vcal_meeting_gtk.c:1285
+#: src/vcal_meeting_gtk.c:1292
 #, c-format
 msgid "%s - Edit meeting"
 msgstr "%s - Upraviť stretnutie"
 
-#: src/vcal_meeting_gtk.c:1339
+#: src/vcal_meeting_gtk.c:1346
 msgid "Time:"
 msgstr "Čas:"
 
-#: src/vcal_meeting_gtk.c:1428
+#: src/vcal_meeting_gtk.c:1435
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -673,7 +720,7 @@ msgstr[0] "%d hodina"
 msgstr[1] "%d hodiny"
 msgstr[2] "%d hodín"
 
-#: src/vcal_meeting_gtk.c:1431
+#: src/vcal_meeting_gtk.c:1438
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -681,12 +728,12 @@ msgstr[0] "%d minúta"
 msgstr[1] "%d minúty"
 msgstr[2] "%d minút"
 
-#: src/vcal_meeting_gtk.c:1442
+#: src/vcal_meeting_gtk.c:1449
 #, c-format
 msgid "Upcoming event: %s"
 msgstr "Nadchádzajúca udalosť: %s"
 
-#: src/vcal_meeting_gtk.c:1443
+#: src/vcal_meeting_gtk.c:1450
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
@@ -701,7 +748,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_meeting_gtk.c:1458
+#: src/vcal_meeting_gtk.c:1465
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
@@ -709,94 +756,94 @@ msgstr[0] "Pripomeň za %d minútu"
 msgstr[1] "Pripomeň za %d minúty"
 msgstr[2] "Pripomeň za %d minút"
 
-#: src/vcal_meeting_gtk.c:1577
+#: src/vcal_meeting_gtk.c:1584
 msgid "Empty calendar"
 msgstr "Prázdny kalendár"
 
-#: src/vcal_meeting_gtk.c:1578
+#: src/vcal_meeting_gtk.c:1585
 msgid "There is nothing to export."
 msgstr "Niet čo exportovať."
 
-#: src/vcal_meeting_gtk.c:1619
+#: src/vcal_meeting_gtk.c:1626
 msgid "Could not export the calendar."
 msgstr "Nepodarilo sa exportovať kalendár."
 
-#: src/vcal_meeting_gtk.c:1635
+#: src/vcal_meeting_gtk.c:1642
 msgid "Export calendar to ICS"
 msgstr "Exportovať kalendár do ICS"
 
-#: src/vcal_meeting_gtk.c:1903
+#: src/vcal_meeting_gtk.c:1910
 msgid "Could not export the freebusy info."
-msgstr "Nepodarilo sa exportovať údaje o dostupnosti."
+msgstr "Nepodarilo sa exportovať info o dostupnosti."
 
 #: src/vcal_prefs.c:132
 msgid "Reminders"
 msgstr "Pripomienky"
 
-#: src/vcal_prefs.c:140
+#: src/vcal_prefs.c:141
 msgid "Alert me "
 msgstr "Upozorniť ma "
 
-#: src/vcal_prefs.c:152
+#: src/vcal_prefs.c:153
 msgid " minutes before an event"
 msgstr "minút pred stretnutím"
 
-#: src/vcal_prefs.c:164
+#: src/vcal_prefs.c:165
 msgid "Calendar export"
 msgstr "Export kalendára"
 
-#: src/vcal_prefs.c:172
+#: src/vcal_prefs.c:174
 msgid "Automatically export calendar to "
 msgstr "Automaticky exportovať kalendár do "
 
-#: src/vcal_prefs.c:181 src/vcal_prefs.c:247
-msgid "You can export to a local file or an URL"
+#: src/vcal_prefs.c:183 src/vcal_prefs.c:252
+msgid "You can export to a local file or URL"
 msgstr "Môžete exportovať do lokálneho súboru, alebo na URL"
 
-#: src/vcal_prefs.c:184
+#: src/vcal_prefs.c:186
 msgid "Specify a local file or URL (http://user:pass@server/path/file.ics)"
 msgstr ""
 "Zadajte názov lokálneho súboru alebo URL (http://meno:heslo@server/cesta/"
 "subor.ics)"
 
-#: src/vcal_prefs.c:193
+#: src/vcal_prefs.c:195
 msgid "Include webcal subscriptions in export"
 msgstr "Exportovať aj webcal kanály"
 
-#: src/vcal_prefs.c:203
-msgid "Command to run after calendar export: "
-msgstr "Po exporte kalendára spustiť príkaz: "
+#: src/vcal_prefs.c:205
+msgid "Command to run after calendar export"
+msgstr "Po exporte kalendára spustiť príkaz"
 
-#: src/vcal_prefs.c:229
-msgid "Free/busy informations"
-msgstr "Údaje o dostupnosti"
+#: src/vcal_prefs.c:233
+msgid "Free/Busy information"
+msgstr "Informácie o dostupnosti"
 
-#: src/vcal_prefs.c:238
-msgid "Automatically export free/busy to "
-msgstr "Automaticky exportovať údaje o dostupnosti do "
+#: src/vcal_prefs.c:243
+msgid "Automatically export free/busy status to "
+msgstr "Automaticky exportovať informáciu o dostupnosti do "
 
-#: src/vcal_prefs.c:250
+#: src/vcal_prefs.c:255
 msgid "Specify a local file or URL (http://user:pass@server/path/file.ifb)"
 msgstr "Zadajte názov lokálneho súboru alebo URL (http://meno:heslo@server/cesta/subor.ifb)"
 
-#: src/vcal_prefs.c:259
-msgid "Command to run after free/busy export: "
-msgstr "Po exporte údajov o zaneprázdnenosti spustiť príkaz: "
+#: src/vcal_prefs.c:264
+msgid "Command to run after free/busy status export"
+msgstr "Po exporte informácií o dostupnosti spustiť príkaz"
 
-#: src/vcal_prefs.c:286
-msgid "Get free/busy for others on "
-msgstr "Získať údaje o zaneprázdnenosti o "
+#: src/vcal_prefs.c:291
+msgid "Get free/busy status of others from "
+msgstr "Získať informácie o dostupnosti iných z "
 
-#: src/vcal_prefs.c:294
+#: src/vcal_prefs.c:299
 #, c-format
 msgid ""
 "Specify a local file or URL (http://user:pass@server/path/file.ifb). Use %u "
 "for the left part of the email address, %d for the domain"
 msgstr ""
 "Zadajte názov lokálneho súboru alebo URL (http://meno:heslo@server/cesta/subor.ifb). "
-"Použite %u pre ľavú časť e-mailovej adresy, %d pre doménu"
+"Použite %u pre ľavú časť e-mailovej adresy, %d pre doménovú časť"
 
-#: src/vcal_prefs.c:402
+#: src/vcal_prefs.c:407
 msgid "Plugins"
 msgstr "Pluginy"
 
