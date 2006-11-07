@@ -290,11 +290,13 @@ static gchar *make_url(const gchar *url, const gchar *base)
 		if (url[0] == '/') { /* absolute */
 			if (strchr(real_base, '/'))
 				*strchr(real_base, '/') = '\0';
-		} else { /* relative */
+		} else if (url[0] != '#') { /* relative and not anchor */
 			if (strrchr(real_base, '/'))
 				*(strrchr(real_base, '/')+1) = '\0';
 			else
 				insert_sep = TRUE;
+		} else if (url[0] == '#') {
+			insert_sep = FALSE;
 		}
 		result = g_strdup_printf("%s%s%s%s", prefix, real_base, insert_sep?"/":"", url);
 		g_free(prefix);
