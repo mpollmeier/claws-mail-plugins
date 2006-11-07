@@ -3,4 +3,4 @@ The building process should follow the usual
  make
  make install
 procedure. The plugin gets installed into
-/usr/local/lib/sylpheed-claws/plugins/
+/usr/local/lib/claws-mail/plugins/

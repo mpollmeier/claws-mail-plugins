@@ -1,4 +1,4 @@
-/* Notification Plugin for Sylpheed-Claws
+/* Notification Plugin for Claws Mail
  * Copyright (C) 2005-2006 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/* This code is based on foldersel.c in Sylpheed-Claws.
+/* This code is based on foldersel.c in Claws Mail.
  * Some functions are only slightly modified, almost 1:1 copies from there. */
 
 #ifdef HAVE_CONFIG_H
@@ -31,7 +31,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-/* Sylpheed-Claws includes */
+/* Claws Mail includes */
 #include "manage_window.h"
 #include "folder.h"
 #include "stock_pixmap.h"
@@ -475,7 +475,7 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
   gtk_window_set_modal(GTK_WINDOW(entry->window), TRUE);
   gtk_window_set_policy(GTK_WINDOW(entry->window), FALSE, TRUE, FALSE);
   gtk_window_set_wmclass
-    (GTK_WINDOW(entry->window), "folder_selection", "Sylpheed-Claws");  
+    (GTK_WINDOW(entry->window), "folder_selection", "Claws Mail");  
   g_signal_connect(G_OBJECT(entry->window), "delete_event",
 		   G_CALLBACK(delete_event), entry);
   MANAGE_WINDOW_SIGNALS_CONNECT(entry->window);

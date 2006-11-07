@@ -1,4 +1,4 @@
-/* Notification Plugin for Sylpheed-Claws
+/* Notification Plugin for Claws Mail
  * Copyright (C) 2005 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify

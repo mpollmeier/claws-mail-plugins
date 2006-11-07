@@ -1,4 +1,4 @@
-/* Notification Plugin for Sylpheed-Claws
+/* Notification Plugin for Claws Mail
  * Copyright (C) 2005 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
@@ -91,12 +91,12 @@ gint plugin_init(gchar **error)
 
   /* Version check */
   if(sylpheed_get_version() > VERSION_NUMERIC) {
-    *error = g_strdup("Your Sylpheed-Claws version is newer than the version "
+    *error = g_strdup("Your Claws Mail version is newer than the version "
 		      "the Notification plugin was built with");
     return -1;
   }
   if(sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 15, 94)) {
-    *error = g_strdup("Your Sylpheed-Claws version is too old for the "
+    *error = g_strdup("Your Claws Mail version is too old for the "
 		      "Notification plugin");
     return -1;
   }

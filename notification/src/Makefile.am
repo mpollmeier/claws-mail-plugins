@@ -1,6 +1,6 @@
 CFLAGS += "-Wall"
 
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = notification_plugin.la
 
@@ -13,7 +13,7 @@ notification_plugin_la_SOURCES = \
 	notification_prefs.c notification_prefs.h \
 	notification_foldercheck.c notification_foldercheck.h \
 	notification_pixbuf.c notification_pixbuf.h \
-	raw_sylpheed_claws_logo_64x64.h
+	raw_claws_mail_logo_64x64.h
 
 notification_plugin_la_LDFLAGS = \
 	-avoid-version -module
@@ -23,7 +23,7 @@ notification_plugin_la_LIBADD = \
 
 notification_plugin_la_CPPFLAGS = \
 	$(NOTIFY_CFLAGS) \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(libnotify_CFLAGS)

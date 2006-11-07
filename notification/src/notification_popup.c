@@ -1,4 +1,4 @@
-/* Notification Plugin for Sylpheed-Claws
+/* Notification Plugin for Claws Mail
  * Copyright (C) 2005-2006 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
@@ -249,7 +249,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 
   /* init libnotify if necessary */
   if(!notify_is_initted()) {
-    if(!notify_init("sylpheed-claws")) {
+    if(!notify_init("claws-mail")) {
       debug_print("Notification Plugin: Failed to initialize libnotify. "
 		  "No popup will be shown.\n");
       return FALSE;
