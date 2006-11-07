@@ -1,10 +1,10 @@
 /*
- * newmail - A plugin for Sylpheed-Claws
+ * newmail - A plugin for Claws Mail
  *
- * Copyright (C) 2005-2005 H.Merijn Brand and the Sylpheed-Claws Team
+ * Copyright (C) 2005-2005 H.Merijn Brand and the Claws Mail Team
  *
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2002 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2002 Hiroyuki Yamamoto and the Claws Mail Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,13 +93,13 @@ void plugin_done (void)
 gint plugin_init (gchar **error)
 {
     if ((sylpheed_get_version () > VERSION_NUMERIC)) {
-	*error = g_strdup (_("Your Sylpheed-Claws version is newer than "
+	*error = g_strdup (_("Your Claws Mail version is newer than "
 			     "the version the plugin was built with"));
 	return (-1);
 	}
 
     if ((sylpheed_get_version () < MAKE_NUMERIC_VERSION (1, 9, 13, 25))) {
-	*error = g_strdup (_("Your Sylpheed-Claws version is too old"));
+	*error = g_strdup (_("Your Claws Mail version is too old"));
 	return (-1);
 	}
 

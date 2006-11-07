@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = newmail.la
 
@@ -9,6 +9,6 @@ newmail_la_LDFLAGS = \
 	-avoid-version -module
 
 AM_CPPFLAGS = \
-        $(SYLPHEED_CLAWS_CFLAGS) \
+        $(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
