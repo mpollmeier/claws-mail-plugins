@@ -1,3 +1,19 @@
+2006-11-07 [paul]	0.4.16cvs1
+
+	* ChangeLog
+	* README
+	* configure.ac
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/rules
+	* src/Makefile.am
+	* src/fetchinfo_plugin.c
+	* src/fetchinfo_plugin.h
+	* src/fetchinfo_plugin_gtk.c
+		Name change
+
 2006-09-25 [paul]	0.4.16
 
 	0.4.16 released
@@ -5,12 +21,12 @@
 2006-09-22 [ticho]	0.4.15cvs5
 
 	* configure.ac
-		Update required sylpheed-claws version to 2.4.0.200.
+		Update required claws-mail version to 2.4.0.200.
 
 2006-09-01 [wwp]	0.4.15cvs4
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-27 [wwp]	0.4.15cvs3
@@ -57,7 +73,7 @@
 
 	* src/fetchinfo_plugin.c
 	* src/fetchinfo_plugin_gtk.c
-		Updated sylpheed-claws product name.
+		Updated claws-mail product name.
 
 2006-04-07 [colin] 	0.4.13
 
@@ -69,7 +85,7 @@
 
 	* src/fetchinfo_plugin.c
 		Don't warn if plugin is disabled. Replaced a reference to Sylpheed
-		with Sylpheed-Claws.
+		with Claws Mail.
 
 	* Changelog
 	* configure.ac

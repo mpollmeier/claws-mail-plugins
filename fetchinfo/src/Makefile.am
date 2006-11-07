@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 plugin_DATA=fetchinfo_plugin_gtk.deps
 plugin_LTLIBRARIES = fetchinfo_plugin.la fetchinfo_plugin_gtk.la
 
@@ -19,6 +19,6 @@ fetchinfo_plugin_gtk_la_LDFLAGS = \
 	$(GTK_LIBS)
 
 AM_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)

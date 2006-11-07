@@ -1,4 +1,4 @@
-Program: Fetchinfo - Plugin for Sylpheed-Claws
+Program: Fetchinfo - Plugin for Claws Mail
 Author:  Thorsten Maerz <torte@netztorte.de>
 License: GPL (See file COPYING)
 Depends: Sylpheed-0.9.0claws57 or later

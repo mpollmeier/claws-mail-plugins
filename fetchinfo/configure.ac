@@ -8,7 +8,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=16
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -44,18 +44,18 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 #
-# Check for sylpheed-claws
+# Check for claws-mail
 #
-PKG_CHECK_MODULES(SYLPHEED_CLAWS, sylpheed-claws >= 2.4.0.200)
+PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 2.4.0.200)
 if test -z $prefix || test "${prefix}" == "NONE" ; then
-  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
-  SYLPHEED_CLAWS_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir sylpheed-claws )
+  prefix=$( $PKG_CONFIG --variable=prefix claws-mail )
+  CLAWS_MAIL_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir claws-mail )
 else
-  SYLPHEED_CLAWS_PLUGINDIR='${libdir}/sylpheed-claws/plugins'
+  CLAWS_MAIL_PLUGINDIR='${libdir}/claws-mail/plugins'
 fi
-AC_SUBST(SYLPHEED_CLAWS_CFLAGS)
-AC_SUBST(SYLPHEED_CLAWS_LIBS)
-AC_SUBST(SYLPHEED_CLAWS_PLUGINDIR)
+AC_SUBST(CLAWS_MAIL_CFLAGS)
+AC_SUBST(CLAWS_MAIL_LIBS)
+AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
 #
 # Check for GLib
