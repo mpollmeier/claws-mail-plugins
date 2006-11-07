@@ -1,3 +1,15 @@
+2006-11-07 [paul]	0.6.1cvs8
+
+	* po/de.po
+	* po/fr.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/zh_CN.po
+		updated by Stephan Sachse, Fabien Vantard,
+		Andrea Spadaccini, Frederico Goncalves Guimaraes,
+		Andrej Kacian, and Ralgh Young
+
 2006-10-31 [ticho]	0.6.1cvs7
 
 	* src/feed.c

@@ -49,3 +49,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/date.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/date.h;  cvs diff -u -r 1.1.2.55 -r 1.1.2.56 src/feed.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/parsers.c;  ) > 0.6.1cvs5.patchset
 ( cvs diff -u -r 1.1.2.56 -r 1.1.2.57 src/feed.c;  ) > 0.6.1cvs6.patchset
 ( cvs diff -u -r 1.1.2.57 -r 1.1.2.58 src/feed.c;  ) > 0.6.1cvs7.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/de.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/it.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/pt_BR.po;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 po/sk.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/zh_CN.po;  ) > 0.6.1cvs8.patchset
