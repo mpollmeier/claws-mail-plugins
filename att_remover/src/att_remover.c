@@ -1,10 +1,10 @@
 /*
- * att_remover -- for Sylpheed-Claws
+ * att_remover -- for Claws Mail
  *
  * Copyright (C) 2005 Colin Leroy <colin@colino.net>
  *
  * Sylpheed is a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2005 Hiroyuki Yamamoto and the Claws Mail Team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -170,12 +170,12 @@ gint plugin_init(gchar **error)
 	SummaryView *summaryview = mainwin->summaryview;
 
 	if((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Sylpheed-Claws version is newer than the version "
+		*error = g_strdup("Your Claws Mail version is newer than the version "
 				"AttRemover was built with");
 		return -1;
 	}
 	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
-		*error = g_strdup("Your Sylpheed-Claws version is too old for AttRemover");
+		*error = g_strdup("Your Claws Mail version is too old for AttRemover");
 		return -1;
 	}
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);

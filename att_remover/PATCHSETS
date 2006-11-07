@@ -4,3 +4,4 @@
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/att_remover.c;  ) > 1.0.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 commitHelper;  ) > 1.0.2cvs3.patchset
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 configure.ac;  ) > 1.0.2cvs4.patchset
+( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 ChangeLog;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 INSTALL;  cvs diff -u -r 1.1.2.17 -r 1.1.2.18 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 debian/README.Debian;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 debian/changelog;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 debian/control;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 debian/copyright;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 debian/files;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 debian/rules;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/Makefile.am;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/att_remover.c;  ) > 1.0.3cvs1.patchset
