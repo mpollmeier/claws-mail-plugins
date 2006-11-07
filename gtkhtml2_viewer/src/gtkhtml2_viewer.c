@@ -1,6 +1,6 @@
 /*
  * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2006 Hiroyuki Yamamoto and the Sylpheed-Claws Team
+ * Copyright (C) 1999-2006 Hiroyuki Yamamoto and the Claws Mail Team
  * This file Copyright (C) 2006 iSteve <isteve@bofh.cz>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -441,7 +441,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0);
 #endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
-		"Sylpheed-Claws GtkHtml2 plugin "PLUGINVERSION
+		"Claws Mail GtkHtml2 plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
 
 	res = curl_easy_perform(eh);
@@ -844,12 +844,12 @@ gint plugin_init(gchar **error)
 				"gtkhtml2_viewer", NULL);
 
 	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer plugin was built with"));
+		*error = g_strdup(_("Your version of Claws Mail is newer than the version the Gtkhtml2Viewer plugin was built with"));
 		return -1;
 	}
 
 	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 78))) {
-		*error = g_strdup(_("Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"));
+		*error = g_strdup(_("Your version of Claws Mail is too old for the Gtkhtml2Viewer plugin"));
 		return -1;
 	}
 

@@ -1,3 +1,19 @@
+2006-11-07 [paul]	0.12.0cvs1
+
+	* ChangeLog
+	* configure.ac
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/files
+	* debian/rules
+	* src/Makefile.am
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_prefs.h
+	* src/gtkhtml2_viewer.c
+		Name change
+
 2006-11-07 [paul]	0.12.0
 
 	0.12.0 released
@@ -55,7 +71,7 @@
 2006-09-22 [ticho]	0.10.2cvs23
 
 	* configure.ac
-		Update required sylpheed-claws version to 2.4.0.200.
+		Update required claws-mail version to 2.4.0.200.
 
 2006-09-18 [colin]	0.10.2cvs22
 
@@ -103,7 +119,7 @@
 2006-09-01 [wwp]	0.10.2cvs14
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-29 [colin]	0.10.2cvs13
