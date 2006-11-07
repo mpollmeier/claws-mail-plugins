@@ -1,10 +1,10 @@
-sylpheed-claws-mailmbox-plugin (1.10-1) unstable; urgency=low
+claws-mail-mailmbox-plugin (1.10-1) unstable; urgency=low
 
   * New upstream Release.
 
  -- Colin Leroy <colin@colino.net>  Mon, 30 Jan 2005 18:22:12 +0200
 
-sylpheed-claws-mailmbox-plugin (1.4-2) unstable; urgency=low
+claws-mail-mailmbox-plugin (1.4-2) unstable; urgency=low
 
   * Initial Release.
 

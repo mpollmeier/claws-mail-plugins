@@ -1,14 +1,14 @@
-Source: sylpheed-claws-mailmbox-plugin
+Source: claws-mail-mailmbox-plugin
 Section: mail
 Priority: optional
 Maintainer: Ricardo Mones <mones@aic.uniovi.es>
 Uploaders: Paul Mangan <claws@thewildbeast.co.uk>, Gustavo Noronha Silva <kov@debian.org>
-Build-Depends: debhelper (>= 4.0.0), libsylpheed-claws-dev (=2.0.0-ubuntu1-1), libgtk2.0-dev
+Build-Depends: debhelper (>= 4.0.0), libclaws-mail-dev (=2.0.0-ubuntu1-1), libgtk2.0-dev
 Standards-Version: 3.6.1
 
-Package: sylpheed-claws-mailmbox-plugin
+Package: claws-mail-mailmbox-plugin
 Architecture: any
-Depends: ${shlibs:Depends}, sylpheed-claws (=2.0.0-ubuntu1-1)
-Conflicts: sylpheed-claws (>= 2.0.1)
-Recommends: sylpheed-claws-plugins
+Depends: ${shlibs:Depends}, claws-mail (=2.0.0-ubuntu1-1)
+Conflicts: claws-mail (>= 2.0.1)
+Recommends: claws-mail-plugins
 Description: This plugin provides direct support for MBOX mailboxes. With this plugin you can share your MBOX mailbox with other mailers or IMAP servers.

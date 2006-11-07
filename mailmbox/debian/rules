@@ -56,9 +56,9 @@ install: build
 	dh_clean -k 
 	dh_installdirs
 
-	# Add here commands to install the package into debian/sylpheed-claws-mailmbox-plugin.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/sylpheed-claws-mailmbox-plugin
-	rm -f $(CURDIR)/debian/sylpheed-claws-mailmbox-plugin/usr/lib/sylpheed-claws/plugins/*.*a
+	# Add here commands to install the package into debian/claws-mail-mailmbox-plugin.
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/claws-mail-mailmbox-plugin
+	rm -f $(CURDIR)/debian/claws-mail-mailmbox-plugin/usr/lib/claws-mail/plugins/*.*a
 
 
 # Build architecture-independent files here.
