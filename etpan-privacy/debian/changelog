@@ -1,16 +1,16 @@
-sylpheed-claws-etpan-privacy-plugin (0.13-1) unstable; urgency=low
+claws-mail-etpan-privacy-plugin (0.13-1) unstable; urgency=low
 
   * new upstream Release.
 
  -- Colin Leroy <colin@colino.net>  Mon, 30 Jan 2005 18:22:12 +0200
 
-sylpheed-claws-etpan-privacy-plugin (0.11-2) unstable; urgency=low
+claws-mail-etpan-privacy-plugin (0.11-2) unstable; urgency=low
 
   * new upstream Release.
 
  -- Colin Leroy <colin@colino.net>  Wed,  7 Dec 2005 18:22:12 +0200
 
-sylpheed-claws-etpan-privacy-plugin (0.10-1) unstable; urgency=low
+claws-mail-etpan-privacy-plugin (0.10-1) unstable; urgency=low
 
   * Initial Release.
 

@@ -1,3 +1,20 @@
+2006-11-07 [paul]	0.15.3cvs1
+
+	* ChangeLog
+	* README
+	* configure.ac
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/files
+	* debian/rules
+	* src/Makefile.am
+	* src/etpan_privacy.c
+	* src/etpan_privacy.h
+	* src/plugin.c
+		Name change
+
 2006-09-25 [paul]	0.15.3
 
 	0.15.3 released
@@ -5,12 +22,12 @@
 2006-09-22 [ticho]	0.15.2cvs4
 
 	* configure.ac
-		Update required sylpheed-claws version to 2.4.0.200.
+		Update required claws-mail version to 2.4.0.200.
 
 2006-09-01 [wwp]	0.15.2cvs3
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-27 [colin]	0.15.2cvs2
@@ -64,7 +81,7 @@
 2006-05-17 [wwp] 0.15
 
 	* src/plugin.c
-		Updated sylpheed-claws product name.
+		Updated claws-mail product name.
 
 2006-04-07 [colin] 	0.14
 

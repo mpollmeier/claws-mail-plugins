@@ -1,10 +1,10 @@
-etPan! privacy plugin for sylpheed-claws
+etPan! privacy plugin for claws-mail
 ----------------------------------------
 
 1. etPan! privacy
 
   This allow to use the privacy architecture of etPan!, so that drivers 
-implemented for etPan! can be immediately used in sylpheed-claws.
+implemented for etPan! can be immediately used in claws-mail.
 This depends on libEtPan! 0.32 that can be found on http://libetpan.sf.net
 
 
@@ -103,7 +103,7 @@ default is "~/.sylpheed/smime/CA".
 
   Most of the code is extracted from the libEtPan! project, which is BSD 
 licence. But the code is considered as released under two licences, BSD 
-licence and the one used in sylpheed-claws, GPL 2.
+licence and the one used in claws-mail, GPL 2.
   I hope this won't break the synchronization between the implementation 
 of this plugin and the library code.
 

@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = etpan-privacy.la
 
@@ -14,11 +14,11 @@ etpan_privacy_la_LDFLAGS = \
 	$(GTK_LIBS)
 
 etpan_privacy_la_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
 
 AM_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
