@@ -2,7 +2,7 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <article>
     <articleinfo>
-	<title>Maildir++ Plugin for Sylpheed-Claws</title>
+	<title>Maildir++ Plugin for Claws Mail</title>
 	<author>
 	    <firstname>Christoph</firstname>
 	    <surname>Hohmann</surname>
@@ -19,7 +19,7 @@
     <sect1>
     	<title>What's the Maildir++ Plugin?</title>
 	<para>
-	    The Maildir++ plugin for Sylpheed-Claws provides direct
+	    The Maildir++ plugin for Claws Mail provides direct
 	    access to Maildir++ Mailboxes used by IMAP-Servers
 	    like <application>Courier-IMAP</application>,
 	    <application>BincIMAP</application> or
@@ -34,7 +34,7 @@
 	    <itemizedlist mark='opencircle'>
 		<listitem>
 		    <para>
-			Sylpheed-Claws 0.9.10claws48
+			Claws Mail 0.9.10claws48
 		    </para>
 		</listitem>
 		<listitem>
@@ -53,15 +53,15 @@
 	<title>Install</title>
 	<para>
 	    Run the <command>configure</command> script. You need the
-	    Sylpheed-Claws includes and pkg-config files that are usually
-	    installed, when you install Sylpheed-Claws.
+	    Claws Mail includes and pkg-config files that are usually
+	    installed, when you install Claws Mail.
 	</para>
 	<para>
 	    After the <command>configure</command> script you can
 	    build the plugin with <command>make</command> and install
 	    it with <command>make install</command>. It should install
 	    plugins in the location where the other plugins are usually
-	    <filename class="directory">$PREFIX/lib/sylpheed-claws</filename>.
+	    <filename class="directory">$PREFIX/lib/claws-mail</filename>.
 	    But you can load the plugin from any directory, also from the
 	    <filename class="directory">src/.libs</filename> directory in
 	    the source directory, if you don't want to install the plugin.

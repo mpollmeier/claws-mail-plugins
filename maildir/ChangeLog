@@ -1,3 +1,18 @@
+2006-11-07 [paul]	0.24.2cvs1
+
+	* ChangeLog
+	* configure.ac
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/rules
+	* doc/README.xml
+	* src/Makefile.am
+	* src/maildir_gtk.h
+	* src/plugin.c
+		Name change
+
 2006-09-25 [paul]	0.24.2
 
 	0.24.2 released
@@ -17,7 +32,7 @@
 2006-09-22 [ticho]	0.24.1cvs5
 
 	* configure.ac
-		Update required sylpheed-claws version to 2.4.0.200.
+		Update required claws-mail version to 2.4.0.200.
 
 2006-09-20 [colin]	0.24.1cvs4
 
@@ -28,7 +43,7 @@
 2006-09-01 [wwp]	0.24.1cvs3
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-27 [colin]	0.24.1cvs2

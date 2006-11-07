@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 plugin_LTLIBRARIES = maildir.la
 
 ## Maildir folder plugin
@@ -16,16 +16,16 @@ maildir_la_LIBADD = \
 	$(DBLIB) 
 
 maildir_la_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
 
 maildir_gtk_la_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
 
 AM_CPPFLAGS = \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS)
