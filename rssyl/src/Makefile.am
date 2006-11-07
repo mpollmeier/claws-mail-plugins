@@ -1,4 +1,4 @@
-plugindir = $(SYLPHEED_CLAWS_PLUGINDIR)
+plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
 plugin_LTLIBRARIES = rssyl.la
 
@@ -8,7 +8,7 @@ rssyl_la_LDFLAGS = \
 
 AM_CPPFLAGS = \
 	-Wall \
-	$(SYLPHEED_CLAWS_CFLAGS) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\" 

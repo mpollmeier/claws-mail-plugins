@@ -39,12 +39,12 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	if( sylpheed_get_version() > VERSION_NUMERIC ) {
-		*error = g_strdup(_("Your version of Sylpheed-Claws is newer than the version RSSyl was built with."));
+		*error = g_strdup(_("Your version of Claws Mail is newer than the version RSSyl was built with."));
 		return -1;
 	}
 
 	if( sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 94) ) {
-		*error = g_strdup(_("Your version of Sylpheed-Claws is too old for RSSyl."));
+		*error = g_strdup(_("Your version of Claws Mail is too old for RSSyl."));
 		return -1;
 	}
 

@@ -134,7 +134,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0);
 #endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
-		"Sylpheed-Claws RSSyl plugin "PLUGINVERSION
+		"Claws Mail RSSyl plugin "PLUGINVERSION
 		" (http://claws.sylpheed.org/plugins.php)");
 	
 	if( !ctx->defer_modified_check ) {
@@ -1117,7 +1117,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		meta_charset = g_strdup("<meta http-equiv=\"Content-Type\" "
 			       "content=\"text/html; charset=UTF-8\">");
 	} else {
-		/* make sure Sylpheed-Claws displays it as html */
+		/* make sure Claws Mail displays it as html */
 		fprintf(f, "Content-Type: text/html\n\n");
 	}
 

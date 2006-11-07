@@ -1,3 +1,20 @@
+2006-11-07 [paul]	0.7.0cvs1
+
+	* COPYING
+	* ChangeLog
+	* configure.ac
+	* debian/README.Debian
+	* debian/changelog
+	* debian/control
+	* debian/copyright
+	* debian/files
+	* debian/rules
+	* src/Makefile.am
+	* src/feed.c
+	* src/plugin.c
+	* src/rssyl_cb_menu.c
+		Name change
+
 2006-11-07 [paul]	0.7.0
 
 	0.7 released
@@ -101,7 +118,7 @@
 2006-09-22 [ticho]	0.6.0cvs21
 
 	* configure.ac
-		Upgrade required sylpheed-claws version to 2.4.0.200
+		Upgrade required claws-mail version to 2.4.0.200
 	* src/parsers.c
 		Remove unneeded static prototype declaration.
 	* src/feed.c
@@ -145,7 +162,7 @@
 2006-09-01 [wwp]	0.6.0cvs15
 
 	* commitHelper
-		sync w/ commitHelper in sylpheed-claws module:
+		sync w/ commitHelper in claws-mail module:
 		use CVSEDITOR env. var. if set.
 
 2006-08-29 [colin]	0.6.0cvs14

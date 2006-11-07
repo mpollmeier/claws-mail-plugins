@@ -271,9 +271,9 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 
 	if (prefs_common.work_offline && 
 	   !inc_offline_should_override(ngettext(
-			   "Sylpheed-Claws needs network access in order "
+			   "Claws Mail needs network access in order "
 			   "to update the feed.",
-			   "Sylpheed-Claws needs network access in order "
+			   "Claws Mail needs network access in order "
 			   "to update the feeds.", 1))) {
 			return;
 	}
@@ -302,9 +302,9 @@ void rssyl_refresh_all_cb(FolderView *folderview, guint action,
 {
 	if (prefs_common.work_offline && 
 	    !inc_offline_should_override(ngettext(
-			    "Sylpheed-Claws needs network access in order "
+			    "Claws Mail needs network access in order "
 			    "to update the feed.",
-			    "Sylpheed-Claws needs network access in order "
+			    "Claws Mail needs network access in order "
 			    "to update the feeds.", 2))) {
 			return;
 	}
