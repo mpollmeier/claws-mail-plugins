@@ -1182,7 +1182,7 @@ void *url_read_thread(void *data)
 #endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
 		"Claws Mail vCalendar plugin "
-		"(http://claws.sylpheed.org/plugins.php)");
+		"(http://www.claws-mail.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
 	res = curl_easy_perform(curl_ctx);
 	
@@ -1307,7 +1307,7 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
 #endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
 		"Claws Mail vCalendar plugin "
-		"(http://claws.sylpheed.org/plugins.php)");
+		"(http://www.claws-mail.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
 	res = curl_easy_perform(curl_ctx);
 

@@ -1,3 +1,8 @@
+2006-11-08 [paul]	1.90.0cvs2
+
+	* src/vcal_folder.c
+		update Claws Mail url
+
 2006-11-07 [paul]	1.90.0cvs1
 
 	* COPYING
