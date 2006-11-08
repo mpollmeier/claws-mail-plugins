@@ -135,7 +135,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 #endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Claws Mail RSSyl plugin "PLUGINVERSION
-		" (http://claws.sylpheed.org/plugins.php)");
+		" (http://www.claws-mail.org/plugins.php)");
 	
 	if( !ctx->defer_modified_check ) {
 		if( ctx->last_update != -1 ) {

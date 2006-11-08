@@ -12,7 +12,7 @@
 #define RSSYL_DEFAULT_MAILBOX	_("My Feeds")
 
 /* Default feed to be added when creating mailbox for the first time */
-#define RSSYL_DEFAULT_FEED	"http://planet.sylpheed.org/rss20.xml"
+#define RSSYL_DEFAULT_FEED	"http://planet.claws-mail.org/rss20.xml"
 
 struct _RSSylFolderItem {
 	FolderItem item;

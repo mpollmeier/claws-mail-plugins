@@ -1,3 +1,9 @@
+2006-11-08 [paul]	0.7.0cvs2
+
+	* src/feed.c
+	* src/rssyl.h
+		update Claws Mail url
+
 2006-11-07 [paul]	0.7.0cvs1
 
 	* COPYING
