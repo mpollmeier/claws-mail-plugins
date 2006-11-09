@@ -726,7 +726,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 {
 	GtkHtml2Viewer *viewer;
 	GtkAdjustment *adj;
-	gfloat min_size, min_size_new;
+	gfloat min_size = 0.0, min_size_new;
 	PangoFontDescription *font_desc = NULL;
 	gint n_entries;
 	GtkWidget *link_popupmenu;
