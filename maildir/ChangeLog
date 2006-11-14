@@ -1,3 +1,10 @@
+2006-11-14 [colin]	0.24.2cvs2
+
+	* src/maildir.c
+		Don't keep databases open. Fixes
+		bug 1059, 'maildir++ cannot handle 
+		more than 249 folders'
+
 2006-11-07 [paul]	0.24.2cvs1
 
 	* ChangeLog
