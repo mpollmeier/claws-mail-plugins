@@ -1,0 +1,68 @@
+# Spanish translation for attachwarner plugin
+# Copyright (C) 2006 Ricardo Mones 
+# This file is distributed under the same license as the attachwarner package.
+# Ricardo Mones <ricardo@mones.org>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: attachwarner\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2006-11-16 11:01+0100\n"
+"PO-Revision-Date: 2006-11-16 11:02+0100\n"
+"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
+"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/attachwarner.c:37
+msgid "attach.*"
+msgstr "adjun.*"
+
+#: src/attachwarner.c:142
+msgid "Attachment warning"
+msgstr "Aviso de adjuntos"
+
+#: src/attachwarner.c:143
+msgid ""
+"An attachment is mentioned in the mail you're sending, but no file was "
+"attached. Send it anyway?"
+msgstr ""
+"Se mencionan adjuntos en el correo que está a punto de enviar, pero no se "
+"adjunto ningún fichero. ¿Enviarlo igualmente?"
+
+#: src/attachwarner.c:144
+msgid "+_Send"
+msgstr "+_Enviar"
+
+#: src/attachwarner.c:165
+msgid ""
+"Your Claws-Mail version is newer than the version the plugin was built with"
+msgstr ""
+"Su version de Claws-Mail es más moderna que la que se usó para construir el "
+"módulo"
+
+#: src/attachwarner.c:170
+msgid "Your Claws-Mail version is too old"
+msgstr "Su versión de Claws-Mail es demasiado antigua"
+
+#: src/attachwarner.c:177
+msgid "Failed to register check before send hook"
+msgstr "Falló el registro de la función de comprobar antes de enviar"
+
+#: src/attachwarner.c:184
+msgid "Failed to get memory for matcher"
+msgstr "Falló la obtención de memoria para el comparador"
+
+#: src/attachwarner.c:212 src/attachwarner.c:264
+msgid "Attach warner"
+msgstr "Aviso de adjuntos"
+
+#: src/attachwarner.c:222
+msgid ""
+"Warns user if some reference to attachments is found in the message text and "
+"no file is attached"
+msgstr ""
+"Avisa al usuario si se encuentra alguna referencia a ficheros adjuntos en el "
+"mensaje pero no se adjunta ningún fichero"

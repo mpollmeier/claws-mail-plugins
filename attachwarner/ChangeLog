@@ -1,0 +1,66 @@
+2006-11-16 [mones]	0.2.1cvs1
+
+	* AUTHORS
+	* COPYING
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* README
+	* TODO
+	* autogen.sh
+	* commitHelper
+	* configure.ac
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/attachwarner.pot
+	* po/es.po
+	* po/remove-potcdate.sin
+	* src/Makefile.am
+	* src/attachwarner.c
+	* src/attachwarner.h
+	* src/gettext.h
+		New attachwarner plugin
+
+2006-11-16 [mones]      0.2.1
+
+	* src/gettext.h ** NEW **
+	* src/attachwarner.h
+	* src/attachwarner.c
+	* src/Makefile.am
+		Readded gettext.h and fixed warnings (thanks Paul)
+
+2006-11-16 [mones]	0.2.0
+
+	* src/attachwarner.c
+		Only check if not queuing message
+
+2006-11-15 [mones]	0.1.3
+
+	* src/attachwarner.c
+		Fix application logic
+
+2006-11-15 [mones]	0.1.2
+
+	* src/attachwarner.h
+	* src/gettext.h	** REMOVED **
+		Useless file removed
+
+2006-11-14 [mones]	0.1.1
+
+	* src/attachwarner.c
+	* po/attachwarner.pot
+	* po/es.po
+		Improve string and update translatable strings and translation
+	* po/Makevars
+		Fix copyright holder and address
+
+2006-11-14 [mones]	0.1.0
+
+	* src/attachwarner.c
+		Fix buttons meanings
+
+2006-11-10 [mones]	0.0.1
+
+	* Initial import

@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Ricardo Mones
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2006-11-16 11:01+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/attachwarner.c:37
+msgid "attach.*"
+msgstr ""
+
+#: src/attachwarner.c:142
+msgid "Attachment warning"
+msgstr ""
+
+#: src/attachwarner.c:143
+msgid ""
+"An attachment is mentioned in the mail you're sending, but no file was "
+"attached. Send it anyway?"
+msgstr ""
+
+#: src/attachwarner.c:144
+msgid "+_Send"
+msgstr ""
+
+#: src/attachwarner.c:165
+msgid ""
+"Your Claws-Mail version is newer than the version the plugin was built with"
+msgstr ""
+
+#: src/attachwarner.c:170
+msgid "Your Claws-Mail version is too old"
+msgstr ""
+
+#: src/attachwarner.c:177
+msgid "Failed to register check before send hook"
+msgstr ""
+
+#: src/attachwarner.c:184
+msgid "Failed to get memory for matcher"
+msgstr ""
+
+#: src/attachwarner.c:212 src/attachwarner.c:264
+msgid "Attach warner"
+msgstr ""
+
+#: src/attachwarner.c:222
+msgid ""
+"Warns user if some reference to attachments is found in the message text and "
+"no file is attached"
+msgstr ""
