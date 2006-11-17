@@ -46,6 +46,7 @@
 #include "statusbar.h"
 #include "log.h"
 #include "prefs_common.h"
+#include "defs.h"
 
 #include "gettext.h"
 
