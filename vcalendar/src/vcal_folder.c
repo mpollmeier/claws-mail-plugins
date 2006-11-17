@@ -1182,7 +1182,7 @@ void *url_read_thread(void *data)
 #endif
 	curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT, 
 		"Claws Mail vCalendar plugin "
-		"(http://www.claws-mail.org/plugins.php)");
+		"(" PLUGINS_URI ")");
 	curl_easy_setopt(curl_ctx, CURLOPT_FOLLOWLOCATION, 1);
 	res = curl_easy_perform(curl_ctx);
 	
