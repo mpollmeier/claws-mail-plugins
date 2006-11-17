@@ -165,19 +165,9 @@ static void fetchinfo_save_func(PrefsPage *_page)
 
 static struct FetchinfoPage fetchinfo_page;
 
-gint plugin_init(gchar **error)
+gint fetchinfo_gtk_init(gchar **error)
 {
 	static gchar *path[3];
-
-	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Claws Mail version is newer than the version the plugin was built with");
-		return -1;
-	}
-
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(0, 9, 12, 0))) {
-		*error = g_strdup("Your Claws Mail version is too old");
-		return -1;
-	}
 
 	path[0] = _("Plugins");
 	path[1] = _("Fetchinfo");
@@ -194,43 +184,9 @@ gint plugin_init(gchar **error)
 	return 0;	
 }
 
-void plugin_done(void)
+void fetchinfo_gtk_done(void)
 {
 	prefs_gtk_unregister_page((PrefsPage *) &fetchinfo_page);
 
 	debug_print("Fetchinfo GTK plugin unloaded\n");
-}
-
-const gchar *plugin_name(void)
-{
-	return _("Fetchinfo GTK");
-}
-
-const gchar *plugin_desc(void)
-{
-	return _("This plugin adds a configuration page for "
-	         "the Fetchinfo plugin.");
-}
-
-const gchar *plugin_type(void)
-{
-	return "GTK2";
-}
-
-const gchar *plugin_licence(void)
-{
-	return "GPL";
-}
-
-const gchar *plugin_version(void)
-{
-	return PLUGINVERSION;
-}
-
-struct PluginFeature *plugin_provides(void)
-{
-	static struct PluginFeature features[] = 
-		{ {PLUGIN_UTILITY, N_("GTK prefs for Mail marking plugin")},
-		  {PLUGIN_NOTHING, NULL}};
-	return features;
 }

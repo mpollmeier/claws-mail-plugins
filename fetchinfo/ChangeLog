@@ -1,3 +1,10 @@
+2006-11-17 [wwp]	0.4.16cvs2
+
+	* src/Makefile.am
+	* src/fetchinfo_plugin.c
+	* src/fetchinfo_plugin_gtk.c
+		Merged both fetchinfo plugins into a single one.
+
 2006-11-07 [paul]	0.4.16cvs1
 
 	* ChangeLog

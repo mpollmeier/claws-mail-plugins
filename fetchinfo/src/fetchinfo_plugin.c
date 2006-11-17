@@ -182,6 +182,8 @@ gint plugin_init(gchar **error)
 	prefs_read_config(param, "Fetchinfo", rcpath, NULL);
 	g_free(rcpath);
 
+	fetchinfo_gtk_init();
+
 	debug_print("Fetchinfo plugin loaded\n");
 
 	return 0;
@@ -190,6 +192,7 @@ gint plugin_init(gchar **error)
 void plugin_done(void)
 {
 	hooks_unregister_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook_id);
+	fetchinfo_gtk_done();
 
 	debug_print("Fetchinfo plugin unloaded\n");
 }
@@ -205,13 +208,13 @@ const gchar *plugin_desc(void)
 	         "It inserts headers containing some download "
 		 "information: UIDL, Claws Mail account name, "
 		 "POP server, user ID and retrieval time.\n"
-		 "To configure this plugin, load the Fetchinfo "
-		 "Gtk plugin as well.");
+	     "\n"
+	     "Options can be found in /Configuration/Preferences/Plugins/Fetchinfo");
 }
 
 const gchar *plugin_type(void)
 {
-	return "Common";
+	return "GTK2";
 }
 
 const gchar *plugin_licence(void)
