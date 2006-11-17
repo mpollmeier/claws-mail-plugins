@@ -444,7 +444,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 #endif
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Claws Mail GtkHtml2 plugin "PLUGINVERSION
-		" (http://www.claws-mail.org/plugins.php)");
+		" (" PLUGINS_URI ")");
 
 	res = curl_easy_perform(eh);
 
