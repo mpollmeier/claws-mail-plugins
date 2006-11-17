@@ -95,7 +95,6 @@ struct _MaildirFolderItem
 
 	guint lastuid;
 	UIDDB *db;
-	guint db_refcnt;
 };
 
 FolderClass *maildir_get_class()
@@ -158,30 +157,24 @@ static gint open_database(MaildirFolderItem *item)
 {
 	gchar *path, *database;
 
-	if (item->db != NULL) {
-		item->db_refcnt++;
-		return 0;
-	}
+	g_return_val_if_fail(item->db == NULL, -1);
+	
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
 	Xstrcat_a(database, path, G_DIR_SEPARATOR_S "sylpheed_uid.db", return -1);
 	g_free(path);
 
 	item->db = uiddb_open(database);
-	if (item->db)
-		item->db_refcnt = 1;
-
+	g_return_val_if_fail(item->db != NULL, -1);
+	
 	return 0;
 }
 
 static void close_database(MaildirFolderItem *item)
 {
-	if (item->db != NULL) {
-		item->db_refcnt--;
-		if (item->db_refcnt == 0) {
-			uiddb_close(item->db);
-			item->db = NULL;
-		}
-	}
+        g_return_if_fail(item->db != NULL);
+	
+	uiddb_close(item->db);
+	item->db = NULL;
 }
 
 static FolderItem *maildir_item_new(Folder *folder)
@@ -202,8 +195,6 @@ static void maildir_item_destroy(Folder *folder, FolderItem *_item)
 
         g_return_if_fail(item != NULL);
 	
-	close_database(item);
-
         g_free(item);
 }
 
@@ -432,16 +423,15 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 	MessageData *msgdata;
 	guint32 uid;
 
-	g_return_val_if_fail(open_database(item) == 0, 0);
+	g_return_val_if_fail(item->db != NULL, 0);
 
 	uniq = strrchr(filename, G_DIR_SEPARATOR);
 	if (uniq == NULL) {
-		close_database(item);
 		return 0;
 	}
 	uniq++;
 
-	Xstrdup_a(uniq, uniq, { close_database(item); return 0; });
+	Xstrdup_a(uniq, uniq, return 0);
 	info = strchr(uniq, ':');
 	if (info != NULL)
 		*info++ = '\0';
@@ -452,7 +442,6 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 	if (msgdata == NULL) {
 		msgdata = get_msgdata_for_filename(filename);
 		if (msgdata == NULL) {
-			close_database(item);
 			return 0;
 		}
 		msgdata->uid = uiddb_get_new_uid(item->db);
@@ -470,7 +459,6 @@ static guint32 get_uid_for_filename(MaildirFolderItem *item, const gchar *filena
 	uid = msgdata->uid;
 	uiddb_free_msgdata(msgdata);
 
-	close_database(item);
 	return uid;
 }
 
@@ -479,11 +467,11 @@ static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 	MessageData *msgdata;
 	gchar *path, *msgname, *filename;
 	glob_t globbuf;
-	g_return_val_if_fail(open_database(item) == 0, NULL);
+
+	g_return_val_if_fail(item->db != NULL, NULL);
 
 	msgdata = uiddb_get_entry_for_uid(item->db, uid);
 	if (msgdata == NULL) {
-		close_database(item);
 		return NULL;
 	}
 	path = maildir_item_get_path(FOLDER_ITEM(item)->folder, FOLDER_ITEM(item));
@@ -494,7 +482,6 @@ static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 	
 	if (is_file_exist(filename)) {
 		g_free(path);
-		close_database(item);
 		return msgdata;
 	}
 
@@ -532,7 +519,6 @@ static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 		uiddb_insert_entry(item->db, msgdata);
 	}
 
-	close_database(item);
 	return msgdata;
 }
 
@@ -554,17 +540,15 @@ static gchar *get_filepath_for_uid(MaildirFolderItem *item, guint32 uid)
 	MessageData *msgdata;
 	gchar *filename;
 
-	g_return_val_if_fail(open_database(item) == 0, NULL);
+	g_return_val_if_fail(item->db != NULL, NULL);
 
 	msgdata = get_msgdata_for_uid(item, uid);
 	if (msgdata == NULL) {
-		close_database(item);
 		return NULL;
 	}
 	filename = get_filepath_for_msgdata(item, msgdata);
 	uiddb_free_msgdata(msgdata);
 
-	close_database(item);
 	return filename;
 }
 
@@ -602,6 +586,7 @@ static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 	g_free(path);
 
 	tail = g_slist_last(*list);
+	
 	for (i = 0; i < globbuf.gl_pathc; i++) {
 		guint32 uid;
 
@@ -686,8 +671,11 @@ static gchar *maildir_fetch_msg(Folder * folder, FolderItem * item,
 				gint num)
 {
 	gchar *filename;
-
+	
+        g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, NULL);
 	filename = get_filepath_for_uid((MaildirFolderItem *) item, num);
+	close_database(MAILDIR_FOLDERITEM(item));
+	
 	return filename;
 }
 
@@ -731,7 +719,7 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 {
 	MessageData *msgdata;
 	gchar *tmpname, *destname;
-	gint uid = 0;
+	gint uid = -1;
 
 	g_return_val_if_fail(item != NULL, -1);
         g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
@@ -753,19 +741,13 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 		msgdata->dir = g_strdup("new");
 
 	if (copy_file(file, tmpname, FALSE) < 0) {
-		uiddb_free_msgdata(msgdata);
-		g_free(tmpname);
-		close_database(MAILDIR_FOLDERITEM(item));
-		return -1;
+		goto exit;
 	}
 
 	destname = get_filepath_for_msgdata(item, msgdata);
 	if (rename(tmpname, destname) < 0) {
-		uiddb_free_msgdata(msgdata);
-		g_free(tmpname);
 		g_free(destname);
-		close_database(MAILDIR_FOLDERITEM(item));
-		return -1;
+		goto exit;
 	}
 
 	uiddb_insert_entry(item->db, msgdata);
@@ -773,6 +755,11 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 	uid = msgdata->uid;
 	uiddb_free_msgdata(msgdata);
 	
+	close_database(MAILDIR_FOLDERITEM(item));
+	
+ exit:
+	uiddb_free_msgdata(msgdata);
+	g_free(tmpname);
 	close_database(MAILDIR_FOLDERITEM(item));
 	return uid;
 }
@@ -836,15 +823,22 @@ static gint maildir_remove_msg(Folder *folder, FolderItem *_item, gint num)
 	g_return_val_if_fail(item != NULL, -1);
 	g_return_val_if_fail(num > 0, -1);
 
+        g_return_val_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0, -1);
+	
 	filename = get_filepath_for_uid(item, num);
-	if (filename == NULL)
-		return -1;
+	if (filename == NULL) {
+		ret = -1;
+		goto close;
+	}
 
 	ret = unlink(filename);	
 	if (ret == 0)
 		uiddb_delete_entry(item->db, num);
 
 	g_free(filename);
+	
+ close:
+	close_database(MAILDIR_FOLDERITEM(item));
 	return ret;
 }
 
@@ -855,10 +849,12 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 	gchar *oldname, *newinfo, *newdir;
 	gboolean renamefile = FALSE;
 
+	g_return_if_fail(open_database(MAILDIR_FOLDERITEM(item)) == 0);
+
 	msgdata = get_msgdata_for_uid(item, msginfo->msgnum);
 	if (msgdata == NULL)
-		return;
-
+		goto fail;
+	
 	oldname = get_filepath_for_msgdata(item, msgdata);
 
 	newinfo = get_infostr(newflags);
@@ -894,6 +890,8 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 	g_free(oldname);
 	uiddb_free_msgdata(msgdata);
 	
+	close_database(MAILDIR_FOLDERITEM(item));
+	
 	if (renamefile) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		SummaryView *summaryview = mainwin->summaryview;
@@ -908,6 +906,11 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 				msginfo,
 				summaryview->messageview->all_headers);
 	}
+	
+	return;
+	
+ fail:
+	close_database(MAILDIR_FOLDERITEM(item));
 }
 
 static gboolean setup_new_folder(const gchar * path, gboolean subfolder)

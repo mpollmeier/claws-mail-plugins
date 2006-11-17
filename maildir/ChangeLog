@@ -1,3 +1,9 @@
+2006-11-17 [paul]	0.24.2cvs3
+
+	* src/maildir.c
+		better fix for bug 1058: get rid of ref count
+		Patch by Hoa
+
 2006-11-14 [colin]	0.24.2cvs2
 
 	* src/maildir.c
