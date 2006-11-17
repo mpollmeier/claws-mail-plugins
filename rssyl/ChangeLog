@@ -1,3 +1,8 @@
+2006-11-17 [wwp]	0.7.0cvs3
+
+	* src/feed.c
+		Don't use a hardcoded plugin URI as it's in defs.
+
 2006-11-08 [paul]	0.7.0cvs2
 
 	* src/feed.c
