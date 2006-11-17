@@ -44,6 +44,7 @@
 #include "codeconv.h"
 #include "plugin.h"
 #include "menu.h"
+#include "defs.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
