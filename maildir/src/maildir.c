@@ -753,9 +753,6 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 	uiddb_insert_entry(item->db, msgdata);
 
 	uid = msgdata->uid;
-	uiddb_free_msgdata(msgdata);
-	
-	close_database(MAILDIR_FOLDERITEM(item));
 	
  exit:
 	uiddb_free_msgdata(msgdata);
