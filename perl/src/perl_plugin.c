@@ -32,7 +32,7 @@
 #include "common/version.h"
 #include "common/defs.h"
 #include "common/utils.h"
-#include "common/sylpheed.h"
+#include "common/claws.h"
 #include "common/prefs.h"
 #include "procmsg.h"
 #include "procheader.h"
@@ -484,12 +484,12 @@ static void free_all_lists(void)
 
 
 
-/* SylpheedClaws::C module */
+/* ClawsMail::C module */
 
 /* Initialization */
 
-/* SylpheedClaws::C::filter_init(int) */
-static XS(XS_SylpheedClaws_filter_init)
+/* ClawsMail::C::filter_init(int) */
+static XS(XS_ClawsMail_filter_init)
 {
   int flag;
   /* flags:
@@ -531,7 +531,7 @@ static XS(XS_SylpheedClaws_filter_init)
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::init");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::init");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -609,20 +609,20 @@ static XS(XS_SylpheedClaws_filter_init)
     else
       XSRETURN_NO;
   default:
-    g_warning("Perl Plugin: Wrong argument to SylpheedClaws::C::init");
+    g_warning("Perl Plugin: Wrong argument to ClawsMail::C::init");
     XSRETURN_UNDEF;    
   }
 }
 
-/* SylpheedClaws::C::open_mail_file */
-static XS(XS_SylpheedClaws_open_mail_file)
+/* ClawsMail::C::open_mail_file */
+static XS(XS_ClawsMail_open_mail_file)
 {
   char *file;
   gchar buf[BUFFSIZE];
 
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::open_mail_file");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::open_mail_file");
     XSRETURN_UNDEF;
   }
   file = procmsg_get_message_file_path(msginfo);
@@ -632,17 +632,17 @@ static XS(XS_SylpheedClaws_open_mail_file)
   g_free(file);
   if((message_file = fopen(buf, "rb")) == NULL) {
     FILE_OP_ERROR(buf, "fopen");
-    g_warning("Perl Plugin: File open error in SylpheedClaws::C::open_mail_file");
+    g_warning("Perl Plugin: File open error in ClawsMail::C::open_mail_file");
     XSRETURN_UNDEF;
   }
 }
 
-/* SylpheedClaws::C::close_mail_file */
-static XS(XS_SylpheedClaws_close_mail_file)
+/* ClawsMail::C::close_mail_file */
+static XS(XS_ClawsMail_close_mail_file)
 {
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::close_mail_file");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::close_mail_file");
     XSRETURN_UNDEF;
   }
   if(message_file != NULL)
@@ -650,19 +650,19 @@ static XS(XS_SylpheedClaws_close_mail_file)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::get_next_header */
-static XS(XS_SylpheedClaws_get_next_header)
+/* ClawsMail::C::get_next_header */
+static XS(XS_ClawsMail_get_next_header)
 {
   gchar buf[BUFFSIZE];
   Header *header;
 
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::get_next_header");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::get_next_header");
     XSRETURN_EMPTY;
   }
   if(message_file == NULL) {
-    g_warning("Perl Plugin: Message file not open. Use SylpheedClaws::C::open_message_file first.");
+    g_warning("Perl Plugin: Message file not open. Use ClawsMail::C::open_message_file first.");
     XSRETURN_EMPTY;
   }
   if(procheader_get_one_field(buf, sizeof(buf), message_file, NULL) != -1) {
@@ -676,18 +676,18 @@ static XS(XS_SylpheedClaws_get_next_header)
     XSRETURN_EMPTY;
 }
 
-/* SylpheedClaws::C::get_next_body_line */
-static XS(XS_SylpheedClaws_get_next_body_line)
+/* ClawsMail::C::get_next_body_line */
+static XS(XS_ClawsMail_get_next_body_line)
 {
   gchar buf[BUFFSIZE];
 
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::get_next_body_line");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::get_next_body_line");
     XSRETURN_UNDEF;
   }
   if(message_file == NULL) {
-    g_warning("Perl Plugin: Message file not open. Use SylpheedClaws::C::open_message_file first.");
+    g_warning("Perl Plugin: Message file not open. Use ClawsMail::C::open_message_file first.");
     XSRETURN_UNDEF;
   }
   if(fgets(buf, sizeof(buf), message_file) != NULL)
@@ -699,8 +699,8 @@ static XS(XS_SylpheedClaws_get_next_body_line)
 
 /* Filter matchers */
 
-/* SylpheedClaws::C::check_flag(int) */
-static XS(XS_SylpheedClaws_check_flag)
+/* ClawsMail::C::check_flag(int) */
+static XS(XS_ClawsMail_check_flag)
 {
   int flag;
   /* flags:  1 marked
@@ -715,7 +715,7 @@ static XS(XS_SylpheedClaws_check_flag)
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::check_flag");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::check_flag");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -778,19 +778,19 @@ static XS(XS_SylpheedClaws_check_flag)
     else
       XSRETURN_NO;
   default:
-    g_warning("Perl Plugin: Unknown argument to SylpheedClaws::C::check_flag");
+    g_warning("Perl Plugin: Unknown argument to ClawsMail::C::check_flag");
     XSRETURN_UNDEF;
   }
 }
 
-/* SylpheedClaws::C::colorlabel(int) */
-static XS(XS_SylpheedClaws_colorlabel)
+/* ClawsMail::C::colorlabel(int) */
+static XS(XS_ClawsMail_colorlabel)
 {
   int color;
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::colorlabel");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::colorlabel");
     XSRETURN_UNDEF;
   }
   color = SvIV(ST(0));
@@ -803,15 +803,15 @@ static XS(XS_SylpheedClaws_colorlabel)
     XSRETURN_NO;
 }
 
-/* SylpheedClaws::C::age_greater(int) */
-static XS(XS_SylpheedClaws_age_greater)
+/* ClawsMail::C::age_greater(int) */
+static XS(XS_ClawsMail_age_greater)
 {
   int age;
   time_t t;
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::age_greater");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::age_greater");
     XSRETURN_UNDEF;
   }
   age = SvIV(ST(0));
@@ -824,15 +824,15 @@ static XS(XS_SylpheedClaws_age_greater)
     XSRETURN_NO;
 }
 
-/* SylpheedClaws::C::age_lower(int) */
-static XS(XS_SylpheedClaws_age_lower)
+/* ClawsMail::C::age_lower(int) */
+static XS(XS_ClawsMail_age_lower)
 {
   int age;
   time_t t;
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::age_lower");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::age_lower");
     XSRETURN_UNDEF;
   }
   age = SvIV(ST(0));
@@ -845,8 +845,8 @@ static XS(XS_SylpheedClaws_age_lower)
     XSRETURN_NO;
 }
 
-/* SylpheedClaws::C::addr_in_addressbook(char* [, char*]) */
-static XS(XS_SylpheedClaws_addr_in_addressbook)
+/* ClawsMail::C::addr_in_addressbook(char* [, char*]) */
+static XS(XS_ClawsMail_addr_in_addressbook)
 {
   gchar *addr;
   gchar *bookname;
@@ -854,7 +854,7 @@ static XS(XS_SylpheedClaws_addr_in_addressbook)
 
   dXSARGS;
   if(items != 1 && items != 2) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::addr_in_addressbook");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::addr_in_addressbook");
     XSRETURN_UNDEF;
   }
 
@@ -879,8 +879,8 @@ static XS(XS_SylpheedClaws_addr_in_addressbook)
 
 /* Filter actions */
 
-/* SylpheedClaws::C::set_flag(int) */
-static XS(XS_SylpheedClaws_set_flag)
+/* ClawsMail::C::set_flag(int) */
+static XS(XS_ClawsMail_set_flag)
 {
   int flag;
   /* flags:  1 mark
@@ -890,7 +890,7 @@ static XS(XS_SylpheedClaws_set_flag)
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::set_flag");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::set_flag");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -912,13 +912,13 @@ static XS(XS_SylpheedClaws_set_flag)
     filter_log_write(LOG_ACTION,"lock");
     XSRETURN_YES;
   default:
-    g_warning("Perl Plugin: Unknown argument to SylpheedClaws::C::set_flag");
+    g_warning("Perl Plugin: Unknown argument to ClawsMail::C::set_flag");
     XSRETURN_UNDEF;
   }
 }
 
-/* SylpheedClaws::C::unset_flag(int) */
-static XS(XS_SylpheedClaws_unset_flag)
+/* ClawsMail::C::unset_flag(int) */
+static XS(XS_ClawsMail_unset_flag)
 {
   int flag;
   /*
@@ -929,7 +929,7 @@ static XS(XS_SylpheedClaws_unset_flag)
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::unset_flag");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::unset_flag");
     XSRETURN_UNDEF;
   }
   flag = SvIV(ST(0));
@@ -951,13 +951,13 @@ static XS(XS_SylpheedClaws_unset_flag)
     filter_log_write(LOG_ACTION,"unlock");
     XSRETURN_YES;
   default:
-    g_warning("Perl Plugin: Unknown argument to SylpheedClaws::C::unset_flag");
+    g_warning("Perl Plugin: Unknown argument to ClawsMail::C::unset_flag");
     XSRETURN_UNDEF;
   }
 }
 
-/* SylpheedClaws::C::move(char*) */
-static XS(XS_SylpheedClaws_move)
+/* ClawsMail::C::move(char*) */
+static XS(XS_ClawsMail_move)
 {
   gchar *targetfolder;
   gchar *logtext;
@@ -965,7 +965,7 @@ static XS(XS_SylpheedClaws_move)
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::move");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::move");
     XSRETURN_UNDEF;
   }
 
@@ -988,8 +988,8 @@ static XS(XS_SylpheedClaws_move)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::copy(char*) */
-static XS(XS_SylpheedClaws_copy)
+/* ClawsMail::C::copy(char*) */
+static XS(XS_ClawsMail_copy)
 {
   char *targetfolder;
   gchar *logtext;
@@ -997,7 +997,7 @@ static XS(XS_SylpheedClaws_copy)
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::copy");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::copy");
     XSRETURN_UNDEF;
   }
   targetfolder = SvPV_nolen(ST(0));
@@ -1018,12 +1018,12 @@ static XS(XS_SylpheedClaws_copy)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::delete */
-static XS(XS_SylpheedClaws_delete)
+/* ClawsMail::C::delete */
+static XS(XS_ClawsMail_delete)
 {
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::delete");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::delete");
     XSRETURN_UNDEF;
   }
   folder_item_remove_msg(msginfo->folder, msginfo->msgnum);
@@ -1032,12 +1032,12 @@ static XS(XS_SylpheedClaws_delete)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::hide */
-static XS(XS_SylpheedClaws_hide)
+/* ClawsMail::C::hide */
+static XS(XS_ClawsMail_hide)
 {
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::hide");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::hide");
     XSRETURN_UNDEF;
   }
   msginfo->hidden = TRUE;
@@ -1046,15 +1046,15 @@ static XS(XS_SylpheedClaws_hide)
 }
 
 
-/* SylpheedClaws::C::color(int) */
-static XS(XS_SylpheedClaws_color)
+/* ClawsMail::C::color(int) */
+static XS(XS_ClawsMail_color)
 {
   int color;
   gchar *logtext;
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::color");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::color");
     XSRETURN_UNDEF;
   }
   color = SvIV(ST(0));
@@ -1069,15 +1069,15 @@ static XS(XS_SylpheedClaws_color)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::change_score(int) */
-static XS(XS_SylpheedClaws_change_score)
+/* ClawsMail::C::change_score(int) */
+static XS(XS_ClawsMail_change_score)
 {
   int score;
   gchar *logtext;
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::change_score");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::change_score");
     XSRETURN_UNDEF;
   }
   score = SvIV(ST(0));
@@ -1090,15 +1090,15 @@ static XS(XS_SylpheedClaws_change_score)
   XSRETURN_IV(msginfo->score);
 }
 
-/* SylpheedClaws::C::set_score(int) */
-static XS(XS_SylpheedClaws_set_score)
+/* ClawsMail::C::set_score(int) */
+static XS(XS_ClawsMail_set_score)
 {
   int score;
   gchar *logtext;
 
   dXSARGS;
   if(items != 1) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::set_score");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::set_score");
     XSRETURN_UNDEF;
   }
   score = SvIV(ST(0));
@@ -1111,8 +1111,8 @@ static XS(XS_SylpheedClaws_set_score)
   XSRETURN_IV(msginfo->score);
 }
 
-/* SylpheedClaws::C::forward(int,int,char*) */
-static XS(XS_SylpheedClaws_forward)
+/* ClawsMail::C::forward(int,int,char*) */
+static XS(XS_ClawsMail_forward)
 {
   int flag;
   /* flags:  1 forward
@@ -1126,7 +1126,7 @@ static XS(XS_SylpheedClaws_forward)
 
   dXSARGS;
   if(items != 3) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::forward");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::forward");
     XSRETURN_UNDEF;
   }
 
@@ -1158,8 +1158,8 @@ static XS(XS_SylpheedClaws_forward)
     XSRETURN_UNDEF;
 }
 
-/* SylpheedClaws::C::redirect(int,char*) */
-static XS(XS_SylpheedClaws_redirect)
+/* ClawsMail::C::redirect(int,char*) */
+static XS(XS_ClawsMail_redirect)
 {
   int account_id,val;
   char *dest;
@@ -1169,7 +1169,7 @@ static XS(XS_SylpheedClaws_redirect)
 
   dXSARGS;
   if(items != 2) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::redirect");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::redirect");
     XSRETURN_UNDEF;
   }
 
@@ -1202,14 +1202,14 @@ static XS(XS_SylpheedClaws_redirect)
 
 /* Utilities */
 
-/* SylpheedClaws::C::move_to_trash */
-static XS(XS_SylpheedClaws_move_to_trash)
+/* ClawsMail::C::move_to_trash */
+static XS(XS_ClawsMail_move_to_trash)
 {
   FolderItem *dest_folder;
   
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::move_to_trash");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::move_to_trash");
     XSRETURN_UNDEF;
   }
   dest_folder = folder_get_default_trash();
@@ -1226,14 +1226,14 @@ static XS(XS_SylpheedClaws_move_to_trash)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::abort */
-static XS(XS_SylpheedClaws_abort)
+/* ClawsMail::C::abort */
+static XS(XS_ClawsMail_abort)
 {
   FolderItem *inbox_folder;
 
   dXSARGS;
   if(items != 0) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::abort");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::abort");
     XSRETURN_UNDEF;
   }
   if(!manual_filtering) {
@@ -1255,8 +1255,8 @@ static XS(XS_SylpheedClaws_abort)
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::get_attribute_value(char*,char*[,char*]) */
-static XS(XS_SylpheedClaws_get_attribute_value)
+/* ClawsMail::C::get_attribute_value(char*,char*[,char*]) */
+static XS(XS_ClawsMail_get_attribute_value)
 {
   char *addr;
   char *attr;
@@ -1265,7 +1265,7 @@ static XS(XS_SylpheedClaws_get_attribute_value)
 
   dXSARGS;
   if(items != 2 && items != 3) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::get_attribute_value");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::get_attribute_value");
     XSRETURN_UNDEF;
   }
   addr = SvPV_nolen(ST(0));
@@ -1283,15 +1283,15 @@ static XS(XS_SylpheedClaws_get_attribute_value)
   XSRETURN_PV("");
 }
 
-/* SylpheedClaws::C::filter_log(char*,char*) */
-static XS(XS_SylpheedClaws_filter_log)
+/* ClawsMail::C::filter_log(char*,char*) */
+static XS(XS_ClawsMail_filter_log)
 {
   char *text;
   char *type;
   
   dXSARGS;
   if(items != 2) {
-    g_warning("Perl Plugin: Wrong number of arguments to SylpheedClaws::C::filter_log");
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::filter_log");
     XSRETURN_UNDEF;
   }
   type = SvPV_nolen(ST(0));
@@ -1303,21 +1303,21 @@ static XS(XS_SylpheedClaws_filter_log)
   else if(!strcmp(type, "LOG_MATCH"))
     filter_log_write(LOG_MATCH, text);
   else {
-    g_warning("Perl Plugin: SylpheedClaws::C::filter_log -- wrong first argument");
+    g_warning("Perl Plugin: ClawsMail::C::filter_log -- wrong first argument");
     XSRETURN_UNDEF;
   }  
   XSRETURN_YES;
 }
 
-/* SylpheedClaws::C::filter_log_verbosity(int) */
-static XS(XS_SylpheedClaws_filter_log_verbosity)
+/* ClawsMail::C::filter_log_verbosity(int) */
+static XS(XS_ClawsMail_filter_log_verbosity)
 {
   int retval;
 
   dXSARGS;
   if(items != 1 && items != 0) {
     g_warning("Perl Plugin: Wrong number of arguments to "
-		"SylpheedClaws::C::filter_log_verbosity");
+		"ClawsMail::C::filter_log_verbosity");
     XSRETURN_UNDEF;
   }
   retval = filter_log_verbosity;
@@ -1334,39 +1334,39 @@ EXTERN_C void xs_init(pTHX)
   char *file = __FILE__;
   dXSUB_SYS;
   newXS("DynaLoader::boot_DynaLoader",    boot_DynaLoader,               file);
-  newXS("SylpheedClaws::C::filter_init",  XS_SylpheedClaws_filter_init,  "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::check_flag",   XS_SylpheedClaws_check_flag,   "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::age_greater",  XS_SylpheedClaws_age_greater,  "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::age_lower",    XS_SylpheedClaws_age_lower,    "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::set_flag",     XS_SylpheedClaws_set_flag,     "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::unset_flag",   XS_SylpheedClaws_unset_flag,   "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::delete",       XS_SylpheedClaws_delete,       "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::move",         XS_SylpheedClaws_move,         "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::copy",         XS_SylpheedClaws_copy,         "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::color",        XS_SylpheedClaws_color,        "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::colorlabel",   XS_SylpheedClaws_colorlabel,   "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::change_score", XS_SylpheedClaws_change_score, "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::set_score",    XS_SylpheedClaws_set_score,    "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::hide",         XS_SylpheedClaws_hide,         "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::forward",      XS_SylpheedClaws_forward,      "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::redirect",     XS_SylpheedClaws_redirect,     "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::addr_in_addressbook",
-	XS_SylpheedClaws_addr_in_addressbook,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::open_mail_file",
-	XS_SylpheedClaws_open_mail_file,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::close_mail_file",
-	XS_SylpheedClaws_close_mail_file,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::get_next_header",
-	XS_SylpheedClaws_get_next_header,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::get_next_body_line",
-	XS_SylpheedClaws_get_next_body_line,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::move_to_trash",XS_SylpheedClaws_move_to_trash,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::abort",        XS_SylpheedClaws_abort,        "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::get_attribute_value",
-	XS_SylpheedClaws_get_attribute_value,"SylpheedClaws::C");
-  newXS("SylpheedClaws::C::filter_log",   XS_SylpheedClaws_filter_log,   "SylpheedClaws::C");
-  newXS("SylpheedClaws::C::filter_log_verbosity",
-	XS_SylpheedClaws_filter_log_verbosity, "SylpheedClaws::C");
+  newXS("ClawsMail::C::filter_init",  XS_ClawsMail_filter_init,  "ClawsMail::C");
+  newXS("ClawsMail::C::check_flag",   XS_ClawsMail_check_flag,   "ClawsMail::C");
+  newXS("ClawsMail::C::age_greater",  XS_ClawsMail_age_greater,  "ClawsMail::C");
+  newXS("ClawsMail::C::age_lower",    XS_ClawsMail_age_lower,    "ClawsMail::C");
+  newXS("ClawsMail::C::set_flag",     XS_ClawsMail_set_flag,     "ClawsMail::C");
+  newXS("ClawsMail::C::unset_flag",   XS_ClawsMail_unset_flag,   "ClawsMail::C");
+  newXS("ClawsMail::C::delete",       XS_ClawsMail_delete,       "ClawsMail::C");
+  newXS("ClawsMail::C::move",         XS_ClawsMail_move,         "ClawsMail::C");
+  newXS("ClawsMail::C::copy",         XS_ClawsMail_copy,         "ClawsMail::C");
+  newXS("ClawsMail::C::color",        XS_ClawsMail_color,        "ClawsMail::C");
+  newXS("ClawsMail::C::colorlabel",   XS_ClawsMail_colorlabel,   "ClawsMail::C");
+  newXS("ClawsMail::C::change_score", XS_ClawsMail_change_score, "ClawsMail::C");
+  newXS("ClawsMail::C::set_score",    XS_ClawsMail_set_score,    "ClawsMail::C");
+  newXS("ClawsMail::C::hide",         XS_ClawsMail_hide,         "ClawsMail::C");
+  newXS("ClawsMail::C::forward",      XS_ClawsMail_forward,      "ClawsMail::C");
+  newXS("ClawsMail::C::redirect",     XS_ClawsMail_redirect,     "ClawsMail::C");
+  newXS("ClawsMail::C::addr_in_addressbook",
+	XS_ClawsMail_addr_in_addressbook,"ClawsMail::C");
+  newXS("ClawsMail::C::open_mail_file",
+	XS_ClawsMail_open_mail_file,"ClawsMail::C");
+  newXS("ClawsMail::C::close_mail_file",
+	XS_ClawsMail_close_mail_file,"ClawsMail::C");
+  newXS("ClawsMail::C::get_next_header",
+	XS_ClawsMail_get_next_header,"ClawsMail::C");
+  newXS("ClawsMail::C::get_next_body_line",
+	XS_ClawsMail_get_next_body_line,"ClawsMail::C");
+  newXS("ClawsMail::C::move_to_trash",XS_ClawsMail_move_to_trash,"ClawsMail::C");
+  newXS("ClawsMail::C::abort",        XS_ClawsMail_abort,        "ClawsMail::C");
+  newXS("ClawsMail::C::get_attribute_value",
+	XS_ClawsMail_get_attribute_value,"ClawsMail::C");
+  newXS("ClawsMail::C::filter_log",   XS_ClawsMail_filter_log,   "ClawsMail::C");
+  newXS("ClawsMail::C::filter_log_verbosity",
+	XS_ClawsMail_filter_log_verbosity, "ClawsMail::C");
 }
 
 /*
@@ -1387,7 +1387,7 @@ static int perl_load_file(void)
   gchar *pp;
   STRLEN n_a;
 
-  call_argv("SylpheedClaws::Filter::Matcher::filter_init_",
+  call_argv("ClawsMail::Filter::Matcher::filter_init_",
 	    G_DISCARD | G_EVAL | G_NOARGS,noargs);
   /* check $@ */
   if(SvTRUE(ERRSV)) {
@@ -1396,7 +1396,7 @@ static int perl_load_file(void)
   }
   perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
   args[0] = perlfilter;
-  call_argv("SylpheedClaws::Persistent::eval_file",
+  call_argv("ClawsMail::Persistent::eval_file",
 	    G_DISCARD | G_EVAL, args);
   g_free(perlfilter);
   if(SvTRUE(ERRSV)) {
@@ -1451,7 +1451,7 @@ static int perl_init(void)
   /* The `persistent' module is taken from the Perl documentation
      and has only slightly been modified. */
   const char perl_persistent[] = {
-"package SylpheedClaws::Persistent;\n"
+"package ClawsMail::Persistent;\n"
 "\n"
 "use strict;\n"
 "our %Cache;\n"
@@ -1465,7 +1465,7 @@ static int perl_init(void)
 "    \n"
 "    # Dress it up as a real package name\n"
 "    $string =~ s|/|::|g;\n"
-"    return \"SylpheedClaws\" . $string;\n"
+"    return \"ClawsMail\" . $string;\n"
 "}\n"
 "\n"
 "sub eval_file {\n"
@@ -1482,9 +1482,9 @@ static int perl_init(void)
 "	close FH;\n"
 "	#wrap the code into a subroutine inside our unique package\n"
 "	my $eval = qq{package $package;\n"
-"		      use SylpheedClaws::Filter::Matcher;\n"
-"		      use SylpheedClaws::Filter::Action;\n"
-"		      use SylpheedClaws::Utils;\n"
+"		      use ClawsMail::Filter::Matcher;\n"
+"		      use ClawsMail::Filter::Action;\n"
+"		      use ClawsMail::Utils;\n"
 "		      sub handler { $sub; }};\n"
 "	{\n"
 "	    # hide our variables within this block\n"
@@ -1501,8 +1501,8 @@ static int perl_init(void)
 "}\n"
   };
   const char perl_filter_matcher[] = {
-"BEGIN {$INC{'SylpheedClaws/Filter/Matcher.pm'} = 1;}\n"
-"package SylpheedClaws::Filter::Matcher;\n"
+"BEGIN {$INC{'ClawsMail/Filter/Matcher.pm'} = 1;}\n"
+"package ClawsMail::Filter::Matcher;\n"
 "use locale;\n"
 "use base qw(Exporter);\n"
 "use strict;\n"
@@ -1550,39 +1550,39 @@ static int perl_init(void)
 "sub body {init_();return $body;}\n"
 "sub filepath {return $msginfo{\"filepath\"};}\n"
 "sub manual {\n"
-"    SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"manual\") if $manual;\n"
+"    ClawsMail::C::filter_log(\"LOG_MATCH\",\"manual\") if $manual;\n"
 "    return $manual;\n"
 "}\n"
 "sub filter_log {\n"
 "    my $arg1 = shift;\n"
 "    my $arg2 = shift;\n"
-"    return SylpheedClaws::C::filter_log($arg1,$arg2)\n"
+"    return ClawsMail::C::filter_log($arg1,$arg2)\n"
 "	if defined($arg2);\n"
-"    return SylpheedClaws::C::filter_log(\"LOG_MANUAL\",$arg1);\n"
+"    return ClawsMail::C::filter_log(\"LOG_MANUAL\",$arg1);\n"
 "}\n"
 "sub filter_log_verbosity {\n"
 "    $_ = shift;\n"
-"    return SylpheedClaws::C::filter_log_verbosity($_)\n"
+"    return ClawsMail::C::filter_log_verbosity($_)\n"
 "	if defined($_);\n"
-"    return SylpheedClaws::C::filter_log_verbosity();\n"
+"    return ClawsMail::C::filter_log_verbosity();\n"
 "}\n"
 "# Public Matcher Tests\n"
-"sub all { SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"all\");return 1; }\n"
-"sub marked        { return SylpheedClaws::C::check_flag(1);}\n"
-"sub unread        { return SylpheedClaws::C::check_flag(2);}\n"
-"sub deleted       { return SylpheedClaws::C::check_flag(3);}\n"
-"sub new           { return SylpheedClaws::C::check_flag(4);}\n"
-"sub replied       { return SylpheedClaws::C::check_flag(5);}\n"
-"sub forwarded     { return SylpheedClaws::C::check_flag(6);}\n"
-"sub locked        { return SylpheedClaws::C::check_flag(7);}\n"
-"sub ignore_thread { return SylpheedClaws::C::check_flag(8);}\n"
-"sub age_greater  {return SylpheedClaws::C::age_greater(@_);}\n"
-"sub age_lower    {return SylpheedClaws::C::age_lower(@_);  }\n"
+"sub all { ClawsMail::C::filter_log(\"LOG_MATCH\",\"all\");return 1; }\n"
+"sub marked        { return ClawsMail::C::check_flag(1);}\n"
+"sub unread        { return ClawsMail::C::check_flag(2);}\n"
+"sub deleted       { return ClawsMail::C::check_flag(3);}\n"
+"sub new           { return ClawsMail::C::check_flag(4);}\n"
+"sub replied       { return ClawsMail::C::check_flag(5);}\n"
+"sub forwarded     { return ClawsMail::C::check_flag(6);}\n"
+"sub locked        { return ClawsMail::C::check_flag(7);}\n"
+"sub ignore_thread { return ClawsMail::C::check_flag(8);}\n"
+"sub age_greater  {return ClawsMail::C::age_greater(@_);}\n"
+"sub age_lower    {return ClawsMail::C::age_lower(@_);  }\n"
 "sub score_equal {\n"
 "    my $my_score = shift;\n"
 "    return 0 unless (defined($msginfo{\"score\"}) and defined($my_score));\n"
 "    if($my_score == $msginfo{\"score\"}) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"score_equal\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"score_equal\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1590,7 +1590,7 @@ static int perl_init(void)
 "    my $my_score = shift;\n"
 "    return 0 unless (defined($msginfo{\"score\"}) and defined($my_score));\n"
 "    if($msginfo{\"score\"} > $my_score) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"score_greater\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"score_greater\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1598,7 +1598,7 @@ static int perl_init(void)
 "    my $my_score = shift;\n"
 "    return 0 unless (defined($msginfo{\"score\"}) and defined($my_score));\n"
 "    if($msginfo{\"score\"} < $my_score) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"score_lower\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"score_lower\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1607,13 +1607,13 @@ static int perl_init(void)
 "    $color = lc $color;\n"
 "    $color = $colors{$color} if exists $colors{$color};\n"
 "    $color = 0 if $color =~ m/\\D/;\n"
-"    return SylpheedClaws::C::colorlabel($color);\n"
+"    return ClawsMail::C::colorlabel($color);\n"
 "}\n"
 "sub size_greater {\n"
 "    my $my_size = shift;\n"
 "    return 0 unless (defined($msginfo{\"size\"}) and defined($my_size));\n"
 "    if($msginfo{\"size\"} > $my_size) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"size_greater\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"size_greater\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1621,7 +1621,7 @@ static int perl_init(void)
 "    my $my_size = shift;\n"
 "    return 0 unless (defined($msginfo{\"size\"}) and defined($my_size));\n"
 "    if($msginfo{\"size\"} < $my_size) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"size_smaller\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"size_smaller\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1629,7 +1629,7 @@ static int perl_init(void)
 "    my $my_size = shift;\n"
 "    return 0 unless (defined($msginfo{\"size\"}) and defined($my_size));\n"
 "    if($msginfo{\"size\"} == $my_size) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"size_equal\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"size_equal\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1638,7 +1638,7 @@ static int perl_init(void)
 "	and defined($msginfo{\"size\"});\n"
 "    if($msginfo{\"total_size\"} != 0\n"
 "       && $msginfo{\"size\"} != $msginfo{\"total_size\"}) {\n"
-"	SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"partial\");\n"
+"	ClawsMail::C::filter_log(\"LOG_MATCH\",\"partial\");\n"
 "	return 1;\n"
 "    }else{return 0;}\n"
 "}\n"
@@ -1663,35 +1663,35 @@ static int perl_init(void)
 "       $command .= $re;$re=\"\";\n"
 "   }\n"
 "   $retval = !(system($command)>>8);\n"
-"   SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"test: $cmdline\")\n"
+"   ClawsMail::C::filter_log(\"LOG_MATCH\",\"test: $cmdline\")\n"
 "       if $retval;\n"
 "   return $retval;\n"
 "}\n"
 "sub matchcase {\n"
 "    my $retval;\n"
 "    $retval = match_(@_,\"i\");\n"
-"    SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"matchcase: $_[0], $_[1]\")\n"
+"    ClawsMail::C::filter_log(\"LOG_MATCH\",\"matchcase: $_[0], $_[1]\")\n"
 "	if $retval;\n"
 "    return $retval;\n"
 "}\n"
 "sub match {\n"
 "    my $retval;\n"
 "    $retval = match_(@_);\n"
-"    SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"match: $_[0], $_[1]\")\n"
+"    ClawsMail::C::filter_log(\"LOG_MATCH\",\"match: $_[0], $_[1]\")\n"
 "	if $retval;\n"
 "    return $retval;\n"
 "}\n"
 "sub regexpcase {\n"
 "    my $retval;\n"
 "    $retval = match_(@_,\"ri\");\n"
-"    SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"regexpcase: $_[0], $_[1]\")\n"
+"    ClawsMail::C::filter_log(\"LOG_MATCH\",\"regexpcase: $_[0], $_[1]\")\n"
 "	if $retval;\n"
 "    return $retval;\n"
 "}\n"
 "sub regexp {\n"
 "    my $retval;\n"
 "    $retval = match_(@_,\"r\");\n"
-"    SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"regexp: $_[0], $_[1]\")\n"
+"    ClawsMail::C::filter_log(\"LOG_MATCH\",\"regexp: $_[0], $_[1]\")\n"
 "	if $retval;\n"
 "    return $retval;\n"
 "}\n"
@@ -1704,52 +1704,52 @@ static int perl_init(void)
 "# read whole mail\n"
 "sub init_ {\n"
 "    return 0 if $mail_done;\n"
-"    SylpheedClaws::C::open_mail_file();\n"
+"    ClawsMail::C::open_mail_file();\n"
 "    read_headers_();\n"
 "    read_body_();\n"
-"    SylpheedClaws::C::close_mail_file();\n"
+"    ClawsMail::C::close_mail_file();\n"
 "    $mail_done = 1;\n"
 "}\n"
 "sub filter_init_ {\n"
 "    %header = (); %msginfo = (); undef $body; $mail_done = 0;\n"
-"    $manual                        = SylpheedClaws::C::filter_init(100);\n"
-"    $msginfo{\"size\"}               = SylpheedClaws::C::filter_init( 1) ;\n"
-"    add_header_entries_(\"date\",      SylpheedClaws::C::filter_init( 2));\n"
-"    add_header_entries_(\"from\",      SylpheedClaws::C::filter_init( 3));\n"
-"    add_header_entries_(\"to\",        SylpheedClaws::C::filter_init( 4));\n"
-"    add_header_entries_(\"cc\",        SylpheedClaws::C::filter_init( 5));\n"
-"    add_header_entries_(\"newsgroups\",SylpheedClaws::C::filter_init( 6));\n"
-"    add_header_entries_(\"subject\",   SylpheedClaws::C::filter_init( 7));\n"
-"    add_header_entries_(\"msgid\",     SylpheedClaws::C::filter_init( 8));\n"
-"    add_header_entries_(\"inreplyto\", SylpheedClaws::C::filter_init( 9));\n"
-"    add_header_entries_(\"xref\",      SylpheedClaws::C::filter_init(10));\n"
-"    add_header_entries_(\"xface\",     SylpheedClaws::C::filter_init(11));\n"
+"    $manual                        = ClawsMail::C::filter_init(100);\n"
+"    $msginfo{\"size\"}               = ClawsMail::C::filter_init( 1) ;\n"
+"    add_header_entries_(\"date\",      ClawsMail::C::filter_init( 2));\n"
+"    add_header_entries_(\"from\",      ClawsMail::C::filter_init( 3));\n"
+"    add_header_entries_(\"to\",        ClawsMail::C::filter_init( 4));\n"
+"    add_header_entries_(\"cc\",        ClawsMail::C::filter_init( 5));\n"
+"    add_header_entries_(\"newsgroups\",ClawsMail::C::filter_init( 6));\n"
+"    add_header_entries_(\"subject\",   ClawsMail::C::filter_init( 7));\n"
+"    add_header_entries_(\"msgid\",     ClawsMail::C::filter_init( 8));\n"
+"    add_header_entries_(\"inreplyto\", ClawsMail::C::filter_init( 9));\n"
+"    add_header_entries_(\"xref\",      ClawsMail::C::filter_init(10));\n"
+"    add_header_entries_(\"xface\",     ClawsMail::C::filter_init(11));\n"
 "    add_header_entries_(\"dispositionnotificationto\",\n"
-"			             SylpheedClaws::C::filter_init(12));\n"
+"			             ClawsMail::C::filter_init(12));\n"
 "    add_header_entries_(\"returnreceiptto\",\n"
-"			             SylpheedClaws::C::filter_init(13));\n"
-"    add_header_entries_(\"references\",SylpheedClaws::C::filter_init(14));\n"
-"    $msginfo{\"score\"}              = SylpheedClaws::C::filter_init(15);\n"
-"    $msginfo{\"plaintext_file\"}     = SylpheedClaws::C::filter_init(17);\n"
-"    $msginfo{\"hidden\"}             = SylpheedClaws::C::filter_init(19);\n"
-"    $msginfo{\"filepath\"}           = SylpheedClaws::C::filter_init(20);\n"
-"    $msginfo{\"partial_recv\"}       = SylpheedClaws::C::filter_init(21);\n"
-"    $msginfo{\"total_size\"}         = SylpheedClaws::C::filter_init(22);\n"
-"    $msginfo{\"account_server\"}     = SylpheedClaws::C::filter_init(23);\n"
-"    $msginfo{\"account_login\"}      = SylpheedClaws::C::filter_init(24);\n"
-"    $msginfo{\"planned_download\"}   = SylpheedClaws::C::filter_init(25);\n"
+"			             ClawsMail::C::filter_init(13));\n"
+"    add_header_entries_(\"references\",ClawsMail::C::filter_init(14));\n"
+"    $msginfo{\"score\"}              = ClawsMail::C::filter_init(15);\n"
+"    $msginfo{\"plaintext_file\"}     = ClawsMail::C::filter_init(17);\n"
+"    $msginfo{\"hidden\"}             = ClawsMail::C::filter_init(19);\n"
+"    $msginfo{\"filepath\"}           = ClawsMail::C::filter_init(20);\n"
+"    $msginfo{\"partial_recv\"}       = ClawsMail::C::filter_init(21);\n"
+"    $msginfo{\"total_size\"}         = ClawsMail::C::filter_init(22);\n"
+"    $msginfo{\"account_server\"}     = ClawsMail::C::filter_init(23);\n"
+"    $msginfo{\"account_login\"}      = ClawsMail::C::filter_init(24);\n"
+"    $msginfo{\"planned_download\"}   = ClawsMail::C::filter_init(25);\n"
 "} \n"
 "sub read_headers_ {\n"
 "    my($key,$value);\n"
 "    %header = ();\n"
-"    while(($key,$value) = SylpheedClaws::C::get_next_header()) {\n"
+"    while(($key,$value) = ClawsMail::C::get_next_header()) {\n"
 "	next unless $key =~ /:$/;\n"
 "	add_header_entries_($key,$value);\n"
 "    }\n"
 "}\n"
 "sub read_body_ {\n"
 "    my $line;\n"
-"    while(defined($line = SylpheedClaws::C::get_next_body_line())) {\n"
+"    while(defined($line = ClawsMail::C::get_next_body_line())) {\n"
 "	$body .= $line;\n"
 "    }    \n"
 "}\n"
@@ -1827,8 +1827,8 @@ static int perl_init(void)
 "1;\n"
   };
   const char perl_filter_action[] = {
-"BEGIN {$INC{'SylpheedClaws/Filter/Action.pm'} = 1;}\n"
-"package SylpheedClaws::Filter::Action;\n"
+"BEGIN {$INC{'ClawsMail/Filter/Action.pm'} = 1;}\n"
+"package ClawsMail::Filter::Action;\n"
 "use base qw(Exporter);\n"
 "our @EXPORT = (qw(mark unmark dele mark_as_unread mark_as_read),\n"
 "	       qw(lock unlock move copy color execute),\n"
@@ -1839,56 +1839,56 @@ static int perl_init(void)
 "    	       'red'      =>  2,'pink'   =>  3,\n"
 "    	       'sky blue' =>  4,'blue'   =>  5,\n"
 "    	       'green'    =>  6,'brown'  =>  7);\n"
-"sub mark           { SylpheedClaws::C::set_flag  (1);}\n"
-"sub unmark         { SylpheedClaws::C::unset_flag(1);}\n"
-"sub mark_as_unread { SylpheedClaws::C::set_flag  (2);}\n"
-"sub mark_as_read   { SylpheedClaws::C::unset_flag(2);}\n"
-"sub lock           { SylpheedClaws::C::set_flag  (7);}\n"
-"sub unlock         { SylpheedClaws::C::unset_flag(7);}\n"
-"sub copy           { SylpheedClaws::C::copy     (@_);}\n"
-"sub forward        { SylpheedClaws::C::forward(1,@_);}\n"
-"sub forward_as_attachment {SylpheedClaws::C::forward(2,@_);}\n"
-"sub redirect       { SylpheedClaws::C::redirect(@_); }\n"
-"sub hide           { SylpheedClaws::C::hide();       }\n"
+"sub mark           { ClawsMail::C::set_flag  (1);}\n"
+"sub unmark         { ClawsMail::C::unset_flag(1);}\n"
+"sub mark_as_unread { ClawsMail::C::set_flag  (2);}\n"
+"sub mark_as_read   { ClawsMail::C::unset_flag(2);}\n"
+"sub lock           { ClawsMail::C::set_flag  (7);}\n"
+"sub unlock         { ClawsMail::C::unset_flag(7);}\n"
+"sub copy           { ClawsMail::C::copy     (@_);}\n"
+"sub forward        { ClawsMail::C::forward(1,@_);}\n"
+"sub forward_as_attachment {ClawsMail::C::forward(2,@_);}\n"
+"sub redirect       { ClawsMail::C::redirect(@_); }\n"
+"sub hide           { ClawsMail::C::hide();       }\n"
 "sub exit {\n"
-"    SylpheedClaws::C::filter_log(\"LOG_ACTION\",\"exit\");\n"
+"    ClawsMail::C::filter_log(\"LOG_ACTION\",\"exit\");\n"
 "    stop(1);\n"
 "}\n"
 "sub stop {\n"
 "    my $nolog = shift;\n"
-"    SylpheedClaws::C::filter_log(\"LOG_ACTION\", \"stop\")\n"
+"    ClawsMail::C::filter_log(\"LOG_ACTION\", \"stop\")\n"
 "	unless defined($nolog);\n"
 "    die 'intended';\n"
 "}\n"
 "sub set_score {\n"
-"    $SylpheedClaws::Filter::Matcher::msginfo{\"score\"} =\n"
-"	SylpheedClaws::C::set_score(@_);\n"
+"    $ClawsMail::Filter::Matcher::msginfo{\"score\"} =\n"
+"	ClawsMail::C::set_score(@_);\n"
 "}\n"
 "sub change_score {\n"
-"    $SylpheedClaws::Filter::Matcher::msginfo{\"score\"} =\n"
-"	SylpheedClaws::C::change_score(@_);\n"
+"    $ClawsMail::Filter::Matcher::msginfo{\"score\"} =\n"
+"	ClawsMail::C::change_score(@_);\n"
 "}\n"
 "sub execute {\n"
 "    my $flv; my $cmd = shift; return 0 unless defined($cmd);\n"
-"    $flv = SylpheedClaws::C::filter_log_verbosity(0);\n"
-"    SylpheedClaws::Filter::Matcher::test($cmd);\n"
-"    SylpheedClaws::C::filter_log_verbosity($flv);\n"
-"    SylpheedClaws::C::filter_log(\"LOG_ACTION\", \"execute: $cmd\");\n"
+"    $flv = ClawsMail::C::filter_log_verbosity(0);\n"
+"    ClawsMail::Filter::Matcher::test($cmd);\n"
+"    ClawsMail::C::filter_log_verbosity($flv);\n"
+"    ClawsMail::C::filter_log(\"LOG_ACTION\", \"execute: $cmd\");\n"
 "    1;\n"
 "}\n"
-"sub move { SylpheedClaws::C::move(@_); stop(1);}\n"
-"sub dele { SylpheedClaws::C::delete(); stop(1);}\n"
+"sub move { ClawsMail::C::move(@_); stop(1);}\n"
+"sub dele { ClawsMail::C::delete(); stop(1);}\n"
 "sub color {\n"
 "    ($color) = @_;$color = lc $color;\n"
 "    $color = $colors{$color} if exists $colors{$color};\n"
 "    $color = 0 if $color =~ m/\\D/;\n"
-"    SylpheedClaws::C::color($color);\n"
+"    ClawsMail::C::color($color);\n"
 "}\n"
 "1;\n"
   };
   const char perl_utils[] = {
-"BEGIN {$INC{'SylpheedClaws/Utils.pm'} = 1;}\n"
-"package SylpheedClaws::Utils;\n"
+"BEGIN {$INC{'ClawsMail/Utils.pm'} = 1;}\n"
+"package ClawsMail::Utils;\n"
 "use base qw(Exporter);\n"
 "our @EXPORT = (\n"
 "    	       qw(SA_is_spam extract_addresses move_to_trash abort),\n"
@@ -1898,8 +1898,8 @@ static int perl_init(void)
 "# Spam\n"
 "sub SA_is_spam {\n"
 "    my $retval;\n"
-"    $retval = not SylpheedClaws::Filter::Matcher::test('spamc -c < %F > /dev/null');\n"
-"    SylpheedClaws::C::filter_log(\"LOG_MATCH\",\"SA_is_spam\") if $retval;\n"
+"    $retval = not ClawsMail::Filter::Matcher::test('spamc -c < %F > /dev/null');\n"
+"    ClawsMail::C::filter_log(\"LOG_MATCH\",\"SA_is_spam\") if $retval;\n"
 "    return $retval;\n"
 "}\n"
 "# simple extract email addresses from a header field\n"
@@ -1915,28 +1915,28 @@ static int perl_init(void)
 "}\n"
 "# move to trash\n"
 "sub move_to_trash {\n"
-"    SylpheedClaws::C::move_to_trash();\n"
-"    SylpheedClaws::Filter::Action::stop(1);\n"
+"    ClawsMail::C::move_to_trash();\n"
+"    ClawsMail::Filter::Action::stop(1);\n"
 "}\n"
 "# abort: stop() and do not continue with built-in filtering\n"
 "sub abort {\n"
-"    SylpheedClaws::C::abort();\n"
-"    SylpheedClaws::Filter::Action::stop(1);\n"
+"    ClawsMail::C::abort();\n"
+"    ClawsMail::Filter::Action::stop(1);\n"
 "}\n"
 "# addressbook query\n"
 "sub addr_in_addressbook {\n"
-"    return SylpheedClaws::C::addr_in_addressbook(@_) if @_;\n"
+"    return ClawsMail::C::addr_in_addressbook(@_) if @_;\n"
 "    return 0;\n"
 "}\n"
 "sub from_in_addressbook {\n"
-"    my ($from) = extract_addresses(SylpheedClaws::Filter::Matcher::header(\"from\"));\n"
+"    my ($from) = extract_addresses(ClawsMail::Filter::Matcher::header(\"from\"));\n"
 "    return 0 unless $from;\n"
 "    return addr_in_addressbook($from,@_);\n"
 "}\n"
 "sub get_attribute_value {\n"
 "    my $email = shift; my $key = shift;\n"
 "    return \"\" unless ($email and $key);\n"
-"    return SylpheedClaws::C::get_attribute_value($email,$key,@_);\n"
+"    return ClawsMail::C::get_attribute_value($email,$key,@_);\n"
 "}\n"
 "1;\n"
   };
@@ -2031,12 +2031,12 @@ gint plugin_init(gchar **error)
   *env  = NULL;
 
   /* version check */
-  if((sylpheed_get_version() > VERSION_NUMERIC)) {
+  if((claws_get_version() > VERSION_NUMERIC)) {
     *error = g_strdup("Your Claws Mail version is newer than the version "
 		      "the Perl plugin was built with");
     return -1;
   }
-  if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 81))) {
+  if((claws_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 81))) {
     *error = g_strdup("Your Claws Mail version is too old for the Perl plugin");
     return -1;
   }

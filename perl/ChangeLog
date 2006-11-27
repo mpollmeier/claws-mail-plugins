@@ -1,3 +1,11 @@
+2006-11-27 [paul]	0.9.5cvs2
+
+	* sc_perl.pod
+	* debian/README.Debian
+	* src/perl_gtk.c
+	* src/perl_plugin.c
+		renaming
+
 2006-11-07 [paul]	0.9.5cvs1
 
 	* ChangeLog
