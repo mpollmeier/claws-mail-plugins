@@ -23,7 +23,7 @@
 
 #include "defs.h"
 #include "version.h"
-#include "sylpheed.h"
+#include "claws.h"
 
 #include <glib.h>
 #include <glib/gi18n.h>

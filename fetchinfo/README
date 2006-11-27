@@ -1,13 +1,13 @@
 Program: Fetchinfo - Plugin for Claws Mail
 Author:  Thorsten Maerz <torte@netztorte.de>
 License: GPL (See file COPYING)
-Depends: Sylpheed-0.9.0claws57 or later
+Depends: Claws Mail/Sylpheed-Claws 0.9.0claws57 or later
 
 General:
 --------
 The plugin can add following headers to the reveived mails:
   X-FETCH-UIDL     (UIDL specifying the message on server)
-  X-FETCH-ACCOUNT  (Sylpheeds account name from accountrc)
+  X-FETCH-ACCOUNT  (Claws Mail's account name from accountrc)
   X-FETCH-SERVER   (POP3 server used)
   X-FETCH-USERID   (Username for that account)
   X-FETCH-TIME     (Stamp of download, rfc822 formatted) 
@@ -27,8 +27,8 @@ load both plugins to use them.
 
 The install directory doesnt matter, on POSIX systems
 the default destination / filenames will be:
-  /usr/local/lib/sylpheed/plugins/fetchinfo_plugin.so
-  /usr/local/lib/sylpheed/plugins/fetchinfo_plugin_gtk.so
+  /usr/local/lib/claws-mail/plugins/fetchinfo_plugin.so
+  /usr/local/lib/claws-mail/plugins/fetchinfo_plugin_gtk.so
 On Win32, you may copy the .dlls to
   <InstallDir>/bin/plugins/fetchinfo_plugin.dll
   <InstallDir>/bin/plugins/fetchinfo_plugin_gtk.dll

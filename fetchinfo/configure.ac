@@ -8,7 +8,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=16
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -70,20 +70,12 @@ AM_PATH_GLIB_2_0(2.6.0,,
 AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
-AC_ARG_WITH(sylpheed-dir, [  --with-sylpheed-dir=DIR     Directory of the sylpheed source directory],
-            sylpheed_dir="$withval", sylpheed_dir="/usr/src/sylpheed")
-AC_SUBST(sylpheed_dir)
-
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
 AC_SUBST(MINOR_VERSION)
 AC_SUBST(MICRO_VERSION)
 AC_SUBST(EXTRA_VERSION)
-AC_SUBST(SYLPHEED_MAJOR)
-AC_SUBST(SYLPHEED_MINOR)
-AC_SUBST(SYLPHEED_MICRO)
-AC_SUBST(SYLPHEED_EXTRA)
 
 AC_OUTPUT([
 Makefile
