@@ -112,7 +112,7 @@ void rssyl_done(void)
 {
 	rssyl_prefs_done();
 	rssyl_gtk_done();
-	if (!sylpheed_is_exiting())
+	if (!claws_is_exiting())
 		folder_unregister_class(rssyl_folder_get_class());
 }
 

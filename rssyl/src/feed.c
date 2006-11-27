@@ -36,7 +36,7 @@
 #include <time.h>
 
 #include "common/utils.h"
-#include "common/sylpheed.h"
+#include "common/claws.h"
 #include "codeconv.h"
 #include "procmsg.h"
 #include "procheader.h"
@@ -278,7 +278,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 		/* Thread created, let's wait until it finishes */
 		debug_print("RSSyl: waiting for thread to finish\n");
 		while( !ctx->ready ) {
-			sylpheed_do_idle();
+			claws_do_idle();
 			if (time(NULL) - start_time > ctx->timeout) {
 				log_error(RSSYL_LOG_ERROR_TIMEOUT, url);
 				pthread_cancel(pt);
