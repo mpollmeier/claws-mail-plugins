@@ -1,3 +1,10 @@
+2006-11-27 [paul]	1.12.2cvs2
+
+	* debian/README.Debian
+	* src/plugin.c
+	* src/plugin_gtk.c
+		renaming
+
 2006-11-07 [paul]	1.12.2cvs1
 
 	* ChangeLog

@@ -31,12 +31,12 @@
 
 gint plugin_init(gchar **error)
 {
-	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
+	if ((claws_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your Claws Mail version is newer than the version Mailmbox was built with");
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 100, 160))) {
+	if ((claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 100, 160))) {
 		*error = g_strdup("Your Claws Mail version is too old for Mailmbox");
 		return -1;
 	}
@@ -49,7 +49,7 @@ gint plugin_init(gchar **error)
 void plugin_done(void)
 {
 	plugin_gtk_done();
-	if (!sylpheed_is_exiting())
+	if (!claws_is_exiting())
 		folder_unregister_class(mailmbox_get_class());
 }
 

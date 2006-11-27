@@ -101,7 +101,7 @@ void plugin_gtk_done(void)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	GtkWidget *widget;
 	
-	if (mainwin == NULL || sylpheed_is_exiting())
+	if (mainwin == NULL || claws_is_exiting())
 		return;
 
 	folderview_unregister_popup(&mailmbox_popup);
