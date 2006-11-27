@@ -1,3 +1,9 @@
+2006-11-27 [paul]	0.0.7cvs2
+
+	* README
+	* src/newmail.c
+		renaming
+
 2006-11-07 [paul]	0.0.7cvs1
 
 	* ChangeLog

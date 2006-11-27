@@ -27,7 +27,7 @@
 #include <glib/gi18n.h>
 
 #include "version.h"
-#include "sylpheed.h"
+#include "claws.h"
 #include "plugin.h"
 #include "utils.h"
 #include "hooks.h"
@@ -92,13 +92,13 @@ void plugin_done (void)
 
 gint plugin_init (gchar **error)
 {
-    if ((sylpheed_get_version () > VERSION_NUMERIC)) {
+    if ((claws_get_version () > VERSION_NUMERIC)) {
 	*error = g_strdup (_("Your Claws Mail version is newer than "
 			     "the version the plugin was built with"));
 	return (-1);
 	}
 
-    if ((sylpheed_get_version () < MAKE_NUMERIC_VERSION (1, 9, 13, 25))) {
+    if ((claws_get_version () < MAKE_NUMERIC_VERSION (1, 9, 13, 25))) {
 	*error = g_strdup (_("Your Claws Mail version is too old"));
 	return (-1);
 	}
