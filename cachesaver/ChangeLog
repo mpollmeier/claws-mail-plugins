@@ -1,3 +1,9 @@
+2006-11-27 [paul]	0.10.2cvs2
+
+	* debian/README.Debian
+	* src/plugin.c
+		renaming
+
 2006-11-07 [paul]	0.10.2cvs1
 
 	* ChangeLog
