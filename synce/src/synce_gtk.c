@@ -75,7 +75,7 @@ void synce_gtk_done(void)
 
   mainwin = mainwindow_get_mainwindow();
 
-  if (mainwin == NULL || sylpheed_is_exiting())
+  if (mainwin == NULL || claws_is_exiting())
 	  return;
  
   ifactory = gtk_item_factory_from_widget(mainwin->menubar);

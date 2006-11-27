@@ -1,4 +1,4 @@
-Claws Mail vCalendar Plugin for Debian
+Claws Mail SynCE Plugin for Debian
 -------------------------------------------
 
 This is an external plugin for Claws Mail. Plugins are dynamic 
@@ -39,7 +39,7 @@ package won't be uninstalled when the new Claws Mail version gets
 installed. This has already happened with releases 0.9.12a and 0.9.12b.
 
 To summarize, when loading a plugin if you see the popup message:
-	"Your sylpheed version is newer than the 
+	"Your Claws Mail version is newer than the 
 	 version the plugin was built with"
 then you have to wait until a new plugin package enters the archive.
 

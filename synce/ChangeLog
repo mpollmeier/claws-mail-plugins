@@ -1,3 +1,11 @@
+2006-11-27 [paul]	0.6.4cvs2
+
+	* README
+	* debian/README.Debian
+	* src/synce_gtk.c
+	* src/synce_plugin.c
+		renaming
+
 2006-11-07 [paul]	0.6.4cvs1
 
 	* ChangeLog

@@ -24,7 +24,7 @@ A connection between desktop computer and mobile device (as
 described in the HOWTO on the SynCE project page) must be set up
 prior to using the plugin.
 
-The following options are available in the sylpheedrc file after
+The following options are available in the clawsrc file after
 the first use of the plugin:
 
 synce_log_level
