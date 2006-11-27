@@ -1,1 +1,2 @@
 ( diff -u /dev/null .cvsignore;  diff -u /dev/null PATCHSETS;  diff -u /dev/null po/.cvsignore;  diff -u /dev/null src/.cvsignore;  ) > 0.2.1cvs3.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/attachwarner.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/attachwarner.h;  ) > 0.2.1cvs4.patchset
