@@ -31,7 +31,7 @@
 #include <gdk/gdkx.h>
 #include <libgtkhtml/gtkhtml.h>
 #include <libgtkhtml/view/htmlselection.h>
-#include "common/sylpheed.h"
+#include "common/claws.h"
 #include "common/version.h"
 #include "main.h"
 #include "plugin.h"
@@ -171,7 +171,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					got_charset = TRUE; /* hack */
 				
 				g_mutex_lock(viewer->mutex);
-				if (!viewer->stop_previous && !sylpheed_is_exiting() &&
+				if (!viewer->stop_previous && !claws_is_exiting() &&
 				    strcasestr(buf, "</head>") && got_charset == FALSE) {
 					gchar *meta_charset = g_strdup_printf(
 						"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
@@ -181,7 +181,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					debug_print("injected %s\n", meta_charset);
 					g_free(meta_charset);
 				}
-				if (!viewer->stop_previous && !sylpheed_is_exiting())
+				if (!viewer->stop_previous && !claws_is_exiting())
 					html_document_write_stream(viewer->html_doc, buf, loaded);
 				else {
 					g_mutex_unlock(viewer->mutex);
@@ -587,14 +587,14 @@ not_found_local:
 		        /* Thread created, let's wait until it finishes */
 		        debug_print("gtkhtml: waiting for thread to finish\n");
 		        while( !ctx->ready ) {
-			        sylpheed_do_idle();
+			        claws_do_idle();
 				if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
 					log_error(_("Timeout connecting to %s\n"), url);
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
 					killed = TRUE;
 				} 
-				if (viewer->stop_previous || sylpheed_is_exiting()) {
+				if (viewer->stop_previous || claws_is_exiting()) {
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
 					killed = TRUE;
@@ -635,7 +635,7 @@ found_local:
 		}
 
 		while ((loaded = fread(buffer, 1, sizeof(buffer), fp)) > 0) {
-			if (viewer->stop_previous || sylpheed_is_exiting())
+			if (viewer->stop_previous || claws_is_exiting())
 				break;
 			html_stream_write(stream, buffer, loaded);
 			while (gtk_events_pending())
@@ -846,12 +846,12 @@ gint plugin_init(gchar **error)
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 
-	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
+	if ((claws_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup(_("Your version of Claws Mail is newer than the version the Gtkhtml2Viewer plugin was built with"));
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 78))) {
+	if ((claws_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 78))) {
 		*error = g_strdup(_("Your version of Claws Mail is too old for the Gtkhtml2Viewer plugin"));
 		return -1;
 	}
