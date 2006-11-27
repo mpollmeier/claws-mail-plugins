@@ -27,17 +27,17 @@
 
 #include "pluginconfig.h"
 #include "version.h"
-#include "common/sylpheed.h"
+#include "common/claws.h"
 #include "smime.h"
 
 gint plugin_init(gchar **error)
 {
-	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
+	if ((claws_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your version of Claws Mail is newer than the version the S/MIME plugin was built with");
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 1, 0, 1))) {
+	if ((claws_get_version() < MAKE_NUMERIC_VERSION(2, 1, 0, 1))) {
 		*error = g_strdup("Your version of Claws Mail is too old for the S/MIME plugin");
 		return -1;
 	}
