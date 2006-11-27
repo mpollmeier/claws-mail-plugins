@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 
 #include "defs.h"
-#include "sylpheed.h"
+#include "claws.h"
 #include "version.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
@@ -761,7 +761,7 @@ void acpi_prefs_done(void)
 	g_thread_join(thread);
 	thread = NULL;
 	acpi_set(FALSE); 
-	if (sylpheed_is_exiting())
+	if (claws_is_exiting())
 		return;
 	prefs_gtk_unregister_page((PrefsPage *) &acpi_prefs_page);
 	hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_id);
@@ -786,12 +786,12 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if((sylpheed_get_version() > VERSION_NUMERIC)) {
+	if((claws_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup(_("Your Claws Mail version is newer than the "
 				  "version AcpiNotifier was built with"));
 		return -1;
 	}
-	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
+	if((claws_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
 		*error = g_strdup(_("Your Claws Mail version is too old for AcpiNotifier"));
 		return -1;
 	}

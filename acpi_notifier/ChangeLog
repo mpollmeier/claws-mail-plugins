@@ -1,3 +1,9 @@
+2006-11-27 [paul]	1.0.4cvs2
+
+	* debian/README.Debian
+	* src/acpi_notifier.c
+		renaming
+
 2006-11-07 [paul]	1.0.4cvs1
 
 	* ChangeLog
