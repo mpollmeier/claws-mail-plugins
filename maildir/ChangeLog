@@ -1,3 +1,10 @@
+2006-11-27 [paul]	0.24.2cvs5
+
+	* debian/README.Debian
+	* src/maildir_gtk.c
+	* src/plugin.c
+		renaming
+
 2006-11-17 [hoa]	0.24.2cvs4
 
 	* src/maildir.c
