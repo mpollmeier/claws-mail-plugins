@@ -39,7 +39,7 @@
 #include "procmime.h"
 #include "alertpanel.h"
 #include "inc.h"
-#include "sylpheed.h"
+#include "claws.h"
 #include "plugin.h"
 
 #include "pluginconfig.h"
@@ -169,12 +169,12 @@ gint plugin_init(gchar **error)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 
-	if((sylpheed_get_version() > VERSION_NUMERIC)) {
+	if((claws_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup("Your Claws Mail version is newer than the version "
 				"AttRemover was built with");
 		return -1;
 	}
-	if((sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
+	if((claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
 		*error = g_strdup("Your Claws Mail version is too old for AttRemover");
 		return -1;
 	}

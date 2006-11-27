@@ -12,10 +12,10 @@ att_remover_la_LIBADD = \
 	$(GTK_LIBS)
 
 INCLUDES = \
-	-I$(sylpheed_dir)/ \
-	-I$(sylpheed_dir)/src/ \
-	-I$(sylpheed_dir)/src/common \
-	-I$(sylpheed_dir)/src/gtk
+	-I$(claws_dir)/ \
+	-I$(claws_dir)/src/ \
+	-I$(claws_dir)/src/common \
+	-I$(claws_dir)/src/gtk
 
 AM_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \

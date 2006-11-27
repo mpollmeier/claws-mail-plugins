@@ -1,3 +1,10 @@
+2006-11-27 [paul]	1.0.3cvs2
+
+	* debian/README.Debian
+	* src/Makefile.am
+	* src/att_remover.c
+		renaming
+
 2006-11-07 [paul]	1.0.3cvs1
 
 	* ChangeLog
