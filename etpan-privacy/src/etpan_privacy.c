@@ -424,7 +424,7 @@ static struct mailmime * procmime_to_etpan(struct mailprivacy * privacy,
 }
 
 
-static MimeInfo * mime_to_sylpheed(struct mailmime * mime)
+static MimeInfo * mime_to_claws(struct mailmime * mime)
 {
 	FILE * f;
 	char tmpfile[PATH_MAX];
@@ -573,7 +573,7 @@ static MimeInfo * decrypt(MimeInfo *mimeinfo)
 			"x-decrypted") != 0))
 		goto free_decrypted;
 	
-	decrypted_mimeinfo = mime_to_sylpheed(decrypted_mime);
+	decrypted_mimeinfo = mime_to_claws(decrypted_mime);
 	if (decrypted_mimeinfo == NULL)
 		goto free_decrypted;
 	

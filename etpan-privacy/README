@@ -64,7 +64,7 @@ $ openssl req -new -x509 -keyout private/cakey.pem -out cacert.pem \
 Now your root certificate is in "cacert.pem", the private key
 of the certificate is located in the sub-directory "private".
 
-You have to copy this certificate "cacert.pem" to ~/.sylpheed/smime/CA
+You have to copy this certificate "cacert.pem" to ~/.claws-mail/smime/CA
 
 
 5.2. Create a new certificate and private key
@@ -84,8 +84,8 @@ $ openssl ca -config openssl.cnf -policy policy_anything \
     -out newcert.pem -infiles tmp.pem
 $ rm -f tmp.pem
 
-Your private key "newreq.pem" has to be copied to ~/.sylpheed/smime/keys
-and your certificate has to be copied to ~/.sylpheed/smime/cert
+Your private key "newreq.pem" has to be copied to ~/.claws-mail/smime/keys
+and your certificate has to be copied to ~/.claws-mail/smime/cert
 
 
 5.3. S/MIME Root certificates from Verisign/Thawte
@@ -96,7 +96,7 @@ Verisign : http://www.verisign.com/support/roots.html
 Thawte : http://www.thawte.com/html/SUPPORT/primus_intro.html
 
 Copy the PEM files (this should be the .txt files) to the CA directory.
-default is "~/.sylpheed/smime/CA".
+default is "~/.claws-mail/smime/CA".
 
 
 6. Licence
