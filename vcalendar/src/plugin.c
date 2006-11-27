@@ -27,7 +27,7 @@
 
 #include "version.h"
 #include "vcalendar.h"
-#include "sylpheed.h"
+#include "claws.h"
 #include "gettext.h"
 #include "plugin.h"
 
@@ -36,12 +36,12 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if ((sylpheed_get_version() > VERSION_NUMERIC)) {
+	if ((claws_get_version() > VERSION_NUMERIC)) {
 		*error = g_strdup(_("Your Claws Mail version is newer than the version vCalendar was built with."));
 		return -1;
 	}
 
-	if ((sylpheed_get_version() < MAKE_NUMERIC_VERSION(2, 5, 2, 1))) {
+	if ((claws_get_version() < MAKE_NUMERIC_VERSION(2, 5, 2, 1))) {
 		*error = g_strdup(_("Your Claws Mail version is too old for vCalendar."));
 		return -1;
 	}

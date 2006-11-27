@@ -1,3 +1,10 @@
+2006-11-27 [paul]	1.90.0cvs4
+
+	* debian/README.Debian
+	* src/plugin.c
+	* src/vcal_folder.c
+		renaming
+
 2006-11-17 [wwp]	1.90.0cvs3
 
 	* src/vcal_folder.c

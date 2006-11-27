@@ -1255,7 +1255,7 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 		url_read_thread(td);	
 	}
 	while (!td->done)  {
- 		sylpheed_do_idle();
+ 		claws_do_idle();
 		if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
 			log_error(_("Timeout (%d seconds) connecting to %s\n"), prefs_common.io_timeout_secs, url);
 			pthread_cancel(pt);
