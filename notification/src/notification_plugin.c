@@ -21,7 +21,7 @@
 #endif
 #include "pluginconfig.h"
 
-#include "common/sylpheed.h"
+#include "common/claws.h"
 #include "common/version.h"
 #include "common/utils.h"
 #include "common/defs.h"
@@ -90,12 +90,12 @@ gint plugin_init(gchar **error)
   gchar *rcpath;
 
   /* Version check */
-  if(sylpheed_get_version() > VERSION_NUMERIC) {
+  if(claws_get_version() > VERSION_NUMERIC) {
     *error = g_strdup("Your Claws Mail version is newer than the version "
 		      "the Notification plugin was built with");
     return -1;
   }
-  if(sylpheed_get_version() < MAKE_NUMERIC_VERSION(1, 9, 15, 94)) {
+  if(claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 15, 94)) {
     *error = g_strdup("Your Claws Mail version is too old for the "
 		      "Notification plugin");
     return -1;

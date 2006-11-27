@@ -272,7 +272,7 @@ void notify_gtk_init(void)
 
 void notify_gtk_done(void)
 {
-  if(sylpheed_is_exiting())
+  if(claws_is_exiting())
     return;
   prefs_gtk_unregister_page((PrefsPage*) &notify_page);
 #ifdef NOTIFICATION_BANNER
