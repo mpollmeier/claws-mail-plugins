@@ -1,3 +1,11 @@
+2006-11-28 [paul]	0.6.4cvs3
+
+	* configure.ac
+		bump required version of Claws
+		following renaming
+		Thanks to Charles Edwards for the
+		reminder
+
 2006-11-27 [paul]	0.6.4cvs2
 
 	* README
