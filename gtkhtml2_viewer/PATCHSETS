@@ -40,3 +40,4 @@
 ( cvs diff -u -r 1.1.2.37 -r 1.1.2.38 src/gtkhtml2_viewer.c;  ) > 0.12.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.38 -r 1.1.2.39 src/gtkhtml2_viewer.c;  ) > 0.12.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.1.2.39 -r 1.1.2.40 src/gtkhtml2_viewer.c;  ) > 0.12.0cvs7.patchset
+( cvs diff -u -r 1.1.2.59 -r 1.1.2.60 configure.ac;  ) > 0.12.0cvs8.patchset
