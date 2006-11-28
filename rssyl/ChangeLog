@@ -1,3 +1,11 @@
+2006-11-28 [paul]	0.7.0cvs6
+
+	* configure.ac
+		bump required version of Claws
+		following renaming
+		Thanks to Charles Edwards for the
+		reminder
+
 2006-11-27 [paul]	0.7.0cvs5
 
 	* debian/README.Debian
