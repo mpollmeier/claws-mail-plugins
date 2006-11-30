@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Ricardo Mones
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2006-11-16 11:01+0100\n"
+"PO-Revision-Date: 2006-11-30 17:01+0100\n"
+"Last-Translator: Colin Leroy <colin@colino.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/attachwarner.c:37
+msgid "attach.*"
+msgstr "attach.*"
+
+#: src/attachwarner.c:142
+msgid "Attachment warning"
+msgstr "Pièces jointes - avertissement"
+
+#: src/attachwarner.c:143
+msgid "An attachment is mentioned in the mail you're sending, but no file was attached. Send it anyway?"
+msgstr "Une pièce jointe est mentionnée dans l'email que vous envoyez, mais aucun fichier n'est joint. Envoyer tout de même ?"
+
+#: src/attachwarner.c:144
+msgid "+_Send"
+msgstr "+_Envoyer"
+
+#: src/attachwarner.c:165
+msgid "Your Claws-Mail version is newer than the version the plugin was built with"
+msgstr "Votre version de Claws Mail est plus récente que celle utilisée pour compiler le plugin"
+
+#: src/attachwarner.c:170
+msgid "Your Claws-Mail version is too old"
+msgstr "Votre version de Claws Mail est trop ancienne"
+
+#: src/attachwarner.c:177
+msgid "Failed to register check before send hook"
+msgstr "Impossible d'enregistrer le hook \"check before send\""
+
+#: src/attachwarner.c:184
+msgid "Failed to get memory for matcher"
+msgstr "Impossible d'allouer la mémoire pour le matcheur"
+
+#: src/attachwarner.c:212
+#: src/attachwarner.c:264
+msgid "Attach warner"
+msgstr "Attach warner"
+
+#: src/attachwarner.c:222
+msgid "Warns user if some reference to attachments is found in the message text and no file is attached"
+msgstr "Vérifie la présence de fichiers joints lorsqu'ils sont mentionnés dans le texte"
+

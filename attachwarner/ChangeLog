@@ -1,3 +1,11 @@
+2006-11-30 [colin]	0.2.1cvs6
+
+	* po/fr.po
+	* configure.ac
+		Add french translation
+	* TODO
+		Add something that'd be nice
+
 2006-11-28 [paul]	0.2.1cvs5
 
 	* configure.ac
