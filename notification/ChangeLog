@@ -1,3 +1,11 @@
+2006-12-04 [holger]	0.7cvs1
+
+	* configure.ac
+		libnotify 0.4.3 seems to work well,
+		indeed. Make this one the required version
+		of libnotify (effectively activating 
+		libnotify support from now on!).
+
 2006-12-04 [paul]	0.7
 
 	0.7 released
