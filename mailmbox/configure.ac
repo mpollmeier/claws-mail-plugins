@@ -6,8 +6,8 @@ PACKAGE=mailmbox
 dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=12
-MICRO_VERSION=2
-EXTRA_VERSION=3
+MICRO_VERSION=3
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
