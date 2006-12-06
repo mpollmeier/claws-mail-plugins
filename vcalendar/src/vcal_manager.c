@@ -1150,7 +1150,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"R:<%s>\n"
 				"MAID:%d\n"
 				"%s%s%s"
-				"X-Sylpheed-End-Special-Headers: 1\n",
+				"X-Claws-End-Special-Headers: 1\n",
 				account->address,
 				account->smtp_server,
 				is_reply ? event->organizer:attendees,
