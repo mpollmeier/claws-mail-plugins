@@ -57,3 +57,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/plugin.c;  cvs diff -u -r 1.2.2.49 -r 1.2.2.50 src/vcal_folder.c;  ) > 1.90.0cvs4.patchset
 ( cvs diff -u -r 1.2.2.140 -r 1.2.2.141 configure.ac;  ) > 1.90.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.44 -r 1.1.2.45 src/vcal_manager.c;  ) > 1.91.0cvs1.patchset
+( cvs diff -u -r 1.1.2.45 -r 1.1.2.46 src/vcal_manager.c;  ) > 1.91.0cvs2.patchset

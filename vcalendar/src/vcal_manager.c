@@ -555,7 +555,7 @@ static gchar *write_headers_date(const gchar *uid)
 	get_rfc822_date_from_time_t(date, sizeof(date), t);
 
 	conv_encode_header(subject, 511, t_subject, strlen("Subject: "), FALSE);
-					
+				
 	return g_strdup_printf("From: -\n"
 				"To: -\n"
 				"Subject: %s\n"
@@ -1094,7 +1094,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 			    gboolean 		 is_reply, 
 			    gboolean 		 is_pseudo_display)
 {
-	gchar subject[512];
+	gchar *subject = NULL;
 	gchar date[128];
 	gchar *save_folder = NULL;
 	gchar *result = NULL;
@@ -1105,10 +1105,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *prefix = NULL;
 	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;
 	gchar msgid[128];	
-	memset(subject, 0, sizeof(subject));
-	memset(date, 0, sizeof(date));
 
-	conv_encode_header(subject, 511, event->summary, strlen("Subject: "), FALSE);
+	memset(date, 0, sizeof(date));
 	
 	if (is_pseudo_display) {
 		struct icaltimetype itt = (icaltime_from_string(event->dtstart));
@@ -1179,8 +1177,8 @@ static gchar *write_headers(PrefsAccount 	*account,
 	else
 		method_str = "REQUEST";		
 	
-	conv_encode_header_full(enc_prefix, sizeof(enc_prefix), prefix, strlen("Subject: "), 
-			FALSE, conv_get_outgoing_charset_str());
+	subject = g_strdup_printf("%s%s", prefix, event->summary);
+
 	conv_encode_header_full(enc_subject, sizeof(enc_subject), subject, strlen("Subject: "), 
 			FALSE, conv_get_outgoing_charset_str());
 	from = is_reply?account->name:(event->orgname?event->orgname:"");
@@ -1191,7 +1189,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	result = g_strdup_printf("%s"
 				"From: %s <%s>\n"
 				"To: <%s>\n"
-				"Subject: %s%s\n"
+				"Subject: %s\n"
 				"Date: %s\n"
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
@@ -1201,7 +1199,6 @@ static gchar *write_headers(PrefsAccount 	*account,
 				enc_from,
 				is_reply ? account->address:event->organizer,
 				is_reply ? event->organizer:(attendees?attendees:event->organizer),
-				enc_prefix,
 				enc_subject,
 				date,
 				method_str,
@@ -1211,6 +1208,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				is_pseudo_display?
 					event_to_today_str(event, 0):msgid);
 	
+	g_free(subject);
 	g_free(save_folder);
 	g_free(queue_headers);
 	g_free(attendees);
