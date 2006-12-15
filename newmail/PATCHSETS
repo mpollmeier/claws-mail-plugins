@@ -7,3 +7,4 @@
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 ChangeLog;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 INSTALL;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 NEWS;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 README;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/Makefile.am;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/newmail.c;  ) > 0.0.7cvs1.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 README;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/newmail.c;  ) > 0.0.7cvs2.patchset
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 configure.ac;  ) > 0.0.7cvs3.patchset
+( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 configure.ac;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/newmail.c;  ) > 0.0.8cvs1.patchset

@@ -92,21 +92,14 @@ void plugin_done (void)
 
 gint plugin_init (gchar **error)
 {
-    if ((claws_get_version () > VERSION_NUMERIC)) {
-	*error = g_strdup (_("Your Claws Mail version is newer than "
-			     "the version the plugin was built with"));
-	return (-1);
-	}
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("NewMail"), error))
+		return -1;
 
-    if ((claws_get_version () < MAKE_NUMERIC_VERSION (1, 9, 13, 25))) {
-	*error = g_strdup (_("Your Claws Mail version is too old"));
-	return (-1);
-	}
-
-    hook_id = hooks_register_hook (MAIL_POSTFILTERING_HOOKLIST, newmail_hook, NULL);
-    if (hook_id == -1) {
-	*error = g_strdup (_("Failed to register newmail hook"));
-	return (-1);
+	hook_id = hooks_register_hook (MAIL_POSTFILTERING_HOOKLIST, newmail_hook, NULL);
+  if (hook_id == -1) {
+		*error = g_strdup (_("Failed to register newmail hook"));
+		return (-1);
 	}
 
     if (!NewLog) {
