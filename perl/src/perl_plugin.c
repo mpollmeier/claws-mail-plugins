@@ -2031,15 +2031,9 @@ gint plugin_init(gchar **error)
   *env  = NULL;
 
   /* version check */
-  if((claws_get_version() > VERSION_NUMERIC)) {
-    *error = g_strdup("Your Claws Mail version is newer than the version "
-		      "the Perl plugin was built with");
-    return -1;
-  }
-  if((claws_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 81))) {
-    *error = g_strdup("Your Claws Mail version is too old for the Perl plugin");
-    return -1;
-  }
+	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, "Perl", error))
+		return -1;
 
   /* register hook for automatic and manual filtering */
   filtering_hook_id = hooks_register_hook(MAIL_FILTERING_HOOKLIST,
