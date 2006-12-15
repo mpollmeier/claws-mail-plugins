@@ -36,15 +36,9 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your Claws Mail version is newer than the version vCalendar was built with."));
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("vCalendar"), error))
 		return -1;
-	}
-
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(2, 5, 2, 1))) {
-		*error = g_strdup(_("Your Claws Mail version is too old for vCalendar."));
-		return -1;
-	}
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	vcalendar_init();
