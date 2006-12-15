@@ -169,15 +169,10 @@ gint plugin_init(gchar **error)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 
-	if((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Claws Mail version is newer than the version "
-				"AttRemover was built with");
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("AttRemover"), error) )
 		return -1;
-	}
-	if((claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 13, 0))) {
-		*error = g_strdup("Your Claws Mail version is too old for AttRemover");
-		return -1;
-	}
+
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifactory, &remove_att_menu, mainwin, 1);
 	gtk_item_factory_create_item(summaryview->popupfactory, &remove_att_context_menu, summaryview, 1);
