@@ -634,7 +634,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	     list && list->data; list = list->next) {
 	     	gchar *attendee = (gchar *)list->data;
 		gchar *name = vcal_manager_get_attendee_name(event, attendee);
-		gchar *ename = g_markup_printf_escaped("%s", name);
+		gchar *ename = g_markup_printf_escaped("%s", name?name:"");
 		gchar *eatt = g_markup_printf_escaped("%s", attendee);
 		enum icalparameter_partstat acode = vcal_manager_get_reply_for_attendee(event, attendee);
 		gchar *answer = vcal_manager_get_reply_text_for_attendee(event, attendee);

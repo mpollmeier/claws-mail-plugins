@@ -58,3 +58,4 @@
 ( cvs diff -u -r 1.2.2.140 -r 1.2.2.141 configure.ac;  ) > 1.90.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.44 -r 1.1.2.45 src/vcal_manager.c;  ) > 1.91.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.45 -r 1.1.2.46 src/vcal_manager.c;  ) > 1.91.0cvs2.patchset
+( cvs diff -u -r 1.1.2.46 -r 1.1.2.47 src/vcal_manager.c;  cvs diff -u -r 1.2.2.43 -r 1.2.2.44 src/vcalendar.c;  ) > 1.91.0cvs3.patchset

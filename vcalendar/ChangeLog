@@ -1,3 +1,11 @@
+2006-12-15 [colin]	1.91.0cvs3
+
+	* src/vcal_manager.c
+		Make sure we don't increment SEQUENCE on replies
+		(From RFC2445, 4.8.7.4 Sequence Number)
+	* src/vcalendar.c
+		Fix "(null)" names
+
 2006-12-06 [colin]	1.91.0cvs2
 
 	* src/vcal_manager.c
