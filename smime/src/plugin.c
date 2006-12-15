@@ -32,15 +32,9 @@
 
 gint plugin_init(gchar **error)
 {
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your version of Claws Mail is newer than the version the S/MIME plugin was built with");
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("S/MIME"), error))
 		return -1;
-	}
-
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(2, 1, 0, 1))) {
-		*error = g_strdup("Your version of Claws Mail is too old for the S/MIME plugin");
-		return -1;
-	}
 
 	smime_init();
 

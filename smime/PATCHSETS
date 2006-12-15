@@ -10,3 +10,4 @@
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 ChangeLog;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 INSTALL;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 configure.ac;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/Makefile.am;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/plugin.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/smime.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/smime.h;  ) > 0.5.6cvs1.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/Makefile.am;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/plugin.c;  ) > 0.5.6cvs2.patchset
 ( cvs diff -u -r 1.1.2.20 -r 1.1.2.21 configure.ac;  ) > 0.5.6cvs3.patchset
+( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 configure.ac;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/plugin.c;  ) > 0.5.7cvs1.patchset
