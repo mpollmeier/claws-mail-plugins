@@ -13,3 +13,4 @@
 ( cvs diff -u -r 1.22.2.10 -r 1.22.2.11 src/maildir.c;  ) > 0.24.2cvs4.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.6.2.11 -r 1.6.2.12 src/maildir_gtk.c;  cvs diff -u -r 1.6.2.11 -r 1.6.2.12 src/plugin.c;  ) > 0.24.2cvs5.patchset
 ( cvs diff -u -r 1.6.2.38 -r 1.6.2.39 configure.ac;  ) > 0.24.2cvs6.patchset
+( cvs diff -u -r 1.6.2.40 -r 1.6.2.41 configure.ac;  cvs diff -u -r 1.6.2.12 -r 1.6.2.13 src/plugin.c;  ) > 0.24.3cvs1.patchset

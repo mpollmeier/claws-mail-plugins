@@ -32,15 +32,9 @@
 
 gint plugin_init(gchar **error)
 {
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Claws Mail version is newer than the version Maildir was built with");
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, "Maildir++", error))
 		return -1;
-	}
-
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 100, 160))) {
-		*error = g_strdup("Your Claws Mail version is too old for Maildir");
-		return -1;
-	}
 
 	uiddb_init();
 	folder_register_class(maildir_get_class());
