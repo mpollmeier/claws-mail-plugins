@@ -50,15 +50,10 @@ gint save_caches(void *data)
 
 gint plugin_init(gchar **error)
 {
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Claws Mail version is newer than the version the plugin was built with");
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, "Cachesaver", error) )
 		return -1;
-	}
 
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(0, 9, 12, 0))) {
-		*error = g_strdup("Your Claws Mail version is too old");
-		return -1;
-	}
 	if (tag == 0)
 		tag = gtk_timeout_add(60*1000, save_caches, NULL);
 	return 0;
