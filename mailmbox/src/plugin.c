@@ -31,15 +31,9 @@
 
 gint plugin_init(gchar **error)
 {
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Claws Mail version is newer than the version Mailmbox was built with");
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, "Mailmbox", error))
 		return -1;
-	}
-
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 100, 160))) {
-		*error = g_strdup("Your Claws Mail version is too old for Mailmbox");
-		return -1;
-	}
 
 	folder_register_class(mailmbox_get_class());
 	plugin_gtk_init(error);
