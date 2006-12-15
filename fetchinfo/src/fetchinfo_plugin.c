@@ -161,15 +161,9 @@ gint plugin_init(gchar **error)
 {
 	gchar *rcpath;
 
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup("Your Claws Mail version is newer than the version the plugin was built with");
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("Fetchinfo"), error))
 		return -1;
-	}
-
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(0, 9, 13, 25))) {
-		*error = g_strdup("Your Claws Mail version is too old");
-		return -1;
-	}
 
 	mail_receive_hook_id = hooks_register_hook(MAIL_RECEIVE_HOOKLIST, mail_receive_hook, NULL);
 	if (mail_receive_hook_id == (guint)-1) {
