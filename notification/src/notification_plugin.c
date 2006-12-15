@@ -90,16 +90,9 @@ gint plugin_init(gchar **error)
   gchar *rcpath;
 
   /* Version check */
-  if(claws_get_version() > VERSION_NUMERIC) {
-    *error = g_strdup("Your Claws Mail version is newer than the version "
-		      "the Notification plugin was built with");
-    return -1;
-  }
-  if(claws_get_version() < MAKE_NUMERIC_VERSION(1, 9, 15, 94)) {
-    *error = g_strdup("Your Claws Mail version is too old for the "
-		      "Notification plugin");
-    return -1;
-  }
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, "Notification", error))
+		return -1;
 
   /* Check if threading is enabled */
   if(!g_thread_supported()) {
