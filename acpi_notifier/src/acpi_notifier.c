@@ -786,15 +786,10 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your Claws Mail version is newer than the "
-				  "version AcpiNotifier was built with"));
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("Acpi notifier"), error) )
 		return -1;
-	}
-	if((claws_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 36))) {
-		*error = g_strdup(_("Your Claws Mail version is too old for AcpiNotifier"));
-		return -1;
-	}
+
 	acpi_init();
 	return 0;
 }
