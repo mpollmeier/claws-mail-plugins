@@ -45,16 +45,10 @@
 gint plugin_init(gchar **error)
 {
 	int r;
-	
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your Claws Mail version is newer than the version the plugin was built with"));
-		return -1;
-	}
 
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(0, 9, 7, 0))) {
-		*error = g_strdup(_("Your Claws Mail version is too old"));
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("etPan! Privacy"), error) )
 		return -1;
-	}
 	
 	r = etpan_privacy_init();
 	if (r != 0) {
