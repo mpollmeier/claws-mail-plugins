@@ -1,3 +1,9 @@
+2006-12-15 [ticho]	0.13.0cvs1
+
+	* configure.ac
+	* src/gtkhtml2_viewer.c
+		Use check_plugin_version() for version check.
+
 2006-12-04 [paul]	0.13.0
 
 	0.13 released

@@ -846,15 +846,9 @@ gint plugin_init(gchar **error)
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 
-	if ((claws_get_version() > VERSION_NUMERIC)) {
-		*error = g_strdup(_("Your version of Claws Mail is newer than the version the Gtkhtml2Viewer plugin was built with"));
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, _("GtkHtml2 HTML Viewer"), error))
 		return -1;
-	}
-
-	if ((claws_get_version() < MAKE_NUMERIC_VERSION(2, 4, 0, 78))) {
-		*error = g_strdup(_("Your version of Claws Mail is too old for the Gtkhtml2Viewer plugin"));
-		return -1;
-	}
 
 #ifdef HAVE_LIBCURL
 	gtkhtml_prefs_init();
