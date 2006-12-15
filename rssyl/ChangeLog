@@ -1,3 +1,10 @@
+2006-12-15 [ticho]	0.8.0cvs1
+
+	* configure.ac
+	* src/plugin.c
+	* src/rssyl.h
+		Use check_plugin_version() for version check.
+
 2006-12-04 [paul]	0.8.0
 
 	0.8 released

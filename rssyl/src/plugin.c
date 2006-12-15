@@ -38,15 +38,9 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if( claws_get_version() > VERSION_NUMERIC ) {
-		*error = g_strdup(_("Your version of Claws Mail is newer than the version RSSyl was built with."));
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				VERSION_NUMERIC, PLUGIN_NAME, error) )
 		return -1;
-	}
-
-	if( claws_get_version() < MAKE_NUMERIC_VERSION(2, 0, 0, 94) ) {
-		*error = g_strdup(_("Your version of Claws Mail is too old for RSSyl."));
-		return -1;
-	}
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	rssyl_init();
@@ -61,7 +55,7 @@ void plugin_done(void)
 
 const gchar *plugin_name(void)
 {
-	return _("RSSyl");
+	return PLUGIN_NAME;
 }
 
 const gchar *plugin_desc(void)

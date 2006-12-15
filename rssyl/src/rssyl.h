@@ -5,8 +5,10 @@
 
 #include <folder.h>
 
+#define PLUGIN_NAME		(_("RSSyl"))
+
 /* Name of directory in rcdir where RSSyl will store its data. */
-#define RSSYL_DIR		"RSSyl"
+#define RSSYL_DIR "RSSyl"
 
 /* Default RSSyl mailbox name */
 #define RSSYL_DEFAULT_MAILBOX	_("My Feeds")
