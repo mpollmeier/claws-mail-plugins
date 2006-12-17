@@ -27,3 +27,4 @@
 ( cvs diff -u -r 1.1.2.40 -r 1.1.2.41 configure.ac;  ) > 0.6cvs3.patchset
 ( cvs diff -u -r 1.1.2.42 -r 1.1.2.43 configure.ac;  ) > 0.7cvs1.patchset
 ( cvs diff -u -r 1.1.2.43 -r 1.1.2.44 configure.ac;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/notification_plugin.c;  ) > 0.7cvs2.patchset
+( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/notification_popup.c;  ) > 0.7cvs3.patchset

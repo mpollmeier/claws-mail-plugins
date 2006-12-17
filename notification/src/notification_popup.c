@@ -76,6 +76,8 @@ static gboolean notification_libnotify_add_msg(MsgInfo*,
 					       NotificationFolderType);
 static void default_action_cb(NotifyNotification*, const char*,
 			      void*);
+static gchar* notification_libnotify_sanitize_str(gchar*);
+
 #else /* !HAVE_LIBNOTIFY */
 static gboolean notification_popup_add_msg(MsgInfo*);
 static gboolean notification_popup_create(MsgInfo*);
@@ -242,8 +244,10 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 {
   GdkPixbuf *pixbuf;
   NotificationPopup *ppopup;
-  gchar *summary;
-  gchar *text;
+  gchar *summary = NULL;
+  gchar *text = NULL;
+  gchar *subj = NULL;
+  gchar *from = NULL;
 
   ppopup = &(popup[nftype]);
 
@@ -258,28 +262,33 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 
   switch(nftype) {
   case F_TYPE_MAIL:
-    summary = "Mail message";
-    text    = "A new message arrived.";
+    summary = "New Mail message";
+    from    = notification_libnotify_sanitize_str(msginfo->from);
+    subj    = notification_libnotify_sanitize_str(msginfo->subject);
+    text    = g_strconcat(from,"\n\n",subj,NULL);
+    if(from) g_free(from);
+    if(subj) g_free(subj);
     break;
   case F_TYPE_NEWS:
-    summary = "News message";
-    text    = "A new mesesage arrived";
+    summary = "New News message";
+    text    = g_strdup("A new mesesage arrived");
     break;
   case F_TYPE_CALENDAR:
-    summary = "Calendar message";
-    text    = "A new calendar message arrived";
+    summary = "New Calendar message";
+    text    = g_strdup("A new calendar message arrived");
     break;
   case F_TYPE_RSS:
-    summary = "RSS news feed";
-    text = "A new article in a RSS feed arrived";
+    summary = "New RSS feed article";
+    text = g_strdup("A new article in a RSS feed arrived");
     break;
   default:
-    summary = "Unknown message";
-    text = "Unknown message type arrived";
+    summary = "New unknown message";
+    text = g_strdup("Unknown message type arrived");
     break;
   }
 
   ppopup->notification = notify_notification_new(summary, text, NULL, NULL);
+  g_free(text);
   if(ppopup->notification == NULL) {
     debug_print("Notification Plugin: Failed to create a new "
 		"notification.\n");
@@ -359,7 +368,6 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
     /* Should not happen */
     debug_print("Notification Plugin: Unknown folder type ignored\n");
     return FALSE;
-    break;
   }
 
   retval = notify_notification_update(ppopup->notification, summary, 
@@ -381,6 +389,45 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
   debug_print("Notification Plugin: Popup successfully modified "
 	      "with libnotify.\n");
   return TRUE;
+}
+
+#define STR_MAX_LEN 511
+/* Returns a newly allocated string which needs to be freed */
+static gchar* notification_libnotify_sanitize_str(gchar *in)
+{
+  gint i_out;
+  gchar tmp_str[STR_MAX_LEN+1];
+
+  if(in == NULL) return NULL;
+
+  i_out = 0;
+  while(*in) {
+    if(!g_ascii_isprint(*in)) {
+      in++;
+      continue;
+    }
+    if(*in == '<') {
+      if(i_out+3 >= STR_MAX_LEN) break;
+      memcpy(&(tmp_str[i_out]),"&lt;",4);
+      in++; i_out += 4;
+    }
+    else if(*in == '>') {
+      if(i_out+3 >= STR_MAX_LEN) break;
+      memcpy(&(tmp_str[i_out]),"&gt;",4);
+      in++; i_out += 4;
+    }
+    else if(*in == '&') {
+      if(i_out+4 >= STR_MAX_LEN) break;
+      memcpy(&(tmp_str[i_out]),"&amp;",5);
+      in++; i_out += 5;
+    }
+    else {
+      if(i_out >= STR_MAX_LEN) break;
+      tmp_str[i_out++] = *in++;
+    }
+  }
+  tmp_str[i_out] = '\0';
+  return strdup(tmp_str);
 }
 
 #else /* !HAVE_LIBNOTIFY */
@@ -484,6 +531,6 @@ static gboolean notification_popup_button(GtkWidget *widget,
   }
   return TRUE;
 }
-#endif /* HAVE_LIBNOTIFY */
+#endif /* !HAVE_LIBNOTIFY */
 
 #endif /* NOTIFICATION_POPUP */
