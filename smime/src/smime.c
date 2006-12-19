@@ -350,14 +350,17 @@ static gboolean smime_is_encrypted(MimeInfo *mimeinfo)
 	
 	if (mimeinfo->type != MIMETYPE_APPLICATION)
 		return FALSE;
-	if (g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime"))
-		return FALSE;
-	
-	tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
-	if (!tmpstr || g_ascii_strcasecmp(tmpstr, "enveloped-data"))
-		return FALSE;
+	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime")) {
+		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
+		if (!tmpstr || g_ascii_strcasecmp(tmpstr, "enveloped-data"))
+			return FALSE;
+		else 
+			return TRUE;
 
-	return TRUE;
+	} else if (!g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime"))
+		return TRUE;
+	
+	return FALSE;
 }
 
 static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
