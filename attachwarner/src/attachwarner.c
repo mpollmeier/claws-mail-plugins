@@ -19,29 +19,76 @@
  */
 
 #include "attachwarner.h"
+#include "attachwarner_prefs.h"
+#include "codeconv.h"
 
 /** Identifier for the hook. */
 static guint hook_id;
-
-/** Matcher for finding the text. */
-static MatcherProp *matcher = NULL;
 
 /**
  * Creates the matcher.
  *
  * @return A newly allocated regexp matcher or null if no memory is available.
  */
+
+static gchar *build_complete_regexp(gchar **strings)
+{
+	int i = 0;
+	gchar *expr = NULL;
+	while (strings && strings[i] && *strings[i]) {
+		int old_len = expr ? strlen(expr):0;
+		int new_len = 0;
+		gchar *tmpstr = NULL;
+
+		if (g_utf8_validate(strings[i], -1, NULL))
+			tmpstr = g_strdup(strings[i]);
+		else
+			tmpstr = conv_codeset_strdup
+				(strings[i], conv_get_locale_charset_str_no_utf8(),
+				 CS_INTERNAL);
+
+		if (strstr(tmpstr, "\n"))
+			*(strstr(tmpstr, "\n")) = '\0';
+
+		new_len = strlen(tmpstr);
+
+		expr = g_realloc(expr, expr ?(old_len+strlen("|()")+new_len+1): 
+					     (strlen("()")+new_len+1));
+		
+		if (old_len) {
+			strcpy(expr+old_len, "|(");
+			strcpy(expr+old_len+2, tmpstr);
+			strcpy(expr+old_len+2+new_len, ")");
+		} else {
+			strcpy(expr+old_len, "(");
+			strcpy(expr+old_len+1, tmpstr);
+			strcpy(expr+old_len+1+new_len, ")");
+		}
+		g_free(tmpstr);
+		i++;
+	}
+	return expr;
+}
+
 MatcherProp * new_matcherprop(void)
 {
 	MatcherProp *m = NULL;
-	const gchar *expr = _("attach.*");
+	gchar **strings = g_strsplit(attwarnerprefs.match_strings, 
+				"\n", -1);
+	gchar *expr = NULL;
+	
+	expr = build_complete_regexp(strings);
 
-	debug_print("building matcherprop for expr (%s)\n", expr);
+	g_strfreev(strings);
+	
+	debug_print("building matcherprop for expr '%s'\n", expr);
 	m = matcherprop_new(MATCHCRITERIA_SUBJECT, NULL, MATCHTYPE_REGEXP, expr, 0);
 	if (m == NULL) {
 		/* print error message */
 		debug_print("failed to allocate memory for matcherprop\n");
 	}
+
+	g_free(expr);
 
 	return m;
 }
@@ -78,6 +125,13 @@ gboolean are_attachments_mentioned(Compose *compose)
 	gchar *text = NULL;
 	gboolean mentioned = FALSE;
 
+	MatcherProp *matcher = new_matcherprop();
+
+	if (matcher == NULL) {
+		g_warning("couldn't allocate matcher");
+		return FALSE;
+	}
+
 	textview = GTK_TEXT_VIEW(compose->text);
         textbuffer = gtk_text_view_get_buffer(textview);
 	gtk_text_buffer_get_start_iter(textbuffer, &start);
@@ -85,11 +139,14 @@ gboolean are_attachments_mentioned(Compose *compose)
 	text = gtk_text_buffer_get_text(textbuffer, &start, &end, FALSE);
 
 	debug_print("checking text for attachment mentions\n");
-	if (matcher != NULL && text != NULL) {
+	if (text != NULL) {
 		mentioned = matcherprop_string_match(matcher, text);
 		
 		g_free(text);
 	}	
+
+	if (matcher != NULL)
+		matcherprop_free(matcher);
 
 	return mentioned;
 }
@@ -172,12 +229,7 @@ gint plugin_init(gchar **error)
 		return -1;
 	}
 
-	matcher = new_matcherprop();
-
-	if (matcher == NULL) {
-		*error = g_strdup(_("Failed to get memory for matcher"));
-		return -1;
-	}
+	attachwarner_prefs_init();
 
 	debug_print("Attachment warner plugin loaded\n");
 
@@ -191,8 +243,7 @@ gint plugin_init(gchar **error)
 void plugin_done(void)
 {	
 	hooks_unregister_hook(COMPOSE_CHECK_BEFORE_SEND_HOOKLIST, hook_id);
-	matcherprop_free(matcher);
-
+	attachwarner_prefs_done();
 	debug_print("Attachment warner plugin unloaded\n");
 }
 

@@ -15,5 +15,6 @@ AM_CPPFLAGS = \
 
 attachwarner_la_SOURCES = \
 	attachwarner.c attachwarner.h \
+	attachwarner_prefs.c attachwarner_prefs.h \
 	gettext.h
 
