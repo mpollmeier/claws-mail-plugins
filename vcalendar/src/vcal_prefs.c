@@ -138,7 +138,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (hbox1);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox1, TRUE, TRUE, 0);
 
-	alert_enable_checkbtn = gtk_check_button_new_with_label(_("Alert me "));
+	alert_enable_checkbtn = gtk_check_button_new_with_label(_("Alert me"));
 	gtk_widget_show (alert_enable_checkbtn);
 	gtk_box_pack_start(GTK_BOX (hbox1), alert_enable_checkbtn, FALSE, FALSE, 0);
 
@@ -150,7 +150,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX (hbox1), alert_enable_spinbtn, FALSE, FALSE, 0);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (alert_enable_spinbtn), TRUE);
 
-	label_alert_enable = gtk_label_new(_(" minutes before an event"));
+	label_alert_enable = gtk_label_new(_("minutes before an event"));
 	gtk_widget_show (label_alert_enable);
 	gtk_box_pack_start(GTK_BOX (hbox1), label_alert_enable, FALSE, FALSE, 0);
 
@@ -171,7 +171,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (hbox2);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
-	export_enable_checkbtn = gtk_check_button_new_with_label(_("Automatically export calendar to "));
+	export_enable_checkbtn = gtk_check_button_new_with_label(_("Automatically export calendar to"));
 	gtk_widget_show(export_enable_checkbtn);
 	gtk_box_pack_start(GTK_BOX (hbox2), export_enable_checkbtn, FALSE, FALSE, 0);
 
@@ -240,7 +240,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
 	export_freebusy_enable_checkbtn = gtk_check_button_new_with_label(
-		_("Automatically export free/busy status to "));
+		_("Automatically export free/busy status to"));
 	gtk_widget_show(export_freebusy_enable_checkbtn);
 	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_enable_checkbtn, FALSE, FALSE, 0);
 
@@ -288,7 +288,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
 
 	freebusy_get_url_label = gtk_label_new(
-		_("Get free/busy status of others from "));
+		_("Get free/busy status of others from"));
 	gtk_widget_show(freebusy_get_url_label);
 	gtk_box_pack_start(GTK_BOX (hbox2), freebusy_get_url_label, FALSE, FALSE, 0);
 

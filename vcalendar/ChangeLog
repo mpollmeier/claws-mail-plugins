@@ -1,3 +1,8 @@
+2006-12-22 [wwp]	1.91.0cvs5
+
+	* src/vcal_prefs.c
+		Remove extra spaces in labels, used to pad widgets.
+
 2006-12-15 [ticho]	1.91.0cvs4
 
 	* configure.ac
