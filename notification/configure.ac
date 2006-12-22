@@ -42,7 +42,7 @@ fi
 
 dnl Check for claws-mail
 PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 2.6.1.41)
-if test -z $prefix || test "${prefix}" == "NONE" ; then
+if test -z $prefix || test "${prefix}" = "NONE" ; then
   prefix=$( $PKG_CONFIG --variable=prefix claws-mail )
   CLAWS_MAIL_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir claws-mail )
 else
