@@ -1,3 +1,9 @@
+2006-12-26 [colin]	0.24.3cvs2
+
+	* src/maildir_gtk.c
+	* src/plugin.c
+		Follow 2.6.1cvs75 API change
+
 2006-12-15 [ticho]	0.24.3cvs1
 
 	* configure.ac
