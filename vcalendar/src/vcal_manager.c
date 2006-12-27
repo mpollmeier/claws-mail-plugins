@@ -797,6 +797,9 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->sequence		= sequence;
 	event->type		= type;
 	event->rec_occurence		= FALSE;
+	while (strchr(event->summary, '\n'))
+		*(strchr(event->summary, '\n')) = ' ';
+
 	return event;
 }
 					 
@@ -1085,6 +1088,9 @@ VCalEvent *vcal_manager_load_event (const gchar *uid)
 	/* vcal_manager_event_print(event); */
 	xml_free_tree(node);
 
+	while (strchr(event->summary, '\n'))
+		*(strchr(event->summary, '\n')) = ' ';
+
 	return event;
 	
 }
@@ -1275,6 +1281,9 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	} else {
 		summary = g_strdup("");
 	}
+	
+	while (strchr(summary, '\n'))
+		*(strchr(summary, '\n')) = ' ';
 
 	prop = icalcomponent_get_first_property(ievent, ICAL_ORGANIZER_PROPERTY);
 	if (prop) {

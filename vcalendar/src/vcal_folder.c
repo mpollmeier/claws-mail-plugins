@@ -569,29 +569,29 @@ add_new:
 		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
 		debug_print("add %d\n", n_msg); \
 		n_msg++; \
-	} \
-	days = event_to_today(event, 0); \
- \
-	if (days == EVENT_PAST && past_msg == -1) { \
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
-		past_msg = n_msg++; \
-		g_hash_table_insert(hash_uids, g_strdup_printf("%d", past_msg), g_strdup(EVENT_PAST_ID)); \
-	} else if (days == EVENT_TODAY && today_msg == -1) { \
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
-		today_msg = n_msg++; \
-		g_hash_table_insert(hash_uids, g_strdup_printf("%d", today_msg), g_strdup(EVENT_TODAY_ID)); \
-	} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) { \
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
-		tomorrow_msg = n_msg++; \
-		g_hash_table_insert(hash_uids, g_strdup_printf("%d", tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
-	} else if (days == EVENT_THISWEEK && thisweek_msg == -1) { \
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
-		thisweek_msg = n_msg++; \
-		g_hash_table_insert(hash_uids, g_strdup_printf("%d", thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
-	} else if (days == EVENT_LATER && later_msg == -1) { \
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
-		later_msg = n_msg++; \
-		g_hash_table_insert(hash_uids, g_strdup_printf("%d", later_msg), g_strdup(EVENT_LATER_ID)); \
+		days = event_to_today(event, 0); \
+	 \
+		if (days == EVENT_PAST && past_msg == -1) { \
+			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			past_msg = n_msg++; \
+			g_hash_table_insert(hash_uids, g_strdup_printf("%d", past_msg), g_strdup(EVENT_PAST_ID)); \
+		} else if (days == EVENT_TODAY && today_msg == -1) { \
+			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			today_msg = n_msg++; \
+			g_hash_table_insert(hash_uids, g_strdup_printf("%d", today_msg), g_strdup(EVENT_TODAY_ID)); \
+		} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) { \
+			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			tomorrow_msg = n_msg++; \
+			g_hash_table_insert(hash_uids, g_strdup_printf("%d", tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
+		} else if (days == EVENT_THISWEEK && thisweek_msg == -1) { \
+			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			thisweek_msg = n_msg++; \
+			g_hash_table_insert(hash_uids, g_strdup_printf("%d", thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
+		} else if (days == EVENT_LATER && later_msg == -1) { \
+			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			later_msg = n_msg++; \
+			g_hash_table_insert(hash_uids, g_strdup_printf("%d", later_msg), g_strdup(EVENT_LATER_ID)); \
+		} \
 	} \
 }
 
