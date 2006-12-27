@@ -443,18 +443,41 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 
 	vcal_folder_block_export(TRUE);
 	while (evt) {
-		icalproperty *prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
+		icalproperty *prop;
+		icalproperty *rprop = icalcomponent_get_first_property(evt, ICAL_RRULE_PROPERTY);
+		struct icalrecurrencetype recur;
+        	struct icaltimetype next;
+        	icalrecur_iterator* ritr;
 		EventTime days;
+
+		if (rprop) {
+			icalproperty *rprop2;
+			recur = icalproperty_get_rrule(rprop);
+			rprop2 = icalproperty_new_rrule(recur);
+			prop = icalcomponent_get_first_property(evt, ICAL_DTSTART_PROPERTY);
+			if (prop) {
+        			ritr = icalrecur_iterator_new(recur, icalproperty_get_dtstart(prop));
+				next = icalrecur_iterator_next(ritr); /* skip first one */				
+			}
+			
+			rprop = rprop2;
+		} 
+
+		prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
 		if (prop) {
+			gchar *orig_uid = NULL;
 			gchar *uid = g_strdup(icalproperty_get_uid(prop));
 			IcalFeedData *data = icalfeeddata_new(evt, NULL);
+			int i = 0;
+			orig_uid = g_strdup(uid);
+
+add_new:			
 			item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
 			item->evtlist = g_slist_append(item->evtlist, data);
 			data = NULL;
 			debug_print("add %d : %s\n", num, uid);
 			g_free(uid);
 			num++;
-			
 			prop = icalcomponent_get_first_property(evt, ICAL_DTSTART_PROPERTY);
 			if (prop) {
 				struct icaltimetype itt = icalproperty_get_dtstart(prop);
@@ -491,9 +514,44 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 				item->evtlist = g_slist_append(item->evtlist, data);
 				data = NULL;
 			}
+			if (rprop) {
+				struct icaldurationtype ical_dur;
+				struct icaltimetype dtstart, dtend;
+				evt = icalcomponent_new_clone(evt);
+				prop = icalcomponent_get_first_property(evt, ICAL_RRULE_PROPERTY);
+				if (prop)
+					icalcomponent_remove_property(evt, prop);
+				prop = icalcomponent_get_first_property(evt, ICAL_DTSTART_PROPERTY);
+				if (prop)
+					dtstart = icalproperty_get_dtstart(prop);
+				prop = icalcomponent_get_first_property(evt, ICAL_DTEND_PROPERTY);
+				if (prop)
+					dtend = icalproperty_get_dtend(prop);
+				ical_dur = icaltime_subtract(dtend, dtstart);
+				next = icalrecur_iterator_next(ritr); 
+				if (!icaltime_is_null_time(next) &&
+				    !icaltime_is_null_time(dtstart) && i < 100) {
+					prop = icalcomponent_get_first_property(evt, ICAL_DTSTART_PROPERTY);
+					icalproperty_set_dtstart(prop, next);
+
+					prop = icalcomponent_get_first_property(evt, ICAL_DTEND_PROPERTY);
+					if (prop)
+						icalproperty_set_dtend(prop, icaltime_add(next, ical_dur));
+
+					prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
+					uid = g_strdup_printf("%s-%d", orig_uid, i);
+					icalproperty_set_uid(prop, uid);
+					data = icalfeeddata_new(evt, NULL);
+					i++;
+					goto add_new;
+				} 
+			}
+			g_free(orig_uid);
 		} else {
 			debug_print("no uid!\n");
 		}
+		if (rprop)
+			icalproperty_free(rprop);
 		evt = icalcomponent_get_next_component(
 			item->cal, type);
 	}

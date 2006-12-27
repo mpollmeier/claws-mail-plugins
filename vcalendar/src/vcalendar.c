@@ -429,7 +429,6 @@ static gchar *vcalviewer_get_recurrence(VCalViewer *vcalviewer)
 		rrule = g_strdup(icalrecurrencetype_as_string(&recur));
 		icalproperty_free(iprop);
 	} 
-	printf("got rrule %s\n", rrule);
 	return rrule;
 }
 
@@ -453,7 +452,20 @@ static gchar *vcalviewer_get_dtend(VCalViewer *vcalviewer)
 		struct icaltimetype itt = icalproperty_get_dtend(iprop);
 		dtend = g_strdup(icaltime_as_ical_string(itt));
 		icalproperty_free(iprop);
-	} 
+	} else {
+		iprop = vcalviewer_get_property(vcalviewer, ICAL_DURATION_PROPERTY);
+		if (iprop) {
+			struct icaldurationtype duration = icalproperty_get_duration(iprop);
+			struct icaltimetype itt;
+			icalproperty_free(iprop);
+			iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
+			itt = icalproperty_get_dtstart(iprop);
+			if (iprop) {
+				icalproperty_free(iprop);
+				dtend = g_strdup(icaltime_as_ical_string(icaltime_add(itt,duration)));
+			}
+		}
+	}
 	return dtend;
 }
 

@@ -1428,7 +1428,7 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 		}
 	} else if (today.tm_year > evtstart.tm_year) {
 		return EVENT_PAST;
-	} else if (today.tm_year < evtstart.tm_year) {
+	} else if (today.tm_year == evtstart.tm_year - 1) {
 		int days = ((365 - today.tm_yday) + evtstart.tm_yday);
 		if (days == 0) {
 			return EVENT_TODAY;
