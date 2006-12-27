@@ -155,29 +155,6 @@ static gchar *get_month_name(gint i)
 	return g_strdup(mon);
 }
 
-static gint get_curdate(gint field)
-{
-	struct tm *lt;
-	time_t t;
-
-	t = time(NULL);
-	lt = localtime(&t);
-
-	switch(field){
-	case DAY:
-		return lt->tm_mday;
-	case MONTH:
-		return lt->tm_mon + 1;
-	case YEAR:
-		return lt->tm_year + 1900;
-	case HOUR:
-		return lt->tm_hour;
-	case MINUTE:
-		return lt->tm_min;
-	}
-	return -1;
-}
-
 static gint get_dtdate(const gchar *str, gint field)
 {
 	time_t t = icaltime_as_timet((icaltime_from_string(str)));
@@ -402,6 +379,7 @@ static gboolean meeting_key_pressed(GtkWidget *widget,
 	}
 	return FALSE;
 }
+static void meeting_end_changed(GtkWidget *widget, gpointer data);
 
 static void meeting_start_changed(GtkWidget *widget, gpointer data)
 {
@@ -443,6 +421,10 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 	end_lt = localtime(&end_t);
 	debug_print("n %d %d %d, %d:%d\n", end_lt->tm_mday, end_lt->tm_mon, end_lt->tm_year, end_lt->tm_hour, end_lt->tm_min);
 
+	g_signal_handlers_block_by_func(meet->end_hh, meeting_end_changed, meet);
+	g_signal_handlers_block_by_func(meet->end_mm, meeting_end_changed, meet);
+	g_signal_handlers_block_by_func(meet->end_c, meeting_end_changed, meet);
+
 	gtk_calendar_select_day(GTK_CALENDAR(meet->end_c), end_lt->tm_mday);
 
 	gtk_calendar_select_month(GTK_CALENDAR(meet->end_c),
@@ -452,6 +434,68 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 				end_lt->tm_hour);	
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_mm),
 				end_lt->tm_min);	
+
+	g_signal_handlers_unblock_by_func(meet->end_hh, meeting_end_changed, meet);
+	g_signal_handlers_unblock_by_func(meet->end_mm, meeting_end_changed, meet);
+	g_signal_handlers_unblock_by_func(meet->end_c, meeting_end_changed, meet);
+}
+
+static void meeting_end_changed(GtkWidget *widget, gpointer data)
+{
+	VCalMeeting *meet = (VCalMeeting *)data;
+	struct tm *start_lt;
+	struct tm *end_lt;
+	time_t start_t, end_t;
+	guint d, m, y;
+
+	start_t = time(NULL);
+	end_t = time(NULL);
+	start_lt = localtime(&start_t);
+	end_lt = localtime(&end_t);
+	
+	gtk_calendar_get_date(GTK_CALENDAR(meet->start_c), &y, &m, &d);
+	start_lt->tm_mday = d; start_lt->tm_mon  = m; start_lt->tm_year = y - 1900;
+	start_lt->tm_hour = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->start_hh));
+	start_lt->tm_min = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->start_mm));
+	start_lt->tm_sec = 0;
+
+	start_t = mktime(start_lt);
+	debug_print("start %s\n", ctime(&start_t));
+
+	gtk_calendar_get_date(GTK_CALENDAR(meet->end_c), &y, &m, &d);
+	end_lt->tm_mday = d; end_lt->tm_mon  = m; end_lt->tm_year = y - 1900;
+	end_lt->tm_hour = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->end_hh));
+	end_lt->tm_min = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(meet->end_mm));
+	end_lt->tm_sec = 0;
+
+	end_t = mktime(end_lt);
+
+	debug_print("end   %s\n", ctime(&end_t));
+	
+	if (end_t > start_t) {
+		debug_print("ok\n");
+		return;
+	}
+	start_t = end_t - 3600;
+	start_lt = localtime(&start_t);
+
+	g_signal_handlers_block_by_func(meet->start_hh, meeting_start_changed, meet);
+	g_signal_handlers_block_by_func(meet->start_mm, meeting_start_changed, meet);
+	g_signal_handlers_block_by_func(meet->start_c, meeting_start_changed, meet);
+
+	gtk_calendar_select_day(GTK_CALENDAR(meet->start_c), start_lt->tm_mday);
+
+	gtk_calendar_select_month(GTK_CALENDAR(meet->start_c),
+				start_lt->tm_mon,
+				start_lt->tm_year + 1900);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_hh),
+				start_lt->tm_hour);	
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_mm),
+				start_lt->tm_min);	
+
+	g_signal_handlers_unblock_by_func(meet->start_hh, meeting_start_changed, meet);
+	g_signal_handlers_unblock_by_func(meet->start_mm, meeting_start_changed, meet);
+	g_signal_handlers_unblock_by_func(meet->start_c, meeting_start_changed, meet);
 }
 
 GtkTooltips *avail_tips = NULL;
@@ -1081,7 +1125,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	GtkWidget *date_hbox, *date_vbox, *save_hbox, *label, *vbox, *hbox;
 	gchar *s = NULL;
 	GtkObject *start_h_adj, *start_m_adj, *end_h_adj, *end_m_adj;
-	int i = 0, decs = -1, dece = -1, num = 0;
+	int i = 0, num = 0;
 	GtkWidget *scrolledwin;
 
 	GList *accounts;
@@ -1168,29 +1212,30 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	g_signal_connect(G_OBJECT(meet->window), "key_press_event",
 			 G_CALLBACK(meeting_key_pressed), meet);
 	
-	g_signal_connect(G_OBJECT(meet->start_hh), "value-changed",
-			 G_CALLBACK(meeting_start_changed), meet);
-
-	g_signal_connect(G_OBJECT(meet->start_mm), "value-changed",
-			 G_CALLBACK(meeting_start_changed), meet);
-
-	g_signal_connect(G_OBJECT(meet->start_c), "day-selected",
-			 G_CALLBACK(meeting_start_changed), meet);
-
 
 	gtk_widget_set_size_request(meet->description, -1, 100);
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(meet->description), GTK_WRAP_WORD);
-
-	if (get_curdate(HOUR) + 2 > 23)
-		dece = 0;
-	else if (get_curdate(HOUR) + 1 > 23)
-		decs = dece = 0;
 	
 	if (!event) {
+		time_t t = time (NULL)+ 3600;
+ 		struct tm *lt = localtime (&t);
+		mktime(lt);
+		gtk_calendar_select_day(GTK_CALENDAR(meet->start_c),
+					lt->tm_mday);
+		gtk_calendar_select_month(GTK_CALENDAR(meet->start_c),
+					lt->tm_mon, lt->tm_year + 1900);
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_hh),
-			(get_curdate(HOUR)+1)%24);
+			lt->tm_hour);
+		t += 3600;
+		lt = localtime(&t);
+		
+		gtk_calendar_select_day(GTK_CALENDAR(meet->end_c),
+					lt->tm_mday);
+		gtk_calendar_select_month(GTK_CALENDAR(meet->end_c),
+					lt->tm_mon, lt->tm_year + 1900);
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_hh),
-			(get_curdate(HOUR)+2)%24);
+			lt->tm_hour);
+
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->start_mm),
 			0);
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_mm),
@@ -1217,6 +1262,25 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(meet->end_mm),
 			get_dtdate(event->dtend, MINUTE));
 	}
+
+	g_signal_connect(G_OBJECT(meet->start_hh), "value-changed",
+			 G_CALLBACK(meeting_start_changed), meet);
+
+	g_signal_connect(G_OBJECT(meet->start_mm), "value-changed",
+			 G_CALLBACK(meeting_start_changed), meet);
+
+	g_signal_connect(G_OBJECT(meet->start_c), "day-selected",
+			 G_CALLBACK(meeting_start_changed), meet);
+
+	g_signal_connect(G_OBJECT(meet->end_hh), "value-changed",
+			 G_CALLBACK(meeting_end_changed), meet);
+
+	g_signal_connect(G_OBJECT(meet->end_mm), "value-changed",
+			 G_CALLBACK(meeting_end_changed), meet);
+
+	g_signal_connect(G_OBJECT(meet->end_c), "day-selected",
+			 G_CALLBACK(meeting_end_changed), meet);
+
 	gtk_widget_set_size_request(meet->start_mm, 40, -1);
 	gtk_widget_set_size_request(meet->start_hh, 40, -1);
 	gtk_widget_set_size_request(meet->end_mm, 40, -1);

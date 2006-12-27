@@ -1,3 +1,9 @@
+2006-12-27 [colin]	1.91.0cvs8
+
+	* src/vcal_meeting_gtk.c
+		Better handling of bound moves when
+		creating a meeting
+
 2006-12-27 [colin]	1.91.0cvs7
 
 	* src/vcal_folder.c
