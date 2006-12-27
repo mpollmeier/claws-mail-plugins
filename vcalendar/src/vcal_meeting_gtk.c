@@ -993,7 +993,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	description	= get_description(meet);
 	
 	event = vcal_manager_new_event(uid, organizer, organizer_name, summary, description,
-					dtstart, dtend, tzid, NULL, meet->method, 
+					dtstart, dtend, NULL, tzid, NULL, meet->method, 
 					meet->sequence,
 					ICAL_VEVENT_COMPONENT);
 	
@@ -1651,8 +1651,11 @@ putfile:
 	&& strncmp(file, "https://", 8)
 	&& strncmp(file, "webdav://", 9)
 	&& strncmp(file, "ftp://", 6)) {
-		if (move_file(tmpfile, file, TRUE) != 0)
+		if (move_file(tmpfile, file, TRUE) != 0) {
+			log_error(_("Couldn't export calendar to '%s'\n"),
+				file);
 			res = FALSE;
+		}
 		g_free(file);
 	} else if (file) {
 		FILE *fp = fopen(tmpfile, "rb");
@@ -1931,8 +1934,11 @@ putfile:
 	&& strncmp(file, "https://", 8)
 	&& strncmp(file, "webdav://", 9)
 	&& strncmp(file, "ftp://", 6)) {
-		if (move_file(tmpfile, file, TRUE) != 0)
+		if (move_file(tmpfile, file, TRUE) != 0) {
+			log_error(_("Couldn't export free/busy to '%s'\n"),
+				file);
 			res = FALSE;
+		}
 		g_free(file);
 	} else if (file) {
 		FILE *fp = fopen(tmpfile, "rb");

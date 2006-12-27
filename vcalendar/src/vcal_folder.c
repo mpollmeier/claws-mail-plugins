@@ -441,6 +441,7 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 		item->evtlist = NULL;
 	}
 
+	vcal_folder_block_export(TRUE);
 	while (evt) {
 		icalproperty *prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
 		EventTime days;
@@ -498,7 +499,42 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 	}
 	*list = item->numlist ? g_slist_copy(item->numlist) : NULL;
 	debug_print("return %d\n", num);
+	vcal_folder_block_export(FALSE);
 	return num;
+}
+
+#define VCAL_FOLDER_ADD_EVENT(event) \
+{ \
+ \
+	if (status == ICAL_PARTSTAT_ACCEPTED \
+	||  status == ICAL_PARTSTAT_TENTATIVE) { \
+		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		debug_print("add %d\n", n_msg); \
+		n_msg++; \
+	} \
+	days = event_to_today(event, 0); \
+ \
+	if (days == EVENT_PAST && past_msg == -1) { \
+		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		past_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, g_strdup_printf("%d", past_msg), g_strdup(EVENT_PAST_ID)); \
+	} else if (days == EVENT_TODAY && today_msg == -1) { \
+		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		today_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, g_strdup_printf("%d", today_msg), g_strdup(EVENT_TODAY_ID)); \
+	} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) { \
+		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		tomorrow_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, g_strdup_printf("%d", tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
+	} else if (days == EVENT_THISWEEK && thisweek_msg == -1) { \
+		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		thisweek_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, g_strdup_printf("%d", thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
+	} else if (days == EVENT_LATER && later_msg == -1) { \
+		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		later_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, g_strdup_printf("%d", later_msg), g_strdup(EVENT_LATER_ID)); \
+	} \
 }
 
 static gint vcal_get_num_list(Folder *folder, FolderItem *item,
@@ -512,7 +548,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		thisweek_msg = -1, later_msg = -1;
 
 	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
-		
+	
 	*old_uids_valid = FALSE;
 	
 	if (((VCalFolderItem *)item)->uri) 
@@ -531,7 +567,8 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		
 	hash_uids = g_hash_table_new_full(g_str_hash, g_str_equal,
 					  g_free, g_free);
-					  
+	
+	vcal_folder_block_export(TRUE);	  
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
 		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
@@ -544,48 +581,75 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		g_hash_table_insert(hash_uids, snmsg, g_strdup(d->d_name));
 		
 		event = vcal_manager_load_event(d->d_name);
+		if (event->rec_occurence) {
+			vcal_manager_free_event(event);
+			g_unlink(d->d_name);
+			continue;
+		}
 
 		if (event && event->method != ICAL_METHOD_CANCEL) {
-			EventTime days;
-			PrefsAccount *account = vcal_manager_get_account_from_event(event);
-			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
-			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
+			EventTime days; \
+			PrefsAccount *account = vcal_manager_get_account_from_event(event); \
+			enum icalparameter_partstat status = \
+				account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION; \
+			VCAL_FOLDER_ADD_EVENT(event);
+			if (event->recur && strlen(event->recur)) {
+        			struct icalrecurrencetype recur;
+        			struct icaltimetype dtstart;
+        			struct icaltimetype next;
+        			icalrecur_iterator* ritr;
+				time_t duration = (time_t) NULL;
+				struct icaldurationtype ical_dur;
+				int i = 0;
 
-			if (status == ICAL_PARTSTAT_ACCEPTED
-			||  status == ICAL_PARTSTAT_TENTATIVE) {
-				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-				debug_print("add %d:%s\n", n_msg, d->d_name);
-				n_msg++;
-			}
-			days = event_to_today(event, 0);
-			
-			if (days == EVENT_PAST && past_msg == -1) {
-				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-				past_msg = n_msg++;
-				g_hash_table_insert(hash_uids, g_strdup_printf("%d", past_msg), g_strdup(EVENT_PAST_ID));
-			} else if (days == EVENT_TODAY && today_msg == -1) {
-				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-				today_msg = n_msg++;
-				g_hash_table_insert(hash_uids, g_strdup_printf("%d", today_msg), g_strdup(EVENT_TODAY_ID));
-			} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) {
-				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-				tomorrow_msg = n_msg++;
-				g_hash_table_insert(hash_uids, g_strdup_printf("%d", tomorrow_msg), g_strdup(EVENT_TOMORROW_ID));
-			} else if (days == EVENT_THISWEEK && thisweek_msg == -1) {
-				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-				thisweek_msg = n_msg++;
-				g_hash_table_insert(hash_uids, g_strdup_printf("%d", thisweek_msg), g_strdup(EVENT_THISWEEK_ID));
-			} else if (days == EVENT_LATER && later_msg == -1) {
-				*list = g_slist_append(*list, GINT_TO_POINTER(n_msg));
-				later_msg = n_msg++;
-				g_hash_table_insert(hash_uids, g_strdup_printf("%d", later_msg), g_strdup(EVENT_LATER_ID));
+				debug_print("dumping recurring events from main event\n");
+        			recur = icalrecurrencetype_from_string(event->recur);
+				dtstart = icaltime_from_string(event->dtstart);
+
+				duration = icaltime_as_timet(icaltime_from_string(event->dtend))
+							    - icaltime_as_timet(icaltime_from_string(event->dtstart));
+
+				ical_dur = icaldurationtype_from_int(duration);
+
+        			ritr = icalrecur_iterator_new(recur, dtstart);
+
+				next = icalrecur_iterator_next(ritr); /* skip first one */
+				if (!icaltime_is_null_time(next))
+					next = icalrecur_iterator_next(ritr);
+				debug_print("next time is %snull\n", icaltime_is_null_time(next)?"":"not ");
+        			while (!icaltime_is_null_time(next) && i < 100) {
+					gchar *new_start = NULL, *new_end = NULL;
+					VCalEvent *nevent = NULL;
+					gchar *uid = g_strdup_printf("%s-%d", event->uid, i);
+					new_start = icaltime_as_ical_string(next);
+					new_end = icaltime_as_ical_string(
+							icaltime_add(next, ical_dur));
+					debug_print("adding with start/end %s:%s\n", new_start, new_end);
+					nevent = vcal_manager_new_event(uid, event->organizer, event->orgname, 
+								event->summary, event->description, 
+								new_start, new_end, NULL, 
+								event->tzid, event->url, event->method, 
+								event->sequence, event->type);
+					vcal_manager_copy_attendees(event, nevent);
+					nevent->rec_occurence = TRUE;
+					vcal_manager_save_event(nevent);
+					snmsg = g_strdup_printf("%d",n_msg);
+					g_hash_table_insert(hash_uids, snmsg, g_strdup(uid));
+					VCAL_FOLDER_ADD_EVENT(nevent);
+					vcal_manager_free_event(nevent);
+					next = icalrecur_iterator_next(ritr);
+					debug_print("next time is %snull\n", icaltime_is_null_time(next)?"":"not ");
+					i++;
+				}
 			}
 		}
 		if (event)
 			vcal_manager_free_event(event);
+
+
 	}
 	closedir(dp);
-		
+	vcal_folder_block_export(FALSE);
 	return g_slist_length(*list);
 }
 
@@ -728,6 +792,7 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 		if (filename) {
 			created_files = g_slist_prepend(created_files, g_strdup(filename));
 		}
+
 		vcal_manager_free_event(event);
 	} 
 
@@ -815,8 +880,18 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 	return TRUE;
 }
 
+static gboolean vcal_folder_no_export;
+void vcal_folder_block_export(gboolean block)
+{
+	vcal_folder_no_export = block;
+	if (block == FALSE)
+		vcal_folder_export();
+}
+
 void vcal_folder_export(void)
 {
+	if (vcal_folder_no_export)
+		return;
 	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
 		debug_print("exporting calendar\n");
 		if (vcalprefs.export_enable &&
@@ -1187,7 +1262,7 @@ void *url_read_thread(void *data)
 	res = curl_easy_perform(curl_ctx);
 	
 	if (res != 0) {
-		printf("res %d %s\n", res, curl_easy_strerror(res));
+		debug_print("res %d %s\n", res, curl_easy_strerror(res));
 		td->error = g_strdup(curl_easy_strerror(res));
 	}
 
@@ -1312,7 +1387,7 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
 	res = curl_easy_perform(curl_ctx);
 
 	if (res != 0) {
-		printf("res %d %s\n", res, curl_easy_strerror(res));
+		debug_print("res %d %s\n", res, curl_easy_strerror(res));
 	} else {
 		res = TRUE;
 	}

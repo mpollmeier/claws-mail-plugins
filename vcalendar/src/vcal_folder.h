@@ -38,4 +38,5 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	void (*callback)(const gchar *url, gchar *data, gboolean verbose, gchar
 		*error));
 gchar* get_item_event_list_for_date(FolderItem *item, EventTime date);
+void vcal_folder_block_export(gboolean block);
 #endif

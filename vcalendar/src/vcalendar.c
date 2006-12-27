@@ -420,6 +420,19 @@ static PrefsAccount *get_account_from_attendees(VCalViewer *vcalviewer)
 	return account;
 }
 
+static gchar *vcalviewer_get_recurrence(VCalViewer *vcalviewer)
+{
+	gchar *rrule = NULL;
+	icalproperty *iprop = vcalviewer_get_property(vcalviewer, ICAL_RRULE_PROPERTY);
+	if (iprop) {
+		struct icalrecurrencetype recur = icalproperty_get_rrule(iprop);
+		rrule = g_strdup(icalrecurrencetype_as_string(&recur));
+		icalproperty_free(iprop);
+	} 
+	printf("got rrule %s\n", rrule);
+	return rrule;
+}
+
 static gchar *vcalviewer_get_dtstart(VCalViewer *vcalviewer)
 {
 	gchar *dtstart = NULL;
@@ -466,7 +479,7 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 	
 	vcalviewer_show_unavailable(vcalviewer, FALSE);
 
-	if (method == ICAL_METHOD_REQUEST) {
+	if (method == ICAL_METHOD_REQUEST && event && !event->rec_occurence) {
 		PrefsAccount *account = get_account_from_attendees(vcalviewer);
 		if (!account && event) {
 			account = account_get_default();
@@ -620,7 +633,21 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	}
 	
 	if (event->start && strlen(event->start)) {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), event->start);
+		if (event->recur && strlen(event->recur)) {
+			gchar *tmp = g_strdup_printf(_("%s <span weight=\"bold\">(this event recurs)</span>"),
+					event->start);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), tmp);
+			gtk_label_set_use_markup(GTK_LABEL(vcalviewer->start), TRUE);
+			g_free(tmp);
+		} else if (event->rec_occurence) {
+			gchar *tmp = g_strdup_printf(_("%s <span weight=\"bold\">(this event is part of a recurring event)</span>"),
+					event->start);
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), tmp);
+			gtk_label_set_use_markup(GTK_LABEL(vcalviewer->start), TRUE);
+			g_free(tmp);
+		} else {
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), event->start);
+		}
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
 	}
@@ -734,6 +761,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	icalproperty *iprop = NULL;
 	gchar *org = NULL, *summary = NULL, *description = NULL, *url = NULL;
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *orgname = NULL;
+	gchar *recur = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
 	VCalEvent *event = NULL;
 	gchar *tmp;
@@ -821,6 +849,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	} 
 	dtstart = vcalviewer_get_dtstart(vcalviewer);
 	dtend = vcalviewer_get_dtend(vcalviewer);
+	recur = vcalviewer_get_recurrence(vcalviewer);
 	
 	iprop = vcalviewer_get_property(vcalviewer, ICAL_TZID_PROPERTY);
 	if (iprop) {
@@ -836,7 +865,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	
 	event = vcal_manager_new_event( uid,
 					org, orgname, summary, description, 
-					dtstart, dtend, tzid, url, method, sequence, 
+					dtstart, dtend, recur, tzid, url, method, sequence, 
 					is_todo?ICAL_VTODO_COMPONENT:ICAL_VEVENT_COMPONENT);
 	vcalviewer_get_attendees(vcalviewer, event);
 	if (!saveme || strcmp(saveme,"no"))
@@ -850,6 +879,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 	g_free(uid);
 	g_free(dtstart);
 	g_free(dtend);
+	g_free(recur);
 	g_free(tzid);
 	vcalviewer_display_event(vcalviewer, event);
 	vcal_manager_free_event(event);

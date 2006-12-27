@@ -41,6 +41,7 @@ struct _VCalEvent
 	gchar *end;
 	gchar *dtstart;
 	gchar *dtend;
+	gchar *recur;
 	gchar *tzid;
 	gchar *summary;
 	gchar *description;
@@ -50,6 +51,7 @@ struct _VCalEvent
 	gchar *url;
 	enum icalproperty_kind type;
 	time_t postponed;
+	gboolean rec_occurence;
 };
 
 typedef enum {
@@ -66,6 +68,7 @@ VCalEvent *vcal_manager_new_event	(const gchar 	*uid,
 					 const gchar	*description,
 					 const gchar	*dtstart,
 					 const gchar	*dtend,
+					 const gchar	*recur,
 					 const gchar	*tzid,
 					 const gchar	*url,
 					 enum icalproperty_method method,
@@ -107,4 +110,5 @@ PrefsAccount *vcal_manager_get_account_from_event(VCalEvent *event);
 void vcal_manager_event_print(VCalEvent *event);
 EventTime event_to_today(VCalEvent *event, time_t t);
 const gchar *event_to_today_str(VCalEvent *event, time_t t);
+void vcal_manager_copy_attendees(VCalEvent *src, VCalEvent *dest);
 #endif

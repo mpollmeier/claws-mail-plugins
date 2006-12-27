@@ -84,6 +84,17 @@ static GSList *answer_find(VCalEvent *event, Answer *answer)
 	return NULL;
 }
 
+void vcal_manager_copy_attendees(VCalEvent *src, VCalEvent *dest)
+{
+	GSList *cur = src->answers;
+	while (cur && cur->data) {
+		Answer *a = (Answer *)cur->data;
+		Answer *b = answer_new(a->attendee, a->name, a->answer, a->cutype);
+		dest->answers = g_slist_append(dest->answers, b);
+		cur = cur->next;
+	}
+}
+
 gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans) 
 {
 	static gchar *replies[5]={
@@ -247,6 +258,7 @@ void vcal_manager_event_print(VCalEvent *event)
 		"event->url\t%s\n"
 		"event->dtstart\t\t%s\n"
 		"event->dtend\t\t%s\n"
+		"event->recur\t\t%s\n"
 		"event->tzid\t\t%s\n"
 		"event->method\t\t%d\n"
 		"event->sequence\t\t%d\n",
@@ -259,6 +271,7 @@ void vcal_manager_event_print(VCalEvent *event)
 		event->url,
 		event->dtstart,
 		event->dtend,
+		event->recur,
 		event->tzid,
 		event->method,
 		event->sequence);
@@ -387,6 +400,10 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)), 0));
 	icalcomponent_add_property(ievent,
 		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)), 0));
+	if (event->recur && strlen(event->recur)) {
+		icalcomponent_add_property(ievent,
+			icalproperty_vanew_rrule((icalrecurrencetype_from_string(event->recur)), 0));
+	}
 	icalcomponent_add_property(ievent,
 		icalproperty_new_description(event->description));
 	icalcomponent_add_property(ievent,
@@ -746,6 +763,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 					 const gchar	*description,
 					 const gchar	*dtstart,
 					 const gchar	*dtend,
+					 const gchar	*recur,
 					 const gchar	*tzid,
 					 const gchar	*url,
 					 enum icalproperty_method method,
@@ -770,6 +788,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	}
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
+	event->recur		= g_strdup(recur?recur:"");
 	event->summary		= g_strdup(summary?summary:"");
 	event->description	= g_strdup(description?description:"");
 	event->url		= g_strdup(url?url:"");
@@ -777,6 +796,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->method		= method;
 	event->sequence		= sequence;
 	event->type		= type;
+	event->rec_occurence		= FALSE;
 	return event;
 }
 					 
@@ -792,6 +812,7 @@ void vcal_manager_free_event (VCalEvent *event)
 	g_free(event->summary);
 	g_free(event->dtstart);
 	g_free(event->dtend);
+	g_free(event->recur);
 	g_free(event->tzid);
 	g_free(event->description);
 	g_free(event->url);
@@ -857,6 +878,7 @@ void vcal_manager_save_event (VCalEvent *event)
 	xml_tag_add_attr(tag, xml_attr_new("url", event->url));
 	xml_tag_add_attr(tag, xml_attr_new("dtstart", event->dtstart));
 	xml_tag_add_attr(tag, xml_attr_new("dtend", event->dtend));
+	xml_tag_add_attr(tag, xml_attr_new("recur", event->recur));
 	xml_tag_add_attr(tag, xml_attr_new("tzid", event->tzid));
 	
 	/* updating answers saves events, don't save them with reply type */
@@ -877,6 +899,10 @@ void vcal_manager_save_event (VCalEvent *event)
 	
 	tmp = g_strdup_printf("%lu", event->postponed);
 	xml_tag_add_attr(tag, xml_attr_new("postponed", tmp));
+	g_free(tmp);
+	
+	tmp = g_strdup_printf("%lu", event->rec_occurence);
+	xml_tag_add_attr(tag, xml_attr_new("rec_occurence", tmp));
 	g_free(tmp);
 	
 	xmlnode = xml_node_new(tag, NULL);
@@ -929,11 +955,12 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 	XMLNode *xmlnode;
 	GList *list;
 	gchar *org = NULL, *summary = NULL, *orgname = NULL;
-	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *description = NULL, *url = NULL;
+	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL;
+	gchar *description = NULL, *url = NULL, *recur = NULL;
 	VCalEvent *event = NULL;
 	enum icalproperty_method method = ICAL_METHOD_REQUEST;
 	enum icalproperty_kind type = ICAL_VEVENT_COMPONENT;
-	gint sequence = 0;
+	gint sequence = 0, rec_occurence = 0;
 	time_t postponed = (time_t)0;
 	
 	g_return_val_if_fail(node->data != NULL, NULL);
@@ -963,6 +990,8 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 			dtstart = g_strdup(attr->value);
 		if (!strcmp(attr->name, "dtend"))
 			dtend = g_strdup(attr->value);
+		if (!strcmp(attr->name, "recur"))
+			recur = g_strdup(attr->value);
 		if (!strcmp(attr->name, "tzid"))
 			tzid = g_strdup(attr->value);
 		if (!strcmp(attr->name, "type"))
@@ -973,13 +1002,16 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 			sequence = atoi(attr->value);
 		if (!strcmp(attr->name, "postponed"))
 			postponed = atoi(attr->value);
+		if (!strcmp(attr->name, "rec_occurence"))
+			rec_occurence = atoi(attr->value);
 	}
 
 	event = vcal_manager_new_event(uid, org, orgname, summary, description, 
-					dtstart, dtend, tzid, url, method, 
+					dtstart, dtend, recur, tzid, url, method, 
 					sequence, type);
 
 	event->postponed = postponed;
+	event->rec_occurence = rec_occurence;
 
 	g_free(org); 
 	g_free(orgname); 
@@ -988,6 +1020,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 	g_free(url); 
 	g_free(dtstart); 
 	g_free(dtend);
+	g_free(recur);
 	g_free(tzid);
 
 	node = node->children;
@@ -1395,9 +1428,19 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 		}
 	} else if (today.tm_year > evtstart.tm_year) {
 		return EVENT_PAST;
-	} else {
+	} else if (today.tm_year < evtstart.tm_year) {
+		int days = ((365 - today.tm_yday) + evtstart.tm_yday);
+		if (days == 0) {
+			return EVENT_TODAY;
+		} else if (days == 1) {
+			return EVENT_TOMORROW;
+		} else if (days > 1 && days < 7) {
+			return EVENT_THISWEEK;
+		} else {
+			return EVENT_LATER;
+		}
+	} else 
 		return EVENT_LATER;
-	}
 }
 
 const gchar *event_to_today_str(VCalEvent *event, time_t t)
