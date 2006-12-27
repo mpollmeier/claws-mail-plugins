@@ -1,3 +1,9 @@
+2006-12-27 [paul]	1.12.3cvs4
+
+	* src/plugin_gtk.c
+		Add Copy folder in the folder's contextual
+		menu
+
 2006-12-26 [colin]	1.12.3cvs3
 
 	* src/plugin.c
