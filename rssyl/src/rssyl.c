@@ -106,6 +106,10 @@ void rssyl_init(void)
 
 	if( existing_tree_found == FALSE )
 		rssyl_create_default_mailbox();
+
+	if( rssyl_prefs_get()->refresh_on_startup &&
+			claws_is_starting() )
+		rssyl_refresh_all_feeds();
 }
 
 void rssyl_done(void)

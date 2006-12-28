@@ -1,3 +1,14 @@
+2006-12-28 [ticho]	0.8.0cvs2
+
+	* src/feed.c
+	* src/feed.h
+	* src/rssyl.c
+	* src/rssyl_cb_menu.c
+	* src/rssyl_prefs.c
+	* src/rssyl_prefs.h
+		Add option to refresh all feeds on application startup. Defaults
+		to FALSE.
+
 2006-12-15 [ticho]	0.8.0cvs1
 
 	* configure.ac

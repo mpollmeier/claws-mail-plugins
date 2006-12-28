@@ -281,35 +281,10 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 	rssyl_update_feed(ritem);
 }
 
-static void rssyl_refresh_all_func(FolderItem *item, gpointer data)
-{
-	RSSylFolderItem *ritem = (RSSylFolderItem *)item;
-	/* Only try to refresh our feed folders */
-	if( !IS_RSSYL_FOLDER_ITEM(item) )
-		return;
-
-	/* Don't try to refresh the root folder */
-	if( folder_item_parent(item) == NULL )
-		return;
-	/* Don't try to update normal folders */
-	if (ritem->url == NULL)
-		return;
-	rssyl_update_feed((RSSylFolderItem *)item);
-}
-
 void rssyl_refresh_all_cb(FolderView *folderview, guint action,
 		GtkWidget *widget)
 {
-	if (prefs_common.work_offline && 
-	    !inc_offline_should_override(ngettext(
-			    "Claws Mail needs network access in order "
-			    "to update the feed.",
-			    "Claws Mail needs network access in order "
-			    "to update the feeds.", 2))) {
-			return;
-	}
-
-	folder_func_to_all_folders((FolderItemFunc)rssyl_refresh_all_func, NULL);
+	rssyl_refresh_all_feeds();
 }
 
 void rssyl_prop_cb(FolderView *folderview, guint action, GtkWidget *widget)
