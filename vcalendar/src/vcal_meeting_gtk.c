@@ -1645,7 +1645,7 @@ gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
 	if (g_slist_length(list) == 0 && g_slist_length(subs) == 0) {
 		g_slist_free(list);
 		g_slist_free(subs);
-		if (path == NULL) {
+		if (!automatic) {
 			alertpanel_full(_("Empty calendar"),
 					_("There is nothing to export."),
 				   	GTK_STOCK_OK, NULL, NULL, FALSE,
