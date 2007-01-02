@@ -365,7 +365,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
 	
 	icalcomponent_add_property(timezone,
-		icalproperty_new_tzid("UTC"));
+		icalproperty_new_tzid("UTC")); /* free */
 	
 	tzc = icalcomponent_new(ICAL_XSTANDARD_COMPONENT);
 	icalcomponent_add_property(tzc,
@@ -427,6 +427,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 
 	if (!icalcomponent_get_first_component(calendar, ICAL_VTIMEZONE_COMPONENT))
 	        icalcomponent_add_component(calendar, timezone);
+	else 
+		icalcomponent_free(timezone);
 
         icalcomponent_add_component(calendar, ievent);
 
@@ -641,7 +643,6 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcomponent *use_calendar)
 {
 	PrefsAccount *account = cur_account;
-	gchar *attendee  = NULL;
 	gchar *body, *headers, *qpbody;
 	gchar **lines = NULL;
 	gchar *tmpfile = NULL;
@@ -678,8 +679,6 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 		return NULL;
 	}
 
-	attendee = g_strdup_printf("MAILTO:%s", account->address);
-	
 	tzset();
 	
 	if (use_calendar != NULL) {
@@ -751,7 +750,6 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 	g_free(qpbody);
 	g_free(headers);
 	icalcomponent_free(calendar);
-	g_free(attendee);
 	
 	return tmpfile;	
 }
@@ -771,7 +769,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 					 enum icalproperty_kind type)
 {
 	VCalEvent *event = g_new0(VCalEvent, 1);
-	
+
 	event->uid 		= g_strdup(uid?uid:"");
 	event->organizer 	= g_strdup(organizer?organizer:"");
 	event->orgname	 	= g_strdup(orgname?orgname:"");
@@ -807,6 +805,7 @@ void vcal_manager_free_event (VCalEvent *event)
 {
 	if (!event)
 		return;
+
 	g_free(event->uid);
 	g_free(event->organizer);
 	g_free(event->orgname);
@@ -862,7 +861,7 @@ PrefsAccount *vcal_manager_get_account_from_event(VCalEvent *event)
 	return NULL;
 }
 
-void vcal_manager_save_event (VCalEvent *event)
+void vcal_manager_save_event (VCalEvent *event, gboolean export_after)
 {
 	XMLTag *tag = NULL;
 	XMLNode *xmlnode = NULL;
@@ -950,7 +949,8 @@ void vcal_manager_save_event (VCalEvent *event)
 		return;
 	}
  
-	vcal_folder_export();
+ 	if (export_after)
+		vcal_folder_export();
 }
 
 static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
@@ -1124,7 +1124,7 @@ void vcal_manager_update_answer (VCalEvent 	*event,
 
 	answer_add(event, answer);
 	
-	vcal_manager_save_event(event);
+	vcal_manager_save_event(event, FALSE);
 }
 
 static gchar *write_headers(PrefsAccount 	*account, 
@@ -1170,9 +1170,9 @@ static gchar *write_headers(PrefsAccount 	*account,
 			
 			if (strcmp(a->attendee, event->organizer)) {
 				if (attendees) {
-					tmp = g_strdup(attendees);
+					tmp = g_strdup_printf("%s>,<%s", attendees, a->attendee);
 					g_free(attendees);
-					attendees = g_strdup_printf("%s>,<%s", tmp, a->attendee);
+					attendees = tmp;
 				} else {
 					attendees = g_strdup_printf("%s", a->attendee);
 				}

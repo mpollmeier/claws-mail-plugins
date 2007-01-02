@@ -76,7 +76,7 @@ VCalEvent *vcal_manager_new_event	(const gchar 	*uid,
 					 enum icalproperty_kind type);
 					 
 void vcal_manager_free_event (VCalEvent *event);
-void vcal_manager_save_event (VCalEvent *event);
+void vcal_manager_save_event (VCalEvent *event, gboolean export_after);
 void vcal_manager_update_answer (VCalEvent 	*event, 
 				 const gchar 	*attendee,
 				 const gchar 	*name,

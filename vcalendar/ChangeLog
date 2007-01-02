@@ -1,3 +1,14 @@
+2007-01-02 [colin]	1.91.0cvs13
+
+	* libical/libical/icalmemory.c
+	* libical/libical/icalperiod.c
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Fix leaks, fix export
+
 2007-01-02 [colin]	1.91.0cvs12
 
 	* src/vcal_folder.c

@@ -559,7 +559,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	gboolean firstatt = TRUE;
 	gboolean mine = FALSE;
 	gchar *label = NULL;
-	
+	gboolean save_evt = FALSE;
 	if (!event)
 		return;
 	if (!vcalviewer)
@@ -588,7 +588,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		gchar *name = get_attendee_replying_name(vcalviewer);
 		
 		vcal_manager_update_answer(event, attendee, name, answer, cutype);
-
+		save_evt = TRUE;
 		if (!attendee) {
 			label = g_strjoin(" ",
 				_("You have received an answer to an unknown meeting proposal."),
@@ -606,7 +606,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 				_("A meeting to which you had been invited has been cancelled."),
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
-		vcal_manager_save_event(event);
+		save_evt = TRUE;
 		refresh_folder_contents(vcalviewer);
 	} else {
 		label = g_strjoin(" ", _("You have been forwarded an appointment."),
@@ -710,6 +710,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-");
 	}
+	g_free(attendees);
 	gtk_label_set_use_markup(GTK_LABEL(vcalviewer->attendees), TRUE);
 	if (!mine)
 		if (event->type != ICAL_VTODO_COMPONENT)
@@ -721,6 +722,8 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		gtk_widget_show(vcalviewer->reedit);
 		gtk_widget_show(vcalviewer->cancel);
 	}
+	if (save_evt)
+		vcal_manager_save_event(event, TRUE);
 }
 
 gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
@@ -881,7 +884,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 					is_todo?ICAL_VTODO_COMPONENT:ICAL_VEVENT_COMPONENT);
 	vcalviewer_get_attendees(vcalviewer, event);
 	if (!saveme || strcmp(saveme,"no"))
-		vcal_manager_save_event(event);
+		vcal_manager_save_event(event, FALSE);
 
 	g_free(org); 
 	g_free(orgname); 
@@ -1118,7 +1121,11 @@ void vcalviewer_reload(void)
 		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
 		folder_item_scan(folder->inbox);
-		folderview_check_new(folder);
+		if (mainwin && mainwin->summaryview->folder_item) {
+			FolderItem *cur = mainwin->summaryview->folder_item;
+			if (cur->folder == folder)
+				folder_item_scan(cur);
+		}
 		if (mainwin && mainwin->summaryview->folder_item == folder->inbox) {
 			debug_print("reload: %p, %p\n", (MimeViewer *)s_vcalviewer, s_vcalviewer->mimeinfo);
 			summary_redisplay_msg(mainwin->summaryview);
@@ -1168,7 +1175,6 @@ static void refresh_folder_contents(VCalViewer *vcalviewer)
 	if (folder) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		folder_item_scan(folder->inbox);
-		folderview_check_new(folder);
 		if (mainwin->summaryview->folder_item == folder->inbox)
 			summary_show(mainwin->summaryview, folder->inbox);
 	}
@@ -1200,14 +1206,14 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	meet = vcal_meeting_create_hidden(event);
 	if (!vcal_meeting_send(meet)) {
 		event->method = ICAL_METHOD_REQUEST;
-		vcal_manager_save_event(event);
+		vcal_manager_save_event(event, TRUE);
 		vcal_manager_free_event(event);
 		refresh_folder_contents(vcalviewer);
 		vcalviewer_reset(vcalviewer);
 		return TRUE;
 	}
 
-	vcal_manager_save_event(event);
+	vcal_manager_save_event(event, TRUE);
 	
 	file = vcal_manager_get_event_file(event->uid);
 	unlink(file);
@@ -1270,7 +1276,7 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 		g_warning("couldn't send reply\n");
 	}
 	
-	vcal_manager_save_event(event);
+	vcal_manager_save_event(event, TRUE);
 
 	vcalviewer_display_event(vcalviewer, event);
 

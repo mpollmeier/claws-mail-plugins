@@ -441,13 +441,12 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 		item->evtlist = NULL;
 	}
 
-	vcal_folder_block_export(TRUE);
 	while (evt) {
 		icalproperty *prop;
 		icalproperty *rprop = icalcomponent_get_first_property(evt, ICAL_RRULE_PROPERTY);
 		struct icalrecurrencetype recur;
         	struct icaltimetype next;
-        	icalrecur_iterator* ritr;
+        	icalrecur_iterator* ritr = NULL;
 		EventTime days;
 
 		if (rprop) {
@@ -550,14 +549,18 @@ add_new:
 		} else {
 			debug_print("no uid!\n");
 		}
-		if (rprop)
+		if (rprop) {
 			icalproperty_free(rprop);
+		}
+		if (ritr) {
+			icalrecur_iterator_free(ritr);
+			ritr = NULL;
+		}
 		evt = icalcomponent_get_next_component(
 			item->cal, type);
 	}
 	*list = item->numlist ? g_slist_copy(item->numlist) : NULL;
 	debug_print("return %d\n", num);
-	vcal_folder_block_export(FALSE);
 	return num;
 }
 
@@ -626,7 +629,6 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	hash_uids = g_hash_table_new_full(g_str_hash, g_str_equal,
 					  g_free, g_free);
 	
-	vcal_folder_block_export(TRUE);	  
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
 		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
@@ -690,15 +692,16 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 								event->sequence, event->type);
 					vcal_manager_copy_attendees(event, nevent);
 					nevent->rec_occurence = TRUE;
-					vcal_manager_save_event(nevent);
+					vcal_manager_save_event(nevent, FALSE);
 					snmsg = g_strdup_printf("%d",n_msg);
-					g_hash_table_insert(hash_uids, snmsg, g_strdup(uid));
+					g_hash_table_insert(hash_uids, snmsg, uid);
 					VCAL_FOLDER_ADD_EVENT(nevent);
 					vcal_manager_free_event(nevent);
 					next = icalrecur_iterator_next(ritr);
 					debug_print("next time is %snull\n", icaltime_is_null_time(next)?"":"not ");
 					i++;
 				}
+				icalrecur_iterator_free(ritr);
 			}
 		}
 		if (event)
@@ -707,7 +710,6 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 
 	}
 	closedir(dp);
-	vcal_folder_block_export(FALSE);
 	return g_slist_length(*list);
 }
 
@@ -938,22 +940,13 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 	return TRUE;
 }
 
-static gboolean vcal_folder_no_export;
-void vcal_folder_block_export(gboolean block)
-{
-	vcal_folder_no_export = block;
-	if (block == FALSE)
-		vcal_folder_export();
-}
+static gint vcal_folder_lock_count = 0;
 
 void vcal_folder_export(void)
 {	
-	static gboolean exporting = FALSE;
-	if (vcal_folder_no_export) /* blocked */
+	if (vcal_folder_lock_count) /* blocked */
 		return;
-	if (exporting) /* already exporting */
-		return;
-	exporting = TRUE;
+	vcal_folder_lock_count++;
 	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
 		debug_print("exporting calendar\n");
 		if (vcalprefs.export_enable &&
@@ -970,7 +963,7 @@ void vcal_folder_export(void)
 			execute_command_line(
 				vcalprefs.export_freebusy_command, TRUE);
 	}
-	exporting = FALSE;
+	vcal_folder_lock_count--;
 }
 
 static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
@@ -1120,7 +1113,11 @@ GSList * vcal_folder_get_waiting_events(void)
 			if (status == ICAL_PARTSTAT_ACCEPTED
 			||  status == ICAL_PARTSTAT_TENTATIVE) {
 				list = g_slist_append(list, event);
+			} else {
+				vcal_manager_free_event(event);
 			}
+		} else {
+			vcal_manager_free_event(event);
 		}
 	}
 
@@ -1417,6 +1414,8 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 		callback(url, killed?NULL:result, verbose, error);
 		return NULL;
 	} else {
+		if (error)
+			g_free(error);
 		return killed?NULL:result;
 	}
 }

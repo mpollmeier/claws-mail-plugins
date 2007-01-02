@@ -868,6 +868,7 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 
 		if (!local_only) {
 			remail = g_strdup(email);
+			g_free(email);
 			extract_address(remail);
 			if (strrchr(remail, ' '))
 				user = g_strdup(strrchr(remail, ' ')+1);
@@ -1546,7 +1547,7 @@ gint vcal_meeting_alert_check(gpointer data)
 			} else {
 				event->postponed = (time_t)0;
 			}
-			vcal_manager_save_event(event);
+			vcal_manager_save_event(event, FALSE);
 		}
 		
 		vcal_manager_free_event((VCalEvent *)cur->data);
@@ -1559,7 +1560,7 @@ gint vcal_meeting_alert_check(gpointer data)
 
 void multisync_export(void)
 {
-	GSList *list = vcal_folder_get_waiting_events();
+	GSList *list = NULL;
 	gchar *path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"vcalendar", G_DIR_SEPARATOR_S, 
 				"multisync", NULL);
@@ -1577,9 +1578,11 @@ void multisync_export(void)
 		make_dir(path);
 	if (!is_dir_exist(path)) {
 		perror(path);
+		g_free(path);
 		return;
 	}
-		
+	
+	list = vcal_folder_get_waiting_events();
 	for (cur = list; cur; cur = cur->next) {
 		VCalEvent *event = (VCalEvent *)cur->data;
 		file = g_strdup_printf("multisync%lu-%d", time(NULL), i);
@@ -1619,6 +1622,7 @@ void multisync_export(void)
 	} else {
 		perror(file);
 	}
+	g_free(path);
 	g_slist_free(files);
 }
 
@@ -1650,7 +1654,6 @@ gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
 					_("There is nothing to export."),
 				   	GTK_STOCK_OK, NULL, NULL, FALSE,
 				   	NULL, ALERT_NOTICE, G_ALERTDEFAULT);
-
 			return FALSE;
 		} else {
 			str_write_to_file("", tmpfile);
@@ -1699,17 +1702,21 @@ gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
 	}
 
 	icalcomponent_free(calendar);
-	g_slist_free(list);
-	g_slist_free(subs);
 	
 putfile:
+	g_slist_free(list);
+	g_slist_free(subs);
+
 	if (!path && !automatic)
 		file = filesel_select_file_save(_("Export calendar to ICS"), NULL);
 	else
 		file = g_strdup(path);
 
-	if (automatic && (!path || strlen(path) == 0 || !vcalprefs.export_enable))
+	if (automatic && (!path || strlen(path) == 0 || !vcalprefs.export_enable)) {
+		g_free(tmpfile);
+		g_free(file);
 		return TRUE;
+	}
 
 	if (file 
 	&& strncmp(file, "http://", 7) 
@@ -1733,6 +1740,7 @@ putfile:
 			res = vcal_curl_put(file, fp, filesize);
 			fclose(fp);
 		}
+		g_free(file);
 	}
 	g_free(tmpfile);
 	return res;
@@ -1988,9 +1996,10 @@ gboolean vcal_meeting_export_freebusy(const gchar *path)
 	g_slist_free(list);
 	
 putfile:
-	if ((!path || strlen(path) == 0 || !vcalprefs.export_freebusy_enable))
+	if ((!path || strlen(path) == 0 || !vcalprefs.export_freebusy_enable)) {
+		g_free(tmpfile);
 		return TRUE;
-
+	}
 	file = g_strdup(path);
 
 
@@ -2016,6 +2025,7 @@ putfile:
 			res = vcal_curl_put(file, fp, filesize);
 			fclose(fp);
 		}
+		g_free(file);
 	}
 	g_free(tmpfile);
 	return res;
