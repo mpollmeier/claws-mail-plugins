@@ -947,9 +947,13 @@ void vcal_folder_block_export(gboolean block)
 }
 
 void vcal_folder_export(void)
-{
-	if (vcal_folder_no_export)
+{	
+	static gboolean exporting = FALSE;
+	if (vcal_folder_no_export) /* blocked */
 		return;
+	if (exporting) /* already exporting */
+		return;
+	exporting = TRUE;
 	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
 		debug_print("exporting calendar\n");
 		if (vcalprefs.export_enable &&
@@ -966,6 +970,7 @@ void vcal_folder_export(void)
 			execute_command_line(
 				vcalprefs.export_freebusy_command, TRUE);
 	}
+	exporting = FALSE;
 }
 
 static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)

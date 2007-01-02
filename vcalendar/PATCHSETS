@@ -67,3 +67,4 @@
 ( cvs diff -u -r 1.2.2.52 -r 1.2.2.53 src/vcal_folder.c;  cvs diff -u -r 1.1.2.49 -r 1.1.2.50 src/vcal_manager.c;  ) > 1.91.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.48 -r 1.1.2.49 src/vcal_meeting_gtk.c;  ) > 1.91.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.49 -r 1.1.2.50 src/vcal_meeting_gtk.c;  ) > 1.91.0cvs11.patchset
+( cvs diff -u -r 1.2.2.53 -r 1.2.2.54 src/vcal_folder.c;  ) > 1.91.0cvs12.patchset

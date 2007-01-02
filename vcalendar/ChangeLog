@@ -1,3 +1,9 @@
+2007-01-02 [colin]	1.91.0cvs12
+
+	* src/vcal_folder.c
+		Fix bug 1086, 'deep recursion in vCalendar 
+		export'
+
 2006-12-29 [colin]	1.91.0cvs11
 
 	* src/vcal_meeting_gtk.c
