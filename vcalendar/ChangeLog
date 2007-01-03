@@ -1,3 +1,9 @@
+2007-01-03 [paul]	1.91.0cvs14
+
+	* src/plugin.c
+	* src/vcal_manager.c
+		Follow API change from 2.6.1cvs101
+
 2007-01-02 [colin]	1.91.0cvs13
 
 	* libical/libical/icalmemory.c
