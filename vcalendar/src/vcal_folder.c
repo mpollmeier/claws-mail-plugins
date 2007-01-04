@@ -222,6 +222,11 @@ static void vcal_item_set_xml(Folder *folder, FolderItem *item, XMLTag *tag)
 			((VCalFolderItem *)item)->uri = g_strdup(attr->value);
 		} 
 	}
+	if (((VCalFolderItem *)item)->uri == NULL) {
+		/* give a path to inbox */
+		g_free(item->path);
+		item->path = g_strdup(".meetings");
+	}
 }
 
 static XMLTag *vcal_item_get_xml(Folder *folder, FolderItem *item)
@@ -905,13 +910,16 @@ static gint vcal_create_tree(Folder *folder)
 
 	/* Add inbox folder */
 	if (!folder->inbox) {
-		inboxitem = folder_item_new(folder, "Meetings", NULL);
+		inboxitem = folder_item_new(folder, "Meetings", ".meetings");
 		inboxitem->folder = folder;
 		inboxitem->stype = F_INBOX;
 		inboxnode = g_node_new(inboxitem);
 		inboxitem->node = inboxnode;
 		folder->inbox = inboxitem;
-		g_node_append(rootnode, inboxnode);
+		g_node_append(rootnode, inboxnode);	
+	} else {
+		g_free(folder->inbox->path);
+		folder->inbox->path = g_strdup(".meetings");
 	}
 
 	debug_print("created new vcal tree\n");

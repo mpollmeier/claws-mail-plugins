@@ -1,3 +1,9 @@
+2007-01-04 [colin]	1.91.0cvs15
+
+	* src/vcal_folder.c
+		Assign a path to the inbox (meetings)
+		Fixes selection via command line
+
 2007-01-03 [paul]	1.91.0cvs14
 
 	* src/plugin.c
