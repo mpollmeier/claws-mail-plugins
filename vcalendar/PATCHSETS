@@ -72,3 +72,4 @@
 ( cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/plugin.c;  cvs diff -u -r 1.1.2.51 -r 1.1.2.52 src/vcal_manager.c;  ) > 1.91.0cvs14.patchset
 ( cvs diff -u -r 1.2.2.55 -r 1.2.2.56 src/vcal_folder.c;  ) > 1.91.0cvs15.patchset
 ( cvs diff -u -r 1.1.2.52 -r 1.1.2.53 src/vcal_manager.c;  ) > 1.91.0cvs16.patchset
+( cvs diff -u -r 1.1.2.51 -r 1.1.2.52 src/vcal_meeting_gtk.c;  ) > 1.91.0cvs17.patchset

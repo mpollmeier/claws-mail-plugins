@@ -139,6 +139,15 @@ enum {
 	MINUTE
 };
 
+static gboolean avail_btn_can_be_sensitive(void)
+{
+	if (vcalprefs.freebusy_get_url == NULL
+	||  *vcalprefs.freebusy_get_url == '\0')
+		return FALSE;
+	else 
+		return TRUE;
+}
+
 static gchar *get_month_name(gint i)
 {
 	struct tm *lt;
@@ -971,7 +980,7 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 		attendee->cached_contents = NULL;
 	}
 	gtk_widget_set_sensitive(meet->save_btn, TRUE);
-	gtk_widget_set_sensitive(meet->avail_btn, TRUE);
+	gtk_widget_set_sensitive(meet->avail_btn, avail_btn_can_be_sensitive());
 	gdk_window_set_cursor(meet->window->window, NULL);
 
 	if (!local_only)
@@ -1099,7 +1108,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	vcal_manager_free_event(event);
 
 	gtk_widget_set_sensitive(meet->save_btn, TRUE);
-	gtk_widget_set_sensitive(meet->avail_btn, TRUE);
+	gtk_widget_set_sensitive(meet->avail_btn, avail_btn_can_be_sensitive());
 	gdk_window_set_cursor(meet->window->window, NULL);
 
 	if (res) {
@@ -1425,9 +1434,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		}
 		gtk_widget_hide(meet->avail_img);
 		gtk_widget_hide(meet->total_avail_img);
-		if (vcalprefs.freebusy_get_url == NULL
-		||  *vcalprefs.freebusy_get_url == '\0')
-			gtk_widget_hide(meet->avail_btn);
+		gtk_widget_set_sensitive(meet->avail_btn, avail_btn_can_be_sensitive());
 	}
 	return meet;
 }

@@ -1,3 +1,9 @@
+2007-01-05 [colin]	1.91.0cvs17
+
+	* src/vcal_meeting_gtk.c
+		Display "Check availability" button greyed out
+		instead of hiding it if freebusy uri isn't set
+
 2007-01-05 [colin]	1.91.0cvs16
 
 	* src/vcal_manager.c
