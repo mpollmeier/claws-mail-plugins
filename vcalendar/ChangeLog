@@ -1,3 +1,9 @@
+2007-01-05 [colin]	1.91.0cvs16
+
+	* src/vcal_manager.c
+		Include the UID as Message-ID for pseudo-
+		events
+
 2007-01-04 [colin]	1.91.0cvs15
 
 	* src/vcal_folder.c

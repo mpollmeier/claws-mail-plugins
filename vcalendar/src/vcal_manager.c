@@ -1144,6 +1144,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *prefix = NULL;
 	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;
 	gchar msgid[128];	
+	gchar *calmsgid = NULL;
 
 	memset(date, 0, sizeof(date));
 	
@@ -1224,6 +1225,12 @@ static gchar *write_headers(PrefsAccount 	*account,
 	conv_encode_header_full(enc_from, sizeof(enc_from), from, strlen("From: "), 
 			TRUE, conv_get_outgoing_charset_str());
 
+	if (is_pseudo_display && event->uid) {
+		calmsgid = g_strdup_printf("Message-ID: <%s>\n",event->uid);
+	} else {
+		calmsgid = g_strdup("");
+	}
+
 	generate_msgid(msgid, sizeof(msgid));
 	result = g_strdup_printf("%s"
 				"From: %s <%s>\n"
@@ -1233,6 +1240,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"\n"
 				"Content-Transfer-Encoding: 8bit\n"
+				"%s"
 				"%s: <%s>\n",
 				queue_headers,
 				enc_from,
@@ -1242,11 +1250,12 @@ static gchar *write_headers(PrefsAccount 	*account,
 				date,
 				method_str,
 				CS_UTF_8,
+				calmsgid,
 				is_pseudo_display?
 					"In-Reply-To":"Message-ID",
 				is_pseudo_display?
 					event_to_today_str(event, 0):msgid);
-	
+	g_free(calmsgid);
 	g_free(subject);
 	g_free(save_folder);
 	g_free(queue_headers);
@@ -1269,6 +1278,8 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	gchar *organizer = NULL;
 	gchar *orgname = NULL;
 	icalproperty *prop = NULL;
+	gchar *calmsgid = NULL;
+
 	time_t t = (time_t)0;
 
 	memset(subject, 0, sizeof(subject));
@@ -1307,7 +1318,16 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	conv_encode_header(subject, 511, summary, strlen("Subject: "), FALSE);
 			
 	method_str = "PUBLISH";
-					
+
+	prop = icalcomponent_get_first_property(ievent, ICAL_UID_PROPERTY);
+	if (prop) {
+		calmsgid = g_strdup_printf("Message-ID: <%s>\n",icalproperty_get_uid(prop));
+		icalproperty_free(prop);
+	} else {
+		calmsgid = g_strdup("");
+	}
+	
+
 	result = g_strdup_printf("From: %s <%s>\n"
 				"To: <%s>\n"
 				"Subject: %s%s\n"
@@ -1315,6 +1335,7 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 				"MIME-Version: 1.0\n"
 				"Content-Type: text/calendar; method=%s; charset=\"%s\"; vcalsave=\"no\"\n"
 				"Content-Transfer-Encoding: quoted-printable\n"
+				"%s"
 				"In-Reply-To: <%s>\n",
 				orgname?orgname:"",
 				!strncmp(organizer, "MAILTO:", 7) ? organizer+7 : organizer,
@@ -1324,8 +1345,10 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 				date,
 				method_str,
 				conv_get_outgoing_charset_str(),
+				calmsgid,
 				event_to_today_str(NULL, t));
 	
+	g_free(calmsgid);
 	g_free(orgname);
 	g_free(organizer);
 	g_free(summary);
