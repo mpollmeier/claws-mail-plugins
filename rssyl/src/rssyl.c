@@ -93,6 +93,12 @@ static void rssyl_create_default_mailbox(void)
 	rssyl_subscribe_new_feed(item, RSSYL_DEFAULT_FEED, TRUE);
 }
 
+static gboolean rssyl_refresh_all_feeds_deferred(gpointer data)
+{
+	rssyl_refresh_all_feeds();
+	return FALSE;
+}
+
 void rssyl_init(void)
 {
 	folder_register_class(rssyl_folder_get_class());
@@ -109,7 +115,7 @@ void rssyl_init(void)
 
 	if( rssyl_prefs_get()->refresh_on_startup &&
 			claws_is_starting() )
-		rssyl_refresh_all_feeds();
+		g_timeout_add(2000, rssyl_refresh_all_feeds_deferred, NULL);
 }
 
 void rssyl_done(void)
