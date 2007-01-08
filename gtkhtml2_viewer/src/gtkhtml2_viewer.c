@@ -171,15 +171,26 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					got_charset = TRUE; /* hack */
 				
 				g_mutex_lock(viewer->mutex);
-				if (!viewer->stop_previous && !claws_is_exiting() &&
-				    strcasestr(buf, "</head>") && got_charset == FALSE) {
-					gchar *meta_charset = g_strdup_printf(
-						"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
-						charset);
-					html_document_write_stream(
-						viewer->html_doc, meta_charset, strlen(meta_charset));
-					debug_print("injected %s\n", meta_charset);
-					g_free(meta_charset);
+				if (!viewer->stop_previous && !claws_is_exiting() && got_charset == FALSE) {
+					if (strcasestr(buf, "</head>")) {
+						gchar *meta_charset = g_strdup_printf(
+							"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
+							charset);
+						html_document_write_stream(
+							viewer->html_doc, meta_charset, strlen(meta_charset));
+						debug_print("injected %s\n", meta_charset);
+						g_free(meta_charset);
+						got_charset = TRUE;
+					} else if (strcasestr(buf, "<body>")) {
+						gchar *meta_charset = g_strdup_printf(
+							"<head><meta http-equiv=Content-Type content=\"text/html; charset=%s\"></head>",
+							charset);
+						html_document_write_stream(
+							viewer->html_doc, meta_charset, strlen(meta_charset));
+						debug_print("injected %s and head\n", meta_charset);
+						g_free(meta_charset);
+						got_charset = TRUE;
+					} 
 				}
 				if (!viewer->stop_previous && !claws_is_exiting())
 					html_document_write_stream(viewer->html_doc, buf, loaded);

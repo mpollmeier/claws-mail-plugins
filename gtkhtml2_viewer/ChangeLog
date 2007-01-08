@@ -1,3 +1,9 @@
+2007-01-08 [colin]	0.13.0cvs2
+
+	* src/gtkhtml2_viewer.c
+		Inject charset even if there's no <head>
+		section (in which case inject <head> too)
+
 2006-12-15 [ticho]	0.13.0cvs1
 
 	* configure.ac
