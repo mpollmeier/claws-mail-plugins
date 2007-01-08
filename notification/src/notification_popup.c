@@ -204,6 +204,8 @@ static gboolean popup_timeout_fun(gpointer data)
   if(!notify_notification_close(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to close notification: %s.\n",
 		ppopup->error->message);
+    /* do I need to g_object_unref()? */
+    ppopup->notification = NULL;    
   }
   else {
     g_object_unref(G_OBJECT(ppopup->notification));
