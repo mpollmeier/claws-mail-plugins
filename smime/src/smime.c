@@ -379,13 +379,16 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 
 	g_return_val_if_fail(smime_is_encrypted(mimeinfo), NULL);
 	
-	if (gpgme_new(&ctx) != GPG_ERR_NO_ERROR)
+	if ((err = gpgme_new(&ctx)) != GPG_ERR_NO_ERROR) {
+		privacy_set_error(_("Couldn't initialize GPG context, %s"), gpgme_strerror(err));
 		return NULL;
+	}
 
 	err = gpgme_set_protocol(ctx, GPGME_PROTOCOL_CMS);
 	if (err) {
 		debug_print ("gpgme_set_protocol failed: %s\n",
                    gpgme_strerror (err));
+		privacy_set_error(_("Couldn't set GPG protocol, %s"), gpgme_strerror(err));
 		gpgme_release(ctx);
 		return NULL;
 	}
@@ -413,6 +416,7 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
         	gpgme_data_release(plain);
 		gpgme_release(ctx);
 		debug_print("can't open!\n");
+		privacy_set_error(_("Couldn't open temporary file"));
 		return NULL;
     	}
 
@@ -430,12 +434,14 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 	parseinfo = procmime_scan_file(fname);
 	g_free(fname);
 	if (parseinfo == NULL) {
+		privacy_set_error(_("Couldn't parse decrypted file."));
 		gpgme_release(ctx);
 		return NULL;
 	}
 	decinfo = g_node_first_child(parseinfo->node) != NULL ?
 		g_node_first_child(parseinfo->node)->data : NULL;
 	if (decinfo == NULL) {
+		privacy_set_error(_("Couldn't parse decrypted file parts."));
 		gpgme_release(ctx);
 		return NULL;
 	}
@@ -460,7 +466,7 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 		data->ctx = ctx;
 	} else
 		gpgme_release(ctx);
-
+	
 	return decinfo;
 }
 
