@@ -1,69 +1,68 @@
-# Spanish translation for attachwarner plugin
-# Copyright (C) 2006-2007 Ricardo Mones 
+# Finnish translations for attachwarner package.
+# Copyright (C) 2007 Ricardo Mones
 # This file is distributed under the same license as the attachwarner package.
-# Ricardo Mones <ricardo@mones.org>, 2006.
+# Flammie Pirinen <flammie@iki.fi>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2006-11-16 11:01+0100\n"
-"PO-Revision-Date: 2006-11-16 11:02+0100\n"
-"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
-"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"PO-Revision-Date: 2007-01-03 07:03+0200\n"
+"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
+"Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/attachwarner.c:37
 msgid "attach.*"
-msgstr "adjun.*"
+msgstr "attach.*"
 
 #: src/attachwarner.c:142
 msgid "Attachment warning"
-msgstr "Aviso de adjuntos"
+msgstr "Liitetiedostovaroitus"
 
 #: src/attachwarner.c:143
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
 msgstr ""
-"Se mencionan adjuntos en el correo que est· a punto de enviar, pero no se "
-"adjunto ning˙n fichero. øEnviarlo igualmente?"
+"Liitetiedostosta mainitaan viestiss√§ jota l√§hetet√§√§n, mutta tiedostoa ei ole "
+"liitetty. Jatketaanko l√§hett√§mist√§?"
 
 #: src/attachwarner.c:144
 msgid "+_Send"
-msgstr "+_Enviar"
+msgstr "_L√§het√§"
 
 #: src/attachwarner.c:165
 msgid ""
 "Your Claws-Mail version is newer than the version the plugin was built with"
 msgstr ""
-"Su version de Claws Mail es m·s moderna que la que se usÛ para construir el "
-"mÛdulo"
+"Claws Mail on uudempi kuin versio, mille liit√§nn√§inen on k√§√§nnetty"
 
 #: src/attachwarner.c:170
 msgid "Your Claws-Mail version is too old"
-msgstr "Su versiÛn de Claws Mail es demasiado antigua"
+msgstr "Claws Mail on liian vanha versioltaan"
 
 #: src/attachwarner.c:177
 msgid "Failed to register check before send hook"
-msgstr "FallÛ el registro de la funciÛn de comprobar antes de enviar"
+msgstr "L√§hetyskoukun rekister√∂inti ep√§onnistui"
 
 #: src/attachwarner.c:184
 msgid "Failed to get memory for matcher"
-msgstr "FallÛ la obtenciÛn de memoria para el comparador"
+msgstr "Muistin saanti t√§sm√§ykselle ep√§onnistui"
 
 #: src/attachwarner.c:212 src/attachwarner.c:264
 msgid "Attach warner"
-msgstr "Aviso de adjuntos"
+msgstr "Liit√§ varoitin"
 
 #: src/attachwarner.c:222
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached"
 msgstr ""
-"Avisa al usuario si se encuentra alguna referencia a ficheros adjuntos en el "
-"mensaje pero no se adjunta ning˙n fichero"
+"Varoittaa, jos viestin tekstiss√§ puhutaan liitteist√§, mutta tiedostoja ei "
+"ole liitetty"
 

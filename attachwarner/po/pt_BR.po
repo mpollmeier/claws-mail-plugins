@@ -1,0 +1,50 @@
+# translation of pt_BR.po to Português do Brasil
+# Copyright (C) YEAR Ricardo Mones
+# This file is distributed under the same license as the attachwarner package.
+#
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: pt_BR\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2006-12-26 17:11+0100\n"
+"PO-Revision-Date: 2007-01-03 21:38-0200\n"
+"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
+"Language-Team: Português do Brasil\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: src/attachwarner.c:199
+msgid "Attachment warning"
+msgstr "Alerta de anexo"
+
+#: src/attachwarner.c:200
+msgid ""
+"An attachment is mentioned in the mail you're sending, but no file was "
+"attached. Send it anyway?"
+msgstr ""
+"Um anexo é mencionado na mensagem que você está enviando, mas "
+"nenhum arquivo foi anexado. Enviá-la mesmo assim?"
+
+#: src/attachwarner.c:201
+msgid "+_Send"
+msgstr "+_Enviar"
+
+#: src/attachwarner.c:222 src/attachwarner.c:257 src/attachwarner.c:309
+msgid "Attach warner"
+msgstr "Alerta de anexo"
+
+#: src/attachwarner.c:228
+msgid "Failed to register check before send hook"
+msgstr "Não foi possível registrar a checagem antes de enviar o gancho"
+
+#: src/attachwarner.c:267
+msgid ""
+"Warns user if some reference to attachments is found in the message text and "
+"no file is attached"
+msgstr ""
+"Avisa o usuário caso seja encontrada uma referência a anexos no texto da "
+"mensagem e não exista nenhum arquivo anexado"
+

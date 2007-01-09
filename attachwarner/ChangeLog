@@ -1,3 +1,20 @@
+2007-01-09 [paul]	0.2.2cvs3
+
+	* po/es.po
+		updated by Ricardo Mones Lastra
+	
+	* configure.ac
+	* po/fi.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+		added translations by Tommi Pirinen,
+		Andrea Spadaccini, Frederico Goncalves
+		Guimaraes, and Andrej Kacian
+
+	* po/attachwarner.pot
+		removed
+
 2006-12-20 [colin]	0.2.2cvs2
 
 	* src/Makefile.am
