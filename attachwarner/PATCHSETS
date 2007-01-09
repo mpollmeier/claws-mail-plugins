@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/attachwarner.c;  ) > 0.2.2cvs1.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/attachwarner.c;  diff -u /dev/null src/attachwarner_prefs.c;  diff -u /dev/null src/attachwarner_prefs.h;  ) > 0.2.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 configure.ac;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/attachwarner.pot;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/es.po;  diff -u /dev/null po/fi.po;  diff -u /dev/null po/it.po;  diff -u /dev/null po/pt_BR.po;  diff -u /dev/null po/sk.po;  ) > 0.2.2cvs3.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/POTFILES.in;  ) > 0.2.3cvs1.patchset

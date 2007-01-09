@@ -1,3 +1,8 @@
+2007-01-09 [ticho]	0.2.3cvs1
+
+	* po/POTFILES.in
+		Include strings from src/attachwarner_prefs.c in message catalogs.
+
 2007-01-09 [paul]	0.2.3
 
 	0.2.3 released
