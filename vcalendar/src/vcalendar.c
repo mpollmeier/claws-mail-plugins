@@ -684,9 +684,10 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 				"%s%s&lt;%s&gt; (%s, <span%s>%s</span>)", 
 				(ename && strlen(ename))?ename:"",
 				(ename && strlen(ename))?" ":"",
-				eatt, type, 
+				(eatt && strlen(eatt))?eatt:"", 
+				(type && strlen(type))?type:"", 
 				(acode != ICAL_PARTSTAT_ACCEPTED ? " foreground=\"red\"":""),
-				answer);
+				(answer && strlen(answer))?answer:"");
 		e_len = strlen(attendees);
 		n_len = strlen(tmp);
 		if (e_len) {

@@ -1,3 +1,10 @@
+2007-01-09 [colin]	1.92.0cvs1
+
+	* src/vcalendar.c
+		Fix crash when some fields are missing
+		Patch by Markus Schwarzenberg 
+		(schwarzb@ipms.fraunhofer.de)
+
 2007-01-09 [paul]	1.92
 
 	1.92 released
