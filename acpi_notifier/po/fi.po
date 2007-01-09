@@ -1,14 +1,14 @@
 # Finnish translations for sylpheed-claws package.
 # Copyright (C) 2005 Colin Leroy
 # This file is distributed under the same license as the sylpheed-claws package.
-# Flammie Pirinen <flammie@iki.fi>, 2005.
+# Flammie Pirinen <flammie@iki.fi>, 2005—2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-18 09:20+0100\n"
-"PO-Revision-Date: 2006-09-19 05:53+0300\n"
+"POT-Creation-Date: 2007-01-03 06:55+0200\n"
+"PO-Revision-Date: 2007-01-03 06:56+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -109,25 +109,23 @@ msgstr "Liitännäiset"
 msgid "Acpi Notifier"
 msgstr "ACPI Notifier"
 
-#: src/acpi_notifier.c:790
-msgid ""
-"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
-"with"
-msgstr ""
-"Sylpheed-Clawsisi on uudempi kuin mitä varten ACPINotifier on käännetty"
-
-#: src/acpi_notifier.c:795
-msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
-msgstr "Sylpheed-Clawsisi on ACPINotifierille liian vanha"
-
-#: src/acpi_notifier.c:809
+#: src/acpi_notifier.c:790 src/acpi_notifier.c:804
 msgid "Acpi notifier"
 msgstr "ACPI notifier"
 
-#: src/acpi_notifier.c:814
+#: src/acpi_notifier.c:809
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tämä liitännäinen ohjaa ACPI-postiledejä."
 
-#: src/acpi_notifier.c:835
+#: src/acpi_notifier.c:830
 msgid "Laptop LED"
 msgstr "Kannettavan ledi"
+
+#~ msgid ""
+#~ "Your Sylpheed-Claws version is newer than the version AcpiNotifier was "
+#~ "built with"
+#~ msgstr ""
+#~ "Sylpheed-Clawsisi on uudempi kuin mitä varten ACPINotifier on käännetty"
+
+#~ msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
+#~ msgstr "Sylpheed-Clawsisi on ACPINotifierille liian vanha"

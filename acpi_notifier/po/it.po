@@ -1,14 +1,13 @@
-# Italian translation for Acpi Notifier plugin for Sylpheed Claws
-# Copyright (C) 2006 Andrea Spadaccini
+# Italian translation for the ACPI Notifier plugin for Claws Mail
+# Copyright (C) 2006, 2007 Andrea Spadaccini
 # This file is distributed under the same license as the acpi_notifier package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006
-
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2007
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.0\n"
-"Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-10-30 07:59+0000\n"
-"PO-Revision-Date: 2006-11-05 06:06+0100\n"
+"Project-Id-Version: 2.7.0\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-01-01 10:37+0000\n"
+"PO-Revision-Date: 2007-01-06 16:12+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -108,26 +107,14 @@ msgstr "Plugin"
 msgid "Acpi Notifier"
 msgstr "Notificatore ACPI"
 
-#: src/acpi_notifier.c:790
-msgid ""
-"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
-"with"
-msgstr ""
-"La versione di Sylpheed-Claws in esecuzione è più nuova di quella con cui è "
-"stato compilato AcpiNotifier"
-
-#: src/acpi_notifier.c:795
-msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
-msgstr "La versione di Sylpheed-Claws in esecuzione è troppo vecchia per AcpiNotifier"
-
-#: src/acpi_notifier.c:809
+#: src/acpi_notifier.c:790 src/acpi_notifier.c:804
 msgid "Acpi notifier"
 msgstr "Notificatore ACPI"
 
-#: src/acpi_notifier.c:814
+#: src/acpi_notifier.c:809
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Questo plugin gestisce vari LED ACPI per la posta."
 
-#: src/acpi_notifier.c:835
+#: src/acpi_notifier.c:830
 msgid "Laptop LED"
 msgstr "LED Laptop"
