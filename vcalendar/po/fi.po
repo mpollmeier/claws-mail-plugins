@@ -1,14 +1,14 @@
 # Finnish translations for sylpheed-claws package.
 # Copyright (C) 2005 Colin Leroy
 # This file is distributed under the same license as the sylpheed-claws package.
-# Flammie Pirinen <flammie@iki.fi>, 2005.
+# Flammie Pirinen <flammie@iki.fi>, 2005—2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-09-18 09:15+0100\n"
-"PO-Revision-Date: 2006-09-19 06:18+0300\n"
+"POT-Creation-Date: 2007-01-03 07:18+0200\n"
+"PO-Revision-Date: 2007-01-03 07:23+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,21 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/plugin.c:40
-msgid ""
-"Your Sylpheed-Claws version is newer than the version vCalendar was built "
-"with."
-msgstr "Sylpheed-Clawsin on uudempi kuin mitä varten vKalenteri on käännetty."
-
-#: src/plugin.c:45
-msgid "Your Sylpheed-Claws version is too old for vCalendar."
-msgstr "Sylpheed-Clawsisi on liian vanha vKalenterille."
-
-#: src/plugin.c:62 src/vcal_prefs.c:403
+#: src/plugin.c:40 src/plugin.c:56 src/vcal_prefs.c:408
 msgid "vCalendar"
 msgstr "vKalenteri"
 
-#: src/plugin.c:67
+#: src/plugin.c:61
 msgid ""
 "This plugin enables vCalendar message handling like that produced by "
 "Evolution or Outlook.\n"
@@ -60,49 +50,49 @@ msgstr ""
 "Myös webCal-syötteisiin voi kirjautua ja hakea sieltä tapaamiset tai "
 "kalenterit, julkaista vapaanaolotiedot ja hakea muiden tietoja."
 
-#: src/plugin.c:99
+#: src/plugin.c:93
 msgid "text/calendar"
 msgstr "text/calendar"
 
-#: src/plugin.c:100
+#: src/plugin.c:94
 msgid "Calendar"
 msgstr "Kalenteri"
 
-#: src/vcalendar.c:476
+#: src/vcalendar.c:504
 msgid "Accept"
 msgstr "Hyväksy"
 
-#: src/vcalendar.c:477
+#: src/vcalendar.c:505
 msgid "Tentatively accept"
 msgstr "Hyväksy alustavasti"
 
-#: src/vcalendar.c:478
+#: src/vcalendar.c:506
 msgid "Decline"
 msgstr "Kieltäydy"
 
-#: src/vcalendar.c:541
+#: src/vcalendar.c:569
 msgid "You have a Todo item."
 msgstr "Sinulle on tehtävää."
 
-#: src/vcalendar.c:542 src/vcalendar.c:547 src/vcalendar.c:552
-#: src/vcalendar.c:567 src/vcalendar.c:579 src/vcalendar.c:585
-#: src/vcalendar.c:874
+#: src/vcalendar.c:570 src/vcalendar.c:575 src/vcalendar.c:580
+#: src/vcalendar.c:595 src/vcalendar.c:607 src/vcalendar.c:613
+#: src/vcalendar.c:934
 msgid "Details follow:"
 msgstr "Yksityiskohdat:"
 
-#: src/vcalendar.c:546
+#: src/vcalendar.c:574
 msgid "You have created a meeting."
 msgstr "Uusi tapaaminen on tehty."
 
-#: src/vcalendar.c:551
+#: src/vcalendar.c:579
 msgid "You have been invited to a meeting."
 msgstr "Sinut on kutsuttu tapaamiseen."
 
-#: src/vcalendar.c:566 src/vcalendar.c:873
+#: src/vcalendar.c:594 src/vcalendar.c:933
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "Olet saanut vastauksen tuntemattomaan tapaamispyyntöön."
 
-#: src/vcalendar.c:570 src/vcalendar.c:877
+#: src/vcalendar.c:598 src/vcalendar.c:937
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -111,19 +101,31 @@ msgstr ""
 "Olet saanut vastauksen tapaamispyyntöön.\n"
 "Henkilö %s on %s. Yksityiskohdat:"
 
-#: src/vcalendar.c:578
+#: src/vcalendar.c:606
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "Sopimasi tapaaminen, on peruttu."
 
-#: src/vcalendar.c:584
+#: src/vcalendar.c:612
 msgid "You have been forwarded an appointment."
 msgstr "Sinulle on välitetty tapaaminen."
 
-#: src/vcalendar.c:1127
+#: src/vcalendar.c:649
+#, c-format
+msgid "%s <span weight=\"bold\">(this event recurs)</span>"
+msgstr "%s <span weight=\"bold\">(tämä tapahtuma toistuu)</span>"
+
+#: src/vcalendar.c:655
+#, c-format
+msgid ""
+"%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
+msgstr ""
+"%s <span weight=\"bold\">(tämä kuuluu toistuvaan tapahtumaan)</span>"
+
+#: src/vcalendar.c:1190
 msgid "Cancel meeting"
 msgstr "Peru tapaaminen"
 
-#: src/vcalendar.c:1128
+#: src/vcalendar.c:1191
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -131,11 +133,11 @@ msgstr ""
 "Perutaanko tämä tapaaminen?\n"
 "Ilmoitus perumisesta lähetetään osanottajille."
 
-#: src/vcalendar.c:1195
+#: src/vcalendar.c:1258
 msgid "No account found"
 msgstr "Tiliä ei löytynyt"
 
-#: src/vcalendar.c:1196
+#: src/vcalendar.c:1259
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
@@ -143,138 +145,167 @@ msgstr ""
 "Sinulla ei ole käytössäsi tiliä, joka täsmäisi osallistujiin.\n"
 "Vastataanko silti?"
 
-#: src/vcalendar.c:1198
+#: src/vcalendar.c:1261
 msgid "+Reply anyway"
 msgstr "Vastaa joka tapauksessa"
 
-#: src/vcalendar.c:1321
+#: src/vcalendar.c:1385
 msgid "Answer"
 msgstr "Vastaa"
 
-#: src/vcalendar.c:1322
+#: src/vcalendar.c:1386
 msgid "Edit meeting..."
 msgstr "Muokkaa tapaamista…"
 
-#: src/vcalendar.c:1323
+#: src/vcalendar.c:1387
 msgid "Cancel meeting..."
 msgstr "Peru tapaaminen…"
 
-#: src/vcalendar.c:1324
+#: src/vcalendar.c:1388
 msgid "Launch website"
 msgstr "Avaa veppisivusto"
 
-#: src/vcalendar.c:1328
+#: src/vcalendar.c:1392
 msgid "You are already busy at this time."
 msgstr "Tämä aika on jo varattu."
 
-#: src/vcalendar.c:1382
+#: src/vcalendar.c:1446
 msgid "Event:"
 msgstr "Tapahtuma:"
 
-#: src/vcalendar.c:1383 src/vcal_meeting_gtk.c:1337
+#: src/vcalendar.c:1447 src/vcal_meeting_gtk.c:1411
 msgid "Organizer:"
 msgstr "Järjestäjä:"
 
-#: src/vcalendar.c:1384 src/vcal_meeting_gtk.c:1338
+#: src/vcalendar.c:1448 src/vcal_meeting_gtk.c:1412
 msgid "Summary:"
 msgstr "Yhteenveto:"
 
-#: src/vcalendar.c:1385
+#: src/vcalendar.c:1449
 msgid "Starting:"
 msgstr "Alkaa:"
 
-#: src/vcalendar.c:1386
+#: src/vcalendar.c:1450
 msgid "Ending:"
 msgstr "Loppuu:"
 
-#: src/vcalendar.c:1387 src/vcal_meeting_gtk.c:1340
+#: src/vcalendar.c:1451 src/vcal_meeting_gtk.c:1414
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: src/vcalendar.c:1388 src/vcal_meeting_gtk.c:1341
+#: src/vcalendar.c:1452 src/vcal_meeting_gtk.c:1415
 msgid "Attendees:"
 msgstr "Osanottajat:"
 
-#: src/vcalendar.c:1390
+#: src/vcalendar.c:1454
 msgid "Action:"
 msgstr "Toiminto:"
 
-#: src/vcal_folder.c:135
+#: src/vcal_folder.c:144
 msgid "/_New meeting..."
 msgstr "_Uusi tapaaminen…"
 
-#: src/vcal_folder.c:136
+#: src/vcal_folder.c:145
 msgid "/_Export calendar..."
 msgstr "Tuo kal_enteri…"
 
-#: src/vcal_folder.c:138
+#: src/vcal_folder.c:147
 msgid "/_Subscribe to webCal..."
 msgstr "_Tilaa webCal…"
 
-#: src/vcal_folder.c:139
+#: src/vcal_folder.c:148
 msgid "/_Unsubscribe..."
 msgstr "_Peru tilaus…"
 
-#: src/vcal_folder.c:141
+#: src/vcal_folder.c:150
 msgid "/_Rename..."
 msgstr "_Nimeä uudelleen…"
 
-#: src/vcal_folder.c:143
+#: src/vcal_folder.c:152
 msgid "/U_pdate subscriptions"
 msgstr "P_äivitä tilaukset"
 
-#: src/vcal_folder.c:761
+#: src/vcal_folder.c:1069
 msgid "/New meeting..."
 msgstr "Uusi tapaaminen…"
 
-#: src/vcal_folder.c:762
+#: src/vcal_folder.c:1070
 msgid "/Export calendar..."
 msgstr "Tuo kalenteri…"
 
-#: src/vcal_folder.c:763
+#: src/vcal_folder.c:1071
 msgid "/Subscribe to webCal..."
 msgstr "Tilaa webCal…"
 
-#: src/vcal_folder.c:764
+#: src/vcal_folder.c:1072
 msgid "/Unsubscribe..."
 msgstr "Peru tilaus…"
 
-#: src/vcal_folder.c:765
+#: src/vcal_folder.c:1073
 msgid "/Rename..."
 msgstr "Nimeä uudelleen…"
 
-#: src/vcal_folder.c:766
+#: src/vcal_folder.c:1074
 msgid "/Update subscriptions"
 msgstr "Päivitä tilaukset"
 
-#: src/vcal_folder.c:927
+#: src/vcal_folder.c:1220
+msgid "in the past"
+msgstr "menneisyydessä"
+
+#: src/vcal_folder.c:1223
+msgid "today"
+msgstr "tänään"
+
+#: src/vcal_folder.c:1226
+msgid "tomorrow"
+msgstr "huomenna"
+
+#: src/vcal_folder.c:1229
+msgid "this week"
+msgstr "tällä viikolla"
+
+#: src/vcal_folder.c:1232
+msgid "later"
+msgstr "myöhemmin"
+
+#: src/vcal_folder.c:1236
+#, c-format
+msgid ""
+"\n"
+"These are the events planned %s:\n"
+msgstr ""
+"\n"
+"Nämä tapahtumat ovat aikataulussa %s:\n"
+
+#: src/vcal_folder.c:1334
 msgid "401 (Authorisation required)"
 msgstr "401 (Tunnistautuminen vaaditaan)"
 
-#: src/vcal_folder.c:930
+#: src/vcal_folder.c:1337
 msgid "403 (Unauthorised)"
 msgstr "403 (Ei käyttöoikeutta)"
 
-#: src/vcal_folder.c:933
+#: src/vcal_folder.c:1340
 msgid "404 (Not found)"
 msgstr "404 (Ei löydy)"
 
-#: src/vcal_folder.c:936
+#: src/vcal_folder.c:1343
 #, c-format
 msgid "Error %d"
 msgstr "Virhe %d"
 
-#: src/vcal_folder.c:974
+#: src/vcal_folder.c:1381
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Haetaan %s…"
 
-#: src/vcal_folder.c:988
+#: src/vcal_folder.c:1395
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
 msgstr "Aikakatkaistu (%d sekuntia) yhdistettäessä osoitteeseen %s\n"
 
-#: src/vcal_folder.c:1125
+#: src/vcal_folder.c:1534
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -285,12 +316,12 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1126 src/vcal_folder.c:1131 src/vcal_folder.c:1145
-#: src/vcal_folder.c:1151
+#: src/vcal_folder.c:1535 src/vcal_folder.c:1540 src/vcal_folder.c:1554
+#: src/vcal_folder.c:1560
 msgid "Unknown error"
 msgstr "Tuntematon virhe"
 
-#: src/vcal_folder.c:1130
+#: src/vcal_folder.c:1539
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -301,7 +332,7 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1144
+#: src/vcal_folder.c:1553
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -312,7 +343,7 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1150
+#: src/vcal_folder.c:1559
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -323,60 +354,59 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1205
-msgid "Sylpheed-Claws needs network access in order to update the Webcal feed."
+#: src/vcal_folder.c:1614
+msgid "Claws Mail needs network access in order to update the Webcal feed."
 msgstr "Verkkoyhteys tarvitaan Webcal-syötteen päivittämiseen."
 
-#: src/vcal_folder.c:1219
-msgid ""
-"Sylpheed-Claws needs network access in order to update the subscription."
+#: src/vcal_folder.c:1628
+msgid "Claws Mail needs network access in order to update the subscription."
 msgstr "Verkkoyhteys tarvitaan tilausten päivittämiseen."
 
-#: src/vcal_folder.c:1231
+#: src/vcal_folder.c:1640
 msgid "Subscribe to WebCal"
 msgstr "Tilaa WebCal"
 
-#: src/vcal_folder.c:1231
+#: src/vcal_folder.c:1640
 msgid "Enter the WebCal URL:"
 msgstr "Anna WebCal-URL:"
 
-#: src/vcal_folder.c:1243
+#: src/vcal_folder.c:1652
 msgid "Could not parse the URL."
 msgstr "Ei voitu jäsentää URLia."
 
-#: src/vcal_folder.c:1271
+#: src/vcal_folder.c:1680
 msgid "Do you really want to unsubscribe?"
 msgstr "Perutaanko tilaus?"
 
-#: src/vcal_folder.c:1272
+#: src/vcal_folder.c:1681
 msgid "Delete folder"
 msgstr "Poista kansio"
 
-#: src/vcal_folder.c:1291
+#: src/vcal_folder.c:1700
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "Ei voitu poistaa kansiota %s."
 
-#: src/vcal_folder.c:1334
+#: src/vcal_folder.c:1743
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Anna uusi nimi syötteell %s:"
 
-#: src/vcal_folder.c:1335
+#: src/vcal_folder.c:1744
 msgid "Rename folder"
 msgstr "Nimeä kansio uudelleen"
 
-#: src/vcal_folder.c:1342
+#: src/vcal_folder.c:1751
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "Merkkiä %c ei voi olla kansion nimessä."
 
-#: src/vcal_folder.c:1349
+#: src/vcal_folder.c:1758
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "Kansio %s on jo olemassa."
 
-#: src/vcal_folder.c:1355
+#: src/vcal_folder.c:1764
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
@@ -384,79 +414,103 @@ msgstr ""
 "Kansion nimeäminen ei onnistunut.\n"
 "Uuden kansion nimi ei ole sallittu."
 
-#: src/vcal_manager.c:90
+#: src/vcal_manager.c:101
 msgid "accepted"
 msgstr "hyväksynyt kutsun"
 
-#: src/vcal_manager.c:91
+#: src/vcal_manager.c:102
 msgid "tentatively accepted"
 msgstr "alustavasti hyväksynyt kutsun"
 
-#: src/vcal_manager.c:92
+#: src/vcal_manager.c:103
 msgid "declined"
 msgstr "kieltäytynyt kutsusta"
 
-#: src/vcal_manager.c:93
+#: src/vcal_manager.c:104
 msgid "did not answer"
 msgstr "vastaamatta kutsuun"
 
-#: src/vcal_manager.c:94 src/vcal_manager.c:127
+#: src/vcal_manager.c:105 src/vcal_manager.c:138
 msgid "unknown"
 msgstr "vastaus tuntematon"
 
-#: src/vcal_manager.c:123
+#: src/vcal_manager.c:134
 msgid "individual"
 msgstr "yksittäinen"
 
-#: src/vcal_manager.c:124
+#: src/vcal_manager.c:135
 msgid "group"
 msgstr "ryhmä"
 
-#: src/vcal_manager.c:125
+#: src/vcal_manager.c:136
 msgid "resource"
 msgstr "resurssi"
 
-#: src/vcal_manager.c:126
+#: src/vcal_manager.c:137
 msgid "room"
 msgstr "huone"
 
-#: src/vcal_manager.c:1054
+#: src/vcal_manager.c:552
+msgid "Past"
+msgstr "Menneisyys"
+
+#: src/vcal_manager.c:555
+msgid "Today"
+msgstr "Tämä päivä"
+
+#: src/vcal_manager.c:558
+msgid "Tomorrow"
+msgstr "Huominen"
+
+#: src/vcal_manager.c:561
+msgid "This week"
+msgstr "Tämä viikko"
+
+#: src/vcal_manager.c:564
+msgid "Later"
+msgstr "Myöhempi"
+
+#: src/vcal_manager.c:1207
 msgid "Accepted: "
 msgstr "Hyväksynyt: "
 
-#: src/vcal_manager.c:1056
+#: src/vcal_manager.c:1209
 msgid "Declined: "
 msgstr "Kieltäytynyt: "
 
-#: src/vcal_manager.c:1058
+#: src/vcal_manager.c:1211
 msgid "Tentatively Accepted: "
 msgstr "Alustavasti hyväksynyt kutsun:"
 
-#: src/vcal_meeting_gtk.c:251
+#: src/vcal_meeting_gtk.c:213
+msgid "Use <tab> to autocomplete from addressbook"
+msgstr "Käytä tabia osoitekirjatäydennykseen"
+
+#: src/vcal_meeting_gtk.c:231
 msgid "Individual"
 msgstr "Yksittäinen"
 
-#: src/vcal_meeting_gtk.c:252
+#: src/vcal_meeting_gtk.c:232
 msgid "Group"
 msgstr "Ryhmä"
 
-#: src/vcal_meeting_gtk.c:253
+#: src/vcal_meeting_gtk.c:233
 msgid "Resource"
 msgstr "Resurssi"
 
-#: src/vcal_meeting_gtk.c:254
+#: src/vcal_meeting_gtk.c:234
 msgid "Room"
 msgstr "Huone"
 
-#: src/vcal_meeting_gtk.c:267
+#: src/vcal_meeting_gtk.c:247
 msgid "Add..."
 msgstr "Lisää…"
 
-#: src/vcal_meeting_gtk.c:268
+#: src/vcal_meeting_gtk.c:248
 msgid "Remove"
 msgstr "Poista"
 
-#: src/vcal_meeting_gtk.c:523
+#: src/vcal_meeting_gtk.c:575
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
@@ -464,61 +518,61 @@ msgstr ""
 "Seuraavat henkilöt ovat kiireisiä suunnitellun tapaamisen aikana:\n"
 "— "
 
-#: src/vcal_meeting_gtk.c:524 src/vcal_meeting_gtk.c:613
-#: src/vcal_meeting_gtk.c:699
+#: src/vcal_meeting_gtk.c:576 src/vcal_meeting_gtk.c:665
+#: src/vcal_meeting_gtk.c:751
 msgid "You"
 msgstr "Sinä"
 
-#: src/vcal_meeting_gtk.c:525
+#: src/vcal_meeting_gtk.c:577
 msgid "You are busy at the time of your planned meeting"
 msgstr "Olet kiireinen sovitun tapaamisen aikaan"
 
-#: src/vcal_meeting_gtk.c:527
+#: src/vcal_meeting_gtk.c:579
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
 msgstr "%s on kiireinen sovitun tapaamisen aikaan"
 
-#: src/vcal_meeting_gtk.c:529
+#: src/vcal_meeting_gtk.c:581
 #, c-format
 msgid "%d hour sooner"
 msgstr "%d tunti aiemmin"
 
-#: src/vcal_meeting_gtk.c:531
+#: src/vcal_meeting_gtk.c:583
 #, c-format
 msgid "%d hours sooner"
 msgstr "%d tuntia aiemmin"
 
-#: src/vcal_meeting_gtk.c:533
+#: src/vcal_meeting_gtk.c:585
 #, c-format
 msgid "%d hours and %d minutes sooner"
 msgstr "%d tuntia %d minuuttia aiemmin"
 
-#: src/vcal_meeting_gtk.c:535
+#: src/vcal_meeting_gtk.c:587
 #, c-format
 msgid "%d minutes sooner"
 msgstr "%d minuuttia aiemmin"
 
-#: src/vcal_meeting_gtk.c:540
+#: src/vcal_meeting_gtk.c:592
 #, c-format
 msgid "%d hour later"
 msgstr "%d tunti myöhemmin"
 
-#: src/vcal_meeting_gtk.c:542
+#: src/vcal_meeting_gtk.c:594
 #, c-format
 msgid "%d hours later"
 msgstr "%d tuntia myöhemmin"
 
-#: src/vcal_meeting_gtk.c:544
+#: src/vcal_meeting_gtk.c:596
 #, c-format
 msgid "%d hours and %d minutes later"
 msgstr "%d tuntia %d minuuttia myöhemmin"
 
-#: src/vcal_meeting_gtk.c:546
+#: src/vcal_meeting_gtk.c:598
 #, c-format
 msgid "%d minutes later"
 msgstr "%d minuuttia myöhemmin"
 
-#: src/vcal_meeting_gtk.c:552
+#: src/vcal_meeting_gtk.c:604
 #, c-format
 msgid ""
 "\n"
@@ -529,7 +583,7 @@ msgstr ""
 "\n"
 "Kaikki ovat vapaita %s tai %s."
 
-#: src/vcal_meeting_gtk.c:554
+#: src/vcal_meeting_gtk.c:606
 #, c-format
 msgid ""
 "\n"
@@ -540,7 +594,7 @@ msgstr ""
 "\n"
 "Kaikki ovat vapaita %s."
 
-#: src/vcal_meeting_gtk.c:556
+#: src/vcal_meeting_gtk.c:608
 msgid ""
 "\n"
 "\n"
@@ -552,73 +606,71 @@ msgstr ""
 "Ei ole mahdollista järjestää tätä tapaamista kaikkien kesken 6 tunnin sisään "
 "määräajasta."
 
-#: src/vcal_meeting_gtk.c:561
+#: src/vcal_meeting_gtk.c:613
 #, c-format
 msgid "would be available %s or %s"
 msgstr "olisi vapaa %s tai %s"
 
-#: src/vcal_meeting_gtk.c:563
+#: src/vcal_meeting_gtk.c:615
 #, c-format
 msgid "would be available %s"
 msgstr "olisi vapaa %s"
 
-#: src/vcal_meeting_gtk.c:565 src/vcal_meeting_gtk.c:626
-#: src/vcal_meeting_gtk.c:696
+#: src/vcal_meeting_gtk.c:617 src/vcal_meeting_gtk.c:678
+#: src/vcal_meeting_gtk.c:748
 msgid "not available"
 msgstr "ei vapaa"
 
-#: src/vcal_meeting_gtk.c:568
+#: src/vcal_meeting_gtk.c:620
 #, c-format
 msgid ", but would be available %s or %s."
 msgstr ", mutta olisi vapaa %s tai %s."
 
-#: src/vcal_meeting_gtk.c:570
+#: src/vcal_meeting_gtk.c:622
 #, c-format
 msgid ", but would be available %s."
 msgstr ", mutta olisi vapaa %s"
 
-#: src/vcal_meeting_gtk.c:572
+#: src/vcal_meeting_gtk.c:624
 msgid ", and isn't available in the previous or next 6 hours."
 msgstr "eikä ole vapaa 6 tunnin sisään määrajasta."
 
-#: src/vcal_meeting_gtk.c:629
+#: src/vcal_meeting_gtk.c:681
 msgid "available"
 msgstr "vapaa"
 
-#: src/vcal_meeting_gtk.c:631 src/vcal_meeting_gtk.c:871
+#: src/vcal_meeting_gtk.c:683 src/vcal_meeting_gtk.c:924
 msgid "Free/busy retrieval failed"
 msgstr "vapaustietohaku epäonnistui"
 
-#: src/vcal_meeting_gtk.c:713
+#: src/vcal_meeting_gtk.c:765
 msgid "Not everyone is available"
 msgstr "Kaikki eivät ole vapaana"
 
-#: src/vcal_meeting_gtk.c:714
+#: src/vcal_meeting_gtk.c:766
 msgid "Send anyway"
 msgstr "Lähetä joka tapauksessa"
 
-#: src/vcal_meeting_gtk.c:725
+#: src/vcal_meeting_gtk.c:777
 msgid "Not everyone is available. See tooltips for more info..."
 msgstr "Kaikki eivät ole vapaita. Katso työkaluvihjeistä lisätietoja"
 
-#: src/vcal_meeting_gtk.c:880
+#: src/vcal_meeting_gtk.c:933
 msgid "Available"
 msgstr "Vapaa"
 
-#: src/vcal_meeting_gtk.c:893 src/vcal_meeting_gtk.c:900
-#: src/vcal_meeting_gtk.c:908
+#: src/vcal_meeting_gtk.c:946 src/vcal_meeting_gtk.c:953
+#: src/vcal_meeting_gtk.c:961
 msgid "Everyone is available."
 msgstr "Kaikki ovat vapaita."
 
-#: src/vcal_meeting_gtk.c:910
+#: src/vcal_meeting_gtk.c:963
 msgid ""
 "Everyone seems available, but some free/busy information failed to be "
 "retrieved."
-msgstr ""
-"Kaikki vaikuttavat vapailta, mutta joidenkin tietoja ei saatu haettua."
+msgstr "Kaikki vaikuttavat vapailta, mutta joidenkin tietoja ei saatu haettua."
 
-
-#: src/vcal_meeting_gtk.c:1055
+#: src/vcal_meeting_gtk.c:1108
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
@@ -626,63 +678,63 @@ msgstr ""
 "Ei voitu lähettää tapaamispyyntöä.\n"
 "Tarkista osanottajat."
 
-#: src/vcal_meeting_gtk.c:1141
+#: src/vcal_meeting_gtk.c:1195
 msgid "Save & Send"
 msgstr "Tallenna ja lähetä"
 
-#: src/vcal_meeting_gtk.c:1142
+#: src/vcal_meeting_gtk.c:1196
 msgid "Check availability"
 msgstr "Tarkista tavoitettavuus"
 
-#: src/vcal_meeting_gtk.c:1221
+#: src/vcal_meeting_gtk.c:1295
 msgid "<b>Starts at:</b> "
 msgstr "<b>Alkaa:</b>"
 
-#: src/vcal_meeting_gtk.c:1226 src/vcal_meeting_gtk.c:1246
+#: src/vcal_meeting_gtk.c:1300 src/vcal_meeting_gtk.c:1320
 msgid "h"
 msgstr "h"
 
-#: src/vcal_meeting_gtk.c:1229 src/vcal_meeting_gtk.c:1249
+#: src/vcal_meeting_gtk.c:1303 src/vcal_meeting_gtk.c:1323
 msgid "<b> on:</b>"
 msgstr "<b> paikassa:</b>"
 
-#: src/vcal_meeting_gtk.c:1241
+#: src/vcal_meeting_gtk.c:1315
 msgid "<b>Ends at:</b> "
 msgstr "<b>Loppuu:</b>"
 
-#: src/vcal_meeting_gtk.c:1283
+#: src/vcal_meeting_gtk.c:1357
 msgid "New meeting"
 msgstr "Uusi tapaaminen"
 
-#: src/vcal_meeting_gtk.c:1285
+#: src/vcal_meeting_gtk.c:1359
 #, c-format
 msgid "%s - Edit meeting"
 msgstr "%s — Muokkaa tapaamista…"
 
-#: src/vcal_meeting_gtk.c:1339
+#: src/vcal_meeting_gtk.c:1413
 msgid "Time:"
 msgstr "Aika:"
 
-#: src/vcal_meeting_gtk.c:1428
+#: src/vcal_meeting_gtk.c:1501
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d tunti"
 msgstr[1] "%d tuntia"
 
-#: src/vcal_meeting_gtk.c:1431
+#: src/vcal_meeting_gtk.c:1504
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuutti"
 msgstr[1] "%d minuuttia"
 
-#: src/vcal_meeting_gtk.c:1442
+#: src/vcal_meeting_gtk.c:1515
 #, c-format
 msgid "Upcoming event: %s"
 msgstr "Tuleva tapahtuma: %s"
 
-#: src/vcal_meeting_gtk.c:1443
+#: src/vcal_meeting_gtk.c:1516
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
@@ -697,94 +749,104 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_meeting_gtk.c:1458
+#: src/vcal_meeting_gtk.c:1531
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
 msgstr[0] "Muistuta %d minuutissa"
 msgstr[1] "Muistuta %d minuutissa"
 
-#: src/vcal_meeting_gtk.c:1577
+#: src/vcal_meeting_gtk.c:1653
 msgid "Empty calendar"
 msgstr "Tyhjä kalenteri"
 
-#: src/vcal_meeting_gtk.c:1578
+#: src/vcal_meeting_gtk.c:1654
 msgid "There is nothing to export."
 msgstr "Ei mitään vietävää"
 
-#: src/vcal_meeting_gtk.c:1619
+#: src/vcal_meeting_gtk.c:1694
 msgid "Could not export the calendar."
 msgstr "Ei voitu viedä kalenteria."
 
-#: src/vcal_meeting_gtk.c:1635
+#: src/vcal_meeting_gtk.c:1711
 msgid "Export calendar to ICS"
 msgstr "Vie kalenteri ICS:ään"
 
-#: src/vcal_meeting_gtk.c:1903
+#: src/vcal_meeting_gtk.c:1727
+#, c-format
+msgid "Couldn't export calendar to '%s'\n"
+msgstr "Ei voitu viedä kalenteria kohteeseen %s\n"
+
+#: src/vcal_meeting_gtk.c:1986
 msgid "Could not export the freebusy info."
 msgstr "Ei voitu viedä vapaanaolotietoja."
+
+#: src/vcal_meeting_gtk.c:2012
+#, c-format
+msgid "Couldn't export free/busy to '%s'\n"
+msgstr "Ei voitu viedä vapaanaolotietoja kohteeseen %s\n"
 
 #: src/vcal_prefs.c:132
 msgid "Reminders"
 msgstr "Muistutukset"
 
-#: src/vcal_prefs.c:140
-msgid "Alert me "
+#: src/vcal_prefs.c:141
+msgid "Alert me"
 msgstr "Ilmoita minulle"
 
-#: src/vcal_prefs.c:152
-msgid " minutes before an event"
+#: src/vcal_prefs.c:153
+msgid "minutes before an event"
 msgstr " minuuttia ennen tapahtuman alkua"
 
-#: src/vcal_prefs.c:164
+#: src/vcal_prefs.c:165
 msgid "Calendar export"
 msgstr "Kalenterin vienti"
 
-#: src/vcal_prefs.c:172
-msgid "Automatically export calendar to "
-msgstr "Automaattisesti vie kalenteri "
+#: src/vcal_prefs.c:174
+msgid "Automatically export calendar to"
+msgstr "Automaattisesti vie kalenteri"
 
-#: src/vcal_prefs.c:181 src/vcal_prefs.c:247
-msgid "You can export to a local file or an URL"
+#: src/vcal_prefs.c:183 src/vcal_prefs.c:252
+msgid "You can export to a local file or URL"
 msgstr "Voit viedä tiedoston tai URL-osoitteen"
 
-#: src/vcal_prefs.c:184
+#: src/vcal_prefs.c:186
 msgid "Specify a local file or URL (http://user:pass@server/path/file.ics)"
 msgstr ""
 "Anna tiedostonimi tai URL (kuten http://käyttäjä:salasana@palvelin/polku/"
 "tiedosto.ics)"
 
-#: src/vcal_prefs.c:193
+#: src/vcal_prefs.c:195
 msgid "Include webcal subscriptions in export"
 msgstr "Sisällyt webcal-ajat vientiin"
 
-#: src/vcal_prefs.c:203
-msgid "Command to run after calendar export: "
-msgstr "Kalenterin viennin jälkeen ajettava komento: "
+#: src/vcal_prefs.c:205
+msgid "Command to run after calendar export"
+msgstr "Kalenterin viennin jälkeen ajettava komento"
 
-#: src/vcal_prefs.c:229
-msgid "Free/busy informations"
-msgstr "Vapaustiedot"
+#: src/vcal_prefs.c:233
+msgid "Free/Busy information"
+msgstr "Vapaanaolotiedot"
 
-#: src/vcal_prefs.c:238
-msgid "Automatically export free/busy to "
-msgstr "Automaattisesti vie vapaanaolotiedot "
+#: src/vcal_prefs.c:243
+msgid "Automatically export free/busy status to"
+msgstr "Automaattisesti vie vapaanaolotiedot kohteeseen"
 
-#: src/vcal_prefs.c:250
+#: src/vcal_prefs.c:255
 msgid "Specify a local file or URL (http://user:pass@server/path/file.ifb)"
 msgstr ""
 "Anna tiedostonimi tai URL (kuten http://käyttäjä:salasana@palvelin/polku/"
 "tiedosto.ifb)"
 
-#: src/vcal_prefs.c:259
-msgid "Command to run after free/busy export: "
-msgstr "Vapaanaolotiedon viennin jälkeen ajettava komento: "
+#: src/vcal_prefs.c:264
+msgid "Command to run after free/busy status export"
+msgstr "Vapaanaolotiedon viennin jälkeen ajettava komento"
 
-#: src/vcal_prefs.c:286
-msgid "Get free/busy for others on "
-msgstr "Hae muiden vapaanaolotiedot "
+#: src/vcal_prefs.c:291
+msgid "Get free/busy status of others from"
+msgstr "Hae muiden vapaanaolotiedot"
 
-#: src/vcal_prefs.c:294
+#: src/vcal_prefs.c:299
 #, c-format
 msgid ""
 "Specify a local file or URL (http://user:pass@server/path/file.ifb). Use %u "
@@ -794,9 +856,18 @@ msgstr ""
 "tiedosto.ifb). Käytä %u:ta sähköpostiosoitteen vasempana osana ja %d:tä "
 "verkkotunnuksena"
 
-#: src/vcal_prefs.c:402
+#: src/vcal_prefs.c:407
 msgid "Plugins"
 msgstr "Liitännäiset"
+
+#~ msgid ""
+#~ "Your Sylpheed-Claws version is newer than the version vCalendar was built "
+#~ "with."
+#~ msgstr ""
+#~ "Sylpheed-Clawsin on uudempi kuin mitä varten vKalenteri on käännetty."
+
+#~ msgid "Your Sylpheed-Claws version is too old for vCalendar."
+#~ msgstr "Sylpheed-Clawsisi on liian vanha vKalenterille."
 
 #~ msgid ""
 #~ "Could not retrieve the Webcal URL:\n"
@@ -811,9 +882,6 @@ msgstr "Liitännäiset"
 #~ msgstr ""
 #~ "Tämä URL ei näytä WebCal-URLilta:\n"
 #~ "%s"
-
-#~ msgid "Date:"
-#~ msgstr "Päivä:"
 
 #~ msgid "-"
 #~ msgstr "—"
