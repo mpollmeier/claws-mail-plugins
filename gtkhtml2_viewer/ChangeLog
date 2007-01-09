@@ -1,3 +1,13 @@
+2007-01-09 [paul]	0.13.0cvs3
+
+	* configure.ac
+	* po/it.po
+		translation added by Andrea Spadaccini
+	* po/es.po
+	* po/fi.po
+		updated by Ricrado Mones Lastra and
+		Tommi Pirinen
+
 2007-01-08 [colin]	0.13.0cvs2
 
 	* src/gtkhtml2_viewer.c

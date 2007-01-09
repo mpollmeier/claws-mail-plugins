@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=13
 MICRO_VERSION=0
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -44,7 +44,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 		 sys/param.h sys/utsname.h sys/select.h \
 		 wchar.h wctype.h locale.h netdb.h)
 
-ALL_LINGUAS="de es fr fi pt_BR pl sk sr"
+ALL_LINGUAS="de es fi fr it pl pt_BR sk sr"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])

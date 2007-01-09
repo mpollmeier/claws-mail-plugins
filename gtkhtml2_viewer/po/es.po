@@ -1,5 +1,5 @@
 # Spanish translation for Gtk2Html2 Viewer.
-# Copyright (C) 2006 Ricardo Mones
+# Copyright (C) 2006-2007 Ricardo Mones
 # This file is distributed under the same license as the Gtk2Html2 Viewer 
 # package.
 # Ricardo Mones <ricardo@mones.org>, 2006.
@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer \n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-24 16:52+0200\n"
-"PO-Revision-Date: 2006-09-25 09:02+0200\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2007-01-07 11:52+0100\n"
+"PO-Revision-Date: 2007-01-07 09:02+0200\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,12 +44,20 @@ msgstr "Limpiar el almacén temporal de imágenes al salir"
 msgid "Clear image cache now"
 msgstr "Limpiar el almacén temporal de imágenes ahora"
 
-#: src/gtkhtml2_viewer.c:532
+#: src/gtkhtml2_viewer.c:91
+msgid "/_Open with Web browser"
+msgstr "/_Abrir con el navegador web"
+
+#: src/gtkhtml2_viewer.c:92
+msgid "/Copy this _link"
+msgstr "/Copiar este en_lace"
+
+#: src/gtkhtml2_viewer.c:592
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Excedido el tiempo conectando a %s\n"
 
-#: src/gtkhtml2_viewer.c:600
+#: src/gtkhtml2_viewer.c:660
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -57,7 +65,7 @@ msgstr ""
 "Hay imágenes remotas, pero no se cargaron\n"
 "de acuerdo con sus preferencias."
 
-#: src/gtkhtml2_viewer.c:602
+#: src/gtkhtml2_viewer.c:662
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -65,38 +73,25 @@ msgstr ""
 "Hay imágenes remotas, pero no se cargaron\n"
 "porque está trabajando sin conexión."
 
-#: src/gtkhtml2_viewer.c:604
+#: src/gtkhtml2_viewer.c:664
 msgid "Remote images exist, but loading them failed."
 msgstr "Hay imágenes remotas, pero falló su carga."
 
-#: src/gtkhtml2_viewer.c:607
+#: src/gtkhtml2_viewer.c:667
 msgid "Load images"
 msgstr "Cargar imágenes"
 
-#: src/gtkhtml2_viewer.c:780
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer "
-"plugin was built with"
-msgstr ""
-"Su versión de Sylpheed-Claws es más moderna que la versión con la que se "
-"construyó el módulo Gtkhtml2Viewer"
-
-#: src/gtkhtml2_viewer.c:785
-msgid "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
-msgstr ""
-"Su versión de Sylpheed-Claws es demasiado antigua para el módulo "
-"Gtkhtml2Viewer"
-
-#: src/gtkhtml2_viewer.c:822
+#: src/gtkhtml2_viewer.c:850 src/gtkhtml2_viewer.c:886
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visor HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:827
+#: src/gtkhtml2_viewer.c:891
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
-msgstr "Este módulo muestra el correo HTML usando el componente de "
-"presentación gtkhtml2"
+msgstr ""
+"Este módulo muestra el correo HTML usando el componente de presentación "
+"gtkhtml2"
 
-#: src/gtkhtml2_viewer.c:849
+#: src/gtkhtml2_viewer.c:913
 msgid "text/html"
 msgstr "text/html"
 

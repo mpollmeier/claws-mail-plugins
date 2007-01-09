@@ -1,0 +1,107 @@
+# Italian translation for the gtkhtml2_viewer plugin for Claws Mail
+# Copyright (C) 2006, 2007 Andrea Spadaccini
+# This file is distributed under the same license as the gtkhtml2_viewer package.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.7.0\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-01-01 10:41+0000\n"
+"PO-Revision-Date: 2007-01-06 16:12+0100\n"
+"Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gtkhtml2_prefs.c:80
+msgid "Plugins"
+msgstr "Plugin"
+
+#: src/gtkhtml2_prefs.c:81
+msgid "GtkHtml2 Viewer"
+msgstr "Visualizzatore GtkHtml2"
+
+#: src/gtkhtml2_prefs.c:128
+msgid "Cache cleared."
+msgstr "Cache pulita."
+
+#: src/gtkhtml2_prefs.c:148
+msgid "Load remote images in mails"
+msgstr "Carica immagini remote nei messaggi"
+
+#: src/gtkhtml2_prefs.c:155
+msgid "Cache remote images locally"
+msgstr "Salva in cache locale le immagini remote"
+
+#: src/gtkhtml2_prefs.c:162
+msgid "Clear images cache when quitting"
+msgstr "Pulisci la cache immagini all'uscita"
+
+#: src/gtkhtml2_prefs.c:169
+msgid "Clear image cache now"
+msgstr "Pulisci ora la cache immagini"
+
+#: src/gtkhtml2_viewer.c:91
+msgid "/_Open with Web browser"
+msgstr "/_Apri con browser web"
+
+#: src/gtkhtml2_viewer.c:92
+msgid "/Copy this _link"
+msgstr "Copia _collegamento"
+
+#: src/gtkhtml2_viewer.c:592
+#, c-format
+msgid "Timeout connecting to %s\n"
+msgstr "Timeout durante la connessione a %s\n"
+
+#: src/gtkhtml2_viewer.c:660
+msgid ""
+"Remote images exist, but weren't loaded\n"
+"according to your preferences."
+msgstr ""
+"Le immagini remote non sono state caricate\n"
+"secondo le impostazioni."
+
+#: src/gtkhtml2_viewer.c:662
+msgid ""
+"Remote images exist, but weren't loaded\n"
+"because you are offline."
+msgstr ""
+"Le immagini remote non sono state caricate\n"
+"perché è attiva la modalità offline."
+
+#: src/gtkhtml2_viewer.c:664
+msgid "Remote images exist, but loading them failed."
+msgstr "Il caricamento delle immagini remote è fallito."
+
+#: src/gtkhtml2_viewer.c:667
+msgid "Load images"
+msgstr "Carica immagini"
+
+#: src/gtkhtml2_viewer.c:850 src/gtkhtml2_viewer.c:886
+msgid "GtkHtml2 HTML Viewer"
+msgstr "Visualizzatore HTML GtkHtml2"
+
+#: src/gtkhtml2_viewer.c:891
+msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
+msgstr ""
+"Questo plugin visualizza le mail in HTML utilizzando il widget "
+"gtkhtml2rendering"
+
+#: src/gtkhtml2_viewer.c:913
+msgid "text/html"
+msgstr "text/html"
+
+#~ msgid ""
+#~ "Your version of Sylpheed-Claws is newer than the version the "
+#~ "Gtkhtml2Viewer plugin was built with"
+#~ msgstr ""
+#~ "La versione corrente di Sylpheed-Claws è più nuova della versione per "
+#~ "cui il plugin GtkHtml2Viewer è stato compilato"
+
+#~ msgid ""
+#~ "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
+#~ msgstr ""
+#~ "La versione corrente di Sylpheed-Claws è troppo vecchia per il plugin"
