@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rssyl 3.0\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-24 16:55+0200\n"
-"PO-Revision-Date: 2006-09-25 09:17+0100\n"
+"POT-Creation-Date: 2007-01-07 11:56+0100\n"
+"PO-Revision-Date: 2007-01-07 21:49+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,72 +16,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/feed.c:102
+#: src/feed.c:104
 msgid "Cannot open temporary file"
 msgstr "No se puede abrir el fichero temporal"
 
-#: src/feed.c:113
+#: src/feed.c:115
 msgid "Cannot init libCURL"
 msgstr "No se puede inicializar libCURL"
 
-#: src/feed.c:188
+#: src/feed.c:192
 msgid "401 (Authorisation required)"
 msgstr "401 (Se requiere autorización)"
 
-#: src/feed.c:191
+#: src/feed.c:195
 msgid "403 (Unauthorised)"
 msgstr "403 (No autorizado)"
 
-#: src/feed.c:194
+#: src/feed.c:198
 msgid "404 (Not found)"
 msgstr "404 (No encontrado)"
 
-#: src/feed.c:197
+#: src/feed.c:201
 #, c-format
 msgid "Error %d"
 msgstr "Error %d"
 
-#: src/feed.c:263
+#: src/feed.c:267
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Recuperando «%s»..."
 
-#: src/feed.c:327
+#: src/feed.c:331
 msgid "Malformed feed"
 msgstr "Canal mal formado"
 
-#: src/feed.c:949
+#: src/feed.c:984
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Refrescando canal «%s»..."
 
-#: src/feed.c:964
+#: src/feed.c:999
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
 "comments of '%s'"
 msgstr ""
-"RSSyl: La recuperación de comentarios no esta soportada en canales RDF. "
-"No se pueden recuperar los comentarios de «%s»"
+"RSSyl: La recuperación de comentarios no esta soportada en canales RDF. No "
+"se pueden recuperar los comentarios de «%s»"
 
-#: src/feed.c:972
+#: src/feed.c:1007
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
 "comments of '%s'"
 msgstr ""
-"RSSyl: La recuperación de comentarios no esta soportada en canales Atom. "
-"No se pueden recuperar los comentarios de «%s»"
+"RSSyl: La recuperación de comentarios no esta soportada en canales Atom. No "
+"se pueden recuperar los comentarios de «%s»"
 
-#: src/feed.c:978
+#: src/feed.c:1013
 msgid "This feed format is not supported yet."
 msgstr "El formato de este canal no esta aún soportado."
 
-#: src/feed.c:1007
+#: src/feed.c:1042
 msgid "N/A"
 msgstr "N/D"
 
-#: src/feed.c:1242
+#: src/feed.c:1277
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -90,11 +90,11 @@ msgstr ""
 "RSSyl: No se puede actualizar el canal %s:\n"
 "%s\n"
 
-#: src/feed.c:1395
+#: src/feed.c:1431
 msgid "You are already subscribed to this feed."
 msgstr "Ya está suscrito a este canal."
 
-#: src/feed.c:1403
+#: src/feed.c:1439
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -103,11 +103,11 @@ msgstr ""
 "No se pudo recuperar la URL «%s»:\n"
 "%s"
 
-#: src/feed.c:1403 src/feed.c:1405
+#: src/feed.c:1439 src/feed.c:1441
 msgid "Unknown error"
 msgstr "Error desconocido"
 
-#: src/feed.c:1405
+#: src/feed.c:1441
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -116,10 +116,16 @@ msgstr ""
 "No se pudo recuperar la URL «%s»:\n"
 "%s\n"
 
-#: src/feed.c:1415
+#: src/feed.c:1451
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "No puedo suscribir el canal «%s»."
+
+#: src/feed.c:1550 src/rssyl_cb_menu.c:274
+msgid "Claws Mail needs network access in order to update the feed."
+msgid_plural "Claws Mail needs network access in order to update the feeds."
+msgstr[0] "Claws Mail necesita acceso a la red para actualizar el canal."
+msgstr[1] "Claws Mail necesita acceso a la red para actualizar los canales."
 
 #: src/feed.h:20
 #, c-format
@@ -151,23 +157,7 @@ msgstr "RSSyl: Actualizando canal %s\n"
 msgid "RSSyl: Feed update finished: %s\n"
 msgstr "RSSyl: Actualización del canal finalizada: %s\n"
 
-#: src/plugin.c:42
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version RSSyl was built "
-"with."
-msgstr ""
-"Su versión de Sylpheed-Claws es más nueva que la versión con la que se "
-"compiló RSSyl"
-
-#: src/plugin.c:47
-msgid "Your version of Sylpheed-Claws is too old for RSSyl."
-msgstr "Su versión de Sylpheed-Claws es demasiado antigua para RSSyl."
-
-#: src/plugin.c:64
-msgid "RSSyl"
-msgstr "RSSyl"
-
-#: src/plugin.c:69
+#: src/plugin.c:63
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"
@@ -181,7 +171,7 @@ msgstr ""
 "Cada canal de noticias creará una carpeta con las entradas apropiadas, "
 "obtenidas de la web. Puede leerlas, y borrar o mantener las antiguas."
 
-#: src/plugin.c:93
+#: src/plugin.c:87
 msgid "RSS feed"
 msgstr "Canal RSS"
 
@@ -205,12 +195,12 @@ msgstr "Introduzca el nombre de la nueva carpeta:"
 msgid "NewFolder"
 msgstr "NuevaCarpeta"
 
-#: src/rssyl_cb_menu.c:92 src/rssyl_cb_menu.c:353
+#: src/rssyl_cb_menu.c:92 src/rssyl_cb_menu.c:328
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "«%c» no puede formar parte del nombre de la carpeta."
 
-#: src/rssyl_cb_menu.c:102 src/rssyl_cb_menu.c:360
+#: src/rssyl_cb_menu.c:102 src/rssyl_cb_menu.c:335
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "La carpeta «%s» ya existe."
@@ -260,25 +250,16 @@ msgstr "Borrar carpeta"
 msgid "Can't remove the folder '%s'."
 msgstr "No se puede eliminar la carpeta «%s»."
 
-#: src/rssyl_cb_menu.c:274 src/rssyl_cb_menu.c:305
-msgid "Sylpheed-Claws needs network access in order to update the feed."
-msgid_plural ""
-"Sylpheed-Claws needs network access in order to update the feeds."
-msgstr[0] ""
-"Sylpheed-Claws necesita acceso a la red para actualizar el canal."
-msgstr[1] ""
-"Sylpheed-Claws necesita acceso a la red para actualizar los canales."
-
-#: src/rssyl_cb_menu.c:345
+#: src/rssyl_cb_menu.c:320
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Introduzca el nuevo nombre para «%s»:"
 
-#: src/rssyl_cb_menu.c:346
+#: src/rssyl_cb_menu.c:321
 msgid "Rename folder"
 msgstr "Renombrar carpeta"
 
-#: src/rssyl_cb_menu.c:366
+#: src/rssyl_cb_menu.c:341
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
@@ -407,8 +388,8 @@ msgid ""
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
 msgstr ""
 "<b>Intervalo de refresco en minutos:</b>\n"
-"<small>(Establecer a 0 para desactivar el refresco automático de este canal"
-")</small>"
+"<small>(Establecer a 0 para desactivar el refresco automático de este canal)"
+"</small>"
 
 #: src/rssyl_gtk.c:361
 msgid ""
@@ -446,31 +427,39 @@ msgstr "Eliminar entradas almacenadas temporalmente"
 msgid "_Unsubscribe"
 msgstr "_Desuscribir"
 
-#: src/rssyl_prefs.c:58
+#: src/rssyl_prefs.c:60
 msgid "Plugins"
 msgstr "Módulos"
 
-#: src/rssyl_prefs.c:101
-msgid "Default refresh interval in minutes:"
-msgstr "Intervalo de refresco predeterminado en minutos:"
+#: src/rssyl_prefs.c:104
+msgid "Default refresh interval in minutes"
+msgstr "Intervalo de refresco predeterminado en minutos"
 
-#: src/rssyl_prefs.c:112
+#: src/rssyl_prefs.c:115
 msgid "Set to 0 to disable automatic refreshing"
 msgstr "Establecer a 0 para desactivar el refresco automático"
 
-#: src/rssyl_prefs.c:114
-msgid "Default number of expired items to keep:"
-msgstr "Número predeterminado de entradas caducadas a mantener:"
+#: src/rssyl_prefs.c:117
+msgid "Default number of expired items to keep"
+msgstr "Número predeterminado de entradas caducadas a mantener"
 
-#: src/rssyl_prefs.c:125
+#: src/rssyl_prefs.c:128
 msgid "Set to -1 to keep expired items"
 msgstr "Establecer a -1 para mantener todas las entradas caducadas"
 
-#: src/rssyl_prefs.c:127
-msgid "Timeout for downloading feeds in seconds:"
-msgstr "Tiempo límite para descargar los canales en segundos:"
+#: src/rssyl_prefs.c:130
+msgid "Timeout for downloading feeds in seconds"
+msgstr "Tiempo límite para descargar los canales en segundos"
 
-#: src/rssyl.h:12
+#: src/rssyl_prefs.c:142
+msgid "Refresh all feeds on application start"
+msgstr "Refrescar todos los canales al iniciar la aplicación"
+
+#: src/rssyl.h:8
+msgid "RSSyl"
+msgstr "RSSyl"
+
+#: src/rssyl.h:14
 msgid "My Feeds"
 msgstr "Mis canales"
 
