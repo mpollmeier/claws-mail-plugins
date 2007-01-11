@@ -1,3 +1,9 @@
+2007-01-11 [colin]	0.5.8cvs2
+
+	* src/plugin.c
+	* src/smime.c
+		Multiple RFC fixes
+
 2007-01-09 [colin]	0.5.8cvs1
 
 	* src/smime.c

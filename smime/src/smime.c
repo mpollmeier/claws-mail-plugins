@@ -94,7 +94,8 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 			return data->is_signed;
 	}
 	
-	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime")) {
+	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime") ||
+	    !g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime")) {
 		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
 		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
 			goto is_signed;
@@ -233,7 +234,8 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
                    gpgme_strerror (err));
 	}
 
-	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime")) {
+	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime") ||
+	    !g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime")) {
 		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
 		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
 			gpgme_data_t cipher, plain;
@@ -352,14 +354,18 @@ static gboolean smime_is_encrypted(MimeInfo *mimeinfo)
 		return FALSE;
 	if (!g_ascii_strcasecmp(mimeinfo->subtype, "pkcs7-mime")) {
 		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
-		if (!tmpstr || g_ascii_strcasecmp(tmpstr, "enveloped-data"))
+		if (tmpstr && g_ascii_strcasecmp(tmpstr, "enveloped-data"))
 			return FALSE;
 		else 
 			return TRUE;
 
-	} else if (!g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime"))
-		return TRUE;
-	
+	} else if (!g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime")) {
+		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
+		if (tmpstr && g_ascii_strcasecmp(tmpstr, "enveloped-data"))
+			return FALSE;
+		else 
+			return TRUE;
+	}
 	return FALSE;
 }
 
@@ -425,8 +431,6 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 	chars = gpgme_data_release_and_get_mem(plain, &len);
 
 	if (len > 0) {
-		if (chars[0] != '\n')
-			fprintf(dstfp, "\n");
 		fwrite(chars, len, 1, dstfp);
 	}
 	fclose(dstfp);
@@ -466,6 +470,8 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 		data->ctx = ctx;
 	} else
 		gpgme_release(ctx);
+	
+	
 	
 	return decinfo;
 }
@@ -536,6 +542,8 @@ gboolean smime_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	/* read temporary file into memory */
 	textstr = get_canonical_content(fp, boundary);
 
+	g_free(boundary);
+
 	fclose(fp);
 
 	gpgme_data_new_from_mem(&gpgtext, textstr, strlen(textstr), 0);
@@ -549,12 +557,14 @@ gboolean smime_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	if (err) {
 		debug_print ("gpgme_set_protocol failed: %s\n",
                    gpgme_strerror (err));
+		gpgme_data_release(gpgtext);
 		gpgme_release(ctx);
 		return FALSE;
 	}
 
 	if (!sgpgme_setup_signers(ctx, account)) {
 		debug_print("setup_signers failed\n");
+		gpgme_data_release(gpgtext);
 		gpgme_release(ctx);
 		return FALSE;
 	}
@@ -565,6 +575,7 @@ gboolean smime_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	err = gpgme_op_sign(ctx, gpgtext, gpgsig, GPGME_SIG_MODE_DETACH);
 	if (err != GPG_ERR_NO_ERROR) {
 		alertpanel_error("S/MIME : Cannot sign, %s (%d)", gpg_strerror(err), gpg_err_code(err));
+		gpgme_data_release(gpgtext);
 		gpgme_release(ctx);
 		return FALSE;
 	}
@@ -714,9 +725,7 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	/* create temporary multipart for content */
 	encmultipart = procmime_mimeinfo_new();
 	encmultipart->type = MIMETYPE_APPLICATION;
-	encmultipart->subtype = g_strdup("pkcs7-mime");
-	g_hash_table_insert(encmultipart->typeparameters, g_strdup("smime-type"),
-                            g_strdup("enveloped-data"));
+	encmultipart->subtype = g_strdup("x-pkcs7-mime");
 	g_hash_table_insert(encmultipart->typeparameters, g_strdup("name"),
                             g_strdup("smime.p7m"));
 	
@@ -727,14 +736,23 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	g_node_append(encmultipart->node, msgcontent->node);
 
 	/* write message content to temporary file */
-	fp = my_tmpfile();
+	tmpfile = get_tmp_file();
+	fp = fopen(tmpfile, "wb");
 	if (fp == NULL) {
-		perror("my_tmpfile");
+		perror("get_tmp_file");
 		return FALSE;
 	}
 	procmime_decode_content(msgcontent);
+	procmime_write_mime_header(msgcontent, fp);
 	procmime_write_mimeinfo(msgcontent, fp);
-	rewind(fp);
+	fclose(fp);
+	canonicalize_file_replace(tmpfile);
+	fp = fopen(tmpfile, "rb");
+	if (fp == NULL) {
+		perror("get_tmp_file");
+		return FALSE;
+	}
+	g_free(tmpfile);
 
 	/* read temporary file into memory */
 	textstr = fp_read_noconv(fp);
@@ -751,7 +769,7 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 
 	gpgme_release(ctx);
 	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
-	
+
 	if (!enccontent) {
 		g_warning("no enccontent\n");
 		return FALSE;
@@ -766,7 +784,6 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 		perror("get_tmp_file");
 		return FALSE;
 	}
-	
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
 
