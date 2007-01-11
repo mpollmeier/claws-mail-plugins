@@ -28,6 +28,7 @@ typedef struct _AttachWarnerPrefs AttachWarnerPrefs;
 struct _AttachWarnerPrefs
 {
 	gchar		 *match_strings;
+	gboolean	 skip_quotes;
 };
 
 extern AttachWarnerPrefs attwarnerprefs;

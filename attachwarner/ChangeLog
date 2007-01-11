@@ -1,3 +1,13 @@
+2007-01-11 [mones]	0.2.3cvs2
+
+	* TODO
+		Synced with real world	
+	* src/attachwarner.c
+	* src/attachwarner_prefs.c
+	* src/attachwarner_prefs.h
+		Added "Skip quoted lines" preference based on 
+		wwp's patch (thanks! :)
+
 2007-01-09 [ticho]	0.2.3cvs1
 
 	* po/POTFILES.in

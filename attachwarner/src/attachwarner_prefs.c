@@ -34,12 +34,15 @@ struct AttachWarnerPrefsPage
 	PrefsPage page;
 	
 	GtkWidget *regexp_text;
+	GtkWidget *skip_quotes_checkbox;
 };
 
 struct AttachWarnerPrefsPage attwarnerprefs_page;
 
 static PrefParam param[] = {
 	{"match_strings", N_("attach"), &attwarnerprefs.match_strings, P_STRING,
+	 NULL, NULL, NULL},
+	{"skip_quotes", "TRUE", &attwarnerprefs.skip_quotes, P_BOOL,
 	 NULL, NULL, NULL},
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
@@ -53,6 +56,8 @@ static void attwarner_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *label;
 	GtkWidget *scrolledwin;
 	GtkTextBuffer *buffer;
+	GtkWidget *skip_quotes_checkbox;
+	GtkTooltips *skip_quotes_tooltip;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 	hbox = gtk_hbox_new(FALSE, 6);
@@ -75,6 +80,16 @@ static void attwarner_prefs_create_widget_func(PrefsPage * _page,
 	gtk_container_add(GTK_CONTAINER(scrolledwin), page->regexp_text);
 	gtk_widget_set_size_request(page->regexp_text, -1, 100);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolledwin, FALSE, FALSE, 0);
+	
+	skip_quotes_checkbox = gtk_check_button_new_with_label(_("Skip quoted lines"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(skip_quotes_checkbox),
+	    	 attwarnerprefs.skip_quotes);
+	gtk_box_pack_start(GTK_BOX(vbox), skip_quotes_checkbox, FALSE, FALSE, 0);
+	gtk_widget_show(skip_quotes_checkbox);
+	skip_quotes_tooltip = gtk_tooltips_new();
+	gtk_tooltips_set_tip(GTK_TOOLTIPS(skip_quotes_tooltip), skip_quotes_checkbox,
+			_("Exclude quoted lines from checking for the regular expressions above"), NULL);
+	page->skip_quotes_checkbox = skip_quotes_checkbox;
 	
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 6);
 	gtk_widget_show_all(hbox);
@@ -128,6 +143,10 @@ static void attwarner_prefs_save_func(PrefsPage * _page)
 	
 	attwarnerprefs.match_strings = g_malloc(2*strlen(tmp)+1);
 	pref_get_escaped_pref(attwarnerprefs.match_strings, tmp);
+
+	attwarnerprefs.skip_quotes = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON(page->skip_quotes_checkbox));
+
 	attwarner_save_config();
 	g_free(attwarnerprefs.match_strings);
 	attwarnerprefs.match_strings = tmp;

@@ -1,7 +1,7 @@
 /*
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2006 Hiroyuki Yamamoto and the Claws Mail Team
- * Copyright (C) 2006 Ricardo Mones
+ * Copyright (C) 1999-2007 Hiroyuki Yamamoto and the Claws Mail Team
+ * Copyright (C) 2006-2007 Ricardo Mones
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,23 +14,25 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * along with this program; if not, write to the Free Software Foundation, 
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 #include "attachwarner.h"
 #include "attachwarner_prefs.h"
 #include "codeconv.h"
+#include "prefs_common.h"
 
 /** Identifier for the hook. */
 static guint hook_id;
 
 /**
- * Creates the matcher.
+ * Builds a single regular expresion from an array of srings.
  *
- * @return A newly allocated regexp matcher or null if no memory is available.
+ * @param strings The lines containing the different sub-regexp.
+ *
+ * @return The newly allocated regexp.
  */
-
 static gchar *build_complete_regexp(gchar **strings)
 {
 	int i = 0;
@@ -43,26 +45,27 @@ static gchar *build_complete_regexp(gchar **strings)
 		if (g_utf8_validate(strings[i], -1, NULL))
 			tmpstr = g_strdup(strings[i]);
 		else
-			tmpstr = conv_codeset_strdup
-				(strings[i], conv_get_locale_charset_str_no_utf8(),
-				 CS_INTERNAL);
+			tmpstr = conv_codeset_strdup(strings[i], 
+					conv_get_locale_charset_str_no_utf8(),
+				 	CS_INTERNAL);
 
 		if (strstr(tmpstr, "\n"))
 			*(strstr(tmpstr, "\n")) = '\0';
 
 		new_len = strlen(tmpstr);
 
-		expr = g_realloc(expr, expr ?(old_len+strlen("|()")+new_len+1): 
-					     (strlen("()")+new_len+1));
+		expr = g_realloc(expr, 
+			expr ? (old_len + strlen("|()") + new_len + 1)
+			     : (strlen("()") + new_len + 1));
 		
 		if (old_len) {
-			strcpy(expr+old_len, "|(");
-			strcpy(expr+old_len+2, tmpstr);
-			strcpy(expr+old_len+2+new_len, ")");
+			strcpy(expr + old_len, "|(");
+			strcpy(expr + old_len + 2, tmpstr);
+			strcpy(expr + old_len + 2 + new_len, ")");
 		} else {
 			strcpy(expr+old_len, "(");
-			strcpy(expr+old_len+1, tmpstr);
-			strcpy(expr+old_len+1+new_len, ")");
+			strcpy(expr+old_len + 1, tmpstr);
+			strcpy(expr+old_len + 1 + new_len, ")");
 		}
 		g_free(tmpstr);
 		i++;
@@ -70,11 +73,15 @@ static gchar *build_complete_regexp(gchar **strings)
 	return expr;
 }
 
+/**
+ * Creates the matcher.
+ *
+ * @return A newly allocated regexp matcher or null if no memory is available.
+ */
 MatcherProp * new_matcherprop(void)
 {
 	MatcherProp *m = NULL;
-	gchar **strings = g_strsplit(attwarnerprefs.match_strings, 
-				"\n", -1);
+	gchar **strings = g_strsplit(attwarnerprefs.match_strings, "\n", -1);
 	gchar *expr = NULL;
 	
 	expr = build_complete_regexp(strings);
@@ -82,7 +89,8 @@ MatcherProp * new_matcherprop(void)
 	g_strfreev(strings);
 	
 	debug_print("building matcherprop for expr '%s'\n", expr);
-	m = matcherprop_new(MATCHCRITERIA_SUBJECT, NULL, MATCHTYPE_REGEXP, expr, 0);
+	m = matcherprop_new(MATCHCRITERIA_SUBJECT, NULL, MATCHTYPE_REGEXP, 
+			    expr, 0);
 	if (m == NULL) {
 		/* print error message */
 		debug_print("failed to allocate memory for matcherprop\n");
@@ -104,10 +112,30 @@ MatcherProp * new_matcherprop(void)
 gboolean matcherprop_string_match(MatcherProp *mp, gchar *str)
 {
 	MsgInfo info;
+	gboolean ret = FALSE;
 
-	info.subject = str;
+	if (attwarnerprefs.skip_quotes
+		&& *str != '\0'
+		&& *prefs_common.quote_chars != '\0') {
 
-	return matcherprop_match(mp, &info);
+		gchar **lines = g_strsplit(str, "\n", -1);
+		int i;
+
+		for (i = 0; lines[i] != NULL && ret == FALSE; i++) {
+			if (line_has_quote_char(lines[i], 
+				prefs_common.quote_chars) == NULL) {
+
+				info.subject = lines[i];
+				ret = matcherprop_match(mp, &info);
+			}
+		}
+		g_strfreev(lines);
+	} else {
+		info.subject = str;
+		ret = matcherprop_match(mp, &info);
+	}
+
+	return ret;
 }
 
 /**
@@ -218,11 +246,12 @@ gint plugin_init(gchar **error)
         bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
-				VERSION_NUMERIC, _("Attach warner"), error) )
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+				  VERSION_NUMERIC, _("Attach warner"), error))
 		return -1;
 
-	hook_id = hooks_register_hook(COMPOSE_CHECK_BEFORE_SEND_HOOKLIST, my_before_send_hook, NULL);
+	hook_id = hooks_register_hook(COMPOSE_CHECK_BEFORE_SEND_HOOKLIST, 
+				      my_before_send_hook, NULL);
 	
 	if (hook_id == -1) {
 		*error = g_strdup(_("Failed to register check before send hook"));
@@ -265,7 +294,7 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
 	return _("Warns user if some reference to attachments is found in the "
-	         "message text and no file is attached");
+	         "message text and no file is attached.");
 }
 
 /**
