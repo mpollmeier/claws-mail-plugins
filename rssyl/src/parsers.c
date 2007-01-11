@@ -252,7 +252,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				debug_print("RSSyl: XML - item author: '%s'\n", fitem->author);
 			}
 			/* Comments */
-			if( !strcmp(n->name, "commentRSS") ) {
+			if( !strcmp(n->name, "commentRSS") || !strcmp(n->name, "commentRss") ) {
 				content = xmlNodeGetContent(n);
 				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
 				xmlFree(content);
