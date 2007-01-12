@@ -8,7 +8,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=3
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -49,7 +49,7 @@ if test x$PKG_CONFIG = xno ; then
 fi
 
 if test -z $prefix || test "${prefix}" = "NONE" ; then
-  prefix=$( $PKG_CONFIG --variable=prefix sylpheed-claws )
+  prefix=$( $PKG_CONFIG --variable=prefix claws-mail )
   CLAWS_MAIL_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir claws-mail )
 else
   CLAWS_MAIL_PLUGINDIR='${libdir}/claws-mail/plugins'
@@ -61,7 +61,7 @@ AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 AM_GNU_GETTEXT_VERSION([0.15])
 AM_GNU_GETTEXT([external])
 
-dnl Check for sylpheed-claws
+dnl Check for claws-mail
 PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 2.6.1.41)
 AC_SUBST(CLAWS_MAIL_CFLAGS)
 AC_SUBST(CLAWS_MAIL_LIBS)
