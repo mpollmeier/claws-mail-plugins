@@ -1,3 +1,10 @@
+2007-01-12 [paul]	0.5.8cvs3
+
+	* src/smime.c
+		fix bug 1093, 'Decrypt of S/MIME signed+encrypted
+		messages from Outlook 11'
+		Thanks to Colin
+
 2007-01-11 [colin]	0.5.8cvs2
 
 	* src/plugin.c

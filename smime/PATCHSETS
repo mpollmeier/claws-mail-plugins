@@ -18,3 +18,4 @@
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/smime.c;  ) > 0.5.7cvs2.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/smime.c;  ) > 0.5.8cvs1.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/plugin.c;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/smime.c;  ) > 0.5.8cvs2.patchset
+( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/smime.c;  ) > 0.5.8cvs3.patchset

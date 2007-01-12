@@ -98,7 +98,15 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 	    !g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime")) {
 		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
 		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
-			goto is_signed;
+			if (data == NULL) {
+				data = smime_new_privacydata();
+				mimeinfo->privacy = (PrivacyData *) data;
+			}
+
+			data->done_sigtest = TRUE;
+			data->is_signed = TRUE;
+			smime_check_signature(mimeinfo);
+			return TRUE;
 		}
 	}
 
@@ -224,6 +232,7 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 			if (mimeinfo->encoding_type != oldenc)
 				mimeinfo->encoding_type = oldenc;
 		}
+		g_free(tmpfile);
 	} else {
 		textstr = get_canonical_content(fp, boundary);
 	}
@@ -250,10 +259,14 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 			gpgme_data_rewind(cipher);
 			textstr = gpgme_data_release_and_get_mem(cipher, &len);
 			fclose(fp);
+			if (textstr && len > 0)
+				textstr[len-1]='\0';
+
 			if (textstr && len) {
 				gchar *tmp_file = get_tmp_file();
 				MimeInfo *newinfo = NULL, *decinfo = NULL, *parentinfo = NULL;
 				gint childnumber = 0;
+								
 				str_write_to_file(textstr, tmp_file);
 				newinfo = procmime_scan_file(tmp_file);
 				decinfo = g_node_first_child(newinfo->node) != NULL ?
@@ -266,6 +279,7 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 				if (parentinfo->type == MIMETYPE_MESSAGE && 
 				    !strcmp(parentinfo->subtype, "rfc822")) {
 					procmime_decode_content(parentinfo);
+					procmime_encode_content(parentinfo, ENC_BASE64);
 					procmime_encode_content(parentinfo, ENC_8BIT);
 					if (parentinfo->content == MIMECONTENT_MEM) {
 						gint newlen = 
@@ -434,6 +448,7 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 		fwrite(chars, len, 1, dstfp);
 	}
 	fclose(dstfp);
+	g_free(chars);
 
 	parseinfo = procmime_scan_file(fname);
 	g_free(fname);
