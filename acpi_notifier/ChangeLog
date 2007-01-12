@@ -1,3 +1,10 @@
+2007-01-12 [paul]	1.0.6cvs1
+
+	* po/fr.po
+	* src/acpi_notifier.c
+		Update translation and factorize strings
+		Patch by Fabien
+
 2007-01-09 [paul]	1.0.6
 
 	1.0.6 released

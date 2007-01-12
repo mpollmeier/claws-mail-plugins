@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-19 09:28+0200\n"
-"PO-Revision-Date: 2006-09-22 11:26+0200\n"
+"POT-Creation-Date: 2007-01-12 17:07+0100\n"
+"PO-Revision-Date: 2007-01-12 17:07+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: English <en@translate.freefriends.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/acpi_notifier.c:62
+#: src/acpi_notifier.c:45
+msgid "Acpi Notifier"
+msgstr "Agent de notification Acpi"
+
+#: src/acpi_notifier.c:63
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
@@ -25,7 +29,7 @@ msgstr ""
 "Vous pouvez le trouver à l'adresse suivante :\n"
 " http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
-#: src/acpi_notifier.c:64
+#: src/acpi_notifier.c:65
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
@@ -34,15 +38,15 @@ msgstr ""
 "Vous pouvez le trouver à l'adresse suivante : \n"
 " http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 
-#: src/acpi_notifier.c:66
+#: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
 msgstr "Vérifiez que le module 'asus_acpi' est chargé."
 
-#: src/acpi_notifier.c:67
+#: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
 msgstr "Vérifiez que le module 'ibm_acpi' est chargé."
 
-#: src/acpi_notifier.c:68
+#: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
@@ -51,90 +55,68 @@ msgstr ""
 "Vous pouvez le trouver à l'adresse suivante :\n"
 " http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:196 src/acpi_notifier.c:202 src/acpi_notifier.c:414
+#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
 msgid "Control file doesn't exist."
 msgstr "Le fichier de contrôle n'existe pas."
 
-#: src/acpi_notifier.c:294
+#: src/acpi_notifier.c:295
 msgid " : no new or unread mail"
 msgstr " : pas de messages nouveaux ou non lus"
 
-#: src/acpi_notifier.c:295
+#: src/acpi_notifier.c:296
 msgid " : unread mail"
 msgstr " : messages non lus"
 
-#: src/acpi_notifier.c:296
+#: src/acpi_notifier.c:297
 msgid " : new mail"
 msgstr " : nouveaux messages"
 
-#: src/acpi_notifier.c:298 src/acpi_notifier.c:304 src/acpi_notifier.c:310
+#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
 msgid "off"
 msgstr "éteinte"
 
-#: src/acpi_notifier.c:300 src/acpi_notifier.c:306 src/acpi_notifier.c:312
+#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
 msgid "blinking"
 msgstr "clignotante"
 
-#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
+#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
 msgid "on"
 msgstr "allumée"
 
-#: src/acpi_notifier.c:336 src/acpi_notifier.c:345 src/acpi_notifier.c:360
+#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
 msgid "LED "
 msgstr "DEL "
 
-#: src/acpi_notifier.c:375
+#: src/acpi_notifier.c:376
 msgid "ACPI type: "
 msgstr "type ACPI : "
 
-#: src/acpi_notifier.c:384
+#: src/acpi_notifier.c:385
 msgid "ACPI file: "
 msgstr "Fichier ACPI : "
 
-#: src/acpi_notifier.c:395
+#: src/acpi_notifier.c:396
 msgid "values - On: "
 msgstr "valeurs - Allumé : "
 
-#: src/acpi_notifier.c:400
+#: src/acpi_notifier.c:401
 msgid " - Off: "
 msgstr " - Éteint: "
 
-#: src/acpi_notifier.c:422
+#: src/acpi_notifier.c:423
 msgid "Blink when user interaction is required"
 msgstr "Faire clignoter lorsque l'interaction de l'utilisateur est requise"
 
-#: src/acpi_notifier.c:733
+#: src/acpi_notifier.c:734
 msgid "Plugins"
 msgstr "Modules"
 
-#: src/acpi_notifier.c:734
-msgid "Acpi Notifier"
-msgstr "Acpi Notifier"
-
-#: src/acpi_notifier.c:790
-msgid ""
-"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
-"with"
-msgstr ""
-"La version de Sylpheed-Claws actuellement installée est plus récente que "
-"celle avec laquelle le module AcpiNotifier a été compilé."
-
-#: src/acpi_notifier.c:795
-msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
-msgstr ""
-"La version de Sylpheed-Claws actuellement installée est trop ancienne pour "
-"le module AcpiNotifier."
-
-#: src/acpi_notifier.c:809
-msgid "Acpi notifier"
-msgstr "Acpi notifier"
-
-#: src/acpi_notifier.c:814
+#: src/acpi_notifier.c:810
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr ""
 "Ce module gère différentes DELs de notification de messages sur certains "
 "portables avec ACPI."
 
-#: src/acpi_notifier.c:835
+#: src/acpi_notifier.c:831
 msgid "Laptop LED"
 msgstr "DEL portable"

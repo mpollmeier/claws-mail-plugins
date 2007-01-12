@@ -42,6 +42,7 @@
 #include "plugin.h"
 
 #define PREFS_BLOCK_NAME "AcpiNotifier"
+#define PLUGIN_NAME _("Acpi Notifier")
 
 extern gboolean alertpanel_is_open;
 
@@ -731,7 +732,7 @@ void acpi_prefs_init(void)
 	GError *error;
 
 	path[0] = _("Plugins");
-	path[1] = _("Acpi Notifier");
+	path[1] = PLUGIN_NAME;
 	path[2] = NULL;
 
 	prefs_set_default(param);
@@ -787,7 +788,7 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
 	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
-				VERSION_NUMERIC, _("Acpi notifier"), error) )
+				VERSION_NUMERIC, PLUGIN_NAME, error) )
 		return -1;
 
 	acpi_init();
@@ -801,7 +802,7 @@ void plugin_done(void)
 
 const gchar *plugin_name(void)
 {
-	return _("Acpi notifier");
+	return PLUGIN_NAME;
 }
 
 const gchar *plugin_desc(void)
