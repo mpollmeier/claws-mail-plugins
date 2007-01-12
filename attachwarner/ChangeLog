@@ -1,3 +1,14 @@
+2007-01-12 [paul]	0.2.3cvs5
+
+	* po/fr.po
+		Update translation (thanks to Colin)
+		Fix msgfmt error
+
+2007-01-12 [paul]	0.2.3cvs4
+
+	* po/fr.po
+		Update translation (thanks to Colin)
+
 2007-01-12 [paul]	0.2.3cvs3
 
 	* configure.ac
