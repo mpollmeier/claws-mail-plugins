@@ -264,8 +264,15 @@ static void reload_with_img(NoticeView *noticeview, GtkHtml2Viewer *viewer)
 static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
+	GtkAdjustment *vadj;
+	
 	debug_print("gtkhtml2_clear_viewer\n");
 	viewer->to_load = NULL;
+	
+	vadj = gtk_scrolled_window_get_vadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrollwin));
+	vadj->value = 0.0;
+	g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
 }
 
 static void gtkhtml2_destroy_viewer(MimeViewer *_viewer)
