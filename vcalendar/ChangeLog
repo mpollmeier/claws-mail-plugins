@@ -1,3 +1,10 @@
+2007-01-14 [colin]	1.92.0cvs2
+
+	* src/vcalendar.c
+		Init prefs before scanning folders. Maybe
+		fixes crash reported by Graham Todd on
+		claws-mail-users list
+
 2007-01-09 [colin]	1.92.0cvs1
 
 	* src/vcalendar.c

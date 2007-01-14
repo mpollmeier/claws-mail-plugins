@@ -1503,6 +1503,8 @@ void vcalendar_init(void)
 		make_dir (directory);
 	g_free(directory);
 
+	vcal_prefs_init();
+
 	mimeview_register_viewer_factory(&vcal_viewer_factory);
 	folder_register_class(vcal_folder_get_class());
 
@@ -1517,7 +1519,6 @@ void vcalendar_init(void)
 		folder_item_scan(folder->inbox);
 	
 	vcal_folder_gtk_init();
-	vcal_prefs_init();
 
 	alert_timeout_tag = gtk_timeout_add(60*1000, 
 				(GtkFunction)vcal_meeting_alert_check, 
