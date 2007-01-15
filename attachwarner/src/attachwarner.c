@@ -202,6 +202,28 @@ gboolean does_not_have_attachments(Compose *compose)
 }
 
 /**
+ * Check whether not check while redirecting or forwarding.
+ *
+ * @param mode The current compose->mode.
+ *
+ * @return TRUE for cancel further checking because it's being redirected or
+ *         forwarded and user configured not to check, FALSE otherwise.
+ */
+gboolean do_not_check_redirect_forward(int mode)
+{
+	switch (mode) {
+	case COMPOSE_FORWARD:
+	case COMPOSE_FORWARD_AS_ATTACH:
+	case COMPOSE_FORWARD_INLINE:
+	case COMPOSE_REDIRECT:
+		if (attwarnerprefs.skip_forwards_and_redirections)
+			return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
+/**
  * Callback function to be called before sending the mail.
  * 
  * @param source The composer to be checked.
@@ -218,6 +240,9 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 	debug_print("attachwarner invoked\n");
 	if (compose->batch)
 		return FALSE;	/* do not check while queuing */
+
+	if (do_not_check_redirect_forward(compose->mode))
+		return FALSE;
 
 	askuser = (does_not_have_attachments(compose)
 		   && are_attachments_mentioned(compose));

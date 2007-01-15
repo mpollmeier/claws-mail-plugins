@@ -29,6 +29,7 @@ struct _AttachWarnerPrefs
 {
 	gchar		 *match_strings;
 	gboolean	 skip_quotes;
+	gboolean	 skip_forwards_and_redirections;
 };
 
 extern AttachWarnerPrefs attwarnerprefs;

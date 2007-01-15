@@ -1,3 +1,11 @@
+2007-01-15 [mones]	0.2.3cvs6
+
+	* src/attachwarner.c
+	* src/attachwarner_prefs.c
+	* src/attachwarner_prefs.h
+		Added preference for skipping forwarded and redirected
+		(Thanks wwp for the original patch!)
+
 2007-01-12 [paul]	0.2.3cvs5
 
 	* po/fr.po

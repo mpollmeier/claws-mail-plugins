@@ -35,6 +35,7 @@ struct AttachWarnerPrefsPage
 	
 	GtkWidget *regexp_text;
 	GtkWidget *skip_quotes_checkbox;
+	GtkWidget *skip_forwards_and_redirections;
 };
 
 struct AttachWarnerPrefsPage attwarnerprefs_page;
@@ -43,6 +44,8 @@ static PrefParam param[] = {
 	{"match_strings", N_("attach"), &attwarnerprefs.match_strings, P_STRING,
 	 NULL, NULL, NULL},
 	{"skip_quotes", "TRUE", &attwarnerprefs.skip_quotes, P_BOOL,
+	 NULL, NULL, NULL},
+	{"skip_forwards_and_redirections", "TRUE", &attwarnerprefs.skip_forwards_and_redirections, P_BOOL,
 	 NULL, NULL, NULL},
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
@@ -57,7 +60,9 @@ static void attwarner_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *scrolledwin;
 	GtkTextBuffer *buffer;
 	GtkWidget *skip_quotes_checkbox;
+	GtkWidget *skip_fwd_redir_checkbox;
 	GtkTooltips *skip_quotes_tooltip;
+	GtkTooltips *skip_fwd_redir_tooltip;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 	hbox = gtk_hbox_new(FALSE, 6);
@@ -91,11 +96,20 @@ static void attwarner_prefs_create_widget_func(PrefsPage * _page,
 			_("Exclude quoted lines from checking for the regular expressions above"), NULL);
 	page->skip_quotes_checkbox = skip_quotes_checkbox;
 	
+	skip_fwd_redir_checkbox = gtk_check_button_new_with_label(_("Skip forwards and redirections"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(skip_fwd_redir_checkbox),
+	    	 attwarnerprefs.skip_forwards_and_redirections);
+	gtk_box_pack_start(GTK_BOX(vbox), skip_fwd_redir_checkbox, FALSE, FALSE, 0);
+	gtk_widget_show(skip_fwd_redir_checkbox);
+	skip_fwd_redir_tooltip = gtk_tooltips_new();
+	gtk_tooltips_set_tip(GTK_TOOLTIPS(skip_fwd_redir_tooltip), skip_fwd_redir_checkbox,
+			_("Don't check for missing attachments when forwarding or redirecting messages"), NULL);
+	page->skip_forwards_and_redirections = skip_fwd_redir_checkbox;
+
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 6);
 	gtk_widget_show_all(hbox);
 	
 	page->page.widget = hbox;
-
 }
 
 static void attwarner_prefs_destroy_widget_func(PrefsPage *_page)
@@ -146,6 +160,8 @@ static void attwarner_prefs_save_func(PrefsPage * _page)
 
 	attwarnerprefs.skip_quotes = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON(page->skip_quotes_checkbox));
+	attwarnerprefs.skip_forwards_and_redirections = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON(page->skip_forwards_and_redirections));
 
 	attwarner_save_config();
 	g_free(attwarnerprefs.match_strings);
