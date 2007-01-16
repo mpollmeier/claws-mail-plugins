@@ -263,8 +263,6 @@ static void vcal_get_sort_type(Folder *folder, FolderSortKey *sort_key,
 {
 	if (sort_key)
 		*sort_key = SORT_BY_DATE;
-	if (sort_type)
-		*sort_type = SORT_ASCENDING;
 }
 
 FolderClass *vcal_folder_get_class()

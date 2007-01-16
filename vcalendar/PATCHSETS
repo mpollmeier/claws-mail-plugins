@@ -76,3 +76,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/es.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fi.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/it.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/pt_BR.po;  ) > 1.91.0cvs18.patchset
 ( cvs diff -u -r 1.2.2.47 -r 1.2.2.48 src/vcalendar.c;  ) > 1.92.0cvs1.patchset
 ( cvs diff -u -r 1.2.2.48 -r 1.2.2.49 src/vcalendar.c;  ) > 1.92.0cvs2.patchset
+( cvs diff -u -r 1.2.2.56 -r 1.2.2.57 src/vcal_folder.c;  ) > 1.93.0cvs1.patchset
