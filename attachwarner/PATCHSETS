@@ -10,3 +10,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  ) > 0.2.3cvs4.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  ) > 0.2.3cvs5.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/attachwarner.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/attachwarner_prefs.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/attachwarner_prefs.h;  ) > 0.2.3cvs6.patchset
+( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/attachwarner.c;  ) > 0.2.4cvs1.patchset

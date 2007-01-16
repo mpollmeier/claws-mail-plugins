@@ -349,7 +349,7 @@ const gchar *plugin_licence(void)
  */
 const gchar *plugin_version(void)
 {
-	return VERSION;
+	return PLUGINVERSION;
 }
 
 /**
