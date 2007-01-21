@@ -1,3 +1,10 @@
+2007-01-21 [colin]	0.14.1cvs1
+
+	* po/hu.po
+	* configure.ac
+		Add Hungarian translation by
+		Pader Rezso <rezso@rezso.net>
+
 2007-01-15 [paul]	0.14.1
 
 	0.14.1 released
