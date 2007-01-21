@@ -1,0 +1,129 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Andrej Kacian
+# This file is distributed under the same license as the PACKAGE package.
+# Páder Rezső (rezso) <rezso@rezso.net>, 2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ACPI Notifier 1.0.7\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-01-15 08:54+0000\n"
+"PO-Revision-Date: 2007-01-21 20:27+0100\n"
+"Last-Translator: rezso <rezso@rezso.net>\n"
+"Language-Team:  <NONE>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: src/acpi_notifier.c:45
+msgid "Acpi Notifier"
+msgstr "ACPI értesítő"
+
+#: src/acpi_notifier.c:63
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+msgstr ""
+"Ellenőrizd, hogy az 'acerhk' kernel modul be lett töltve.\n"
+"Letöltheted a http://www.informatik.hu-berlin.de/~tauber/acerhk/ címről."
+
+#: src/acpi_notifier.c:65
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+msgstr ""
+"Ellenőrizd, hogy az 'acer_acpi' kernel modul be lett töltve.\n"
+"Letöltheted a http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html címről."
+
+#: src/acpi_notifier.c:67
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Ellenőrizd, hogy az 'asus_acpi' kernel modul be lett töltve."
+
+#: src/acpi_notifier.c:68
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Ellenőrizd, hogy az 'ibm_acpi' kernel modul be lett töltve."
+
+#: src/acpi_notifier.c:69
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"Ellenőrizd, hogy az apanelc telepítve van.\n"
+"Letöltheted a http://apanel.sourceforge.net/ címről."
+
+#: src/acpi_notifier.c:197
+#: src/acpi_notifier.c:203
+#: src/acpi_notifier.c:415
+msgid "Control file doesn't exist."
+msgstr "A kontrollfájl hiányzik."
+
+#: src/acpi_notifier.c:295
+msgid " : no new or unread mail"
+msgstr " : nincs új vagy olvasatlan e-mail"
+
+#: src/acpi_notifier.c:296
+msgid " : unread mail"
+msgstr " : olvasatlan e-mail"
+
+#: src/acpi_notifier.c:297
+msgid " : new mail"
+msgstr " : új e-mail"
+
+#: src/acpi_notifier.c:299
+#: src/acpi_notifier.c:305
+#: src/acpi_notifier.c:311
+msgid "off"
+msgstr "ki"
+
+#: src/acpi_notifier.c:301
+#: src/acpi_notifier.c:307
+#: src/acpi_notifier.c:313
+msgid "blinking"
+msgstr "villogás"
+
+#: src/acpi_notifier.c:303
+#: src/acpi_notifier.c:309
+#: src/acpi_notifier.c:315
+msgid "on"
+msgstr "be"
+
+#: src/acpi_notifier.c:337
+#: src/acpi_notifier.c:346
+#: src/acpi_notifier.c:361
+msgid "LED "
+msgstr "LED "
+
+#: src/acpi_notifier.c:376
+msgid "ACPI type: "
+msgstr "ACPI típusa: "
+
+#: src/acpi_notifier.c:385
+msgid "ACPI file: "
+msgstr "ACPI fájl: "
+
+#: src/acpi_notifier.c:396
+msgid "values - On: "
+msgstr "értékek - Be: "
+
+#: src/acpi_notifier.c:401
+msgid " - Off: "
+msgstr " - Ki: "
+
+#: src/acpi_notifier.c:423
+msgid "Blink when user interaction is required"
+msgstr "Villog, ha felhasználói közreműködés szükséges"
+
+#: src/acpi_notifier.c:734
+msgid "Plugins"
+msgstr "Pluginek"
+
+#: src/acpi_notifier.c:810
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "A plugin különböző ACPI e-mail LED-eket kezel (Acer, ASUS, Fujitsu, IBM)."
+
+#: src/acpi_notifier.c:831
+msgid "Laptop LED"
+msgstr "Laptop LED"
+

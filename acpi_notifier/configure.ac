@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=0
 MICRO_VERSION=7
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -36,7 +36,7 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
 
-ALL_LINGUAS="de es fi fr it pt_BR sk sr sv zh_CN"
+ALL_LINGUAS="de es fi fr hu it pt_BR sk sr sv zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT([external])
