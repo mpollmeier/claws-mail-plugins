@@ -1,3 +1,10 @@
+2007-01-23 [holger]	0.8cvs1
+
+	* src/notification_popup.c
+		Fix encoding of the displayed From and Subject
+		lines for the popup if using libnotify.
+		Thanks to Colin for helping me out on this.
+
 2007-01-09 [paul]	0.8
 
 	0.8 released

@@ -24,6 +24,7 @@
 #include "mainwindow.h"
 #include "procmsg.h"
 #include "folder.h"
+#include "codeconv.h"
 #include "gtk/gtkutils.h"
 
 #include "notification_popup.h"
@@ -248,6 +249,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   NotificationPopup *ppopup;
   gchar *summary = NULL;
   gchar *text = NULL;
+  gchar *utf8_str = NULL;
   gchar *subj = NULL;
   gchar *from = NULL;
 
@@ -268,29 +270,48 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     from    = notification_libnotify_sanitize_str(msginfo->from);
     subj    = notification_libnotify_sanitize_str(msginfo->subject);
     text    = g_strconcat(from,"\n\n",subj,NULL);
+    /* Make sure text is valid UTF8 */
+    if(!g_utf8_validate(text, -1, NULL)) {
+      debug_print("Notification plugin: String is not valid utf8, trying to fix it...\n");
+      /* fix it */
+      utf8_str = conv_codeset_strdup(text,
+				     conv_get_locale_charset_str_no_utf8(),
+				     CS_INTERNAL);
+      /* check if the fix worked */
+      if(utf8_str == NULL || !g_utf8_validate(utf8_str, -1, NULL)) {
+	debug_print("Notification plugin: String is still not valid utf8, sanitizing...\n");
+	utf8_str = g_malloc(strlen(text)*2+1);
+	conv_localetodisp(utf8_str, strlen(text)*2+1, text);
+      }
+      g_free(text);
+    }
+    else {
+      debug_print("Notification plugin: String is valid utf8\n");
+      utf8_str = text;
+    }
     if(from) g_free(from);
     if(subj) g_free(subj);
     break;
   case F_TYPE_NEWS:
     summary = "New News message";
-    text    = g_strdup("A new mesesage arrived");
+    utf8_str    = g_strdup("A new mesesage arrived");
     break;
   case F_TYPE_CALENDAR:
     summary = "New Calendar message";
-    text    = g_strdup("A new calendar message arrived");
+    utf8_str    = g_strdup("A new calendar message arrived");
     break;
   case F_TYPE_RSS:
     summary = "New RSS feed article";
-    text = g_strdup("A new article in a RSS feed arrived");
+    utf8_str = g_strdup("A new article in a RSS feed arrived");
     break;
   default:
     summary = "New unknown message";
-    text = g_strdup("Unknown message type arrived");
+    utf8_str = g_strdup("Unknown message type arrived");
     break;
   }
 
-  ppopup->notification = notify_notification_new(summary, text, NULL, NULL);
-  g_free(text);
+  ppopup->notification = notify_notification_new(summary, utf8_str, NULL, NULL);
+  g_free(utf8_str);
   if(ppopup->notification == NULL) {
     debug_print("Notification Plugin: Failed to create a new "
 		"notification.\n");
@@ -404,10 +425,6 @@ static gchar* notification_libnotify_sanitize_str(gchar *in)
 
   i_out = 0;
   while(*in) {
-    if(!g_ascii_isprint(*in)) {
-      in++;
-      continue;
-    }
     if(*in == '<') {
       if(i_out+3 >= STR_MAX_LEN) break;
       memcpy(&(tmp_str[i_out]),"&lt;",4);
