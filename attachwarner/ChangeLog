@@ -1,3 +1,10 @@
+2007-01-23 [mones]	0.2.4cvs2
+
+	* configure.ac
+	* po/hu.po
+		Added Hungarian translation.
+		Thanks to Pader Rezso <rezso@rezso.net>
+
 2007-01-16 [paul]	0.2.4cvs1
 
 	* src/attachwarner.c
