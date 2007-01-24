@@ -102,9 +102,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	if (f == NULL) {
 		perror("fdopen");
 		ctx->error = g_strdup(_("Cannot open temporary file"));
-		ctx->ready = TRUE;
 		g_unlink(template);
 		g_free(template);
+		ctx->ready = TRUE;
 		return NULL;
 	}
 
@@ -113,9 +113,10 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	if (eh == NULL) {
 		g_warning("can't init curl");
 		ctx->error = g_strdup(_("Cannot init libCURL"));
-		ctx->ready = TRUE;
+		fclose(f);
 		g_unlink(template);
 		g_free(template);
+		ctx->ready = TRUE;
 		return NULL;
 	}
 
@@ -159,6 +160,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	if (res != 0) {
 		ctx->error = g_strdup(curl_easy_strerror(res));
 		ctx->ready = TRUE;
+		curl_easy_cleanup(eh);
+		fclose(f);
 		g_unlink(template);
 		g_free(template);
 		return NULL;
