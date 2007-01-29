@@ -773,7 +773,8 @@ void acpi_init(void)
 {
 	gint i;
 	for (i = 0; acpi_help[i] != NULL; i++)
-		known_implementations[i].help = _(acpi_help[i]);
+		known_implementations[i].help = 
+			*acpi_help[i] ? _(acpi_help[i]) : "";
 	acpi_prefs_init();
 }
 
