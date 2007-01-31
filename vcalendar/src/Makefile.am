@@ -20,7 +20,7 @@ vcalendar_la_LDFLAGS = \
 	$(GTK_LIBS)
 
 vcalendar_la_LIBADD = \
-        $(top_srcdir)/libical/libical/.libs/libical.a
+        $(top_srcdir)/libical/libical/libical.la
 
 AM_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \

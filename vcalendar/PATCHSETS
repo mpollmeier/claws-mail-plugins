@@ -77,3 +77,4 @@
 ( cvs diff -u -r 1.2.2.47 -r 1.2.2.48 src/vcalendar.c;  ) > 1.92.0cvs1.patchset
 ( cvs diff -u -r 1.2.2.48 -r 1.2.2.49 src/vcalendar.c;  ) > 1.92.0cvs2.patchset
 ( cvs diff -u -r 1.2.2.56 -r 1.2.2.57 src/vcal_folder.c;  ) > 1.93.0cvs1.patchset
+( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/Makefile.am;  ) > 1.93.0cvs2.patchset
