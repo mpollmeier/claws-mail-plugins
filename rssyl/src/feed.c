@@ -142,17 +142,17 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	
 	if( !ctx->defer_modified_check ) {
 		if( ctx->last_update != -1 ) {
-		time_str = createRFC822Date(&ctx->last_update);
+			time_str = createRFC822Date(&ctx->last_update);
 		}
-	debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
+		debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
 			(ctx->last_update != -1 ? time_str : "unknown") );
-	g_free(time_str);
-	time_str = NULL;
-	if( ctx->last_update != -1 ) {
-		curl_easy_setopt(eh, CURLOPT_TIMECONDITION,
-			CURL_TIMECOND_IFMODSINCE);
-		curl_easy_setopt(eh, CURLOPT_TIMEVALUE, ctx->last_update);
-	}
+		g_free(time_str);
+		time_str = NULL;
+		if( ctx->last_update != -1 ) {
+			curl_easy_setopt(eh, CURLOPT_TIMECONDITION,
+				CURL_TIMECOND_IFMODSINCE);
+			curl_easy_setopt(eh, CURLOPT_TIMEVALUE, ctx->last_update);
+		}
 	}
 			
 	res = curl_easy_perform(eh);
@@ -173,7 +173,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			curl_easy_getinfo(eh, CURLINFO_FILETIME, &last_modified);
 
 			if( last_modified != -1 ) {
-				time_str = createRFC822Date(&ctx->last_update);
+				time_str = createRFC822Date(&last_modified);
 			}
 			debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
 					last_modified, (last_modified != -1 ? time_str : "unknown") );
