@@ -269,7 +269,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		}
 	}
 
-	xmlXPathFreeNodeSetList(result);
+	xmlXPathFreeObject(result);
 	xmlXPathFreeContext(context);
 
 	return count;
