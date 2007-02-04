@@ -817,7 +817,7 @@ static void notify_popup_set_cb(GtkWidget *widget, gpointer data)
   GtkWidget *win;
   GtkWidget *button;
 
-  win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  win = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_prefs");
   gtk_window_set_modal(GTK_WINDOW(win), TRUE);
   gtk_window_set_keep_above(GTK_WINDOW(win), TRUE);
   gtk_window_set_resizable(GTK_WINDOW(win), TRUE);

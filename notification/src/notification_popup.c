@@ -480,7 +480,7 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
   ppopup = &popup;
   
   /* Window */
-  ppopup->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  ppopup->window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_popup");
   gtk_window_set_decorated(GTK_WINDOW(ppopup->window), FALSE);
   gtk_window_set_keep_above(GTK_WINDOW(ppopup->window), TRUE);
   gtk_window_set_accept_focus(GTK_WINDOW(ppopup->window), FALSE);

@@ -105,7 +105,7 @@ static void notification_banner_create(GSList *msg_list)
 
   /* Window */
   if(!banner.window) {
-    banner.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    banner.window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_banner");
     gtk_window_set_decorated(GTK_WINDOW(banner.window), FALSE);
     gtk_widget_set_size_request(banner.window, gdk_screen_width(), -1);
     gtk_window_set_keep_above(GTK_WINDOW(banner.window), TRUE);

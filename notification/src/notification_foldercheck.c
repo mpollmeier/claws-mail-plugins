@@ -468,7 +468,7 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
   static GdkGeometry geometry;
 
   /* Create window */
-  entry->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  entry->window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_foldercheck");
   gtk_window_set_title(GTK_WINDOW(entry->window), "Select folder(s)");
   gtk_container_set_border_width(GTK_CONTAINER(entry->window), 4);
   gtk_window_set_position(GTK_WINDOW(entry->window), GTK_WIN_POS_CENTER);
