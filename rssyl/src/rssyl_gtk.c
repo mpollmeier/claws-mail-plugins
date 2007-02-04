@@ -34,6 +34,7 @@
 
 #include "gettext.h"
 #include "main.h"
+#include "gtkutils.h"
 
 #include "feed.h"
 #include "feedprops.h"
@@ -227,7 +228,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	/* Create required widgets */
 
 	/* Window */
-	feedprop->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	feedprop->window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "rssyl_gtk");
 
 	/* URL entry */
 	feedprop->url = gtk_entry_new();
