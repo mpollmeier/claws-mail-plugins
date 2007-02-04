@@ -145,6 +145,9 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	gchar *xpath;
 	gboolean got_encoded;
 	gchar *rootnode = NULL;
+	RSSylFeedItemMedia *media;
+	gchar *media_url, *media_type;
+	gulong media_size = 0;
 #ifdef RSSYL_DEBUG
 	gchar *fetched = NULL;
 #endif	/* RSSYL_DEBUG */
@@ -175,6 +178,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		node = result->nodesetval->nodeTab[i];
 		n = node->children;
 		fitem = g_new0(RSSylFeedItem, 1);
+		fitem->media = NULL;
 		fitem->date = -1;
 #ifdef RSSYL_DEBUG
 		fetched = xmlGetProp(rnode, "fetched");
@@ -251,6 +255,30 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				xmlFree(content);
 				debug_print("RSSyl: XML - item author: '%s'\n", fitem->author);
 			}
+
+			/* Media enclosure */
+			if( !strcmp(n->name, "enclosure") ) {
+				media_url = xmlGetProp(n, "url");
+				media_type = xmlGetProp(n, "type");
+				media_size = xmlGetProp(n, "length");
+
+				if( media_url != NULL &&
+						media_type != NULL &&
+						media_size != 0 ) {
+					debug_print("RSSyl: XML - enclosure: '%s' [%s] (%ld)\n",
+							media_url, media_type, media_size);
+					media = g_new(RSSylFeedItemMedia, 1);
+					media->url = media_url;
+					media->type = media_type;
+					media->size = media_size;
+					fitem->media = media;
+				} else {
+					debug_print("RSSyl: XML - enclosure found, but some data is missing\n");
+					g_free(media_url);
+					g_free(media_type);
+				}
+			}
+
 			/* Comments */
 			if( !strcmp(n->name, "commentRSS") || !strcmp(n->name, "commentRss") ) {
 				content = xmlNodeGetContent(n);

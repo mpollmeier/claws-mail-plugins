@@ -615,7 +615,7 @@ static gchar **strplit_no_copy(gchar *str, char delimiter)
  */
 static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 {
-	gchar *contents, **lines, **line, *text;
+	gchar *contents, **lines, **line;
 	GError *error = NULL;
 	RSSylFeedItem *fitem;
 	gint i = 0;
@@ -789,6 +789,11 @@ void rssyl_free_feeditem(RSSylFeedItem *item)
 	item->author = NULL;
 	g_free(item->realpath);
 	item->realpath = NULL;
+	if( item->media != NULL ) {
+		g_free(item->media->url);
+		g_free(item->media->type);
+		g_free(item->media);
+	}
 	g_free(item);
 }
 
@@ -1127,7 +1132,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	}
 
 	if( fitem->link )
-		fprintf(f, "URL: <a href=\"%s\">%s</a>\n\n<br><br>\n",
+		fprintf(f, "<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
 				fitem->link, fitem->link);
 
 	if( fitem->text )
@@ -1137,14 +1142,19 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 			        "</head><body>\n"
 				RSSYL_TEXT_START"\n"
 				"%s\n"
-				RSSYL_TEXT_END"\n"
-				"</body></html>",
+				RSSYL_TEXT_END"\n\n",
 				meta_charset ? meta_charset:"",
 				fitem->link,
 				fitem->text);
 
 	if (meta_charset)
 		g_free(meta_charset);
+
+	if( fitem->media )
+		fprintf(f, "<p><a href=\"%s\">Attached media file</a> [%s] (%ld bytes)</p>\n",
+				fitem->media->url, fitem->media->type, fitem->media->size);
+
+	fprintf(f, "</body></html>\n");
 
 	fclose(f);
 

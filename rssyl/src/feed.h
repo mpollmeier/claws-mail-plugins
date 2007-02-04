@@ -25,6 +25,14 @@
 #define RSSYL_LOG_UPDATING		_("RSSyl: Updating feed %s\n")
 #define RSSYL_LOG_UPDATED 		_("RSSyl: Feed update finished: %s\n")
 
+struct _RSSylFeedItemMedia {
+	gchar *url;
+	gchar *type;
+	gulong size;
+};
+
+typedef struct _RSSylFeedItemMedia RSSylFeedItemMedia;
+
 struct _RSSylFeedItem {
 	gchar *title;
 	gchar *text;
@@ -32,6 +40,8 @@ struct _RSSylFeedItem {
 	gchar *parent_link;
 	gchar *comments_link;
 	gchar *author;
+
+	RSSylFeedItemMedia *media;
 
 #ifdef RSSYL_DEBUG
 	long int debug_fetched;
