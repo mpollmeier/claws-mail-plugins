@@ -1113,6 +1113,19 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->summary), TRUE);
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->description), TRUE);
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->attendees), FALSE);
+	
+	if (prefs_common.textfont) {
+		PangoFontDescription *font_desc;
+
+		font_desc = pango_font_description_from_string
+						(prefs_common.textfont);
+		if (font_desc) {
+			gtk_widget_modify_font(
+				vcalviewer->description, font_desc);
+			pango_font_description_free(font_desc);
+		}
+	}
+	
 }
 
 void vcalviewer_reload(void)
