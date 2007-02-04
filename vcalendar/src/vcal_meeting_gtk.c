@@ -42,6 +42,7 @@
 #include "filesel.h"
 #include "alertpanel.h"
 #include "addr_compl.h"
+#include "gtkutils.h"
 
 struct _VCalMeeting
 {
@@ -1151,7 +1152,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	end_h_adj   = gtk_adjustment_new (0, 0, 23, 1, 10, 10);
 	end_m_adj   = gtk_adjustment_new (0, 0, 59, 1, 10, 10);
 
-	meet->window 		= gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	meet->window 		= gtkut_window_new(GTK_WINDOW_TOPLEVEL, "vcal_meeting_gtk");
 	meet->table  		= gtk_table_new(7, 2, FALSE);
 	meet->who    		= gtk_combo_box_new_text();
 	
