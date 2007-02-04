@@ -644,6 +644,8 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		g_hash_table_insert(hash_uids, snmsg, g_strdup(d->d_name));
 		
 		event = vcal_manager_load_event(d->d_name);
+		if (!event)
+			continue;
 		if (event->rec_occurence) {
 			vcal_manager_free_event(event);
 			g_unlink(d->d_name);
