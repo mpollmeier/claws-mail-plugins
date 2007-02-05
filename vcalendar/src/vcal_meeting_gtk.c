@@ -330,12 +330,38 @@ static void get_time_from_combo(GtkCombo *combo, int *h, int *m)
 	g_free(tmp);
 }
 
+static int get_current_gmt_offset(void)
+{
+	time_t now = time(NULL);
+	struct tm gmt;
+	struct tm local;
+	
+	gmtime_r(& now, & gmt);
+	localtime_r(& now, & local);
+	
+	local.tm_isdst = 0;
+	return mktime(&local)-mktime(&gmt);
+}
+
+static int get_gmt_offset_at_time(time_t then)
+{
+	struct tm gmt;
+	struct tm local;
+	
+	gmtime_r(& then, & gmt);
+	localtime_r(& then, & local);
+	
+	local.tm_isdst = 0;
+	return mktime(&local)-mktime(&gmt);
+}
+
 static gchar *get_date(VCalMeeting *meet, int start) 
 {
 	struct tm *lt;
 	time_t t;
 	guint d, m, y;
-	
+	int dst_offset = 0;
+
 	t = time(NULL);
 	lt = localtime(&t);
 	
@@ -355,6 +381,10 @@ static gchar *get_date(VCalMeeting *meet, int start)
 	
 	debug_print("%d %d %d, %d:%d\n", lt->tm_mday, lt->tm_mon, lt->tm_year, lt->tm_hour, lt->tm_min);
 	t = mktime(lt);
+
+	dst_offset = get_current_gmt_offset() - get_gmt_offset_at_time(t);
+	debug_print("DST change offset to apply to time %d\n", dst_offset);
+	t += dst_offset;
 	debug_print("%s\n", ctime(&t));
 	return g_strdup(icaltime_as_ical_string(icaltime_from_timet(t, FALSE)));
 }
@@ -436,7 +466,7 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 	end_t = time(NULL);
 	localtime_r(&start_t, &start_lt);
 	localtime_r(&end_t, &end_lt);
-	
+
 	gtk_calendar_get_date(GTK_CALENDAR(meet->start_c), &y, &m, &d);
 	start_lt.tm_mday = d; start_lt.tm_mon  = m; start_lt.tm_year = y - 1900;
 	get_time_from_combo(GTK_COMBO(meet->start_time), &start_lt.tm_hour, &start_lt.tm_min);
