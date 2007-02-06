@@ -1,3 +1,14 @@
+2007-02-06 [colin]	1.93.0cvs9
+
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_meeting_gtk.c
+	* src/vcal_meeting_gtk.h
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
+		Add better GUI for user/password auth in exports
+		Mostly untested
+
 2007-02-05 [colin]	1.93.0cvs8
 
 	* src/vcal_meeting_gtk.c

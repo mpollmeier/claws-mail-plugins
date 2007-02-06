@@ -35,8 +35,12 @@ struct _VcalendarPrefs
 	gchar 		*export_path;	
 	gchar 		*export_freebusy_path;	
 	gchar 		*export_command;	
+	gchar		*export_user;
+	gchar		*export_pass;
 	gchar 		*export_freebusy_command;
 	gchar		*freebusy_get_url;	
+	gchar		*export_freebusy_user;
+	gchar		*export_freebusy_pass;
 };
 
 extern VcalendarPrefs vcalprefs;

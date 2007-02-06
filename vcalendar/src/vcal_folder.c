@@ -955,7 +955,10 @@ void vcal_folder_export(void)
 	if (vcal_folder_lock_count) /* blocked */
 		return;
 	vcal_folder_lock_count++;
-	if (vcal_meeting_export_calendar(vcalprefs.export_path, TRUE)) {
+	if (vcal_meeting_export_calendar(vcalprefs.export_path, 
+			vcalprefs.export_user, 
+			vcalprefs.export_pass,
+			TRUE)) {
 		debug_print("exporting calendar\n");
 		if (vcalprefs.export_enable &&
 		    vcalprefs.export_command &&
@@ -963,7 +966,9 @@ void vcal_folder_export(void)
 			execute_command_line(
 				vcalprefs.export_command, TRUE);
 	}
-	if (vcal_meeting_export_freebusy(vcalprefs.export_freebusy_path)) {
+	if (vcal_meeting_export_freebusy(vcalprefs.export_freebusy_path,
+			vcalprefs.export_freebusy_user,
+			vcalprefs.export_freebusy_pass)) {
 		debug_print("exporting freebusy\n");
 		if (vcalprefs.export_freebusy_enable &&
 		    vcalprefs.export_freebusy_command &&
@@ -1265,7 +1270,7 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
-	vcal_meeting_export_calendar(NULL, FALSE);
+	vcal_meeting_export_calendar(NULL, NULL, NULL, FALSE);
 }
 
 struct CBuf {
@@ -1428,7 +1433,7 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	}
 }
 
-gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
+gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, const gchar *pass)
 {
 	gboolean res = TRUE;
 	CURL *curl_ctx = curl_easy_init();
@@ -1442,6 +1447,11 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize)
 	if (strchr(t_url, ' '))
 		*(strchr(t_url, ' ')) = '\0';
 
+	if (user && pass && *user && *pass) {
+		gchar *userpwd = g_strdup_printf("%s:%s",user,pass);
+		curl_easy_setopt(curl_ctx, CURLOPT_USERPWD, userpwd);
+		g_free(userpwd);
+	}
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
 	curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);

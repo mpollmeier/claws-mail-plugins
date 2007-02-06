@@ -48,10 +48,20 @@ struct VcalendarPage
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_entry;
 	
+	GtkWidget *export_user_label;
+	GtkWidget *export_user_entry;
+	GtkWidget *export_pass_label;
+	GtkWidget *export_pass_entry;
+
 	GtkWidget *export_freebusy_enable_btn;
 	GtkWidget *export_freebusy_path_entry;
 	GtkWidget *export_freebusy_command_entry;
 	
+	GtkWidget *export_freebusy_user_label;
+	GtkWidget *export_freebusy_user_entry;
+	GtkWidget *export_freebusy_pass_label;
+	GtkWidget *export_freebusy_pass_entry;
+
 	GtkWidget *freebusy_get_url_entry;
 };
 
@@ -73,6 +83,11 @@ static PrefParam param[] = {
 	{"export_command", NULL, &vcalprefs.export_command, P_STRING,
 	 NULL, NULL, NULL},
 
+	{"export_user", "", &vcalprefs.export_user, P_STRING,
+	 NULL, NULL, NULL},
+	{"export_pass", "", &vcalprefs.export_pass, P_STRING,
+	 NULL, NULL, NULL},
+
 	{"export_freebusy_enable", "FALSE", &vcalprefs.export_freebusy_enable, P_BOOL,
 	 NULL, NULL, NULL},
 	{"export_freebusy_path", "", &vcalprefs.export_freebusy_path, P_STRING,
@@ -81,8 +96,65 @@ static PrefParam param[] = {
 	 NULL, NULL, NULL},
 	{"freebusy_get_url", NULL, &vcalprefs.freebusy_get_url, P_STRING,
 	 NULL, NULL, NULL},
+
+	{"export_freebusy_user", "", &vcalprefs.export_freebusy_user, P_STRING,
+	 NULL, NULL, NULL},
+	{"export_freebusy_pass", "", &vcalprefs.export_freebusy_pass, P_STRING,
+	 NULL, NULL, NULL},
+
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
+
+static void set_auth_sensitivity(struct VcalendarPage *page)
+{
+	const gchar *export_path, *export_freebusy_path;
+	gboolean export_enable, export_freebusy_enable;
+	
+	export_enable = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(page->export_enable_btn));
+	export_freebusy_enable = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(page->export_freebusy_enable_btn));
+	
+	export_path = gtk_entry_get_text(GTK_ENTRY(page->export_path_entry));
+	export_freebusy_path = gtk_entry_get_text(GTK_ENTRY(page->export_freebusy_path_entry));
+	if (export_enable && export_path &&
+	    (!strncmp(export_path, "http://", 7) ||
+	     !strncmp(export_path, "ftp://", 6) ||
+	     !strncmp(export_path, "https://", 8) ||
+	     !strncmp(export_path, "sftp://", 5) ||
+	     !strncmp(export_path, "webcal://", 9))) {
+		gtk_widget_set_sensitive(page->export_user_label, TRUE);	
+		gtk_widget_set_sensitive(page->export_user_entry, TRUE);	
+		gtk_widget_set_sensitive(page->export_pass_label, TRUE);	
+		gtk_widget_set_sensitive(page->export_pass_entry, TRUE);	
+	} else {
+		gtk_widget_set_sensitive(page->export_user_label, FALSE);	
+		gtk_widget_set_sensitive(page->export_user_entry, FALSE);	
+		gtk_widget_set_sensitive(page->export_pass_label, FALSE);	
+		gtk_widget_set_sensitive(page->export_pass_entry, FALSE);	
+	}
+	if (export_freebusy_enable && export_freebusy_path &&
+	    (!strncmp(export_freebusy_path, "http://", 7) ||
+	     !strncmp(export_freebusy_path, "ftp://", 6) ||
+	     !strncmp(export_freebusy_path, "https://", 8) ||
+	     !strncmp(export_freebusy_path, "sftp://", 5) ||
+	     !strncmp(export_freebusy_path, "webcal://", 9))) {
+		gtk_widget_set_sensitive(page->export_freebusy_user_label, TRUE);	
+		gtk_widget_set_sensitive(page->export_freebusy_user_entry, TRUE);	
+		gtk_widget_set_sensitive(page->export_freebusy_pass_label, TRUE);	
+		gtk_widget_set_sensitive(page->export_freebusy_pass_entry, TRUE);	
+	} else {
+		gtk_widget_set_sensitive(page->export_freebusy_user_label, FALSE);	
+		gtk_widget_set_sensitive(page->export_freebusy_user_entry, FALSE);	
+		gtk_widget_set_sensitive(page->export_freebusy_pass_label, FALSE);	
+		gtk_widget_set_sensitive(page->export_freebusy_pass_entry, FALSE);	
+	}	
+}
+
+static void path_changed(GtkWidget *widget, gpointer data)
+{
+	set_auth_sensitivity((struct VcalendarPage *)data);
+}
 
 static void vcal_prefs_create_widget_func(PrefsPage * _page,
 					   GtkWindow * window,
@@ -106,11 +178,21 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *export_command_label;
 	GtkWidget *export_command_entry;
 
+	GtkWidget *export_user_label;
+	GtkWidget *export_user_entry;
+	GtkWidget *export_pass_label;
+	GtkWidget *export_pass_entry;
+
 	GtkWidget *frame_freebusy_export;
 	GtkWidget *export_freebusy_enable_checkbtn;
 	GtkWidget *export_freebusy_path_entry;
 	GtkWidget *export_freebusy_command_label;
 	GtkWidget *export_freebusy_command_entry;
+
+	GtkWidget *export_freebusy_user_label;
+	GtkWidget *export_freebusy_user_entry;
+	GtkWidget *export_freebusy_pass_label;
+	GtkWidget *export_freebusy_pass_entry;
 
 	GtkWidget *freebusy_get_url_label;
 	GtkWidget *freebusy_get_url_entry;
@@ -167,6 +249,8 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (vbox3);
 	gtk_container_add (GTK_CONTAINER (frame_export), vbox3);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox3), VBOX_BORDER);
+
+/* export path */
 	hbox2 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox2);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
@@ -184,8 +268,30 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			     NULL);
 	gtk_tooltips_set_tip(tooltips, export_path_entry, 
 			    _("Specify a local file or URL "
-			      "(http://user:pass@server/path/file.ics)"),
+			      "(http://server/path/file.ics)"),
 			     NULL);
+
+/* export auth */
+	hbox2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
+
+	export_user_label = gtk_label_new(_("User ID"));
+	gtk_widget_show(export_user_label);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_user_label, FALSE, FALSE, 0);
+
+	export_user_entry = gtk_entry_new();
+	gtk_widget_show(export_user_entry);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_user_entry, FALSE, FALSE, 0);
+
+	export_pass_label = gtk_label_new(_("Password"));
+	gtk_widget_show(export_pass_label);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_pass_label, FALSE, FALSE, 0);
+
+	export_pass_entry = gtk_entry_new();
+	gtk_entry_set_visibility(GTK_ENTRY(export_pass_entry), FALSE);
+	gtk_widget_show(export_pass_entry);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_pass_entry, FALSE, FALSE, 0);
 
 /* export subscriptions too */
 	hbox2 = gtk_hbox_new (FALSE, 8);
@@ -235,6 +341,8 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (vbox3);
 	gtk_container_add (GTK_CONTAINER (frame_freebusy_export), vbox3);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox3), VBOX_BORDER);
+
+/* export */
 	hbox2 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox2);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
@@ -253,8 +361,30 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			     NULL);
 	gtk_tooltips_set_tip(tooltips, export_freebusy_path_entry, 
 			    _("Specify a local file or URL "
-			      "(http://user:pass@server/path/file.ifb)"),
+			      "(http://server/path/file.ifb)"),
 			     NULL);
+
+/* auth */
+	hbox2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox2, TRUE, TRUE, 0);
+
+	export_freebusy_user_label = gtk_label_new(_("User ID"));
+	gtk_widget_show(export_freebusy_user_label);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_user_label, FALSE, FALSE, 0);
+
+	export_freebusy_user_entry = gtk_entry_new();
+	gtk_widget_show(export_freebusy_user_entry);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_user_entry, FALSE, FALSE, 0);
+
+	export_freebusy_pass_label = gtk_label_new(_("Password"));
+	gtk_widget_show(export_freebusy_pass_label);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_pass_label, FALSE, FALSE, 0);
+
+	export_freebusy_pass_entry = gtk_entry_new();
+	gtk_entry_set_visibility(GTK_ENTRY(export_freebusy_pass_entry), FALSE);
+	gtk_widget_show(export_freebusy_pass_entry);
+	gtk_box_pack_start(GTK_BOX (hbox2), export_freebusy_pass_entry, FALSE, FALSE, 0);
 
 /* run-command after export stuff */
 	hbox3 = gtk_hbox_new (FALSE, 8);
@@ -297,7 +427,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_box_pack_start(GTK_BOX(hbox2), freebusy_get_url_entry, TRUE, TRUE, 0);
 	gtk_tooltips_set_tip(tooltips, freebusy_get_url_entry, 
 			    _("Specify a local file or URL "
-			      "(http://user:pass@server/path/file.ifb). Use %u "
+			      "(http://server/path/file.ifb). Use %u "
 			      "for the left part of the email address, %d for "
 			      "the domain"),
 			     NULL);
@@ -310,6 +440,29 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_entry_set_text(GTK_ENTRY(freebusy_get_url_entry), 
 			vcalprefs.freebusy_get_url);
 
+	if (!vcalprefs.export_user)
+		vcalprefs.export_user = g_strdup("");
+	if (!vcalprefs.export_pass)
+		vcalprefs.export_pass = g_strdup("");
+	if (!vcalprefs.export_freebusy_user)
+		vcalprefs.export_freebusy_user = g_strdup("");
+	if (!vcalprefs.export_freebusy_pass)
+		vcalprefs.export_freebusy_pass = g_strdup("");
+
+	gtk_entry_set_text(GTK_ENTRY(export_user_entry), vcalprefs.export_user);
+	gtk_entry_set_text(GTK_ENTRY(export_pass_entry), vcalprefs.export_pass);
+	gtk_entry_set_text(GTK_ENTRY(export_freebusy_user_entry), vcalprefs.export_freebusy_user);
+	gtk_entry_set_text(GTK_ENTRY(export_freebusy_pass_entry), vcalprefs.export_freebusy_pass);
+
+	g_signal_connect(G_OBJECT(export_enable_checkbtn),
+			 "toggled", G_CALLBACK(path_changed), page);
+	g_signal_connect(G_OBJECT(export_freebusy_enable_checkbtn),
+			 "toggled", G_CALLBACK(path_changed), page);
+	g_signal_connect(G_OBJECT(export_path_entry),
+			 "changed", G_CALLBACK(path_changed), page);
+	g_signal_connect(G_OBJECT(export_freebusy_path_entry),
+			 "changed", G_CALLBACK(path_changed), page);
+
 	page->alert_enable_btn = alert_enable_checkbtn;
 	page->alert_delay_spinbtn = alert_enable_spinbtn;
 
@@ -321,6 +474,18 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	page->export_freebusy_enable_btn = export_freebusy_enable_checkbtn;
 	page->export_freebusy_path_entry = export_freebusy_path_entry;
 	page->export_freebusy_command_entry = export_freebusy_command_entry;
+
+	page->export_user_label = export_user_label;
+	page->export_user_entry = export_user_entry;
+	page->export_pass_label = export_pass_label;
+	page->export_pass_entry = export_pass_entry;
+
+	page->export_freebusy_user_label = export_freebusy_user_label;
+	page->export_freebusy_user_entry = export_freebusy_user_entry;
+	page->export_freebusy_pass_label = export_freebusy_pass_label;
+	page->export_freebusy_pass_entry = export_freebusy_pass_entry;
+
+	set_auth_sensitivity(page);
 
 	page->freebusy_get_url_entry = freebusy_get_url_entry;
 
@@ -362,6 +527,13 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	vcalprefs.export_command =
 	    gtk_editable_get_chars(GTK_EDITABLE(page->export_command_entry), 0, -1);
 	
+	g_free(vcalprefs.export_user);
+	vcalprefs.export_user =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_user_entry), 0, -1);
+	g_free(vcalprefs.export_pass);
+	vcalprefs.export_pass =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_pass_entry), 0, -1);
+	
 /* free/busy export */
 	vcalprefs.export_freebusy_enable = 
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
@@ -374,6 +546,14 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	g_free(vcalprefs.export_freebusy_command);
 	vcalprefs.export_freebusy_command =
 	    gtk_editable_get_chars(GTK_EDITABLE(page->export_freebusy_command_entry), 0, -1);
+
+	g_free(vcalprefs.export_freebusy_user);
+	vcalprefs.export_freebusy_user =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_freebusy_user_entry), 0, -1);
+	g_free(vcalprefs.export_freebusy_pass);
+	vcalprefs.export_freebusy_pass =
+	    gtk_editable_get_chars(GTK_EDITABLE(page->export_freebusy_pass_entry), 0, -1);
+	
 
 /* free/busy import */
 	g_free(vcalprefs.freebusy_get_url);

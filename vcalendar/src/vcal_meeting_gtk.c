@@ -987,11 +987,11 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 		} else if (!local_only) {
 			if (strncmp(tmp, "http://", 7) 
 			&& strncmp(tmp, "https://", 8)
-			&& strncmp(tmp, "webdav://", 9)
+			&& strncmp(tmp, "webcal://", 9)
 			&& strncmp(tmp, "ftp://", 6))
 				contents = file_read_to_str(tmp);
 			else {
-				if (!strncmp(tmp, "webdav://", 9)) {
+				if (!strncmp(tmp, "webcal://", 9)) {
 					gchar *tmp2 = g_strdup_printf("http://%s", tmp+9);
 					g_free(tmp);
 					tmp = tmp2;
@@ -1727,7 +1727,9 @@ void multisync_export(void)
 	g_slist_free(files);
 }
 
-gboolean vcal_meeting_export_calendar(const gchar *path, gboolean automatic)
+gboolean vcal_meeting_export_calendar(const gchar *path, 
+				const gchar *user, const gchar *pass,
+				gboolean automatic)
 {
 	GSList *list = vcal_folder_get_waiting_events();
 	GSList *subs = NULL;
@@ -1822,7 +1824,7 @@ putfile:
 	if (file 
 	&& strncmp(file, "http://", 7) 
 	&& strncmp(file, "https://", 8)
-	&& strncmp(file, "webdav://", 9)
+	&& strncmp(file, "webcal://", 9)
 	&& strncmp(file, "ftp://", 6)) {
 		if (move_file(tmpfile, file, TRUE) != 0) {
 			log_error(_("Couldn't export calendar to '%s'\n"),
@@ -1832,13 +1834,13 @@ putfile:
 		g_free(file);
 	} else if (file) {
 		FILE *fp = fopen(tmpfile, "rb");
-		if (!strncmp(file, "webdav://", 9)) {
+		if (!strncmp(file, "webcal://", 9)) {
 			gchar *tmp = g_strdup_printf("http://%s", file+9);
 			g_free(file);
 			file = tmp;
 		}
 		if (fp) {
-			res = vcal_curl_put(file, fp, filesize);
+			res = vcal_curl_put(file, fp, filesize, user, pass);
 			fclose(fp);
 		}
 		g_free(file);
@@ -1954,7 +1956,8 @@ merge_again:
 }
 #endif
 
-gboolean vcal_meeting_export_freebusy(const gchar *path)
+gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
+				const gchar *pass)
 {
 	GSList *list = vcal_folder_get_waiting_events();
 	GSList *cur;
@@ -2107,7 +2110,7 @@ putfile:
 	if (file 
 	&& strncmp(file, "http://", 7) 
 	&& strncmp(file, "https://", 8)
-	&& strncmp(file, "webdav://", 9)
+	&& strncmp(file, "webcal://", 9)
 	&& strncmp(file, "ftp://", 6)) {
 		if (move_file(tmpfile, file, TRUE) != 0) {
 			log_error(_("Couldn't export free/busy to '%s'\n"),
@@ -2117,13 +2120,13 @@ putfile:
 		g_free(file);
 	} else if (file) {
 		FILE *fp = fopen(tmpfile, "rb");
-		if (!strncmp(file, "webdav://", 9)) {
+		if (!strncmp(file, "webcal://", 9)) {
 			gchar *tmp = g_strdup_printf("http://%s", file+9);
 			g_free(file);
 			file = tmp;
 		}
 		if (fp) {
-			res = vcal_curl_put(file, fp, filesize);
+			res = vcal_curl_put(file, fp, filesize, user, pass);
 			fclose(fp);
 		}
 		g_free(file);

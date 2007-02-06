@@ -33,7 +33,7 @@ GSList *vcal_folder_get_waiting_events(void);
 GSList *vcal_folder_get_webcal_events(void);
 void vcal_folder_export(void);
 
-gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize);
+gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, const gchar *pass);
 gchar *vcal_curl_read(const char *url, gboolean verbose, 
 	void (*callback)(const gchar *url, gchar *data, gboolean verbose, gchar
 		*error));

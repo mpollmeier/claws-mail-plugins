@@ -84,3 +84,4 @@
 ( cvs diff -u -r 1.1.2.53 -r 1.1.2.54 src/vcal_meeting_gtk.c;  ) > 1.93.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.54 -r 1.1.2.55 src/vcal_meeting_gtk.c;  ) > 1.93.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.55 -r 1.1.2.56 src/vcal_meeting_gtk.c;  ) > 1.93.0cvs8.patchset
+( cvs diff -u -r 1.2.2.59 -r 1.2.2.60 src/vcal_folder.c;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/vcal_folder.h;  cvs diff -u -r 1.1.2.56 -r 1.1.2.57 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/vcal_meeting_gtk.h;  cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/vcal_prefs.c;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/vcal_prefs.h;  ) > 1.93.0cvs9.patchset
