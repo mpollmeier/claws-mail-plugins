@@ -1826,11 +1826,18 @@ putfile:
 	&& strncmp(file, "https://", 8)
 	&& strncmp(file, "webcal://", 9)
 	&& strncmp(file, "ftp://", 6)) {
-		if (move_file(tmpfile, file, TRUE) != 0) {
+		gchar *afile = NULL;
+		if (file[0] != G_DIR_SEPARATOR)
+			afile=g_strdup_printf("%s%s%s", get_home_dir(), 
+					G_DIR_SEPARATOR_S, file);
+		else
+			afile=g_strdup(file);
+		if (move_file(tmpfile, afile, TRUE) != 0) {
 			log_error(_("Couldn't export calendar to '%s'\n"),
-				file);
+				afile);
 			res = FALSE;
 		}
+		g_free(afile);
 		g_free(file);
 	} else if (file) {
 		FILE *fp = fopen(tmpfile, "rb");
@@ -2112,11 +2119,18 @@ putfile:
 	&& strncmp(file, "https://", 8)
 	&& strncmp(file, "webcal://", 9)
 	&& strncmp(file, "ftp://", 6)) {
+		gchar *afile = NULL;
+		if (file[0] != G_DIR_SEPARATOR)
+			afile=g_strdup_printf("%s%s%s", get_home_dir(), 
+					G_DIR_SEPARATOR_S, file);
+		else
+			afile=g_strdup(file);
 		if (move_file(tmpfile, file, TRUE) != 0) {
 			log_error(_("Couldn't export free/busy to '%s'\n"),
-				file);
+				afile);
 			res = FALSE;
 		}
+		g_free(afile);
 		g_free(file);
 	} else if (file) {
 		FILE *fp = fopen(tmpfile, "rb");
