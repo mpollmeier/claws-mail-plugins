@@ -1,3 +1,10 @@
+2007-02-07 [colin]	1.93.0cvs11
+
+	* src/vcal_folder.c
+		Fix early free
+	* src/vcal_prefs.c
+		Save passwords as passwords
+
 2007-02-06 [colin]	1.93.0cvs10
 
 	* src/vcal_meeting_gtk.c

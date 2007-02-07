@@ -85,7 +85,7 @@ static PrefParam param[] = {
 
 	{"export_user", "", &vcalprefs.export_user, P_STRING,
 	 NULL, NULL, NULL},
-	{"export_pass", "", &vcalprefs.export_pass, P_STRING,
+	{"export_pass", "", &vcalprefs.export_pass, P_PASSWORD,
 	 NULL, NULL, NULL},
 
 	{"export_freebusy_enable", "FALSE", &vcalprefs.export_freebusy_enable, P_BOOL,
@@ -99,7 +99,7 @@ static PrefParam param[] = {
 
 	{"export_freebusy_user", "", &vcalprefs.export_freebusy_user, P_STRING,
 	 NULL, NULL, NULL},
-	{"export_freebusy_pass", "", &vcalprefs.export_freebusy_pass, P_STRING,
+	{"export_freebusy_pass", "", &vcalprefs.export_freebusy_pass, P_PASSWORD,
 	 NULL, NULL, NULL},
 
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}

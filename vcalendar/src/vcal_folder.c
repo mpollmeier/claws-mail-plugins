@@ -1439,6 +1439,8 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, c
 	CURL *curl_ctx = curl_easy_init();
 	int response_code = 0;
 	gchar *t_url = url;
+	gchar *userpwd = NULL;
+
 	struct curl_slist * headers = curl_slist_append(NULL, 
 		"Content-Type: text/calendar; charset=\"utf-8\"" );
 
@@ -1448,9 +1450,8 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, c
 		*(strchr(t_url, ' ')) = '\0';
 
 	if (user && pass && *user && *pass) {
-		gchar *userpwd = g_strdup_printf("%s:%s",user,pass);
+		userpwd = g_strdup_printf("%s:%s",user,pass);
 		curl_easy_setopt(curl_ctx, CURLOPT_USERPWD, userpwd);
-		g_free(userpwd);
 	}
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
@@ -1465,6 +1466,7 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, c
 		"(http://www.claws-mail.org/plugins.php)");
 	curl_easy_setopt(curl_ctx, CURLOPT_INFILESIZE, filesize);
 	res = curl_easy_perform(curl_ctx);
+	g_free(userpwd);
 
 	if (res != 0) {
 		debug_print("res %d %s\n", res, curl_easy_strerror(res));
