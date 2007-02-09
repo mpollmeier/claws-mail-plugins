@@ -13,3 +13,4 @@
 ( cvs diff -u -r 1.2.2.26 -r 1.2.2.27 configure.ac;  ) > 0.6.4cvs3.patchset
 ( cvs diff -u -r 1.2.2.28 -r 1.2.2.29 configure.ac;  cvs diff -u -r 1.2.2.10 -r 1.2.2.11 src/synce_plugin.c;  ) > 0.6.5cvs1.patchset
 ( cvs diff -u -r 1.2.2.31 -r 1.2.2.32 configure.ac;  ) > 0.6.6cvs1.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 autogen.sh;  cvs diff -u -r 1.2.2.32 -r 1.2.2.33 configure.ac;  diff -u /dev/null m4/Makefile.am;  diff -u /dev/null m4/librapi2.m4;  diff -u /dev/null m4/libsynce.m4;  ) > 0.6.6cvs2.patchset

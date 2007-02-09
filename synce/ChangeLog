@@ -1,3 +1,13 @@
+2007-02-09 [colin]	0.6.6cvs2
+
+	* autogen.sh
+	* configure.ac
+	* m4/Makefile.am
+	* m4/librapi2.m4
+	* m4/libsynce.m4
+		Add compatibility stuff for old distros
+		Should work on bleeding-edge ones too ;)
+
 2007-02-09 [paul]	0.6.6cvs1
 
 	* configure.ac
