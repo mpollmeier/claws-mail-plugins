@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=6
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -65,9 +65,15 @@ AM_PATH_GLIB_2_0(2.6.0,,
 AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
-dnl Check for SynCE
-AM_PATH_LIBSYNCE
-AM_PATH_LIBRAPI2
+dnl Check for libsynce
+PKG_CHECK_MODULES(LIBSYNCE, libsynce >= 0.9.1)
+CFLAGS="$CFLAGS `pkg-config --cflags libsynce`"
+LIBS="$LIBS `pkg-config --libs libsynce`"
+
+dnl Check for librapi2
+PKG_CHECK_MODULES(LIBRAPI2, librapi2 >= 0.9.1)
+CFLAGS="$CFLAGS `pkg-config --cflags librapi2`"
+LIBS="$LIBS `pkg-config --libs librapi2`"
 
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)

@@ -12,3 +12,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 README;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.2.2.7 -r 1.2.2.8 src/synce_gtk.c;  cvs diff -u -r 1.2.2.9 -r 1.2.2.10 src/synce_plugin.c;  ) > 0.6.4cvs2.patchset
 ( cvs diff -u -r 1.2.2.26 -r 1.2.2.27 configure.ac;  ) > 0.6.4cvs3.patchset
 ( cvs diff -u -r 1.2.2.28 -r 1.2.2.29 configure.ac;  cvs diff -u -r 1.2.2.10 -r 1.2.2.11 src/synce_plugin.c;  ) > 0.6.5cvs1.patchset
+( cvs diff -u -r 1.2.2.31 -r 1.2.2.32 configure.ac;  ) > 0.6.6cvs1.patchset
