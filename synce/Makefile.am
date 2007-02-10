@@ -1,4 +1,5 @@
-SUBDIRS = src
+ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = m4 src
 
 EXTRA_DIST = \
 	COPYING \

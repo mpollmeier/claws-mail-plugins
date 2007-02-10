@@ -1,3 +1,8 @@
+2007-02-10 [colin]	0.6.6cvs3
+
+	* Makefile.am
+		Fix make dist tarball
+
 2007-02-09 [colin]	0.6.6cvs2
 
 	* autogen.sh
