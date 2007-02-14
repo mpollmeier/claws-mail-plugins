@@ -43,7 +43,7 @@ static void update_tree_cb(FolderView *folderview, guint action, GtkWidget *widg
 static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void add_mailbox(gpointer callback_data, guint callback_action, GtkWidget *widget);
 
-static GtkItemFactoryEntry mailmbox_popup_entries[] =
+static GtkItemFactoryEntry claws_mailmbox_popup_entries[] =
 {
 	{N_("/Create _new folder..."),	 NULL, new_folder_cb,     0, NULL},
 	{N_("/---"),			 NULL, NULL,              0, "<Separator>"},
@@ -63,7 +63,7 @@ static GtkItemFactoryEntry mailmbox_popup_entries[] =
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 
-static FolderViewPopup mailmbox_popup =
+static FolderViewPopup claws_mailmbox_popup =
 {
 	"mailmbox",
 	"<MailmboxFolder>",
@@ -85,12 +85,12 @@ gint plugin_gtk_init(gchar **error)
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 
-	n_entries = sizeof(mailmbox_popup_entries) /
-		sizeof(mailmbox_popup_entries[0]);
+	n_entries = sizeof(claws_mailmbox_popup_entries) /
+		sizeof(claws_mailmbox_popup_entries[0]);
 	for (i = 0; i < n_entries; i++)
-		mailmbox_popup.entries = g_slist_append(mailmbox_popup.entries, &mailmbox_popup_entries[i]);
+		claws_mailmbox_popup.entries = g_slist_append(claws_mailmbox_popup.entries, &claws_mailmbox_popup_entries[i]);
 
-	folderview_register_popup(&mailmbox_popup);
+	folderview_register_popup(&claws_mailmbox_popup);
 
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifactory, &mainwindow_add_mailbox, mainwin, 1);
@@ -107,7 +107,7 @@ void plugin_gtk_done(void)
 	if (mainwin == NULL || claws_is_exiting())
 		return;
 
-	folderview_unregister_popup(&mailmbox_popup);
+	folderview_unregister_popup(&claws_mailmbox_popup);
 
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	widget = gtk_item_factory_get_widget(ifactory, mainwindow_add_mailbox.path);
@@ -334,7 +334,7 @@ static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widg
 	FolderItem *from_folder = NULL, *to_folder = NULL;
 
 	from_folder = folderview_get_selected_item(folderview);
-	if (!from_folder || from_folder->folder->klass != mailmbox_get_class())
+	if (!from_folder || from_folder->folder->klass != claws_mailmbox_get_class())
 		return;
 
 	to_folder = foldersel_folder_sel(from_folder->folder, FOLDER_SEL_MOVE, NULL);

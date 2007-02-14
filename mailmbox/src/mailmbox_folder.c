@@ -52,59 +52,59 @@
 
 #define MAILMBOX_CACHE_DIR           "mailmboxcache"
 
-static Folder *s_mailmbox_folder_new(const gchar *name, const gchar *path);
+static Folder *s_claws_mailmbox_folder_new(const gchar *name, const gchar *path);
 
-static void mailmbox_folder_destroy(Folder *folder);
+static void claws_mailmbox_folder_destroy(Folder *folder);
 
-static FolderItem *mailmbox_folder_item_new(Folder *folder);
+static FolderItem *claws_mailmbox_folder_item_new(Folder *folder);
 
-static void mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item);
+static void claws_mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item);
 
-static gchar *mailmbox_item_get_path(Folder *folder, FolderItem *item);
+static gchar *claws_mailmbox_item_get_path(Folder *folder, FolderItem *item);
 
-static gint mailmbox_get_num_list(Folder *folder, FolderItem *item,
+static gint claws_mailmbox_get_num_list(Folder *folder, FolderItem *item,
     GSList **list, gboolean *old_uids_valid);
 
-static MsgInfo *mailmbox_get_msginfo(Folder *folder,
+static MsgInfo *claws_mailmbox_get_msginfo(Folder *folder,
     FolderItem *item, gint num);
 
-static GSList *mailmbox_get_msginfos(Folder *folder, FolderItem *item,
+static GSList *claws_mailmbox_get_msginfos(Folder *folder, FolderItem *item,
     GSList *msgnum_list);
 
-static gchar *s_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num);
+static gchar *s_claws_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num);
 
-static gint mailmbox_add_msg(Folder *folder, FolderItem *dest,
+static gint claws_mailmbox_add_msg(Folder *folder, FolderItem *dest,
     const gchar *file, MsgFlags *flags);
 
-static gint mailmbox_add_msgs(Folder *folder, FolderItem *dest,
+static gint claws_mailmbox_add_msgs(Folder *folder, FolderItem *dest,
     GSList *file_list, 
     GRelation *relation);
 
-static gint s_mailmbox_copy_msg(Folder *folder,
+static gint s_claws_mailmbox_copy_msg(Folder *folder,
     FolderItem *dest, MsgInfo *msginfo);
 
-static gint mailmbox_copy_msgs(Folder *folder, FolderItem *dest, 
+static gint claws_mailmbox_copy_msgs(Folder *folder, FolderItem *dest, 
     MsgInfoList *msglist, GRelation *relation);
 
-static gint mailmbox_remove_msg(Folder *folder, FolderItem *item, gint num);
+static gint claws_mailmbox_remove_msg(Folder *folder, FolderItem *item, gint num);
 
-static gint mailmbox_remove_all_msg(Folder *folder, FolderItem *item);
+static gint claws_mailmbox_remove_all_msg(Folder *folder, FolderItem *item);
 
-static FolderItem *mailmbox_create_folder(Folder *folder, FolderItem *parent,
+static FolderItem *claws_mailmbox_create_folder(Folder *folder, FolderItem *parent,
     const gchar *name);
 
-static gboolean mailmbox_scan_required(Folder *folder, FolderItem *_item);
+static gboolean claws_mailmbox_scan_required(Folder *folder, FolderItem *_item);
 
-static gint mailmbox_rename_folder(Folder *folder,
+static gint claws_mailmbox_rename_folder(Folder *folder,
     FolderItem *item, const gchar *name);
 
-static gint mailmbox_remove_folder(Folder *folder, FolderItem *item);
+static gint claws_mailmbox_remove_folder(Folder *folder, FolderItem *item);
 
-static gint mailmbox_create_tree(Folder *folder);
+static gint claws_mailmbox_create_tree(Folder *folder);
 
-static gint mailmbox_folder_item_close(Folder *folder, FolderItem *item);
+static gint claws_mailmbox_folder_item_close(Folder *folder, FolderItem *item);
 
-static FolderClass mailmbox_class;
+static FolderClass claws_mailmbox_class;
 
 static gchar * get_cache_dir(void)
 {
@@ -118,64 +118,64 @@ static gchar * get_cache_dir(void)
 }
 
 
-FolderClass *mailmbox_get_class(void)
+FolderClass *claws_mailmbox_get_class(void)
 {
-	if (mailmbox_class.idstr == NULL) {
-		mailmbox_class.type = F_MBOX;
-		mailmbox_class.idstr = "mailmbox";
-		mailmbox_class.uistr = "mbox";
+	if (claws_mailmbox_class.idstr == NULL) {
+		claws_mailmbox_class.type = F_MBOX;
+		claws_mailmbox_class.idstr = "mailmbox";
+		claws_mailmbox_class.uistr = "mbox";
 
 		/* Folder functions */
-		mailmbox_class.new_folder = s_mailmbox_folder_new;
-		mailmbox_class.destroy_folder = mailmbox_folder_destroy;
-		mailmbox_class.set_xml = folder_local_set_xml;
-		mailmbox_class.get_xml = folder_local_get_xml;
-		mailmbox_class.create_tree = mailmbox_create_tree;
+		claws_mailmbox_class.new_folder = s_claws_mailmbox_folder_new;
+		claws_mailmbox_class.destroy_folder = claws_mailmbox_folder_destroy;
+		claws_mailmbox_class.set_xml = folder_local_set_xml;
+		claws_mailmbox_class.get_xml = folder_local_get_xml;
+		claws_mailmbox_class.create_tree = claws_mailmbox_create_tree;
 
 		/* FolderItem functions */
-		mailmbox_class.item_new = mailmbox_folder_item_new;
-		mailmbox_class.item_destroy = mailmbox_folder_item_destroy;
-		mailmbox_class.item_get_path = mailmbox_item_get_path;
-		mailmbox_class.create_folder = mailmbox_create_folder;
-		mailmbox_class.rename_folder = mailmbox_rename_folder;
-		mailmbox_class.remove_folder = mailmbox_remove_folder;
-		mailmbox_class.close = mailmbox_folder_item_close;
-		mailmbox_class.get_num_list = mailmbox_get_num_list;
-		mailmbox_class.scan_required = mailmbox_scan_required;
+		claws_mailmbox_class.item_new = claws_mailmbox_folder_item_new;
+		claws_mailmbox_class.item_destroy = claws_mailmbox_folder_item_destroy;
+		claws_mailmbox_class.item_get_path = claws_mailmbox_item_get_path;
+		claws_mailmbox_class.create_folder = claws_mailmbox_create_folder;
+		claws_mailmbox_class.rename_folder = claws_mailmbox_rename_folder;
+		claws_mailmbox_class.remove_folder = claws_mailmbox_remove_folder;
+		claws_mailmbox_class.close = claws_mailmbox_folder_item_close;
+		claws_mailmbox_class.get_num_list = claws_mailmbox_get_num_list;
+		claws_mailmbox_class.scan_required = claws_mailmbox_scan_required;
 
 		/* Message functions */
-		mailmbox_class.get_msginfo = mailmbox_get_msginfo;
-		mailmbox_class.get_msginfos = mailmbox_get_msginfos;
-		mailmbox_class.fetch_msg = s_mailmbox_fetch_msg;
-		mailmbox_class.add_msg = mailmbox_add_msg;
-		mailmbox_class.add_msgs = mailmbox_add_msgs;
-		mailmbox_class.copy_msg = s_mailmbox_copy_msg;
-		mailmbox_class.copy_msgs = mailmbox_copy_msgs;
-		mailmbox_class.remove_msg = mailmbox_remove_msg;
-		mailmbox_class.remove_all_msg = mailmbox_remove_all_msg;
+		claws_mailmbox_class.get_msginfo = claws_mailmbox_get_msginfo;
+		claws_mailmbox_class.get_msginfos = claws_mailmbox_get_msginfos;
+		claws_mailmbox_class.fetch_msg = s_claws_mailmbox_fetch_msg;
+		claws_mailmbox_class.add_msg = claws_mailmbox_add_msg;
+		claws_mailmbox_class.add_msgs = claws_mailmbox_add_msgs;
+		claws_mailmbox_class.copy_msg = s_claws_mailmbox_copy_msg;
+		claws_mailmbox_class.copy_msgs = claws_mailmbox_copy_msgs;
+		claws_mailmbox_class.remove_msg = claws_mailmbox_remove_msg;
+		claws_mailmbox_class.remove_all_msg = claws_mailmbox_remove_all_msg;
 	}
-	return &mailmbox_class;
+	return &claws_mailmbox_class;
 }
 
 
-static void mailmbox_folder_init(Folder *folder,
+static void claws_mailmbox_folder_init(Folder *folder,
     const gchar *name, const gchar *path)
 {
 	folder_local_folder_init(folder, name, path);
 }
 
-static Folder *s_mailmbox_folder_new(const gchar *name, const gchar *path)
+static Folder *s_claws_mailmbox_folder_new(const gchar *name, const gchar *path)
 {
 	Folder *folder;
 
 	folder = (Folder *)g_new0(MAILMBOXFolder, 1);
-	folder->klass = &mailmbox_class;
-        mailmbox_folder_init(folder, name, path);
+	folder->klass = &claws_mailmbox_class;
+        claws_mailmbox_folder_init(folder, name, path);
         
 	return folder;
 }
 
-static void mailmbox_folder_destroy(Folder *folder)
+static void claws_mailmbox_folder_destroy(Folder *folder)
 {
 	folder_local_folder_destroy(LOCAL_FOLDER(folder));
 }
@@ -185,10 +185,10 @@ struct _MAILMBOXFolderItem
 {
 	FolderItem item;
         guint old_max_uid;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
 };
 
-static FolderItem *mailmbox_folder_item_new(Folder *folder)
+static FolderItem *claws_mailmbox_folder_item_new(Folder *folder)
 {
 	MAILMBOXFolderItem *item;
 	
@@ -252,7 +252,7 @@ static void write_max_uid_value(FolderItem *item, guint max_uid)
         fclose(f);
 }
 
-static void mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item)
+static void claws_mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item)
 {
 	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
 
@@ -260,12 +260,12 @@ static void mailmbox_folder_item_destroy(Folder *folder, FolderItem *_item)
         
         if (item->mbox != NULL) {
                 write_max_uid_value(_item, item->mbox->mb_written_uid);
-                mailmbox_done(item->mbox);
+                claws_mailmbox_done(item->mbox);
         }
 	g_free(_item);
 }
 
-static gint mailmbox_folder_item_close(Folder *folder, FolderItem *item_)
+static gint claws_mailmbox_folder_item_close(Folder *folder, FolderItem *item_)
 {
 	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)item_;
 
@@ -273,10 +273,10 @@ static gint mailmbox_folder_item_close(Folder *folder, FolderItem *item_)
 	g_return_val_if_fail(item != NULL, -1);
 	g_return_val_if_fail(item->mbox != NULL, -1);
 
-	return -mailmbox_expunge(item->mbox);
+	return -claws_mailmbox_expunge(item->mbox);
 }
 
-static void mailmbox_folder_create_parent(const gchar * path)
+static void claws_mailmbox_folder_create_parent(const gchar * path)
 {
 	if (!is_file_exist(path)) {
 		gchar * new_path;
@@ -292,7 +292,7 @@ static void mailmbox_folder_create_parent(const gchar * path)
 	}
 }
 
-static gchar * mailmbox_folder_get_path(Folder *folder, FolderItem *item)
+static gchar * claws_mailmbox_folder_get_path(Folder *folder, FolderItem *item)
 {
 	gchar *folder_path;
 	gchar *path;
@@ -300,7 +300,7 @@ static gchar * mailmbox_folder_get_path(Folder *folder, FolderItem *item)
 	g_return_val_if_fail(item != NULL, NULL);
 
 	if (item->path && item->path[0] == G_DIR_SEPARATOR) {
-		mailmbox_folder_create_parent(item->path);
+		claws_mailmbox_folder_create_parent(item->path);
 		return g_strdup(item->path);
 	}
 
@@ -326,12 +326,12 @@ static gchar * mailmbox_folder_get_path(Folder *folder, FolderItem *item)
 
 	g_free(folder_path);
 	
-	mailmbox_folder_create_parent(path);
+	claws_mailmbox_folder_create_parent(path);
 
 	return path;
 }
 
-static int mailmbox_item_sync(FolderItem *_item, int validate_uid)
+static int claws_mailmbox_item_sync(FolderItem *_item, int validate_uid)
 {
 	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
         int r;
@@ -342,58 +342,61 @@ static int mailmbox_item_sync(FolderItem *_item, int validate_uid)
                 
                 written_uid = 0;
                 read_max_uid_value(_item, &written_uid);
-                path = mailmbox_folder_get_path(_item->folder, _item);
-                r = mailmbox_init(path, 0, 0, written_uid, &item->mbox);
+                path = claws_mailmbox_folder_get_path(_item->folder, _item);
+                r = claws_mailmbox_init(path, 0, 0, written_uid, &item->mbox);
+		debug_print("init %d: %p\n", r, item->mbox);
                 g_free(path);
                 if (r != MAILMBOX_NO_ERROR)
                         return -1;
         }
 
         if (!validate_uid) {
-                r = mailmbox_validate_read_lock(item->mbox);
+                r = claws_mailmbox_validate_read_lock(item->mbox);
                 if (r != MAILMBOX_NO_ERROR) {
+			debug_print("read lock: %d\n", r);
                         goto err;
                 }
                 
-                mailmbox_read_unlock(item->mbox);
+                claws_mailmbox_read_unlock(item->mbox);
         }
         else {
-                r = mailmbox_validate_write_lock(item->mbox);
+                r = claws_mailmbox_validate_write_lock(item->mbox);
                 if (r != MAILMBOX_NO_ERROR) {
+			debug_print("write lock: %d\n", r);
                         goto err;
                 }
                 
                 if (item->mbox->mb_written_uid < item->mbox->mb_max_uid) {
-                        r = mailmbox_expunge_no_lock(item->mbox);
+                        r = claws_mailmbox_expunge_no_lock(item->mbox);
                         if (r != MAILMBOX_NO_ERROR)
                                 goto unlock;
                 }
-                mailmbox_write_unlock(item->mbox);
+                claws_mailmbox_write_unlock(item->mbox);
         }
         
         return 0;
         
  unlock:
-        mailmbox_write_unlock(item->mbox);
+        claws_mailmbox_write_unlock(item->mbox);
  err:
         return -1;
 }
 
-static struct mailmbox_folder * get_mbox(FolderItem *_item, int validate_uid)
+static struct claws_mailmbox_folder * get_mbox(FolderItem *_item, int validate_uid)
 {
 	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
         
-        mailmbox_item_sync(_item, validate_uid);
+        claws_mailmbox_item_sync(_item, validate_uid);
         
         return item->mbox;
 }
 
-static gint mailmbox_get_num_list(Folder *folder, FolderItem *item,
+static gint claws_mailmbox_get_num_list(Folder *folder, FolderItem *item,
     GSList **list, gboolean *old_uids_valid)
 {
 	gint nummsgs = 0;
         guint i;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
 
 	g_return_val_if_fail(item != NULL, -1);
 
@@ -406,7 +409,7 @@ static gint mailmbox_get_num_list(Folder *folder, FolderItem *item,
                 return -1;
         
         for(i = 0 ; i < carray_count(mbox->mb_tab) ; i ++) {
-                struct mailmbox_msg_info * msg;
+                struct claws_mailmbox_msg_info * msg;
                 
                 msg = carray_get(mbox->mb_tab, i);
                 if (msg != NULL) {
@@ -419,12 +422,12 @@ static gint mailmbox_get_num_list(Folder *folder, FolderItem *item,
 	return nummsgs;
 }
 
-static gchar *s_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num)
+static gchar *s_claws_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num)
 {
 	gchar *path;
 	gchar *file;
         int r;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
         char * data;
         size_t len;
         FILE * f;
@@ -446,7 +449,7 @@ static gchar *s_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num)
 		return file;
 	}
         
-        r = mailmbox_fetch_msg(mbox, num, &data, &len);
+        r = claws_mailmbox_fetch_msg(mbox, num, &data, &len);
         if (r != MAILMBOX_NO_ERROR)
                 goto free;
         
@@ -476,15 +479,15 @@ static gchar *s_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint num)
         return NULL;
 }
 
-static MsgInfo *mailmbox_parse_msg(guint uid,
+static MsgInfo *claws_mailmbox_parse_msg(guint uid,
     char * data, size_t len, FolderItem *_item)
 {
 	MsgInfo *msginfo;
 	MsgFlags flags;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
         chashdatum key;
         chashdatum value;
-        struct mailmbox_msg_info * info;
+        struct claws_mailmbox_msg_info * info;
         int r;
 	MAILMBOXFolderItem * item = (MAILMBOXFolderItem *)_item;
         
@@ -509,7 +512,7 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
         if (r < 0)
                 return NULL;
         
-        info = (struct mailmbox_msg_info *) value.data;
+        info = (struct claws_mailmbox_msg_info *) value.data;
         
         msginfo = procheader_parse_str(data, flags, FALSE, FALSE);
 	if (!msginfo) return NULL;
@@ -521,14 +524,14 @@ static MsgInfo *mailmbox_parse_msg(guint uid,
 	return msginfo;
 }
 
-static MsgInfo *mailmbox_get_msginfo(Folder *folder,
+static MsgInfo *claws_mailmbox_get_msginfo(Folder *folder,
     FolderItem *item, gint num)
 {
 	MsgInfo *msginfo;
         int r;
         char * data;
         size_t len;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
 
 	g_return_val_if_fail(item != NULL, NULL);
 	g_return_val_if_fail(num > 0, NULL);
@@ -537,35 +540,35 @@ static MsgInfo *mailmbox_get_msginfo(Folder *folder,
         if (mbox == NULL)
                 goto err;
 
-        r = mailmbox_validate_read_lock(mbox);
+        r = claws_mailmbox_validate_read_lock(mbox);
         if (r != MAILMBOX_NO_ERROR)
                 goto err;
         
-        r = mailmbox_fetch_msg_headers_no_lock(mbox, num, &data, &len);
+        r = claws_mailmbox_fetch_msg_headers_no_lock(mbox, num, &data, &len);
         if (r != MAILMBOX_NO_ERROR)
                 goto unlock;
         
-	msginfo = mailmbox_parse_msg(num, data, len, item);
+	msginfo = claws_mailmbox_parse_msg(num, data, len, item);
 	if (!msginfo)
                 goto unlock;
 
-        mailmbox_read_unlock(mbox);
+        claws_mailmbox_read_unlock(mbox);
 
 	return msginfo;
 
  unlock:
-        mailmbox_read_unlock(mbox);
+        claws_mailmbox_read_unlock(mbox);
  err:
         return NULL;
 }
 
-static GSList *mailmbox_get_msginfos(Folder *folder, FolderItem *item,
+static GSList *claws_mailmbox_get_msginfos(Folder *folder, FolderItem *item,
     GSList *msgnum_list)
 {
         int r;
         GSList * cur;
         GSList * ret;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
         
 	g_return_val_if_fail(item != NULL, NULL);
 
@@ -573,7 +576,7 @@ static GSList *mailmbox_get_msginfos(Folder *folder, FolderItem *item,
         if (mbox == NULL)
                 goto err;
 
-        r = mailmbox_validate_read_lock(mbox);
+        r = claws_mailmbox_validate_read_lock(mbox);
         if (r != MAILMBOX_NO_ERROR)
                 goto err;
 
@@ -587,28 +590,28 @@ static GSList *mailmbox_get_msginfos(Folder *folder, FolderItem *item,
                 
                 num = GPOINTER_TO_INT(cur->data);
                 
-                r = mailmbox_fetch_msg_headers_no_lock(mbox, num, &data, &len);
+                r = claws_mailmbox_fetch_msg_headers_no_lock(mbox, num, &data, &len);
                 if (r != MAILMBOX_NO_ERROR)
                         continue;
                 
-                msginfo = mailmbox_parse_msg(num, data, len, item);
+                msginfo = claws_mailmbox_parse_msg(num, data, len, item);
                 if (!msginfo)
                         continue;
                 
                 ret = g_slist_append(ret, msginfo);
         }
         
-        mailmbox_read_unlock(mbox);
+        claws_mailmbox_read_unlock(mbox);
 
 	return ret;
 
  unlock:
-        mailmbox_read_unlock(mbox);
+        claws_mailmbox_read_unlock(mbox);
  err:
         return NULL;
 }
 
-static gint mailmbox_add_msg(Folder *folder, FolderItem *dest,
+static gint claws_mailmbox_add_msg(Folder *folder, FolderItem *dest,
     const gchar *file, MsgFlags *flags)
 {
 	gint ret;
@@ -623,49 +626,57 @@ static gint mailmbox_add_msg(Folder *folder, FolderItem *dest,
 	file_list.data = &fileinfo;
 	file_list.next = NULL;
 
-	ret = mailmbox_add_msgs(folder, dest, &file_list, NULL);
+	ret = claws_mailmbox_add_msgs(folder, dest, &file_list, NULL);
 	return ret;
 } 
 
 /* ok */
  
-static gint mailmbox_add_msgs(Folder *folder, FolderItem *dest,
+static gint claws_mailmbox_add_msgs(Folder *folder, FolderItem *dest,
     GSList *file_list, 
     GRelation *relation)
 { 
 	gchar *destfile;
 	GSList *cur;
         gint last_num;
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
         carray * append_list;
-        struct mailmbox_append_info append_info;
+        struct claws_mailmbox_append_info append_info;
         int r;
 
 	g_return_val_if_fail(dest != NULL, -1);
 	g_return_val_if_fail(file_list != NULL, -1);
         
         mbox = get_mbox(dest, 0);
-        if (mbox == NULL)
+        if (mbox == NULL) {
+		debug_print("mbox not found\n");
                 return -1;
-
-        r = mailmbox_validate_write_lock(mbox);
-        if (r != MAILMBOX_NO_ERROR)
+	}
+        r = claws_mailmbox_validate_write_lock(mbox);
+        if (r != MAILMBOX_NO_ERROR) {
+		debug_print("claws_mailmbox_validate_write_lock failed with %d\n", r);
                 return -1;
-        
-        r = mailmbox_expunge_no_lock(mbox);
-        if (r != MAILMBOX_NO_ERROR)
+        }
+        r = claws_mailmbox_expunge_no_lock(mbox);
+        if (r != MAILMBOX_NO_ERROR) {
+		debug_print("claws_mailmbox_expunge_no_lock failed with %d\n", r);
                 goto unlock;
-        
+        }
+
         last_num = -1;
 
         append_list = carray_new(1);
-        if (append_list == NULL)
+        if (append_list == NULL) {
+		debug_print("append_list is null\n");
                 goto unlock;
+	}
 
         r = carray_set_size(append_list, 1);
-        if (r < 0)
+        if (r < 0) {
+		debug_print("carray_set_size failed with %d\n", r);
                 goto free;
-        
+        }
+
         carray_set(append_list, 0, &append_info);
         
 	for (cur = file_list; cur != NULL; cur = cur->next) {
@@ -673,43 +684,53 @@ static gint mailmbox_add_msgs(Folder *folder, FolderItem *dest,
                 struct stat stat_info;
                 char * data;
                 size_t len;
-                struct mailmbox_msg_info * msg;
+                struct claws_mailmbox_msg_info * msg;
                 size_t cur_token;
                 MsgFileInfo *fileinfo;
                 
 		fileinfo = (MsgFileInfo *)cur->data;
                 
                 fd = open(fileinfo->file, O_RDONLY);
-                if (fd == -1)
+                if (fd == -1) {
+			debug_print("%s couldn't be opened\n", fileinfo->file);
                         goto err;
-                
+                }
+
                 r = fstat(fd, &stat_info);
-                if (r < 0)
+                if (r < 0) {
+			debug_print("%s couldn't be stat'ed\n", fileinfo->file);
                         goto close;
-                
+                }
+
                 len = stat_info.st_size;
                 data = mmap(NULL, len, PROT_READ, MAP_PRIVATE, fd, 0);
-                if (data == MAP_FAILED)
+                if (data == MAP_FAILED) {
+			debug_print("mmap failed\n");
                         goto close;
-                
+                }
+
                 append_info.ai_message = data;
                 append_info.ai_size = len;
                 
                 cur_token = mbox->mb_mapping_size;
                 
-                r = mailmbox_append_message_list_no_lock(mbox, append_list);
-                if (r != MAILMBOX_NO_ERROR)
+                r = claws_mailmbox_append_message_list_no_lock(mbox, append_list);
+                if (r != MAILMBOX_NO_ERROR) {
+			debug_print("claws_mailmbox_append_message_list_no_lock failed with %d\n", r);
                         goto unmap;
+		}
 
                 munmap(data, len);
                 close(fd);
                 
-                mailmbox_sync(mbox);
+                claws_mailmbox_sync(mbox);
                 
-                r = mailmbox_parse_additionnal(mbox, &cur_token);
-                if (r != MAILMBOX_NO_ERROR)
+                r = claws_mailmbox_parse_additionnal(mbox, &cur_token);
+                if (r != MAILMBOX_NO_ERROR) {
+			debug_print("claws_mailmbox_parse_additionnal failed with %d\n", r);
                         goto unlock;
-                
+                }
+
                 msg = carray_get(mbox->mb_tab, carray_count(mbox->mb_tab) - 1);
 
                 if (relation != NULL)
@@ -732,18 +753,18 @@ static gint mailmbox_add_msgs(Folder *folder, FolderItem *dest,
         }
         
         carray_free(append_list);
-        mailmbox_write_unlock(mbox);
+        claws_mailmbox_write_unlock(mbox);
         
 	return last_num;
 
  free:
         carray_free(append_list);
  unlock:
-        mailmbox_write_unlock(mbox);
+        claws_mailmbox_write_unlock(mbox);
 return -1;
 }
 
-static gint s_mailmbox_copy_msg(Folder *folder,
+static gint s_claws_mailmbox_copy_msg(Folder *folder,
     FolderItem *dest, MsgInfo *msginfo)
 {
 	GSList msglist;
@@ -753,10 +774,10 @@ static gint s_mailmbox_copy_msg(Folder *folder,
 	msglist.data = msginfo;
 	msglist.next = NULL;
 
-	return mailmbox_copy_msgs(folder, dest, &msglist, NULL);
+	return claws_mailmbox_copy_msgs(folder, dest, &msglist, NULL);
 }
 
-static gint mailmbox_copy_msgs(Folder *folder, FolderItem *dest, 
+static gint claws_mailmbox_copy_msgs(Folder *folder, FolderItem *dest, 
     MsgInfoList *msglist, GRelation *relation)
 {
 	MsgInfo *msginfo;
@@ -773,7 +794,7 @@ static gint mailmbox_copy_msgs(Folder *folder, FolderItem *dest,
 	file_list = procmsg_get_message_file_list(msglist);
 	g_return_val_if_fail(file_list != NULL, -1);
 
-	ret = mailmbox_add_msgs(folder, dest, file_list, relation);
+	ret = claws_mailmbox_add_msgs(folder, dest, file_list, relation);
 
 	procmsg_message_file_list_free(file_list);
 
@@ -781,9 +802,9 @@ static gint mailmbox_copy_msgs(Folder *folder, FolderItem *dest,
 }
 
 
-static gint mailmbox_remove_msg(Folder *folder, FolderItem *item, gint num)
+static gint claws_mailmbox_remove_msg(Folder *folder, FolderItem *item, gint num)
 {
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
         int r;
         
 	g_return_val_if_fail(item != NULL, -1);
@@ -792,16 +813,16 @@ static gint mailmbox_remove_msg(Folder *folder, FolderItem *item, gint num)
         if (mbox == NULL)
                 return -1;
         
-        r = mailmbox_delete_msg(mbox, num);
+        r = claws_mailmbox_delete_msg(mbox, num);
         if (r != MAILMBOX_NO_ERROR)
                 return -1;
 
 	return 0;
 }
 
-static gint mailmbox_remove_all_msg(Folder *folder, FolderItem *item)
+static gint claws_mailmbox_remove_all_msg(Folder *folder, FolderItem *item)
 {
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
         int r;
         guint i;
         
@@ -812,13 +833,13 @@ static gint mailmbox_remove_all_msg(Folder *folder, FolderItem *item)
                 return -1;
        
         for(i = 0 ; i < carray_count(mbox->mb_tab) ; i ++) {
-                struct mailmbox_msg_info * msg;
+                struct claws_mailmbox_msg_info * msg;
                 
                 msg = carray_get(mbox->mb_tab, i);
                 if (msg == NULL)
                         continue;
                 
-                r = mailmbox_delete_msg(mbox, msg->msg_uid);
+                r = claws_mailmbox_delete_msg(mbox, msg->msg_uid);
                 if (r != MAILMBOX_NO_ERROR)
                         continue;
         }
@@ -827,7 +848,7 @@ static gint mailmbox_remove_all_msg(Folder *folder, FolderItem *item)
 }
 
 
-static gchar * mailmbox_get_new_path(FolderItem * parent, gchar * name)
+static gchar * claws_mailmbox_get_new_path(FolderItem * parent, gchar * name)
 {
 	gchar * path;
 
@@ -843,7 +864,7 @@ static gchar * mailmbox_get_new_path(FolderItem * parent, gchar * name)
 	return path;
 }
 
-static gchar * mailmbox_get_folderitem_name(gchar * name)
+static gchar * claws_mailmbox_get_folderitem_name(gchar * name)
 {
 	gchar * foldername;
 
@@ -852,7 +873,7 @@ static gchar * mailmbox_get_folderitem_name(gchar * name)
 	return foldername;
 }
 
-static FolderItem *mailmbox_create_folder(Folder *folder, FolderItem *parent,
+static FolderItem *claws_mailmbox_create_folder(Folder *folder, FolderItem *parent,
     const gchar *name)
 {
 	gchar * path;
@@ -863,9 +884,9 @@ static FolderItem *mailmbox_create_folder(Folder *folder, FolderItem *parent,
 	g_return_val_if_fail(parent != NULL, NULL);
 	g_return_val_if_fail(name != NULL, NULL);
 
-	path = mailmbox_get_new_path(parent, (gchar *) name);
+	path = claws_mailmbox_get_new_path(parent, (gchar *) name);
 
-	foldername = mailmbox_get_folderitem_name((gchar *) name);
+	foldername = claws_mailmbox_get_folderitem_name((gchar *) name);
 
 	new_item = folder_item_new(folder, foldername, path);
 	folder_item_append(parent, new_item);
@@ -895,9 +916,9 @@ static FolderItem *mailmbox_create_folder(Folder *folder, FolderItem *parent,
 
 
 
-static gboolean mailmbox_scan_required(Folder *folder, FolderItem *_item)
+static gboolean claws_mailmbox_scan_required(Folder *folder, FolderItem *_item)
 {
-        struct mailmbox_folder * mbox;
+        struct claws_mailmbox_folder * mbox;
 	MAILMBOXFolderItem *item = (MAILMBOXFolderItem *)_item;
         int scan_required;
         
@@ -919,7 +940,7 @@ static gboolean mailmbox_scan_required(Folder *folder, FolderItem *_item)
 }
 
 
-static gint mailmbox_rename_folder(Folder *folder,
+static gint claws_mailmbox_rename_folder(Folder *folder,
     FolderItem *item, const gchar *name)
 {
 	gchar * path;
@@ -934,13 +955,13 @@ static gint mailmbox_rename_folder(Folder *folder,
 	parent = folder_item_parent(item);
 	g_return_val_if_fail(parent, -1);
 	
-	path = mailmbox_get_new_path(parent, (gchar *) name);
-	foldername = mailmbox_get_folderitem_name((gchar *) name);
+	path = claws_mailmbox_get_new_path(parent, (gchar *) name);
+	foldername = claws_mailmbox_get_folderitem_name((gchar *) name);
 
 	if (rename(item->path, path) == -1) {
 		g_free(foldername);
 		g_free(path);
-		g_warning("Cannot rename folder item");
+		debug_print("Cannot rename folder item\n");
 
 		return -1;
 	}
@@ -954,7 +975,7 @@ static gint mailmbox_rename_folder(Folder *folder,
 	}
 }
 
-static gint mailmbox_remove_folder(Folder *folder, FolderItem *item)
+static gint claws_mailmbox_remove_folder(Folder *folder, FolderItem *item)
 {
 	g_return_val_if_fail(folder != NULL, -1);
 	g_return_val_if_fail(item != NULL, -1);
@@ -968,7 +989,7 @@ static gint mailmbox_remove_folder(Folder *folder, FolderItem *item)
 { \
 	if (!is_dir_exist(dir)) { \
 		if (is_file_exist(dir)) { \
-			g_warning("File `%s' already exists.\n" \
+			debug_print("File `%s' already exists.\n" \
 				    "Can't create folder.", dir); \
 			return -1; \
 		} \
@@ -981,7 +1002,7 @@ static gint mailmbox_remove_folder(Folder *folder, FolderItem *item)
 	} \
 }
 
-static gint mailmbox_create_tree(Folder *folder)
+static gint claws_mailmbox_create_tree(Folder *folder)
 {
 	gchar *rootpath;
 
@@ -1040,7 +1061,7 @@ static char * quote_mailbox(char * mb)
         return str;
 }
 
-static gchar *mailmbox_item_get_path(Folder *folder, FolderItem *item)
+static gchar *claws_mailmbox_item_get_path(Folder *folder, FolderItem *item)
 {
 	gchar *itempath, *path;
         gchar * folderpath;

@@ -35,7 +35,7 @@ gint plugin_init(gchar **error)
 				VERSION_NUMERIC, "Mailmbox", error))
 		return -1;
 
-	folder_register_class(mailmbox_get_class());
+	folder_register_class(claws_mailmbox_get_class());
 	plugin_gtk_init(error);
 	return 0;
 }
@@ -44,7 +44,7 @@ void plugin_done(void)
 {
 	plugin_gtk_done();
 	if (!claws_is_exiting())
-		folder_unregister_class(mailmbox_get_class());
+		folder_unregister_class(claws_mailmbox_get_class());
 }
 
 const gchar *plugin_name(void)

@@ -1,3 +1,21 @@
+2007-02-14 [colin]	1.12.4cvs1
+
+	* src/mailmbox.c
+	* src/mailmbox.h
+	* src/mailmbox_folder.c
+	* src/mailmbox_folder.h
+	* src/mailmbox_parse.c
+	* src/mailmbox_parse.h
+	* src/mailmbox_types.c
+	* src/mailmbox_types.h
+	* src/plugin.c
+	* src/plugin_gtk.c
+		Fix symbols clash between this plugin and
+		libetpan.
+		Fix failure to handle empty directories
+		Fix lack of debug info
+		Fixes bug 1122, 'mailmbox plugin broken'
+
 2007-01-09 [paul]	1.12.4
 
 	1.12.4 released
