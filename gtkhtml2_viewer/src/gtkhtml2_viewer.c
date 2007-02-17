@@ -681,6 +681,7 @@ fail:
 			} else {
 				text = _("Remote images exist, but loading them failed.");
 			}
+			noticeview_set_icon(noticeview, STOCK_PIXMAP_NOTICE_WARN);
 			noticeview_set_text(noticeview, text);
 			noticeview_set_button_text(noticeview, _("Load images"));
 			noticeview_set_button_press_callback(noticeview,

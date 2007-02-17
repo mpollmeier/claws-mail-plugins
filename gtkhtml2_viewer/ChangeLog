@@ -1,3 +1,8 @@
+2007-02-17 [colin]	0.14.1cvs2
+
+	* src/gtkhtml2_viewer.c
+		Reset noticeview's icon to warning
+
 2007-01-21 [colin]	0.14.1cvs1
 
 	* po/hu.po
