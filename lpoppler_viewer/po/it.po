@@ -20,7 +20,7 @@ msgstr "Caricamento..."
 #: src/poppler_viewer.c:191
 #, c-format
 msgid "%s document, page %d/%d"
-msgstr "Documento PDF, pagina %d/%d"
+msgstr "Documento %s, pagina %d/%d"
 
 #: src/poppler_viewer.c:200
 msgid "Prev page"
