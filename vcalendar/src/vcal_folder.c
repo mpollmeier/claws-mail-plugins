@@ -570,10 +570,11 @@ add_new:
 #define VCAL_FOLDER_ADD_EVENT(event) \
 { \
  \
+	debug_print("should add %d %s? %d %d\n", n_msg, event->uid, status, status == ICAL_PARTSTAT_ACCEPTED); \
 	if (status == ICAL_PARTSTAT_ACCEPTED \
 	||  status == ICAL_PARTSTAT_TENTATIVE) { \
 		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
-		debug_print("add %d\n", n_msg); \
+		debug_print("add %d %s\n", n_msg, event->uid); \
 		n_msg++; \
 		days = event_to_today(event, 0); \
 	 \

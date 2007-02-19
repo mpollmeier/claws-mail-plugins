@@ -297,7 +297,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	gchar *attendee  = NULL;
 	gchar *body, *headers, *qpbody;
 	gchar *tmpfile = NULL;
-	gchar *tmpstr = NULL;
 	icalcomponent *calendar, *ievent, *timezone, *tzc;
 	struct icalperiodtype rtime;
 	icalproperty *attprop;
@@ -352,15 +351,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	}
 
 	orgprop = icalproperty_new_organizer(organizer);
-	tmpstr = vcal_manager_get_attendee_name(event, organizer);
-	if (tmpstr) {
-		param = icalparameter_new_cn(tmpstr);
-		icalproperty_add_parameter(orgprop, param);
-		g_free(tmpstr); tmpstr = NULL;
-	} else if (event->orgname && strlen(event->orgname)) {
-		param = icalparameter_new_cn(event->orgname);
-		icalproperty_add_parameter(orgprop, param);
-	}
 	
 	timezone = icalcomponent_new(ICAL_VTIMEZONE_COMPONENT);
 	
@@ -448,14 +438,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 			    icalparameter_new_partstat(status),
                 	    0
                 	    );
-
-		tmpstr = vcal_manager_get_attendee_name(event, attendee);
-		if (tmpstr) {
-			param = icalparameter_new_cn(tmpstr);
-			icalproperty_add_parameter(attprop, param);
-			g_free(tmpstr); tmpstr = NULL;
-		}
-			    
         	icalcomponent_add_property(ievent, attprop);
 	} else {
 		/* dump all attendees */
@@ -479,12 +461,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
                 		    0
                 		    );
 
-			tmpstr = vcal_manager_get_attendee_name(event, a->attendee);
-			if (tmpstr) {
-				param = icalparameter_new_cn(tmpstr);
-				icalproperty_add_parameter(attprop, param);
-				g_free(tmpstr); tmpstr = NULL;
-			}
 			icalcomponent_add_property(ievent, attprop);
 			cur = cur->next;
 		}
@@ -646,7 +622,6 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 	gchar *body, *headers, *qpbody;
 	gchar **lines = NULL;
 	gchar *tmpfile = NULL;
-	gchar *tmpstr = NULL;
 	icalcomponent *calendar;
 	icalproperty *attprop, *prop;
 	icalproperty *orgprop;
@@ -1171,7 +1146,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 			
 			if (strcmp(a->attendee, event->organizer)) {
 				if (attendees) {
-					tmp = g_strdup_printf("%s>,<%s", attendees, a->attendee);
+					tmp = g_strdup_printf("%s>,\n <%s", attendees, a->attendee);
 					g_free(attendees);
 					attendees = tmp;
 				} else {

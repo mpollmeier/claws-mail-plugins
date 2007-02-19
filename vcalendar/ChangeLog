@@ -1,3 +1,11 @@
+2007-02-19 [colin]	1.93.0cvs12
+
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+		Don't use CN attribute in ORGANIZER or ATTENDEE
+		fields, to avoid putting accentued chars there:
+		it breaks this crappy Outlook
+
 2007-02-07 [colin]	1.93.0cvs11
 
 	* src/vcal_folder.c
