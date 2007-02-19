@@ -1,3 +1,9 @@
+2007-02-19 [paul]	0.1.0cvs3
+
+	* src/poppler_viewer.c
+		make plugin_name translatable
+		adjust plugin_desc
+
 2007-02-19 [colin]	0.1.0cvs2
 
 	* src/Makefile.in

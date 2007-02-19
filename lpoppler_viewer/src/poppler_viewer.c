@@ -382,13 +382,13 @@ void plugin_done(void)
 
 const gchar *plugin_name(void)
 {
-	return ("PDF Viewer");
+	return _("PDF Viewer");
 }
 
 const gchar *plugin_desc(void)
 {
-	return (_("This plugin renders PDF attachments in mails using the poppler lib.\n"
-		"The extended name is Red Poppler PDF Viewer."));
+	return _("This plugin enables the viewing of PDF attachments using "
+		 "the Poppler lib.");
 }
 
 const gchar *plugin_type(void)
