@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=1
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -87,22 +87,11 @@ AC_SUBST(POPPLER_LIBS)
 AC_SUBST(POPPLER_CFLAGS)
 AC_CHECK_FUNCS(poppler_page_render)
 
-dnl Find curl-config
-AC_PATH_PROG(CURL_CONFIG, curl-config, no)
-if test x$CURL_CONFIG = xno ; then
-	AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
+dnl Find gs
+AC_PATH_PROG(GS_EXEC, gs, no)
+if test x$GS_EXEC = xno ; then
+	AC_MSG_ERROR([*** gs not found. Please install gs.])
 fi
-CURL_CFLAGS="`$CURL_CONFIG --cflags`"
-
-CFLAGS="$CFLAGS $CURL_CFLAGS"
-
-CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
-AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
-
-CURL_LIBS="`$CURL_CONFIG --libs`"
-
-LIBS="$LIBS $CURL_LIBS"
-AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
 
 dnl check for pthread support
 AC_ARG_ENABLE(pthread,

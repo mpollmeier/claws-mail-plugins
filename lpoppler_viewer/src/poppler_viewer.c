@@ -115,9 +115,8 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	GdkPixbuf *pb;
 	gchar *page_str = g_strdup_printf("%d", page_num);
 	gchar *notice_text;
-
 	NoticeView *noticeview = viewer->navigation;
-	
+	gchar *tmpfile = NULL;
 	error = NULL;
 	
 	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
@@ -126,7 +125,33 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	pb = NULL;
 
 	if (reload_file) {
-		viewer->pdf_doc = poppler_document_new_from_file( viewer->fsname, NULL, &error);
+		if (strcmp2(viewer->to_load->subtype, "pdf")) {
+			gchar *cmdline = NULL, *tmp = NULL;
+			gint result = 0;
+			/* convert postscript to pdf */
+			tmpfile = get_tmp_file();
+			cmdline = g_strdup_printf(
+				"gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%s -c .setpdfwrite -f \"%s\"",
+				tmpfile, viewer->filename);
+			result = execute_command_line(cmdline, FALSE);
+			if (result == 0) {
+				tmp = g_strdup_printf("file://%s", tmpfile);
+				viewer->pdf_doc = poppler_document_new_from_file( tmp, NULL, &error);
+				g_free(tmp);
+			} else {
+				g_warning("gs conversion failed: %s returned %d\n", cmdline, result);
+				tmp = g_strdup_printf("gs: err %d", result);
+				noticeview_set_text(noticeview, tmp);
+				g_free(tmp);
+			}
+			g_free(cmdline);
+			g_unlink(tmpfile);
+			g_free(tmpfile);
+			if (result != 0)
+				return;
+		} else {
+			viewer->pdf_doc = poppler_document_new_from_file( viewer->fsname, NULL, &error);
+		}
 	} 
 	if (viewer->pdf_doc == NULL && noticeview) {
 		strretchomp(error->message);
