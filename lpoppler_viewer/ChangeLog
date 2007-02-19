@@ -1,3 +1,9 @@
+2007-02-19 [paul]	0.1.0cvs8
+
+	* configure.ac
+	* po/it.po
+		added translation by Salvatore De Paolis
+
 2007-02-19 [paul]	0.1.0cvs7
 
 	* src/poppler_viewer.c
