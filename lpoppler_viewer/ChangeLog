@@ -1,0 +1,35 @@
+2007-02-19 [colin]	0.1.0cvs1
+
+	* .cvsignore
+	* AUTHORS
+	* COPYING
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* README
+	* autogen.sh
+	* commitHelper
+	* config.h.in
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/.cvsignore
+	* po/ChangeLog
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/fr.po
+	* po/remove-potcdate.sin
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/Makefile.in
+	* src/gettext.h
+	* src/poppler_viewer.c
+		Initial release
+		The PopplerViewer plugin, written by Salvatore
+		De Paolis, displays PDFs mimepart in the 
+		messageview.
+
