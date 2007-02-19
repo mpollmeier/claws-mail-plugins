@@ -120,11 +120,20 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	
 	error = NULL;
 	
+	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
+	gdk_pixbuf_fill (pb, 0x00000000);
+	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
+	pb = NULL;
+
 	if (reload_file) {
 		viewer->pdf_doc = poppler_document_new_from_file( viewer->fsname, NULL, &error);
 	} 
-
-	g_return_if_fail(viewer->pdf_doc != NULL);
+	if (viewer->pdf_doc == NULL && noticeview) {
+		strretchomp(error->message);
+		noticeview_set_text(noticeview, error->message);
+		g_error_free(error);
+		return;
+	}
 
 	if (reload_file) {
 		viewer->num_pages = poppler_document_get_n_pages( viewer->pdf_doc);
@@ -140,13 +149,15 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 
 	poppler_page_get_size(viewer->pdf_page, &viewer->width, &viewer->height);
 
-	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, viewer->width, viewer->height);
-	gdk_pixbuf_fill (pb, 0x00106000);
+	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, viewer->width, viewer->height);	
+	gdk_pixbuf_fill (pb, 0x00000000);
 	poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, viewer->width, viewer->height, 1, 0, pb);
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view),
 				  pb);
 	
-	notice_text = g_strdup_printf(_("PDF document, page %d/%d"), viewer->cur_page, viewer->num_pages);
+	notice_text = g_strdup_printf(_("%s document, page %d/%d"), 
+			!strcmp2(viewer->to_load->subtype, "pdf") ? "PDF":"Postscript",
+			viewer->cur_page, viewer->num_pages);
 	
 	if (noticeview)
 		noticeview_set_text(noticeview, notice_text);
@@ -354,7 +365,9 @@ static MimeViewer *poppler_viewer_create(void)
 }
 
 static gchar *content_types[] =
-	{"application/pdf", NULL};
+	{"application/pdf", 
+	 "application/postscript", 
+	 NULL};
 
 static MimeViewerFactory poppler_viewer_factory =
 {
@@ -369,7 +382,7 @@ gint plugin_init(gchar **error)
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 7, 2, 2),
-		    VERSION_NUMERIC, "PDF Viewer", error))
+		    VERSION_NUMERIC, _("PDF Viewer"), error))
 		return -1;
 	mimeview_register_viewer_factory(&poppler_viewer_factory);
 	return 0;
@@ -387,8 +400,8 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return _("This plugin enables the viewing of PDF attachments using "
-		 "the Poppler lib.");
+	return _("This plugin enables the viewing of PDF and PostScript "
+		 "attachments using the Poppler lib.");
 }
 
 const gchar *plugin_type(void)
@@ -410,6 +423,7 @@ struct PluginFeature *plugin_provides(void)
 {
 	static struct PluginFeature features[] = 
 		{ {PLUGIN_MIMEVIEWER, "application/pdf"},
+		  {PLUGIN_MIMEVIEWER, "application/postscript"},
 		  {PLUGIN_NOTHING, NULL} };
 	return features;
 }
