@@ -1,3 +1,10 @@
+2007-02-19 [paul]	0.1.0cvs7
+
+	* src/poppler_viewer.c
+		fix view update
+		fix Prev button
+		Thanks to Colin
+
 2007-02-19 [wwp]	0.1.0cvs6
 
 	* po/.cvsignore

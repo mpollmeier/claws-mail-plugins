@@ -87,7 +87,7 @@ static void poppler_prev_page(NoticeView *noticeview, PopplerViewer *viewer)
 	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	if (viewer->cur_page > 1) {
-		poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page + 1);
+		poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page - 1);
 		vadj = gtk_scrolled_window_get_vadjustment(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin));
 		vadj->value = 0.0;
@@ -119,12 +119,20 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	gchar *tmpfile = NULL;
 	error = NULL;
 	
-	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
-	gdk_pixbuf_fill (pb, 0x00000000);
-	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
-	pb = NULL;
-
 	if (reload_file) {
+		pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
+		gdk_pixbuf_fill (pb, 0x00000000);
+		gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
+		pb = NULL;
+		
+		noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_TEXT_PLAIN);
+		noticeview_set_text(viewer->navigation, _("Loading..."));
+		noticeview_set_button_text(viewer->navigation, NULL);
+		noticeview_set_2ndbutton_text(viewer->navigation, NULL);
+		noticeview_set_icon_clickable(viewer->navigation, FALSE);
+
+		GTK_EVENTS_FLUSH();
+
 		if (strcmp2(viewer->to_load->subtype, "pdf")) {
 			gchar *cmdline = NULL, *tmp = NULL;
 			gint result = 0;
@@ -211,12 +219,6 @@ static gint poppler_show_mimepart_real(MimeViewer *_viewer)
 	MimeInfo *partinfo = viewer->to_load;
 
 	memset(buf, 0, sizeof(buf));
-
-	noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_TEXT_PLAIN);
-	noticeview_set_text(viewer->navigation, _("Loading..."));
-	noticeview_set_button_text(viewer->navigation, NULL);
-	noticeview_set_2ndbutton_text(viewer->navigation, NULL);
-	noticeview_set_icon_clickable(viewer->navigation, FALSE);
 
 	messageview->updating = TRUE;
 	debug_print("poppler_show_mimepart\n");
