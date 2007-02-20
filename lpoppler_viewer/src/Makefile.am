@@ -24,7 +24,3 @@ AM_CPPFLAGS = \
 	$(OPENSSL_CFLAGS) \
 	$(POPPLER_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\"
-
-EXTRA_DIST = \
-	mime_pdf.xpm \
-	mime_ps.xpm
