@@ -1,3 +1,12 @@
+2007-02-20 [colin]	0.1.0cvs10
+
+	* configure.ac
+	* src/Makefile.am
+	* src/poppler_viewer.c
+		Handle application/octet-stream attachments
+		if they really are pdf or postscript. Use
+		specific icons (requires Claws 2.7.2cvs57)
+
 2007-02-19 [colin]	0.1.0cvs9
 
 	* po/it.po

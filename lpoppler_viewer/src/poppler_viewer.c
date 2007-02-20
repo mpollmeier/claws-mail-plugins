@@ -69,6 +69,12 @@ struct _PopplerViewer
 	NoticeView	*navigation;
 };
 
+typedef enum {
+	TYPE_UNKNOWN,
+	TYPE_PDF,
+	TYPE_PS
+} FileType;
+
 typedef struct _PopplerViewer PopplerViewer;
 
 static MimeViewerFactory poppler_viewer_factory;
@@ -108,6 +114,36 @@ static void poppler_next_page(NoticeView *noticeview, PopplerViewer *viewer)
 	}
 }
 
+static FileType poppler_mimepart_get_type(MimeInfo *partinfo)
+{
+	gchar *content_type = NULL;
+	FileType type = TYPE_UNKNOWN;
+	if ((partinfo->type == MIMETYPE_APPLICATION) &&
+            (!g_ascii_strcasecmp(partinfo->subtype, "octet-stream"))) {
+		const gchar *filename;
+
+		filename = procmime_mimeinfo_get_parameter(partinfo, "filename");
+		if (filename == NULL)
+			filename = procmime_mimeinfo_get_parameter(partinfo, "name");
+		if (filename != NULL)
+			content_type = procmime_get_mime_type(filename);
+	} else {
+		content_type = procmime_get_content_type_str(partinfo->type, partinfo->subtype);
+	}
+
+	if (content_type == NULL)
+		type = TYPE_UNKNOWN;
+	else if (!strcmp(content_type, "application/pdf"))
+		type = TYPE_PDF;
+	else if (!strcmp(content_type, "application/postscript"))
+		type = TYPE_PS;
+	else
+		type = TYPE_UNKNOWN;
+	
+	g_free(content_type);
+	return type;
+}
+
 static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, int page_num) {
 
 	PopplerViewer *viewer = (PopplerViewer *) _viewer;
@@ -125,7 +161,13 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 		gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
 		pb = NULL;
 		
-		noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_TEXT_PLAIN);
+		if (poppler_mimepart_get_type(viewer->to_load) == TYPE_PS) {
+			noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_PS);
+		} else if (poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) {
+			noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_PDF);
+		} else {
+			noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_APPLICATION);
+		}
 		noticeview_set_text(viewer->navigation, _("Loading..."));
 		noticeview_set_button_text(viewer->navigation, NULL);
 		noticeview_set_2ndbutton_text(viewer->navigation, NULL);
@@ -133,7 +175,7 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 
 		GTK_EVENTS_FLUSH();
 
-		if (strcmp2(viewer->to_load->subtype, "pdf")) {
+		if (poppler_mimepart_get_type(viewer->to_load) == TYPE_PS) {
 			gchar *cmdline = NULL, *tmp = NULL;
 			gint result = 0;
 			/* convert postscript to pdf */
@@ -163,6 +205,7 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	} 
 	if (viewer->pdf_doc == NULL && noticeview) {
 		strretchomp(error->message);
+		noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_APPLICATION);
 		noticeview_set_text(noticeview, error->message);
 		g_error_free(error);
 		return;
@@ -183,20 +226,18 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	poppler_page_get_size(viewer->pdf_page, &viewer->width, &viewer->height);
 
 	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, viewer->width, viewer->height);	
-	gdk_pixbuf_fill (pb, 0x00000000);
 	poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, viewer->width, viewer->height, 1, 0, pb);
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view),
 				  pb);
 	
 	notice_text = g_strdup_printf(_("%s document, page %d/%d"), 
-			!strcmp2(viewer->to_load->subtype, "pdf") ? "PDF":"Postscript",
+			(poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) ? "PDF":"Postscript",
 			viewer->cur_page, viewer->num_pages);
 	
 	if (noticeview)
 		noticeview_set_text(noticeview, notice_text);
 	g_free(notice_text);
 	if (noticeview && reload_file) {
-		noticeview_set_icon(noticeview, STOCK_PIXMAP_MIME_TEXT_PLAIN);
 		noticeview_set_button_text(noticeview, _("Prev page"));
 		noticeview_set_button_press_callback(noticeview,
 			     G_CALLBACK(poppler_prev_page), (gpointer)viewer);
@@ -408,7 +449,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 7, 2, 2),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 7, 2, 57),
 		    VERSION_NUMERIC, _("PDF Viewer"), error))
 		return -1;
 	mimeview_register_viewer_factory(&poppler_viewer_factory);

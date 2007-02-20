@@ -7,3 +7,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/poppler_viewer.c;  ) > 0.1.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 configure.ac;  diff -u /dev/null po/it.po;  ) > 0.1.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/it.po;  ) > 0.1.0cvs9.patchset
+( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/poppler_viewer.c;  ) > 0.1.0cvs10.patchset
