@@ -1,3 +1,1 @@
-This plugin handles PDF and Postscript attachments. It depends on
-- libpoppler
-- gs
+This plugin can now be found in pdf_viewer/
