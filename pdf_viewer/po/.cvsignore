@@ -4,5 +4,5 @@ POTFILES
 *.gmo
 *.po~
 stamp-po
-poppler_viewer.pot
+pdf_viewer.pot
 remove-potcdate.sed
