@@ -778,6 +778,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 					 
 void vcal_manager_free_event (VCalEvent *event)
 {
+	GSList *cur;
 	if (!event)
 		return;
 
@@ -793,6 +794,10 @@ void vcal_manager_free_event (VCalEvent *event)
 	g_free(event->tzid);
 	g_free(event->description);
 	g_free(event->url);
+	for (cur = event->answers; cur; cur = cur->next) {
+		answer_free((Answer *)cur->data);
+	}
+	g_slist_free(event->answers);
 	g_free(event);
 }
 

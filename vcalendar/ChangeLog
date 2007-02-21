@@ -1,3 +1,8 @@
+2007-02-21 [colin]	1.93.0cvs13
+
+	* src/vcal_manager.c
+		Fix little leak
+
 2007-02-19 [colin]	1.93.0cvs12
 
 	* src/vcal_folder.c
