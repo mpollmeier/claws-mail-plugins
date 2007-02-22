@@ -258,7 +258,7 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 			gpgme_data_release(textdata);
 			g_free(textstr);
 			gpgme_data_rewind(cipher);
-			textstr = gpgme_data_release_and_get_mem(cipher, &len);
+			textstr = sgpgme_data_release_and_get_mem(cipher, &len);
 			fclose(fp);
 			if (textstr && len > 0)
 				textstr[len-1]='\0';
@@ -443,7 +443,7 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 
 	fprintf(dstfp, "MIME-Version: 1.0\n");
 
-	chars = gpgme_data_release_and_get_mem(plain, &len);
+	chars = sgpgme_data_release_and_get_mem(plain, &len);
 
 	if (len > 0) {
 		fwrite(chars, len, 1, dstfp);
@@ -611,7 +611,7 @@ gboolean smime_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	}
 
 	gpgme_release(ctx);
-	sigcontent = gpgme_data_release_and_get_mem(gpgsig, &len);
+	sigcontent = sgpgme_data_release_and_get_mem(gpgsig, &len);
 	gpgme_data_release(gpgtext);
 	g_free(textstr);
 
@@ -784,7 +784,7 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	gpgme_op_encrypt(ctx, kset, GPGME_ENCRYPT_ALWAYS_TRUST, gpgtext, gpgenc);
 
 	gpgme_release(ctx);
-	enccontent = gpgme_data_release_and_get_mem(gpgenc, &len);
+	enccontent = sgpgme_data_release_and_get_mem(gpgenc, &len);
 
 	if (!enccontent) {
 		g_warning("no enccontent\n");
