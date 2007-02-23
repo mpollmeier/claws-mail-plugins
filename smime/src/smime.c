@@ -586,6 +586,7 @@ gboolean smime_sign(MimeInfo *mimeinfo, PrefsAccount *account)
 	}
 
 	info.c = ctx;
+	prefs_gpg_enable_agent(TRUE);
     	gpgme_set_passphrase_cb (ctx, NULL, &info);
 	
 	err = gpgme_op_sign(ctx, gpgtext, gpgsig, GPGME_SIG_MODE_DETACH);
