@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-02-17 19:04+0100\n"
+"POT-Creation-Date: 2007-02-24 00:27+0100\n"
 "PO-Revision-Date: 2007-02-17 19:05+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -14,27 +14,53 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/poppler_viewer.c:128
-#, c-format
-msgid "PDF document, page %d/%d"
+#: src/poppler_viewer.c:374
+#, fuzzy, c-format
+msgid "%s document"
 msgstr "Document PDF, page %d/%d"
 
-#: src/poppler_viewer.c:135
-msgid "Prev page"
+#: src/poppler_viewer.c:652
+#, fuzzy
+msgid "Previous Page"
 msgstr "Page préc."
 
-#: src/poppler_viewer.c:138
-msgid "Next page"
+#: src/poppler_viewer.c:656
+#, fuzzy
+msgid "Next Page"
 msgstr "Page suiv."
 
-#: src/poppler_viewer.c:159
-#: src/poppler_viewer.c:316
-msgid "Loading..."
-msgstr "Chargement..."
+#: src/poppler_viewer.c:660
+msgid "Zoom In"
+msgstr ""
 
-#: src/poppler_viewer.c:369
+#: src/poppler_viewer.c:664
+msgid "Zoom Out"
+msgstr ""
+
+#: src/poppler_viewer.c:667
+msgid "Fit Page"
+msgstr ""
+
+#: src/poppler_viewer.c:670
+msgid "Fit Page Width"
+msgstr ""
+
+#: src/poppler_viewer.c:711 src/poppler_viewer.c:724
+msgid "PDF Viewer"
+msgstr ""
+
+#: src/poppler_viewer.c:729
 msgid ""
-"This plugin renders PDF attachments in mails using the poppler lib.\n"
-"The extended name is Red Poppler PDF Viewer."
-msgstr "Ce plugin affiche les fichiers PDF joints.Son nom complet est Red Poppler PDF Viewer."
+"This plugin enables the viewing of PDF and PostScript attachments using the "
+"Poppler lib."
+msgstr ""
 
+#~ msgid "Loading..."
+#~ msgstr "Chargement..."
+
+#~ msgid ""
+#~ "This plugin renders PDF attachments in mails using the poppler lib.\n"
+#~ "The extended name is Red Poppler PDF Viewer."
+#~ msgstr ""
+#~ "Ce plugin affiche les fichiers PDF joints.Son nom complet est Red Poppler "
+#~ "PDF Viewer."
