@@ -292,9 +292,14 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	error = NULL;
 	if (reload_file) {
 		pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
-		gdk_pixbuf_fill (pb, 0x00106000);
+		gdk_pixbuf_fill (pb, 0x00000000);
 		gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
+		g_object_unref(G_OBJECT(pb));
 		pb = NULL;
+		if (viewer->pdf_doc) {
+			g_object_unref(G_OBJECT(viewer->pdf_doc));
+			viewer->pdf_doc = NULL;
+		}
 		
 		if (poppler_mimepart_get_type(viewer->to_load) == TYPE_PS) {
 			stock_pixmap_gdk(viewer->hbox, STOCK_PIXMAP_MIME_PS, &viewer->icon_pixmap, &viewer->icon_bitmap);
@@ -369,6 +374,8 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 		(int)(viewer->width * viewer->zoom), (int)(viewer->height * viewer->zoom), viewer->zoom, 0, pb);
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view),
 				  pb);
+	g_object_unref(G_OBJECT(pb));
+	g_object_unref(G_OBJECT(viewer->pdf_page));
 
 	gtk_label_set_text(GTK_LABEL(viewer->doc_label), 
 		g_strdup_printf(_("%s document"),(poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) ? "PDF":"Postscript"));
@@ -438,10 +445,20 @@ static void poppler_clear_viewer(MimeViewer *_viewer)
 {
 	PopplerViewer *viewer = (PopplerViewer *) _viewer;
 	GtkAdjustment *vadj;
-	
+	GdkPixbuf *pb;
+
 	debug_print("poppler_clear_viewer\n");
 	viewer->to_load = NULL;
-	
+
+	if (viewer->pdf_doc) {
+		g_object_unref(G_OBJECT(viewer->pdf_doc));
+		viewer->pdf_doc = NULL;
+	}
+	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
+	gdk_pixbuf_fill (pb, 0x00000000);
+	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
+	g_object_unref(G_OBJECT(pb));
+
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	vadj->value = 0.0;
