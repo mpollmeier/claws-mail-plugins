@@ -1,3 +1,8 @@
+2007-02-24 [colin]	0.1.0cvs13
+
+	* src/poppler_viewer.c
+		Plug most obvious memory leaks
+
 2007-02-21 [wwp]	0.1.0cvs12
 
 	* po/.cvsignore
