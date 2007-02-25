@@ -1,2 +1,3 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/.cvsignore;  ) > 0.1.0cvs12.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/poppler_viewer.c;  ) > 0.1.0cvs13.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 configure.ac;  diff -u /dev/null po/es.po;  ) > 0.1.0cvs14.patchset
