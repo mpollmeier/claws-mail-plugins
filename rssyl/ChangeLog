@@ -1,3 +1,16 @@
+2007-02-26 [paul]	0.10.0cvs6
+
+	* configure.ac
+	* po/ca.po
+	* po/hu.po
+		added by Miquel Oliete and Pader Rezso	
+	* po/de.po
+	* po/es.po
+	* po/fi.po
+	* po/pt_BR.po
+		updated by Stephan Sachse, Ricardo Mones Lastra,
+		Flammie Pirinen, and Frederico Goncalves Guimaraes
+
 2007-02-04 [colin]	0.10.0cvs5
 
 	* src/rssyl_gtk.c

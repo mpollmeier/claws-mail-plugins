@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=10
 MICRO_VERSION=0
-EXTRA_VERSION=5
+EXTRA_VERSION=6
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -57,7 +57,7 @@ else
   CLAWS_MAIL_PLUGINDIR='${libdir}/claws-mail/plugins'
 fi
 
-ALL_LINGUAS="de es fi fr it pt_BR sk sr sv zh_CN pl"
+ALL_LINGUAS="ca de es fi fr hu it pt_BR sk sr sv zh_CN pl pt_BR"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])
