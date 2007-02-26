@@ -1,32 +1,30 @@
-# Spanish translation for attachwarner plugin
-# Copyright (C) 2006-2007 Ricardo Mones 
-# This file is distributed under the same license as the attachwarner package.
-# Ricardo Mones <ricardo@mones.org>, 2006.
+# Catalan translation of attachwarner plugin.
+# Copyright (C) 2007 Ricardo Mones
+# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: attachwarner\n"
+"Project-Id-Version: Attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-02-25 18:59+0100\n"
-"PO-Revision-Date: 2007-02-26 00:59+0100\n"
-"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
-"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"POT-Creation-Date: 2007-02-19 08:22+0000\n"
+"PO-Revision-Date: 2007-02-25 20:22+00001\n"
+"Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/attachwarner.c:252
 msgid "Attachment warning"
-msgstr "Aviso de adjuntos"
+msgstr "Avís d'adjunts"
 
 #: src/attachwarner.c:253
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
 msgstr ""
-"Se mencionan adjuntos en el correo que está a punto de enviar, pero no se "
-"adjunto ningún fichero. ¿Enviarlo igualmente?"
+"Un adjunt és anomenat dins del missatge que esteu enviant, però no s'ha "
+"adjuntat cap arxiu. Voleu enviar-lo de totes maneres?"
 
 #: src/attachwarner.c:254
 msgid "+_Send"
@@ -34,57 +32,54 @@ msgstr "+_Enviar"
 
 #: src/attachwarner.c:275 src/attachwarner.c:311 src/attachwarner.c:363
 msgid "Attach warner"
-msgstr "Aviso de adjuntos"
+msgstr "Avisador d'adjunts"
 
 #: src/attachwarner.c:282
 msgid "Failed to register check before send hook"
-msgstr "Falló el registro de la función de comprobar antes de enviar"
+msgstr "Ha fallat el registre de la comprovació abans d'enviar"
 
 #: src/attachwarner.c:321
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
 msgstr ""
-"Avisa al usuario si se encuentra alguna referencia a adjuntos en el texto "
-"del mensaje pero no hay ningún fichero adjunto"
+"Avisa a l'usuari si es troba alguna referència als adjunts dins el text del "
+"missatge i no hi ha cap arxiu adjuntat"
 
 #: src/attachwarner_prefs.c:44
 msgid "attach"
-msgstr "adjunt"
+msgstr "adjuntar"
 
 #: src/attachwarner_prefs.c:70
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
 msgstr ""
-"Avisar cuando coincida con alguna de las siguientes expresiones regulares:\n"
-"(una por cada línea)"
+"Avisar quan coincideixin les següents expressions regulars:\n"
+"(una per línia)"
 
 #: src/attachwarner_prefs.c:89
 msgid "Skip quoted lines"
-msgstr "Obviar las líneas citadas"
+msgstr "Saltar-se línies marcades"
 
 #: src/attachwarner_prefs.c:96
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "" 
-"Excluye las líneas citadas de la comprobación con las expresiones regulares "
-"anteriores"
+msgstr "Excloure línies marcades de la comprovació de les expressions regulars prèvies"
 
 #: src/attachwarner_prefs.c:99
 msgid "Skip forwards and redirections"
-msgstr "No comprobar reenvíos ni redirecciones"
+msgstr "Saltar-se reenviaments i redireccions"
 
 #: src/attachwarner_prefs.c:106
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr ""
-"No comprueba si faltan adjuntos al reenviar o redirijir mensajes"
+"No comprovar per adjunts inexistents quan es reenvíi o redireccioni missatges"
 
 #: src/attachwarner_prefs.c:177
 msgid "Plugins"
-msgstr "Módulos"
+msgstr "Mòduls"
 
 #: src/attachwarner_prefs.c:178
 msgid "Attach Warner"
-msgstr "Aviso de adjuntos"
-
+msgstr "Avisador d'Adjunts"

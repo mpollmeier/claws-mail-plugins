@@ -1,99 +1,90 @@
-# Finnish translations for attachwarner package.
-# Copyright (C) 2007 Ricardo Mones
+# German translation for the attachwarner plugin for Claws Mail
+# Copyright (C) 2007 Stephan Sachse
 # This file is distributed under the same license as the attachwarner package.
-# Flammie Pirinen <flammie@iki.fi>, 2007.
+# Stephan Sachse <white@dev-zero.com>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-02-19 08:22+0000\n"
-"PO-Revision-Date: 2007-02-20 03:24+0200\n"
-"Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
-"Language-Team: Finnish <laatu@lokalisointi.org>\n"
+"POT-Creation-Date: 2007-02-24 21:43+0100\n"
+"PO-Revision-Date: 2007-02-24 21:56+0100\n"
+"Last-Translator: Stephan Sachse <white@dev-zero.com>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Basepath: ../\n"
 
 #: src/attachwarner.c:252
 msgid "Attachment warning"
-msgstr "Liitetiedostovaroitus"
+msgstr "Anhang Warnung"
 
 #: src/attachwarner.c:253
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
 msgstr ""
-"Liitetiedostosta mainitaan viestissä jota lähetetään, mutta tiedostoa ei ole "
-"liitetty. Jatketaanko lähettämistä?"
+"In der Nachricht wird ein Anhang erwähnt, aber es wurde kein Anhänge "
+"gefunden. Trotzdem senden?"
 
 #: src/attachwarner.c:254
 msgid "+_Send"
-msgstr "_Lähetä"
+msgstr "+_Senden"
 
 #: src/attachwarner.c:275 src/attachwarner.c:311 src/attachwarner.c:363
 msgid "Attach warner"
-msgstr "Liitä varoitin"
+msgstr "Attach warner"
 
 #: src/attachwarner.c:282
 msgid "Failed to register check before send hook"
-msgstr "Lähetyskoukun rekisteröinti epäonnistui"
+msgstr "Registrierung 'check before send hook' fehlgeschlagen"
 
 #: src/attachwarner.c:321
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
 msgstr ""
-"Varoittaa, jos viestin tekstissä puhutaan liitteistä, mutta tiedostoja ei "
-"ole liitetty."
+"Warnt den Benutzer wenn ein Anhang in der Mail erwähnt wurde aber keine "
+"Dateien an gehangen wurden"
 
 #: src/attachwarner_prefs.c:44
 msgid "attach"
-msgstr "liite"
+msgstr "Anhang"
 
 #: src/attachwarner_prefs.c:70
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
 msgstr ""
-"Varoita seuraavista säännöllisistä täsmäyksistä:\n"
-"(yksi riviä kohti)"
+"Warne wenn die folgenden Regulären Ausdrücke zutreffen:\n"
+"(einer pro Zeile)"
 
 #: src/attachwarner_prefs.c:89
 msgid "Skip quoted lines"
-msgstr "Ohita lainaukset"
+msgstr "Zitierte Zeilen auslasse"
 
 #: src/attachwarner_prefs.c:96
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "Älä tarkasta lainattuja rivejä säännöllisillä ilmauksilla"
+msgstr ""
+"Lässt zitierte Zeilen von der Prüfung gegen die Regulären Ausdrücke aus"
 
 #: src/attachwarner_prefs.c:99
 msgid "Skip forwards and redirections"
-msgstr "Ohita edelleenlähetykset ja uudelleenohjaukset"
+msgstr "Weiterleitungen und Umleitung überspringen"
 
 #: src/attachwarner_prefs.c:106
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr ""
-"Älä tarkasta puuttuvia liitetiedostoja kun edelleenlähetetään tai "
-"uudelleenohjataan"
+"nicht auf fehlende Anhänge prüfen wenn die Nachricht weiter oder umgeleitet "
+"wird"
 
 #: src/attachwarner_prefs.c:177
 msgid "Plugins"
-msgstr "Liitännäiset"
+msgstr "Plugins"
 
 #: src/attachwarner_prefs.c:178
 msgid "Attach Warner"
-msgstr "Liitä varoitin"
-
-#~ msgid ""
-#~ "Your Claws-Mail version is newer than the version the plugin was built "
-#~ "with"
-#~ msgstr "Claws Mail on uudempi kuin versio, mille liitännäinen on käännetty"
-
-#~ msgid "Your Claws-Mail version is too old"
-#~ msgstr "Claws Mail on liian vanha versioltaan"
-
-#~ msgid "Failed to get memory for matcher"
-#~ msgstr "Muistin saanti täsmäykselle epäonnistui"
+msgstr "Attach Warner"

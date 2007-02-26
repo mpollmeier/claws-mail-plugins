@@ -1,3 +1,26 @@
+2007-02-26 [paul]	0.2.4cvs3
+
+	* Makefile.am
+	* configure.ac
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+		add missing config/ infrastructure (needed
+		for automake 1.10)
+	* po/ca.po
+	* po/de.po
+	* po/pl.po
+		added new translations by Miquel Oliete, Stephan
+		Sachse, and Pawel Pekala
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/pt_BR.po
+	* po/sk.po
+		updated by Ricardo Mones Lastra, Flammie Pirinen,
+		Pader Rezso, Frederico Goncalves Guimaraes and
+		Andrej Kacian
+
 2007-01-23 [mones]	0.2.4cvs2
 
 	* configure.ac
