@@ -2,7 +2,7 @@
 # German messages for vcalendar.
 # Copyright (C) 2006 Colin Leroy
 # This file is distributed under the same license as the vcalendar package.
-# Stephan Sachse <white@dev-zero.com>, 2006.
+# Stephan Sachse <white@dev-zero.com>, 2006-2007.
 #
 #
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "POT-Creation-Date: 2006-11-05 15:37+0100\n"
 "PO-Revision-Date: 2006-11-05 15:42+0100\n"
 "Last-Translator: Stephan Sachse <white@dev-zero.com>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"Language-Team: <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

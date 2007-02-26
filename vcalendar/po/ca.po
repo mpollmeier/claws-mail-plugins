@@ -1,269 +1,273 @@
-# translation of pt_BR.po to Português do Brasil
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2005, 2006, 2007.
+# Catalan translation of vcalendar.
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-01-03 17:44+0100\n"
-"PO-Revision-Date: 2007-02-25 13:18-0000\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Português do Brasil\n"
+"POT-Creation-Date: 2007-02-19 08:28+0000\n"
+"PO-Revision-Date: 2007-02-25 20:37+00001\n"
+"Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: src/plugin.c:40
-#: src/plugin.c:56
-#: src/vcal_prefs.c:588
+#: src/plugin.c:40 src/plugin.c:56 src/vcal_prefs.c:588
 msgid "vCalendar"
 msgstr "vCalendar"
 
 #: src/plugin.c:61
 msgid ""
-"This plugin enables vCalendar message handling like that produced by Evolution or Outlook.\n"
+"This plugin enables vCalendar message handling like that produced by "
+"Evolution or Outlook.\n"
 "\n"
-"When loaded, it will create a vCalendar mailbox in the Folder List, which will be populated by meetings that you have accepted or created.\n"
-"Meeting requests that you receive will be presented in an appropriate form and you will be able to accept or decline them.\n"
-"To create a meeting right-click on the vCalendar or Meetings folder and choose \"New meeting...\".\n"
+"When loaded, it will create a vCalendar mailbox in the Folder List, which "
+"will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form "
+"and you will be able to accept or decline them.\n"
+"To create a meeting right-click on the vCalendar or Meetings folder and "
+"choose \"New meeting...\".\n"
 "\n"
-"You will also be able to subscribe to remote webCal feeds,export your meetings and calendars, publish your free/busy information and retrieve that information from others."
+"You will also be able to subscribe to remote webCal feeds,export your "
+"meetings and calendars, publish your free/busy information and retrieve that "
+"information from others."
 msgstr ""
-"Esse plugin habilita a manipulação de mensagens do vCalendar, como é feito no Evolution ou no Outlook.\n"
+"Aquest m�dul activa vCalendar, el manegador de missatges com els produ�ts "
+"per l'Evolution o l'Outlook.\n"
 "\n"
-"Quando carregado, ele irá criar uma caixa de correio para o vCalendar na sua lista de pastas, que será preenchida pelas reuniões que você aceitou ou criou.\n"
-"As requisições de reunião que você receber serão apresentadas em um formato apropriado e você poderá aceitá-las ou recusá-las.\n"
-"Para criar uma reunião clique com o botão direito do mouse nas pastas vCalendar ou Reuniões e escolha \"Nova reunião...\".\n"
+"Quan estigui carregat, crear� una b�stia vCalendar a la llista de carpetes, "
+"on es guardaran totes les reunions que hagueu acceptat o creat.\n"
+"Les peticions de reunions que hagueu rebut seran presentats en el format "
+"apropiat i podreu acceptar-les o refusar-les.\n"
+"Per crear una reuni�, pulseu el bot� dret a les carpetes vCalendar o "
+"Reunions i escolliu \"Nova reuni�...\".\n"
 "\n"
-"Você também estará apto a inscrever-se em fontes webCal remotas, exportar suas reuniões e agendas, publicar sua informação de livre/ocupado e recuperar essa informação dos outros."
+"Tamb� podreu subscriure-us a feeds remotes webCal, exportar les vostres "
+"reunions i calendaris, publicar la vostra informaci� de lliure/ocupat i "
+"recuperar la informaci� d'altres persones."
 
 #: src/plugin.c:93
 msgid "text/calendar"
-msgstr "texto/agenda"
+msgstr "text/calendar"
 
 #: src/plugin.c:94
 msgid "Calendar"
-msgstr "Agenda"
+msgstr "Calendari"
 
 #: src/vcalendar.c:504
 msgid "Accept"
-msgstr "Aceitar"
+msgstr "Acceptar"
 
 #: src/vcalendar.c:505
 msgid "Tentatively accept"
-msgstr "Aceitar provisioriamente"
+msgstr "Acceptar provisionalment"
 
 #: src/vcalendar.c:506
 msgid "Decline"
-msgstr "Recusar"
+msgstr "Refusar"
 
 #: src/vcalendar.c:569
 msgid "You have a Todo item."
-msgstr "Você tem uma tarefa."
+msgstr "Teniu un item pendent."
 
-#: src/vcalendar.c:570
-#: src/vcalendar.c:575
-#: src/vcalendar.c:580
-#: src/vcalendar.c:595
-#: src/vcalendar.c:607
-#: src/vcalendar.c:613
+#: src/vcalendar.c:570 src/vcalendar.c:575 src/vcalendar.c:580
+#: src/vcalendar.c:595 src/vcalendar.c:607 src/vcalendar.c:613
 #: src/vcalendar.c:935
 msgid "Details follow:"
-msgstr "Detalhes a seguir:"
+msgstr "Els detalls s�n els que segueixen:"
 
 #: src/vcalendar.c:574
 msgid "You have created a meeting."
-msgstr "Você criou uma reunião."
+msgstr "Heu creat una reuni�."
 
 #: src/vcalendar.c:579
 msgid "You have been invited to a meeting."
-msgstr "Você foi convidado para uma reunião."
+msgstr "Heu estat convidat a una reuni�."
 
-#: src/vcalendar.c:594
-#: src/vcalendar.c:934
+#: src/vcalendar.c:594 src/vcalendar.c:934
 msgid "You have received an answer to an unknown meeting proposal."
-msgstr "Você recebeu uma resposta para uma proposta de reunião desconhecida."
+msgstr "Heu rebut una resposta a una proposta de reuni� desconeguda."
 
-#: src/vcalendar.c:598
-#: src/vcalendar.c:938
+#: src/vcalendar.c:598 src/vcalendar.c:938
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
 "%s has %s the invitation whose details follow:"
 msgstr ""
-"Você recebeu uma resposta para uma proposta de reunião.\n"
-"%s %s o convite, que tem os seguintes detalhes:"
+"Heu rebut una resposta a una proposta de reuni�.\n"
+"%s ha %s la invitaci� amb els seg�ents detalls:"
 
 #: src/vcalendar.c:606
 msgid "A meeting to which you had been invited has been cancelled."
-msgstr "Uma reunião para a qual você foi convidado foi cancelada."
+msgstr "Una reuni� a la qual heu estat convidat ha estat cencel�lada."
 
 #: src/vcalendar.c:612
 msgid "You have been forwarded an appointment."
-msgstr "Foi remetido um compromisso para você."
+msgstr "Heu reenviat una cita."
 
 #: src/vcalendar.c:649
 #, c-format
 msgid "%s <span weight=\"bold\">(this event recurs)</span>"
-msgstr "%s <span weight=\"bold\">(esse evento se repete)</span>"
+msgstr "%s <span weight=\"bold\">(aquest event es recurrent)</span>"
 
 #: src/vcalendar.c:655
 #, c-format
-msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
-msgstr "%s <span weight=\"bold\">(esse evento é parte de um evento repetitivo)</span>"
+msgid ""
+"%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
+msgstr ""
+"%s <span weight=\"bold\">(aquest event forma part d'un event recurrent)</span>"
 
 #: src/vcalendar.c:1204
 msgid "Cancel meeting"
-msgstr "Cancelar reunião"
+msgstr "Cancel�lar reuni�"
 
 #: src/vcalendar.c:1205
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
 msgstr ""
-"Deseja realmente cancelar essa reunião?\n"
-"Uma notificação será enviada aos participantes."
+"Esteu segurs que voleu cancel�lar aquesta reuni�?\n"
+"Una notificaci� ser� enviada als convocats."
 
 #: src/vcalendar.c:1272
 msgid "No account found"
-msgstr "Não foi encontrada nenhuma conta"
+msgstr "No s'ha trobat cap compte"
 
 #: src/vcalendar.c:1273
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
 msgstr ""
-"Você não tem nenhuma conta correspondente aos participantes.\n"
-"Deseja responder mesmo assim?"
+"No teniu cap compte que coincideixi amb cap convocat.\n"
+"Voleu contestar de totes maneres ?"
 
 #: src/vcalendar.c:1275
 msgid "+Reply anyway"
-msgstr "+Responder mesmo assim"
+msgstr "+Respondre igualment"
 
 #: src/vcalendar.c:1399
 msgid "Answer"
-msgstr "Responder"
+msgstr "Respondre"
 
 #: src/vcalendar.c:1400
 msgid "Edit meeting..."
-msgstr "Editar reunião..."
+msgstr "Editar reuni�..."
 
 #: src/vcalendar.c:1401
 msgid "Cancel meeting..."
-msgstr "Cancelar reunião..."
+msgstr "Cancel�lar reuni�..."
 
 #: src/vcalendar.c:1402
 msgid "Launch website"
-msgstr "Abrir site da Web"
+msgstr "Obrir p�gina web"
 
 #: src/vcalendar.c:1406
 msgid "You are already busy at this time."
-msgstr "Você já está ocupado nesse horário."
+msgstr "Ja esteu ocupat a aquesta hora."
 
 #: src/vcalendar.c:1460
 msgid "Event:"
-msgstr "Evento:"
+msgstr "Event:"
 
-#: src/vcalendar.c:1461
-#: src/vcal_meeting_gtk.c:1514
+#: src/vcalendar.c:1461 src/vcal_meeting_gtk.c:1514
 msgid "Organizer:"
-msgstr "Organizador:"
+msgstr "Organitzador:"
 
-#: src/vcalendar.c:1462
-#: src/vcal_meeting_gtk.c:1515
+#: src/vcalendar.c:1462 src/vcal_meeting_gtk.c:1515
 msgid "Summary:"
-msgstr "Resumo:"
+msgstr "Sumari:"
 
 #: src/vcalendar.c:1463
 msgid "Starting:"
-msgstr "Início:"
+msgstr "Inici:"
 
 #: src/vcalendar.c:1464
 msgid "Ending:"
-msgstr "Término:"
+msgstr "Final:"
 
-#: src/vcalendar.c:1465
-#: src/vcal_meeting_gtk.c:1517
+#: src/vcalendar.c:1465 src/vcal_meeting_gtk.c:1517
 msgid "Description:"
-msgstr "Descrição:"
+msgstr "Descripci�:"
 
-#: src/vcalendar.c:1466
-#: src/vcal_meeting_gtk.c:1518
+#: src/vcalendar.c:1466 src/vcal_meeting_gtk.c:1518
 msgid "Attendees:"
-msgstr "Participantes:"
+msgstr "Convocats:"
 
 #: src/vcalendar.c:1468
 msgid "Action:"
-msgstr "Ação:"
+msgstr "Acci�:"
 
 #: src/vcal_folder.c:144
 msgid "/_New meeting..."
-msgstr "/_Nova reunião..."
+msgstr "/_Nova reuni�..."
 
 #: src/vcal_folder.c:145
 msgid "/_Export calendar..."
-msgstr "/_Exportar agenda..."
+msgstr "/_Exportar calendari..."
 
 #: src/vcal_folder.c:147
 msgid "/_Subscribe to webCal..."
-msgstr "/_Inscrever-se no webCal..."
+msgstr "Subscriure's a webCal..."
 
 #: src/vcal_folder.c:148
 msgid "/_Unsubscribe..."
-msgstr "/_Desinscrever-se..."
+msgstr "/Des_ubscriure's..."
 
 #: src/vcal_folder.c:150
 msgid "/_Rename..."
-msgstr "/_Renomear..."
+msgstr "/_Renombrar..."
 
 #: src/vcal_folder.c:152
 msgid "/U_pdate subscriptions"
-msgstr "/_Atualizar subscrições"
+msgstr "/Actualitzar subscripcions"
 
 #: src/vcal_folder.c:1082
 msgid "/New meeting..."
-msgstr "/Nova reunião..."
+msgstr "/Nova reuni�..."
 
 #: src/vcal_folder.c:1083
 msgid "/Export calendar..."
-msgstr "/Exportar agenda..."
+msgstr "/Exportar calendari..."
 
 #: src/vcal_folder.c:1084
 msgid "/Subscribe to webCal..."
-msgstr "/Inscrever-se no webCal..."
+msgstr "/Subscriure's a webCal..."
 
 #: src/vcal_folder.c:1085
 msgid "/Unsubscribe..."
-msgstr "/Deinscrever-se..."
+msgstr "/Desubscriure's..."
 
 #: src/vcal_folder.c:1086
 msgid "/Rename..."
-msgstr "/Renomear..."
+msgstr "/Renombrar..."
 
 #: src/vcal_folder.c:1087
 msgid "/Update subscriptions"
-msgstr "/Atualizar subscrições"
+msgstr "/Actualitzar subscripcions"
 
 #: src/vcal_folder.c:1233
 msgid "in the past"
-msgstr "no passado"
+msgstr "en el passat"
 
 #: src/vcal_folder.c:1236
 msgid "today"
-msgstr "hoje"
+msgstr "avui"
 
 #: src/vcal_folder.c:1239
 msgid "tomorrow"
-msgstr "amanhã"
+msgstr "dem�"
 
 #: src/vcal_folder.c:1242
 msgid "this week"
-msgstr "essa semana"
+msgstr "aquesta setmana"
 
 #: src/vcal_folder.c:1245
 msgid "later"
-msgstr "mais tarde"
+msgstr "m�s tard"
 
 #: src/vcal_folder.c:1249
 #, c-format
@@ -272,34 +276,34 @@ msgid ""
 "These are the events planned %s:\n"
 msgstr ""
 "\n"
-"Esses são os eventos planejados %s:\n"
+"Aquests s�n els events planejats %s:\n"
 
 #: src/vcal_folder.c:1347
 msgid "401 (Authorisation required)"
-msgstr "401 (Requer autorização)"
+msgstr "401 (Autoritzaci� requerida)"
 
 #: src/vcal_folder.c:1350
 msgid "403 (Unauthorised)"
-msgstr "403 (Não autorizado)"
+msgstr "403 (No autoritzat)"
 
 #: src/vcal_folder.c:1353
 msgid "404 (Not found)"
-msgstr "404 (Não encontrado)"
+msgstr "404 (No trobat)"
 
 #: src/vcal_folder.c:1356
 #, c-format
 msgid "Error %d"
-msgstr "Erro %d"
+msgstr "Error %d"
 
 #: src/vcal_folder.c:1394
 #, c-format
 msgid "Fetching '%s'..."
-msgstr "Obtendo '%s'..."
+msgstr "Obtenint '%s'..."
 
 #: src/vcal_folder.c:1408
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
-msgstr "Tempo esgotado (%d segundos) ao tentar conectar com %s\n"
+msgstr "Excedit el temps (%d segons) connectant a %s\n"
 
 #: src/vcal_folder.c:1554
 #, c-format
@@ -308,16 +312,14 @@ msgid ""
 "%s\n"
 "%s"
 msgstr ""
-"Não foi possível recuperar a URL do WebCal:\n"
+"No s'ha pogut recuperar la URL de Webcal:\n"
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1555
-#: src/vcal_folder.c:1560
-#: src/vcal_folder.c:1574
+#: src/vcal_folder.c:1555 src/vcal_folder.c:1560 src/vcal_folder.c:1574
 #: src/vcal_folder.c:1580
 msgid "Unknown error"
-msgstr "Erro desconhecido"
+msgstr "Error desconegut"
 
 #: src/vcal_folder.c:1559
 #, c-format
@@ -326,7 +328,7 @@ msgid ""
 "%s\n"
 "%s\n"
 msgstr ""
-"Não foi possível recuperar a URL do WebCal:\n"
+"No s'ha pogut recuperar la URL de Webcal:\n"
 "%s\n"
 "%s\n"
 
@@ -337,7 +339,7 @@ msgid ""
 "%s\n"
 "%s"
 msgstr ""
-"Esse endereço não se parece com uma URL de WebCal:\n"
+"Aquesta URL no sembla una URL de WebCal:\n"
 "%s\n"
 "%s"
 
@@ -348,90 +350,89 @@ msgid ""
 "%s\n"
 "%s\n"
 msgstr ""
-"Esse endereço não se parece com uma URL de WebCal:\n"
+"Aquesta URL no sembla una URL de WebCal:\n"
 "%s\n"
 "%s\n"
 
 #: src/vcal_folder.c:1634
 msgid "Claws Mail needs network access in order to update the Webcal feed."
-msgstr "O Claws Mail necessita de acesso à rede para atualizar a fonte Webcal."
+msgstr "Claws Mail necessita acc�s a xarxa per actualitzar el feed de Webcal."
 
 #: src/vcal_folder.c:1648
 msgid "Claws Mail needs network access in order to update the subscription."
-msgstr "O Claws Mail necessita de acesso à rede para atualizar a subscrição."
+msgstr "Claws Mail necessita acc�s a xarxa per actualitzar la subscripci�."
 
 #: src/vcal_folder.c:1660
 msgid "Subscribe to WebCal"
-msgstr "Inscrever-se no WebCal"
+msgstr "Subscriure's a WebCal"
 
 #: src/vcal_folder.c:1660
 msgid "Enter the WebCal URL:"
-msgstr "Digite a URL do WebCal:"
+msgstr "Entreu la URL de WebCal:"
 
 #: src/vcal_folder.c:1672
 msgid "Could not parse the URL."
-msgstr "Não foi possível analisar a URL."
+msgstr "No s'ha pogut processar la URL."
 
 #: src/vcal_folder.c:1700
 msgid "Do you really want to unsubscribe?"
-msgstr "Deseja realmente desinscrever-se?"
+msgstr "Realment voleu desubscriure-vos"
 
 #: src/vcal_folder.c:1701
 msgid "Delete folder"
-msgstr "Excluir a pasta"
+msgstr "Esborrar carpeta"
 
 #: src/vcal_folder.c:1720
 #, c-format
 msgid "Can't remove the folder '%s'."
-msgstr "Não foi possível remover a pasta '%s'."
+msgstr "No es pot esborrar la carpeta '%s'."
 
 #: src/vcal_folder.c:1763
 #, c-format
 msgid "Input new name for '%s':"
-msgstr "Digite o novo nome para '%s':"
+msgstr "Entreu un nou nom per '%s':"
 
 #: src/vcal_folder.c:1764
 msgid "Rename folder"
-msgstr "Renomear a pasta"
+msgstr "Renombrar carpeta"
 
 #: src/vcal_folder.c:1771
 #, c-format
 msgid "'%c' can't be included in folder name."
-msgstr "'%c' não pode ser incluído no nome da pasta."
+msgstr "'%c' no pot ser incl�s en el nom de la carpeta."
 
 #: src/vcal_folder.c:1778
 #, c-format
 msgid "The folder '%s' already exists."
-msgstr "A pasta '%s' já existe."
+msgstr "La carpeta '%s' ja existeix."
 
 #: src/vcal_folder.c:1784
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
 msgstr ""
-"Não foi possível renomear a pasta.\n"
-"O novo nome da pasta não é permitido."
+"La carpeta no s'ha pogut renombrar.\n"
+"El nou nom de la carpeta no es perm�s."
 
 #: src/vcal_manager.c:101
 msgid "accepted"
-msgstr "aceito"
+msgstr "acceptat"
 
 #: src/vcal_manager.c:102
 msgid "tentatively accepted"
-msgstr "aceito provisoriamente"
+msgstr "acceptada provisionalment"
 
 #: src/vcal_manager.c:103
 msgid "declined"
-msgstr "recusado"
+msgstr "refusada"
 
 #: src/vcal_manager.c:104
 msgid "did not answer"
-msgstr "sem resposta"
+msgstr "no va respondre"
 
-#: src/vcal_manager.c:105
-#: src/vcal_manager.c:138
+#: src/vcal_manager.c:105 src/vcal_manager.c:138
 msgid "unknown"
-msgstr "desconhecido"
+msgstr "desconeguda"
 
 #: src/vcal_manager.c:134
 msgid "individual"
@@ -439,138 +440,137 @@ msgstr "individual"
 
 #: src/vcal_manager.c:135
 msgid "group"
-msgstr "grupo"
+msgstr "grup"
 
 #: src/vcal_manager.c:136
 msgid "resource"
-msgstr "recursos"
+msgstr "recurs"
 
 #: src/vcal_manager.c:137
 msgid "room"
-msgstr "sala"
+msgstr "lloc"
 
 #: src/vcal_manager.c:552
 msgid "Past"
-msgstr "Passado"
+msgstr "Pasat"
 
 #: src/vcal_manager.c:555
 msgid "Today"
-msgstr "Hoje"
+msgstr "Avui"
 
 #: src/vcal_manager.c:558
 msgid "Tomorrow"
-msgstr "Amanhã"
+msgstr "Dem�"
 
 #: src/vcal_manager.c:561
 msgid "This week"
-msgstr "Essa semana"
+msgstr "Aquesta setmana"
 
 #: src/vcal_manager.c:564
 msgid "Later"
-msgstr "Mais tarde"
+msgstr "M�s tard"
 
 #: src/vcal_manager.c:1208
 msgid "Accepted: "
-msgstr "Aceito: "
+msgstr "Acceptada: "
 
 #: src/vcal_manager.c:1210
 msgid "Declined: "
-msgstr "Recusado: "
+msgstr "Refusada: "
 
 #: src/vcal_manager.c:1212
 msgid "Tentatively Accepted: "
-msgstr "Aceito provisoriamente: "
+msgstr "Acceptada provisionalment:"
 
 #: src/vcal_meeting_gtk.c:221
 msgid "Use <tab> to autocomplete from addressbook"
-msgstr "Use <tab> para autocompletar a partir do Livro de Endereços"
+msgstr "Useu <tab> per aut-completar desde l'agenda"
 
 #: src/vcal_meeting_gtk.c:239
 msgid "Individual"
-msgstr "Individual"
+msgstr "Individu"
 
 #: src/vcal_meeting_gtk.c:240
 msgid "Group"
-msgstr "Grupo"
+msgstr "Grup"
 
 #: src/vcal_meeting_gtk.c:241
 msgid "Resource"
-msgstr "Recursos"
+msgstr "Recurs"
 
 #: src/vcal_meeting_gtk.c:242
 msgid "Room"
-msgstr "Sala"
+msgstr "Lloc"
 
 #: src/vcal_meeting_gtk.c:255
 msgid "Add..."
-msgstr "Adicionar..."
+msgstr "Afegir..."
 
 #: src/vcal_meeting_gtk.c:256
 msgid "Remove"
-msgstr "Remover"
+msgstr "Esborrar"
 
 #: src/vcal_meeting_gtk.c:655
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
 msgstr ""
-"A(s) pessoa(s) seguintes estão ocupadas no horário que você planejou a reunião:\n"
+"Les seg�ents persones estan ocupades a l'hora planejada de la reuni�:\n"
 "- "
 
-#: src/vcal_meeting_gtk.c:656
-#: src/vcal_meeting_gtk.c:745
+#: src/vcal_meeting_gtk.c:656 src/vcal_meeting_gtk.c:745
 #: src/vcal_meeting_gtk.c:831
 msgid "You"
-msgstr "Você"
+msgstr "Vost�"
 
 #: src/vcal_meeting_gtk.c:657
 msgid "You are busy at the time of your planned meeting"
-msgstr "Você está ocupado no horário em que planejou a reunião"
+msgstr "Vost� est� ocupat a l'hora planejada de la reuni�"
 
 #: src/vcal_meeting_gtk.c:659
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
-msgstr "%s está ocupado no horário que você planejou a reunião"
+msgstr "%s est� ocupat a l'hora planejada de la reuni�"
 
 #: src/vcal_meeting_gtk.c:661
 #, c-format
 msgid "%d hour sooner"
-msgstr "%d hora mais cedo"
+msgstr "%d hora m�s d'hora"
 
 #: src/vcal_meeting_gtk.c:663
 #, c-format
 msgid "%d hours sooner"
-msgstr "%d horas mais cedo"
+msgstr "%d hores m�s d'hora"
 
 #: src/vcal_meeting_gtk.c:665
 #, c-format
 msgid "%d hours and %d minutes sooner"
-msgstr "%d horas e %d minutos mais cedo"
+msgstr "%d hores i %d minutes mes d'hora"
 
 #: src/vcal_meeting_gtk.c:667
 #, c-format
 msgid "%d minutes sooner"
-msgstr "%d minutos mais cedo"
+msgstr "%d minuts m�s d'hora"
 
 #: src/vcal_meeting_gtk.c:672
 #, c-format
 msgid "%d hour later"
-msgstr "%d hora mais tarde"
+msgstr "%d hora m�s tard"
 
 #: src/vcal_meeting_gtk.c:674
 #, c-format
 msgid "%d hours later"
-msgstr "%d horas mais tarde"
+msgstr "%d hores m�s tard"
 
 #: src/vcal_meeting_gtk.c:676
 #, c-format
 msgid "%d hours and %d minutes later"
-msgstr "%d horas e %d minutos mais tarde"
+msgstr "%d hores i %d minuts m�s tard"
 
 #: src/vcal_meeting_gtk.c:678
 #, c-format
 msgid "%d minutes later"
-msgstr "%d minutos mais tarde"
+msgstr "%d minuts m�s tard"
 
 #: src/vcal_meeting_gtk.c:684
 #, c-format
@@ -581,7 +581,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Todos estarão disponíveis %s ou %s."
+"Tothom estar� disponible %s o %s."
 
 #: src/vcal_meeting_gtk.c:686
 #, c-format
@@ -592,120 +592,122 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Todos estarão disponíveis %s."
+"Tothom estar� disponible %s."
 
 #: src/vcal_meeting_gtk.c:688
 msgid ""
 "\n"
 "\n"
-"It isn't possible to have this meeting with everyone in the previous or next 6 hours."
+"It isn't possible to have this meeting with everyone in the previous or next "
+"6 hours."
 msgstr ""
 "\n"
 "\n"
-"Não é possível ter essa reunião com todas as pessoas nas 6 horas anteriores ou posteriores."
+"No �s possible tenir aquesta reuni� amb tothom entre les 6 hores pr�vies o "
+"posteriors."
 
 #: src/vcal_meeting_gtk.c:693
 #, c-format
 msgid "would be available %s or %s"
-msgstr "estará disponível %s ou %s"
+msgstr "estaria disponible %s o %s"
 
 #: src/vcal_meeting_gtk.c:695
 #, c-format
 msgid "would be available %s"
-msgstr "estará disponível %s"
+msgstr "estaria disponible %s"
 
-#: src/vcal_meeting_gtk.c:697
-#: src/vcal_meeting_gtk.c:758
+#: src/vcal_meeting_gtk.c:697 src/vcal_meeting_gtk.c:758
 #: src/vcal_meeting_gtk.c:828
 msgid "not available"
-msgstr "não disponível"
+msgstr "no est� disponible"
 
 #: src/vcal_meeting_gtk.c:700
 #, c-format
 msgid ", but would be available %s or %s."
-msgstr ", mas estará disponível %s ou %s."
+msgstr ", per� estaria disponible %s o %s."
 
 #: src/vcal_meeting_gtk.c:702
 #, c-format
 msgid ", but would be available %s."
-msgstr ", mas estará disponível %s."
+msgstr ", per� estaria disponible %s."
 
 #: src/vcal_meeting_gtk.c:704
 msgid ", and isn't available in the previous or next 6 hours."
-msgstr ", e não estará disponível nas 6 horas anteriores ou posteriores."
+msgstr ", i no est� disponiible entre les sis hores pr�vies o posteriors."
 
 #: src/vcal_meeting_gtk.c:761
 msgid "available"
-msgstr "disponível"
+msgstr "disponible"
 
-#: src/vcal_meeting_gtk.c:763
-#: src/vcal_meeting_gtk.c:1007
+#: src/vcal_meeting_gtk.c:763 src/vcal_meeting_gtk.c:1007
 msgid "Free/busy retrieval failed"
-msgstr "Não foi possível recuperar a informação de livre/ocupado"
+msgstr "Ha fallat la recuperaci� de lliure/ocupat"
 
 #: src/vcal_meeting_gtk.c:845
 msgid "Not everyone is available"
-msgstr "Nem todos estão disponíveis"
+msgstr "No tothom est� disponible"
 
 #: src/vcal_meeting_gtk.c:846
 msgid "Send anyway"
-msgstr "Enviar mesmo assim"
+msgstr "Enviar de totes maneres"
 
 #: src/vcal_meeting_gtk.c:857
 msgid "Not everyone is available. See tooltips for more info..."
-msgstr "Nem todos estão disponíveis. Veja nas dicas para mais informações..."
+msgstr "No tothom est� disponible. Mireu les notes per m�s informaci�..."
 
 #: src/vcal_meeting_gtk.c:1016
 msgid "Available"
-msgstr "Disponível"
+msgstr "Disponible"
 
-#: src/vcal_meeting_gtk.c:1029
-#: src/vcal_meeting_gtk.c:1036
+#: src/vcal_meeting_gtk.c:1029 src/vcal_meeting_gtk.c:1036
 #: src/vcal_meeting_gtk.c:1044
 msgid "Everyone is available."
-msgstr "Todos estão disponíveis."
+msgstr "Tothom est� disponible."
 
 #: src/vcal_meeting_gtk.c:1046
-msgid "Everyone seems available, but some free/busy information failed to be retrieved."
-msgstr "Todos estão aparentemente disponíveis, mas nem todas as informações de livre/ocupado foram recebidas corretamente."
+msgid ""
+"Everyone seems available, but some free/busy information failed to be "
+"retrieved."
+msgstr ""
+"Tothom sembla disponible, per� alguna informaci� de lliure/ocupat no s'ha "
+"pogut recuperar."
 
 #: src/vcal_meeting_gtk.c:1194
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
 msgstr ""
-"Não foi possível enviar o convite para a reunião.\n"
-"Verifique os destinatários."
+"No s'ha pogut enviar la invitaci� a la reuni�.\n"
+"Reviseu els destinataris."
 
 #: src/vcal_meeting_gtk.c:1291
 msgid "Save & Send"
-msgstr "Salvar & enviar"
+msgstr "Guardar i enviar"
 
 #: src/vcal_meeting_gtk.c:1292
 msgid "Check availability"
-msgstr "Verificar disponibilidade"
+msgstr "Comprovar disponibilitat"
 
 #: src/vcal_meeting_gtk.c:1404
 msgid "<b>Starts at:</b> "
-msgstr "<b>Início:</b> "
+msgstr "<b>Comen�a a les:</b>"
 
-#: src/vcal_meeting_gtk.c:1409
-#: src/vcal_meeting_gtk.c:1426
+#: src/vcal_meeting_gtk.c:1409 src/vcal_meeting_gtk.c:1426
 msgid "<b> on:</b>"
-msgstr "<b> em:</b>"
+msgstr "<b> a:</b>"
 
 #: src/vcal_meeting_gtk.c:1421
 msgid "<b>Ends at:</b> "
-msgstr "<b>Término:</b> "
+msgstr "<b>Finalitza a:</b>"
 
 #: src/vcal_meeting_gtk.c:1460
 msgid "New meeting"
-msgstr "Nova reunião"
+msgstr "Nova reuni�"
 
 #: src/vcal_meeting_gtk.c:1462
 #, c-format
 msgid "%s - Edit meeting"
-msgstr "%s - Editar reunião"
+msgstr "%s - Editar reuni�"
 
 #: src/vcal_meeting_gtk.c:1516
 msgid "Time:"
@@ -716,19 +718,19 @@ msgstr "Hora:"
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d hora"
-msgstr[1] "%d horas"
+msgstr[1] "%d hores"
 
 #: src/vcal_meeting_gtk.c:1605
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minuto"
-msgstr[1] "%d minutos"
+msgstr[0] "%d minut"
+msgstr[1] "%d minuts"
 
 #: src/vcal_meeting_gtk.c:1616
 #, c-format
 msgid "Upcoming event: %s"
-msgstr "Evento iminente: %s"
+msgstr "Event inminent: %s"
 
 #: src/vcal_meeting_gtk.c:1617
 #, c-format
@@ -739,9 +741,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Você terá uma reunião ou evento em breve.\n"
-"Iniciará às %s e terminará %s mais tarde.\n"
-"Mais informações:\n"
+"Teniu una reuni� o event en breu.\n"
+"Comen�a a les %s i finalitza %s despr�s.\n"
+"M�ss informaci�:\n"
 "\n"
 "%s"
 
@@ -749,112 +751,112 @@ msgstr ""
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
-msgstr[0] "Lembre-me em %d minuto"
-msgstr[1] "Lembre-me em %d minutos"
+msgstr[0] "Recorda-m'ho en %d minut"
+msgstr[1] "Recorda-m'ho en %d minuts"
 
 #: src/vcal_meeting_gtk.c:1756
 msgid "Empty calendar"
-msgstr "Agenda vazia"
+msgstr "Calendari buit"
 
 #: src/vcal_meeting_gtk.c:1757
 msgid "There is nothing to export."
-msgstr "Não existe nada para exportar."
+msgstr "No hi ha res a exportar."
 
 #: src/vcal_meeting_gtk.c:1797
 msgid "Could not export the calendar."
-msgstr "Não foi possível exportar a agenda."
+msgstr "No es pot exportar el calendari."
 
 #: src/vcal_meeting_gtk.c:1814
 msgid "Export calendar to ICS"
-msgstr "Exportar agenda para ICS"
+msgstr "Exportar calendari a ICS"
 
 #: src/vcal_meeting_gtk.c:1836
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
-msgstr "Não foi possível exportar a agenda para '%s'\n"
+msgstr "No es pot exportar el calendari a '%s'\n"
 
 #: src/vcal_meeting_gtk.c:2097
 msgid "Could not export the freebusy info."
-msgstr "Não foi possível exportar a informação de livre/ocupado."
+msgstr "No es pot exportar la informaci� de lliure/ocupat."
 
 #: src/vcal_meeting_gtk.c:2129
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
-msgstr "Não foi possível exportar a informação de livre/ocupado para '%s'\n"
+msgstr "No es pot exportar la informaci� de lliure/ocupat a '%s'\n"
 
 #: src/vcal_prefs.c:214
 msgid "Reminders"
-msgstr "Lembretes"
+msgstr "Recordatoris"
 
 #: src/vcal_prefs.c:223
 msgid "Alert me"
-msgstr "Alerte-me"
+msgstr "Avisa'm"
 
 #: src/vcal_prefs.c:235
 msgid "minutes before an event"
-msgstr "minutos antes do evento"
+msgstr "minuts abans d'un event"
 
 #: src/vcal_prefs.c:247
 msgid "Calendar export"
-msgstr "Exportação da agenda"
+msgstr "Exportaci� del calendari"
 
 #: src/vcal_prefs.c:258
 msgid "Automatically export calendar to"
-msgstr "Exportar a agenda automaticamente para"
+msgstr "Exportar autom�ticament el calendari a"
 
-#: src/vcal_prefs.c:267
-#: src/vcal_prefs.c:360
+#: src/vcal_prefs.c:267 src/vcal_prefs.c:360
 msgid "You can export to a local file or URL"
-msgstr "Você pode exportar para um arquivo local ou uma URL"
+msgstr "Podeu exportar a un fitxer local o URL"
 
 #: src/vcal_prefs.c:270
 msgid "Specify a local file or URL (http://server/path/file.ics)"
-msgstr "Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ics)"
+msgstr "Especifiqueu un fitxer local o URL(http://servidor/ruta/fitxer.ics)"
 
-#: src/vcal_prefs.c:279
-#: src/vcal_prefs.c:372
+#: src/vcal_prefs.c:279 src/vcal_prefs.c:372
 msgid "User ID"
-msgstr "Identificação do usuário"
+msgstr "ID d'usuari"
 
-#: src/vcal_prefs.c:287
-#: src/vcal_prefs.c:380
+#: src/vcal_prefs.c:287 src/vcal_prefs.c:380
 msgid "Password"
-msgstr "Senha"
+msgstr "Password"
 
 #: src/vcal_prefs.c:301
 msgid "Include webcal subscriptions in export"
-msgstr "Incluir as subscrições de webcal na exportação"
+msgstr "Incloure subscripcions webcal a l'exportaci�"
 
 #: src/vcal_prefs.c:311
 msgid "Command to run after calendar export"
-msgstr "Comando a ser executado após a exportação da agenda"
+msgstr "Comanda a executar despr�s de l'exportaci� del calendari"
 
 #: src/vcal_prefs.c:339
 msgid "Free/Busy information"
-msgstr "Informação de livre/ocupado"
+msgstr "Informaci� de Lliure/Ocupat"
 
 #: src/vcal_prefs.c:351
 msgid "Automatically export free/busy status to"
-msgstr "Exportar a informação de livre/ocupado automaticamente para"
+msgstr "Exportar autom�ticament l'estat de lliure/ocupat a"
 
 #: src/vcal_prefs.c:363
 msgid "Specify a local file or URL (http://server/path/file.ifb)"
-msgstr "Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ifb)"
+msgstr "Especificar un fitxer local o URL (http://servidor/ruta/fitxer.ifb)"
 
 #: src/vcal_prefs.c:394
 msgid "Command to run after free/busy status export"
-msgstr "Comando a ser executado após a exportação da informação de livre/ocupado"
+msgstr "Comanda a executar despr�s de l'exportaci� de l'estat de lliure/ocupat"
 
 #: src/vcal_prefs.c:421
 msgid "Get free/busy status of others from"
-msgstr "Obter as informações de livre/ocupado dos outros em"
+msgstr "Obtenir l'estat de lliure/ocupat d'altres desde"
 
 #: src/vcal_prefs.c:429
 #, c-format
-msgid "Specify a local file or URL (http://server/path/file.ifb). Use %u for the left part of the email address, %d for the domain"
-msgstr "Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ifb). Use %u para a parte esquerda do endereço de e-mail, %d para o domínio"
+msgid ""
+"Specify a local file or URL (http://server/path/file.ifb). Use %u for the "
+"left part of the email address, %d for the domain"
+msgstr ""
+"Especificar un fitxer local o URL (http://servidor/ruta/fitxer.ifb). Useu %u de la "
+"part esquerra de l'adre�a de correu, %d per el domini"
 
 #: src/vcal_prefs.c:587
 msgid "Plugins"
-msgstr "Plugins"
-
+msgstr "M�duls"

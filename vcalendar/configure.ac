@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=93
 MICRO_VERSION=0
-EXTRA_VERSION=13
+EXTRA_VERSION=14
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -62,7 +62,7 @@ else
 fi
 AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
-ALL_LINGUAS="de es fi fr it pt_BR sk sr zh_CN pl"
+ALL_LINGUAS="ca de es fi fr hu it pl pt_BR sk sr zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 AM_GNU_GETTEXT_VERSION([0.15])
 AM_GNU_GETTEXT([external])

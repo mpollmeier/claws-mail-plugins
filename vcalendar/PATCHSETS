@@ -89,3 +89,4 @@
 ( cvs diff -u -r 1.2.2.60 -r 1.2.2.61 src/vcal_folder.c;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/vcal_prefs.c;  ) > 1.93.0cvs11.patchset
 ( cvs diff -u -r 1.2.2.61 -r 1.2.2.62 src/vcal_folder.c;  cvs diff -u -r 1.1.2.54 -r 1.1.2.55 src/vcal_manager.c;  ) > 1.93.0cvs12.patchset
 ( cvs diff -u -r 1.1.2.55 -r 1.1.2.56 src/vcal_manager.c;  ) > 1.93.0cvs13.patchset
+( cvs diff -u -r 1.2.2.179 -r 1.2.2.180 configure.ac;  diff -u /dev/null po/ca.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/de.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/es.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fi.po;  diff -u /dev/null po/hu.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pl.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/pt_BR.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/sk.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/zh_CN.po;  ) > 1.93.0cvs14.patchset
