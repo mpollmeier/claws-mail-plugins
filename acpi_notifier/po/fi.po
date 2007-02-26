@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-01-03 06:55+0200\n"
+"POT-Creation-Date: 2007-02-19 08:21+0000\n"
 "PO-Revision-Date: 2007-01-03 06:56+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -16,7 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/acpi_notifier.c:62
+#: src/acpi_notifier.c:45
+msgid "Acpi Notifier"
+msgstr "ACPI Notifier"
+
+#: src/acpi_notifier.c:63
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
@@ -24,7 +28,7 @@ msgstr ""
 "Varmista, että ytimen acerhk-moduuli on ladattu.\n"
 "Sen voi hakea osoitteesta http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
-#: src/acpi_notifier.c:64
+#: src/acpi_notifier.c:65
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
@@ -33,15 +37,15 @@ msgstr ""
 "Sen voi hakea osoitteesta http://www.archernar.co.uk/acer_acpi/"
 "acer_acpi_main.html"
 
-#: src/acpi_notifier.c:66
+#: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
 msgstr "Varmista, että ytimen asus_acpi-moduuli on ladattu."
 
-#: src/acpi_notifier.c:67
+#: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
 msgstr "Varmista, että ytimen ibm_acpi-moduuli on ladattu."
 
-#: src/acpi_notifier.c:68
+#: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
@@ -49,77 +53,72 @@ msgstr ""
 "Varmista, että apanelc on asennettu.\n"
 "Sen voi hakea osoitteesta http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:196 src/acpi_notifier.c:202 src/acpi_notifier.c:414
+#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
 msgid "Control file doesn't exist."
 msgstr "Ohjaustiedosto puuttuu"
 
-#: src/acpi_notifier.c:294
+#: src/acpi_notifier.c:295
 msgid " : no new or unread mail"
 msgstr ": ei uutta tai lukematonta postia"
 
-#: src/acpi_notifier.c:295
+#: src/acpi_notifier.c:296
 msgid " : unread mail"
 msgstr ": lukematonta postia"
 
-#: src/acpi_notifier.c:296
+#: src/acpi_notifier.c:297
 msgid " : new mail"
 msgstr ": uutta postia"
 
-#: src/acpi_notifier.c:298 src/acpi_notifier.c:304 src/acpi_notifier.c:310
+#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
 msgid "off"
 msgstr "pois päältä"
 
-#: src/acpi_notifier.c:300 src/acpi_notifier.c:306 src/acpi_notifier.c:312
+#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
 msgid "blinking"
 msgstr "välkkyy"
 
-#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
+#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
 msgid "on"
 msgstr "päällä"
 
-#: src/acpi_notifier.c:336 src/acpi_notifier.c:345 src/acpi_notifier.c:360
+#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
 msgid "LED "
 msgstr "Ledi "
 
-#: src/acpi_notifier.c:375
+#: src/acpi_notifier.c:376
 msgid "ACPI type: "
 msgstr "ACPI-tyyppi: "
 
-#: src/acpi_notifier.c:384
+#: src/acpi_notifier.c:385
 msgid "ACPI file: "
 msgstr "ACPI-tiedosto: "
 
-#: src/acpi_notifier.c:395
+#: src/acpi_notifier.c:396
 msgid "values - On: "
 msgstr "arvot — päällä: "
 
-#: src/acpi_notifier.c:400
+#: src/acpi_notifier.c:401
 msgid " - Off: "
 msgstr " — pois päältä: "
 
-#: src/acpi_notifier.c:422
+#: src/acpi_notifier.c:423
 msgid "Blink when user interaction is required"
 msgstr "Välkytä, kun käyttäjän tarvitsee tehdä jotain"
 
-#: src/acpi_notifier.c:733
+#: src/acpi_notifier.c:734
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/acpi_notifier.c:734
-msgid "Acpi Notifier"
-msgstr "ACPI Notifier"
-
-#: src/acpi_notifier.c:790 src/acpi_notifier.c:804
-msgid "Acpi notifier"
-msgstr "ACPI notifier"
-
-#: src/acpi_notifier.c:809
+#: src/acpi_notifier.c:811
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tämä liitännäinen ohjaa ACPI-postiledejä."
 
-#: src/acpi_notifier.c:830
+#: src/acpi_notifier.c:832
 msgid "Laptop LED"
 msgstr "Kannettavan ledi"
+
+#~ msgid "Acpi notifier"
+#~ msgstr "ACPI notifier"
 
 #~ msgid ""
 #~ "Your Sylpheed-Claws version is newer than the version AcpiNotifier was "

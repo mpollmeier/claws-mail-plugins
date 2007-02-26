@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ACPI Notifier 1.0.7\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 08:54+0000\n"
-"PO-Revision-Date: 2007-01-21 20:27+0100\n"
+"PO-Revision-Date: 2007-02-19 22:42+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -119,11 +119,11 @@ msgstr "Villog, ha felhasználói közreműködés szükséges"
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/acpi_notifier.c:810
+#: src/acpi_notifier.c:811
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "A plugin különböző ACPI e-mail LED-eket kezel (Acer, ASUS, Fujitsu, IBM)."
 
-#: src/acpi_notifier.c:831
+#: src/acpi_notifier.c:832
 msgid "Laptop LED"
 msgstr "Laptop LED"
 

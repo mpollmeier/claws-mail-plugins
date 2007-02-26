@@ -1,3 +1,19 @@
+2007-02-26 [paul]	1.0.7cvs3
+
+        * configure.ac
+	* po/ca.po
+	* po/pl.po
+		addded new Catalan and Polish translations,
+		by Miquel Oliete and Pawel Pekala
+	* po/de.po
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/pt_BR.po
+		updated by Stephan Sachse, Ricardo Mones Lastra,
+		Flammie Pirinen, Pader Rezso, and Frederico
+		Goncalves Guimaraes
+
 2007-01-29 [colin]	1.0.7cvs2
 
 	* src/acpi_notifier.c
