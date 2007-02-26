@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: pdf_viewer\n"
