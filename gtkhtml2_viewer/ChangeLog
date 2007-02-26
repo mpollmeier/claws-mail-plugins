@@ -1,3 +1,18 @@
+2007-02-26 [paul]	0.14.1cvs3
+
+	* configure.ac
+	* po/ca.po
+		add Catalan translation by Miquel Oliete
+	* po/de.po
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/pl.po
+	* po/pt_BR.po
+		updated by Stephan Sachse, Ricardo Mones Lastra,
+		Flammie Pirinen, Pader Rezso, Pawel Pekala,
+		and Frederico Goncalves Guimaraes
+
 2007-02-17 [colin]	0.14.1cvs2
 
 	* src/gtkhtml2_viewer.c

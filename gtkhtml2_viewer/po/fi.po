@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-18 09:23+0100\n"
-"PO-Revision-Date: 2007-01-03 09:10+0200\n"
+"POT-Creation-Date: 2007-02-19 08:22+0000\n"
+"PO-Revision-Date: 2007-02-20 03:26+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,12 +44,20 @@ msgstr "Poista kuvat välimuistista lopetettaessa"
 msgid "Clear image cache now"
 msgstr "Poista kuvat välimuistista"
 
-#: src/gtkhtml2_viewer.c:532
+#: src/gtkhtml2_viewer.c:91
+msgid "/_Open with Web browser"
+msgstr "_Avaa veppiselaimessa"
+
+#: src/gtkhtml2_viewer.c:92
+msgid "/Copy this _link"
+msgstr "Kopioi _linkki"
+
+#: src/gtkhtml2_viewer.c:610
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Aikakatkaisu yhdistettäessä kohteeseen %s\n"
 
-#: src/gtkhtml2_viewer.c:600
+#: src/gtkhtml2_viewer.c:678
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -57,7 +65,7 @@ msgstr ""
 "Etäkuvia ei ladattu\n"
 "asetusten mukaan."
 
-#: src/gtkhtml2_viewer.c:602
+#: src/gtkhtml2_viewer.c:680
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -65,35 +73,35 @@ msgstr ""
 "Etäkuvia ei ladattu\n"
 "yhteydettömässä tilassa."
 
-#: src/gtkhtml2_viewer.c:604
+#: src/gtkhtml2_viewer.c:682
 msgid "Remote images exist, but loading them failed."
 msgstr "Etäkuvia ei onnistuttu lataamaan."
 
-#: src/gtkhtml2_viewer.c:607
+#: src/gtkhtml2_viewer.c:686
 msgid "Load images"
 msgstr "Lataa kuvat"
 
-#: src/gtkhtml2_viewer.c:780
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer "
-"plugin was built with"
-msgstr ""
-"Sylpheed-Claws on uudempi kuin versio jota varten Gtkhtml2-näytinliitännäinen "
-"on käännetty"
-
-#: src/gtkhtml2_viewer.c:785
-msgid "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
-msgstr "Sylpheed-Claws on liian vanha Gtkhtml2-näytinliitännäiselle"
-
-#: src/gtkhtml2_viewer.c:822
+#: src/gtkhtml2_viewer.c:869 src/gtkhtml2_viewer.c:905
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML-näytin"
 
-#: src/gtkhtml2_viewer.c:827
+#: src/gtkhtml2_viewer.c:910
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
-msgstr "Tämä liitännäinen piirtää HTML-viestit käyttäen "
-"gtkhtml2rendering-vuorovaikutinta"
+msgstr ""
+"Tämä liitännäinen piirtää HTML-viestit käyttäen gtkhtml2rendering-"
+"vuorovaikutinta"
 
-#: src/gtkhtml2_viewer.c:849
+#: src/gtkhtml2_viewer.c:932
 msgid "text/html"
 msgstr "text/html"
+
+#~ msgid ""
+#~ "Your version of Sylpheed-Claws is newer than the version the "
+#~ "Gtkhtml2Viewer plugin was built with"
+#~ msgstr ""
+#~ "Sylpheed-Claws on uudempi kuin versio jota varten Gtkhtml2-"
+#~ "näytinliitännäinen on käännetty"
+
+#~ msgid ""
+#~ "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
+#~ msgstr "Sylpheed-Claws on liian vanha Gtkhtml2-näytinliitännäiselle"
