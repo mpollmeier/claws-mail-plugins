@@ -1,0 +1,47 @@
+# translation of poppler_viewer.po to
+# Copyright (C) YEAR Salvatore De Paolis
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Pawel Pekala <c0rn@o2.pl>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: poppler_viewer\n"
+"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"POT-Creation-Date: 2007-02-19 09:37+0000\n"
+"PO-Revision-Date: 2007-02-24 16:22+0100\n"
+"Last-Translator: Pawel Pekala <c0rn@o2.pl>\n"
+"Language-Team:  <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: src/poppler_viewer.c:158
+#, c-format
+msgid "%s document, page %d/%d"
+msgstr "Dokument %s, strona %d/%d"
+
+#: src/poppler_viewer.c:167
+msgid "Prev page"
+msgstr "Poprzednia strona"
+
+#: src/poppler_viewer.c:170
+msgid "Next page"
+msgstr "Nastêpna strona"
+
+#: src/poppler_viewer.c:191 src/poppler_viewer.c:348
+msgid "Loading..."
+msgstr "Wczytywanie..."
+
+#: src/poppler_viewer.c:385 src/poppler_viewer.c:398
+msgid "PDF Viewer"
+msgstr "Przegl±darka PDF"
+
+#: src/poppler_viewer.c:403
+msgid ""
+"This plugin enables the viewing of PDF and PostScript attachments using the "
+"Poppler lib."
+msgstr ""
+"Ta wtyczka umo¿liwia przegl±danie dokumentów PDF i Postscript przy u¿yciu "
+"biblioteki Poppler."
+

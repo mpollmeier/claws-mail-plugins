@@ -1,0 +1,46 @@
+# Catalan translation of poppler.
+# Copyright (C) YEAR Salvatore De Paolis 
+# This file is distributed under the same license as the PACKAGE package.
+# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"POT-Creation-Date: 2007-02-19 09:37+0000\n"
+"PO-Revision-Date: 2007-02-25 23:51+0001\n"
+"Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/poppler_viewer.c:158
+#, c-format
+msgid "%s document, page %d/%d"
+msgstr "document %s, pàgina %d/%d"
+
+#: src/poppler_viewer.c:167
+msgid "Prev page"
+msgstr "Pàgina prèvia"
+
+#: src/poppler_viewer.c:170
+msgid "Next page"
+msgstr "Pàgina següent"
+
+#: src/poppler_viewer.c:191 src/poppler_viewer.c:348
+msgid "Loading..."
+msgstr "Carregant..."
+
+#: src/poppler_viewer.c:385 src/poppler_viewer.c:398
+msgid "PDF Viewer"
+msgstr "Visor PDF"
+
+#: src/poppler_viewer.c:403
+msgid ""
+"This plugin enables the viewing of PDF and PostScript attachments using the "
+"Poppler lib."
+msgstr ""
+"Aquest mòdul habilita el visionat d'adjunts PDF i PostScript usant la "
+"llibreria Poppler."
