@@ -31,4 +31,6 @@ EXTRA_DIST = \
 	zoom_fit.xpm \
 	zoom_in.xpm \
 	zoom_out.xpm \
-	zoom_width.xpm
+	zoom_width.xpm \
+	rotate_left.xpm \
+	rotate_right.xpm

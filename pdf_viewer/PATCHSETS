@@ -6,3 +6,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  ) > 0.1.0cvs17.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/it.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/poppler_viewer.c;  ) > 0.2.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/poppler_viewer.c;  ) > 0.2.0cvs2.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  diff -u /dev/null src/rotate_left.xpm;  diff -u /dev/null src/rotate_right.xpm;  ) > 0.2.0cvs3.patchset
