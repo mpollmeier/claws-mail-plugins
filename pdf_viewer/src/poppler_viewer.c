@@ -2,7 +2,7 @@
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
  * Copyright (C) 1999-2007 the Claws Mail Team
  * This file Copyright (C) 2007 Salvatore De Paolis 
- * <depaolis.salvatore@gmail.com>
+ * <<iwkse@users.sourceforge.net>>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
