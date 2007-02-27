@@ -33,4 +33,5 @@ EXTRA_DIST = \
 	zoom_out.xpm \
 	zoom_width.xpm \
 	rotate_left.xpm \
-	rotate_right.xpm
+	rotate_right.xpm \
+	doc_info.xpm
