@@ -24,3 +24,11 @@ AM_CPPFLAGS = \
 	$(OPENSSL_CFLAGS) \
 	$(POPPLER_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\"
+
+EXTRA_DIST = \
+	left_arrow.xpm \
+	right_arrow.xpm \
+	zoom_fit.xpm \
+	zoom_in.xpm \
+	zoom_out.xpm \
+	zoom_width.xpm

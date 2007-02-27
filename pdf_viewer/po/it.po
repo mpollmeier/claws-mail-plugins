@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-02-19 16:22+0000\n"
+"POT-Creation-Date: 2007-02-24 00:27+0100\n"
 "PO-Revision-Date: 2007-02-19 16:38+0100\n"
 "Last-Translator: Salvatore De Paolis <iwkse@users.sourceforge.net>\n"
 "Language-Team: it Salvatore De Paolis <iwkse@users.sourceforge.net>\n"
@@ -13,31 +13,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/poppler_viewer.c:129 src/poppler_viewer.c:375
-msgid "Loading..."
-msgstr "Caricamento..."
-
-#: src/poppler_viewer.c:191
-#, c-format
-msgid "%s document, page %d/%d"
+#: src/poppler_viewer.c:374
+#, fuzzy, c-format
+msgid "%s document"
 msgstr "Documento %s, pagina %d/%d"
 
-#: src/poppler_viewer.c:200
-msgid "Prev page"
+#: src/poppler_viewer.c:652
+#, fuzzy
+msgid "Previous Page"
 msgstr "Pagina prec."
 
-#: src/poppler_viewer.c:203
-msgid "Next page"
+#: src/poppler_viewer.c:656
+#, fuzzy
+msgid "Next Page"
 msgstr "Pagina succ."
 
-#: src/poppler_viewer.c:412 src/poppler_viewer.c:425
+#: src/poppler_viewer.c:660
+msgid "Zoom In"
+msgstr ""
+
+#: src/poppler_viewer.c:664
+msgid "Zoom Out"
+msgstr ""
+
+#: src/poppler_viewer.c:667
+msgid "Fit Page"
+msgstr ""
+
+#: src/poppler_viewer.c:670
+msgid "Fit Page Width"
+msgstr ""
+
+#: src/poppler_viewer.c:711 src/poppler_viewer.c:724
 msgid "PDF Viewer"
 msgstr ""
 
-#: src/poppler_viewer.c:430
+#: src/poppler_viewer.c:729
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
 "Poppler lib."
 msgstr ""
 "Questo plugin permette la visualizzazione di allegati PDF e PostScript "
 "usando la libreria Poppler."
+
+#~ msgid "Loading..."
+#~ msgstr "Caricamento..."

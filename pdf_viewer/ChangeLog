@@ -1,3 +1,12 @@
+2007-02-27 [paul]	0.2.0cvs1
+
+	* po/fr.po
+	* po/it.po
+	* src/Makefile.am
+	* src/poppler_viewer.c
+		merge the changes from the post_2_8 branch,
+		adds zooming
+
 2007-02-26 [paul]	0.2
 
 	0.2 released (initial release)

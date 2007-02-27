@@ -2,7 +2,7 @@
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
  * Copyright (C) 1999-2007 the Claws Mail Team
  * This file Copyright (C) 2007 Salvatore De Paolis 
- * <iwkse@users.sourceforge.net>
+ * <depaolis.salvatore@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "gettext.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
+#include <gdk/gdkkeysyms.h>
 #include <poppler.h>
 #include "claws.h"
 #include "version.h"
@@ -44,29 +45,55 @@
 #include "menu.h"
 #include "defs.h"
 #include "noticeview.h"
+#include "gtkutils.h"
+
+#include "left_arrow.xpm"
+#include "right_arrow.xpm"
+#include "zoom_fit.xpm"
+#include "zoom_in.xpm"
+#include "zoom_out.xpm"
+#include "zoom_width.xpm"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
 #endif
 
+#define ZOOM_FACTOR 0.3
 static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, int page_num);
+
 struct _PopplerViewer
 {
 	MimeViewer	 mimeviewer;
+	GtkWidget	*vsep;
+	GtkWidget	*vsep1;
 	GtkWidget	*vbox;
 	GtkWidget	*pdf_view;
 	GtkWidget	*scrollwin;
+	GtkWidget	*icon_type;
+	GdkPixmap	*icon_pixmap;
+	GdkBitmap	*icon_bitmap;
+	GtkWidget	*doc_label;
+	GtkWidget	*cur_page;
+	GtkWidget	*num_pages;
+	GtkWidget	*prev;
+	GtkWidget	*next;
+	GtkWidget	*zoom_in;
+	GtkWidget	*zoom_out;
+	GtkWidget	*zoom_fit;
+	GtkWidget	*zoom_width;
+	GtkWidget	*hbox;
+	GtkTooltips	*button_bar_tips;
 	PopplerDocument	*pdf_doc;
 	PopplerPage	*pdf_page;
 	gchar		*filename;
 	gchar		*fsname;
+	gint		cur_page_int;
+	gint		num_pages_int;
+	double		zoom;
 	double		width;
 	double		height;
 	MimeInfo	*mimeinfo;
 	MimeInfo	*to_load;
-	gint		 cur_page;
-	gint		 num_pages;
-	NoticeView	*navigation;
 };
 
 typedef enum {
@@ -88,32 +115,114 @@ static GtkWidget *poppler_get_widget(MimeViewer *_viewer)
 	return GTK_WIDGET(viewer->vbox);
 }
 
-static void poppler_prev_page(NoticeView *noticeview, PopplerViewer *viewer)
+static void poppler_prev_page_cb(GtkButton *button, PopplerViewer *viewer)
 {
-	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
-		GTK_SCROLLED_WINDOW(viewer->scrollwin));
-	if (viewer->cur_page > 1) {
-		poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page - 1);
-		vadj = gtk_scrolled_window_get_vadjustment(
-			GTK_SCROLLED_WINDOW(viewer->scrollwin));
-		vadj->value = 0.0;
-		g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
-	}
+	if (viewer->cur_page_int > 1) 
+		poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int - 1);
 }
 
-static void poppler_next_page(NoticeView *noticeview, PopplerViewer *viewer)
+static void poppler_next_page_cb(GtkButton *button, PopplerViewer *viewer)
 {
-	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
-		GTK_SCROLLED_WINDOW(viewer->scrollwin));
-	if (viewer->cur_page < viewer->num_pages) {
-		poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page + 1);
-		vadj = gtk_scrolled_window_get_vadjustment(
-			GTK_SCROLLED_WINDOW(viewer->scrollwin));
-		vadj->value = 0.0;
-		g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
-	}
+	if (viewer->cur_page_int < viewer->num_pages_int) 
+		poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int + 1);
+	
 }
 
+static void poppler_zoom_in_cb(GtkButton *button, PopplerViewer *viewer)
+{
+
+    if (viewer->zoom < 4) {
+	viewer->zoom += ZOOM_FACTOR;
+	poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int);
+    }
+}
+
+static void poppler_zoom_out_cb(GtkButton *button, PopplerViewer *viewer)
+{
+
+    if (viewer->zoom > 0.3) {
+	viewer->zoom -= ZOOM_FACTOR;
+	poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int);
+    }
+}
+
+static void poppler_zoom_fit_cb(GtkButton *button, PopplerViewer *viewer)
+{
+    GtkAllocation *allocation;
+    double xratio, yratio;
+    allocation = &(viewer->scrollwin->allocation);
+    debug_print("width: %d\n", allocation->width);
+    debug_print("height: %d\n", allocation->height);
+    xratio = allocation->width / viewer->width;
+    yratio = allocation->height / viewer->height;
+    if (xratio >= yratio)
+    	viewer->zoom = yratio;
+    else
+    	viewer->zoom = xratio;
+    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int);
+}
+
+static void poppler_zoom_width_cb(GtkButton *button, PopplerViewer *viewer)
+{
+    GtkAllocation *allocation;
+    double xratio;
+    allocation = &(viewer->scrollwin->allocation);
+    debug_print("width: %d\n", allocation->width);
+    xratio = allocation->width / viewer->width;
+    viewer->zoom = xratio;
+    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int);
+}
+
+static gboolean entry_current_page_cb(GtkEntry *entry, GdkEventKey *event, PopplerViewer *viewer)
+{
+    char *endptr;
+
+    if(event != NULL && event->keyval == GDK_Return) {
+	if(strtol(gtk_entry_get_text(GTK_ENTRY(viewer->cur_page)), &endptr, 10)) {
+	    viewer->cur_page_int = strtol(gtk_entry_get_text(GTK_ENTRY(viewer->cur_page)), &endptr, 10);
+	    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int);
+	}
+    }
+	return FALSE;
+}
+
+/*static gboolean scrollwin_key_up_cb(GtkWidget *widg, GdkEventKey *event, PopplerViewer *viewer)
+{
+
+    if(event != NULL && event->keyval == GDK_Up) 
+
+    return FALSE;
+}
+
+static gboolean scrollwin_key_down_cb(GtkWidget *widg, GdkEventKey *event, PopplerViewer *viewer)
+{
+
+    if(event != NULL && event->keyval == GDK_Down) 
+
+    return FALSE;
+}
+
+static gboolean scrollwin_page_up_cb(GtkWidget *widg, GdkEventKey *event, PopplerViewer *viewer)
+{
+    debug_print("key_event_press %s", event->string);
+    if(event != NULL && event->keyval == GDK_Page_Up) {
+	if (viewer->cur_page_int > 1) 
+	    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int - 1);
+
+    }
+
+    return FALSE;
+}
+
+static gboolean scrollwin_page_down_cb(GtkWidget *widg, GdkEventKey *event, PopplerViewer *viewer)
+{
+    if(event != NULL && event->keyval == GDK_Page_Down)
+	if (viewer->cur_page_int < viewer->num_pages_int) 
+	    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int + 1);
+
+    return FALSE;
+}
+*/
 static FileType poppler_mimepart_get_type(MimeInfo *partinfo)
 {
 	gchar *content_type = NULL;
@@ -144,17 +253,43 @@ static FileType poppler_mimepart_get_type(MimeInfo *partinfo)
 	return type;
 }
 
+static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
+{
+	if (show) {
+		gtk_widget_show(viewer->cur_page);
+		gtk_widget_show(viewer->num_pages);
+		gtk_widget_show(viewer->prev);
+		gtk_widget_show(viewer->next);
+		gtk_widget_show(viewer->zoom_in);
+		gtk_widget_show(viewer->zoom_out);
+		gtk_widget_show(viewer->zoom_fit);
+		gtk_widget_show(viewer->zoom_width);
+		gtk_widget_show(viewer->vsep);
+		gtk_widget_show(viewer->vsep1);	
+	} else {
+		gtk_widget_hide(viewer->cur_page);
+		gtk_widget_hide(viewer->num_pages);
+		gtk_widget_hide(viewer->prev);
+		gtk_widget_hide(viewer->next);
+		gtk_widget_hide(viewer->zoom_in);
+		gtk_widget_hide(viewer->zoom_out);
+		gtk_widget_hide(viewer->zoom_fit);
+		gtk_widget_hide(viewer->zoom_width);
+		gtk_widget_hide(viewer->vsep);
+		gtk_widget_hide(viewer->vsep1);	
+	}
+}
+
 static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, int page_num) {
 
 	PopplerViewer *viewer = (PopplerViewer *) _viewer;
 	GError *error;
 	GdkPixbuf *pb;
+	viewer->cur_page_int = page_num;
 	gchar *page_str = g_strdup_printf("%d", page_num);
-	gchar *notice_text;
-	NoticeView *noticeview = viewer->navigation;
+	gtk_label_set_text(GTK_LABEL(viewer->doc_label), "");	
 	gchar *tmpfile = NULL;
 	error = NULL;
-	
 	if (reload_file) {
 		pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);	
 		gdk_pixbuf_fill (pb, 0x00000000);
@@ -167,16 +302,18 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 		}
 		
 		if (poppler_mimepart_get_type(viewer->to_load) == TYPE_PS) {
-			noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_PS);
+			stock_pixmap_gdk(viewer->hbox, STOCK_PIXMAP_MIME_PS, &viewer->icon_pixmap, &viewer->icon_bitmap);
+			gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
 		} else if (poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) {
-			noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_PDF);
+			stock_pixmap_gdk(viewer->hbox, STOCK_PIXMAP_MIME_PDF, &viewer->icon_pixmap, &viewer->icon_bitmap);
+			gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
 		} else {
-			noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_APPLICATION);
+			stock_pixmap_gdk(viewer->hbox, STOCK_PIXMAP_MIME_APPLICATION, &viewer->icon_pixmap, &viewer->icon_bitmap);
+			gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
 		}
-		noticeview_set_text(viewer->navigation, _("Loading..."));
-		noticeview_set_button_text(viewer->navigation, NULL);
-		noticeview_set_2ndbutton_text(viewer->navigation, NULL);
-		noticeview_set_icon_clickable(viewer->navigation, FALSE);
+
+		gtk_label_set_text(GTK_LABEL(viewer->doc_label), "Loading...");	
+		poppler_show_controls(viewer, FALSE);
 
 		GTK_EVENTS_FLUSH();
 
@@ -196,7 +333,7 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 			} else {
 				g_warning("gs conversion failed: %s returned %d\n", cmdline, result);
 				tmp = g_strdup_printf("gs: err %d", result);
-				noticeview_set_text(noticeview, tmp);
+				gtk_label_set_text(GTK_LABEL(viewer->doc_label), tmp);
 				g_free(tmp);
 			}
 			g_free(cmdline);
@@ -208,16 +345,18 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 			viewer->pdf_doc = poppler_document_new_from_file( viewer->fsname, NULL, &error);
 		}
 	} 
-	if (viewer->pdf_doc == NULL && noticeview) {
+	if (viewer->pdf_doc == NULL) {
 		strretchomp(error->message);
-		noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_APPLICATION);
-		noticeview_set_text(noticeview, error->message);
+		stock_pixmap_gdk(viewer->hbox, STOCK_PIXMAP_MIME_APPLICATION, &viewer->icon_pixmap, &viewer->icon_bitmap);
+		gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
+		gtk_label_set_text(GTK_LABEL(viewer->doc_label), error->message);
 		g_error_free(error);
 		return;
 	}
 
 	if (reload_file) {
-		viewer->num_pages = poppler_document_get_n_pages( viewer->pdf_doc);
+		viewer->num_pages_int = poppler_document_get_n_pages( viewer->pdf_doc);
+		gtk_label_set_text(GTK_LABEL(viewer->num_pages), g_strdup_printf("/ %d",viewer->num_pages_int));
 	}
 	viewer->pdf_page = poppler_document_get_page_by_label (viewer->pdf_doc, page_str);
 	g_free(page_str);
@@ -225,37 +364,24 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 		g_warning ("Page not found");
 		return;
 	}
-
-	viewer->cur_page = page_num;
+	
+	gtk_entry_set_text(GTK_ENTRY(viewer->cur_page), g_strdup_printf("%d",page_num));
 
 	poppler_page_get_size(viewer->pdf_page, &viewer->width, &viewer->height);
 
-	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, viewer->width, viewer->height);	
-	poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, viewer->width, viewer->height, 1, 0, pb);
+	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, (int)(viewer->width * viewer->zoom), (int)(viewer->height * viewer->zoom));	
+	poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, 
+		(int)(viewer->width * viewer->zoom), (int)(viewer->height * viewer->zoom), viewer->zoom, 0, pb);
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view),
 				  pb);
 	g_object_unref(G_OBJECT(pb));
 	g_object_unref(G_OBJECT(viewer->pdf_page));
-	
-	notice_text = g_strdup_printf(_("%s document, page %d/%d"), 
-			(poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) ? "PDF":"Postscript",
-			viewer->cur_page, viewer->num_pages);
-	
-	if (noticeview)
-		noticeview_set_text(noticeview, notice_text);
-	g_free(notice_text);
-	if (noticeview && reload_file) {
-		noticeview_set_button_text(noticeview, _("Prev page"));
-		noticeview_set_button_press_callback(noticeview,
-			     G_CALLBACK(poppler_prev_page), (gpointer)viewer);
-		noticeview_set_2ndbutton_text(noticeview, _("Next page"));
-		noticeview_set_2ndbutton_press_callback(noticeview,
-			     G_CALLBACK(poppler_next_page), (gpointer)viewer);
-		noticeview_set_icon_clickable(noticeview, FALSE);
-		noticeview_show(noticeview);
-	} 
-}
 
+	gtk_label_set_text(GTK_LABEL(viewer->doc_label), 
+		g_strdup_printf(_("%s document"),(poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) ? "PDF":"Postscript"));
+	poppler_show_controls(viewer, TRUE);
+
+}
 static gint poppler_show_mimepart_real(MimeViewer *_viewer)
 {
 	PopplerViewer *viewer = (PopplerViewer *) _viewer;
@@ -309,6 +435,7 @@ static void poppler_show_mimepart(MimeViewer *_viewer,
 				MimeInfo *partinfo)
 {
 	PopplerViewer *viewer = (PopplerViewer *) _viewer;
+	viewer->zoom = 1.0;
 	viewer->to_load = partinfo;
 	gtk_timeout_add(5, (GtkFunction)poppler_show_mimepart_real, viewer);
 	
@@ -319,10 +446,9 @@ static void poppler_clear_viewer(MimeViewer *_viewer)
 	PopplerViewer *viewer = (PopplerViewer *) _viewer;
 	GtkAdjustment *vadj;
 	GdkPixbuf *pb;
-	
+
 	debug_print("poppler_clear_viewer\n");
 	viewer->to_load = NULL;
-	
 
 	if (viewer->pdf_doc) {
 		g_object_unref(G_OBJECT(viewer->pdf_doc));
@@ -363,15 +489,15 @@ static gboolean poppler_scroll_page(MimeViewer *_viewer, gboolean up)
 		return FALSE;
 
 	if (!gtkutils_scroll_page(viewer->pdf_view, vadj, up)) {
-		if (!up && viewer->cur_page < viewer->num_pages) {
-			poppler_pdf_view_update(_viewer, FALSE, viewer->cur_page + 1);
+		if (!up && viewer->cur_page_int < viewer->num_pages_int) {
+			poppler_pdf_view_update(_viewer, FALSE, viewer->cur_page_int + 1);
 			vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 			vadj->value = 0.0;
 			g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
 			return TRUE;
-		} else if (up && viewer->cur_page > 1) {
-			poppler_pdf_view_update(_viewer, FALSE, viewer->cur_page - 1);
+		} else if (up && viewer->cur_page_int > 1) {
+			poppler_pdf_view_update(_viewer, FALSE, viewer->cur_page_int - 1);
 			vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 			vadj->value = vadj->upper - vadj->page_size;
@@ -395,6 +521,17 @@ static void poppler_scroll_one_line(MimeViewer *_viewer, gboolean up)
 	gtkutils_scroll_one_line(viewer->pdf_view, vadj, up);
 }
 
+static void button_set_pixmap(GtkWidget *widg, char **button_image) 
+{
+    GdkPixmap *pixmap;
+    GdkBitmap *mask;
+
+    pixmap = mask = NULL;
+    PIXMAP_CREATE(mainwindow_get_mainwindow()->window, pixmap, mask, button_image);
+    gtk_button_set_image(GTK_BUTTON(widg), 
+		    gtk_image_new_from_pixmap(pixmap, mask));
+}
+
 static MimeViewer *poppler_viewer_create(void)
 {
 	PopplerViewer *viewer;
@@ -411,10 +548,42 @@ static MimeViewer *poppler_viewer_create(void)
 	viewer->mimeviewer.scroll_one_line = poppler_scroll_one_line;
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	viewer->mimeinfo  = NULL;
-	viewer->navigation  = noticeview_create(mainwindow_get_mainwindow());
 	viewer->pdf_view = gtk_image_new();
-	viewer->vbox = gtk_vbox_new(FALSE, 4);
+	viewer->icon_type = gtk_image_new();
+	viewer->doc_label = gtk_label_new("");
+	viewer->vsep = gtk_vseparator_new();
+	viewer->vsep1 = gtk_vseparator_new();
+	viewer->cur_page = gtk_entry_new();
+	viewer->button_bar_tips = gtk_tooltips_new();
 
+	gtk_entry_set_max_length(GTK_ENTRY(viewer->cur_page), 7);
+	gtk_widget_set_size_request(viewer->cur_page, 50, -1);
+	
+	viewer->prev = gtk_button_new();
+	gtk_widget_set_size_request(viewer->prev, -1, -1);
+	button_set_pixmap(viewer->prev, left_arrow_xpm);
+
+	viewer->next = gtk_button_new();
+	gtk_widget_set_size_request(viewer->next, -1, -1);
+	button_set_pixmap(viewer->next, right_arrow_xpm);
+
+	viewer->zoom_in = gtk_button_new();
+	gtk_widget_set_size_request(viewer->zoom_in, -1, -1);
+	button_set_pixmap(viewer->zoom_in, zoom_in_xpm);
+
+	viewer->zoom_out = gtk_button_new();
+	gtk_widget_set_size_request(viewer->zoom_out, -1, -1);
+	button_set_pixmap(viewer->zoom_out, zoom_out_xpm);
+
+	viewer->zoom_fit = gtk_button_new();
+	gtk_widget_set_size_request(viewer->zoom_fit, -1, -1);
+	button_set_pixmap(viewer->zoom_fit, zoom_fit_xpm);
+
+	viewer->zoom_width = gtk_button_new();
+	gtk_widget_set_size_request(viewer->zoom_width, -1, -1);
+	button_set_pixmap(viewer->zoom_width, zoom_width_xpm);
+
+	viewer->num_pages = gtk_label_new("");
 	gtk_scrolled_window_set_policy(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin), 
 			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -427,25 +596,113 @@ static MimeViewer *poppler_viewer_create(void)
 		GTK_SCROLLED_WINDOW(viewer->scrollwin),
 		viewer->pdf_view);
 
-	gtk_box_pack_start(GTK_BOX(viewer->vbox), GTK_WIDGET_PTR(viewer->navigation), FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->scrollwin, TRUE, TRUE, 0);
-	
-	noticeview_set_icon(viewer->navigation, STOCK_PIXMAP_MIME_TEXT_PLAIN);
-	noticeview_set_text(viewer->navigation, _("Loading..."));
-	noticeview_set_button_text(viewer->navigation, NULL);
-	noticeview_set_2ndbutton_text(viewer->navigation, NULL);
-	noticeview_set_icon_clickable(viewer->navigation, FALSE);
-	noticeview_show(viewer->navigation);
+	viewer->vbox = gtk_vbox_new(FALSE, 4);
+	gtk_widget_show(viewer->vbox);
 
-	gtk_widget_show(GTK_WIDGET(viewer->vbox));
-	gtk_widget_ref(GTK_WIDGET(viewer->vbox));
+	
+	viewer->hbox = gtk_hbox_new(FALSE, 4);
+	gtk_widget_show(viewer->hbox);
+
+	
+	stock_pixmap_gdk(viewer->hbox, STOCK_PIXMAP_MIME_TEXT_PLAIN, &viewer->icon_pixmap, &viewer->icon_bitmap);
+	gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
+	
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->icon_type, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->doc_label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->vsep, FALSE, TRUE, 1);
+	
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->cur_page, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->num_pages, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->vsep1, FALSE, FALSE, 1);
+
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->prev, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->next, FALSE, FALSE, 1);
+	
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->zoom_in, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->zoom_out, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->zoom_fit, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->zoom_width, FALSE, FALSE, 1);
+
+	
+	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->scrollwin, TRUE, TRUE, 0);
 
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
+	gtk_widget_show(GTK_WIDGET(viewer->hbox));
+	gtk_widget_ref(GTK_WIDGET(viewer->hbox));	
+	gtk_widget_show(GTK_WIDGET(viewer->vbox));
+	gtk_widget_ref(GTK_WIDGET(viewer->vbox));
+	gtk_widget_show(GTK_WIDGET(viewer->num_pages));
+	gtk_widget_ref(GTK_WIDGET(viewer->num_pages));
+	gtk_widget_show(GTK_WIDGET(viewer->cur_page));
+	gtk_widget_ref(GTK_WIDGET(viewer->cur_page));
+	gtk_widget_show(GTK_WIDGET(viewer->vsep));
+	gtk_widget_ref(GTK_WIDGET(viewer->vsep));
+	gtk_widget_show(GTK_WIDGET(viewer->vsep1));
+	gtk_widget_ref(GTK_WIDGET(viewer->vsep1));
 	
+	gtk_widget_show(GTK_WIDGET(viewer->prev));
+	gtk_widget_ref(GTK_WIDGET(viewer->prev));
+
+	gtk_widget_show(GTK_WIDGET(viewer->next));
+	gtk_widget_ref(GTK_WIDGET(viewer->next));
+
+	gtk_widget_show(GTK_WIDGET(viewer->zoom_in));
+	gtk_widget_ref(GTK_WIDGET(viewer->zoom_in));
+	gtk_widget_show(GTK_WIDGET(viewer->zoom_out));
+	gtk_widget_ref(GTK_WIDGET(viewer->zoom_out));
+	gtk_widget_show(GTK_WIDGET(viewer->zoom_fit));
+	gtk_widget_ref(GTK_WIDGET(viewer->zoom_fit));
+	gtk_widget_show(GTK_WIDGET(viewer->zoom_width));
+	gtk_widget_ref(GTK_WIDGET(viewer->zoom_width));
+
+	gtk_widget_show(GTK_WIDGET(viewer->doc_label));
+	gtk_widget_ref(GTK_WIDGET(viewer->doc_label));
+	gtk_widget_show(GTK_WIDGET(viewer->icon_type));
+	gtk_widget_ref(GTK_WIDGET(viewer->icon_type));	
 	gtk_widget_show(GTK_WIDGET(viewer->pdf_view));
 	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view));
 	
+	/* setting tooltips */
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), viewer->prev,
+				    _("Previous Page"),
+				    "");
+
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), viewer->next,
+				    _("Next Page"),
+				    "");
+
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), viewer->zoom_in,
+				    _("Zoom In"),
+				    "");
+
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), viewer->zoom_out,
+				    _("Zoom Out"),
+				    "");
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), viewer->zoom_fit,
+				    _("Fit Page"),
+				    "");
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), viewer->zoom_width,
+				    _("Fit Page Width"),
+				    "");
+	/* Signals */
+	
+	g_signal_connect (G_OBJECT(viewer->cur_page), "key_press_event", G_CALLBACK(entry_current_page_cb), (gpointer) viewer);
+	
+	//g_signal_connect (G_OBJECT(viewer->scrollwin), "key_press_event", G_CALLBACK(scrollwin_key_down_cb), (gpointer) viewer);
+	//g_signal_connect (G_OBJECT(viewer->scrollwin), "key_press_event", G_CALLBACK(scrollwin_key_up_cb), (gpointer) viewer);
+	//g_signal_connect (G_OBJECT(viewer->scrollwin), "key_press_event", G_CALLBACK(scrollwin_page_down_cb), (gpointer) viewer);
+	//g_signal_connect (G_OBJECT(viewer->pdf_view), "key_press_event", G_CALLBACK(scrollwin_page_up_cb), (gpointer) viewer);
+
+	g_signal_connect (G_OBJECT(viewer->prev), "clicked", G_CALLBACK(poppler_prev_page_cb), (gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->next), "clicked", G_CALLBACK(poppler_next_page_cb), (gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->zoom_in), "clicked", G_CALLBACK(poppler_zoom_in_cb), (gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->zoom_out), "clicked", G_CALLBACK(poppler_zoom_out_cb), (gpointer) viewer);
+
+	g_signal_connect (G_OBJECT(viewer->zoom_fit), "clicked", G_CALLBACK(poppler_zoom_fit_cb), (gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->zoom_width), "clicked", G_CALLBACK(poppler_zoom_width_cb), (gpointer) viewer);
+
 	viewer->filename = NULL;
 	return (MimeViewer *) viewer;
 }
