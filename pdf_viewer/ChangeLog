@@ -1,3 +1,12 @@
+2007-03-01 [colin]	0.2.0cvs6
+
+	* src/poppler_viewer.c
+		Fix invalid g_free()s - Sorry 
+		for the bad advice :)
+		Mark poppler_get_document_info_mode()
+		and poppler_get_document_info_layout()
+		const to avoid reintroducing this one
+
 2007-03-01 [iwkse]	0.2.0cvs5
 
 	* src/poppler_viewer.c

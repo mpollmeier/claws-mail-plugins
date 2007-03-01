@@ -204,14 +204,14 @@ static void poppler_rotate_left_cb(GtkButton *button, PopplerViewer *viewer)
     poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int);
 }
 
-static char * poppler_get_document_info_mode(PopplerPageMode mode)
+static const char * poppler_get_document_info_mode(PopplerPageMode mode)
 {
     GEnumValue *enum_value;
 
     enum_value = g_enum_get_value((GEnumClass *) g_type_class_peek (POPPLER_TYPE_PAGE_MODE), mode);
     return (gchar *) enum_value->value_name;
 }
-static char * poppler_get_document_info_layout(PopplerPageLayout layout)
+static const char * poppler_get_document_info_layout(PopplerPageLayout layout)
 {
 
     GEnumValue *enum_value;
@@ -320,6 +320,7 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
     
     tmp = poppler_get_document_format_data(creation_date);
     label = gtk_label_new(tmp);
+    g_free(tmp);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 6, 7, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
@@ -329,6 +330,7 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
     
     tmp = poppler_get_document_format_data(mod_date);
     label = gtk_label_new(tmp);
+    g_free(tmp);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 7, 8, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
@@ -352,8 +354,7 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 10, 11, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    tmp = poppler_get_document_info_mode(mode);
-    label = gtk_label_new(tmp);
+    label = gtk_label_new(poppler_get_document_info_mode(mode));
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 10, 11, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
@@ -361,8 +362,7 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 11, 12, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    tmp = poppler_get_document_info_layout(layout);
-    label = gtk_label_new(tmp);
+    label = gtk_label_new(poppler_get_document_info_layout(layout));
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 11, 12, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
@@ -374,7 +374,6 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 	g_free(creator);
 	g_free(producer);
 	g_free(linearized);
-	g_free(tmp);
 
 	return (GtkTable *) viewer->table_doc_info;
 }
