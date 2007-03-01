@@ -186,7 +186,7 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
       }
 
       debug_print("Notification Plugin: Found msg %s, "
-		  "checking if it is in hash... ", msgid);
+		  "checking if it is in hash...\n", msgid);
       /* Check if message is in hash table */
       if(g_hash_table_lookup(notified_hash, msgid) != NULL)
 	debug_print("yes.\n");

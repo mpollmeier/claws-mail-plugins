@@ -291,7 +291,7 @@ void notify_save_config(void)
   PrefFile *pfile;
   gchar *rcpath;
 
-  debug_print("Saving Notification plugin configuration... ");
+  debug_print("Saving Notification plugin configuration...\n");
 
   rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
   pfile = prefs_write_open(rcpath);
@@ -300,9 +300,9 @@ void notify_save_config(void)
     return;
 
   if(prefs_write_param(notify_param, pfile->fp) < 0) {
-    debug_print("failed!");
+    debug_print("failed!\n");
     g_warning("\nNotification Plugin: Failed to write plugin configuration "
-	      "to file");
+	      "to file\n");
     prefs_file_close_revert(pfile);
     return;
   }

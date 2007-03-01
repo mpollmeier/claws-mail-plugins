@@ -1,3 +1,9 @@
+2007-03-01 [wwp]	0.9cvs1
+
+	* src/notification_core.c
+	* src/notification_prefs.c
+		Add missing newline to few debug output/warning messages.
+
 2007-02-26 [paul]	0.9
 
 	0.9 released
