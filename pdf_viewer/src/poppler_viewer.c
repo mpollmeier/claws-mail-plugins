@@ -67,7 +67,7 @@
 
 static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, int page_num);
 
-	gchar *msg;
+static gchar *msg = NULL;
 
 struct _PopplerViewer
 {
@@ -266,104 +266,128 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 	
     viewer->table_doc_info = GTK_TABLE(gtk_table_new(12, 2, FALSE));
 
-    label = gtk_label_new(_("Title: "));
+    label = gtk_label_new(_("Title:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(title);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Subject: "));
+    label = gtk_label_new(_("Subject:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(subject);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Author: "));
+    label = gtk_label_new(_("Author:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(author);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Keywords: "));
+    label = gtk_label_new(_("Keywords:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 3, 4, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(keywords);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, 0, 0, 0);
     
-    label = gtk_label_new(_("Creator: "));
+    label = gtk_label_new(_("Creator:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 4, 5, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(creator);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 4, 5, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Producer: "));
+    label = gtk_label_new(_("Producer:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 5, 6, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(producer);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 5, 6, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Created: "));
+    label = gtk_label_new(_("Created:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 6, 7, GTK_EXPAND | GTK_FILL, 0, 0, 0);
     
     tmp = poppler_get_document_format_data(creation_date);
     label = gtk_label_new(tmp);
     g_free(tmp);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 6, 7, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Modified: "));
+    label = gtk_label_new(_("Modified:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 7, 8, GTK_EXPAND | GTK_FILL, 0, 0, 0);
     
     tmp = poppler_get_document_format_data(mod_date);
     label = gtk_label_new(tmp);
     g_free(tmp);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 7, 8, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Format: "));
+    label = gtk_label_new(_("Format:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 8, 9, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(format);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 8, 9, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Optimized: "));
+    label = gtk_label_new(_("Optimized:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 9, 10, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(linearized);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 9, 10, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Page Mode: "));
+    label = gtk_label_new(_("Page Mode:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 10, 11, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(poppler_get_document_info_mode(mode));
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 10, 11, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Page Layout: "));
+    label = gtk_label_new(_("Page Layout:"));
     gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 0, 1, 11, 12, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
     label = gtk_label_new(poppler_get_document_info_layout(layout));
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
     gtk_table_attach(viewer->table_doc_info, label, 1, 2, 11, 12, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	g_free(title);
@@ -596,7 +620,7 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	viewer->pdf_page = poppler_document_get_page_by_label (viewer->pdf_doc, page_str);
 	g_free(page_str);
 	if (viewer->pdf_page == NULL) {
-		g_warning ("Page not found");
+		g_warning ("Page not found\n");
 		return;
 	}
 	

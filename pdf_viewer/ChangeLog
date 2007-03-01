@@ -1,3 +1,10 @@
+2007-03-01 [wwp]	0.2.0cvs7
+
+	* src/poppler_viewer.c
+		Make a variable static, add a missing newline to g_warning,
+		make labels padding using gtk_misc_set_padding() instead of
+		with a white space (even better for translation).
+
 2007-03-01 [colin]	0.2.0cvs6
 
 	* src/poppler_viewer.c
