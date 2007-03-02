@@ -1,3 +1,10 @@
+2007-03-02 [iwkse]	0.2.0cvs14
+
+	* src/poppler_viewer.c
+		arrange jump page buttons
+		remove redundant code in
+		poppler_pdf_view_update
+
 2007-03-02 [colin]	0.2.0cvs13
 
 	* src/poppler_viewer.c
