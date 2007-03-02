@@ -696,7 +696,13 @@ static gint poppler_show_mimepart_real(MimeViewer *_viewer)
 		
 		viewer->mimeinfo = partinfo;
 	}
-	
+	g_signal_handlers_block_by_func(G_OBJECT(viewer->cur_page),
+				  	G_CALLBACK(poppler_spin_change_page_cb),
+					viewer);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->cur_page), 1.0);
+	g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page),
+				  	G_CALLBACK(poppler_spin_change_page_cb),
+					viewer);
 	poppler_pdf_view_update(_viewer, TRUE, 1);
 
 	messageview->updating = FALSE;

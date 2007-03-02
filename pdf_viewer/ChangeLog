@@ -1,3 +1,8 @@
+2007-03-02 [colin]	0.2.0cvs13
+
+	* src/poppler_viewer.c
+		Fix going back to first page on reload
+
 2007-03-02 [colin]	0.2.0cvs12
 
 	* src/poppler_viewer.c
