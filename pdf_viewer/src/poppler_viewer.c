@@ -567,6 +567,7 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label), _("Loading..."));	
 		poppler_show_controls(viewer, FALSE);
+		main_window_cursor_wait(mainwindow_get_mainwindow());
 
 		GTK_EVENTS_FLUSH();
 
@@ -592,11 +593,15 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 			g_free(cmdline);
 			g_unlink(tmpfile);
 			g_free(tmpfile);
-			if (result != 0)
+			if (result != 0) {
+				main_window_cursor_normal(mainwindow_get_mainwindow());
 				return;
+			}
 		} else {
 			viewer->pdf_doc = poppler_document_new_from_file( viewer->fsname, NULL, &error);
 		}
+
+		main_window_cursor_normal(mainwindow_get_mainwindow());
 	} 
 	if (viewer->pdf_doc == NULL) {
 		strretchomp(error->message);

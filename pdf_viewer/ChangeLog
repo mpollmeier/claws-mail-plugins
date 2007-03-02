@@ -1,3 +1,8 @@
+2007-03-02 [wwp]	0.2.0cvs10
+
+	* src/poppler_viewer.c
+		Set busy cursor when loading PS/PDF document.
+
 2007-03-02 [iwkse]	0.2.0cvs9
 
 	* src/poppler_viewer.c
