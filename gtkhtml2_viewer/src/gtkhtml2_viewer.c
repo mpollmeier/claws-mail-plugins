@@ -501,6 +501,7 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	char buffer[4096];
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)data;
 
+	main_window_cursor_wait(mainwindow_get_mainwindow());
 	if (!url)
 		goto fail;
         if (strncmp(url, "cid:", 4) == 0) {
@@ -649,6 +650,7 @@ found_local:
 #ifdef HAVE_LIBCURL
 			g_free(ctx);
 #endif
+			main_window_cursor_normal(mainwindow_get_mainwindow());
 			return;
 		}
 
@@ -666,6 +668,7 @@ found_local:
 	g_free(ctx);
 #endif
 fail:
+	main_window_cursor_normal(mainwindow_get_mainwindow());
 #ifdef HAVE_LIBCURL
 	if (remote_not_loaded) {
 		MessageView *messageview = ((MimeViewer *)viewer)->mimeview 

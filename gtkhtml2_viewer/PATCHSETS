@@ -48,3 +48,4 @@
 ( diff -u /dev/null po/hu.po;  cvs diff -u -r 1.1.2.68 -r 1.1.2.69 configure.ac;  ) > 0.14.1cvs1.patchset
 ( cvs diff -u -r 1.1.2.43 -r 1.1.2.44 src/gtkhtml2_viewer.c;  ) > 0.14.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 configure.ac;  diff -u /dev/null po/ca.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/de.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/es.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/pl.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pt_BR.po;  ) > 0.14.1cvs3.patchset
+( cvs diff -u -r 1.1.2.44 -r 1.1.2.45 src/gtkhtml2_viewer.c;  ) > 0.14.2cvs1.patchset
