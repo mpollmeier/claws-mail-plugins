@@ -1,3 +1,9 @@
+2007-03-02 [iwkse]	0.2.0cvs9
+
+	* src/poppler_viewer.c
+		removed noticeview include header
+		which isn't more used.
+
 2007-03-02 [iwkse]	0.2.0cvs8
 
 	* AUTHORS

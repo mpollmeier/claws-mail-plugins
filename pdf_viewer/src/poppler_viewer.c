@@ -44,7 +44,6 @@
 #include "codeconv.h"
 #include "menu.h"
 #include "defs.h"
-#include "noticeview.h"
 #include "gtkutils.h"
 #include "alertpanel.h"
 
