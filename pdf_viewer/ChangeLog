@@ -1,3 +1,8 @@
+2007-03-02 [iwkse]	0.2.0cvs15
+
+	* src/poppler_viewer.c
+		spinbutton bug fixed.
+
 2007-03-02 [iwkse]	0.2.0cvs14
 
 	* src/poppler_viewer.c
