@@ -129,12 +129,12 @@ static GtkWidget *poppler_get_widget(MimeViewer *_viewer)
 
 static void poppler_button_prev_page_cb(GtkButton *button, PopplerViewer *viewer)
 {
-    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)) - 1);
+			gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_BACKWARD, 1);
 }
 
 static void poppler_button_next_page_cb(GtkButton *button, PopplerViewer *viewer)
 {
-    poppler_pdf_view_update((MimeViewer *)viewer, FALSE, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)) + 1);
+			gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_FORWARD, 1);
 }
 
 static void poppler_spin_change_page_cb(GtkSpinButton *button, PopplerViewer *viewer)
@@ -605,11 +605,10 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 
 	if(page_num > 0 && page_num <= poppler_document_get_n_pages(viewer->pdf_doc)) {
 	    gchar *page_str = g_strdup_printf("%d", page_num);
-	    gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->cur_page), (gdouble) page_num);
-
 	    if (reload_file) {
 		gint n;
 		n = poppler_document_get_n_pages(viewer->pdf_doc);
+		
 		gtk_spin_button_set_range(GTK_SPIN_BUTTON(viewer->cur_page), 1, n);
 		gtk_label_set_text(GTK_LABEL(viewer->num_pages), g_strdup_printf("/ %d", n));
 	    }
@@ -764,14 +763,14 @@ static gboolean poppler_scroll_page(MimeViewer *_viewer, gboolean up)
 
 	if (!gtkutils_scroll_page(viewer->pdf_view, vadj, up)) {
 		if (!up) {
-			poppler_pdf_view_update(_viewer, FALSE, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)) + 1);
+			gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_FORWARD, 1);
 			vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 			vadj->value = 0.0;
 			g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
 			return TRUE;
 		} else if (up) {
-			poppler_pdf_view_update(_viewer, FALSE, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)) - 1);
+			gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_BACKWARD, 1);
 			vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 			vadj->value = vadj->upper - vadj->page_size;

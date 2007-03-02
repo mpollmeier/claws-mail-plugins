@@ -1,3 +1,11 @@
+2007-03-02 [colin]	0.2.0cvs12
+
+	* src/poppler_viewer.c
+		Fix double increment - don't use 
+		gtk_spin_button_set_value from the 
+		value-changed callback, this confuses
+		the spinbtn
+
 2007-03-02 [iwkse]	0.2.0cvs11
 
 	* src/poppler_viewer.c
