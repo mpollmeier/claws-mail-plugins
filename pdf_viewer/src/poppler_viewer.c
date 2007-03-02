@@ -613,8 +613,8 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 
 	if(page_num > 0 && page_num <= poppler_document_get_n_pages(viewer->pdf_doc)) {
 	    
-	    GTK_EVENTS_FLUSH();
 	    gchar *page_str = g_strdup_printf("%d", page_num);
+	    GTK_EVENTS_FLUSH();
 	    viewer->pdf_page = poppler_document_get_page_by_label (viewer->pdf_doc, page_str);
 	    g_free(page_str);
 
