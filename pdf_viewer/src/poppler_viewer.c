@@ -81,7 +81,6 @@ struct _PopplerViewer
 	GdkBitmap	*icon_bitmap;
 	GtkWidget	*doc_label;
 	GtkWidget	*cur_page;
-	GtkWidget	*num_pages;
 	/* begin GtkButtons */
 	GtkWidget	*prev;
 	GtkWidget	*next;
@@ -484,7 +483,6 @@ static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
 {
 	if (show) {
 		gtk_widget_show(viewer->cur_page);
-		gtk_widget_show(viewer->num_pages);
 		gtk_widget_show(viewer->prev);
 		gtk_widget_show(viewer->next);
 		gtk_widget_show(viewer->zoom_in);
@@ -498,7 +496,6 @@ static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
 		gtk_widget_show(viewer->doc_info);
 	} else {
 		gtk_widget_hide(viewer->cur_page);
-		gtk_widget_hide(viewer->num_pages);
 		gtk_widget_hide(viewer->prev);
 		gtk_widget_hide(viewer->next);
 		gtk_widget_hide(viewer->zoom_in);
@@ -592,7 +589,12 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 		}
 
 		gtk_spin_button_set_range(GTK_SPIN_BUTTON(viewer->cur_page), 1, poppler_document_get_n_pages(viewer->pdf_doc));
-		gtk_label_set_text(GTK_LABEL(viewer->num_pages), g_strdup_printf("/ %d", poppler_document_get_n_pages(viewer->pdf_doc)));
+		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
+				    (g_strdup_printf(_("%s document (%d page%s)"), 
+				     poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript",
+				     poppler_document_get_n_pages(viewer->pdf_doc),
+				     poppler_document_get_n_pages(viewer->pdf_doc) > 1 ? "s":"")
+				    ));
 		poppler_show_controls(viewer, TRUE);
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 	} 
@@ -648,8 +650,6 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 	    g_object_unref(G_OBJECT(pb));
 	    g_object_unref(G_OBJECT(viewer->pdf_page));
 
-	    gtk_label_set_text(GTK_LABEL(viewer->doc_label), 
-	    g_strdup_printf(_("%s document"),(poppler_mimepart_get_type(viewer->to_load) == TYPE_PDF) ? "PDF":"Postscript"));
 	}
 }
 static gint poppler_show_mimepart_real(MimeViewer *_viewer)
@@ -667,7 +667,6 @@ static gint poppler_show_mimepart_real(MimeViewer *_viewer)
 	messageview->updating = TRUE;
 	debug_print("poppler_show_mimepart\n");
 
-	poppler_show_controls(viewer, FALSE);
 	if (viewer->filename != NULL) {
 		g_unlink(viewer->filename);
 		g_free(viewer->filename);
@@ -873,7 +872,6 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_set_size_request(viewer->doc_info, -1, -1);
 	button_set_pixmap(viewer->doc_info, doc_info_xpm);
 
-	viewer->num_pages = gtk_label_new("");
 	
 
 	gtk_scrolled_window_set_policy(
@@ -908,7 +906,6 @@ static MimeViewer *poppler_viewer_create(void)
 	
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->prev, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->cur_page, FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->num_pages, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->next, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->vsep1, FALSE, FALSE, 1);
 	
@@ -931,8 +928,6 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_ref(GTK_WIDGET(viewer->hbox));	
 	gtk_widget_show(GTK_WIDGET(viewer->vbox));
 	gtk_widget_ref(GTK_WIDGET(viewer->vbox));
-	gtk_widget_show(GTK_WIDGET(viewer->num_pages));
-	gtk_widget_ref(GTK_WIDGET(viewer->num_pages));
 	gtk_widget_show(GTK_WIDGET(viewer->cur_page));
 	gtk_widget_ref(GTK_WIDGET(viewer->cur_page));
 	gtk_widget_show(GTK_WIDGET(viewer->vsep));
