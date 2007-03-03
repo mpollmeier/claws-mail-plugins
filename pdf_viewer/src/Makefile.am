@@ -28,6 +28,8 @@ AM_CPPFLAGS = \
 EXTRA_DIST = \
 	left_arrow.xpm \
 	right_arrow.xpm \
+	first_arrow.xpm \
+	right_arrow.xpm \
 	zoom_fit.xpm \
 	zoom_in.xpm \
 	zoom_out.xpm \
