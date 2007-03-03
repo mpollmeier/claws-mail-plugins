@@ -523,6 +523,7 @@ static void poppler_pdf_view_update(MimeViewer *_viewer, gboolean reload_file, i
 
 		gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label), error->message);
+		poppler_show_controls(viewer, FALSE);
 		g_error_free(error);
 		return;
 	}
