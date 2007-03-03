@@ -1,3 +1,10 @@
+2007-03-03 [iwkse]	0.2.0cvs23
+
+	* src/first_arrow.xpm
+	* src/last_arrow.xpm
+	* src/poppler_viewer.c
+		added icons for first page and last page
+
 2007-03-03 [iwkse]	0.2.0cvs22
 
 	* src/poppler_viewer.c

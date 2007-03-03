@@ -47,6 +47,8 @@
 #include "gtkutils.h"
 #include "alertpanel.h"
 
+#include "first_arrow.xpm"
+#include "last_arrow.xpm"
 #include "left_arrow.xpm"
 #include "right_arrow.xpm"
 #include "zoom_fit.xpm"
@@ -82,8 +84,10 @@ struct _PopplerViewer
 	GtkWidget	*doc_label;
 	GtkWidget	*cur_page;
 	/* begin GtkButtons */
-	GtkWidget	*prev;
-	GtkWidget	*next;
+	GtkWidget	*first_page;
+	GtkWidget	*last_page;
+	GtkWidget	*prev_page;
+	GtkWidget	*next_page;
 	GtkWidget	*zoom_in;
 	GtkWidget	*zoom_out;
 	GtkWidget	*zoom_fit;
@@ -126,7 +130,10 @@ static GtkWidget *poppler_get_widget(MimeViewer *_viewer)
 
 	return GTK_WIDGET(viewer->vbox);
 }
-
+static void poppler_button_first_page_cb(GtkButton *button, PopplerViewer *viewer)
+{
+    gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
+}
 static void poppler_button_prev_page_cb(GtkButton *button, PopplerViewer *viewer)
 {
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_BACKWARD, 1);
@@ -136,7 +143,10 @@ static void poppler_button_next_page_cb(GtkButton *button, PopplerViewer *viewer
 {
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_FORWARD, 1);
 }
-
+static void poppler_button_last_page_cb(GtkButton *button, PopplerViewer *viewer)
+{
+    gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_END, 1);
+}
 static void poppler_spin_change_page_cb(GtkSpinButton *button, PopplerViewer *viewer)
 {
     debug_print("PDF viewer - Page: %d\n", gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
@@ -398,8 +408,8 @@ static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
 {
 	if (show) {
 		gtk_widget_show(viewer->cur_page);
-		gtk_widget_show(viewer->prev);
-		gtk_widget_show(viewer->next);
+		gtk_widget_show(viewer->prev_page);
+		gtk_widget_show(viewer->next_page);
 		gtk_widget_show(viewer->zoom_in);
 		gtk_widget_show(viewer->zoom_out);
 		gtk_widget_show(viewer->zoom_fit);
@@ -411,8 +421,8 @@ static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
 		gtk_widget_show(viewer->doc_info);
 	} else {
 		gtk_widget_hide(viewer->cur_page);
-		gtk_widget_hide(viewer->prev);
-		gtk_widget_hide(viewer->next);
+		gtk_widget_hide(viewer->prev_page);
+		gtk_widget_hide(viewer->next_page);
 		gtk_widget_hide(viewer->zoom_in);
 		gtk_widget_hide(viewer->zoom_out);
 		gtk_widget_hide(viewer->zoom_fit);
@@ -752,14 +762,22 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->cur_page), TRUE);
 
 	viewer->button_bar_tips = gtk_tooltips_new();
+	
+	viewer->first_page = gtk_button_new();
+	gtk_widget_set_size_request(viewer->first_page, -1, -1);
+	button_set_pixmap(viewer->first_page, first_arrow_xpm);
 
-	viewer->prev = gtk_button_new();
-	gtk_widget_set_size_request(viewer->prev, -1, -1);
-	button_set_pixmap(viewer->prev, left_arrow_xpm);
+	viewer->last_page = gtk_button_new();
+	gtk_widget_set_size_request(viewer->last_page, -1, -1);
+	button_set_pixmap(viewer->last_page, last_arrow_xpm);
 
-	viewer->next = gtk_button_new();
-	gtk_widget_set_size_request(viewer->next, -1, -1);
-	button_set_pixmap(viewer->next, right_arrow_xpm);
+	viewer->prev_page = gtk_button_new();
+	gtk_widget_set_size_request(viewer->prev_page, -1, -1);
+	button_set_pixmap(viewer->prev_page, left_arrow_xpm);
+
+	viewer->next_page = gtk_button_new();
+	gtk_widget_set_size_request(viewer->next_page, -1, -1);
+	button_set_pixmap(viewer->next_page, right_arrow_xpm);
 
 	viewer->zoom_in = gtk_button_new();
 	gtk_widget_set_size_request(viewer->zoom_in, -1, -1);
@@ -819,11 +837,15 @@ static MimeViewer *poppler_viewer_create(void)
 	
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->icon_type, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->doc_label, FALSE, FALSE, 0);
+	
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->vsep, FALSE, TRUE, 1);
 	
-	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->prev, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->first_page, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->prev_page, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->cur_page, FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->next, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->next_page, FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->last_page, FALSE, FALSE, 1);
+	
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->vsep1, FALSE, FALSE, 1);
 	
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->zoom_in, FALSE, FALSE, 1);
@@ -852,11 +874,17 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_show(GTK_WIDGET(viewer->vsep1));
 	gtk_widget_ref(GTK_WIDGET(viewer->vsep1));
 	
-	gtk_widget_show(GTK_WIDGET(viewer->prev));
-	gtk_widget_ref(GTK_WIDGET(viewer->prev));
+	gtk_widget_show(GTK_WIDGET(viewer->first_page));
+	gtk_widget_ref(GTK_WIDGET(viewer->first_page));
+	
+	gtk_widget_show(GTK_WIDGET(viewer->last_page));
+	gtk_widget_ref(GTK_WIDGET(viewer->last_page));
 
-	gtk_widget_show(GTK_WIDGET(viewer->next));
-	gtk_widget_ref(GTK_WIDGET(viewer->next));
+	gtk_widget_show(GTK_WIDGET(viewer->prev_page));
+	gtk_widget_ref(GTK_WIDGET(viewer->prev_page));
+
+	gtk_widget_show(GTK_WIDGET(viewer->next_page));
+	gtk_widget_ref(GTK_WIDGET(viewer->next_page));
 
 	gtk_widget_show(GTK_WIDGET(viewer->zoom_in));
 	gtk_widget_ref(GTK_WIDGET(viewer->zoom_in));
@@ -881,45 +909,56 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view));
 	
 	/* setting tooltips */
+
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
-			    viewer->prev,
+			    viewer->first_page,
+			    _("First Page"),
+			    NULL);
+	
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
+			    viewer->prev_page,
 			    _("Previous Page"),
-			    "");
-
+			    NULL);
+	
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
-			    viewer->next,
+			    viewer->next_page,
 			    _("Next Page"),
-			    "");
-
+			    NULL);
+	
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
-			    viewer->zoom_in,
-			    _("Zoom In"),
-			    "");
+			    viewer->next_page,
+			    _("Next Page"),
+			    NULL);
+	
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
+			    viewer->last_page,
+			    _("Last Page"),
+			    NULL);
 
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->zoom_out,
 			    _("Zoom Out"),
-			    "");
+			    NULL);
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->zoom_fit,
 			    _("Fit Page"),
-			    "");
+			    NULL);
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->zoom_width,
 			    _("Fit Page Width"),
-			    "");
+			    NULL);
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->rotate_left,
 			    _("Rotate Left"),
-			    "");
+			    NULL);
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->rotate_right,
 			    _("Rotate Right"),
-			    "");
+			    NULL);
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->doc_info,
 			    _("Document Info"),
-			    "");
+			    NULL);
 
 	/* Signals */
 	
@@ -946,13 +985,22 @@ static MimeViewer *poppler_viewer_create(void)
 			"value-changed", 
 			G_CALLBACK(poppler_spin_change_page_cb), 
 			(gpointer) viewer);
-	g_signal_connect (G_OBJECT(viewer->prev), 
+
+	g_signal_connect (G_OBJECT(viewer->first_page), 
+			"clicked", 
+			G_CALLBACK(poppler_button_first_page_cb), 
+			(gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->prev_page), 
 			"clicked", 
 			G_CALLBACK(poppler_button_prev_page_cb), 
 			(gpointer) viewer);
-	g_signal_connect (G_OBJECT(viewer->next), 
+	g_signal_connect (G_OBJECT(viewer->next_page), 
 			"clicked", 
 			G_CALLBACK(poppler_button_next_page_cb), 
+			(gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->last_page), 
+			"clicked", 
+			G_CALLBACK(poppler_button_last_page_cb), 
 			(gpointer) viewer);
 	g_signal_connect (G_OBJECT(viewer->zoom_in), 
 			"clicked", 
