@@ -1,3 +1,8 @@
+2007-03-03 [iwkse]	0.2.0cvs24
+
+	* src/poppler_viewer.c
+		fix poppler_show_controls with new pixmaps
+
 2007-03-03 [iwkse]	0.2.0cvs23
 
 	* src/first_arrow.xpm

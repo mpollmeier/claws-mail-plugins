@@ -407,9 +407,11 @@ static FileType poppler_mimepart_get_type(MimeInfo *partinfo)
 static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
 {
 	if (show) {
+		gtk_widget_show(viewer->first_page);
 		gtk_widget_show(viewer->cur_page);
 		gtk_widget_show(viewer->prev_page);
 		gtk_widget_show(viewer->next_page);
+		gtk_widget_show(viewer->last_page);
 		gtk_widget_show(viewer->zoom_in);
 		gtk_widget_show(viewer->zoom_out);
 		gtk_widget_show(viewer->zoom_fit);
@@ -420,9 +422,11 @@ static void poppler_show_controls(PopplerViewer *viewer, gboolean show)
 		gtk_widget_show(viewer->rotate_left);
 		gtk_widget_show(viewer->doc_info);
 	} else {
+		gtk_widget_hide(viewer->first_page);
 		gtk_widget_hide(viewer->cur_page);
 		gtk_widget_hide(viewer->prev_page);
 		gtk_widget_hide(viewer->next_page);
+		gtk_widget_hide(viewer->last_page);
 		gtk_widget_hide(viewer->zoom_in);
 		gtk_widget_hide(viewer->zoom_out);
 		gtk_widget_hide(viewer->zoom_fit);
