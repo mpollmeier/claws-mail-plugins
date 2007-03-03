@@ -1,3 +1,9 @@
+2007-03-03 [paul]	0.2.0cvs27
+
+	* src/Makefile.am
+		fix 'make dist' and put the
+		entries in alphabetical order
+
 2007-03-03 [colin]	0.2.0cvs26
 
 	* src/Makefile.am

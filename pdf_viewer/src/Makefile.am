@@ -26,14 +26,14 @@ AM_CPPFLAGS = \
 	-DLOCALEDIR=\""$(localedir)"\"
 
 EXTRA_DIST = \
+	doc_info.xpm \
+	first_arrow.xpm \
+	last_arrow.xpm \
 	left_arrow.xpm \
 	right_arrow.xpm \
-	first_arrow.xpm \
-	right_arrow.xpm \
+	rotate_left.xpm \
+	rotate_right.xpm \
 	zoom_fit.xpm \
 	zoom_in.xpm \
 	zoom_out.xpm \
-	zoom_width.xpm \
-	rotate_left.xpm \
-	rotate_right.xpm \
-	doc_info.xpm
+	zoom_width.xpm
