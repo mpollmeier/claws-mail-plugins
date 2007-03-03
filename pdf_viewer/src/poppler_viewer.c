@@ -204,7 +204,7 @@ static void poppler_button_rotate_left_cb(GtkButton *button, PopplerViewer *view
     viewer->rotate = abs(viewer->rotate - (gint) ROTATION);
     poppler_pdf_view_update((MimeViewer *)viewer, FALSE, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
 }
-
+/*
 static const char * poppler_get_document_info_mode(PopplerPageMode mode)
 {
     GEnumValue *enum_value;
@@ -220,6 +220,7 @@ static const char * poppler_get_document_info_layout(PopplerPageLayout layout)
     enum_value = g_enum_get_value((GEnumClass *) g_type_class_peek (POPPLER_TYPE_PAGE_LAYOUT), layout);
     return (gchar *) enum_value->value_name;
 }
+*/
 static char * poppler_get_document_format_data(GTime utime) 
 {
 	time_t time = (time_t) utime;
@@ -278,11 +279,11 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 	"viewer-preferences", &view_prefs,
 	NULL);
 	
-    viewer->table_doc_info = GTK_TABLE(gtk_table_new(14, 2, FALSE));
+    viewer->table_doc_info = GTK_TABLE(gtk_table_new(13, 2, FALSE));
 
 	ADD_TO_TABLE(_("Filename:"), viewer->target_filename)
 	ADD_TO_TABLE(_("Size:"), to_human_readable(viewer->to_load->length))
-
+	ADD_TO_TABLE(NULL, NULL)
 	ADD_TO_TABLE(_("Title:"), title)
 	ADD_TO_TABLE(_("Subject:"), subject)
 	ADD_TO_TABLE(_("Author:"), author)
@@ -591,7 +592,7 @@ static gint poppler_show_mimepart_real(MimeViewer *_viewer)
 	viewer->mimeinfo = NULL;
 	
 	if (partinfo) {
-		viewer->target_filename = procmime_get_part_file_name(partinfo);
+	    viewer->target_filename = procmime_get_part_file_name(partinfo);
 	    viewer->filename = procmime_get_tmp_file_name(partinfo);
 	    viewer->fsname = g_strconcat("file://", viewer->filename, NULL);
 	}
