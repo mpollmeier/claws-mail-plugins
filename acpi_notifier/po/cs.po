@@ -1,0 +1,120 @@
+# Czech translation of Sylpheed
+# Copyright (C) 2000 Free Software Foundation, Inc.
+# Jan Mura <jan_mura@altavista.com>, 2000.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: acpi-notifier\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2007-02-28 08:29+0100\n"
+"PO-Revision-Date: 2007-02-28 08:28+0100\n"
+"Last-Translator: Tim <timbrain@post.cz>\n"
+"Language-Team: Czech <cs@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(((n%100>=10 && n%100<=14) || (n%10>5)) ? "
+"2 : (n%10>=2 && n%10<=4) ? 1 : 0);\n"
+
+#: src/acpi_notifier.c:45
+msgid "Acpi Notifier"
+msgstr "ACPI oznamovač"
+
+#: src/acpi_notifier.c:63
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+msgstr ""
+"Ujistěte se, že je v jádře zaveden modul 'acerhk'.\n"
+"Můžete ho získat na adrese http://www.informatik.hu-berlin.de/~tauber/"
+"acerhk/."
+
+#: src/acpi_notifier.c:65
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+msgstr ""
+"Ujistěte se, že je v jádře zaveden modul 'acer_acpi'.\n"
+"Můžete ho získat na adrese http://www.archernar.co.uk/acer_acpi/"
+"acer_acpi_main.html."
+
+#: src/acpi_notifier.c:67
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Ujistěte se, že je v jádře zaveden modul 'asus_acpi'."
+
+#: src/acpi_notifier.c:68
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Ujistěte se, že je v jádře zaveden modul 'ibm_acpi'."
+
+#: src/acpi_notifier.c:69
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"UIjistěte se, že máte nainstalován apanelc.\n"
+"Můžete ho získat na adrese http://apanel.sourceforge.net/."
+
+#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
+msgid "Control file doesn't exist."
+msgstr "Řídící soubor neexistuje."
+
+#: src/acpi_notifier.c:295
+msgid " : no new or unread mail"
+msgstr ":  žádná nová nebo nepřečtená pošta"
+
+#: src/acpi_notifier.c:296
+msgid " : unread mail"
+msgstr ":  nepřečtená pošta"
+
+#: src/acpi_notifier.c:297
+msgid " : new mail"
+msgstr ":  nová pošta"
+
+#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
+msgid "off"
+msgstr "svítí"
+
+#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
+msgid "blinking"
+msgstr "bliká"
+
+#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
+msgid "on"
+msgstr "zhasnutá"
+
+#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
+msgid "LED "
+msgstr "LED "
+
+#: src/acpi_notifier.c:376
+msgid "ACPI type: "
+msgstr "Typ ACPI"
+
+#: src/acpi_notifier.c:385
+msgid "ACPI file: "
+msgstr "ACPI soubor"
+
+#: src/acpi_notifier.c:396
+msgid "values - On: "
+msgstr "Hodnoty: - zapnuto"
+
+#: src/acpi_notifier.c:401
+msgid " - Off: "
+msgstr "- vypnuto"
+
+#: src/acpi_notifier.c:423
+msgid "Blink when user interaction is required"
+msgstr "Blikat, pokud je vyžadován zásah uživatele"
+
+#: src/acpi_notifier.c:734
+msgid "Plugins"
+msgstr "Zásuvné moduly"
+
+#: src/acpi_notifier.c:811
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "Tento oznamuje poštu pomocí ACPI diod."
+
+#: src/acpi_notifier.c:832
+msgid "Laptop LED"
+msgstr "LED dioda laptopu"
