@@ -300,8 +300,8 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 
 	ADD_TO_TABLE(_("Format:"), format)
 	ADD_TO_TABLE(_("Optimized:"), linearized)
-	ADD_TO_TABLE(_("Page Mode:"), poppler_get_document_info_mode(mode))
-	ADD_TO_TABLE(_("Page Layout:"), poppler_get_document_info_layout(layout))
+	/* ADD_TO_TABLE(_("Page Mode:"), poppler_get_document_info_mode(mode)) */
+	/* ADD_TO_TABLE(_("Page Layout:"), poppler_get_document_info_layout(layout)) */
 
 	g_free(title);
 	g_free(format);
