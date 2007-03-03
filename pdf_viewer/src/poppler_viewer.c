@@ -97,6 +97,7 @@ struct _PopplerViewer
 	GtkTooltips	*button_bar_tips;
 	PopplerDocument	*pdf_doc;
 	PopplerPage	*pdf_page;
+	gchar		*target_filename;
 	gchar		*filename;
 	gchar		*fsname;
 	gchar		*doc_info_text;
@@ -235,10 +236,23 @@ static char * poppler_get_document_format_data(GTime utime)
 	return g_locale_to_utf8 (s, -1, NULL, NULL, NULL);
 }
 
+#define ADD_TO_TABLE(LABEL, VALUE) \
+    label = gtk_label_new(LABEL); \
+    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5); \
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0); \
+    gtk_table_attach(viewer->table_doc_info, label, 0, 1, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0); \
+	\
+    label = gtk_label_new(VALUE); \
+    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5); \
+	gtk_misc_set_padding(GTK_MISC(label), 4, 0); \
+    gtk_table_attach(viewer->table_doc_info, label, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0); \
+	row++;
+
 static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 {
     GtkWidget *label;
     gchar *title, *format, *author, *subject, *keywords, *creator, *producer, *linearized, *tmp;
+	gint row = 0;
     
     GTime creation_date, mod_date;
 
@@ -266,129 +280,28 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 	
     viewer->table_doc_info = GTK_TABLE(gtk_table_new(12, 2, FALSE));
 
-    label = gtk_label_new(_("Title:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	ADD_TO_TABLE(_("Filename:"), viewer->target_filename)
+	ADD_TO_TABLE(_("Size:"), to_human_readable(viewer->to_load->length))
 
-    label = gtk_label_new(title);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	ADD_TO_TABLE(_("Title:"), title)
+	ADD_TO_TABLE(_("Subject:"), subject)
+	ADD_TO_TABLE(_("Author:"), author)
+	ADD_TO_TABLE(_("Keywords:"), keywords)
+	ADD_TO_TABLE(_("Creator:"), creator)
+	ADD_TO_TABLE(_("Producer:"), producer)
 
-    label = gtk_label_new(_("Subject:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(subject);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Author:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(author);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Keywords:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 3, 4, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(keywords);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-    
-    label = gtk_label_new(_("Creator:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 4, 5, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(creator);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 4, 5, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Producer:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 5, 6, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(producer);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 5, 6, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Created:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 6, 7, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-    
     tmp = poppler_get_document_format_data(creation_date);
-    label = gtk_label_new(tmp);
+	ADD_TO_TABLE(_("Created:"), tmp)
     g_free(tmp);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 6, 7, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Modified:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 7, 8, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-    
     tmp = poppler_get_document_format_data(mod_date);
-    label = gtk_label_new(tmp);
+	ADD_TO_TABLE(_("Modified:"), tmp)
     g_free(tmp);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 7, 8, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-    label = gtk_label_new(_("Format:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 8, 9, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(format);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 8, 9, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Optimized:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 9, 10, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(linearized);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 9, 10, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Page Mode:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 10, 11, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(poppler_get_document_info_mode(mode));
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 10, 11, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(_("Page Layout:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 0, 1, 11, 12, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-    label = gtk_label_new(poppler_get_document_info_layout(layout));
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	gtk_misc_set_padding(GTK_MISC(label), 4, 0);
-    gtk_table_attach(viewer->table_doc_info, label, 1, 2, 11, 12, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	ADD_TO_TABLE(_("Format:"), format)
+	ADD_TO_TABLE(_("Optimized:"), linearized)
+	ADD_TO_TABLE(_("Page Mode:"), poppler_get_document_info_mode(mode))
+	ADD_TO_TABLE(_("Page Layout:"), poppler_get_document_info_layout(layout))
 
 	g_free(title);
 	g_free(format);
@@ -676,6 +589,7 @@ static gint poppler_show_mimepart_real(MimeViewer *_viewer)
 	viewer->mimeinfo = NULL;
 	
 	if (partinfo) {
+		viewer->target_filename = procmime_get_part_file_name(partinfo);
 	    viewer->filename = procmime_get_tmp_file_name(partinfo);
 	    viewer->fsname = g_strconcat("file://", viewer->filename, NULL);
 	}
@@ -1068,7 +982,9 @@ static MimeViewer *poppler_viewer_create(void)
 			G_CALLBACK(poppler_button_document_info_cb), 
 			(gpointer) viewer);	
 
+	viewer->target_filename = NULL;
 	viewer->filename = NULL;
+	viewer->fsname = NULL;
 	return (MimeViewer *) viewer;
 }
 
