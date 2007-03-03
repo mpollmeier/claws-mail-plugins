@@ -278,7 +278,7 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 	"viewer-preferences", &view_prefs,
 	NULL);
 	
-    viewer->table_doc_info = GTK_TABLE(gtk_table_new(12, 2, FALSE));
+    viewer->table_doc_info = GTK_TABLE(gtk_table_new(14, 2, FALSE));
 
 	ADD_TO_TABLE(_("Filename:"), viewer->target_filename)
 	ADD_TO_TABLE(_("Size:"), to_human_readable(viewer->to_load->length))
@@ -314,6 +314,7 @@ static GtkTable * poppler_fill_info_table(PopplerViewer *viewer)
 
 	return (GtkTable *) viewer->table_doc_info;
 }
+#undef ADD_TO_TABLE
 
 static void poppler_button_document_info_cb(GtkButton *button, PopplerViewer *viewer)
 {
