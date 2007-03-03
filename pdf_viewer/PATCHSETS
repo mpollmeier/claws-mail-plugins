@@ -28,3 +28,4 @@
 ( cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/poppler_viewer.c;  ) > 0.2.0cvs22.patchset
 ( diff -u /dev/null src/first_arrow.xpm;  diff -u /dev/null src/last_arrow.xpm;  cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/poppler_viewer.c;  ) > 0.2.0cvs23.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/poppler_viewer.c;  ) > 0.2.0cvs24.patchset
+( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/poppler_viewer.c;  ) > 0.2.0cvs25.patchset

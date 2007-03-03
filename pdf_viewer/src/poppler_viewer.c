@@ -940,6 +940,10 @@ static MimeViewer *poppler_viewer_create(void)
 			    NULL);
 
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
+			    viewer->zoom_in,
+			    _("Zoom In"),
+			    NULL);
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
 			    viewer->zoom_out,
 			    _("Zoom Out"),
 			    NULL);
