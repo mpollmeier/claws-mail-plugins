@@ -1,4 +1,6 @@
+AC_PREREQ(2.60)
 AC_INIT(src/notification_plugin.c)
+AC_CONFIG_AUX_DIR(config)
 AM_MAINTAINER_MODE
 
 PACKAGE=notification_plugin
@@ -148,6 +150,7 @@ AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
 Makefile
+config/Makefile
 src/Makefile
 ])
 
