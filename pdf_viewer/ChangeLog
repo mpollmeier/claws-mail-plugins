@@ -1,3 +1,14 @@
+2007-03-05 [iwkse]	0.2.0cvs28
+
+	* src/poppler_viewer.c
+	* src/doc_index.xpm
+	* src/doc_index_close.xpm
+	* src/Makefile.am
+		added buttons & icons
+		added control for pdf index
+		rearrange buttons adding more separators..
+		some other minor changes.
+
 2007-03-03 [paul]	0.2.0cvs27
 
 	* src/Makefile.am
