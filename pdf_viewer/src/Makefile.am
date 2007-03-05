@@ -26,9 +26,9 @@ AM_CPPFLAGS = \
 	-DLOCALEDIR=\""$(localedir)"\"
 
 EXTRA_DIST = \
-	doc_info.xpm \
 	doc_index.xpm \
 	doc_index_close.xpm \
+	doc_info.xpm \
 	first_arrow.xpm \
 	last_arrow.xpm \
 	left_arrow.xpm \
