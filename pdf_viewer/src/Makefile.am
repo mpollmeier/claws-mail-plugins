@@ -27,6 +27,8 @@ AM_CPPFLAGS = \
 
 EXTRA_DIST = \
 	doc_info.xpm \
+	doc_index.xpm \
+	doc_index_close.xpm \
 	first_arrow.xpm \
 	last_arrow.xpm \
 	left_arrow.xpm \
@@ -36,7 +38,4 @@ EXTRA_DIST = \
 	zoom_fit.xpm \
 	zoom_in.xpm \
 	zoom_out.xpm \
-	zoom_width.xpm \
-	doc_index.xpm \
-	doc_index_close.xpm
-
+	zoom_width.xpm

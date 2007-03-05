@@ -1,3 +1,9 @@
+2007-03-05 [iwkse]	0.2.0cvs30
+
+	* src/Makefile.am
+			Fixed Alphabetical order
+			I know, i'm not so `ordered`
+
 2007-03-05 [iwkse]	0.2.0cvs29
 
 	* src/poppler_viewer.c
