@@ -81,15 +81,12 @@ struct _PopplerViewer
 	GtkWidget			*vbox;
 	GtkWidget			*hbox;
 	GtkWidget			*frame_index;
-	GtkWidget			*vbox_index;
-	GtkWidget			*hbox_index;
 	GtkWidget			*pdf_view;
 	GtkWidget			*scrollwin;
 	GtkWidget			*icon_type;
 	GdkPixmap			*icon_pixmap;
 	GdkBitmap			*icon_bitmap;
 	GtkWidget			*doc_label;
-	GtkWidget			*index_label;
 	GtkWidget			*cur_page;
 	GtkWidget			*doc_index_pane;
 	GtkWidget			*index_list;
@@ -913,7 +910,6 @@ static MimeViewer *poppler_viewer_create(void)
 	viewer->icon_type = gtk_image_new();
 
 	viewer->doc_label = gtk_label_new("");
-	viewer->index_label = gtk_label_new(_("Document Index"));
 	viewer->vsep = gtk_vseparator_new();
 	viewer->vsep1 = gtk_vseparator_new();
 	viewer->vsep2 = gtk_vseparator_new();
@@ -923,8 +919,8 @@ static MimeViewer *poppler_viewer_create(void)
 
 	viewer->frame_index = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (viewer->frame_index), GTK_SHADOW_IN);
-	gtk_widget_set_size_request (viewer->frame_index, 15, -1);
-
+	gtk_widget_set_size_request (viewer->frame_index, 18, -1);
+	gtk_frame_set_label(GTK_FRAME(viewer->frame_index), _("Document Index"));
 	viewer->cur_page = gtk_spin_button_new_with_range(0.0, 0.0, 1.0);
 	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->cur_page), TRUE);
 
@@ -993,15 +989,12 @@ static MimeViewer *poppler_viewer_create(void)
 	viewer->vbox = gtk_vbox_new(FALSE, 4);
 	viewer->hbox = gtk_hbox_new(FALSE, 4);
 
-	viewer->vbox_index = gtk_vbox_new(FALSE, 4);
-	viewer->hbox_index = gtk_hbox_new(FALSE, 4);
-
     /* treeview */
 	viewer->index_list = gtk_tree_view_new();
 	viewer->index_col = gtk_tree_view_column_new();
-	gtk_tree_view_column_set_title(viewer->index_col, "");
-	gtk_tree_view_append_column(GTK_TREE_VIEW(viewer->index_list), viewer->index_col);
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(viewer->index_list), FALSE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(viewer->index_list), viewer->index_col);
+	
 	viewer->index_renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(viewer->index_col, viewer->index_renderer, TRUE);
 
@@ -1043,16 +1036,10 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->doc_info, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->doc_index, FALSE, FALSE, 1);
 
-	gtk_box_pack_start(GTK_BOX(viewer->hbox_index), viewer->index_label, FALSE, FALSE, 1);
-
-	gtk_box_pack_start(GTK_BOX(viewer->vbox_index), viewer->hbox_index, FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(viewer->vbox_index), viewer->index_list, FALSE, FALSE, 1);
-
-	gtk_container_add(GTK_CONTAINER(viewer->frame_index), viewer->vbox_index);
+	gtk_container_add(GTK_CONTAINER(viewer->frame_index), viewer->index_list);
 
 	gtk_paned_pack1(GTK_PANED(viewer->doc_index_pane), viewer->frame_index, FALSE, FALSE);
 	gtk_paned_pack2(GTK_PANED(viewer->doc_index_pane), viewer->scrollwin, FALSE, FALSE);
-
 
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->hbox, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->doc_index_pane, TRUE, TRUE, 0);
@@ -1113,17 +1100,8 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_show(GTK_WIDGET(viewer->pdf_view));
 	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view));
 
-	gtk_widget_show(GTK_WIDGET(viewer->hbox_index));
-	gtk_widget_ref(GTK_WIDGET(viewer->hbox_index));
-
-	gtk_widget_show(GTK_WIDGET(viewer->vbox_index));
-	gtk_widget_ref(GTK_WIDGET(viewer->vbox_index));
-
 	gtk_widget_show(GTK_WIDGET(viewer->index_list));
 	gtk_widget_ref(GTK_WIDGET(viewer->index_list));
-
-	gtk_widget_show(GTK_WIDGET(viewer->index_label));
-	gtk_widget_ref(GTK_WIDGET(viewer->index_label));
 
 	/* Set Tooltips*/
 	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 

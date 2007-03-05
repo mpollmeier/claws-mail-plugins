@@ -1,3 +1,9 @@
+2007-03-05 [iwkse]	0.2.0cvs35
+
+	* src/poppler_viewer.c
+			Remove useless widgets.
+			A better index layout
+
 2007-03-05 [iwkse]	0.2.0cvs34
 
 	* src/poppler_viewer.c
