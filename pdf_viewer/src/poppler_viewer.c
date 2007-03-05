@@ -59,7 +59,6 @@
 #include "rotate_left.xpm"
 #include "doc_info.xpm"
 #include "doc_index.xpm"
-#include "doc_index_close.xpm"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
@@ -107,7 +106,6 @@ struct _PopplerViewer
 	GtkWidget			*rotate_right;
 	GtkWidget			*doc_info;
 	GtkWidget			*doc_index;
-	GtkWidget			*doc_index_button_close;
 	/* end GtkButtons */
 	GtkTable			*table_doc_info;
 	GtkTooltips			*button_bar_tips;
@@ -157,13 +155,12 @@ static GtkWidget *poppler_get_widget(MimeViewer *_viewer)
 	return GTK_WIDGET(viewer->vbox);
 }
 
-static void poppler_hide_index_pane(GtkButton *button, PopplerViewer *viewer)
+static void poppler_hide_index_pane(PopplerViewer *viewer)
 {
 	if(viewer->pdf_index) {   
 		poppler_index_iter_free(viewer->pdf_index);
 		viewer->pdf_index = NULL;
 		gtk_widget_hide(GTK_WIDGET(viewer->frame_index));
-		gtk_widget_set_sensitive(viewer->doc_index, TRUE);
 	}
 }
 
@@ -310,16 +307,22 @@ static void poppler_get_document_index(PopplerIndexIter *index_iter)
 	while (poppler_index_iter_next (index_iter));
 }
 
+/* Show/Hide the index pane */
 static void poppler_show_document_index_cb(GtkButton *button, PopplerViewer *viewer)
 {
 	if(!viewer->pdf_index)
 		viewer->pdf_index = poppler_index_iter_new(viewer->pdf_doc);
-
-	poppler_get_document_index((PopplerIndexIter *) viewer->pdf_index);
-	gtk_widget_set_sensitive(viewer->doc_index, FALSE);
-	gtk_widget_show(GTK_WIDGET(viewer->frame_index));
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(viewer->doc_index))) {
+		poppler_get_document_index((PopplerIndexIter *) viewer->pdf_index);
+		gtk_widget_show(GTK_WIDGET(viewer->frame_index));
+	}
+	else {
+		poppler_hide_index_pane(viewer);
+	}
+		
 }
 
+/* Disable the index button if the document doesn't have an index*/
 static void poppler_set_index_button_sensitive(PopplerViewer *viewer)
 {
 	viewer->pdf_index  = poppler_index_iter_new(viewer->pdf_doc);
@@ -970,14 +973,10 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_set_size_request(viewer->doc_info, -1, -1);
 	button_set_pixmap(viewer->doc_info, doc_info_xpm);
 
-	viewer->doc_index = gtk_button_new();
+	viewer->doc_index = gtk_toggle_button_new();
 	gtk_widget_set_size_request(viewer->doc_index, -1, -1);
 	button_set_pixmap(viewer->doc_index, doc_index_xpm);
 	
-	viewer->doc_index_button_close = gtk_button_new();
-	gtk_widget_set_size_request(viewer->doc_index_button_close, -1, -1);
-	button_set_pixmap(viewer->doc_index_button_close, doc_index_close_xpm);
-
 	gtk_scrolled_window_set_policy(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin), 
 			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -1044,7 +1043,6 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->doc_index, FALSE, FALSE, 1);
 
 	gtk_box_pack_start(GTK_BOX(viewer->hbox_index), viewer->index_label, FALSE, FALSE, 1);
-	gtk_box_pack_end(GTK_BOX(viewer->hbox_index), viewer->doc_index_button_close, FALSE, FALSE, 1);
 
 	gtk_box_pack_start(GTK_BOX(viewer->vbox_index), viewer->hbox_index, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->vbox_index), viewer->index_list, FALSE, FALSE, 1);
@@ -1120,9 +1118,6 @@ static MimeViewer *poppler_viewer_create(void)
 	gtk_widget_show(GTK_WIDGET(viewer->vbox_index));
 	gtk_widget_ref(GTK_WIDGET(viewer->vbox_index));
 
-	gtk_widget_show(GTK_WIDGET(viewer->doc_index_button_close));
-	gtk_widget_ref(GTK_WIDGET(viewer->doc_index_button_close));
-
 	gtk_widget_show(GTK_WIDGET(viewer->index_list));
 	gtk_widget_ref(GTK_WIDGET(viewer->index_list));
 
@@ -1189,11 +1184,6 @@ static MimeViewer *poppler_viewer_create(void)
 						_("Document Index"),
 						NULL);
 
-	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips), 
-						viewer->doc_index_button_close,
-						_("Close"),
-						NULL);
-
 	/* Connect Signals */
 	g_signal_connect (G_OBJECT(viewer->cur_page), 
 				    "value-changed", 
@@ -1255,10 +1245,6 @@ static MimeViewer *poppler_viewer_create(void)
 				    G_CALLBACK(poppler_show_document_index_cb), 
 				    (gpointer) viewer);
 
-	g_signal_connect (G_OBJECT(viewer->doc_index_button_close),
-				    "clicked",
-				    G_CALLBACK(poppler_hide_index_pane),
-				    (gpointer) viewer);
 /*
 	g_signal_connect (G_OBJECT(viewer->scrollwin), 
 				    "key_press_event", 
