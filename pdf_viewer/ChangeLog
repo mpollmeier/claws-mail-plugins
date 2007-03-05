@@ -1,3 +1,8 @@
+2007-03-05 [iwkse]	0.2.0cvs29
+
+	* src/poppler_viewer.c
+			fix indentation
+
 2007-03-05 [iwkse]	0.2.0cvs28
 
 	* src/poppler_viewer.c
