@@ -773,6 +773,7 @@ static void poppler_clear_viewer(MimeViewer *_viewer)
 	GtkAdjustment *vadj;
 	GdkPixbuf *pb;
 		
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(viewer->doc_index), FALSE);
 	gtk_widget_hide(viewer->frame_index);
 
 	debug_print("poppler_clear_viewer\n");

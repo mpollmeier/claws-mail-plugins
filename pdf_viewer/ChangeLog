@@ -1,3 +1,8 @@
+2007-03-05 [iwkse]	0.2.0cvs34
+
+	* src/poppler_viewer.c
+			fix toggle button state on a new document view
+
 2007-03-05 [iwkse]	0.2.0cvs33
 
 	* src/Makefile.am
