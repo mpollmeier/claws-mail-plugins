@@ -39,3 +39,4 @@
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/Makefile.am;  cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/poppler_viewer.c;  ) > 0.2.0cvs33.patchset
 ( cvs diff -u -r 1.1.2.28 -r 1.1.2.29 src/poppler_viewer.c;  ) > 0.2.0cvs34.patchset
 ( cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/poppler_viewer.c;  ) > 0.2.0cvs35.patchset
+( cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/poppler_viewer.c;  ) > 0.2.0cvs36.patchset
