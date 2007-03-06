@@ -291,6 +291,8 @@ static void poppler_get_document_index(PopplerViewer *viewer, PopplerIndexIter *
 
 	do
 	{
+		gint page_num = 0;
+		
 		action = poppler_index_iter_get_action (index_iter);
 
 		if (action->type != POPPLER_ACTION_GOTO_DEST) {
@@ -298,10 +300,24 @@ static void poppler_get_document_index(PopplerViewer *viewer, PopplerIndexIter *
 			continue;
 		}
 
+		if (action->goto_dest.dest->type == POPPLER_DEST_XYZ)
+			page_num = action->goto_dest.dest->page_num;
+		else if (action->goto_dest.dest->type == POPPLER_DEST_NAMED) {
+			PopplerDest *dest = poppler_document_find_dest(
+					viewer->pdf_doc, action->goto_dest.dest->named_dest);
+			if (dest->type != POPPLER_DEST_XYZ) {
+				g_warning("couldn't figure out link\n");
+				poppler_dest_free(dest);
+				continue;
+			}
+			page_num = dest->page_num;
+			poppler_dest_free(dest);
+		} else
+			continue;
 		gtk_tree_store_append(GTK_TREE_STORE(viewer->index_model), &childiter, parentiter);
 		gtk_tree_store_set(GTK_TREE_STORE(viewer->index_model), &childiter,
 						INDEX_NAME, action->named.title,
-						INDEX_PAGE, action->goto_dest.dest->page_num,
+						INDEX_PAGE, page_num,
 						INDEX_TOP, action->goto_dest.dest->top,
 						-1);
 		poppler_action_free (action);
