@@ -1,3 +1,8 @@
+2007-03-06 [iwkse]	0.2.0cvs41
+
+	* configure.ac
+			check for poppler glib >= 0.5.4
+
 2007-03-06 [colin]	0.2.0cvs40
 
 	* src/poppler_viewer.c
