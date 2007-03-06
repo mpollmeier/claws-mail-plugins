@@ -312,8 +312,10 @@ static void poppler_get_document_index(PopplerViewer *viewer, PopplerIndexIter *
 			}
 			page_num = dest->page_num;
 			poppler_dest_free(dest);
-		} else
+		} else {
+			g_warning("unhandled link type %d\nplease contact developers\n", action->goto_dest.dest->type);
 			continue;
+		}
 		gtk_tree_store_append(GTK_TREE_STORE(viewer->index_model), &childiter, parentiter);
 		gtk_tree_store_set(GTK_TREE_STORE(viewer->index_model), &childiter,
 						INDEX_NAME, action->named.title,
