@@ -1,3 +1,9 @@
+2007-03-06 [paul]	0.11.0cvs2
+
+	* configure.ac
+		pt_BR was listed twice in ALL_LINGUAS,
+		fixed
+
 2007-03-03 [paul]	0.11.0cvs1
 
 	* configure.ac
