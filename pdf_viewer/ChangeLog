@@ -1,3 +1,11 @@
+2007-03-07 [paul]	0.2.0cvs42
+
+	* configure.ac
+	* src/poppler_viewer.c
+		don't depend on poppler 0.5.4, be
+		backwards compatible
+		Thanks to Colin
+
 2007-03-06 [iwkse]	0.2.0cvs41
 
 	* configure.ac

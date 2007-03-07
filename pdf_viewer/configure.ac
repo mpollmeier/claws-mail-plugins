@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=0
-EXTRA_VERSION=41
+EXTRA_VERSION=42
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -81,11 +81,20 @@ AM_PATH_GLIB_2_0(2.6.0,,
 AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
-PKG_CHECK_MODULES(POPPLER, poppler-glib >= 0.5.4, ,
-				  AC_MSG_ERROR([Can't find Poppler >= 0.5.4 Glib wrapper]))
+PKG_CHECK_MODULES(POPPLER, poppler-glib >= 0.5.1, ,
+				  AC_MSG_ERROR([Can't find Poppler >= 0.5.1 Glib wrapper]))
 AC_SUBST(POPPLER_LIBS)
 AC_SUBST(POPPLER_CFLAGS)
-AC_CHECK_FUNCS(poppler_page_render)
+
+OLD_CFLAGS=$CFLAGS
+CFLAGS="$POPPLER_CFLAGS $GTK_CFLAGS $GLIB_CFLAGS"
+AC_CHECK_DECL(POPPLER_DEST_NAMED,
+ 	[AC_DEFINE([HAVE_POPPLER_DEST_NAMED], [], [Description])],
+ 	,[#include <poppler-action.h>])
+AC_CHECK_DECL(POPPLER_DEST_XYZ,
+ 	[AC_DEFINE([HAVE_POPPLER_DEST_XYZ], [], [Description])],
+ 	,[#include <poppler-action.h>])
+CFLAGS=$OLD_CFLAGS
 
 dnl Find gs
 AC_PATH_PROG(GS_EXEC, gs, no)

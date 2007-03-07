@@ -302,6 +302,7 @@ static void poppler_get_document_index(PopplerViewer *viewer, PopplerIndexIter *
 
 		if (action->goto_dest.dest->type == POPPLER_DEST_XYZ)
 			page_num = action->goto_dest.dest->page_num;
+#ifdef HAVE_POPPLER_DEST_NAMED
 		else if (action->goto_dest.dest->type == POPPLER_DEST_NAMED) {
 			PopplerDest *dest = poppler_document_find_dest(
 					viewer->pdf_doc, action->goto_dest.dest->named_dest);
@@ -312,8 +313,14 @@ static void poppler_get_document_index(PopplerViewer *viewer, PopplerIndexIter *
 			}
 			page_num = dest->page_num;
 			poppler_dest_free(dest);
-		} else {
+		} 
+#endif
+		else {
+#ifdef HAVE_POPPLER_DEST_NAMED
 			g_warning("unhandled link type %d\nplease contact developers\n", action->goto_dest.dest->type);
+#else
+			g_warning("unhandled link type %d\nplease upgrade libpoppler-glib to 0.5.4\n", action->goto_dest.dest->type);
+#endif
 			continue;
 		}
 		gtk_tree_store_append(GTK_TREE_STORE(viewer->index_model), &childiter, parentiter);
