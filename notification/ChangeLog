@@ -1,3 +1,9 @@
+2007-03-08 [holger]	0.9cvs3
+
+	* Makefile.am
+		Fix bug 1146, 'cannot compile
+		notification-plugin from snapshot
+
 2007-03-02 [holger]	0.9cvs2
 
 	* src/notification_core.c

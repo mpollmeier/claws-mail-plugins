@@ -33,3 +33,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/notification_banner.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_foldercheck.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/notification_popup.c;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/notification_prefs.c;  ) > 0.8cvs2.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/notification_core.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/notification_prefs.c;  ) > 0.9cvs1.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/notification_core.c;  ) > 0.9cvs2.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 Makefile.am;  ) > 0.9cvs3.patchset
