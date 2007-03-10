@@ -66,7 +66,6 @@ struct _RSSylThreadCtx {
 	gboolean not_modified;
 	gboolean defer_modified_check;
 	gboolean ready;
-	gint timeout;
 	gchar *error;
 };
 
@@ -144,7 +143,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		if( ctx->last_update != -1 ) {
 			time_str = createRFC822Date(&ctx->last_update);
 		}
-		debug_print("RSSyl: last update %ld (%s)\n", ctx->last_update,
+		debug_print("RSSyl: last update %ld (%s)\n",
+			(long int)ctx->last_update,
 			(ctx->last_update != -1 ? time_str : "unknown") );
 		g_free(time_str);
 		time_str = NULL;
@@ -158,6 +158,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	res = curl_easy_perform(eh);
 
 	if (res != 0) {
+		if(res == CURLE_OPERATION_TIMEOUTED) {
+			log_error(RSSYL_LOG_ERROR_TIMEOUT, ctx->url);
+		}
 		ctx->error = g_strdup(curl_easy_strerror(res));
 		ctx->ready = TRUE;
 		curl_easy_cleanup(eh);
@@ -175,8 +178,9 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			if( last_modified != -1 ) {
 				time_str = createRFC822Date(&last_modified);
 			}
-			debug_print("RSSyl: got status %d, last mod %ld (%s)\n", response_code,
-					last_modified, (last_modified != -1 ? time_str : "unknown") );
+			debug_print("RSSyl: got status %d, last mod %ld (%s)\n",
+					response_code, (long int) last_modified, 
+					(last_modified != -1 ? time_str : "unknown") );
 			g_free(time_str);
 			time_str = NULL;
 		} else {
@@ -251,15 +255,12 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 #endif
 	gchar *msg = NULL, *tmptitle = NULL;
 	gchar *content;
-	time_t start_time = time(NULL);
-	gboolean killed = FALSE;
 
 	ctx->url = url;
 	ctx->ready = FALSE;
 	ctx->last_update = last_update;
 	ctx->not_modified = FALSE;
 	ctx->defer_modified_check = FALSE;
-	ctx->timeout = rssyl_prefs_get()->timeout;
 
 	*title = NULL;
 
@@ -283,23 +284,10 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 		debug_print("RSSyl: waiting for thread to finish\n");
 		while( !ctx->ready ) {
 			claws_do_idle();
-			if (time(NULL) - start_time > ctx->timeout) {
-				log_error(RSSYL_LOG_ERROR_TIMEOUT, url);
-				pthread_cancel(pt);
-				ctx->ready = TRUE;
-				killed = TRUE;
-				template = NULL;
-			}
 		}
 
 		debug_print("RSSyl: thread finished\n");
 		pthread_join(pt, (void *)&template);
-		if (killed) {
-			if( template != NULL )
-				if( g_file_test(template, G_FILE_TEST_EXISTS) )
-					g_unlink(template);
-			template = NULL;
-		}
 	}
 #else
 	debug_print("RSSyl: no pthreads, run blocking fetch\n");
@@ -435,7 +423,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 
 			   time_str = createRFC822Date(&pub_date);
 			   debug_print("RSSyl: XML - item date found: %ld (%s)\n",
-					   pub_date, time_str ? time_str : "unknown");
+					   (long int) pub_date, time_str ? time_str : "unknown");
 			   if( !time_str || ( pub_date < last_update && last_update > 0) ) {
 				   if( !time_str) {
 					   debug_print("RSSyl: XML - invalid item date\n");
@@ -1147,8 +1135,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 				fitem->link,
 				fitem->text);
 
-	if (meta_charset)
-		g_free(meta_charset);
+	g_free(meta_charset);
 
 	if( fitem->media )
 		fprintf(f, "<p><a href=\"%s\">Attached media file</a> [%s] (%ld bytes)</p>\n",
@@ -1331,14 +1318,12 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		rssyl_update_comments(ritem);
 
 	ritem->item.mtime = time(NULL);
-	debug_print("setting %s mtime to %ld\n", ritem->item.name, time(NULL));
+	debug_print("setting %s mtime to %ld\n", ritem->item.name, (long int)time(NULL));
 
 	if (doc)
 		xmlFreeDoc(doc);
-	if (title)
-		g_free(title);
-	if (dir)
-		g_free(dir);
+	g_free(title);
+	g_free(dir);
 
 	log_print(RSSYL_LOG_UPDATED, ritem->url);
 }
