@@ -1,3 +1,9 @@
+2007-03-11 [ticho]	0.11.0cvs4
+
+	* src/feed.c
+		Do not put a newline character between text tags if feed item
+		text is empty. Should fix false new posts on certain feeds.
+
 2007-03-10 [ticho]	0.11.0cvs3
 
 	* po/sk.po

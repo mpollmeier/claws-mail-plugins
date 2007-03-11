@@ -1129,11 +1129,11 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 				"<base href=\"%s\">\n"
 			        "</head><body>\n"
 				RSSYL_TEXT_START"\n"
-				"%s\n"
+				"%s%s"
 				RSSYL_TEXT_END"\n\n",
 				meta_charset ? meta_charset:"",
 				fitem->link,
-				fitem->text);
+				fitem->text, (fitem->text ? "\n" : "") );
 
 	g_free(meta_charset);
 
