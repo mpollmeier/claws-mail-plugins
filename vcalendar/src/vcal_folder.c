@@ -1322,9 +1322,7 @@ void *url_read_thread(void *data)
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
-#ifndef USE_PTHREAD
 	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
-#endif
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
@@ -1338,6 +1336,10 @@ void *url_read_thread(void *data)
 	if (res != 0) {
 		debug_print("res %d %s\n", res, curl_easy_strerror(res));
 		td->error = g_strdup(curl_easy_strerror(res));
+		
+		if(res == CURLE_OPERATION_TIMEOUTED)
+			log_error(_("Timeout (%d seconds) connecting to %s\n"),
+				prefs_common.io_timeout_secs, t_url);
 	}
 
 	curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
@@ -1385,7 +1387,6 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	td = g_new0(thread_data, 1);
 	msg = NULL;
 	res = NULL;
-	start_time = time(NULL);
 	killed = FALSE;
 	
 	td->url  = url;
@@ -1405,12 +1406,6 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	}
 	while (!td->done)  {
  		claws_do_idle();
-		if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
-			log_error(_("Timeout (%d seconds) connecting to %s\n"), prefs_common.io_timeout_secs, url);
-			pthread_cancel(pt);
-			td->done = TRUE;
-			killed = TRUE;
-		}
 	}
  
 	pthread_join(pt, &res);
@@ -1425,12 +1420,12 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	STATUSBAR_POP(mainwindow_get_mainwindow());
 
 	if (callback) {
-		callback(url, killed?NULL:result, verbose, error);
+		callback(url, result, verbose, error);
 		return NULL;
 	} else {
 		if (error)
 			g_free(error);
-		return killed?NULL:result;
+		return result;
 	}
 }
 
