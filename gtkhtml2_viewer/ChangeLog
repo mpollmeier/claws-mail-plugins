@@ -1,3 +1,8 @@
+2007-03-12 [colin]	0.14.2cvs2
+
+	* src/gtkhtml2_viewer.c
+		Fix timeout handling. Patch by Pawel Pekala
+
 2007-03-02 [colin]	0.14.2cvs1
 
 	* src/gtkhtml2_viewer.c

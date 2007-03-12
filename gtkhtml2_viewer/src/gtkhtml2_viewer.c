@@ -268,7 +268,7 @@ static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 	
 	debug_print("gtkhtml2_clear_viewer\n");
 	viewer->to_load = NULL;
-	
+
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	vadj->value = 0.0;
@@ -433,20 +433,14 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 		f = fopen(template, "wb");
 	if (f == NULL) {
 		perror("fdopen");
-		ctx->ready = TRUE;
-		g_unlink(template);
-		g_free(template);
-		return NULL;
+		goto ERROR;
 	}
 
 	eh = curl_easy_init();
 
 	if (eh == NULL) {
 		g_warning("can't init curl");
-		ctx->ready = TRUE;
-		g_unlink(template);
-		g_free(template);
-		return NULL;
+		goto ERROR;
 	}
 
 	curl_easy_setopt(eh, CURLOPT_URL, ctx->url);
@@ -454,9 +448,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
-#ifndef USE_PTHREAD
 	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
-#endif
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0);
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0);
@@ -466,14 +458,28 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 		" (" PLUGINS_URI ")");
 
 	res = curl_easy_perform(eh);
-
 	curl_easy_cleanup(eh);
+	
+	if(res != 0) {
+		if(res == CURLE_OPERATION_TIMEOUTED)
+			log_error(_("Timeout connecting to %s\n"), ctx->url);
+		goto ERROR;
+	}
 
 	fclose(f);
-
 	ctx->ready = TRUE;
 
 	return template;
+ERROR:
+	ctx->ready = TRUE;
+	
+	if(f != NULL)
+		fclose(f);
+		
+	g_unlink(template);
+	g_free(template);
+	
+	return NULL;
 }
 #endif
 
@@ -493,7 +499,6 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 	pthread_t pt;
 #endif
 	GtkHtmlThreadCtx *ctx = NULL;
-	time_t start_time = time(NULL);
 	gboolean killed = FALSE;
 	gboolean remote_not_loaded = FALSE;
 #endif
@@ -607,12 +612,7 @@ not_found_local:
 		        debug_print("gtkhtml: waiting for thread to finish\n");
 		        while( !ctx->ready ) {
 			        claws_do_idle();
-				if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
-					log_error(_("Timeout connecting to %s\n"), url);
-					pthread_cancel(pt);
-					ctx->ready = TRUE;
-					killed = TRUE;
-				} 
+
 				if (viewer->stop_previous || claws_is_exiting()) {
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
