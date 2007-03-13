@@ -238,8 +238,12 @@ static void default_action_cb(NotifyNotification *notification,
   MainWindow *mainwin;
   /* Let mainwindow pop up */
   mainwin = mainwindow_get_mainwindow();
-  if(mainwin)
+  if(mainwin) {
+    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
+    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
+    main_window_show(mainwin);
     gtk_window_present(GTK_WINDOW(mainwin->window));
+  }
 }
 
 static gboolean notification_libnotify_create(MsgInfo *msginfo,
@@ -545,7 +549,10 @@ static gboolean notification_popup_button(GtkWidget *widget,
       mainwin = mainwindow_get_mainwindow();
       if(!mainwin)
 	return TRUE;
-      gtk_window_present(GTK_WINDOW(mainwin->window));
+    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
+    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
+    main_window_show(mainwin);
+    gtk_window_present(GTK_WINDOW(mainwin->window));
     }
   }
   return TRUE;

@@ -1,3 +1,11 @@
+2007-03-13 [wwp]	0.9cvs4
+
+	* src/notification_popup.c
+	* config/.cvsignore
+		Candidate fix for bug #1148: gtk_window_present() is really not
+		enough to raise/show CM's mainwindow in all situations.
+		More files to ignore.
+
 2007-03-08 [holger]	0.9cvs3
 
 	* Makefile.am
