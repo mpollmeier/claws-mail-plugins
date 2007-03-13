@@ -1,3 +1,9 @@
+2007-03-13 [colin]	0.14.2cvs3
+
+	* src/gtkhtml2_viewer.c
+		Revert previous patch for now. It crashes on interrupted
+		load.
+
 2007-03-12 [colin]	0.14.2cvs2
 
 	* src/gtkhtml2_viewer.c
