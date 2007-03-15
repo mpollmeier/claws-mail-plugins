@@ -1,3 +1,9 @@
+2007-03-15 [colin]	0.14.2cvs4
+
+	* src/gtkhtml2_viewer.c
+		Add message search implementation
+		(TODO: backward search)
+
 2007-03-13 [colin]	0.14.2cvs3
 
 	* src/gtkhtml2_viewer.c

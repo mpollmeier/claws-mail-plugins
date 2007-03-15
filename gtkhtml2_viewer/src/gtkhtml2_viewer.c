@@ -31,6 +31,8 @@
 #include <gdk/gdkx.h>
 #include <libgtkhtml/gtkhtml.h>
 #include <libgtkhtml/view/htmlselection.h>
+#include <libgtkhtml/layout/htmlbox.h>
+#include <libgtkhtml/layout/htmlboxtext.h>
 #include "common/claws.h"
 #include "common/version.h"
 #include "main.h"
@@ -74,6 +76,7 @@ struct _GtkHtml2Viewer
 	GMutex		*mutex;
 	GtkWidget 	*link_popupmenu;
 	GtkItemFactory 	*link_popupfactory;
+	gint		 last_search_match;
 };
 
 static MimeViewerFactory gtkhtml2_viewer_factory;
@@ -250,6 +253,7 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
 	viewer->to_load = partinfo;
+	viewer->last_search_match = -1;
 	gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_prepare, viewer);
 }
 
@@ -268,7 +272,7 @@ static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 	
 	debug_print("gtkhtml2_clear_viewer\n");
 	viewer->to_load = NULL;
-	
+	viewer->last_search_match = -1;
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	vadj->value = 0.0;
@@ -707,6 +711,121 @@ static gchar *gtkhtml2_get_selection(MimeViewer *_viewer)
 	return html_selection_get_text((HtmlView *)viewer->html_view);
 }
 
+static HtmlBox *get_next_box(HtmlBox *box)
+{
+	HtmlBox *parent;
+	
+	if (!box)
+		return NULL;
+	if (box->children) {
+		return box->children;
+	}
+	if (box->next) {
+		return box->next;
+	}
+
+	for (parent = box->parent; parent != NULL;
+	     parent = parent->parent) {
+		if (parent->next)
+			return parent->next;
+	}
+
+	return NULL;
+}
+
+static gboolean gtkhtml2_search_forward(GtkHtml2Viewer *viewer,
+				      const gchar *str, gboolean case_sens)
+{
+	HtmlBox *box = NULL;
+	gchar *search_str = case_sens?g_strdup(str):g_utf8_strdown(g_strdup(str), -1);
+	gint offset = 0, r_offset = 0;
+	DomNode *last_node = NULL;
+	if (HTML_VIEW(viewer->html_view) == NULL)
+		return FALSE;
+		
+	box = HTML_VIEW(viewer->html_view)->root;
+	for (; box; box = get_next_box(box)) {
+		if (HTML_IS_BOX_TEXT(box)) {
+			gchar *found = NULL;
+			gchar *text = NULL;
+			gchar *stext = NULL;
+			
+			if (HTML_BOX_TEXT(box)->canon_text == NULL)
+				continue;
+			text = case_sens?g_strndup(HTML_BOX_TEXT(box)->canon_text,
+					HTML_BOX_TEXT(box)->length):
+					g_utf8_strdown(g_strndup(HTML_BOX_TEXT(box)->canon_text,
+					HTML_BOX_TEXT(box)->length), -1);
+			stext = text;
+			gint len;
+			if (box->dom_node != last_node) {
+				last_node = box->dom_node;
+				r_offset = 0;
+			}
+search_substring:
+			if (!stext)
+				continue;
+			found = strstr(stext, search_str);
+
+			if (!found) {
+				len = g_utf8_strlen(stext, -1);
+				offset += len;
+				r_offset += len;
+			} else {
+				debug_print("found: %s\n", found);
+				*found = 0;
+				debug_print("relative offset %d\n", r_offset);
+				len = g_utf8_strlen(stext, -1);
+				if (offset + len <= viewer->last_search_match) {
+					offset += len;
+					r_offset += len;
+					*found='x';
+					stext = found;
+					goto search_substring;
+				}
+				offset += len;
+				r_offset += len;
+				*found='x';
+				viewer->last_search_match = offset;
+				html_selection_set(HTML_VIEW(viewer->html_view),
+					box->dom_node,
+					r_offset, g_utf8_strlen(str, -1));
+				g_free(text);
+				html_view_scroll_to_node(HTML_VIEW(viewer->html_view),
+					box->dom_node, HTML_VIEW_SCROLL_TO_BOTTOM);
+				return TRUE;
+			}
+			g_free(text);
+		}
+	}
+	g_free(search_str);
+	
+	return FALSE;
+}
+
+static gboolean gtkhtml2_search_backward(GtkHtml2Viewer *viewer,
+				      const gchar *str, gboolean case_sens)
+{
+	return FALSE;
+}
+
+static gboolean	gtkhtml2_text_search (MimeViewer *_viewer, gboolean backward,
+				      const gchar *str, gboolean case_sens)
+{
+	gboolean result;
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)_viewer;
+	
+	if (backward)
+		result = gtkhtml2_search_backward(viewer, str, case_sens);
+	else
+		result = gtkhtml2_search_forward(viewer, str, case_sens);
+	
+	if (result == FALSE)
+		viewer->last_search_match = -1;
+	
+	return result;
+}
+
 static gboolean gtkhtml2_scroll_page(MimeViewer *_viewer, gboolean up)
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)_viewer;
@@ -764,6 +883,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->mimeviewer.clear_viewer = gtkhtml2_clear_viewer;
 	viewer->mimeviewer.destroy_viewer = gtkhtml2_destroy_viewer;
 	viewer->mimeviewer.get_selection = gtkhtml2_get_selection;
+	viewer->mimeviewer.text_search = gtkhtml2_text_search;
 	viewer->mimeviewer.scroll_page = gtkhtml2_scroll_page;
 	viewer->mimeviewer.scroll_one_line = gtkhtml2_scroll_one_line;
 
@@ -868,7 +988,7 @@ gint plugin_init(gchar **error)
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 8, 1, 15),
 				VERSION_NUMERIC, _("GtkHtml2 HTML Viewer"), error))
 		return -1;
 
