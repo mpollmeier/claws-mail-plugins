@@ -779,13 +779,13 @@ search_substring:
 				if (offset + len <= viewer->last_search_match) {
 					offset += len;
 					r_offset += len;
-					*found='x';
+					*found=0x1;
 					stext = found;
 					goto search_substring;
 				}
 				offset += len;
 				r_offset += len;
-				*found='x';
+				*found=0x1;
 				viewer->last_search_match = offset;
 				html_selection_set(HTML_VIEW(viewer->html_view),
 					box->dom_node,

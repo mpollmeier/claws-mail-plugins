@@ -1,3 +1,9 @@
+2007-03-15 [colin]	0.14.2cvs5
+
+	* src/gtkhtml2_viewer.c
+		And don't break in an infinite loop if searching
+		for 'x'
+
 2007-03-15 [colin]	0.14.2cvs4
 
 	* src/gtkhtml2_viewer.c
