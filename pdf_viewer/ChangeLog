@@ -1,3 +1,8 @@
+2007-03-15 [iwkse]	0.2.0cvs43
+
+	* src/poppler_viewer.c
+			Fix problem with spin & poppler_view_pdf_update
+
 2007-03-07 [paul]	0.2.0cvs42
 
 	* configure.ac
