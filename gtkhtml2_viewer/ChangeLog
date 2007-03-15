@@ -1,3 +1,8 @@
+2007-03-15 [colin]	0.14.2cvs6
+
+	* src/gtkhtml2_viewer.c
+		Implement backward search
+
 2007-03-15 [colin]	0.14.2cvs5
 
 	* src/gtkhtml2_viewer.c

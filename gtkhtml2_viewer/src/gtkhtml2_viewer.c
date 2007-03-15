@@ -734,7 +734,8 @@ static HtmlBox *get_next_box(HtmlBox *box)
 }
 
 static gboolean gtkhtml2_search_forward(GtkHtml2Viewer *viewer,
-				      const gchar *str, gboolean case_sens)
+				      const gchar *str, gboolean case_sens,
+				      gboolean select_result)
 {
 	HtmlBox *box = NULL;
 	gchar *search_str = case_sens?g_strdup(str):g_utf8_strdown(g_strdup(str), -1);
@@ -787,12 +788,14 @@ search_substring:
 				r_offset += len;
 				*found=0x1;
 				viewer->last_search_match = offset;
-				html_selection_set(HTML_VIEW(viewer->html_view),
-					box->dom_node,
-					r_offset, g_utf8_strlen(str, -1));
+				if (select_result) {
+					html_selection_set(HTML_VIEW(viewer->html_view),
+						box->dom_node,
+						r_offset, g_utf8_strlen(str, -1));
+					html_view_scroll_to_node(HTML_VIEW(viewer->html_view),
+						box->dom_node, HTML_VIEW_SCROLL_TO_BOTTOM);
+				}
 				g_free(text);
-				html_view_scroll_to_node(HTML_VIEW(viewer->html_view),
-					box->dom_node, HTML_VIEW_SCROLL_TO_BOTTOM);
 				return TRUE;
 			}
 			g_free(text);
@@ -806,7 +809,39 @@ search_substring:
 static gboolean gtkhtml2_search_backward(GtkHtml2Viewer *viewer,
 				      const gchar *str, gboolean case_sens)
 {
-	return FALSE;
+	gint highest_index = viewer->last_search_match;
+	gint prev_highest = -1;
+	gint i = 0, j = 0;
+	if (highest_index == -1) {
+		/* find last match */
+		while (gtkhtml2_search_forward(viewer, str, case_sens, FALSE))
+			i++;
+		highest_index = viewer->last_search_match;
+		if (highest_index == -1)
+			return FALSE; /* not found */
+	} else {
+		/* find previous match */
+		prev_highest = viewer->last_search_match;
+		viewer->last_search_match = -1;
+		while (gtkhtml2_search_forward(viewer, str, case_sens, FALSE)
+			 && viewer->last_search_match <= prev_highest)
+			i++;
+		i--;
+		highest_index = viewer->last_search_match;
+		if (highest_index == -1 || i < 0)
+			return FALSE; /* not found */
+
+	}
+	
+	if (i == 0)
+		return FALSE;
+	viewer->last_search_match = 0;
+	for (j = 0; j < i-1; j++) {
+		gtkhtml2_search_forward(viewer, str, case_sens, FALSE);
+	}
+	gtkhtml2_search_forward(viewer, str, case_sens, TRUE);
+	
+	return TRUE;
 }
 
 static gboolean	gtkhtml2_text_search (MimeViewer *_viewer, gboolean backward,
@@ -818,7 +853,7 @@ static gboolean	gtkhtml2_text_search (MimeViewer *_viewer, gboolean backward,
 	if (backward)
 		result = gtkhtml2_search_backward(viewer, str, case_sens);
 	else
-		result = gtkhtml2_search_forward(viewer, str, case_sens);
+		result = gtkhtml2_search_forward(viewer, str, case_sens, TRUE);
 	
 	if (result == FALSE)
 		viewer->last_search_match = -1;
