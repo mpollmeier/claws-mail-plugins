@@ -716,6 +716,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 
 	}
 	closedir(dp);
+	vcal_folder_export();
 	return g_slist_length(*list);
 }
 
