@@ -153,7 +153,7 @@ AC_SUBST(MICRO_VERSION)
 AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
-po/Makefile.in
+dnl po/Makefile.in
 config/Makefile
 Makefile
 src/Makefile
