@@ -181,7 +181,7 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
       if(msg->msgid)
 	msgid = msg->msgid;
       else {
-	debug_print("Notification Plugin: Message has no message ID!\n");
+	debug_print("Notification Plugin: Message has not message ID!\n");
 	msgid = "";
       }
 

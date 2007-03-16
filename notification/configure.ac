@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=9
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -53,6 +53,10 @@ fi
 AC_SUBST(CLAWS_MAIL_CFLAGS)
 AC_SUBST(CLAWS_MAIL_LIBS)
 AC_SUBST(CLAWS_MAIL_PLUGINDIR)
+
+AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
+AM_GNU_GETTEXT_VERSION([0.15])
+AM_GNU_GETTEXT([external])
 
 dnl Check for GLib
 AM_PATH_GLIB_2_0(2.6.0,,
@@ -149,8 +153,9 @@ AC_SUBST(MICRO_VERSION)
 AC_SUBST(EXTRA_VERSION)
 
 AC_OUTPUT([
-Makefile
+po/Makefile.in
 config/Makefile
+Makefile
 src/Makefile
 ])
 
