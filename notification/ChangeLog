@@ -1,3 +1,9 @@
+2007-03-17 [holger]	0.9cvs7
+
+	* configure.ac
+	* po/LINGUAS *** removed ***
+		Follow Claws' standard for i18n
+
 2007-03-17 [holger]	0.9cvs6
 
 	* ChangeLog
