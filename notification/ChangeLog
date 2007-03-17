@@ -1,3 +1,8 @@
+2007-03-17 [holger]	0.9cvs8
+
+	* po/.cvsignore
+		Another file to ignore.
+
 2007-03-17 [holger]	0.9cvs7
 
 	* configure.ac

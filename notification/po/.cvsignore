@@ -6,3 +6,4 @@ POTFILES
 stamp-po
 rssyl.pot
 *.pot
+remove-potcdate.sed
