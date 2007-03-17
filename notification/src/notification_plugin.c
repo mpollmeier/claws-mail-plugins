@@ -29,6 +29,8 @@
 #include "hooks.h"
 #include "procmsg.h"
 
+#include "gettext.h"
+
 #include "notification_plugin.h"
 #include "notification_core.h"
 #include "notification_prefs.h"
@@ -89,30 +91,33 @@ gint plugin_init(gchar **error)
 {
   gchar *rcpath;
 
+  bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+  bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
+  
   /* Version check */
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
-				VERSION_NUMERIC, "Notification", error))
-		return -1;
+  if(!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+			   VERSION_NUMERIC, _("Notification"), error))
+    return -1;
 
   /* Check if threading is enabled */
   if(!g_thread_supported()) {
-    *error = g_strdup("The Notification plugin needs threading support.");
+    *error = g_strdup(_("The Notification plugin needs threading support."));
     return -1;
   }
 
   hook_f_item = hooks_register_hook(FOLDER_ITEM_UPDATE_HOOKLIST,
 				    my_folder_item_update_hook, NULL);
   if(hook_f_item == (guint) -1) {
-    *error = g_strdup("Failed to register folder item update hook in the "
-		      "Notification plugin");
+    *error = g_strdup(_("Failed to register folder item update hook in the "
+			"Notification plugin"));
     return -1;
   }
 
   hook_m_info = hooks_register_hook(MSGINFO_UPDATE_HOOKLIST,
 				    my_msginfo_update_hook, NULL);
   if(hook_m_info == (guint) -1) {
-    *error = g_strdup("Failed to register msginfo update hook in the "
-		      "Notification plugin");
+    *error = g_strdup(_("Failed to register msginfo update hook in the "
+			"Notification plugin"));
     hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
     return -1;
   }
@@ -170,14 +175,14 @@ void plugin_done(void)
 
 const gchar *plugin_name(void)
 {
-  return "Notification";
+  return _("Notification");
 }
 
 const gchar *plugin_desc(void)
 {
-  return "This plugin provides various ways "
+  return _("This plugin provides various ways "
     "to notify the user of new and unread email.\nFeedback "
-    "to <berndth@gmx.de> is welcome.";
+    "to <berndth@gmx.de> is welcome.");
 }
 
 const gchar *plugin_type(void)
@@ -198,7 +203,7 @@ const gchar *plugin_version(void)
 struct PluginFeature *plugin_provides(void)
 {
   static struct PluginFeature features[] = 
-    { {PLUGIN_NOTIFIER, "Various tools"},
+    { {PLUGIN_NOTIFIER, N_("Various tools")},
       {PLUGIN_NOTHING, NULL}};
   return features;
 }

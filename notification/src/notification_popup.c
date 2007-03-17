@@ -27,6 +27,8 @@
 #include "codeconv.h"
 #include "gtk/gtkutils.h"
 
+#include "gettext.h"
+
 #include "notification_popup.h"
 #include "notification_prefs.h"
 #include "notification_foldercheck.h"
@@ -270,7 +272,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 
   switch(nftype) {
   case F_TYPE_MAIL:
-    summary = "New Mail message";
+    summary = _("New Mail message");
     from    = notification_libnotify_sanitize_str(msginfo->from);
     subj    = notification_libnotify_sanitize_str(msginfo->subject);
     text    = g_strconcat(from,"\n\n",subj,NULL);
@@ -297,20 +299,20 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     if(subj) g_free(subj);
     break;
   case F_TYPE_NEWS:
-    summary = "New News message";
-    utf8_str    = g_strdup("A new mesesage arrived");
+    summary = _("New News message");
+    utf8_str    = g_strdup(_("A new mesesage arrived"));
     break;
   case F_TYPE_CALENDAR:
-    summary = "New Calendar message";
-    utf8_str    = g_strdup("A new calendar message arrived");
+    summary = _("New Calendar message");
+    utf8_str    = g_strdup(_("A new calendar message arrived"));
     break;
   case F_TYPE_RSS:
-    summary = "New RSS feed article";
-    utf8_str = g_strdup("A new article in a RSS feed arrived");
+    summary = _("New RSS feed article");
+    utf8_str = g_strdup(_("A new article in a RSS feed arrived"));
     break;
   default:
-    summary = "New unknown message";
-    utf8_str = g_strdup("Unknown message type arrived");
+    summary = _("New unknown message");
+    utf8_str = g_strdup(_("Unknown message type arrived"));
     break;
   }
 
@@ -375,21 +377,28 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
 
   switch(nftype) {
   case F_TYPE_MAIL:
-    summary = "Mail message";
-    text = g_strdup_printf("%d new messages arrived", ppopup->count);
+    summary = _("Mail message");
+    text = g_strdup_printf(ngettext("%d new message arrived",
+				    "%d new messages arrived",
+				    ppopup->count), ppopup->count);
     break;
   case F_TYPE_NEWS:
-    summary = "News message";
-    text = g_strdup_printf("%d new messages arrived", ppopup->count);
+    summary = _("News message");
+    text = g_strdup_printf( ngettext("%d new message arrived",
+                                     "%d new messages arrived",
+				     ppopup->count), ppopup->count);
     break;
   case F_TYPE_CALENDAR:
-    summary = "Calendar message";
-    text = g_strdup_printf("%d new calendar messages arrived", ppopup->count);
+    summary = _("Calendar message");
+    text = g_strdup_printf( ngettext("%d new calendar message arrived",
+                                     "%d new calendar messages arrived",
+				     ppopup->count), ppopup->count);
     break;
   case F_TYPE_RSS:
-    summary = "RSS news feed";
-    text = g_strdup_printf("%d new articles in a RSS feed arrived",
-			   ppopup->count);
+    summary = _("RSS news feed");
+    text = g_strdup_printf( ngettext("%d new article in a RSS feed arrived",
+                                     "%d new articles in a RSS feed arrived",
+				     ppopup->count), ppopup->count);
     break;
   default:
     /* Should not happen */
@@ -469,7 +478,9 @@ static gboolean notification_popup_add_msg(MsgInfo *msginfo)
   if(ppopup->label2)
     gtk_widget_destroy(ppopup->label2);
 
-  message = g_strdup_printf("%d new messages", ppopup->count);
+  message = g_strdup_printf( ngettext("%d new message",
+                                      "%d new messages",
+				      ppopup->count), ppopup->count);
   gtk_label_set_text(GTK_LABEL(ppopup->label1), message);
   g_free(message);
   return TRUE;
@@ -549,10 +560,10 @@ static gboolean notification_popup_button(GtkWidget *widget,
       mainwin = mainwindow_get_mainwindow();
       if(!mainwin)
 	return TRUE;
-    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
-    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
-    main_window_show(mainwin);
-    gtk_window_present(GTK_WINDOW(mainwin->window));
+      gtk_window_deiconify(GTK_WINDOW(mainwin->window));
+      gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
+      main_window_show(mainwin);
+      gtk_window_present(GTK_WINDOW(mainwin->window));
     }
   }
   return TRUE;

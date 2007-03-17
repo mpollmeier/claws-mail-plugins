@@ -41,6 +41,8 @@
 #include "common/xml.h"
 #include "common/hooks.h"
 
+#include "gettext.h"
+
 /* local includes */
 #include "notification_foldercheck.h"
 
@@ -469,7 +471,7 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
 
   /* Create window */
   entry->window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_foldercheck");
-  gtk_window_set_title(GTK_WINDOW(entry->window), "Select folder(s)");
+  gtk_window_set_title(GTK_WINDOW(entry->window), _("Select folder(s)"));
   gtk_container_set_border_width(GTK_CONTAINER(entry->window), 4);
   gtk_window_set_position(GTK_WINDOW(entry->window), GTK_WIN_POS_CENTER);
   gtk_window_set_modal(GTK_WINDOW(entry->window), TRUE);
@@ -565,7 +567,7 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
   gtk_tree_view_append_column(GTK_TREE_VIEW(entry->treeview), column);
 
   /* recursive */
-  checkbox = gtk_check_button_new_with_label("select recursively");
+  checkbox = gtk_check_button_new_with_label( _("select recursively"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), FALSE);
   g_signal_connect(G_OBJECT(checkbox), "toggled",
 		   G_CALLBACK(foldercheck_recursive_cb), entry);

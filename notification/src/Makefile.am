@@ -5,6 +5,7 @@ plugindir = $(CLAWS_MAIL_PLUGINDIR)
 plugin_LTLIBRARIES = notification_plugin.la
 
 notification_plugin_la_SOURCES = \
+	gettext.h \
 	notification_plugin.c notification_plugin.h \
 	notification_core.c notification_core.h \
 	notification_popup.c notification_popup.h \
@@ -26,4 +27,5 @@ notification_plugin_la_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
+	-DLOCALEDIR=\""$(localedir)"\" \
 	$(libnotify_CFLAGS)

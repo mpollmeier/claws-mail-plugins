@@ -26,6 +26,8 @@
 #include "gtk/gtkutils.h"
 #include "main.h"
 
+#include "gettext.h"
+
 #include "notification_prefs.h"
 #include "notification_plugin.h"
 #include "notification_popup.h"
@@ -207,8 +209,8 @@ void notify_gtk_init(void)
 {
   static gchar *path[3];
 
-  path[0] = "Plugins";
-  path[1] = "Notification";
+  path[0] = _("Plugins");
+  path[1] = _("Notification");
   path[2] = NULL;
 
   notify_page.page.path = path;
@@ -221,9 +223,9 @@ void notify_gtk_init(void)
  {
    static gchar *banner_path[4];
 
-   banner_path[0] = "Plugins";
-   banner_path[1] = "Notification";
-   banner_path[2] = "Banner";
+   banner_path[0] = _("Plugins");
+   banner_path[1] = _("Notification");
+   banner_path[2] = _("Banner");
    banner_path[3] = NULL;
    
    banner_page.page.path = banner_path;
@@ -238,9 +240,9 @@ void notify_gtk_init(void)
  {
    static gchar *popup_path[4];
 
-   popup_path[0] = "Plugins";
-   popup_path[1] = "Notification";
-   popup_path[2] = "Popup";
+   popup_path[0] = _("Plugins");
+   popup_path[1] = _("Notification");
+   popup_path[2] = _("Popup");
    popup_path[3] = NULL;
    
    popup_page.page.path = popup_path;
@@ -255,9 +257,9 @@ void notify_gtk_init(void)
  {
    static gchar *command_path[4];
    
-   command_path[0] = "Plugins";
-   command_path[1] = "Notification";
-   command_path[2] = "Command";
+   command_path[0] = _("Plugins");
+   command_path[1] = _("Notification");
+   command_path[2] = _("Command");
    command_path[3] = NULL;
    
    command_page.page.path = command_path;
@@ -301,8 +303,8 @@ void notify_save_config(void)
 
   if(prefs_write_param(notify_param, pfile->fp) < 0) {
     debug_print("failed!\n");
-    g_warning("\nNotification Plugin: Failed to write plugin configuration "
-	      "to file\n");
+    g_warning(_("\nNotification Plugin: Failed to write plugin configuration "
+	      "to file\n"));
     prefs_file_close_revert(pfile);
     return;
   }
@@ -324,7 +326,7 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
   pvbox = gtk_vbox_new(FALSE, 0);
 
   /* Frame */
-  frame = gtk_frame_new("Include folder types");
+  frame = gtk_frame_new(_("Include folder types"));
   gtk_container_set_border_width(GTK_CONTAINER(frame), 10);
   gtk_box_pack_start(GTK_BOX(pvbox), frame, FALSE, FALSE, 0);
   
@@ -334,7 +336,7 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
 
   /* Include mail folders */
-  checkbox = gtk_check_button_new_with_label("Mail folders");
+  checkbox = gtk_check_button_new_with_label(_("Mail folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.include_mail);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -342,7 +344,7 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
   notify_page.include_mail = checkbox;
   
   /* Include news folders */
-  checkbox = gtk_check_button_new_with_label("News folders");
+  checkbox = gtk_check_button_new_with_label(_("News folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.include_news);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -350,7 +352,7 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
   notify_page.include_news = checkbox;
 
   /* Include RSS folders */
-  checkbox = gtk_check_button_new_with_label("RSS folders");
+  checkbox = gtk_check_button_new_with_label(_("RSS folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.include_rss);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -358,7 +360,7 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
   notify_page.include_rss = checkbox;
 
   /* Include calendar folders */
-  checkbox = gtk_check_button_new_with_label("Calendar folders");
+  checkbox = gtk_check_button_new_with_label(_("Calendar folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.include_calendar);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -366,8 +368,8 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
   notify_page.include_calendar = checkbox;
 
   /* Warning-Label */
-  label = gtk_label_new("These settings overwrite folder-specific "
-			"selections.");
+  label = gtk_label_new(_("These settings overwrite folder-specific "
+			  "selections."));
   gtk_misc_set_alignment(GTK_MISC(label),0,0.5);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
   gtk_widget_show(label);
@@ -420,16 +422,16 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   /* Always / Never / Only when non-empty */
   hbox = gtk_hbox_new(FALSE, 20);
   gtk_box_pack_start(GTK_BOX(pvbox), hbox, FALSE, FALSE, 0);
-  label = gtk_label_new("Show banner");
+  label = gtk_label_new(_("Show banner"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   combo = gtk_combo_box_new_text();
   gtk_combo_box_insert_text(GTK_COMBO_BOX(combo), NOTIFY_BANNER_SHOW_NEVER,
-			    "Never");
+			    _("Never"));
   gtk_combo_box_insert_text(GTK_COMBO_BOX(combo), NOTIFY_BANNER_SHOW_ALWAYS,
-			    "Always");
+			    _("Always"));
   gtk_combo_box_insert_text(GTK_COMBO_BOX(combo), NOTIFY_BANNER_SHOW_NONEMPTY,
-			    "Only when not empty");
+			    _("Only when not empty"));
   gtk_combo_box_set_active(GTK_COMBO_BOX(combo), notify_config.banner_show);
   gtk_box_pack_start(GTK_BOX(hbox), combo, FALSE, FALSE, 0);
   g_signal_connect(G_OBJECT(combo), "changed",
@@ -447,15 +449,15 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   /* Banner speed */
   table = gtk_table_new(2, 3, FALSE);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-  label = gtk_label_new("slow");
+  label = gtk_label_new(_("slow"));
   gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
   gtk_widget_show(label);
-  label = gtk_label_new("fast");
+  label = gtk_label_new(_("fast"));
   gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
   gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
   gtk_widget_show(label);
-  label = gtk_label_new("Banner speed");
+  label = gtk_label_new(_("Banner speed"));
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
   gtk_widget_show(label);
   slider = gtk_hscale_new_with_range(10., 70., 10.);
@@ -472,7 +474,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   banner_page.banner_speed = slider;
 
   /* Include unread */
-  checkbox = gtk_check_button_new_with_label("Include unread mails in banner");
+  checkbox = gtk_check_button_new_with_label(_("Include unread mails in banner"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_include_unread);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -480,7 +482,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   banner_page.banner_include_unread = checkbox;
 
   /* Check button sticky */
-  checkbox = gtk_check_button_new_with_label("Make banner sticky");
+  checkbox = gtk_check_button_new_with_label(_("Make banner sticky"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_sticky);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -490,7 +492,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   /* Check box for enabling folder specific selection */
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-  checkbox = gtk_check_button_new_with_label("Only include selected folders");
+  checkbox = gtk_check_button_new_with_label(_("Only include selected folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_folder_specific);
   gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
@@ -499,7 +501,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
 		   NULL);
   gtk_widget_show(checkbox);
   banner_page.banner_folder_specific = checkbox;
-  button = gtk_button_new_with_label("Select folders...");
+  button = gtk_button_new_with_label(_("Select folders..."));
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
 		   BANNER_SPECIFIC_FOLDER_ID_STR);
@@ -509,7 +511,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(hbox);
 
   /* Check box for enabling custom colors */
-  checkbox = gtk_check_button_new_with_label("Use custom colors");
+  checkbox = gtk_check_button_new_with_label(_("Use custom colors"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.banner_enable_colors);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -522,24 +524,24 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   /* foreground */
   table = gtk_table_new(2, 2, FALSE);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-  label = gtk_label_new("Foreground");
+  label = gtk_label_new(_("Foreground"));
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
   gtk_widget_show(label);
   color_sel = gtk_color_button_new();
   gtkut_convert_int_to_gdk_color(notify_config.banner_color_fg,&fg);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(color_sel),&fg);
-  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Foreground color");
+  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),_("Foreground color"));
   gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,0,1);
   gtk_widget_show(color_sel);
   banner_page.banner_color_fg = color_sel;
   /* background */
-  label = gtk_label_new("Background");
+  label = gtk_label_new(_("Background"));
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,1,2);
   gtk_widget_show(label);
   color_sel = gtk_color_button_new();
   gtkut_convert_int_to_gdk_color(notify_config.banner_color_bg,&bg);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(color_sel),&bg);
-  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Background color");
+  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel), _("Background color"));
   gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,1,2);
   gtk_widget_show(color_sel);
   gtk_widget_show(table);
@@ -647,7 +649,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
 
   /* Enable popup */
-  checkbox = gtk_check_button_new_with_label("Enable popup");
+  checkbox = gtk_check_button_new_with_label(_("Enable popup"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.popup_show);
   gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
@@ -664,7 +666,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 
   /* Popup timeout */
   hbox = gtk_hbox_new(FALSE, 10);
-  label = gtk_label_new("Popup timeout:");
+  label = gtk_label_new(_("Popup timeout:"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   spinner = gtk_spin_button_new_with_range(0.2, 60., 0.5);
@@ -674,7 +676,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   gtk_widget_show(spinner);
-  label = gtk_label_new("seconds");
+  label = gtk_label_new(_("seconds"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   gtk_widget_show(hbox);
@@ -683,7 +685,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   /* Check box for enabling folder specific selection */
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-  checkbox = gtk_check_button_new_with_label("Only include selected folders");
+  checkbox = gtk_check_button_new_with_label(_("Only include selected folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.popup_folder_specific);
   gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
@@ -692,7 +694,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 		   NULL);
   gtk_widget_show(checkbox);
   popup_page.popup_folder_specific = checkbox;
-  button = gtk_button_new_with_label("Select folders...");
+  button = gtk_button_new_with_label(_("Select folders..."));
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
 		   POPUP_SPECIFIC_FOLDER_ID_STR);
@@ -703,7 +705,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 
 #ifndef HAVE_LIBNOTIFY
   /* Sticky check button */
-  checkbox = gtk_check_button_new_with_label("Make popup sticky");
+  checkbox = gtk_check_button_new_with_label(_("Make popup sticky"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.popup_sticky);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -713,18 +715,18 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   /* Button to set size and position of popup window */
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-  button = gtk_button_new_with_label("Set popup window width and position");
+  button = gtk_button_new_with_label(_("Set popup window width and position"));
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notify_popup_set_cb), NULL);
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
   gtk_widget_show(button);
-  label = gtk_label_new("(the window manager is free to ignore this)");
+  label = gtk_label_new(_("(the window manager is free to ignore this)"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   gtk_widget_show(hbox);
 
   /* Check box for enabling custom colors */
-  checkbox = gtk_check_button_new_with_label("Use custom colors");
+  checkbox = gtk_check_button_new_with_label(_("Use custom colors"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.popup_enable_colors);
   gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
@@ -737,24 +739,24 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   table = gtk_table_new(2,2,FALSE);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
   /* foreground */
-  label = gtk_label_new("Foreground");
+  label = gtk_label_new(_("Foreground"));
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
   gtk_widget_show(label);
   color_sel = gtk_color_button_new();
   gtkut_convert_int_to_gdk_color(notify_config.popup_color_fg,&fg);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(color_sel),&fg);
-  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Foreground color");
+  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),_("Foreground color"));
   gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,0,1);
   gtk_widget_show(color_sel);
   popup_page.popup_color_fg = color_sel;
   /* background */
-  label = gtk_label_new("Background");
+  label = gtk_label_new(_("Background"));
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,1,2);
   gtk_widget_show(label);
   color_sel = gtk_color_button_new();
   gtkut_convert_int_to_gdk_color(notify_config.popup_color_bg,&bg);
   gtk_color_button_set_color(GTK_COLOR_BUTTON(color_sel),&bg);
-  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),"Background color");
+  gtk_color_button_set_title(GTK_COLOR_BUTTON(color_sel),_("Background color"));
   gtk_table_attach_defaults(GTK_TABLE(table),color_sel,1,2,1,2);
   gtk_widget_show(color_sel);
   gtk_widget_show(table);
@@ -818,12 +820,13 @@ static void notify_popup_set_cb(GtkWidget *widget, gpointer data)
   GtkWidget *button;
 
   win = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_prefs");
+  gtk_window_set_title(GTK_WINDOW(win), _("Sample popup window"));  
   gtk_window_set_modal(GTK_WINDOW(win), TRUE);
   gtk_window_set_keep_above(GTK_WINDOW(win), TRUE);
   gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
   gtk_container_set_border_width(GTK_CONTAINER(win), 5);
 
-  button = gtk_button_new_with_label("done");
+  button = gtk_button_new_with_label(_("Done"));
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notify_popup_set_done_cb), win);
   gtk_container_add(GTK_CONTAINER(win), button);
@@ -891,7 +894,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
 
   /* Enable command */
-  checkbox = gtk_check_button_new_with_label("Enable command");
+  checkbox = gtk_check_button_new_with_label(_("Enable command"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.command_enabled);
   gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
@@ -908,7 +911,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
 
   /* entry field for command to execute */
   hbox = gtk_hbox_new(FALSE, 10);
-  label = gtk_label_new("Command to execute:");
+  label = gtk_label_new(_("Command to execute:"));
   gtk_widget_show(label);
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   entry = gtk_entry_new();
@@ -921,7 +924,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
 
   /* Spin button for command timeout */
   hbox = gtk_hbox_new(FALSE, 10);
-  label = gtk_label_new("Block command after execution for");
+  label = gtk_label_new(_("Block command after execution for"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   spinner = gtk_spin_button_new_with_range(0., 600., 1.);
@@ -931,7 +934,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   gtk_widget_show(spinner);
-  label = gtk_label_new("seconds");
+  label = gtk_label_new(_("seconds"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   gtk_widget_show(hbox);
@@ -940,7 +943,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   /* Check box for enabling folder specific selection */
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-  checkbox = gtk_check_button_new_with_label("Only include selected folders");
+  checkbox = gtk_check_button_new_with_label(_("Only include selected folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
 			       notify_config.command_folder_specific);
   gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
@@ -949,7 +952,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
 		   NULL);
   gtk_widget_show(checkbox);
   command_page.command_folder_specific = checkbox;
-  button = gtk_button_new_with_label("Select folders...");
+  button = gtk_button_new_with_label(_("Select folders..."));
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
 		   COMMAND_SPECIFIC_FOLDER_ID_STR);

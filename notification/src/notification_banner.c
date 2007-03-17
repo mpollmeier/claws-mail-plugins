@@ -23,6 +23,9 @@
 
 #include "gtk/gtkutils.h"
 
+#include "prefs_common.h"
+#include "gettext.h"
+
 #include "notification_core.h"
 #include "notification_prefs.h"
 #include "notification_banner.h"
@@ -286,16 +289,16 @@ static GtkWidget* create_entrybox(GSList *msg_list)
       }
 
       banner.entries[ii].table = gtk_table_new(3, 2, FALSE);
-    
-      label1 = gtk_label_new("From:");
+
+      label1 = gtk_label_new(prefs_common.trans_hdr ? _("From:") : "From:");
       gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(banner.entries[ii].table), 
 				label1, 0, 1, 0, 1);
-      label2 = gtk_label_new("Subject:");
+      label2 = gtk_label_new(prefs_common.trans_hdr ? _("Subject:") : "Subject:");
       gtk_misc_set_alignment(GTK_MISC(label2), 0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(banner.entries[ii].table),
 				label2, 0, 1, 1, 2);
-      label3 = gtk_label_new("Folder:");
+      label3 = gtk_label_new(_("Folder:"));
       gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(banner.entries[ii].table),
 				label3, 0, 1, 2, 3);

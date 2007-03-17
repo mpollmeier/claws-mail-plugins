@@ -1,7 +1,36 @@
+2007-03-17 [holger]	0.9cvs6
+
+	* ChangeLog
+	* Makefile.am
+	* configure.ac
+	* config/config.rpath
+	* m4/.cvsignore
+	* m4/Makefile.am
+	* m4/gettext.m4
+	* m4/iconv.m4
+	* m4/lib-ld.m4
+	* m4/lib-link.m4
+	* m4/lib-prefix.m4
+	* m4/nls.m4
+	* m4/po.m4
+	* m4/progtest.m4
+	* src/Makefile.am
+	* src/gettext.h
+	* src/notification_banner.c
+	* src/notification_foldercheck.c
+	* src/notification_plugin.c
+	* src/notification_popup.c
+	* src/notification_prefs.c
+		Add i18n support. This is a slightly modified
+		patch from Tim <timbrain@post.cz>, who is also
+		the author of the czech translation. Thanks a lot
+		him! I am a first-timer on i18n, so if it is broken,
+		it is most likely my fault.
+
 2007-03-16 [holger]	0.9cvs5
 
 	* src/notification_core.c
-		Fix type in debug string.
+		Fix typo in debug string.
 
 2007-03-13 [wwp]	0.9cvs4
 
@@ -15,7 +44,7 @@
 
 	* Makefile.am
 		Fix bug 1146, 'cannot compile
-		notification-plugin from snapshot
+		notification-plugin from snapshot'
 
 2007-03-02 [holger]	0.9cvs2
 
