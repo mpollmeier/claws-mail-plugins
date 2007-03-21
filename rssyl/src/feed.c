@@ -159,7 +159,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 
 	if (res != 0) {
 		if(res == CURLE_OPERATION_TIMEOUTED) {
-			log_error(RSSYL_LOG_ERROR_TIMEOUT, ctx->url);
+			log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_TIMEOUT, ctx->url);
 		}
 		ctx->error = g_strdup(curl_easy_strerror(res));
 		ctx->ready = TRUE;
@@ -304,7 +304,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 
 	if( template == NULL ) {
 		debug_print("RSSyl: no feed to parse, returning\n");
-		log_error(RSSYL_LOG_ERROR_FETCH, url);
+		log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_FETCH, url);
 		return NULL;
 	}
 		
@@ -317,7 +317,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 		g_unlink(template);
 		g_free(template);
 		g_warning("Couldn't fetch feed '%s', aborting.\n", url);
-		log_error(RSSYL_LOG_ERROR_FETCH, url);
+		log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_FETCH, url);
 		if (error && !(*error)) {
 			*error = g_strdup(_("Malformed feed"));
 		}
@@ -360,7 +360,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 			xmlXPathFreeContext(context);
 			g_free(rootnode);
 			g_free(xpath);
-			log_error(RSSYL_LOG_ERROR_PARSE, url);
+			log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_PARSE, url);
 			return NULL;
 		}
 
@@ -370,7 +370,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 			g_free(xpath);
 			xmlXPathFreeObject(result);
 			xmlXPathFreeContext(context);
-			log_error(RSSYL_LOG_ERROR_PARSE, url);
+			log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_PARSE, url);
 			return NULL;
 		}
 		g_free(xpath);
@@ -397,7 +397,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 			   xmlXPathFreeContext(context);
 			   g_free(rootnode);
 			   g_free(xpath);
-				 log_error(RSSYL_LOG_ERROR_PARSE, url);
+				 log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_PARSE, url);
 			   return NULL;
 		   }
 
@@ -469,7 +469,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 			}
 		}
 	} else {
-		log_error(RSSYL_LOG_ERROR_UNKNOWN, url);
+		log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_UNKNOWN, url);
 		g_free(rootnode);
 		return NULL;
 	}
@@ -992,7 +992,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	} else if( !strcmp(rootnode, "rdf") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_rdf()\n");
 		if (ritem->fetch_comments) {
-			log_error(_("RSSyl: Fetching comments is not supported for RDF feeds. "
+			log_error(LOG_PROTOCOL, _("RSSyl: Fetching comments is not supported for RDF feeds. "
 				    "Cannot fetch comments of '%s'"), ritem->item.name);
 			ritem->fetch_comments = FALSE;
 		}
@@ -1000,7 +1000,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	} else if( !strcmp(rootnode, "feed") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_atom()\n");
 		if (ritem->fetch_comments) {
-			log_error(_("RSSyl: Fetching comments is not supported for Atom feeds. "
+			log_error(LOG_PROTOCOL, _("RSSyl: Fetching comments is not supported for Atom feeds. "
 				    "Cannot fetch comments of '%s'"), ritem->item.name);
 			ritem->fetch_comments = FALSE;
 		}
@@ -1269,12 +1269,12 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		rssyl_get_feed_props(ritem);
 	g_return_if_fail(ritem->url != NULL);
 
-	log_print(RSSYL_LOG_UPDATING, ritem->url);
+	log_print(LOG_PROTOCOL, RSSYL_LOG_UPDATING, ritem->url);
 
 	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title, &error);
 
 	if (error) {
-		log_error(_("RSSyl: Cannot update feed %s:\n%s\n"), ritem->url, error);
+		log_error(LOG_PROTOCOL, _("RSSyl: Cannot update feed %s:\n%s\n"), ritem->url, error);
 	}
 	g_free(error);
 
@@ -1325,7 +1325,7 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 	g_free(title);
 	g_free(dir);
 
-	log_print(RSSYL_LOG_UPDATED, ritem->url);
+	log_print(LOG_PROTOCOL, RSSYL_LOG_UPDATED, ritem->url);
 }
 
 void rssyl_start_refresh_timeout(RSSylFolderItem *ritem)
@@ -1436,7 +1436,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 		if (verbose)
 			alertpanel_error(_("Couldn't fetch URL '%s':\n%s"), myurl, error ? error:_("Unknown error"));
 		else
-			log_error(_("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
+			log_error(LOG_PROTOCOL, _("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
 		g_free(myurl);
 		g_free(error);
 		return FALSE;
