@@ -149,7 +149,7 @@ gint execute_detached(gchar **cmdline)
 static void filter_log_write(gint type, gchar *text) {
   if(filter_log_verbosity >= type) {
     if(!wrote_filter_log_head) {
-      log_message("From: %s || Subject: %s || Message-ID: %s\n",
+      log_message(LOG_PROTOCOL, "From: %s || Subject: %s || Message-ID: %s\n",
 	      msginfo->from    ? msginfo->from    : "<no From header>",
 	      msginfo->subject ? msginfo->subject : "<no Subject header>",
 	      msginfo->msgid   ? msginfo->msgid   : "<no message id>");
@@ -157,13 +157,13 @@ static void filter_log_write(gint type, gchar *text) {
     }
     switch(type) {
     case LOG_MANUAL:
-      log_message("    MANUAL: %s\n", text?text:"<no text specified>");
+      log_message(LOG_PROTOCOL, "    MANUAL: %s\n", text?text:"<no text specified>");
       break;
     case LOG_ACTION:
-      log_message("    ACTION: %s\n", text?text:"<no text specified>");
+      log_message(LOG_PROTOCOL, "    ACTION: %s\n", text?text:"<no text specified>");
       break;
     case LOG_MATCH:
-      log_message("    MATCH:  %s\n", text?text:"<no text specified>");
+      log_message(LOG_PROTOCOL, "    MATCH:  %s\n", text?text:"<no text specified>");
       break;
     default:
       g_warning("Perl Plugin: Wrong use of filter_log_write");

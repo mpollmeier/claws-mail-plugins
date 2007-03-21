@@ -15,3 +15,4 @@
 ( cvs diff -u -r 1.4.2.5 -r 1.4.2.6 sc_perl.pod;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.2.2.6 -r 1.2.2.7 src/perl_gtk.c;  cvs diff -u -r 1.19.2.18 -r 1.19.2.19 src/perl_plugin.c;  ) > 0.9.5cvs2.patchset
 ( cvs diff -u -r 1.19.2.31 -r 1.19.2.32 configure.ac;  ) > 0.9.5cvs3.patchset
 ( cvs diff -u -r 1.19.2.33 -r 1.19.2.34 configure.ac;  cvs diff -u -r 1.19.2.19 -r 1.19.2.20 src/perl_plugin.c;  ) > 0.9.6cvs1.patchset
+( cvs diff -u -r 1.19.2.20 -r 1.19.2.21 src/perl_plugin.c;  ) > 0.9.7cvs1.patchset

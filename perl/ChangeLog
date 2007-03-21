@@ -1,3 +1,8 @@
+2007-03-21 [wwp]	0.9.7cvs1
+
+	* src/perl_plugin.c
+		Reflect changes to the log API (2.8.1cvs30).
+
 2007-01-09 [paul]	0.9.7
 
 	0.9.7 released
