@@ -1,3 +1,11 @@
+2007-03-21 [wwp]	1.94.0cvs3
+
+	* src/.cvsignore
+	* src/vcal_folder.c
+	* src/vcal_meeting_gtk.c
+		Reflect changes to the log API (2.8.1cvs30).
+		More files to ignore.
+
 2007-03-16 [colin]	1.94.0cvs2
 
 	* src/vcal_folder.c

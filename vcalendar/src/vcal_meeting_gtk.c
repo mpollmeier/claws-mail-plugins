@@ -43,6 +43,7 @@
 #include "alertpanel.h"
 #include "addr_compl.h"
 #include "gtkutils.h"
+#include "log.h"
 
 struct _VCalMeeting
 {
@@ -1833,7 +1834,7 @@ putfile:
 		else
 			afile=g_strdup(file);
 		if (move_file(tmpfile, afile, TRUE) != 0) {
-			log_error(_("Couldn't export calendar to '%s'\n"),
+			log_error(LOG_PROTOCOL, _("Couldn't export calendar to '%s'\n"),
 				afile);
 			res = FALSE;
 		}
@@ -2126,7 +2127,7 @@ putfile:
 		else
 			afile=g_strdup(file);
 		if (move_file(tmpfile, file, TRUE) != 0) {
-			log_error(_("Couldn't export free/busy to '%s'\n"),
+			log_error(LOG_PROTOCOL, _("Couldn't export free/busy to '%s'\n"),
 				afile);
 			res = FALSE;
 		}

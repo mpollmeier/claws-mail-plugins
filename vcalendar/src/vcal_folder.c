@@ -1339,7 +1339,7 @@ void *url_read_thread(void *data)
 		td->error = g_strdup(curl_easy_strerror(res));
 		
 		if(res == CURLE_OPERATION_TIMEOUTED)
-			log_error(_("Timeout (%d seconds) connecting to %s\n"),
+			log_error(LOG_PROTOCOL, _("Timeout (%d seconds) connecting to %s\n"),
 				prefs_common.io_timeout_secs, t_url);
 	}
 
@@ -1555,7 +1555,7 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 		} else  {
 			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n%s\n"),
 					uri, error ? error:_("Unknown error"));
-			log_error(buf);
+			log_error(LOG_PROTOCOL, buf);
 			g_free(buf);
 		}
 		main_window_cursor_normal(mainwindow_get_mainwindow());
@@ -1575,7 +1575,7 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 			gchar *buf = g_strdup_printf(
 					_("This URL does not look like a WebCal URL:\n%s\n%s\n"),
 					uri, error ? error:_("Unknown error"));
-			log_error(buf);
+			log_error(LOG_PROTOCOL, buf);
 			g_free(buf);
 		}
 		g_free(feed);
