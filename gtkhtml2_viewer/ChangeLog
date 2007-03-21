@@ -1,3 +1,8 @@
+2007-03-21 [colin]	0.14.2cvs9
+
+	* src/gtkhtml2_viewer.c
+		Fix busy cursor after cancelling load
+
 2007-03-21 [wwp]	0.14.2cvs8
 
 	* configure.ac

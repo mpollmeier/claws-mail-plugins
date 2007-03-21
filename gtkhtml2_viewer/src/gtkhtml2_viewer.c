@@ -226,8 +226,10 @@ static gint gtkhtml2_show_mimepart_prepare(MimeViewer *_viewer)
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
 
 	if (!g_mutex_trylock(viewer->mutex)) {
-		if (viewer->loading)
+		if (viewer->loading) {
 			viewer->stop_previous = TRUE;
+			main_window_cursor_normal(mainwindow_get_mainwindow());
+		}
 		return TRUE;
 	}
 
@@ -236,6 +238,7 @@ static gint gtkhtml2_show_mimepart_prepare(MimeViewer *_viewer)
 		viewer->tag = -1;
 		if (viewer->loading) {
 			viewer->stop_previous = TRUE;
+			main_window_cursor_normal(mainwindow_get_mainwindow());
 		}
 	}
 	if (viewer->stop_previous) {
