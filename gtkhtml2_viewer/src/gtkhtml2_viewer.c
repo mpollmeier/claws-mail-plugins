@@ -612,7 +612,7 @@ not_found_local:
 		        while( !ctx->ready ) {
 			        claws_do_idle();
 				if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
-					log_error(_("Timeout connecting to %s\n"), url);
+					log_error(LOG_PROTOCOL, _("Timeout connecting to %s\n"), url);
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
 					killed = TRUE;

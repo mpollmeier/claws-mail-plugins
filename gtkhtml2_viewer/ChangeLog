@@ -1,3 +1,8 @@
+2007-03-21 [wwp]	0.14.2cvs7
+
+	* src/gtkhtml2_viewer.c
+		Reflect changes to the log API (2.8.1cvs30).
+
 2007-03-15 [colin]	0.14.2cvs6
 
 	* src/gtkhtml2_viewer.c
