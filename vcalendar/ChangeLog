@@ -1,3 +1,9 @@
+2007-03-21 [wwp]	1.94.0cvs4
+
+	* configure.ac
+		Bumped up the minimal Claws-Mail version this
+		plugin requires.
+
 2007-03-21 [wwp]	1.94.0cvs3
 
 	* src/.cvsignore
