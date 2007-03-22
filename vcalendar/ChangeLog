@@ -1,3 +1,11 @@
+2007-03-22 [colin]	1.94.0cvs5
+
+	* src/vcalendar.c
+		Orage, the XFCE clock, will handle "foreign
+		files". This will allow us to push our calendar
+		to it. This patch does that - no effect on
+		older Orage versions which don't handle it.
+
 2007-03-21 [wwp]	1.94.0cvs4
 
 	* configure.ac
