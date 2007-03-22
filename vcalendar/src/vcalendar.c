@@ -1544,31 +1544,6 @@ void vcalendar_init(void)
 		gtkut_convert_int_to_gdk_color(prefs_common.uri_col,
 				       &uri_color);
 	}
-	
-	tmp = g_find_program_in_path("orage");
-	if (tmp) {
-		gchar *orage_argv[4];
-		gchar *cmdline = g_strdup_printf("%s%svcalendar%sinternal.ics",
-				get_rc_dir(), G_DIR_SEPARATOR_S, G_DIR_SEPARATOR_S);
-		gchar *orage_help = get_command_output("orage --help");
-		
-		if (!orage_help || !strstr(orage_help, "--add-foreign")) {
-			debug_print("This Orage version doesn't support foreign files.\n");
-		} else {
-			debug_print("telling Orage about us...\n");
-			orage_argv[0] = "orage";
-			orage_argv[1] = "--add-foreign";
-			orage_argv[2] = cmdline;
-			orage_argv[3] = NULL;
-			g_spawn_async(NULL, (gchar **)orage_argv, NULL, 
-				G_SPAWN_SEARCH_PATH|G_SPAWN_STDOUT_TO_DEV_NULL|
-					G_SPAWN_STDERR_TO_DEV_NULL,
-				NULL, NULL, NULL, FALSE);
-		}
-		g_free(orage_help);
-		g_free(cmdline);
-		g_free(tmp);
-	}
 }
 
 void vcalendar_done(void)

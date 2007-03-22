@@ -41,6 +41,7 @@ struct _VcalendarPrefs
 	gchar		*freebusy_get_url;	
 	gchar		*export_freebusy_user;
 	gchar		*export_freebusy_pass;
+	gboolean	 orage_registered;
 };
 
 extern VcalendarPrefs vcalprefs;

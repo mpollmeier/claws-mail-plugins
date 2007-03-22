@@ -88,6 +88,9 @@ static PrefParam param[] = {
 	{"export_pass", "", &vcalprefs.export_pass, P_PASSWORD,
 	 NULL, NULL, NULL},
 
+	{"orage_registered", "FALSE", &vcalprefs.orage_registered, P_BOOL,
+	 NULL, NULL, NULL},
+
 	{"export_freebusy_enable", "FALSE", &vcalprefs.export_freebusy_enable, P_BOOL,
 	 NULL, NULL, NULL},
 	{"export_freebusy_path", "", &vcalprefs.export_freebusy_path, P_STRING,
@@ -156,6 +159,43 @@ static void path_changed(GtkWidget *widget, gpointer data)
 	set_auth_sensitivity((struct VcalendarPage *)data);
 }
 
+static gboolean orage_available(void)
+{
+	gchar *tmp = g_find_program_in_path("orage");
+	if (tmp) {
+		g_free(tmp);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static void orage_register(gboolean reg)
+{
+	if (orage_available()) {
+		gchar *orage_argv[4];
+		gchar *cmdline = g_strdup_printf("%s%svcalendar%sinternal.ics",
+				get_rc_dir(), G_DIR_SEPARATOR_S, G_DIR_SEPARATOR_S);
+
+		debug_print("telling Orage %s us ...\n", reg?"about":"to forget");
+		orage_argv[0] = "orage";
+		orage_argv[1] = reg ? "--add-foreign":"--remove-foreign";
+		orage_argv[2] = cmdline;
+		orage_argv[3] = NULL;
+		g_spawn_async(NULL, (gchar **)orage_argv, NULL, 
+			G_SPAWN_SEARCH_PATH|G_SPAWN_STDOUT_TO_DEV_NULL|
+				G_SPAWN_STDERR_TO_DEV_NULL,
+			NULL, NULL, NULL, FALSE);
+		g_free(cmdline);
+	}
+}
+
+void register_orage_checkbtn_toggled(GtkToggleButton	*toggle_btn,
+				 	GtkWidget		*widget)
+{
+	orage_register(gtk_toggle_button_get_active(toggle_btn));
+	vcalprefs.orage_registered = gtk_toggle_button_get_active(toggle_btn);
+}
+
 static void vcal_prefs_create_widget_func(PrefsPage * _page,
 					   GtkWindow * window,
 					   gpointer data)
@@ -177,6 +217,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *export_path_entry;
 	GtkWidget *export_command_label;
 	GtkWidget *export_command_entry;
+	GtkWidget *register_orage_checkbtn;
 
 	GtkWidget *export_user_label;
 	GtkWidget *export_user_entry;
@@ -333,6 +374,22 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 			vcalprefs.export_path);
 	gtk_entry_set_text(GTK_ENTRY(export_command_entry), 
 			vcalprefs.export_command);
+
+	hbox3 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox3);
+	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
+	register_orage_checkbtn = gtk_check_button_new_with_label(_("Register Claws' Calendar in Xfce's Orage clock"));
+	gtk_tooltips_set_tip(tooltips, register_orage_checkbtn, 
+			    _("Allows Orage (version greater than 4.4) to see Claws Mail's calendar"),
+			     NULL);
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(register_orage_checkbtn), 
+			vcalprefs.orage_registered);
+	gtk_widget_set_sensitive(register_orage_checkbtn, orage_available());
+	g_signal_connect(G_OBJECT(register_orage_checkbtn), "toggled",
+			 G_CALLBACK(register_orage_checkbtn_toggled), NULL); 
+	gtk_widget_show (register_orage_checkbtn);
+	gtk_box_pack_start(GTK_BOX (hbox3), register_orage_checkbtn, TRUE, TRUE, 0);
 
 /* freebusy export */
 /* export enable + path stuff */
