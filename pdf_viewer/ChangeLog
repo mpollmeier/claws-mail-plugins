@@ -1,3 +1,9 @@
+2007-03-23 [iwkse]	0.2.0cvs44
+
+	* src/poppler_viewer.c
+			* add Text Search function, thanks to
+			colin, and krh from #poppler!
+
 2007-03-15 [iwkse]	0.2.0cvs43
 
 	* src/poppler_viewer.c
