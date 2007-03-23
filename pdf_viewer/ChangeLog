@@ -1,3 +1,9 @@
+2007-03-23 [iwkse]	0.2.0cvs45
+
+	* src/poppler_viewer.c
+			We want to use poppler but
+			our plugin will be PdfViewer
+
 2007-03-23 [iwkse]	0.2.0cvs44
 
 	* src/poppler_viewer.c
