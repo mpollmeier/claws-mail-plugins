@@ -272,7 +272,7 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 				
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), page_pb);
 	
-	pdf_viewer_scroll_to_y(viewer, y1);
+	pdf_viewer_scroll_to_y(viewer, MIN(y1,y2));
 
 	g_object_unref(G_OBJECT(sel_pb));
 	g_object_unref(G_OBJECT(page_pb));

@@ -1,3 +1,8 @@
+2007-03-24 [colin]	0.2.0cvs50
+
+	* src/poppler_viewer.c
+		Fix back scroll when searching
+
 2007-03-24 [colin]	0.2.0cvs49
 
 	* src/poppler_viewer.c

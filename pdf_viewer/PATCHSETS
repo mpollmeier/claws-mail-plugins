@@ -53,3 +53,4 @@
 ( cvs diff -u -r 1.1.2.40 -r 1.1.2.41 src/poppler_viewer.c;  ) > 0.2.0cvs47.patchset
 ( cvs diff -u -r 1.1.2.40 -r 1.1.2.41 src/poppler_viewer.c;  ) > 0.2.0cvs48.patchset
 ( cvs diff -u -r 1.1.2.41 -r 1.1.2.42 src/poppler_viewer.c;  ) > 0.2.0cvs49.patchset
+( cvs diff -u -r 1.1.2.42 -r 1.1.2.43 src/poppler_viewer.c;  ) > 0.2.0cvs50.patchset
