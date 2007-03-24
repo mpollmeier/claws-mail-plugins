@@ -1,3 +1,9 @@
+2007-03-24 [iwkse]	0.2.0cvs54
+
+	* src/poppler_viewer.c
+	* src/poppler_viewer.h
+			renaming a function to fit the other's name
+
 2007-03-24 [iwkse]	0.2.0cvs53
 
 	* src/poppler_viewer.c
