@@ -1,3 +1,17 @@
+2007-03-24 [iwkse]	0.2.0cvs56
+
+	* src/poppler_viewer.c
+	* src/poppler_viewer.h
+			Removing unused headers
+			Make code more readable
+
+2007-03-24 [iwkse]	0.2.0cvs55
+
+	* src/poppler_viewer.h
+	* src/poppler_viewer.c
+			removing unused headers
+			make code more readable
+
 2007-03-24 [iwkse]	0.2.0cvs54
 
 	* src/poppler_viewer.c

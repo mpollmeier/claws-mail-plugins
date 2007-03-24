@@ -18,34 +18,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
+#ifndef POPPLER_VIEWER_H
+#define POPPLER_VIEWER_H
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
-#include <unistd.h>
+//#include <unistd.h>
 #include <stdio.h>
-#include <string.h>
-#include <glib.h>
 #include "gettext.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <gdk/gdkkeysyms.h>
 #include <poppler.h>
-#include "claws.h"
-#include "version.h"
-#include "main.h"
-#include "plugin.h"
-#include "utils.h"
-#include "mimeview.h"
-#include "messageview.h"
-#include "prefs_common.h"
-#include "log.h"
-#include "codeconv.h"
-#include "menu.h"
-#include "defs.h"
-#include "gtkutils.h"
-#include "alertpanel.h"
+#include <version.h>
+#include <plugin.h>
+#include <messageview.h>
+#include <alertpanel.h>
 
 #include "first_arrow.xpm"
 #include "last_arrow.xpm"
@@ -60,9 +50,9 @@
 #include "doc_info.xpm"
 #include "doc_index.xpm"
 
-#ifdef USE_PTHREAD
-#include <pthread.h>
-#endif
+/*#ifdef USE_PTHREAD
+ *#include <pthread.h>
+ * #endif*/
 
 
 #define ZOOM_FACTOR 0.3
@@ -222,7 +212,4 @@ const gchar *plugin_type(void);
 const gchar *plugin_licence(void);
 const gchar *plugin_version(void);
 struct PluginFeature *plugin_provides(void);
-
-
-
-
+#endif /* POPPLER_VIEWER_H */
