@@ -1,3 +1,9 @@
+2007-03-24 [iwkse]	0.2.0cvs53
+
+	* src/poppler_viewer.c
+	* src/poppler_viewer.h
+			* add Header file
+
 2007-03-24 [colin]	0.2.0cvs52
 
 	* src/poppler_viewer.c
