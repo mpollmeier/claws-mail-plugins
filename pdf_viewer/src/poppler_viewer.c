@@ -233,22 +233,47 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 	width = (int) ((width_points * viewer->zoom) + 0.5);
 	height = (int) ((height_points * viewer->zoom) + 0.5);
 
-	x1 = rect->x1 * viewer->zoom;
-	x2 = rect->x2 * viewer->zoom;
-	y1 = rect->y1 * viewer->zoom;
-	y2 = rect->y2 * viewer->zoom;
+	if (viewer->rotate == 90) {
+		x1 = MIN(rect->y1,rect->y2) * viewer->zoom;
+		x2 = MAX(rect->y1,rect->y2) * viewer->zoom;
+		y1 = MAX(rect->x1,rect->x2) * viewer->zoom;
+		y2 = MIN(rect->x1,rect->x2) * viewer->zoom;
+		selw = (x2 - x1);
+		selh = (y1 - y2);
 
-	selw = (x2 - x1);
-	selh = (y2 - y1);
+	} else if (viewer->rotate == 180) {
+		x1 = width - rect->x2 * viewer->zoom;
+		x2 = width - rect->x1 * viewer->zoom;
+		y1 = height - rect->y2 * viewer->zoom;
+		y2 = height - rect->y1 * viewer->zoom;
+		selw = (x2 - x1);
+		selh = (y2 - y1);
+		y1 = height - y1;
+		y2 = height - y2;
+
+	} else if (viewer->rotate == 270) {
+		x1 = height - MAX(rect->y1,rect->y2) * viewer->zoom;
+		x2 = height - MIN(rect->y1,rect->y2) * viewer->zoom;
+		y1 = width - MIN(rect->x1,rect->x2) * viewer->zoom;
+		y2 = width - MAX(rect->x1,rect->x2) * viewer->zoom;
+		selw = (x2 - x1);
+		selh = (y1 - y2);
+	} else {
+		x1 = rect->x1 * viewer->zoom;
+		x2 = rect->x2 * viewer->zoom;
+		y1 = rect->y1 * viewer->zoom;
+		y2 = rect->y2 * viewer->zoom;
+		selw = (x2 - x1);
+		selh = (y2 - y1);
+		y1 = height - y1;
+		y2 = height - y2;
+	}
 				
 	sel_pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, 
 							selw, selh);
 
 	gdk_pixbuf_fill(sel_pb, SELECTION_COLOR);
 				
-	y1 = height - y1;
-	y2 = height - y2;
-
 	page_pb = gtk_image_get_pixbuf(GTK_IMAGE(viewer->pdf_view));
 				
 	page_pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
