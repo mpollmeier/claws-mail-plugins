@@ -1,3 +1,13 @@
+2007-03-24 [iwkse]	0.2.0cvs48
+
+	* src/poppler_viewer.c
+			* fix selection: no more rainbows
+
+2007-03-24 [iwkse]	0.2.0cvs47
+
+	* src/poppler_viewer.c
+			*fixed rainbow selection
+
 2007-03-23 [iwkse]	0.2.0cvs46
 
 	* src/poppler_viewer.c

@@ -66,6 +66,8 @@
 
 #define ZOOM_FACTOR 0.3
 #define ROTATION 90 
+#define ALPHA_CHANNEL 75
+#define SELECTION_COLOR 0xff00ff
 
 static void pdf_viewer_view_update(MimeViewer *_viewer, gboolean reload_file, int page_num);
 
@@ -120,8 +122,6 @@ struct _PdfViewer
 	
 	GList				*page_results;
 	GList				*text_found; /* GList of PageResults */
-	GdkColor			glyph_color;
-	GdkColor			background_color;
 	gchar				*last_search;
 	gint				 last_match;
 	gint				 num_matches;
@@ -195,13 +195,14 @@ static void search_matches_free(PdfViewer *viewer)
 
 static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageResult *page_results)
 {
-
 	gint selw, selh;
 	PopplerRectangle *rect = results->data;
 	double width_points, height_points;
 	gint width, height;
 	GdkPixbuf *sel_pb, *page_pb;
-	gfloat x1, x2, y1, y2;
+	gfloat x1, x2, y1, y2;	
+	
+
 	gint cur_page_num = 
 		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page));
 	
@@ -230,6 +231,8 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 	sel_pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, 
 							(selw) * viewer->zoom, 
 							(selh) *viewer->zoom);
+
+	gdk_pixbuf_fill(sel_pb, SELECTION_COLOR);
 				
 	y1 = height - y1;
 	y2 = height - y2;
@@ -250,8 +253,10 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 									viewer->rotate, 
 									page_pb);
 				
-	gdk_pixbuf_composite(sel_pb, page_pb, x1, y2, selw, selh, 0, 0, 
-						viewer->zoom, viewer->zoom, GDK_INTERP_BILINEAR, 100);
+	gdk_pixbuf_composite(sel_pb, page_pb, 
+							x1, y2, selw, selh, 0, 0, 
+							viewer->zoom, viewer->zoom, 
+							GDK_INTERP_BILINEAR, ALPHA_CHANNEL);
 				
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), page_pb);
 	
@@ -1155,15 +1160,6 @@ static MimeViewer *pdf_viewer_create(void)
 	viewer->scrollwin_index = gtk_scrolled_window_new(NULL, NULL);
 	viewer->mimeinfo  = NULL;
 
-	viewer->glyph_color.pixel = 0xff0000;
-	viewer->glyph_color.red = 0x00ff;
-	viewer->glyph_color.blue = 0x00ff;
-	viewer->glyph_color.green = 0xff00;
-	viewer->background_color.pixel = 0xff0000;
-	viewer->background_color.red = 0xff00;
-	viewer->background_color.blue = 0xff00;
-	viewer->background_color.green = 0xff00;
-	
 	viewer->pdf_view = gtk_image_new();
 	viewer->icon_type = gtk_image_new();
 
