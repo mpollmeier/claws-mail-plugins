@@ -193,6 +193,19 @@ static void search_matches_free(PdfViewer *viewer)
 	viewer->last_search = NULL;
 }
 
+static void pdf_viewer_scroll_to_y(PdfViewer *viewer, gfloat y)
+{
+	GtkAdjustment *vadj;
+
+	vadj = gtk_scrolled_window_get_vadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrollwin));
+	if (y < vadj->value)
+		vadj->value = y;
+	else while (y > vadj->value + vadj->page_size)
+		vadj->value += vadj->page_size;
+	g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);	
+}
+
 static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageResult *page_results)
 {
 	gint selw, selh;
@@ -220,17 +233,16 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 	width = (int) ((width_points * viewer->zoom) + 0.5);
 	height = (int) ((height_points * viewer->zoom) + 0.5);
 
-	x1 = rect->x1;
-	x2 = rect->x2;
-	y1 = rect->y1;
-	y2 = rect->y2;
+	x1 = rect->x1 * viewer->zoom;
+	x2 = rect->x2 * viewer->zoom;
+	y1 = rect->y1 * viewer->zoom;
+	y2 = rect->y2 * viewer->zoom;
 
 	selw = (x2 - x1);
 	selh = (y2 - y1);
 				
 	sel_pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, 
-							(selw) * viewer->zoom, 
-							(selh) *viewer->zoom);
+							selw, selh);
 
 	gdk_pixbuf_fill(sel_pb, SELECTION_COLOR);
 				
@@ -240,26 +252,28 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 	page_pb = gtk_image_get_pixbuf(GTK_IMAGE(viewer->pdf_view));
 				
 	page_pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
-							FALSE, 8, 
-							(int)(viewer->width * viewer->zoom), 
-							(int)(viewer->height * viewer->zoom));	
+					FALSE, 8, 
+					(int)(viewer->width * viewer->zoom), 
+					(int)(viewer->height * viewer->zoom));	
 	
 	poppler_page_render_to_pixbuf (viewer->pdf_page, 
-									0, 
-									0, 
-									(int)(viewer->width * viewer->zoom), 
-									(int)(viewer->height * viewer->zoom), 
-									viewer->zoom, 
-									viewer->rotate, 
-									page_pb);
+					0, 
+					0, 
+					(int)(viewer->width * viewer->zoom), 
+					(int)(viewer->height * viewer->zoom), 
+					viewer->zoom, 
+					viewer->rotate, 
+					page_pb);
 				
 	gdk_pixbuf_composite(sel_pb, page_pb, 
-							x1, y2, selw, selh, 0, 0, 
-							viewer->zoom, viewer->zoom, 
-							GDK_INTERP_BILINEAR, ALPHA_CHANNEL);
+					x1, y2, selw, selh, 0, 0, 
+					viewer->zoom, viewer->zoom, 
+					GDK_INTERP_BILINEAR, ALPHA_CHANNEL);
 				
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), page_pb);
 	
+	pdf_viewer_scroll_to_y(viewer, y1);
+
 	g_object_unref(G_OBJECT(sel_pb));
 	g_object_unref(G_OBJECT(page_pb));
 
