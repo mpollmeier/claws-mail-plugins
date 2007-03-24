@@ -193,16 +193,24 @@ static void search_matches_free(PdfViewer *viewer)
 	viewer->last_search = NULL;
 }
 
-static void pdf_viewer_scroll_to_y(PdfViewer *viewer, gfloat y)
+static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y)
 {
 	GtkAdjustment *vadj;
-
+	GtkAdjustment *hadj;
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	if (y < vadj->value)
 		vadj->value = y;
 	else while (y > vadj->value + vadj->page_size)
 		vadj->value += vadj->page_size;
+	hadj = gtk_scrolled_window_get_hadjustment(
+		GTK_SCROLLED_WINDOW(viewer->scrollwin));
+	if (x < hadj->value)
+		hadj->value = x;
+	else while (x > hadj->value + hadj->page_size)
+		hadj->value += hadj->page_size;
+
+	g_signal_emit_by_name(G_OBJECT(hadj), "value-changed", 0);	
 	g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);	
 }
 
@@ -297,7 +305,7 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 				
 	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), page_pb);
 	
-	pdf_viewer_scroll_to_y(viewer, MIN(y1,y2));
+	pdf_viewer_scroll_to(viewer, MIN(x1,x2), MIN(y1,y2));
 
 	g_object_unref(G_OBJECT(sel_pb));
 	g_object_unref(G_OBJECT(page_pb));
