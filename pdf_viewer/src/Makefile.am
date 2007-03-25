@@ -4,6 +4,7 @@ plugin_LTLIBRARIES = pdf_viewer.la
 
 pdf_viewer_la_SOURCES = \
          poppler_viewer.c \
+         poppler_viewer.h \
 	 gettext.h
 
 pdf_viewer_la_LDFLAGS = \
