@@ -50,6 +50,13 @@ static void search_matches_free(PdfViewer *viewer)
 	viewer->text_found = NULL;
 	g_free(viewer->last_search);
 	viewer->last_search = NULL;
+	if (viewer->last_rect && viewer->last_page_result) {
+		viewer->last_rect = NULL;
+		viewer->last_page_result = NULL;
+		pdf_viewer_update((MimeViewer *)viewer, 
+			FALSE, 
+			gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
+	}
 }
 
 static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y)
@@ -84,10 +91,9 @@ static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y)
 	g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);	
 }
 
-static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageResult *page_results)
+static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rect, PageResult *page_results)
 {
 	gint selw, selh;
-	PopplerRectangle *rect = results->data;
 	double width_points, height_points;
 	gint width, height;
 	GdkPixbuf *sel_pb, *page_pb;
@@ -98,13 +104,18 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageR
 		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page));
 	
 	viewer->last_match = viewer->res_cnt;
-				
+	
+	viewer->last_rect = NULL;
+	viewer->last_page_result = NULL;
 	if (cur_page_num != page_results->page_num) {
 		/* we changed page. update the view */
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->cur_page), 
 		(gdouble) page_results->page_num);
 	}
 			
+	viewer->last_rect = rect;
+	viewer->last_page_result = page_results;
+
 	GTK_EVENTS_FLUSH();
 				
 	poppler_page_get_size (POPPLER_PAGE (viewer->pdf_page), &width_points, &height_points);
@@ -230,6 +241,7 @@ static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
 		}
 
 		if (viewer->text_found == NULL) {
+			main_window_cursor_normal(mainwindow_get_mainwindow());
 			return FALSE;
 		}
 		/* put back the list in the correct order */
@@ -237,6 +249,7 @@ static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
 	} 
 	
 	if (!viewer->text_found) {
+		main_window_cursor_normal(mainwindow_get_mainwindow());
 		return FALSE;
 	} else {
 		viewer->last_search = g_strdup(str);
@@ -278,7 +291,9 @@ static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
 				valid = (viewer->res_cnt > viewer->last_match);
 			}
 			if (valid) {
-				pdf_viewer_render_selection(viewer, cur_page_results , page_results);
+				pdf_viewer_render_selection(viewer, 
+						(PopplerRectangle *)cur_page_results->data,
+						page_results);
 				main_window_cursor_normal(mainwindow_get_mainwindow());
 				return TRUE;
 			}
@@ -882,19 +897,23 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 			poppler_page_get_size(viewer->pdf_page, &viewer->width, &viewer->height);
 		}
 
-		pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
+		if (viewer->last_rect && viewer->last_page_result &&
+		    viewer->last_page_result->page_num == page_num) {
+			pdf_viewer_render_selection(viewer, viewer->last_rect, viewer->last_page_result);
+		} else {
+			pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
 							FALSE, 8, 
 							(int)(viewer->width * viewer->zoom), 
 							(int)(viewer->height * viewer->zoom));	
 	
-		poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, 
+			poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, 
 										(int)(viewer->width * viewer->zoom), 
 										(int)(viewer->height * viewer->zoom), 
 										viewer->zoom, viewer->rotate, pb);
 		
-		gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
-		g_object_unref(G_OBJECT(pb));
-	
+			gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
+			g_object_unref(G_OBJECT(pb));
+		}
 	}
 }
 

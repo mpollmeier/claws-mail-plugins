@@ -103,11 +103,13 @@ struct _PdfViewer
 	/* end GtkButtons */
 	GtkTable			*table_doc_info;
 	GtkTooltips			*button_bar_tips;
-	PopplerDocument		*pdf_doc;
+	PopplerDocument			*pdf_doc;
 	PopplerPage			*pdf_page;
-	PopplerIndexIter	*pdf_index;
-	PopplerRectangle	*text_found_coord;
-	GtkTreeModel		*index_model;
+	PopplerIndexIter		*pdf_index;
+	PopplerRectangle		*last_rect;
+	PageResult			*last_page_result;
+
+	GtkTreeModel			*index_model;
 	
 	GList				*page_results;
 	GList				*text_found; /* GList of PageResults */
@@ -170,7 +172,7 @@ static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y);
 static void search_matches_free(PdfViewer *viewer);
 static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
 				     const gchar *str, gboolean case_sens);
-static void pdf_viewer_render_selection(PdfViewer *viewer, GList *results, PageResult *page_results);
+static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rect, PageResult *page_results);
 
 
 static char * pdf_viewer_get_document_format_data(GTime utime);
