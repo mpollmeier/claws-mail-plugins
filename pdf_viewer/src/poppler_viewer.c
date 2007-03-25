@@ -21,6 +21,69 @@
 
 #include "poppler_viewer.h"
 
+static FileType pdf_viewer_mimepart_get_type(MimeInfo *partinfo);
+static MimeViewerFactory pdf_viewer_factory;
+
+static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
+				MimeInfo *partinfo);
+static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer);
+
+static MimeViewer *pdf_viewer_create(void);
+static void pdf_viewer_clear(MimeViewer *_viewer);
+static void pdf_viewer_destroy(MimeViewer *_viewer);
+static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int page_num);
+
+static GtkWidget *pdf_viewer_get_widget(MimeViewer *_viewer);
+
+static void pdf_viewer_hide_index_pane(PdfViewer *viewer);
+static void pdf_viewer_set_index_button_sensitive(PdfViewer *viewer);
+static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y);
+
+static void search_matches_free(PdfViewer *viewer);
+static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
+				     const gchar *str, gboolean case_sens);
+static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rect, PageResult *page_results);
+
+
+static char * pdf_viewer_get_document_format_data(GTime utime);
+static void pdf_viewer_get_document_index(PdfViewer *viewer, PopplerIndexIter *index_iter, GtkTreeIter *parentiter);
+static void pdf_viewer_index_row_activated(GtkTreeView		*tree_view,
+				   	GtkTreePath		*path,
+				   	GtkTreeViewColumn	*column,
+				   	gpointer		 data);
+
+static GtkTable * pdf_viewer_fill_info_table(PdfViewer *viewer);
+
+
+/* Callbacks */
+static void pdf_viewer_button_first_page_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_last_page_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_spin_change_page_cb(GtkSpinButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_zoom_in_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_zoom_fit_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_zoom_width_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_rotate_right_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_rotate_left_cb(GtkButton *button, PdfViewer *viewer);
+/* Show/Hide the index pane */
+static void pdf_viewer_show_document_index_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_button_document_info_cb(GtkButton *button, PdfViewer *viewer);
+
+static void pdf_viewer_show_controls(PdfViewer *viewer, gboolean show);
+static gboolean pdf_viewer_scroll_page(MimeViewer *_viewer, gboolean up);
+static void pdf_viewer_scroll_one_line(MimeViewer *_viewer, gboolean up);
+static void button_set_pixmap(GtkWidget *widg, char **button_image);
+
+/** Claws-Mail Plugin functions*/
+gint plugin_init(gchar **error);
+void plugin_done(void);
+const gchar *plugin_name(void);
+const gchar *plugin_desc(void);
+const gchar *plugin_type(void);
+const gchar *plugin_licence(void);
+const gchar *plugin_version(void);
+struct PluginFeature *plugin_provides(void);
+
 static GtkWidget *pdf_viewer_get_widget(MimeViewer *_viewer)
 {
 	PdfViewer *viewer = (PdfViewer *) _viewer;

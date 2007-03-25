@@ -1,3 +1,9 @@
+2007-03-25 [iwkse]	0.2.0cvs59
+
+	* src/poppler_viewer.h
+	* src/poppler_viewer.c
+			fix wrongly added static functions in header
+
 2007-03-25 [iwkse]	0.2.0cvs58
 
 	* src/poppler_viewer.c
