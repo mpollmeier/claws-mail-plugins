@@ -159,8 +159,8 @@ static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer);
 
 static MimeViewer *pdf_viewer_create(void);
-static void pdf_viewer_clear_viewer(MimeViewer *_viewer);
-static void pdf_viewer_destroy_viewer(MimeViewer *_viewer);
+static void pdf_viewer_clear(MimeViewer *_viewer);
+static void pdf_viewer_destroy(MimeViewer *_viewer);
 static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int page_num);
 
 static GtkWidget *pdf_viewer_get_widget(MimeViewer *_viewer);

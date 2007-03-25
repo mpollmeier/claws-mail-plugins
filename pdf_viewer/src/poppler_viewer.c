@@ -213,13 +213,13 @@ static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
 		viewer->num_matches = 0;
 	}
 	
+	/* It's a new search, build list of matches 
+	 * across all pages */
 	if (viewer->last_match == -1) {
-		/* It's a new search, build list of matches 
-		 * across all pages */
-		gint i = 1; 
+		gint i; 
 		
-
 		for (i = 1; i < viewer->num_pages; i++) {
+			
 			gchar *page_str = g_strdup_printf("%d",i);
 			PopplerPage *pdf_page = poppler_document_get_page_by_label(viewer->pdf_doc, page_str);
 			g_free(page_str);
@@ -980,7 +980,7 @@ static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 	
 }
 
-static void pdf_viewer_clear_viewer(MimeViewer *_viewer)
+static void pdf_viewer_clear(MimeViewer *_viewer)
 {
 	PdfViewer *viewer = (PdfViewer *) _viewer;
 	GtkAdjustment *vadj;
@@ -988,7 +988,7 @@ static void pdf_viewer_clear_viewer(MimeViewer *_viewer)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(viewer->doc_index), FALSE);
 	gtk_widget_hide(viewer->frame_index);
 
-	debug_print("pdf_viewer_clear_viewer\n");
+	debug_print("pdf_viewer_clear\n");
 	viewer->to_load = NULL;
 	
 	if (viewer->pdf_doc) {
@@ -1005,11 +1005,11 @@ static void pdf_viewer_clear_viewer(MimeViewer *_viewer)
 	gtk_tree_store_clear(GTK_TREE_STORE(viewer->index_model));
 }
 
-static void pdf_viewer_destroy_viewer(MimeViewer *_viewer)
+static void pdf_viewer_destroy(MimeViewer *_viewer)
 {
 	PdfViewer *viewer = (PdfViewer *) _viewer;
 
-	debug_print("pdf_viewer_destroy_viewer\n");
+	debug_print("pdf_viewer_destroy\n");
 	
 	if(viewer->pdf_index) poppler_index_iter_free(viewer->pdf_index);
 
@@ -1106,8 +1106,8 @@ static MimeViewer *pdf_viewer_create(void)
 	viewer->mimeviewer.factory = &pdf_viewer_factory;
 	viewer->mimeviewer.get_widget = pdf_viewer_get_widget;
 	viewer->mimeviewer.show_mimepart = pdf_viewer_show_mimepart;
-	viewer->mimeviewer.clear_viewer = pdf_viewer_clear_viewer;
-	viewer->mimeviewer.destroy_viewer = pdf_viewer_destroy_viewer;
+	viewer->mimeviewer.clear_viewer = pdf_viewer_clear;
+	viewer->mimeviewer.destroy_viewer = pdf_viewer_destroy;
 	viewer->mimeviewer.text_search = pdf_viewer_text_search;
 	viewer->mimeviewer.scroll_page = pdf_viewer_scroll_page;
 	viewer->mimeviewer.scroll_one_line = pdf_viewer_scroll_one_line;

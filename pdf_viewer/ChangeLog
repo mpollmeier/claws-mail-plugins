@@ -1,3 +1,9 @@
+2007-03-25 [iwkse]	0.2.0cvs58
+
+	* src/poppler_viewer.c
+	* src/poppler_viewer.h
+			good consistance's names 
+
 2007-03-25 [colin]	0.2.0cvs57
 
 	* src/poppler_viewer.c
