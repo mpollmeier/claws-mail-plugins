@@ -675,13 +675,12 @@ static void pdf_viewer_button_zoom_fit_cb(GtkButton *button, PdfViewer *viewer)
 
 	if (xratio >= yratio) {
 		viewer->zoom = yratio;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll),viewer->zoom);
 	}
 	else {
 		viewer->zoom = xratio;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll),viewer->zoom);
 	}
-	pdf_viewer_update((MimeViewer *)viewer, 
-		FALSE, 
-		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
 }
 
 static void pdf_viewer_button_zoom_width_cb(GtkButton *button, PdfViewer *viewer)
