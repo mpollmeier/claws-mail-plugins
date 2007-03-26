@@ -984,7 +984,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 		if (viewer->last_rect && viewer->last_page_result &&
 		    viewer->last_page_result->page_num == page_num) {
-			pdf_viewer_render_selection(viewer, (PopplerRectangle *)viewer->last_rect, (PageResult *) viewer->page_results);
+			pdf_viewer_render_selection(viewer, viewer->last_rect, viewer->last_page_result);
 		} else {
 			pdf_viewer_render_page(viewer->pdf_page, viewer->pdf_view, viewer->width, 
 									viewer->height, viewer->zoom, viewer->rotate);
@@ -1211,7 +1211,7 @@ static MimeViewer *pdf_viewer_create(void)
 	ADD_BUTTON_TO_TABLE(viewer->first_page, first_arrow_xpm)
 	ADD_BUTTON_TO_TABLE(viewer->prev_page, left_arrow_xpm)
 	viewer->cur_page = gtk_spin_button_new_with_range(0.0, 0.0, 1.0);
-	viewer->zoom_scroll = gtk_spin_button_new_with_range(0.25, 8.0, 0.25);
+	viewer->zoom_scroll = gtk_spin_button_new_with_range(0.20, 8.0, 0.20);
 //	gtk_signal_handlers_block_by_func(G_OBJECT(viewer->zoom_scroll,pdf_viewer_spin_zoom_scroll_cb, "value-changed" ));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll), 1.0);
 	viewer->zoom = 1.0;
