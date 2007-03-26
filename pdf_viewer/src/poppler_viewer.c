@@ -380,6 +380,7 @@ static void pdf_viewer_get_document_index(PdfViewer *viewer, PopplerIndexIter *i
 	PopplerIndexIter *child;
 	GtkTreeIter childiter;
 
+	debug_print("get document index\n");
 	do	{
 		gint page_num = 0;
 		
@@ -439,6 +440,7 @@ static void pdf_viewer_index_row_activated(GtkTreeView		*tree_view,
 	PdfViewer *viewer = (PdfViewer *)data;
 	gint page_num = 0;
 	
+	debug_print("index_row_activated\n");
 	if (!gtk_tree_model_get_iter(model, &iter, path)) return;
 
 	gtk_tree_model_get(model, &iter, 
@@ -570,6 +572,7 @@ static FileType pdf_viewer_mimepart_get_type(MimeInfo *partinfo)
 {
 	gchar *content_type = NULL;
 	FileType type = TYPE_UNKNOWN;
+	debug_print("mimepart_get_type\n");
 	if ((partinfo->type == MIMETYPE_APPLICATION) &&
 		(!g_ascii_strcasecmp(partinfo->subtype, "octet-stream"))) {
 		
@@ -829,6 +832,8 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	GdkPixbuf *pb;
 	gchar *tmpfile = NULL;
 	
+	debug_print("pdf_viewer_update\n");
+
 	error = NULL;
 	if (reload_file) {
 		if (viewer->pdf_doc) {
@@ -875,7 +880,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 			/* convert postscript to pdf */
 			tmpfile = get_tmp_file();
 			cmdline = g_strdup_printf(
-				"gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%s -c .setpdfwrite -f \"%s\"",
+				"gs -dnopause -dbatch -sdevice=pdfwrite -soutputfile=%s -c .setpdfwrite -f \"%s\"",
 				tmpfile, viewer->filename);
 			result = execute_command_line(cmdline, FALSE);
 			if (result == 0) {
@@ -903,11 +908,14 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		}
 		
 		viewer->num_pages = poppler_document_get_n_pages(viewer->pdf_doc);
-		
+
+		g_signal_handlers_block_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb, (gpointer *)viewer);
 		gtk_spin_button_set_range(GTK_SPIN_BUTTON(viewer->cur_page), 
 									1, 
 									(gdouble)viewer->num_pages );
 
+		g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb, (gpointer *)viewer);
+		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
 				    		(g_strdup_printf(_("%s document (%d page%s)"), 
 						     pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript",
@@ -1092,6 +1100,7 @@ static gboolean pdf_viewer_scroll_page(MimeViewer *_viewer, gboolean up)
 	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 
+	debug_print("scroll page\n");
 	if (viewer->pdf_view == NULL) return FALSE;
 
 	if (!gtkutils_scroll_page(GTK_WIDGET(viewer->pdf_view), vadj, up)) {
@@ -1197,7 +1206,6 @@ static MimeViewer *pdf_viewer_create(void)
 	ADD_SEP_TO_TABLE
 	ADD_BUTTON_TO_TABLE(viewer->first_page, first_arrow_xpm)
 	ADD_BUTTON_TO_TABLE(viewer->prev_page, left_arrow_xpm)
-
 	viewer->cur_page = gtk_spin_button_new_with_range(0.0, 0.0, 1.0);
 	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->cur_page), TRUE);
 	gtk_table_attach(GTK_TABLE(viewer->buttons_table), GTK_WIDGET(viewer->cur_page),
