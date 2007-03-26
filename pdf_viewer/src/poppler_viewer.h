@@ -54,8 +54,7 @@
  *#include <pthread.h>
  * #endif*/
 
-
-#define ZOOM_FACTOR 0.3
+#define ZOOM_FACTOR 0.25
 #define ROTATION 90 
 #define ALPHA_CHANNEL 75
 #define SELECTION_COLOR 0xff00ff
@@ -94,6 +93,7 @@ struct _PdfViewer
 	GtkWidget			*next_page;
 	GtkWidget			*zoom_in;
 	GtkWidget			*zoom_out;
+	GtkWidget			*zoom_scroll;
 	GtkWidget			*zoom_fit;
 	GtkWidget			*zoom_width;
 	GtkWidget			*rotate_left;
@@ -103,13 +103,13 @@ struct _PdfViewer
 	/* end GtkButtons */
 	GtkTable			*table_doc_info;
 	GtkTooltips			*button_bar_tips;
-	PopplerDocument			*pdf_doc;
+	PopplerDocument		*pdf_doc;
 	PopplerPage			*pdf_page;
-	PopplerIndexIter		*pdf_index;
-	PopplerRectangle		*last_rect;
+	PopplerIndexIter	*pdf_index;
+	PopplerRectangle	*last_rect;
 	PageResult			*last_page_result;
 
-	GtkTreeModel			*index_model;
+	GtkTreeModel		*index_model;
 	
 	GList				*page_results;
 	GList				*text_found; /* GList of PageResults */

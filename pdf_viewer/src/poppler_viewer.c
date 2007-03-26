@@ -43,7 +43,7 @@ static void search_matches_free(PdfViewer *viewer);
 static gboolean	pdf_viewer_text_search (MimeViewer *_viewer, gboolean backward,
 				     const gchar *str, gboolean case_sens);
 static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rect, PageResult *page_results);
-
+static void pdf_viewer_render_page(PopplerPage *page, GtkWidget *view, double width, double height, double zoom, gint rotate);
 
 static char * pdf_viewer_get_document_format_data(GTime utime);
 static void pdf_viewer_get_document_index(PdfViewer *viewer, PopplerIndexIter *index_iter, GtkTreeIter *parentiter);
@@ -62,6 +62,7 @@ static void pdf_viewer_spin_change_page_cb(GtkSpinButton *button, PdfViewer *vie
 static void pdf_viewer_button_zoom_in_cb(GtkButton *button, PdfViewer *viewer);
 static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer);
 static void pdf_viewer_button_zoom_fit_cb(GtkButton *button, PdfViewer *viewer);
+static void pdf_viewer_spin_zoom_scroll_cb(GtkSpinButton *button, PdfViewer *viewer);
 static void pdf_viewer_button_zoom_width_cb(GtkButton *button, PdfViewer *viewer);
 static void pdf_viewer_button_rotate_right_cb(GtkButton *button, PdfViewer *viewer);
 static void pdf_viewer_button_rotate_left_cb(GtkButton *button, PdfViewer *viewer);
@@ -153,7 +154,25 @@ static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y)
 	g_signal_emit_by_name(G_OBJECT(hadj), "value-changed", 0);	
 	g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);	
 }
-
+static void pdf_viewer_render_page(PopplerPage *page, GtkWidget *view, double width, 
+												double height, double zoom, gint rotate)
+{
+	GdkPixbuf *pb;
+	
+	debug_print("width: %f\n", width);
+	pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
+							FALSE, 8, 
+							(int)(width * zoom), 
+							(int)(height * zoom));	
+	
+			poppler_page_render_to_pixbuf (page, 0, 0, 
+										(int)(width * zoom), 
+										(int)(height * zoom), 
+										zoom, rotate, pb);
+		
+			gtk_image_set_from_pixbuf(GTK_IMAGE(view), pb);
+			g_object_unref(G_OBJECT(pb));
+}
 static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rect, PageResult *page_results)
 {
 	gint selw, selh;
@@ -628,22 +647,20 @@ static void pdf_viewer_spin_change_page_cb(GtkSpinButton *button, PdfViewer *vie
 
 static void pdf_viewer_button_zoom_in_cb(GtkButton *button, PdfViewer *viewer) {
 
-	if (viewer->zoom < 4) {
-		viewer->zoom += ZOOM_FACTOR;
-		pdf_viewer_update((MimeViewer *)viewer, 
-			FALSE, 
-			gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
-	}
+	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->zoom_scroll), GTK_SPIN_STEP_FORWARD, ZOOM_FACTOR);
 }
 
+static void pdf_viewer_spin_zoom_scroll_cb(GtkSpinButton *button, PdfViewer *viewer)
+{
+	viewer->zoom = gtk_spin_button_get_value(GTK_SPIN_BUTTON(viewer->zoom_scroll));
+	pdf_viewer_update((MimeViewer *)viewer,
+			FALSE,
+			gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
+}
 static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer) {
 
-	if (viewer->zoom > 0.3) {
-		viewer->zoom -= ZOOM_FACTOR;
-		pdf_viewer_update((MimeViewer *)viewer, 
-			FALSE, 
-			gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
-	}
+	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->zoom_scroll), GTK_SPIN_STEP_BACKWARD, ZOOM_FACTOR);
+	
 }
 
 static void pdf_viewer_button_zoom_fit_cb(GtkButton *button, PdfViewer *viewer)
@@ -674,10 +691,7 @@ static void pdf_viewer_button_zoom_width_cb(GtkButton *button, PdfViewer *viewer
 	allocation = &(viewer->scrollwin->allocation);
 	debug_print("width: %d\n", allocation->width);
 	xratio = allocation->width / viewer->width;
-	viewer->zoom = xratio;
-	pdf_viewer_update((MimeViewer *)viewer,
-		FALSE,
-		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll), xratio);
 }
 
 static void pdf_viewer_button_rotate_right_cb(GtkButton *button, PdfViewer *viewer)
@@ -802,6 +816,7 @@ static void pdf_viewer_show_controls(PdfViewer *viewer, gboolean show)
 		gtk_widget_show(viewer->zoom_out);
 		gtk_widget_show(viewer->zoom_fit);
 		gtk_widget_show(viewer->zoom_width);
+		gtk_widget_show(viewer->zoom_scroll);
 		gtk_widget_show(viewer->buttons_table);
 		gtk_widget_show(viewer->rotate_right);
 		gtk_widget_show(viewer->rotate_left);
@@ -822,6 +837,7 @@ static void pdf_viewer_show_controls(PdfViewer *viewer, gboolean show)
 		gtk_widget_hide(viewer->rotate_left);
 		gtk_widget_hide(viewer->doc_info);
 		gtk_widget_hide(viewer->doc_index);
+		gtk_widget_hide(GTK_WIDGET(viewer->zoom_scroll));
 	}
 }
 /** Render the current page, page_num on the viewer */
@@ -829,7 +845,6 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 	PdfViewer *viewer = (PdfViewer *) _viewer;
 	GError *error;
-	GdkPixbuf *pb;
 	gchar *tmpfile = NULL;
 	
 	debug_print("pdf_viewer_update\n");
@@ -917,7 +932,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb, (gpointer *)viewer);
 		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
-				    		(g_strdup_printf(_("%s document (%d page%s)"), 
+				    		(g_strdup_printf(_("%s Document (%d page%s)"), 
 						     pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript",
 						     viewer->num_pages,
 						     viewer->num_pages > 1 ? "s":"")));
@@ -970,20 +985,11 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 		if (viewer->last_rect && viewer->last_page_result &&
 		    viewer->last_page_result->page_num == page_num) {
-			pdf_viewer_render_selection(viewer, viewer->last_rect, viewer->last_page_result);
+			pdf_viewer_render_selection(viewer, (PopplerRectangle *)viewer->last_rect, (PageResult *) viewer->page_results);
 		} else {
-			pb = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
-							FALSE, 8, 
-							(int)(viewer->width * viewer->zoom), 
-							(int)(viewer->height * viewer->zoom));	
-	
-			poppler_page_render_to_pixbuf (viewer->pdf_page, 0, 0, 
-										(int)(viewer->width * viewer->zoom), 
-										(int)(viewer->height * viewer->zoom), 
-										viewer->zoom, viewer->rotate, pb);
-		
-			gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), pb);
-			g_object_unref(G_OBJECT(pb));
+			pdf_viewer_render_page(viewer->pdf_page, viewer->pdf_view, viewer->width, 
+									viewer->height, viewer->zoom, viewer->rotate);
+
 		}
 	}
 }
@@ -1044,7 +1050,6 @@ static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 				MimeInfo *partinfo)
 {
 	PdfViewer *viewer = (PdfViewer *) _viewer;
-	viewer->zoom = 1.0;
 	viewer->rotate = 0;
 	viewer->to_load = partinfo;
 	gtk_timeout_add(5, (GtkFunction)pdf_viewer_show_mimepart_real, viewer);
@@ -1207,7 +1212,13 @@ static MimeViewer *pdf_viewer_create(void)
 	ADD_BUTTON_TO_TABLE(viewer->first_page, first_arrow_xpm)
 	ADD_BUTTON_TO_TABLE(viewer->prev_page, left_arrow_xpm)
 	viewer->cur_page = gtk_spin_button_new_with_range(0.0, 0.0, 1.0);
+	viewer->zoom_scroll = gtk_spin_button_new_with_range(0.25, 8.0, 0.25);
+//	gtk_signal_handlers_block_by_func(G_OBJECT(viewer->zoom_scroll,pdf_viewer_spin_zoom_scroll_cb, "value-changed" ));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll), 1.0);
+	viewer->zoom = 1.0;
+//	gtk_signal_handlers_unblock_by_func(G_OBJECT(viewer->zoom_scroll,pdf_viewer_spin_zoom_scroll_cb, "value-changed" ));
 	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->cur_page), TRUE);
+	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->zoom_scroll), TRUE);
 	gtk_table_attach(GTK_TABLE(viewer->buttons_table), GTK_WIDGET(viewer->cur_page),
 					col, col+1, 
 					0, 1, 0, 0, 
@@ -1218,9 +1229,15 @@ static MimeViewer *pdf_viewer_create(void)
 	ADD_BUTTON_TO_TABLE(viewer->next_page, right_arrow_xpm)
 	ADD_BUTTON_TO_TABLE(viewer->last_page, last_arrow_xpm)
 	ADD_SEP_TO_TABLE
-	ADD_BUTTON_TO_TABLE(viewer->zoom_in, zoom_in_xpm)
-	ADD_BUTTON_TO_TABLE(viewer->zoom_out, zoom_out_xpm)
 	ADD_BUTTON_TO_TABLE(viewer->zoom_fit, zoom_fit_xpm)
+	ADD_BUTTON_TO_TABLE(viewer->zoom_in, zoom_in_xpm)
+	gtk_table_attach(GTK_TABLE(viewer->buttons_table), GTK_WIDGET(viewer->zoom_scroll),
+					col, col+1, 
+					0, 1, 0, 0, 
+					BUTTON_H_PADDING, 
+					0);
+	col++;
+	ADD_BUTTON_TO_TABLE(viewer->zoom_out, zoom_out_xpm)
 	ADD_BUTTON_TO_TABLE(viewer->zoom_width, zoom_width_xpm)
 	ADD_SEP_TO_TABLE
 	ADD_BUTTON_TO_TABLE(viewer->rotate_left, rotate_left_xpm)
@@ -1364,6 +1381,8 @@ static MimeViewer *pdf_viewer_create(void)
 	gtk_widget_ref(GTK_WIDGET(viewer->icon_type));	
 	gtk_widget_show(GTK_WIDGET(viewer->pdf_view));
 	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view));
+	gtk_widget_show(GTK_WIDGET(viewer->zoom_scroll));
+	gtk_widget_ref(GTK_WIDGET(viewer->zoom_scroll));
 
 	gtk_widget_show(GTK_WIDGET(viewer->index_list));
 	gtk_widget_ref(GTK_WIDGET(viewer->index_list));
@@ -1457,6 +1476,10 @@ static MimeViewer *pdf_viewer_create(void)
 	g_signal_connect (G_OBJECT(viewer->zoom_out), 
 				    "clicked", 
 				    G_CALLBACK(pdf_viewer_button_zoom_out_cb), 
+				    (gpointer) viewer);
+	g_signal_connect (G_OBJECT(viewer->zoom_scroll), 
+				    "value-changed", 
+				    G_CALLBACK(pdf_viewer_spin_zoom_scroll_cb), 
 				    (gpointer) viewer);
 
 	g_signal_connect (G_OBJECT(viewer->zoom_fit), 
