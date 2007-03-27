@@ -1,3 +1,8 @@
+2007-03-27 [wwp]	1.94.0cvs8
+
+	* src/vcalendar.c
+		Don't answer if no organizer, thanks to Colin.
+
 2007-03-27 [wwp]	1.94.0cvs7
 
 	* libical/libical/Makefile.am

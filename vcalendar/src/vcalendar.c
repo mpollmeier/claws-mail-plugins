@@ -492,7 +492,11 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 	vcalviewer_show_unavailable(vcalviewer, FALSE);
 
 	if (method == ICAL_METHOD_REQUEST && event && !event->rec_occurence) {
-		PrefsAccount *account = get_account_from_attendees(vcalviewer);
+		PrefsAccount *account = vcal_manager_get_account_from_event(event);
+		
+		if (!account)
+			account = get_account_from_attendees(vcalviewer);
+
 		if (!account && event) {
 			account = account_get_default();
 			vcal_manager_update_answer(event, account->address, 
@@ -1286,8 +1290,10 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 	
 	vcal_manager_update_answer(event, account->address, account->name, reply[index], 0);
 	
-	if (!vcal_manager_reply(account, event)) {
+	if (event->organizer && *(event->organizer) && !vcal_manager_reply(account, event)) {
 		g_warning("couldn't send reply\n");
+	} else {
+		debug_print("no organizer, not sending answer\n");
 	}
 	
 	vcal_manager_save_event(event, TRUE);
