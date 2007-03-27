@@ -1,3 +1,10 @@
+2007-03-27 [wwp]	1.94.0cvs7
+
+	* libical/libical/Makefile.am
+	* libical/libical/icaltime.c
+		Don't crash when processing broken times,
+		thanks to Colin (fffast-fffix man).
+
 2007-03-22 [colin]	1.94.0cvs6
 
 	* src/vcal_prefs.c

@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.1.2.1 2005-07-04 17:06:56 colinleroy Exp $
+#  $Id: Makefile.am,v 1.1.2.2 2007-03-27 08:38:17 wwp Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -224,3 +224,4 @@ EXTRA_DIST =			\
 	icallexer.c		\
 	icalyacc.c
 
+AM_CPPFLAGS = -DNDEBUG

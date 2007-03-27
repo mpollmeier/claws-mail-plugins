@@ -3,7 +3,7 @@
   FILE: icaltime.c
   CREATOR: eric 02 June 2000
   
-  $Id: icaltime.c,v 1.1.2.1 2005-07-04 17:06:57 colinleroy Exp $
+  $Id: icaltime.c,v 1.1.2.2 2007-03-27 08:38:18 wwp Exp $
   $Locker:  $
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -330,6 +330,29 @@ struct icaltimetype icaltime_from_string(const char* str)
     } else if (size == 8) { /* A DATE */
 	tt.is_utc = 1;
 	tt.is_date = 1;
+    } else if (size == 20) { /* A shitty date by Outlook */
+	char tsep, offset_way;
+        int off_h, off_m;
+	sscanf(str,"%04d%02d%02d%c%02d%02d%02d%c%02d%02d",&tt.year,&tt.month,&tt.day,
+	       &tsep,&tt.hour,&tt.minute,&tt.second, &offset_way, &off_h, &off_m);
+
+	if(tsep != 'T'){
+	    icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
+	    return icaltime_null_time();
+	}
+        if (offset_way != '-' && offset_way != '+'){
+            icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
+	    return icaltime_null_time();
+	}
+        
+        /* substract offset to get utc */
+        if (offset_way == '-')
+            tt.second += 3600*off_h;
+        else 
+            tt.second -= 3600*off_h;
+        tt.is_utc = 1;
+        tt.is_date = 0;
+        return icaltime_normalize(tt);
     } else { /* error */
 	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
 	return icaltime_null_time();
