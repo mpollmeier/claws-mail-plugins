@@ -1445,6 +1445,14 @@ static MimeViewer *pdf_viewer_create(void)
 				viewer->doc_index,
 				_("Document Index"),
 				NULL);
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips),
+				viewer->cur_page,
+				_("Page Number"),
+				NULL);
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (viewer->button_bar_tips),
+				viewer->zoom_scroll,
+				_("Zoom Factor"),
+				NULL);
 
 	/* Connect Signals */
 	g_signal_connect (G_OBJECT(viewer->cur_page), 
