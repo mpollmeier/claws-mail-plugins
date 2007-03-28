@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=0
-EXTRA_VERSION=65
+EXTRA_VERSION=66
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -81,8 +81,8 @@ AM_PATH_GLIB_2_0(2.6.0,,
 AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
 
-PKG_CHECK_MODULES(POPPLER, poppler-glib >= 0.5.1, ,
-				  AC_MSG_ERROR([Can't find Poppler >= 0.5.1 Glib wrapper]))
+PKG_CHECK_MODULES(POPPLER, poppler-glib >= 0.4.2, ,
+				  AC_MSG_ERROR([Can't find Poppler >= 0.4.2 Glib wrapper]))
 AC_SUBST(POPPLER_LIBS)
 AC_SUBST(POPPLER_CFLAGS)
 
