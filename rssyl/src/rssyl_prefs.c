@@ -45,8 +45,6 @@ static PrefParam param[] = {
 		NULL, NULL, NULL },
 	{ "expired_keep", RSSYL_PREF_DEFAULT_EXPIRED, &rssyl_prefs.expired, P_INT,
 		NULL, NULL, NULL },
-	{ "timeout", RSSYL_PREF_DEFAULT_TIMEOUT, &rssyl_prefs.timeout, P_INT,
-		NULL, NULL, NULL },
 	{ "refresh_on_startup", FALSE, &rssyl_prefs.refresh_on_startup, P_BOOL,
 		NULL, NULL, NULL },
 	{ 0, 0, 0, 0, 0, 0, 0 }
@@ -87,10 +85,9 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	GtkWidget *table;
 	GtkWidget *refresh;
 	GtkWidget *expired;
-	GtkWidget *timeout;
 	GtkWidget *refresh_on_startup;
 	GtkWidget *label;
-	GtkObject *refresh_adj, *expired_adj, *timeout_adj;
+	GtkObject *refresh_adj, *expired_adj;
 	GtkTooltips *tooltips;
 
 	tooltips = gtk_tooltips_new();
@@ -127,17 +124,6 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_tooltips_set_tip(tooltips, expired,
 			_("Set to -1 to keep expired items"), NULL);
 
-	label = gtk_label_new(_("Timeout for downloading feeds in seconds"));
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3,
-			GTK_FILL, 0, 0, 0);
-	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
-
-	timeout_adj = gtk_adjustment_new(rssyl_prefs.timeout,
-			1, 100000, 1, 10, 10);
-	timeout = gtk_spin_button_new(GTK_ADJUSTMENT(timeout_adj), 1, 0);
-	gtk_table_attach(GTK_TABLE(table), timeout, 1, 2, 2, 3,
-			GTK_FILL, 0, 0, 0);
-
 	refresh_on_startup = gtk_check_button_new_with_label(
 			_("Refresh all feeds on application start"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(refresh_on_startup),
@@ -150,7 +136,6 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	prefs_page->page.widget = table;
 	prefs_page->refresh = refresh;
 	prefs_page->expired = expired;
-	prefs_page->timeout = timeout;
 	prefs_page->refresh_on_startup = refresh_on_startup;
 }
 
@@ -170,8 +155,6 @@ static void save_rssyl_prefs(PrefsPage *page)
 			GTK_SPIN_BUTTON(prefs_page->refresh));
 	rssyl_prefs.expired = gtk_spin_button_get_value_as_int(
 			GTK_SPIN_BUTTON(prefs_page->expired));
-	rssyl_prefs.timeout = gtk_spin_button_get_value_as_int(
-			GTK_SPIN_BUTTON(prefs_page->timeout));
 	rssyl_prefs.refresh_on_startup = gtk_toggle_button_get_active(
 			GTK_TOGGLE_BUTTON(prefs_page->refresh_on_startup));
 

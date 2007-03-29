@@ -1,3 +1,13 @@
+2007-03-29 [ticho]	0.11.0cvs7
+
+	* src/feed.c
+	* src/rssyl_gtk.c
+	* src/rssyl_prefs.c
+	* src/rssyl_prefs.h
+		Applied patch from Paweł Pękala <c0rn at o2.pl> to use claws-mail's
+		timeout setting instead of our own. Removed bogus default values in
+		parentheses in feed properties labels.
+
 2007-03-21 [wwp]	0.11.0cvs6
 
 	* configure.ac

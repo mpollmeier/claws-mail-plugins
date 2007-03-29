@@ -236,7 +236,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* "Use default refresh interval" checkbutton */
 	feedprop->default_refresh_interval = gtk_check_button_new_with_mnemonic(
-			_("Use default refresh interval (180 minutes)"));
+			_("Use default refresh interval"));
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->default_refresh_interval),
 			ritem->default_refresh_interval);
@@ -248,7 +248,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* "Keep default number of expired items" checkbutton */
 	feedprop->default_expired_num = gtk_check_button_new_with_mnemonic(
-			_("Keep default number of expired entries (-1)"));
+			_("Keep default number of expired entries"));
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->default_expired_num),
 			ritem->default_expired_num);
