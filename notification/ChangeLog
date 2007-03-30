@@ -1,3 +1,12 @@
+2007-03-30 [holger]	0.9cvs9
+
+	* src/notification_core.c
+		Fix typo in debug string.
+	* src/notification_popup.c
+		If only a single message arrived, a click
+		on the popup will not only show the main window,
+		but also directly select the new message.
+
 2007-03-17 [holger]	0.9cvs8
 
 	* po/.cvsignore

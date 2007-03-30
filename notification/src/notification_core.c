@@ -135,7 +135,7 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
       if(msg->msgid)
 	msgid = msg->msgid;
       else {
-	debug_print("Notification Plugin: Message has not message ID!\n");
+	debug_print("Notification Plugin: Message has no message ID!\n");
 	msgid = "";
       }
 

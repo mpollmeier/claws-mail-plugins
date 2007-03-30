@@ -49,6 +49,7 @@ typedef enum {
 typedef struct {
   gint count;
   guint timeout_id;
+  gchar *msg_path;
 #ifdef HAVE_LIBNOTIFY
   NotifyNotification *notification;
   GError *error;
@@ -77,9 +78,9 @@ static gboolean notification_libnotify_create(MsgInfo*,
 					      NotificationFolderType);
 static gboolean notification_libnotify_add_msg(MsgInfo*,
 					       NotificationFolderType);
-static void default_action_cb(NotifyNotification*, const char*,
-			      void*);
+static void default_action_cb(NotifyNotification*, const char*,void*);
 static gchar* notification_libnotify_sanitize_str(gchar*);
+static void notification_libnotify_free_func(gpointer);
 
 #else /* !HAVE_LIBNOTIFY */
 static gboolean notification_popup_add_msg(MsgInfo*);
@@ -223,6 +224,10 @@ static gboolean popup_timeout_fun(gpointer data)
   }
 #endif
   ppopup->timeout_id = 0;
+  if(ppopup->msg_path) {
+    g_free(ppopup->msg_path);
+    ppopup->msg_path = NULL;
+  }
   ppopup->count = 0;
   G_UNLOCK(popup);
   debug_print("Notification Plugin: Popup closed due to timeout.\n");
@@ -238,13 +243,28 @@ static void default_action_cb(NotifyNotification *notification,
     return;
 
   MainWindow *mainwin;
-  /* Let mainwindow pop up */
   mainwin = mainwindow_get_mainwindow();
   if(mainwin) {
+    NotificationFolderType nftype;
+
+    /* Let mainwindow pop up */
     gtk_window_deiconify(GTK_WINDOW(mainwin->window));
     gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
     main_window_show(mainwin);
     gtk_window_present(GTK_WINDOW(mainwin->window));
+    /* If there is only one new mail message, jump to this message */
+    nftype = (NotificationFolderType)GPOINTER_TO_INT(user_data);
+    if(nftype == F_TYPE_MAIL) {
+      if(popup[F_TYPE_MAIL].count == 1) {
+	gchar *select_str;
+	G_LOCK(popup);
+	select_str = g_strdup(popup[F_TYPE_MAIL].msg_path);
+	G_UNLOCK(popup);
+	debug_print("Select message %s\n", select_str);
+	mainwindow_jump_to(select_str);
+	g_free(select_str);
+      }
+    }
   }
 }
 
@@ -258,6 +278,8 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   gchar *utf8_str = NULL;
   gchar *subj = NULL;
   gchar *from = NULL;
+
+  g_return_val_if_fail(msginfo, FALSE);
 
   ppopup = &(popup[nftype]);
 
@@ -328,7 +350,8 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   notify_notification_add_action(ppopup->notification,
 				 "default", "Present main window",
 				 (NotifyActionCallback)default_action_cb,
-				 NULL, NULL);
+				 GINT_TO_POINTER(nftype),
+				 notification_libnotify_free_func);
 
   /* Icon */
   pixbuf = notification_pixbuf_get_logo_64x64();
@@ -343,8 +366,6 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   /* Category */
   notify_notification_set_category(ppopup->notification, "email.arrived");
 
-  /* hhb: todo: close handler / default action */
-
   /* Show the popup */
   if(!notify_notification_show(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to send notification: %s\n",
@@ -357,6 +378,20 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 
   debug_print("Notification Plugin: Popup created with libnotify.\n");
   ppopup->count = 1;
+
+  /* Store path to message */
+  if(nftype == F_TYPE_MAIL) {
+    if(msginfo->folder && msginfo->folder) {
+      gchar *ident;
+      ident = folder_item_get_identifier(msginfo->folder);
+      ppopup->msg_path = g_strdup_printf("%s%s%u", ident,G_DIR_SEPARATOR_S,
+					 msginfo->msgnum);
+      g_free(ident);
+    }
+    else
+      ppopup->msg_path = NULL;
+  }
+
   return TRUE;
 }
 
@@ -374,6 +409,11 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
     return notification_libnotify_create(msginfo,nftype);
 
   ppopup->count++;
+
+  if(ppopup->msg_path) {
+    g_free(ppopup->msg_path);
+    ppopup->msg_path = NULL;
+  }
 
   switch(nftype) {
   case F_TYPE_MAIL:
@@ -462,6 +502,15 @@ static gchar* notification_libnotify_sanitize_str(gchar *in)
   return strdup(tmp_str);
 }
 
+void notification_libnotify_free_func(gpointer data)
+{
+  if(popup[F_TYPE_MAIL].msg_path) {
+    g_free(popup[F_TYPE_MAIL].msg_path);
+    popup[F_TYPE_MAIL].msg_path = NULL;
+  }
+  debug_print("Freed notification data\n");
+}
+
 #else /* !HAVE_LIBNOTIFY */
 static gboolean notification_popup_add_msg(MsgInfo *msginfo)
 {
@@ -475,12 +524,17 @@ static gboolean notification_popup_add_msg(MsgInfo *msginfo)
 
   ppopup->count++;
 
+  if(ppopup->msg_path) {
+    g_free(ppopup->msg_path);
+    ppopup->msg_path = NULL;
+  }
+
   if(ppopup->label2)
     gtk_widget_destroy(ppopup->label2);
 
-  message = g_strdup_printf( ngettext("%d new message",
-                                      "%d new messages",
-				      ppopup->count), ppopup->count);
+  message = g_strdup_printf(ngettext("%d new message",
+				     "%d new messages",
+				     ppopup->count), ppopup->count);
   gtk_label_set_text(GTK_LABEL(ppopup->label1), message);
   g_free(message);
   return TRUE;
@@ -491,6 +545,8 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
   GdkColor bg;
   GdkColor fg;
   NotificationPopup *ppopup;
+
+  g_return_val_if_fail(msginfo, FALSE);
 
   ppopup = &popup;
   
@@ -546,6 +602,14 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
 
   ppopup->count = 1;
 
+  if(msginfo->folder && msginfo->folder->name) {
+      gchar *ident;
+      ident = folder_item_get_identifier(msginfo->folder);
+      ppopup->msg_path = g_strdup_printf("%s%s%u", ident,G_DIR_SEPARATOR_S,
+					 msginfo->msgnum);
+      g_free(ident);
+  }
+
   return TRUE;
 }
 
@@ -564,6 +628,16 @@ static gboolean notification_popup_button(GtkWidget *widget,
       gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
       main_window_show(mainwin);
       gtk_window_present(GTK_WINDOW(mainwin->window));
+      /* If there is only one new mail message, jump to this message */
+      if(popup.count == 1) {
+	gchar *select_str;
+	G_LOCK(popup);
+	select_str = g_strdup(popup.msg_path);
+	G_UNLOCK(popup);
+	debug_print("Select message %s\n", select_str);
+	mainwindow_jump_to(select_str);
+	g_free(select_str);
+      }
     }
   }
   return TRUE;
