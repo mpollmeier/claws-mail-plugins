@@ -1,3 +1,10 @@
+2007-03-31 [colin]	0.11.0cvs8
+
+	* src/feed.c
+	* src/plugin.c
+	* src/rssyl_cb_menu.c
+		Offline override: follow API
+
 2007-03-29 [ticho]	0.11.0cvs7
 
 	* src/feed.c

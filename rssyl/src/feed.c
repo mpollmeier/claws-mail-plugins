@@ -1544,7 +1544,8 @@ void rssyl_refresh_all_func(FolderItem *item, gpointer data)
 void rssyl_refresh_all_feeds(void)
 {
 	if (prefs_common.work_offline && 
-	    !inc_offline_should_override(ngettext(
+	    !inc_offline_should_override(TRUE,
+			ngettext(
 			    "Claws Mail needs network access in order "
 			    "to update the feed.",
 			    "Claws Mail needs network access in order "
