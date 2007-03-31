@@ -1627,7 +1627,7 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 {
 	if (prefs_common.work_offline) {
 		if (!verbose || 
-		!inc_offline_should_override(
+		!inc_offline_should_override(TRUE,
 		   _("Claws Mail needs network access in order "
 		     "to update the Webcal feed.")))
 			return;
@@ -1642,7 +1642,8 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
 	if (prefs_common.work_offline && 
-	    !inc_offline_should_override(_("Claws Mail needs network access in order "
+	    !inc_offline_should_override(TRUE,
+		     _("Claws Mail needs network access in order "
 		     "to update the subscription.")))
 		return;
 
