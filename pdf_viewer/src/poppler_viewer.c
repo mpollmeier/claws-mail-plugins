@@ -1,7 +1,7 @@
 /*
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
  * Copyright(C) 1999-2007 the Claws Mail Team
- * This file Copyright(C) 2007 Salvatore De Paolis 
+ * This file Copyright (C) 2007 Salvatore De Paolis 
  * <iwkse@claws-mail.org> 
  *
  * This program is free software; you can redistribute it and/or modify
@@ -87,7 +87,7 @@ struct PluginFeature *plugin_provides(void);
 
 static GtkWidget *pdf_viewer_get_widget(MimeViewer *_viewer)
 {
-	PdfViewer *viewer =(PdfViewer *) _viewer;
+	PdfViewer *viewer = (PdfViewer *) _viewer;
 	debug_print("pdf_viewer_get_widget: %p\n", viewer->vbox);
 
 	return GTK_WIDGET(viewer->vbox);
@@ -95,7 +95,7 @@ static GtkWidget *pdf_viewer_get_widget(MimeViewer *_viewer)
 /** Hide the index panel */
 static void pdf_viewer_hide_index_pane(PdfViewer *viewer)
 {
-	if(viewer->pdf_index) {   
+	if (viewer->pdf_index) {   
 		poppler_index_iter_free(viewer->pdf_index);
 		viewer->pdf_index = NULL;
 		gtk_widget_hide(GTK_WIDGET(viewer->frame_index));
@@ -106,7 +106,7 @@ static void search_matches_free(PdfViewer *viewer)
 {
 	GList *cur; 
 	for(cur = viewer->text_found; cur; cur = cur->next) {
-		PageResult *res =(PageResult *)cur->data;
+		PageResult *res = (PageResult *)cur->data;
 		g_list_free(res->results);
 		g_free(res);
 	}
@@ -114,7 +114,7 @@ static void search_matches_free(PdfViewer *viewer)
 	viewer->text_found = NULL;
 	g_free(viewer->last_search);
 	viewer->last_search = NULL;
-	if(viewer->last_rect && viewer->last_page_result) {
+	if (viewer->last_rect && viewer->last_page_result) {
 		viewer->last_rect = NULL;
 		viewer->last_page_result = NULL;
 		pdf_viewer_update((MimeViewer *)viewer, 
@@ -130,7 +130,7 @@ static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y)
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	
-	if(y < vadj->value) {
+	if (y < vadj->value) {
 		vadj->value = y;
 	}
 	else {
@@ -142,7 +142,7 @@ static void pdf_viewer_scroll_to(PdfViewer *viewer, gfloat x, gfloat y)
 	hadj = gtk_scrolled_window_get_hadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	
-	if(x < hadj->value) {
+	if (x < hadj->value) {
 		hadj->value = x;
 	}
 	else {
@@ -189,7 +189,7 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rec
 	
 	viewer->last_rect = NULL;
 	viewer->last_page_result = NULL;
-	if(cur_page_num != page_results->page_num) {
+	if (cur_page_num != page_results->page_num) {
 		/* we changed page. update the view */
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->cur_page), 
 	(gdouble) page_results->page_num);
@@ -201,41 +201,41 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rec
 	GTK_EVENTS_FLUSH();
 				
 	poppler_page_get_size(POPPLER_PAGE(viewer->pdf_page), &width_points, &height_points);
-	width =(int)((width_points * viewer->zoom) + 0.5);
-	height =(int)((height_points * viewer->zoom) + 0.5);
+	width = (int)((width_points * viewer->zoom) + 0.5);
+	height = (int)((height_points * viewer->zoom) + 0.5);
 
-	if(viewer->rotate == 90) {
+	if (viewer->rotate == 90) {
 		x1 = MIN(rect->y1,rect->y2) * viewer->zoom;
 		x2 = MAX(rect->y1,rect->y2) * viewer->zoom;
 		y1 = MAX(rect->x1,rect->x2) * viewer->zoom;
 		y2 = MIN(rect->x1,rect->x2) * viewer->zoom;
-		selw =(x2 - x1);
-		selh =(y1 - y2);
+		selw = (x2 - x1);
+		selh = (y1 - y2);
 
-	} else if(viewer->rotate == 180) {
+	} else if (viewer->rotate == 180) {
 		x1 = width - rect->x2 * viewer->zoom;
 		x2 = width - rect->x1 * viewer->zoom;
 		y1 = height - rect->y2 * viewer->zoom;
 		y2 = height - rect->y1 * viewer->zoom;
-		selw =(x2 - x1);
-		selh =(y2 - y1);
+		selw = (x2 - x1);
+		selh = (y2 - y1);
 		y1 = height - y1;
 		y2 = height - y2;
 
-	} else if(viewer->rotate == 270) {
+	} else if (viewer->rotate == 270) {
 		x1 = height - MAX(rect->y1,rect->y2) * viewer->zoom;
 		x2 = height - MIN(rect->y1,rect->y2) * viewer->zoom;
 		y1 = width - MIN(rect->x1,rect->x2) * viewer->zoom;
 		y2 = width - MAX(rect->x1,rect->x2) * viewer->zoom;
-		selw =(x2 - x1);
-		selh =(y1 - y2);
+		selw = (x2 - x1);
+		selh = (y1 - y2);
 	} else {
 		x1 = rect->x1 * viewer->zoom;
 		x2 = rect->x2 * viewer->zoom;
 		y1 = rect->y1 * viewer->zoom;
 		y2 = rect->y2 * viewer->zoom;
-		selw =(x2 - x1);
-		selh =(y2 - y1);
+		selw = (x2 - x1);
+		selh = (y2 - y1);
 		y1 = height - y1;
 		y2 = height - y2;
 	}
@@ -278,7 +278,7 @@ static void pdf_viewer_render_selection(PdfViewer *viewer, PopplerRectangle *rec
 static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 				     const gchar *str, gboolean case_sens)
 {
-	PdfViewer *viewer =(PdfViewer *)_viewer;
+	PdfViewer *viewer = (PdfViewer *)_viewer;
 	GList *all_pages_results, *cur_page_results;
 	viewer->res_cnt = 0;
 
@@ -286,18 +286,18 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 
 	main_window_cursor_wait(mainwindow_get_mainwindow());
 	
-	if(viewer->last_search && strcmp(str, viewer->last_search)) {
+	if (viewer->last_search && strcmp(str, viewer->last_search)) {
 		search_matches_free(viewer);
 		viewer->last_match = -1;
 		viewer->num_matches = 0;
-	} else if(!viewer->last_search) {
+	} else if (!viewer->last_search) {
 		viewer->last_match = -1;
 		viewer->num_matches = 0;
 	}
 	
 	/* It's a new search, build list of matches 
 	 * across all pages */
-	if(viewer->last_match == -1) {
+	if (viewer->last_match == -1) {
 		gint i; 
 		
 		for(i = 1; i < viewer->num_pages; i++) {
@@ -307,7 +307,7 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 			g_free(page_str);
 			viewer->page_results = poppler_page_find_text(pdf_page, str);
 			
-			if(viewer->page_results != NULL) {
+			if (viewer->page_results != NULL) {
 				/* store results for this page */
 				gint num_res = 0;
 				PageResult *res = g_new0(PageResult, 1);
@@ -322,7 +322,7 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 			g_object_unref(G_OBJECT(pdf_page));
 		}
 
-		if(viewer->text_found == NULL) {
+		if (viewer->text_found == NULL) {
 			main_window_cursor_normal(mainwindow_get_mainwindow());
 			return FALSE;
 		}
@@ -330,18 +330,18 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 		viewer->text_found = g_list_reverse(viewer->text_found);
 	} 
 	
-	if(!viewer->text_found) {
+	if (!viewer->text_found) {
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 		return FALSE;
 	} else {
 		viewer->last_search = g_strdup(str);
 	}
 	
-	if(backward) {
+	if (backward) {
 		/* if backward, we have to initialize stuff to search 
 		 * from the end */
 		viewer->res_cnt = viewer->num_matches-1;
-		if(viewer->last_match == -1) {
+		if (viewer->last_match == -1) {
 			viewer->last_match = viewer->num_matches+1;
 		}
 		all_pages_results = g_list_last(viewer->text_found);
@@ -350,29 +350,29 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 		all_pages_results = viewer->text_found;
 	}
 	
-	for(; all_pages_results; all_pages_results =(backward?all_pages_results->prev:all_pages_results->next)) {
+	for(; all_pages_results; all_pages_results = (backward?all_pages_results->prev:all_pages_results->next)) {
 		
-		PageResult * page_results =(PageResult *)all_pages_results->data;
+		PageResult * page_results = (PageResult *)all_pages_results->data;
 
-		if(backward) {
+		if (backward) {
 			cur_page_results = g_list_last(page_results->results);
 		}
 		else {
 			cur_page_results = page_results->results;
 		}
 
-		for(; cur_page_results; cur_page_results =(backward?cur_page_results->prev:cur_page_results->next)) {
+		for(; cur_page_results; cur_page_results = (backward?cur_page_results->prev:cur_page_results->next)) {
 
 			gboolean valid = FALSE;
 			/* first valid result is the last+1 if searching
 			 * forward, last-1 if searching backward */
-			if(backward) {
-				valid =(viewer->res_cnt < viewer->last_match);
+			if (backward) {
+				valid = (viewer->res_cnt < viewer->last_match);
 			}
 			else {
-				valid =(viewer->res_cnt > viewer->last_match);
+				valid = (viewer->res_cnt > viewer->last_match);
 			}
-			if(valid) {
+			if (valid) {
 				pdf_viewer_render_selection(viewer, 
 					(PopplerRectangle *)cur_page_results->data,
 						page_results);
@@ -380,7 +380,7 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 				return TRUE;
 			}
 			
-			if(backward) {
+			if (backward) {
 				viewer->res_cnt--;
 			}
 			else {
@@ -405,19 +405,19 @@ static void pdf_viewer_get_document_index(PdfViewer *viewer, PopplerIndexIter *i
 		
 		action = poppler_index_iter_get_action(index_iter);
 
-		if(action->type != POPPLER_ACTION_GOTO_DEST) {
+		if (action->type != POPPLER_ACTION_GOTO_DEST) {
 			poppler_action_free(action);
 			continue;
 		}
 
-		if(action->goto_dest.dest->type == POPPLER_DEST_XYZ || action->goto_dest.dest->type == POPPLER_DEST_FITH) {
+		if (action->goto_dest.dest->type == POPPLER_DEST_XYZ || action->goto_dest.dest->type == POPPLER_DEST_FITH) {
 			page_num = action->goto_dest.dest->page_num;
 		}
 #ifdef HAVE_POPPLER_DEST_NAMED
-		else if(action->goto_dest.dest->type == POPPLER_DEST_NAMED) {
+		else if (action->goto_dest.dest->type == POPPLER_DEST_NAMED) {
 			PopplerDest *dest = poppler_document_find_dest(
 					viewer->pdf_doc, action->goto_dest.dest->named_dest);
-			if(dest->type != POPPLER_DEST_XYZ) {
+			if (dest->type != POPPLER_DEST_XYZ) {
 				g_warning("couldn't figure out link\n");
 				poppler_dest_free(dest);
 				continue;
@@ -442,7 +442,7 @@ static void pdf_viewer_get_document_index(PdfViewer *viewer, PopplerIndexIter *i
 						-1);
 		poppler_action_free(action);
 		child = poppler_index_iter_get_child(index_iter);
-		if(child) {
+		if (child) {
 			pdf_viewer_get_document_index(viewer, child, &childiter);
 			poppler_index_iter_free(child);
 		}
@@ -457,17 +457,17 @@ static void pdf_viewer_index_row_activated(GtkTreeView		*tree_view,
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
-	PdfViewer *viewer =(PdfViewer *)data;
+	PdfViewer *viewer = (PdfViewer *)data;
 	gint page_num = 0;
 	
 	debug_print("index_row_activated\n");
-	if(!gtk_tree_model_get_iter(model, &iter, path)) return;
+	if (!gtk_tree_model_get_iter(model, &iter, path)) return;
 
 	gtk_tree_model_get(model, &iter, 
 			   INDEX_PAGE, &page_num,
 			   -1);
 
-	if(page_num > 0) {
+	if (page_num > 0) {
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->cur_page),(gdouble)page_num);
 		debug_print("Page num: %d\n", page_num);
 	}
@@ -478,8 +478,8 @@ static void pdf_viewer_index_row_activated(GtkTreeView		*tree_view,
 static void pdf_viewer_set_index_button_sensitive(PdfViewer *viewer)
 {
 	viewer->pdf_index  = poppler_index_iter_new(viewer->pdf_doc);
-	if(viewer->pdf_index) {	
-		if(!GTK_WIDGET_IS_SENSITIVE(viewer->doc_index)) {
+	if (viewer->pdf_index) {	
+		if (!GTK_WIDGET_IS_SENSITIVE(viewer->doc_index)) {
 			gtk_widget_set_sensitive(viewer->doc_index, TRUE);
 		}
 	}
@@ -493,17 +493,17 @@ static void pdf_viewer_set_index_button_sensitive(PdfViewer *viewer)
 
 static char * pdf_viewer_get_document_format_data(GTime utime) 
 {
-	time_t time =(time_t) utime;
+	time_t time = (time_t) utime;
 	struct tm t;
 	char s[256];
 	const char *fmt_hack = "%c";
 	size_t len;
 
-	if(time == 0 || !localtime_r(&time, &t)) return NULL;
+	if (time == 0 || !localtime_r(&time, &t)) return NULL;
 
 	len = strftime(s, sizeof(s), fmt_hack, &t);
 	
-	if(len == 0 || s[0] == '\0') return NULL;
+	if (len == 0 || s[0] == '\0') return NULL;
 
 	return g_locale_to_utf8(s, -1, NULL, NULL, NULL);
 }
@@ -593,25 +593,25 @@ static FileType pdf_viewer_mimepart_get_type(MimeInfo *partinfo)
 	gchar *content_type = NULL;
 	FileType type = TYPE_UNKNOWN;
 	debug_print("mimepart_get_type\n");
-	if((partinfo->type == MIMETYPE_APPLICATION) &&
+	if ((partinfo->type == MIMETYPE_APPLICATION) &&
 	(!g_ascii_strcasecmp(partinfo->subtype, "octet-stream"))) {
 		
 		const gchar *filename;
 
 		filename = procmime_mimeinfo_get_parameter(partinfo, "filename");
 		
-			if(filename == NULL)
+			if (filename == NULL)
 				filename = procmime_mimeinfo_get_parameter(partinfo, "name");
-			if(filename != NULL)
+			if (filename != NULL)
 				content_type = procmime_get_mime_type(filename);
 	} 
 	else {
 		content_type = procmime_get_content_type_str(partinfo->type, partinfo->subtype);
 	}
 
-	if(content_type == NULL) type = TYPE_UNKNOWN;
-	else if(!strcmp(content_type, "application/pdf")) type = TYPE_PDF;
-	else if(!strcmp(content_type, "application/postscript")) type = TYPE_PS;
+	if (content_type == NULL) type = TYPE_UNKNOWN;
+	else if (!strcmp(content_type, "application/pdf")) type = TYPE_PDF;
+	else if (!strcmp(content_type, "application/postscript")) type = TYPE_PS;
 	else type = TYPE_UNKNOWN;
 	
 	g_free(content_type);
@@ -674,7 +674,7 @@ static void pdf_viewer_button_zoom_fit_cb(GtkButton *button, PdfViewer *viewer)
 	xratio = allocation->width / viewer->width;
 	yratio = allocation->height / viewer->height;
 
-	if(xratio >= yratio) {
+	if (xratio >= yratio) {
 		viewer->zoom = yratio;
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll),viewer->zoom);
 	}
@@ -696,11 +696,11 @@ static void pdf_viewer_button_zoom_width_cb(GtkButton *button, PdfViewer *viewer
 
 static void pdf_viewer_button_rotate_right_cb(GtkButton *button, PdfViewer *viewer)
 {
-	if(viewer->rotate == 360) {
+	if (viewer->rotate == 360) {
 		viewer->rotate = 0;
 	}
 
-	viewer->rotate +=(gint) ROTATION;
+	viewer->rotate += (gint) ROTATION;
 	pdf_viewer_update((MimeViewer *)viewer,
 		FALSE,
 		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
@@ -708,7 +708,7 @@ static void pdf_viewer_button_rotate_right_cb(GtkButton *button, PdfViewer *view
 
 static void pdf_viewer_button_rotate_left_cb(GtkButton *button, PdfViewer *viewer)
 {
-	if(viewer->rotate == 0) {
+	if (viewer->rotate == 0) {
 		viewer->rotate = 360;
 	}
 
@@ -721,13 +721,13 @@ static void pdf_viewer_button_rotate_left_cb(GtkButton *button, PdfViewer *viewe
 /* Show/Hide the index pane */
 static void pdf_viewer_show_document_index_cb(GtkButton *button, PdfViewer *viewer)
 {
-	if(!viewer->pdf_index) {
+	if (!viewer->pdf_index) {
 		viewer->pdf_index = poppler_index_iter_new(viewer->pdf_doc);
 	}
 	
 	gtk_tree_store_clear(GTK_TREE_STORE(viewer->index_model));
 	
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(viewer->doc_index))) {
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(viewer->doc_index))) {
 		pdf_viewer_get_document_index(viewer,(PopplerIndexIter *) viewer->pdf_index, NULL);
 		gtk_widget_show(GTK_WIDGET(viewer->frame_index));
 	}
@@ -749,45 +749,7 @@ static void pdf_viewer_button_document_info_cb(GtkButton *button, PdfViewer *vie
 	g_free(buf);
 }
 
-/*static gboolean scrollwin_key_up_cb(GtkWidget *widg, GdkEventKey *event, PdfViewer *viewer)
-{
-
-    if(event != NULL && event->keyval == GDK_Up) 
-
-    return FALSE;
-}
-
-static gboolean scrollwin_key_down_cb(GtkWidget *widg, GdkEventKey *event, PdfViewer *viewer)
-{
-
-    if(event != NULL && event->keyval == GDK_Down) 
-
-    return FALSE;
-}
-
-static gboolean scrollwin_page_up_cb(GtkWidget *widg, GdkEventKey *event, PdfViewer *viewer)
-{
-    debug_print("key_event_press %s", event->string);
-    if(event != NULL && event->keyval == GDK_Page_Up) {
-		if(viewer->cur_page_int > 1) 
-	    	poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int - 1);
-
-    	}	
-
-    return FALSE;
-}
-
-static gboolean scrollwin_page_down_cb(GtkWidget *widg, GdkEventKey *event, PdfViewer *viewer)
-{
-    if(event != NULL && event->keyval == GDK_Page_Down)
-		if(viewer->cur_page_int < viewer->num_pages_int) 
-	    	poppler_pdf_view_update((MimeViewer *)viewer, FALSE, viewer->cur_page_int + 1);
-
-    return FALSE;
-}
-
-end callbacks ***
-
+/*
 static const char * poppler_get_document_info_mode(PopplerPageMode mode)
 {
 	GEnumValue *enum_value;
@@ -806,7 +768,7 @@ static const char * poppler_get_document_info_layout(PopplerPageLayout layout)
 */
 static void pdf_viewer_show_controls(PdfViewer *viewer, gboolean show)
 {
-	if(show) {
+	if (show) {
 		gtk_widget_show(viewer->first_page);
 		gtk_widget_show(viewer->cur_page);
 		gtk_widget_show(viewer->prev_page);
@@ -843,27 +805,27 @@ static void pdf_viewer_show_controls(PdfViewer *viewer, gboolean show)
 /** Render the current page, page_num on the viewer */
 static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int page_num) {
 
-	PdfViewer *viewer =(PdfViewer *) _viewer;
+	PdfViewer *viewer = (PdfViewer *) _viewer;
 	GError *error;
 	gchar *tmpfile = NULL;
 	
 	debug_print("pdf_viewer_update\n");
 
 	error = NULL;
-	if(reload_file) {
-		if(viewer->pdf_doc) {
+	if (reload_file) {
+		if (viewer->pdf_doc) {
 			g_object_unref(G_OBJECT(viewer->pdf_doc));
 			viewer->pdf_doc = NULL;
 		}
 		
-		if(pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PS) {
+		if (pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PS) {
 			stock_pixmap_gdk(viewer->hbox, 
 					STOCK_PIXMAP_MIME_PS, 
 					&viewer->icon_pixmap, 
 					&viewer->icon_bitmap);
 		gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
 		} 
-		else if(pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF) {
+		else if (pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF) {
 			stock_pixmap_gdk(viewer->hbox, 
 			STOCK_PIXMAP_MIME_PDF, 
 			&viewer->icon_pixmap, 
@@ -888,7 +850,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 		GTK_EVENTS_FLUSH();
 
-		if(pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PS) 
+		if (pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PS) 
 		{
 			gchar *cmdline = NULL, *tmp = NULL;
 			gint result = 0;
@@ -898,7 +860,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 				"gs -dnopause -dbatch -sdevice=pdfwrite -soutputfile=%s -c .setpdfwrite -f \"%s\"",
 				tmpfile, viewer->filename);
 			result = execute_command_line(cmdline, FALSE);
-			if(result == 0) {
+			if (result == 0) {
 				tmp = g_strdup_printf("file://%s", tmpfile);
 				viewer->pdf_doc = poppler_document_new_from_file( tmp, NULL, &error);
 				g_free(tmp);
@@ -913,7 +875,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 			g_free(cmdline);
 			g_unlink(tmpfile);
 			g_free(tmpfile);
-			if(result != 0) {
+			if (result != 0) {
 				main_window_cursor_normal(mainwindow_get_mainwindow());
 				return;
 			}
@@ -940,7 +902,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		pdf_viewer_show_controls(viewer, TRUE);
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 	} 
-	if(viewer->pdf_doc == NULL) {
+	if (viewer->pdf_doc == NULL) {
 	
 		strretchomp(error->message);
 		stock_pixmap_gdk(viewer->hbox, 
@@ -959,31 +921,31 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	/* check for the index if exists */
 	pdf_viewer_set_index_button_sensitive((PdfViewer *) viewer);
 	
-	if(page_num > 0 && page_num <= viewer->num_pages) {
+	if (page_num > 0 && page_num <= viewer->num_pages) {
 
 		gchar *page_str = g_strdup_printf("%d", page_num);
 		GTK_EVENTS_FLUSH();
 		
-		if(viewer->pdf_page) {
+		if (viewer->pdf_page) {
 			g_object_unref(G_OBJECT(viewer->pdf_page));
 		}
 			
 		viewer->pdf_page = poppler_document_get_page_by_label(viewer->pdf_doc, page_str);
 		g_free(page_str);
 
-		if(viewer->pdf_page == NULL) {
+		if (viewer->pdf_page == NULL) {
 			g_warning("Page not found\n");
 			return;
 		}   
 	
-		if(viewer->rotate == 90 || viewer->rotate == 270) {
+		if (viewer->rotate == 90 || viewer->rotate == 270) {
 			poppler_page_get_size(viewer->pdf_page, &viewer->height, &viewer->width);
 		} 
 		else {
 			poppler_page_get_size(viewer->pdf_page, &viewer->width, &viewer->height);
 		}
 
-		if(viewer->last_rect && viewer->last_page_result &&
+		if (viewer->last_rect && viewer->last_page_result &&
 		    viewer->last_page_result->page_num == page_num) {
 			pdf_viewer_render_selection(viewer, viewer->last_rect, viewer->last_page_result);
 		} else {
@@ -996,10 +958,10 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
 {
-	PdfViewer *viewer =(PdfViewer *) _viewer;
+	PdfViewer *viewer = (PdfViewer *) _viewer;
 	gchar buf[4096];
 	const gchar *charset = NULL;
-	MessageView *messageview =((MimeViewer *)viewer)->mimeview 
+	MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
 					?((MimeViewer *)viewer)->mimeview->messageview 
 					: NULL;
 	MimeInfo *partinfo = viewer->to_load;
@@ -1008,7 +970,7 @@ static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
 	messageview->updating = TRUE;
 	debug_print("pdf_viewer_show_mimepart\n");
 
-	if(viewer->filename != NULL) {
+	if (viewer->filename != NULL) {
 		g_unlink(viewer->filename);
 		g_free(viewer->filename);
 		viewer->filename = NULL;
@@ -1016,22 +978,22 @@ static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
 	
 	viewer->mimeinfo = NULL;
 	
-	if(partinfo) {
+	if (partinfo) {
 		viewer->target_filename = procmime_get_part_file_name(partinfo);
 		viewer->filename = procmime_get_tmp_file_name(partinfo);
 		viewer->fsname = g_strconcat("file://", viewer->filename, NULL);
 	}
 	
-	if(partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
+	if (partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
 
-		if(_viewer && _viewer->mimeview && 
+		if (_viewer && _viewer->mimeview && 
 				_viewer->mimeview->messageview->forced_charset) {
 			charset = _viewer->mimeview->messageview->forced_charset;
 		}
 		else {
 			charset = procmime_mimeinfo_get_parameter(partinfo, "charset");
 		}
-		if(charset == NULL) {
+		if (charset == NULL) {
 			charset = conv_get_locale_charset_str();
 		}
 
@@ -1049,7 +1011,7 @@ static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
 static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 				MimeInfo *partinfo)
 {
-	PdfViewer *viewer =(PdfViewer *) _viewer;
+	PdfViewer *viewer = (PdfViewer *) _viewer;
 	viewer->rotate = 0;
 	viewer->to_load = partinfo;
 	gtk_timeout_add(5,(GtkFunction)pdf_viewer_show_mimepart_real, viewer);
@@ -1058,7 +1020,7 @@ static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 
 static void pdf_viewer_clear(MimeViewer *_viewer)
 {
-	PdfViewer *viewer =(PdfViewer *) _viewer;
+	PdfViewer *viewer = (PdfViewer *) _viewer;
 	GtkAdjustment *vadj;
 		
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(viewer->doc_index), FALSE);
@@ -1067,7 +1029,7 @@ static void pdf_viewer_clear(MimeViewer *_viewer)
 	debug_print("pdf_viewer_clear\n");
 	viewer->to_load = NULL;
 	
-	if(viewer->pdf_doc) {
+	if (viewer->pdf_doc) {
 		g_object_unref(G_OBJECT(viewer->pdf_doc));
 		viewer->pdf_doc = NULL;
 	}
@@ -1083,11 +1045,11 @@ static void pdf_viewer_clear(MimeViewer *_viewer)
 
 static void pdf_viewer_destroy(MimeViewer *_viewer)
 {
-	PdfViewer *viewer =(PdfViewer *) _viewer;
+	PdfViewer *viewer = (PdfViewer *) _viewer;
 
 	debug_print("pdf_viewer_destroy\n");
 	
-	if(viewer->pdf_index) poppler_index_iter_free(viewer->pdf_index);
+	if (viewer->pdf_index) poppler_index_iter_free(viewer->pdf_index);
 
 	gtk_widget_unref(GTK_WIDGET(viewer->vbox));
 	gtk_widget_unref(GTK_WIDGET(viewer->pdf_view));
@@ -1101,16 +1063,16 @@ static void pdf_viewer_destroy(MimeViewer *_viewer)
 
 static gboolean pdf_viewer_scroll_page(MimeViewer *_viewer, gboolean up)
 {
-	PdfViewer *viewer =(PdfViewer *)_viewer;
+	PdfViewer *viewer = (PdfViewer *)_viewer;
 	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	
 	gint cur_p = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page));
 	
-	if(viewer->pdf_view == NULL) return FALSE;
+	if (viewer->pdf_view == NULL) return FALSE;
 
-	if(!gtkutils_scroll_page(GTK_WIDGET(viewer->pdf_view), vadj, up)) {
-		if(!up && cur_p != viewer->num_pages) {
+	if (!gtkutils_scroll_page(GTK_WIDGET(viewer->pdf_view), vadj, up)) {
+		if (!up && cur_p != viewer->num_pages) {
 			gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_FORWARD, 1);
 			vadj = gtk_scrolled_window_get_vadjustment(
 					GTK_SCROLLED_WINDOW(viewer->scrollwin));
@@ -1118,7 +1080,7 @@ static gboolean pdf_viewer_scroll_page(MimeViewer *_viewer, gboolean up)
 			g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
 			return TRUE;
 		} 
-		else if(up && cur_p != 1) {
+		else if (up && cur_p != 1) {
 			gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_BACKWARD, 1);
 			vadj = gtk_scrolled_window_get_vadjustment(
 					GTK_SCROLLED_WINDOW(viewer->scrollwin));
@@ -1133,19 +1095,19 @@ static gboolean pdf_viewer_scroll_page(MimeViewer *_viewer, gboolean up)
 
 static void pdf_viewer_scroll_one_line(MimeViewer *_viewer, gboolean up)
 {
-	PdfViewer *viewer =(PdfViewer *)_viewer;
+	PdfViewer *viewer = (PdfViewer *)_viewer;
 	GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(
 				GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	gint cur_p;
 	cur_p = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page));
 
-	if(viewer->pdf_view == NULL) return; 
+	if (viewer->pdf_view == NULL) return; 
 		debug_print("up: %d\n", up);	
-		if(vadj->value <(vadj->upper - vadj->page_size))  {
+		if (vadj->value <(vadj->upper - vadj->page_size))  {
 			gtkutils_scroll_one_line(GTK_WIDGET(viewer->pdf_view), vadj, up);
 		}
 		else {
-			if(cur_p != viewer->num_pages) {
+			if (cur_p != viewer->num_pages) {
 				pdf_viewer_scroll_page((MimeViewer *)viewer, up);
 			}
 		}
@@ -1580,7 +1542,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2, 7, 2, 57),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 7, 2, 57),
 		    VERSION_NUMERIC, _("PDF Viewer"), error)) return -1;
 	
 	mimeview_register_viewer_factory(&pdf_viewer_factory);
