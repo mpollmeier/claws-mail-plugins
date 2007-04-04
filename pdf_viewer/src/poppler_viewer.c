@@ -283,7 +283,6 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 	viewer->res_cnt = 0;
 
 	debug_print("pdf_viewer_text_search: %s\n", str);
-
 	main_window_cursor_wait(mainwindow_get_mainwindow());
 	
 	if (viewer->last_search && strcmp(str, viewer->last_search)) {
@@ -294,13 +293,12 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 		viewer->last_match = -1;
 		viewer->num_matches = 0;
 	}
-	
 	/* It's a new search, build list of matches 
 	 * across all pages */
 	if (viewer->last_match == -1) {
 		gint i; 
 		
-		for(i = 1; i < viewer->num_pages; i++) {
+		for(i = 1; i <= viewer->num_pages; i++) {
 			
 			gchar *page_str = g_strdup_printf("%d",i);
 			PopplerPage *pdf_page = poppler_document_get_page_by_label(viewer->pdf_doc, page_str);
@@ -308,6 +306,7 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 			viewer->page_results = poppler_page_find_text(pdf_page, str);
 			
 			if (viewer->page_results != NULL) {
+				debug_print("page_results %p\n", viewer->page_results);
 				/* store results for this page */
 				gint num_res = 0;
 				PageResult *res = g_new0(PageResult, 1);

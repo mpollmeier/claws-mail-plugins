@@ -1,3 +1,8 @@
+2007-04-04 [iwkse]	0.2.0cvs69
+
+	* src/poppler_viewer.c
+			Fix search on pdf with 1 page
+
 2007-04-03 [iwkse]	0.2.0cvs68
 
 	* src/poppler_viewer.c
