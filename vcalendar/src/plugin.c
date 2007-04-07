@@ -90,7 +90,7 @@ const gchar *plugin_version(void)
 struct PluginFeature *plugin_provides(void)
 {
 	static struct PluginFeature features[] = 
-		{ {PLUGIN_MIMEVIEWER, N_("text/calendar")},
+		{ {PLUGIN_MIMEVIEWER, "text/calendar"},
 		  {PLUGIN_FOLDERCLASS, N_("Calendar")},
 		  {PLUGIN_NOTHING, NULL}};
 	return features;
