@@ -1,3 +1,9 @@
+2007-04-07 [colin]	0.14.2cvs10
+
+	* src/gtkhtml2_viewer.c
+		Don't translate mime-type, thanks to 
+		Pascal Terjan
+
 2007-03-21 [colin]	0.14.2cvs9
 
 	* src/gtkhtml2_viewer.c
