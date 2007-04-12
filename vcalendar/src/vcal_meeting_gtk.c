@@ -51,7 +51,12 @@ struct _VCalMeeting
 	gint       sequence;
 	gint 	   method;
 	GtkWidget *window;
+#ifndef MAEMO
 	GtkWidget *table;
+#else
+	GtkWidget *table1;
+	GtkWidget *table2;
+#endif
 	GtkWidget *type;
 	GtkWidget *who;
 	GtkWidget *avail_evtbox;
@@ -93,6 +98,7 @@ static GdkCursor *watch_cursor = NULL;
 
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
 
+#ifndef MAEMO
 #define TABLE_ADD_LINE(label_text, widget, do_space) {				\
 	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",	\
 				label_text?label_text:"");			\
@@ -130,7 +136,66 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	}									\
 	i++;									\
 }
-
+#else
+#define TABLE_ADD_LINE(label_text, widget, do_space, intable1) {			\
+	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",	\
+				label_text?label_text:"");			\
+	GtkWidget *label = NULL;				 		\
+	GtkWidget *spacer = NULL;						\
+	GtkWidget *s_hbox = NULL;						\
+	if (do_space) {								\
+		spacer = gtk_label_new("");					\
+		gtk_widget_set_usize(spacer, 18, 16);				\
+		s_hbox = gtk_hbox_new(FALSE, 6);				\
+		gtk_box_pack_start(GTK_BOX(s_hbox), spacer, FALSE, FALSE, 0);	\
+		gtk_box_pack_start(GTK_BOX(s_hbox), widget, TRUE, TRUE, 0);	\
+	}									\
+	if (label_text) {							\
+		label = gtk_label_new(tmpstr);					\
+		g_free(tmpstr);							\
+		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);		\
+		gtk_misc_set_alignment (GTK_MISC(label), 1, 0.5);		\
+		if(intable1)	{						\
+			gtk_table_attach (GTK_TABLE (meet->table1), 		\
+					  label, 0, 1, i, i+1,			\
+					  GTK_FILL, GTK_FILL, 1, 1);		\
+		}								\
+		else	{							\
+			gtk_table_attach (GTK_TABLE (meet->table2), 		\
+					  label, 0, 1, i, i+1,			\
+					  GTK_FILL, GTK_FILL, 1, 1);		\
+		}								\
+		if(intable1)	{						\
+			gtk_table_attach (GTK_TABLE (meet->table1), 		\
+					  do_space?s_hbox:widget, 1, 2, i, i+1,	\
+					  GTK_FILL|GTK_EXPAND, GTK_FILL, 1, 1);	\
+		}								\
+		else	{							\
+			gtk_table_attach (GTK_TABLE (meet->table2), 		\
+					  do_space?s_hbox:widget, 1, 2, i, i+1,	\
+					  GTK_FILL|GTK_EXPAND, GTK_FILL, 1, 1);	\
+		}								\
+		if (GTK_IS_LABEL(widget)) {					\
+			gtk_label_set_use_markup(GTK_LABEL (widget), TRUE);	\
+			gtk_misc_set_alignment (GTK_MISC(widget),0, 0);		\
+			gtk_label_set_line_wrap(GTK_LABEL(widget), TRUE);	\
+		}								\
+	} else {								\
+		g_free(tmpstr);							\
+		if(intable1)	{						\
+			gtk_table_attach (GTK_TABLE (meet->table1), 		\
+					  do_space?s_hbox:widget, 0, 2, i, i+1,	\
+					  GTK_FILL|GTK_EXPAND, GTK_FILL, 1, 1);	\
+		}								\
+		else	{							\
+			gtk_table_attach (GTK_TABLE (meet->table2), 		\
+					  do_space?s_hbox:widget, 0, 2, i, i+1,	\
+					  GTK_FILL|GTK_EXPAND, GTK_FILL, 1, 1);	\
+		}								\
+	}									\
+	i++;									\
+}
+#endif
 enum {
 	DAY,
 	MONTH,
@@ -277,7 +342,11 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->remove_btn, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(meet->attendees_vbox), att_hbox, FALSE, FALSE, 0);
 	address_completion_register_entry(GTK_ENTRY(attendee->address), FALSE);
+#ifndef MAEMO
 	gtk_widget_set_size_request(attendee->address, 320, -1);
+#else
+	gtk_widget_set_size_request(attendee->address, 220, -1);
+#endif
 	return attendee;
 }
 
@@ -1242,7 +1311,12 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	end_m_adj   = gtk_adjustment_new (0, 0, 59, 1, 10, 10);
 
 	meet->window 		= gtkut_window_new(GTK_WINDOW_TOPLEVEL, "vcal_meeting_gtk");
+#ifndef MAEMO
 	meet->table  		= gtk_table_new(7, 2, FALSE);
+#else
+	meet->table1  		= gtk_table_new(4, 2, FALSE);
+	meet->table2  		= gtk_table_new(2, 2, FALSE);
+#endif
 	meet->who    		= gtk_combo_box_new_text();
 	
 	meet->start_c		= gtk_calendar_new();
@@ -1396,8 +1470,13 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 			 G_CALLBACK(meeting_end_changed),
 			 meet);
 
+#ifndef MAEMO
 	gtk_widget_set_size_request(meet->start_time, 80, -1);
 	gtk_widget_set_size_request(meet->end_time, 80, -1);
+#else
+	gtk_widget_set_size_request(meet->start_time, 120, -1);
+	gtk_widget_set_size_request(meet->end_time, 120, -1);
+#endif
 	
 	date_hbox = gtk_hbox_new(FALSE, 6);
 	date_vbox = gtk_vbox_new(FALSE, 6);
@@ -1414,7 +1493,12 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_box_pack_start(GTK_BOX(date_vbox), meet->start_c, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), date_vbox, FALSE, FALSE, 0);
 
-	label = gtk_label_new(" "); gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+#ifndef MAEMO
+	label = gtk_label_new(" "); 
+#else
+	label = gtk_label_new(""); 
+#endif
+	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_box_pack_start(GTK_BOX(date_hbox), label, TRUE, TRUE, 0);
 
 	date_vbox = gtk_vbox_new(FALSE, 6);
@@ -1512,6 +1596,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(meet->avail_evtbox), FALSE);
 	gtk_container_add (GTK_CONTAINER(meet->avail_evtbox), meet->avail_img);
 
+#ifndef MAEMO
 	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE);
 	TABLE_ADD_LINE(_("Time:"), date_hbox, TRUE);
@@ -1521,9 +1606,40 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	gtk_widget_set_size_request(meet->window, -1, -1);
 	gtk_container_add(GTK_CONTAINER(meet->window), meet->table);
+#else
+	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE, TRUE);
+	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE, TRUE);
+	TABLE_ADD_LINE(_("Description:"), scrolledwin, TRUE, TRUE);
+	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox, FALSE, TRUE);
+	TABLE_ADD_LINE("", date_hbox, TRUE, FALSE);
+	
+	GtkWidget *notebook;
+	notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+			meet->table1,
+			gtk_label_new_with_mnemonic(_("Event:")));
+			
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+			meet->table2,
+			gtk_label_new_with_mnemonic(_("Time:")));
+	gtk_widget_show (notebook);
+	
+	GtkWidget *maemo_vbox0 = gtk_vbox_new(FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(maemo_vbox0), notebook, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(maemo_vbox0), save_hbox, FALSE, FALSE, 0);
+	
+	gtk_widget_set_size_request(meet->window, -1, -1);
+	gtk_container_add (GTK_CONTAINER (meet->window), maemo_vbox0);
+	
+	maemo_connect_key_press_to_mainwindow(GTK_WINDOW(meet->window));
+#endif
 	if (visible) {
 		GSList *cur;
 		gtk_widget_show_all(meet->window);
+#ifdef MAEMO
+		maemo_window_full_screen_if_needed(GTK_WINDOW(meet->window));
+#endif
 		for (cur = meet->attendees; cur; cur = cur->next) {
 			gtk_widget_hide(((VCalAttendee *)cur->data)->avail_img);
 		}

@@ -1,3 +1,12 @@
+2007-04-12 [colin]	1.94.0cvs11
+
+	* src/vcal_meeting_gtk.c
+		Better layout on Maemo. Patch by Jean-Luc
+		Biord, slightly modified. The notebook
+		tabs titles ("Event:" and "Time:" will 
+		have to be updated later after string
+		freeze is over)
+
 2007-04-07 [colin]	1.94.0cvs10
 
 	* src/plugin.c
