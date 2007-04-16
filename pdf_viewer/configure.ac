@@ -7,9 +7,9 @@ PACKAGE=pdf_viewer
 
 dnl plugin version
 MAJOR_VERSION=0
-MINOR_VERSION=2
+MINOR_VERSION=3
 MICRO_VERSION=0
-EXTRA_VERSION=70
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
