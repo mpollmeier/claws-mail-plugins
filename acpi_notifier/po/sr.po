@@ -1,47 +1,51 @@
-# Serbian translation of Sylpheed-Claws
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2006
-# 
-# This file is distributed under the same license as the Sylpheed-Claws package.
-# 
-# Maintainer: Александар Урошевић <urke@users.sf.net>
+# Serbian translation of sr.po
+# Copyright (C) 2007 Colin Leroy
+# This file is distributed under the same license as the Claws-Mail package.
 #
+# Aleksandar Urošević <urke@users.sf.net>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: acpi_notifier 0.8\n"
-"Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-26 19:53+0100\n"
-"PO-Revision-Date: 2006-01-26 20:01+0100\n"
-"Last-Translator: Александар Урошевић <urke@users.sourceforge.net>\n"
-"Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
+"Project-Id-Version: sr\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2007-04-10 15:38+0100\n"
+"PO-Revision-Date: 2007-04-11 19:39+0200\n"
+"Last-Translator: Aleksandar Urošević <urke@users.sf.net>\n"
+"Language-Team: Serbian <gnome@prevod.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/acpi_notifier.c:61
+#: src/acpi_notifier.c:45
+msgid "Acpi Notifier"
+msgstr "ACPI нотификатор"
+
+#: src/acpi_notifier.c:63
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 msgstr ""
-"Проверите да ли је учитан кернел модул „acerhk“.\n"
+"Проверите да ли је модул кернела „acerhk“ учитан.\n"
 "Можете га преузети са http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
-#: src/acpi_notifier.c:63
+#: src/acpi_notifier.c:65
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
-"Проверите да ли је учитан кернел модул „acer_acpi“.\n"
+"Проверите да ли је модул кернела „acer_acpi“ учитан.\n"
 "Можете га преузети са http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 
-#: src/acpi_notifier.c:65
-msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Проверите да ли је учитан кернел модул „asus_acpi“."
-
-#: src/acpi_notifier.c:66
-msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Проверите да ли је учитан кернел модул „ibm_acpi“."
-
 #: src/acpi_notifier.c:67
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Проверите да ли је модул кернела „asus_acpi“ учитан."
+
+#: src/acpi_notifier.c:68
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Проверите да ли је модул кернела „ibm_acpi“ учитан."
+
+#: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
@@ -49,79 +53,67 @@ msgstr ""
 "Проверите да ли имате инсталиран „apanelc“.\n"
 "Можете га преузети са http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:191 src/acpi_notifier.c:197 src/acpi_notifier.c:408
+#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
 msgid "Control file doesn't exist."
 msgstr "Контролна датотека не постоји."
 
-#: src/acpi_notifier.c:288
+#: src/acpi_notifier.c:295
 msgid " : no new or unread mail"
 msgstr " : нема нових или непрочитаних порука"
 
-#: src/acpi_notifier.c:289
+#: src/acpi_notifier.c:296
 msgid " : unread mail"
-msgstr " : непрочитане поруке"
+msgstr " : непрочитаних порука"
 
-#: src/acpi_notifier.c:290
+#: src/acpi_notifier.c:297
 msgid " : new mail"
-msgstr " : нове поруке"
+msgstr " : нових порука"
 
-#: src/acpi_notifier.c:292 src/acpi_notifier.c:298 src/acpi_notifier.c:304
+#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
 msgid "off"
 msgstr "искључено"
 
-#: src/acpi_notifier.c:294 src/acpi_notifier.c:300 src/acpi_notifier.c:306
+#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
 msgid "blinking"
-msgstr "трепти"
+msgstr "трепери"
 
-#: src/acpi_notifier.c:296 src/acpi_notifier.c:302 src/acpi_notifier.c:308
+#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
 msgid "on"
 msgstr "укључено"
 
-#: src/acpi_notifier.c:330 src/acpi_notifier.c:339 src/acpi_notifier.c:354
+#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
 msgid "LED "
-msgstr "LED "
+msgstr "ЛЕД "
 
-#: src/acpi_notifier.c:369
+#: src/acpi_notifier.c:376
 msgid "ACPI type: "
-msgstr "ACPI тип: "
+msgstr "Втста ACPI: "
 
-#: src/acpi_notifier.c:378
+#: src/acpi_notifier.c:385
 msgid "ACPI file: "
 msgstr "ACPI датотека: "
 
-#: src/acpi_notifier.c:389
+#: src/acpi_notifier.c:396
 msgid "values - On: "
 msgstr "вредности - Укључено: "
 
-#: src/acpi_notifier.c:394
+#: src/acpi_notifier.c:401
 msgid " - Off: "
-msgstr " - Искључено: "
+msgstr " - Искључено : "
 
-#: src/acpi_notifier.c:703
+#: src/acpi_notifier.c:423
+msgid "Blink when user interaction is required"
+msgstr "Трепери када је потребна интервенција корисника"
+
+#: src/acpi_notifier.c:734
 msgid "Plugins"
-msgstr "Додаци"
+msgstr "Подаци"
 
-#: src/acpi_notifier.c:704
-msgid "Acpi Notifier"
-msgstr "Acpi обавештење"
-
-#: src/acpi_notifier.c:757
-msgid ""
-"Your Sylpheed-Claws version is newer than the version AcpiNotifier was built "
-"with"
-msgstr ""
-"Верзија Sylpheed-Claws коју користите је новија од верзија са којом је направљен "
-"AcpiNotifier"
-
-#: src/acpi_notifier.c:762
-msgid "Your Sylpheed-Claws version is too old for AcpiNotifier"
-msgstr "Верзија Sylpheed-Claws коју користите је превише стара за AcpiNotifier"
-
-#: src/acpi_notifier.c:776
-msgid "Acpi notifier"
-msgstr "Acpi обавештење"
-
-#: src/acpi_notifier.c:781
+#: src/acpi_notifier.c:811
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "Овај додатак управља разним LED за е-пошту преко ACPI."
+msgstr "Овај додатак управља разним ACPI LED за поруке."
+
+#: src/acpi_notifier.c:832
+msgid "Laptop LED"
+msgstr "Лаптоп ЛЕД"
 

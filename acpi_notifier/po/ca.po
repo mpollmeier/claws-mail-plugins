@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ACPI notifier\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-02-19 08:21+0000\n"
-"PO-Revision-Date: 2007-02-25 20:18+00001\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2007-04-10 15:38+0100\n"
+"PO-Revision-Date: 2007-04-11 22:56+00001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 msgstr ""
-"Assegureu-vos de que el mï¿½ul del kernel 'acerhk' estï¿½carregat.\n"
+"Assegureu-vos de que el mòdul del kernel 'acerhk' està carregat.\n"
 "Podeu aconseguir-lo a http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
 #: src/acpi_notifier.c:65
@@ -31,24 +31,24 @@ msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
-"Assegureu-vos de que el mï¿½ul del nucli 'acer_acpi' estï¿½carregat.\n"
+"Assegureu-vos de que el mòdul del nucli 'acer_acpi' està carregat.\n"
 "Podeu aconseguir-lo a http://www.archernar.co.uk/acer_acpi/acer_acpi_main."
 "html"
 
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Assegureu-vos de que el mï¿½ul del nucli 'asus_acpi' estï¿½carregat."
+msgstr "Assegureu-vos de que el mòdul del nucli 'asus_acpi' està carregat."
 
 #: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Assegureu-vos de que el mï¿½ul del nucli 'ibm_acpi' estï¿½carregat."
+msgstr "Assegureu-vos de que el mòdul del nucli 'ibm_acpi' està carregat."
 
 #: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
 msgstr ""
-"Assegureu-vos de que teniu apanelc installat.\n"
+"Assegureu-vos de que teniu apanelc instal·lat.\n"
 "Podeu aconseguir-lo a http://apanel.sourceforge.net/"
 
 #: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
@@ -77,7 +77,7 @@ msgstr "pampalluguejant"
 
 #: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
 msgid "on"
-msgstr "encï¿½"
+msgstr "encès"
 
 #: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
 msgid "LED "
@@ -93,7 +93,7 @@ msgstr "arxiu ACPI: "
 
 #: src/acpi_notifier.c:396
 msgid "values - On: "
-msgstr "valors - Encï¿½: "
+msgstr "valors - Encès: "
 
 #: src/acpi_notifier.c:401
 msgid " - Off: "
@@ -101,19 +101,19 @@ msgstr " - Apagat: "
 
 #: src/acpi_notifier.c:423
 msgid "Blink when user interaction is required"
-msgstr "Pampalluguejarï¿½quan sigui necessï¿½ia la interacciï¿½amb l'usuari"
+msgstr "Pampalluguejarà quan sigui necessària la interacció amb l'usuari"
 
 #: src/acpi_notifier.c:734
 msgid "Plugins"
-msgstr "Mï¿½uls"
+msgstr "Mòduls"
 
 #: src/acpi_notifier.c:811
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "Aquest mï¿½ul controla varis LEDs de correus ACPI."
+msgstr "Aquest mòdul controla varis LEDs de correus ACPI."
 
 #: src/acpi_notifier.c:832
 msgid "Laptop LED"
-msgstr "LED de portï¿½il"
+msgstr "LED de portàtil"
 
 #~ msgid "Acpi notifier"
 #~ msgstr "Notificador acpi"
