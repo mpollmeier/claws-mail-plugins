@@ -1,3 +1,16 @@
+2007-04-16 [paul]	0.2.0cvs70
+
+	* configure.ac
+	* po/ca.po
+	* po/es.po
+	* po/hu.po
+	* po/pt_BR.po
+	* po/sr.po
+		updated translations by Miquel Oliete, Ricardo
+		Mones Lastra, Pader Rezso, and Frederico Goncalves
+		Guimaraes.
+		added Serbian translation by Aleksandar Urosevic
+
 2007-04-04 [iwkse]	0.2.0cvs69
 
 	* src/poppler_viewer.c

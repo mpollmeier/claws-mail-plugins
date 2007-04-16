@@ -1,45 +1,156 @@
-# Catalan translation of poppler.
+# Catalan translation of pdf_viewer.
 # Copyright (C) YEAR Salvatore De Paolis 
-# This file is distributed under the same license as the PACKAGE package.
 # Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pdf_viewer\n"
+"Project-Id-Version: pdf viewer\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-02-19 09:37+0000\n"
-"PO-Revision-Date: 2007-02-25 23:51+0001\n"
+"POT-Creation-Date: 2007-04-10 15:42+0100\n"
+"PO-Revision-Date: 2007-04-11 23:15+0100\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/poppler_viewer.c:158
-#, c-format
-msgid "%s document, page %d/%d"
-msgstr "document %s, pàgina %d/%d"
+#: src/poppler_viewer.c:554
+msgid "Filename:"
+msgstr "Nom d'arxiu:"
 
-#: src/poppler_viewer.c:167
-msgid "Prev page"
-msgstr "Pàgina prèvia"
+#: src/poppler_viewer.c:555
+msgid "Size:"
+msgstr "Tamany:"
 
-#: src/poppler_viewer.c:170
-msgid "Next page"
-msgstr "Pàgina següent"
+#: src/poppler_viewer.c:557
+msgid "Title:"
+msgstr "Títol:"
 
-#: src/poppler_viewer.c:191 src/poppler_viewer.c:348
+#: src/poppler_viewer.c:558
+msgid "Subject:"
+msgstr "Assumpte:"
+
+#: src/poppler_viewer.c:559
+msgid "Author:"
+msgstr "Autor:"
+
+#: src/poppler_viewer.c:560
+msgid "Keywords:"
+msgstr "Paraules Claus:"
+
+#: src/poppler_viewer.c:561
+msgid "Creator:"
+msgstr "Creador:"
+
+#: src/poppler_viewer.c:562
+msgid "Producer:"
+msgstr "Generador:"
+
+#: src/poppler_viewer.c:565
+msgid "Created:"
+msgstr "Creat:"
+
+#: src/poppler_viewer.c:569
+msgid "Modified:"
+msgstr "Modificat"
+
+#: src/poppler_viewer.c:572
+msgid "Format:"
+msgstr "Format:"
+
+#: src/poppler_viewer.c:573
+msgid "Optimized:"
+msgstr "Optimitzat:"
+
+#: src/poppler_viewer.c:742
+msgid "PDF Viewer Plugin"
+msgstr "Mòdul visor de PDFs"
+
+#: src/poppler_viewer.c:846
 msgid "Loading..."
 msgstr "Carregant..."
 
-#: src/poppler_viewer.c:385 src/poppler_viewer.c:398
-msgid "PDF Viewer"
-msgstr "Visor PDF"
+#: src/poppler_viewer.c:896
+#, c-format
+msgid "%s Document(%d page%s)"
+msgstr "Document %s(%d pàgina%s)"
 
-#: src/poppler_viewer.c:403
+#: src/poppler_viewer.c:1179 src/poppler_viewer.c:1419
+msgid "Document Index"
+msgstr "Índex del Document"
+
+#: src/poppler_viewer.c:1253
+msgid "Name"
+msgstr "Nom"
+
+#: src/poppler_viewer.c:1365
+msgid "First Page"
+msgstr "Primera pàgina"
+
+#: src/poppler_viewer.c:1370
+msgid "Previous Page"
+msgstr "Pàgina anterior"
+
+#: src/poppler_viewer.c:1375
+msgid "Next Page"
+msgstr "Pàgina següent"
+
+#: src/poppler_viewer.c:1380
+msgid "Last Page"
+msgstr "Última pàgina"
+
+#: src/poppler_viewer.c:1385
+msgid "Zoom In"
+msgstr "Augmentar"
+
+#: src/poppler_viewer.c:1389
+msgid "Zoom Out"
+msgstr "Disminuir"
+
+#: src/poppler_viewer.c:1394
+msgid "Fit Page"
+msgstr "Ajustar pàgina"
+
+#: src/poppler_viewer.c:1399
+msgid "Fit Page Width"
+msgstr "Ajustar l'ample de pàgina"
+
+#: src/poppler_viewer.c:1404
+msgid "Rotate Left"
+msgstr "Rotar a l'esquerra"
+
+#: src/poppler_viewer.c:1409
+msgid "Rotate Right"
+msgstr "Rotar a la dreta"
+
+#: src/poppler_viewer.c:1414
+msgid "Document Info"
+msgstr "Informació del Document"
+
+#: src/poppler_viewer.c:1423
+msgid "Page Number"
+msgstr "Número de Pàgina"
+
+#: src/poppler_viewer.c:1427
+msgid "Zoom Factor"
+msgstr "Factor d'augment"
+
+#: src/poppler_viewer.c:1535
+#, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
-"Poppler lib."
+"Poppler %s Lib.\n"
+"\n"
+"PDF Viewer is Copyright(C) 2007\n"
+"by Salvatore De Paolis <iwkse@claws-mail.org>"
 msgstr ""
-"Aquest mòdul habilita el visionat d'adjunts PDF i PostScript usant la "
-"llibreria Poppler."
+"Aquest mòdul permet veure adjunts en format PDF i PostScript usant la "
+"Lib. Poppler %s.\n"
+"\n"
+"PDF viewer té Copyright(C) 2007\n"
+"per Salvatore de Paolis <iwkse@claws-mail.org>"
+
+#: src/poppler_viewer.c:1545 src/poppler_viewer.c:1559
+msgid "PDF Viewer"
+msgstr "Visor de PDFs"

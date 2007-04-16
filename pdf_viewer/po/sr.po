@@ -1,142 +1,142 @@
-# translation of pt_BR.po to Português do Brasil
-# Copyright (C) YEAR Salvatore De Paolis
-# This file is distributed under the same license as the PACKAGE package.
+# Serbian translation of sr.po
+# Copyright (C) 2007 Salvatore De Paolis
+# This file is distributed under the same license as the Claws-Mail package.
 #
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
+# Aleksandar Urošević <urke@users.sf.net>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version: sr\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-04-04 18:41+0200\n"
-"PO-Revision-Date: 2007-04-15 18:49-0300\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Português do Brasil\n"
+"POT-Creation-Date: 2007-04-10 15:42+0100\n"
+"PO-Revision-Date: 2007-04-11 18:44+0200\n"
+"Last-Translator: Aleksandar Urošević <urke@users.sf.net>\n"
+"Language-Team: Serbian <gnome@prevod.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/poppler_viewer.c:554
 msgid "Filename:"
-msgstr "Nome do arquivo:"
+msgstr "Назив датотеке:"
 
 #: src/poppler_viewer.c:555
 msgid "Size:"
-msgstr "Tamanho:"
+msgstr "Величина:"
 
 #: src/poppler_viewer.c:557
 msgid "Title:"
-msgstr "Título:"
+msgstr "Наслов:"
 
 #: src/poppler_viewer.c:558
 msgid "Subject:"
-msgstr "Assunto:"
+msgstr "Тема:"
 
 #: src/poppler_viewer.c:559
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Аутор:"
 
 #: src/poppler_viewer.c:560
 msgid "Keywords:"
-msgstr "Palavras-chave:"
+msgstr "Кључне речи:"
 
 #: src/poppler_viewer.c:561
 msgid "Creator:"
-msgstr "Criador:"
+msgstr "Направио:"
 
 #: src/poppler_viewer.c:562
 msgid "Producer:"
-msgstr "Produtor:"
+msgstr "Продуцент:"
 
 #: src/poppler_viewer.c:565
 msgid "Created:"
-msgstr "Criado:"
+msgstr "Направљено:"
 
 #: src/poppler_viewer.c:569
 msgid "Modified:"
-msgstr "Modificado:"
+msgstr "Модификовано:"
 
 #: src/poppler_viewer.c:572
 msgid "Format:"
-msgstr "Formato:"
+msgstr "Формат:"
 
 #: src/poppler_viewer.c:573
 msgid "Optimized:"
-msgstr "Otimizado:"
+msgstr "Оптимизовано:"
 
 #: src/poppler_viewer.c:742
 msgid "PDF Viewer Plugin"
-msgstr "Plugin Visualizador PDF"
+msgstr "Додатак за преглед PDF-ова"
 
 #: src/poppler_viewer.c:846
 msgid "Loading..."
-msgstr "Abrindo..."
+msgstr "Учитава се..."
 
 #: src/poppler_viewer.c:896
 #, c-format
 msgid "%s Document(%d page%s)"
-msgstr "%s Documento(%d pág.%s)"
+msgstr "%s Документ(%d страна%s)"
 
 #: src/poppler_viewer.c:1179 src/poppler_viewer.c:1419
 msgid "Document Index"
-msgstr "Índice do documento"
+msgstr "Садржај документа"
 
 #: src/poppler_viewer.c:1253
 msgid "Name"
-msgstr "Nome"
+msgstr "Назив"
 
 #: src/poppler_viewer.c:1365
 msgid "First Page"
-msgstr "Primeira página"
+msgstr "Прва страна"
 
 #: src/poppler_viewer.c:1370
 msgid "Previous Page"
-msgstr "Página anterior"
+msgstr "Претходна страна"
 
 #: src/poppler_viewer.c:1375
 msgid "Next Page"
-msgstr "Próxima página"
+msgstr "Следећа страна"
 
 #: src/poppler_viewer.c:1380
 msgid "Last Page"
-msgstr "Última página"
+msgstr "Последња страна"
 
 #: src/poppler_viewer.c:1385
 msgid "Zoom In"
-msgstr "Aumentar zoom"
+msgstr "Увеличај"
 
 #: src/poppler_viewer.c:1389
 msgid "Zoom Out"
-msgstr "Diminuir zoom"
+msgstr "Умањи"
 
 #: src/poppler_viewer.c:1394
 msgid "Fit Page"
-msgstr "Ajustar a página"
+msgstr "Прилагоди страну"
 
 #: src/poppler_viewer.c:1399
 msgid "Fit Page Width"
-msgstr "Ajustar a largura da página"
+msgstr "Прилагоди ширину стране"
 
 #: src/poppler_viewer.c:1404
 msgid "Rotate Left"
-msgstr "Girar para a esquerda"
+msgstr "Ротирај у лево"
 
 #: src/poppler_viewer.c:1409
 msgid "Rotate Right"
-msgstr "Girar para a direita"
+msgstr "Ротирај у десно"
 
 #: src/poppler_viewer.c:1414
 msgid "Document Info"
-msgstr "Informações do documento"
+msgstr "Информације о документу"
 
 #: src/poppler_viewer.c:1423
 msgid "Page Number"
-msgstr "Número da página"
+msgstr "Број страна"
 
 #: src/poppler_viewer.c:1427
 msgid "Zoom Factor"
-msgstr "Fator de zoom"
+msgstr "Фактор зума"
 
 #: src/poppler_viewer.c:1535
 #, c-format
@@ -147,13 +147,13 @@ msgid ""
 "PDF Viewer is Copyright(C) 2007\n"
 "by Salvatore De Paolis <iwkse@claws-mail.org>"
 msgstr ""
-"Esse plugin habilita a visualização de anexos em PDF e PostScript usando a "
-"biblioteca Poppler %s.\n"
+"Овај додатак омогућава преглед PDF и PostScript прилога "
+"употребом Poppler %s Lib.\n"
 "\n"
-"PDF Viewer possui Copyright(C) 2007\n"
-"por Salvatore De Paolis <iwkse@claws-mail.org>"
+"PDF Прегледник Copyright(C) 2007\n"
+"by Salvatore De Paolis <iwkse@claws-mail.org>"
 
 #: src/poppler_viewer.c:1545 src/poppler_viewer.c:1559
 msgid "PDF Viewer"
-msgstr "Visualizador PDF"
+msgstr "PDF Прегледник"
 

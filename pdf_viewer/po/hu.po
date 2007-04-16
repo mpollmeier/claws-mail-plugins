@@ -1,46 +1,159 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Salvatore De Paolis
 # This file is distributed under the same license as the PACKAGE package.
-# Páder Rezső (rezso) <rezso@rezso.net>, 2007.
+# Páder Rezső <rezso@rezso.net>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Poppler viewer 0.1\n"
+"Project-Id-Version: PDF viewer\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
 "POT-Creation-Date: 2007-02-19 09:37+0000\n"
-"PO-Revision-Date: 2007-02-19 23:04+0100\n"
+"PO-Revision-Date: 2007-04-12 21:31+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
-"Language-Team: <NONE>\n"
+"Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/poppler_viewer.c:158
-#, c-format
-msgid "%s document, page %d/%d"
-msgstr "%s dokumentum, %d/%d oldal"
+#: src/poppler_viewer.c:554
+msgid "Filename:"
+msgstr "Fájlnév:"
 
-#: src/poppler_viewer.c:167
-msgid "Prev page"
-msgstr "Előző oldal"
+#: src/poppler_viewer.c:555
+msgid "Size:"
+msgstr "Méret:"
 
-#: src/poppler_viewer.c:170
-msgid "Next page"
-msgstr "Következő oldal"
+#: src/poppler_viewer.c:557
+msgid "Title:"
+msgstr "Cím:"
 
-#: src/poppler_viewer.c:191
-#: src/poppler_viewer.c:348
+#: src/poppler_viewer.c:558
+msgid "Subject:"
+msgstr "Tárgy:"
+
+#: src/poppler_viewer.c:559
+msgid "Author:"
+msgstr "Szerző:"
+
+#: src/poppler_viewer.c:560
+msgid "Keywords:"
+msgstr "Kulcsszavak:"
+
+#: src/poppler_viewer.c:561
+msgid "Creator:"
+msgstr "Készítő:"
+
+#: src/poppler_viewer.c:562
+msgid "Producer:"
+msgstr "Gyártó:"
+
+#: src/poppler_viewer.c:565
+msgid "Created:"
+msgstr "Létrehozva:"
+
+#: src/poppler_viewer.c:569
+msgid "Modified:"
+msgstr "Módosítva:"
+
+#: src/poppler_viewer.c:572
+msgid "Format:"
+msgstr "Formátum:"
+
+#: src/poppler_viewer.c:573
+msgid "Optimized:"
+msgstr "Optimizálva:"
+
+#: src/poppler_viewer.c:742
+msgid "PDF Viewer Plugin"
+msgstr "PDF megjelenítő plugin"
+
+#: src/poppler_viewer.c:846
 msgid "Loading..."
 msgstr "Betöltés..."
 
-#: src/poppler_viewer.c:385
-#: src/poppler_viewer.c:398
+#: src/poppler_viewer.c:896
+#, c-format
+msgid "%s Document(%d page%s)"
+msgstr "%s dokumentum (%d/%s oldal)"
+
+#: src/poppler_viewer.c:1179
+#: src/poppler_viewer.c:1419
+msgid "Document Index"
+msgstr "Dokumentum index"
+
+#: src/poppler_viewer.c:1253
+msgid "Name"
+msgstr "Név"
+
+#: src/poppler_viewer.c:1365
+msgid "First Page"
+msgstr "Első oldal"
+
+#: src/poppler_viewer.c:1370
+msgid "Previous Page"
+msgstr "Előző oldal"
+
+#: src/poppler_viewer.c:1375
+msgid "Next Page"
+msgstr "Következő oldal"
+
+#: src/poppler_viewer.c:1380
+msgid "Last Page"
+msgstr "Utolsó oldal"
+
+#: src/poppler_viewer.c:1385
+msgid "Zoom In"
+msgstr "Nagyítás"
+
+#: src/poppler_viewer.c:1389
+msgid "Zoom Out"
+msgstr "Kicsinyítés"
+
+#: src/poppler_viewer.c:1394
+msgid "Fit Page"
+msgstr "Nagyítás teljes méretre"
+
+#: src/poppler_viewer.c:1399
+msgid "Fit Page Width"
+msgstr "Nagyítás teljes szélességre"
+
+#: src/poppler_viewer.c:1404
+msgid "Rotate Left"
+msgstr "Forgatás balra"
+
+#: src/poppler_viewer.c:1409
+msgid "Rotate Right"
+msgstr "Forgatás jobbra"
+
+#: src/poppler_viewer.c:1414
+msgid "Document Info"
+msgstr "Dokumentum információ"
+
+#: src/poppler_viewer.c:1423
+msgid "Page Number"
+msgstr "Oldalszám"
+
+#: src/poppler_viewer.c:1427
+msgid "Zoom Factor"
+msgstr "Nagyítási tényező"
+
+#: src/poppler_viewer.c:1535
+#, c-format
+msgid ""
+"This plugin enables the viewing of PDF and PostScript attachments using the Poppler %s Lib.\n"
+"\n"
+"PDF Viewer is Copyright(C) 2007\n"
+"by Salvatore De Paolis <iwkse@claws-mail.org>"
+msgstr ""
+"A plugin PDF és PostScript mellékletek megjelenítését teszi lehetővé a Poppler %s függvénykönyvtár használatával.\n"
+"\n"
+"PDF Viewer - Copyright (C) 2007\n"
+"Salvatore De Paolis <iwkse@claws-mail.org>"
+
+#: src/poppler_viewer.c:1545
+#: src/poppler_viewer.c:1559
 msgid "PDF Viewer"
 msgstr "PDF megjelenítő"
-
-#: src/poppler_viewer.c:403
-msgid "This plugin enables the viewing of PDF and PostScript attachments using the Poppler lib."
-msgstr "A plugin PDF és PostScript mellékletek megjelenítését teszi lehetővé a Poppler fügvénykönyvtár használatával."
 
