@@ -1,3 +1,9 @@
+2007-04-16 [paul]	0.2.5cvs4
+
+	* configure.ac
+	* po/sr.po
+		added Serbian translation by Aleksandar Urosevic
+
 2007-04-16 [paul]	0.2.5cvs3
 
 	* po/ca.po
