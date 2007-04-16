@@ -8,7 +8,7 @@ PACKAGE=acpi_notifier
 dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=0
-MICRO_VERSION=8
+MICRO_VERSION=9
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
@@ -36,7 +36,7 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
 
-ALL_LINGUAS="ca de es fi fr hu it pl pt_BR sk sr sv zh_CN"
+ALL_LINGUAS="ca cs de es fi fr hu it pl pt_BR sk sr sv zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT([external])
