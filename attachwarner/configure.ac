@@ -8,7 +8,7 @@ PACKAGE=attachwarner
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
-MICRO_VERSION=5
+MICRO_VERSION=6
 EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
@@ -56,7 +56,7 @@ else
   CLAWS_MAIL_PLUGINDIR='${libdir}/claws-mail/plugins'
 fi
 
-ALL_LINGUAS="ca de es fi fr hu it pl pt_BR sk"
+ALL_LINGUAS="ca cs de es fi fr hu it pl pt_BR sk sr"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])
