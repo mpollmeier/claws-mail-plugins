@@ -1,91 +1,99 @@
-# Serbian translation of Sylpheed-Claws
+# Serbian translation of sr.po
+# Serbian translation of Claws-Mail vCalendar Plugin
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2006
-# 
-# This file is distributed under the same license as the Sylpheed-Claws package.
-# 
+#
+# This file is distributed under the same license as the Claws-Mail package.
+#
 # Maintainer: Александар Урошевић <urke@users.sf.net>
 #
+# Aleksandar Urošević <urke@users.sf.net>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: vcalendar 1.28\n"
+"Project-Id-Version: sr\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2006-01-26 20:05+0100\n"
-"PO-Revision-Date: 2006-01-26 20:27+0100\n"
-"Last-Translator: Александар Урошевић <urke@users.sourceforge.net>\n"
-"Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
+"POT-Creation-Date: 2007-04-10 15:43+0100\n"
+"PO-Revision-Date: 2007-04-11 20:52+0200\n"
+"Last-Translator: Aleksandar Urošević <urke@users.sf.net>\n"
+"Language-Team: Serbian <gnome@prevod.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: KBabel 1.11.4\n"
 
-#: src/plugin.c:40
-msgid ""
-"Your Sylpheed-Claws version is newer than the version vCalendar was built "
-"with."
-msgstr ""
-"Верзија Sylpheed-Claws коју користите је новија од верзије са којом је "
-"vCalendar направљен."
-
-#: src/plugin.c:45
-msgid "Your Sylpheed-Claws version is too old for vCalendar."
-msgstr "Верзија Sylpheed-Claws је превише стара за vCalendar."
-
-#: src/plugin.c:61 src/vcal_prefs.c:234
+#: src/plugin.c:40 src/plugin.c:56 src/vcal_prefs.c:645
 msgid "vCalendar"
 msgstr "vCalendar"
 
-#: src/plugin.c:66
+#: src/plugin.c:61
 msgid ""
-"This plugin enables vCalendar message handling like produced by Evolution or "
-"Outlook.\n"
+"This plugin enables vCalendar message handling like that produced by "
+"Evolution or Outlook.\n"
 "\n"
-"When loaded, it will create a vCalendar mailbox in your folder list, which "
+"When loaded, it will create a vCalendar mailbox in the Folder List, which "
 "will be populated by meetings that you have accepted or created.\n"
 "Meeting requests that you receive will be presented in an appropriate form "
 "and you will be able to accept or decline them.\n"
-"Finally, to create a meeting right-click on the vCalendar or Meetings folder "
-"and choose \"New meeting...\"."
+"To create a meeting right-click on the vCalendar or Meetings folder and "
+"choose \"New meeting...\".\n"
+"\n"
+"You will also be able to subscribe to remote webCal feeds,export your "
+"meetings and calendars, publish your free/busy information and retrieve that "
+"information from others."
 msgstr ""
 "Овај додатак омогућава управљање vCalendar порукама које праве Evolution и "
 "Outlook.\n"
 "\n"
-"Када је учитан, направиће vCalendar сандуче у попису налога, и прихватаће "
-"заказане састанке које ћете прихватати или правити.\n"
+"Када је учитан, направиће vCalendar сандуче у листи директоријума, у које ће "
+"се смештати састанци које прихватите или закажете.\n"
 "Захтеви за састанке које добијете биће приказани у одговарајућем облику и "
 "моћићете да их прихватите или одбијете.\n"
-"Да би заказали састанак, кликните десним тастером миша на vCalendar или "
-"на директоријум састанака и изаберите ставку „Нови састанак...“."
+"Да би заказали састанак, кликните десним тастером миша на vCalendar или на "
+"директоријум састанака и изаберите ставку „Нови састанак...“.\n"
+"\n"
+"Такође ћете моћи да с епријавите на удаљене webCal изворе, да извезете Ваше "
+"састанке и календаре, објавите Ваше слободан/заузет информације и прибавите "
+"те информације од других."
 
-#: src/vcalendar.c:418
+#: src/plugin.c:94
+msgid "Calendar"
+msgstr "Календар"
+
+#: src/vcalendar.c:508
 msgid "Accept"
 msgstr "Прихвати"
 
-#: src/vcalendar.c:419
+#: src/vcalendar.c:509
 msgid "Tentatively accept"
-msgstr ""
+msgstr "Прихвати привремено"
 
-#: src/vcalendar.c:420
+#: src/vcalendar.c:510
 msgid "Decline"
 msgstr "Одбиј"
 
-#: src/vcalendar.c:463
-msgid "You have created a meeting."
-msgstr "Заказали сте нови састанал."
+#: src/vcalendar.c:573
+msgid "You have a Todo item."
+msgstr "Имате Обавезу."
 
-#: src/vcalendar.c:464 src/vcalendar.c:469 src/vcalendar.c:484
-#: src/vcalendar.c:496 src/vcalendar.c:502 src/vcalendar.c:768
+#: src/vcalendar.c:574 src/vcalendar.c:579 src/vcalendar.c:584
+#: src/vcalendar.c:599 src/vcalendar.c:611 src/vcalendar.c:617
+#: src/vcalendar.c:939
 msgid "Details follow:"
-msgstr "Следе детаљније информације:"
+msgstr "Следе детаљи:"
 
-#: src/vcalendar.c:468
+#: src/vcalendar.c:578
+msgid "You have created a meeting."
+msgstr "Заказали сте нови састанак."
+
+#: src/vcalendar.c:583
 msgid "You have been invited to a meeting."
 msgstr "Позвани сте на састанак."
 
-#: src/vcalendar.c:483 src/vcalendar.c:767
+#: src/vcalendar.c:598 src/vcalendar.c:938
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "Стигао Вам је одговор за непознати заказани састанак."
 
-#: src/vcalendar.c:487 src/vcalendar.c:771
+#: src/vcalendar.c:602 src/vcalendar.c:942
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -94,19 +102,29 @@ msgstr ""
 "Примили сте одговор за заказани састанак.\n"
 "%s има %s позива чији детаљи следе:"
 
-#: src/vcalendar.c:495
+#: src/vcalendar.c:610
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "Састанак на који сте позвани је отказан."
 
-#: src/vcalendar.c:501
+#: src/vcalendar.c:616
 msgid "You have been forwarded an appointment."
 msgstr "Прослеђен вам је састанак."
 
-#: src/vcalendar.c:965
+#: src/vcalendar.c:653
+#, c-format
+msgid "%s <span weight=\"bold\">(this event recurs)</span>"
+msgstr "%s <span weight=\"bold\">(догађај се понавља)</span>"
+
+#: src/vcalendar.c:659
+#, c-format
+msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
+msgstr "%s <span weight=\"bold\">(догађај је део понављајућег догађаја)</span>"
+
+#: src/vcalendar.c:1208
 msgid "Cancel meeting"
 msgstr "Обустави састанак"
 
-#: src/vcalendar.c:966
+#: src/vcalendar.c:1209
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -114,274 +132,607 @@ msgstr ""
 "Да ли сте сигурни да желите обуставити овај састанак?\n"
 "Обавештење ће бити послато особи која Вас је позвала."
 
-#: src/vcalendar.c:1021
+#: src/vcalendar.c:1276
+msgid "No account found"
+msgstr "Није пронађен налог"
+
+#: src/vcalendar.c:1277
 msgid ""
 "You have no account matching any attendee.\n"
-"Have you really been invited?"
+"Do you want to reply anyway ?"
 msgstr ""
-"Нема налога који одговара позиву.\n"
-"Да ли сте стварно били позвани?"
+"Немате налог који је садржан у позиву.\n"
+"Да ли заиста желите да одговорите?"
 
-#: src/vcalendar.c:1083
+#: src/vcalendar.c:1279
+msgid "+Reply anyway"
+msgstr "+Ипак одговори"
+
+#: src/vcalendar.c:1405
 msgid "Answer"
 msgstr "Одговор"
 
-#: src/vcalendar.c:1084
+#: src/vcalendar.c:1406
 msgid "Edit meeting..."
 msgstr "Уреди састанак..."
 
-#: src/vcalendar.c:1085
+#: src/vcalendar.c:1407
 msgid "Cancel meeting..."
 msgstr "Откажи састанак..."
 
-#: src/vcalendar.c:1086
+#: src/vcalendar.c:1408
 msgid "Launch website"
 msgstr "Посети презентацију"
 
-#: src/vcalendar.c:1107
+#: src/vcalendar.c:1412
+msgid "You are already busy at this time."
+msgstr "Већ сте заузети у то време."
+
+#: src/vcalendar.c:1466
 msgid "Event:"
 msgstr "Догађај:"
 
-#: src/vcalendar.c:1108 src/vcal_meeting_gtk.c:651
+#: src/vcalendar.c:1467 src/vcal_meeting_gtk.c:1515
 msgid "Organizer:"
 msgstr "Организатор:"
 
-#: src/vcalendar.c:1109 src/vcal_meeting_gtk.c:653
+#: src/vcalendar.c:1468 src/vcal_meeting_gtk.c:1516
 msgid "Summary:"
 msgstr "Садржај:"
 
-#: src/vcalendar.c:1110
+#: src/vcalendar.c:1469
 msgid "Starting:"
 msgstr "Почетак:"
 
-#: src/vcalendar.c:1111
+#: src/vcalendar.c:1470
 msgid "Ending:"
 msgstr "Свршетак:"
 
-#: src/vcalendar.c:1112 src/vcal_meeting_gtk.c:654
+#: src/vcalendar.c:1471 src/vcal_meeting_gtk.c:1518
 msgid "Description:"
 msgstr "Опис:"
 
-#: src/vcalendar.c:1113 src/vcal_meeting_gtk.c:655
+#: src/vcalendar.c:1472 src/vcal_meeting_gtk.c:1519
 msgid "Attendees:"
 msgstr "Позвани:"
 
-#: src/vcalendar.c:1114
+#: src/vcalendar.c:1474
 msgid "Action:"
 msgstr "Акција:"
 
-#: src/vcal_folder.c:132
+#: src/vcal_folder.c:144
 msgid "/_New meeting..."
 msgstr "/_Нови састанак..."
 
-#: src/vcal_folder.c:133
+#: src/vcal_folder.c:145
 msgid "/_Export calendar..."
 msgstr "/_Извоз календара..."
 
-#: src/vcal_folder.c:135
+#: src/vcal_folder.c:147
 msgid "/_Subscribe to webCal..."
-msgstr "/_Пријава на ВебКалендар..."
+msgstr "/_Пријава на webCal..."
 
-#: src/vcal_folder.c:136
+#: src/vcal_folder.c:148
 msgid "/_Unsubscribe..."
 msgstr "/_Одјава..."
 
-#: src/vcal_folder.c:138
+#: src/vcal_folder.c:150
+msgid "/_Rename..."
+msgstr "/_Преименуј..."
+
+#: src/vcal_folder.c:152
 msgid "/U_pdate subscriptions"
 msgstr "/О_свежи пријаве"
 
-#: src/vcal_folder.c:830
+#: src/vcal_folder.c:1084
 msgid "/New meeting..."
 msgstr "/Нови састанак..."
 
-#: src/vcal_folder.c:831
+#: src/vcal_folder.c:1085
 msgid "/Export calendar..."
 msgstr "/Извези календар..."
 
-#: src/vcal_folder.c:832
+#: src/vcal_folder.c:1086
 msgid "/Subscribe to webCal..."
-msgstr "/Пријава на ВебКалендар..."
+msgstr "/Пријава на webCal..."
 
-#: src/vcal_folder.c:833
+#: src/vcal_folder.c:1087
 msgid "/Unsubscribe..."
 msgstr "/Одјава..."
 
-#: src/vcal_folder.c:834
+#: src/vcal_folder.c:1088
+msgid "/Rename..."
+msgstr "/Преименуј..."
+
+#: src/vcal_folder.c:1089
 msgid "/Update subscriptions"
 msgstr "/Освежи пријаве"
 
-#: src/vcal_folder.c:984
+#: src/vcal_folder.c:1235
+msgid "in the past"
+msgstr "прошло"
+
+#: src/vcal_folder.c:1238
+msgid "today"
+msgstr "данас"
+
+#: src/vcal_folder.c:1241
+msgid "tomorrow"
+msgstr "сутра"
+
+#: src/vcal_folder.c:1244
+msgid "this week"
+msgstr "ове недеље"
+
+#: src/vcal_folder.c:1247
+msgid "later"
+msgstr "касније"
+
+#: src/vcal_folder.c:1251
+#, c-format
+msgid ""
+"\n"
+"These are the events planned %s:\n"
+msgstr ""
+"\n"
+"Ово су планирани састанци %s:\n"
+
+#: src/vcal_folder.c:1342
+#, c-format
+msgid "Timeout (%d seconds) connecting to %s\n"
+msgstr "Истекло је време (%d секунди) за повезивање на %s\n"
+
+#: src/vcal_folder.c:1351
+msgid "401 (Authorisation required)"
+msgstr "401 (Потребна ауторизација)"
+
+#: src/vcal_folder.c:1354
+msgid "403 (Unauthorised)"
+msgstr "403 (Неауторизован)"
+
+#: src/vcal_folder.c:1357
+msgid "404 (Not found)"
+msgstr "404 (Није пронађено)"
+
+#: src/vcal_folder.c:1360
+#, c-format
+msgid "Error %d"
+msgstr "Грешка %d"
+
+#: src/vcal_folder.c:1397
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Прикупљање „%s“ у току..."
 
-#: src/vcal_folder.c:1083
-#, c-format
-msgid ""
-"Could not retrieve the Webcal URL:\n"
-"%s"
-msgstr ""
-"Није могуће добавити ВВебКалендар УРЛ:\n"
-"%s"
-
-#: src/vcal_folder.c:1088
+#: src/vcal_folder.c:1551
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
 "%s\n"
-msgstr ""
-"Није могуће добавити ВВебКалендар УРЛ:\n"
-"%s\n"
-
-#: src/vcal_folder.c:1100
-#, c-format
-msgid ""
-"This URL does not look like a WebCal URL:\n"
 "%s"
 msgstr ""
+"Није могуће добавити webCal адресу:\n"
+"%s\n"
+"%s"
 
-#: src/vcal_folder.c:1106
+#: src/vcal_folder.c:1552 src/vcal_folder.c:1557 src/vcal_folder.c:1571
+#: src/vcal_folder.c:1577
+msgid "Unknown error"
+msgstr "Непозната грешка"
+
+#: src/vcal_folder.c:1556
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s\n"
+"%s\n"
+msgstr ""
+"Није могуће добавити webCal адресу:\n"
+"%s\n"
+"%s\n"
+
+#: src/vcal_folder.c:1570
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
 "%s\n"
+"%s"
 msgstr ""
+"Ова адреса не личи на webCal адресу:\n"
+"%s\n"
+"%s"
 
-#: src/vcal_folder.c:1167
+#: src/vcal_folder.c:1576
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+"%s\n"
+msgstr ""
+"Ова адреса не личи на webCal адресу:\n"
+"%s\n"
+"%s\n"
+
+#: src/vcal_folder.c:1631
+msgid "Claws Mail needs network access in order to update the Webcal feed."
+msgstr "Claws Mail захтева приступ мрежи да би освежио webCal извор."
+
+#: src/vcal_folder.c:1646
+msgid "Claws Mail needs network access in order to update the subscription."
+msgstr "Claws Mail захтева приступ мрежи да би освежио праћени садржај."
+
+#: src/vcal_folder.c:1658
 msgid "Subscribe to WebCal"
-msgstr ""
+msgstr "Пријава на webCal"
 
-#: src/vcal_folder.c:1167
+#: src/vcal_folder.c:1658
 msgid "Enter the WebCal URL:"
-msgstr ""
+msgstr "Унесите webCal адресу:"
 
-#: src/vcal_folder.c:1177
+#: src/vcal_folder.c:1670
 msgid "Could not parse the URL."
-msgstr ""
+msgstr "Није могуће расчланити адресу."
 
-#: src/vcal_folder.c:1205
+#: src/vcal_folder.c:1698
 msgid "Do you really want to unsubscribe?"
-msgstr ""
+msgstr "Да ли заиста желите да се одјавите?"
 
-#: src/vcal_folder.c:1206
+#: src/vcal_folder.c:1699
 msgid "Delete folder"
-msgstr ""
+msgstr "Уклони директоријум"
 
-#: src/vcal_folder.c:1225
+#: src/vcal_folder.c:1718
 #, c-format
 msgid "Can't remove the folder '%s'."
-msgstr ""
+msgstr "Није могуће уклонити директоријум „%s“."
 
-#: src/vcal_manager.c:91
+#: src/vcal_folder.c:1761
+#, c-format
+msgid "Input new name for '%s':"
+msgstr "Унесите нови назив за „%s“:"
+
+#: src/vcal_folder.c:1762
+msgid "Rename folder"
+msgstr "Преименуј директоријум"
+
+#: src/vcal_folder.c:1769
+#, c-format
+msgid "'%c' can't be included in folder name."
+msgstr "„%c“ не може да се налази у називу директоријума."
+
+#: src/vcal_folder.c:1776
+#, c-format
+msgid "The folder '%s' already exists."
+msgstr "Директоријум „%s“ већ постоји."
+
+#: src/vcal_folder.c:1782
+msgid ""
+"The folder could not be renamed.\n"
+"The new folder name is not allowed."
+msgstr ""
+"Директоријум се не може преименовати.\n"
+"Нови назив директоријума није дозвољен."
+
+#: src/vcal_manager.c:101
 msgid "accepted"
-msgstr ""
+msgstr "прихваћено"
 
-#: src/vcal_manager.c:92
+#: src/vcal_manager.c:102
 msgid "tentatively accepted"
-msgstr ""
+msgstr "привремено прихваћено"
 
-#: src/vcal_manager.c:93
+#: src/vcal_manager.c:103
 msgid "declined"
-msgstr ""
+msgstr "одбијено"
 
-#: src/vcal_manager.c:94
+#: src/vcal_manager.c:104
 msgid "did not answer"
-msgstr ""
+msgstr "није одговорено"
 
-#: src/vcal_manager.c:95 src/vcal_manager.c:128
+#: src/vcal_manager.c:105 src/vcal_manager.c:138
 msgid "unknown"
-msgstr ""
+msgstr "непознато"
 
-#: src/vcal_manager.c:124
+#: src/vcal_manager.c:134
 msgid "individual"
-msgstr ""
+msgstr "индивидуално"
 
-#: src/vcal_manager.c:125
+#: src/vcal_manager.c:135
 msgid "group"
-msgstr ""
+msgstr "групно"
 
-#: src/vcal_manager.c:126
+#: src/vcal_manager.c:136
 msgid "resource"
-msgstr ""
+msgstr "извор"
 
-#: src/vcal_manager.c:127
+#: src/vcal_manager.c:137
 msgid "room"
-msgstr ""
+msgstr "соба"
 
-#: src/vcal_meeting_gtk.c:214
+#: src/vcal_manager.c:528
+msgid "Past"
+msgstr "Прошло"
+
+#: src/vcal_manager.c:531
+msgid "Today"
+msgstr "Данас"
+
+#: src/vcal_manager.c:534
+msgid "Tomorrow"
+msgstr "Сутра"
+
+#: src/vcal_manager.c:537
+msgid "This week"
+msgstr "Ове недеље"
+
+#: src/vcal_manager.c:540
+msgid "Later"
+msgstr "Касније"
+
+#: src/vcal_manager.c:1188
+msgid "Accepted: "
+msgstr "Прихваћено: "
+
+#: src/vcal_manager.c:1190
+msgid "Declined: "
+msgstr "Одбијено: "
+
+#: src/vcal_manager.c:1192
+msgid "Tentatively Accepted: "
+msgstr "Привремено прихваћено: "
+
+#: src/vcal_meeting_gtk.c:222
+msgid "Use <tab> to autocomplete from addressbook"
+msgstr "Користите <tab> за аутоматско допуњавање из Адресара"
+
+#: src/vcal_meeting_gtk.c:240
 msgid "Individual"
-msgstr ""
+msgstr "Индивидуално"
 
-#: src/vcal_meeting_gtk.c:215
+#: src/vcal_meeting_gtk.c:241
 msgid "Group"
-msgstr ""
+msgstr "Групно"
 
-#: src/vcal_meeting_gtk.c:216
+#: src/vcal_meeting_gtk.c:242
 msgid "Resource"
-msgstr ""
+msgstr "Извор"
 
-#: src/vcal_meeting_gtk.c:217
+#: src/vcal_meeting_gtk.c:243
 msgid "Room"
-msgstr ""
+msgstr "Соба"
 
-#: src/vcal_meeting_gtk.c:230
+#: src/vcal_meeting_gtk.c:256
 msgid "Add..."
-msgstr ""
+msgstr "Додај..."
 
-#: src/vcal_meeting_gtk.c:231
+#: src/vcal_meeting_gtk.c:257
 msgid "Remove"
-msgstr ""
+msgstr "Уклони"
 
-#: src/vcal_meeting_gtk.c:446
+#: src/vcal_meeting_gtk.c:656
+msgid ""
+"The following person(s) are busy at the time of your planned meeting:\n"
+"- "
+msgstr ""
+"Следеће особе(а) су заузете у врме Вашег планираног састанка:\n"
+"- "
+
+#: src/vcal_meeting_gtk.c:657 src/vcal_meeting_gtk.c:746
+#: src/vcal_meeting_gtk.c:832
+msgid "You"
+msgstr "Ви"
+
+#: src/vcal_meeting_gtk.c:658
+msgid "You are busy at the time of your planned meeting"
+msgstr "Ви сте заузети у време састанка који сте планирали"
+
+#: src/vcal_meeting_gtk.c:660
+#, c-format
+msgid "%s is busy at the time of your planned meeting"
+msgstr "%s је заузет у време састанка који сте планирали"
+
+#: src/vcal_meeting_gtk.c:662
+#, c-format
+msgid "%d hour sooner"
+msgstr "за %d сат"
+
+#: src/vcal_meeting_gtk.c:664
+#, c-format
+msgid "%d hours sooner"
+msgstr "за %d сати"
+
+#: src/vcal_meeting_gtk.c:666
+#, c-format
+msgid "%d hours and %d minutes sooner"
+msgstr "за %d сати и %d минута"
+
+#: src/vcal_meeting_gtk.c:668
+#, c-format
+msgid "%d minutes sooner"
+msgstr "за %d минута"
+
+#: src/vcal_meeting_gtk.c:673
+#, c-format
+msgid "%d hour later"
+msgstr "касни %d сат"
+
+#: src/vcal_meeting_gtk.c:675
+#, c-format
+msgid "%d hours later"
+msgstr "касни %d сати"
+
+#: src/vcal_meeting_gtk.c:677
+#, c-format
+msgid "%d hours and %d minutes later"
+msgstr "касни %d сати и %d минута"
+
+#: src/vcal_meeting_gtk.c:679
+#, c-format
+msgid "%d minutes later"
+msgstr "касни %d минута"
+
+#: src/vcal_meeting_gtk.c:685
+#, c-format
+msgid ""
+"\n"
+"\n"
+"Everyone would be available %s or %s."
+msgstr ""
+"\n"
+"\n"
+"Сви ће бити слободни %s или %s."
+
+#: src/vcal_meeting_gtk.c:687
+#, c-format
+msgid ""
+"\n"
+"\n"
+"Everyone would be available %s."
+msgstr ""
+"\n"
+"\n"
+"Сви ће бити слободни %s."
+
+#: src/vcal_meeting_gtk.c:689
+msgid ""
+"\n"
+"\n"
+"It isn't possible to have this meeting with everyone in the previous or next "
+"6 hours."
+msgstr ""
+"\n"
+"\n"
+"Није могуће одржати овај састанак нисаким у претходних или следећих 6 сати."
+
+#: src/vcal_meeting_gtk.c:694
+#, c-format
+msgid "would be available %s or %s"
+msgstr "ће бити слободан %s или %s"
+
+#: src/vcal_meeting_gtk.c:696
+#, c-format
+msgid "would be available %s"
+msgstr "ће бити слободан %s"
+
+#: src/vcal_meeting_gtk.c:698 src/vcal_meeting_gtk.c:759
+#: src/vcal_meeting_gtk.c:829
+msgid "not available"
+msgstr "није слободан"
+
+#: src/vcal_meeting_gtk.c:701
+#, c-format
+msgid ", but would be available %s or %s."
+msgstr ", али ће бити слободан %s или %s."
+
+#: src/vcal_meeting_gtk.c:703
+#, c-format
+msgid ", but would be available %s."
+msgstr ", али ће бити слободан %s."
+
+#: src/vcal_meeting_gtk.c:705
+msgid ", and isn't available in the previous or next 6 hours."
+msgstr ", и није слободан у претходних или следећих 6 сати."
+
+#: src/vcal_meeting_gtk.c:762
+msgid "available"
+msgstr "слободан"
+
+#: src/vcal_meeting_gtk.c:764 src/vcal_meeting_gtk.c:1008
+msgid "Free/busy retrieval failed"
+msgstr "Неуспело прибављање информација слободан/заузет"
+
+#: src/vcal_meeting_gtk.c:846
+msgid "Not everyone is available"
+msgstr "Нису сви слободни"
+
+#: src/vcal_meeting_gtk.c:847
+msgid "Send anyway"
+msgstr "Ипак пошаљи"
+
+#: src/vcal_meeting_gtk.c:858
+msgid "Not everyone is available. See tooltips for more info..."
+msgstr "Нису сви слободни. Погледајте Савет за више информација..."
+
+#: src/vcal_meeting_gtk.c:1017
+msgid "Available"
+msgstr "Слободан"
+
+#: src/vcal_meeting_gtk.c:1030 src/vcal_meeting_gtk.c:1037
+#: src/vcal_meeting_gtk.c:1045
+msgid "Everyone is available."
+msgstr "Сви су слободни."
+
+#: src/vcal_meeting_gtk.c:1047
+msgid ""
+"Everyone seems available, but some free/busy information failed to be "
+"retrieved."
+msgstr ""
+"Изгледа да су сви слободни, али неке слободан/заузет информације нису "
+"могле да буду прибављене"
+
+#: src/vcal_meeting_gtk.c:1195
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
 msgstr ""
+"Није могуће послати позивницу за састанак.\n"
+"Проверите примаоце."
 
-#: src/vcal_meeting_gtk.c:499
+#: src/vcal_meeting_gtk.c:1292
 msgid "Save & Send"
-msgstr ""
+msgstr "Сачувај и пошаљи"
 
-#: src/vcal_meeting_gtk.c:560
-msgid "<b>From:</b> "
-msgstr ""
+#: src/vcal_meeting_gtk.c:1293
+msgid "Check availability"
+msgstr "Провери доступност"
 
-#: src/vcal_meeting_gtk.c:571 src/vcal_meeting_gtk.c:587
-msgid "h"
-msgstr ""
+#: src/vcal_meeting_gtk.c:1405
+msgid "<b>Starts at:</b> "
+msgstr "<b>Почиње у:</b> "
 
-#: src/vcal_meeting_gtk.c:577
-msgid "<b>To:</b> "
-msgstr ""
+#: src/vcal_meeting_gtk.c:1410 src/vcal_meeting_gtk.c:1427
+msgid "<b> on:</b>"
+msgstr "<b> у:</b>"
 
-#: src/vcal_meeting_gtk.c:615
+#: src/vcal_meeting_gtk.c:1422
+msgid "<b>Ends at:</b> "
+msgstr "<b>Завршава се:</b> "
+
+#: src/vcal_meeting_gtk.c:1461
 msgid "New meeting"
-msgstr ""
+msgstr "Нови састанак"
 
-#: src/vcal_meeting_gtk.c:652
-msgid "Date:"
-msgstr ""
+#: src/vcal_meeting_gtk.c:1463
+#, c-format
+msgid "%s - Edit meeting"
+msgstr "%s - Уреди састанак"
 
-#: src/vcal_meeting_gtk.c:724
+#: src/vcal_meeting_gtk.c:1517
+msgid "Time:"
+msgstr "Време:"
+
+#: src/vcal_meeting_gtk.c:1603
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d сат"
+msgstr[1] "%d сата"
+msgstr[2] "%d сати"
 
-#: src/vcal_meeting_gtk.c:727
+#: src/vcal_meeting_gtk.c:1606
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d минут"
+msgstr[1] "%d минута"
+msgstr[2] "%d минута"
 
-#: src/vcal_meeting_gtk.c:738
+#: src/vcal_meeting_gtk.c:1617
 #, c-format
 msgid "Upcoming event: %s"
-msgstr ""
+msgstr "Следе догађаји: %s"
 
-#: src/vcal_meeting_gtk.c:739
+#: src/vcal_meeting_gtk.c:1618
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
@@ -390,39 +741,132 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Ускоро имате састанак или догађај.\n"
+"Он почиње у %s а завршава се %s касније.\n"
+"Више информација:\n"
+"\n"
+"%s"
 
-#: src/vcal_meeting_gtk.c:779
+#: src/vcal_meeting_gtk.c:1633
+#, c-format
+msgid "Remind me in %d minute"
+msgid_plural "Remind me in %d minutes"
+msgstr[0] "Подсети ме за %d минут"
+msgstr[1] "Подсети ме за %d минута"
+msgstr[2] "Подсети ме за %d минута"
+
+#: src/vcal_meeting_gtk.c:1757
 msgid "Empty calendar"
-msgstr ""
+msgstr "Празан календар"
 
-#: src/vcal_meeting_gtk.c:780
+#: src/vcal_meeting_gtk.c:1758
 msgid "There is nothing to export."
-msgstr ""
+msgstr "Нема ничега за извоз."
 
-#: src/vcal_meeting_gtk.c:815
-msgid "Export calendar to ICS"
-msgstr ""
-
-#: src/vcal_meeting_gtk.c:821
+#: src/vcal_meeting_gtk.c:1798
 msgid "Could not export the calendar."
-msgstr ""
+msgstr "Није могућ извоз календара."
 
-#: src/vcal_prefs.c:92
-msgid "Alert me "
-msgstr ""
+#: src/vcal_meeting_gtk.c:1815
+msgid "Export calendar to ICS"
+msgstr "Извези календар у ICS"
 
-#: src/vcal_prefs.c:101
-msgid " minutes before an event"
-msgstr ""
+#: src/vcal_meeting_gtk.c:1837
+#, c-format
+msgid "Couldn't export calendar to '%s'\n"
+msgstr "Није могућ извоз календара у „%s“\n"
 
-#: src/vcal_prefs.c:126
-msgid "Automatically export calendar to "
-msgstr ""
+#: src/vcal_meeting_gtk.c:2098
+msgid "Could not export the freebusy info."
+msgstr "Није могућ извоз информације слободан/заузет."
 
-#: src/vcal_prefs.c:143
-msgid "Command to run after export: "
-msgstr ""
+#: src/vcal_meeting_gtk.c:2130
+#, c-format
+msgid "Couldn't export free/busy to '%s'\n"
+msgstr "Није могућ извоз слободан/заузет у „%s“\n"
 
-#: src/vcal_prefs.c:233
+#: src/vcal_prefs.c:255
+msgid "Reminders"
+msgstr "Подсетници"
+
+#: src/vcal_prefs.c:264
+msgid "Alert me"
+msgstr "Обавести ме"
+
+#: src/vcal_prefs.c:276
+msgid "minutes before an event"
+msgstr "минута пре догађаја"
+
+#: src/vcal_prefs.c:288
+msgid "Calendar export"
+msgstr "Извоз календара"
+
+#: src/vcal_prefs.c:299
+msgid "Automatically export calendar to"
+msgstr "Аутоматски извези календар у"
+
+#: src/vcal_prefs.c:308 src/vcal_prefs.c:417
+msgid "You can export to a local file or URL"
+msgstr "Можете да извршите извоз у локалну датотеку или адресу"
+
+#: src/vcal_prefs.c:311
+msgid "Specify a local file or URL (http://server/path/file.ics)"
+msgstr "Одредите локалну датотек или адресу (http://server/path/file.ics)"
+
+#: src/vcal_prefs.c:320 src/vcal_prefs.c:429
+msgid "User ID"
+msgstr "Кориснички ИД"
+
+#: src/vcal_prefs.c:328 src/vcal_prefs.c:437
+msgid "Password"
+msgstr "Лозинка"
+
+#: src/vcal_prefs.c:342
+msgid "Include webcal subscriptions in export"
+msgstr "Укључи webcal пријаве у извоз"
+
+#: src/vcal_prefs.c:352
+msgid "Command to run after calendar export"
+msgstr "Команда која ће се извршити по извозу календара"
+
+#: src/vcal_prefs.c:381
+msgid "Register Claws' Calendar in Xfce's Orage clock"
+msgstr "Региструј Claws Calendar у XFCE Orange планер."
+
+#: src/vcal_prefs.c:383
+msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
+msgstr "Дозвољава Orange планеру (верзије веће од 4.4) да виде Claws Mail календар"
+
+#: src/vcal_prefs.c:396
+msgid "Free/Busy information"
+msgstr "Информација слободан/заузет"
+
+#: src/vcal_prefs.c:408
+msgid "Automatically export free/busy status to"
+msgstr "Аутоматски извези слободан/заузет статус у"
+
+#: src/vcal_prefs.c:420
+msgid "Specify a local file or URL (http://server/path/file.ifb)"
+msgstr "Одредите локалну датотеку или адресу (http://server/path/file.ifb)"
+
+#: src/vcal_prefs.c:451
+msgid "Command to run after free/busy status export"
+msgstr "Команда која ће се извршити по извозу статуса слободан/заузет"
+
+#: src/vcal_prefs.c:478
+msgid "Get free/busy status of others from"
+msgstr "Прибави слободан/заузет статус од других са"
+
+#: src/vcal_prefs.c:486
+#, c-format
+msgid ""
+"Specify a local file or URL (http://server/path/file.ifb). Use %u for the "
+"left part of the email address, %d for the domain"
+msgstr ""
+"Одредите локалну датотеку или адресу (http://server/path/file.ifb). "
+"Користите %u за леви део адресе е-поште, %d домен"
+
+#: src/vcal_prefs.c:644
 msgid "Plugins"
-msgstr ""
+msgstr "Додаци"
+

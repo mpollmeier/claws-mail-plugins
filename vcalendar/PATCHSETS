@@ -102,3 +102,4 @@
 ( cvs diff -u -r 1.1.2.28 -r 1.1.2.29 src/plugin.c;  cvs diff -u -r 1.2.2.65 -r 1.2.2.66 src/vcal_folder.c;  ) > 1.94.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/plugin.c;  ) > 1.94.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.59 -r 1.1.2.60 src/vcal_meeting_gtk.c;  ) > 1.94.0cvs11.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/es.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sr.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/zh_CN.po;  ) > 1.94.0cvs12.patchset

@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VCalendar 1.93\n"
+"Project-Id-Version: VCalendar\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2007-01-15 09:18+0000\n"
-"PO-Revision-Date: 2007-02-22 22:33+0100\n"
+"PO-Revision-Date: 2007-04-10 18:04+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/plugin.c:40
 #: src/plugin.c:56
-#: src/vcal_prefs.c:408
+#: src/vcal_prefs.c:645
 msgid "vCalendar"
 msgstr "vCalendar"
 
@@ -42,55 +42,51 @@ msgstr ""
 "\n"
 "Ezen kívül feliratkozhatsz távoli webCal információkra ,exportálhatod a találkozóidat és naptáraidat, közzéteheted a szabad/elfoglalt információidat, és mások ezen információt lekérdezheted."
 
-#: src/plugin.c:93
-msgid "text/calendar"
-msgstr "text/calendar"
-
 #: src/plugin.c:94
 msgid "Calendar"
 msgstr "Naptár"
 
-#: src/vcalendar.c:504
+#: src/vcalendar.c:508
 msgid "Accept"
 msgstr "Elfogadás"
 
-#: src/vcalendar.c:505
+#: src/vcalendar.c:509
 msgid "Tentatively accept"
 msgstr "Feltételes elfogadás"
 
-#: src/vcalendar.c:506
+#: src/vcalendar.c:510
 msgid "Decline"
 msgstr "Elutasítás"
 
-#: src/vcalendar.c:569
+#: src/vcalendar.c:573
 msgid "You have a Todo item."
 msgstr "Teendőd van."
 
-#: src/vcalendar.c:570
-#: src/vcalendar.c:575
-#: src/vcalendar.c:580
-#: src/vcalendar.c:595
-#: src/vcalendar.c:607
-#: src/vcalendar.c:613
-#: src/vcalendar.c:935
+#: src/vcalendar.c:574
+#: src/vcalendar.c:579
+#: src/vcalendar.c:584
+#: src/vcalendar.c:599
+#: src/vcalendar.c:611
+#: src/vcalendar.c:617
+#: src/vcalendar.c:939
 msgid "Details follow:"
 msgstr "Részletek:"
 
-#: src/vcalendar.c:574
+#: src/vcalendar.c:578
 msgid "You have created a meeting."
 msgstr "Új találkozó létrehozva."
 
-#: src/vcalendar.c:579
+#: src/vcalendar.c:583
 msgid "You have been invited to a meeting."
 msgstr "Találkozóra kaptál meghívást."
 
-#: src/vcalendar.c:594
-#: src/vcalendar.c:934
+#: src/vcalendar.c:598
+#: src/vcalendar.c:938
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "Választ kaptál egy ismeretlen találkozó kezdeményezésre."
 
-#: src/vcalendar.c:598
-#: src/vcalendar.c:938
+#: src/vcalendar.c:602
+#: src/vcalendar.c:942
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -99,29 +95,29 @@ msgstr ""
 "Választ kaptál egy találkozó kezdeményezésre.\n"
 "%s küldte %s meghívásra. Részletek:"
 
-#: src/vcalendar.c:606
+#: src/vcalendar.c:610
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "Egy találkozó, amelyre meghívást kaptál, törölve lett."
 
-#: src/vcalendar.c:612
+#: src/vcalendar.c:616
 msgid "You have been forwarded an appointment."
 msgstr "Továbbítottad a találkozót."
 
-#: src/vcalendar.c:649
+#: src/vcalendar.c:653
 #, c-format
 msgid "%s <span weight=\"bold\">(this event recurs)</span>"
 msgstr "%s <span weight=\"bold\">(az esemény ismétlődik)</span>"
 
-#: src/vcalendar.c:655
+#: src/vcalendar.c:659
 #, c-format
 msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
 msgstr "%s <span weight=\"bold\">(az esemény egy ismétlődő esemény része)</span>"
 
-#: src/vcalendar.c:1191
+#: src/vcalendar.c:1208
 msgid "Cancel meeting"
 msgstr "Találkozó törlése"
 
-#: src/vcalendar.c:1192
+#: src/vcalendar.c:1209
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -129,11 +125,11 @@ msgstr ""
 "Biztosan törlöd a találkozót?\n"
 "A meghívottak értesítést fognak kapni. "
 
-#: src/vcalendar.c:1259
+#: src/vcalendar.c:1276
 msgid "No account found"
 msgstr "Nincs fiók"
 
-#: src/vcalendar.c:1260
+#: src/vcalendar.c:1277
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
@@ -141,63 +137,63 @@ msgstr ""
 "Nem szerepelsz a meghívottak között.\n"
 "Mégis válaszolsz?"
 
-#: src/vcalendar.c:1262
+#: src/vcalendar.c:1279
 msgid "+Reply anyway"
 msgstr "+Válasz mindenképpen"
 
-#: src/vcalendar.c:1386
+#: src/vcalendar.c:1405
 msgid "Answer"
 msgstr "Válasz"
 
-#: src/vcalendar.c:1387
+#: src/vcalendar.c:1406
 msgid "Edit meeting..."
 msgstr "Találkozó szerkesztése..."
 
-#: src/vcalendar.c:1388
+#: src/vcalendar.c:1407
 msgid "Cancel meeting..."
 msgstr "Találkozó törlése..."
 
-#: src/vcalendar.c:1389
+#: src/vcalendar.c:1408
 msgid "Launch website"
 msgstr "Weboldal megnyitása"
 
-#: src/vcalendar.c:1393
+#: src/vcalendar.c:1412
 msgid "You are already busy at this time."
 msgstr "Ebben az időben már elfoglalt vagy."
 
-#: src/vcalendar.c:1447
+#: src/vcalendar.c:1466
 msgid "Event:"
 msgstr "Esemény:"
 
-#: src/vcalendar.c:1448
-#: src/vcal_meeting_gtk.c:1420
+#: src/vcalendar.c:1467
+#: src/vcal_meeting_gtk.c:1515
 msgid "Organizer:"
 msgstr "Szervező:"
 
-#: src/vcalendar.c:1449
-#: src/vcal_meeting_gtk.c:1421
+#: src/vcalendar.c:1468
+#: src/vcal_meeting_gtk.c:1516
 msgid "Summary:"
 msgstr "Összegzés:"
 
-#: src/vcalendar.c:1450
+#: src/vcalendar.c:1469
 msgid "Starting:"
 msgstr "Kezdés:"
 
-#: src/vcalendar.c:1451
+#: src/vcalendar.c:1470
 msgid "Ending:"
 msgstr "Vége:"
 
-#: src/vcalendar.c:1452
-#: src/vcal_meeting_gtk.c:1423
+#: src/vcalendar.c:1471
+#: src/vcal_meeting_gtk.c:1518
 msgid "Description:"
 msgstr "Leírás:"
 
-#: src/vcalendar.c:1453
-#: src/vcal_meeting_gtk.c:1424
+#: src/vcalendar.c:1472
+#: src/vcal_meeting_gtk.c:1519
 msgid "Attendees:"
 msgstr "Résztvevők:"
 
-#: src/vcalendar.c:1455
+#: src/vcalendar.c:1474
 msgid "Action:"
 msgstr "Művelet:"
 
@@ -225,51 +221,51 @@ msgstr "/Átne_vezés..."
 msgid "/U_pdate subscriptions"
 msgstr "/_Feliratkozások frissítése"
 
-#: src/vcal_folder.c:1077
+#: src/vcal_folder.c:1084
 msgid "/New meeting..."
 msgstr "/Új találkozó..."
 
-#: src/vcal_folder.c:1078
+#: src/vcal_folder.c:1085
 msgid "/Export calendar..."
 msgstr "/Naptár exportálása..."
 
-#: src/vcal_folder.c:1079
+#: src/vcal_folder.c:1086
 msgid "/Subscribe to webCal..."
 msgstr "/Feliratkozás webCal-ra..."
 
-#: src/vcal_folder.c:1080
+#: src/vcal_folder.c:1087
 msgid "/Unsubscribe..."
 msgstr "/Leiratkozás..."
 
-#: src/vcal_folder.c:1081
+#: src/vcal_folder.c:1088
 msgid "/Rename..."
 msgstr "/Átnevezés..."
 
-#: src/vcal_folder.c:1082
+#: src/vcal_folder.c:1089
 msgid "/Update subscriptions"
 msgstr "/Feliratkozások frissítése"
 
-#: src/vcal_folder.c:1228
+#: src/vcal_folder.c:1235
 msgid "in the past"
 msgstr "korábban"
 
-#: src/vcal_folder.c:1231
+#: src/vcal_folder.c:1238
 msgid "today"
 msgstr "ma"
 
-#: src/vcal_folder.c:1234
+#: src/vcal_folder.c:1241
 msgid "tomorrow"
 msgstr "holnap"
 
-#: src/vcal_folder.c:1237
+#: src/vcal_folder.c:1244
 msgid "this week"
 msgstr "a héten"
 
-#: src/vcal_folder.c:1240
+#: src/vcal_folder.c:1247
 msgid "later"
 msgstr "később"
 
-#: src/vcal_folder.c:1244
+#: src/vcal_folder.c:1251
 #, c-format
 msgid ""
 "\n"
@@ -279,33 +275,33 @@ msgstr ""
 "Tervezett események: %s:\n"
 
 #: src/vcal_folder.c:1342
-msgid "401 (Authorisation required)"
-msgstr "401 (Azonosítás szükséges)"
-
-#: src/vcal_folder.c:1345
-msgid "403 (Unauthorised)"
-msgstr "403 (Tiltott)"
-
-#: src/vcal_folder.c:1348
-msgid "404 (Not found)"
-msgstr "404 (Nem található)"
-
-#: src/vcal_folder.c:1351
-#, c-format
-msgid "Error %d"
-msgstr "%d hiba"
-
-#: src/vcal_folder.c:1389
-#, c-format
-msgid "Fetching '%s'..."
-msgstr "'%s' vétele..."
-
-#: src/vcal_folder.c:1403
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
 msgstr "Időtúllépés (%d másodperc) a kapcsolódáskor: %s\n"
 
-#: src/vcal_folder.c:1542
+#: src/vcal_folder.c:1351
+msgid "401 (Authorisation required)"
+msgstr "401 (Azonosítás szükséges)"
+
+#: src/vcal_folder.c:1354
+msgid "403 (Unauthorised)"
+msgstr "403 (Tiltott)"
+
+#: src/vcal_folder.c:1357
+msgid "404 (Not found)"
+msgstr "404 (Nem található)"
+
+#: src/vcal_folder.c:1360
+#, c-format
+msgid "Error %d"
+msgstr "%d hiba"
+
+#: src/vcal_folder.c:1397
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "'%s' vétele..."
+
+#: src/vcal_folder.c:1551
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -316,14 +312,14 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1543
-#: src/vcal_folder.c:1548
-#: src/vcal_folder.c:1562
-#: src/vcal_folder.c:1568
+#: src/vcal_folder.c:1552
+#: src/vcal_folder.c:1557
+#: src/vcal_folder.c:1571
+#: src/vcal_folder.c:1577
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: src/vcal_folder.c:1547
+#: src/vcal_folder.c:1556
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -334,7 +330,7 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1561
+#: src/vcal_folder.c:1570
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -345,7 +341,7 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1567
+#: src/vcal_folder.c:1576
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -356,59 +352,59 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1622
+#: src/vcal_folder.c:1631
 msgid "Claws Mail needs network access in order to update the Webcal feed."
 msgstr "A Webcal információk eléréséhez hálózati kapcsolat kell."
 
-#: src/vcal_folder.c:1636
+#: src/vcal_folder.c:1646
 msgid "Claws Mail needs network access in order to update the subscription."
 msgstr "A feliratkozás frissítéséhez hálózati kapcsolat kell."
 
-#: src/vcal_folder.c:1648
+#: src/vcal_folder.c:1658
 msgid "Subscribe to WebCal"
 msgstr "Feliratkozás WebCal-ra"
 
-#: src/vcal_folder.c:1648
+#: src/vcal_folder.c:1658
 msgid "Enter the WebCal URL:"
 msgstr "A WebCal URL-je:"
 
-#: src/vcal_folder.c:1660
+#: src/vcal_folder.c:1670
 msgid "Could not parse the URL."
 msgstr "Az URL nem értelmezhető."
 
-#: src/vcal_folder.c:1688
+#: src/vcal_folder.c:1698
 msgid "Do you really want to unsubscribe?"
 msgstr "Valóban fel akarsz iratkozni?"
 
-#: src/vcal_folder.c:1689
+#: src/vcal_folder.c:1699
 msgid "Delete folder"
 msgstr "Mappa törlése"
 
-#: src/vcal_folder.c:1708
+#: src/vcal_folder.c:1718
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "'%s' mappa nem törölhető."
 
-#: src/vcal_folder.c:1751
+#: src/vcal_folder.c:1761
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "'%s' új neve:"
 
-#: src/vcal_folder.c:1752
+#: src/vcal_folder.c:1762
 msgid "Rename folder"
 msgstr "Mappa átnevezése"
 
-#: src/vcal_folder.c:1759
+#: src/vcal_folder.c:1769
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "A mappa neve nem tartalmazhatja '%c'-t."
 
-#: src/vcal_folder.c:1766
+#: src/vcal_folder.c:1776
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "'%s' mappa már létezik."
 
-#: src/vcal_folder.c:1772
+#: src/vcal_folder.c:1782
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
@@ -453,35 +449,35 @@ msgstr "erőforrás"
 msgid "room"
 msgstr "szoba"
 
-#: src/vcal_manager.c:552
+#: src/vcal_manager.c:528
 msgid "Past"
 msgstr "Korábbi"
 
-#: src/vcal_manager.c:555
+#: src/vcal_manager.c:531
 msgid "Today"
 msgstr "Ma"
 
-#: src/vcal_manager.c:558
+#: src/vcal_manager.c:534
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: src/vcal_manager.c:561
+#: src/vcal_manager.c:537
 msgid "This week"
 msgstr "E héten"
 
-#: src/vcal_manager.c:564
+#: src/vcal_manager.c:540
 msgid "Later"
 msgstr "Később"
 
-#: src/vcal_manager.c:1208
+#: src/vcal_manager.c:1188
 msgid "Accepted: "
 msgstr "Elfogadva:"
 
-#: src/vcal_manager.c:1210
+#: src/vcal_manager.c:1190
 msgid "Declined: "
 msgstr "Elutasítva:"
 
-#: src/vcal_manager.c:1212
+#: src/vcal_manager.c:1192
 msgid "Tentatively Accepted: "
 msgstr "Feltételesen elfogadva:"
 
@@ -513,7 +509,7 @@ msgstr "Hozzáadás..."
 msgid "Remove"
 msgstr "Törlés"
 
-#: src/vcal_meeting_gtk.c:584
+#: src/vcal_meeting_gtk.c:656
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
@@ -521,62 +517,62 @@ msgstr ""
 "A következő személy(ek) elfoglalt(ak) a tervezett találkozód időpontjában:\n"
 "-"
 
-#: src/vcal_meeting_gtk.c:585
-#: src/vcal_meeting_gtk.c:674
-#: src/vcal_meeting_gtk.c:760
+#: src/vcal_meeting_gtk.c:657
+#: src/vcal_meeting_gtk.c:746
+#: src/vcal_meeting_gtk.c:832
 msgid "You"
 msgstr "Te"
 
-#: src/vcal_meeting_gtk.c:586
+#: src/vcal_meeting_gtk.c:658
 msgid "You are busy at the time of your planned meeting"
 msgstr "A tervezett találkozód időpontjában elfoglalt vagy"
 
-#: src/vcal_meeting_gtk.c:588
+#: src/vcal_meeting_gtk.c:660
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
 msgstr "%s elfoglalt a tervezett találkozód időpontjában"
 
-#: src/vcal_meeting_gtk.c:590
+#: src/vcal_meeting_gtk.c:662
 #, c-format
 msgid "%d hour sooner"
 msgstr "%d órával korábban"
 
-#: src/vcal_meeting_gtk.c:592
+#: src/vcal_meeting_gtk.c:664
 #, c-format
 msgid "%d hours sooner"
 msgstr "%d órával korábban"
 
-#: src/vcal_meeting_gtk.c:594
+#: src/vcal_meeting_gtk.c:666
 #, c-format
 msgid "%d hours and %d minutes sooner"
 msgstr "%d órával és %d perccel korábban"
 
-#: src/vcal_meeting_gtk.c:596
+#: src/vcal_meeting_gtk.c:668
 #, c-format
 msgid "%d minutes sooner"
 msgstr "%d perccel korábban"
 
-#: src/vcal_meeting_gtk.c:601
+#: src/vcal_meeting_gtk.c:673
 #, c-format
 msgid "%d hour later"
 msgstr "%d órával később"
 
-#: src/vcal_meeting_gtk.c:603
+#: src/vcal_meeting_gtk.c:675
 #, c-format
 msgid "%d hours later"
 msgstr "%d órával később"
 
-#: src/vcal_meeting_gtk.c:605
+#: src/vcal_meeting_gtk.c:677
 #, c-format
 msgid "%d hours and %d minutes later"
 msgstr "%d órával és %d perccel később"
 
-#: src/vcal_meeting_gtk.c:607
+#: src/vcal_meeting_gtk.c:679
 #, c-format
 msgid "%d minutes later"
 msgstr "%d perccel később"
 
-#: src/vcal_meeting_gtk.c:613
+#: src/vcal_meeting_gtk.c:685
 #, c-format
 msgid ""
 "\n"
@@ -587,7 +583,7 @@ msgstr ""
 "\n"
 "Mindenki elérhető lenne: %s vagy %s."
 
-#: src/vcal_meeting_gtk.c:615
+#: src/vcal_meeting_gtk.c:687
 #, c-format
 msgid ""
 "\n"
@@ -598,7 +594,7 @@ msgstr ""
 "\n"
 "Mindenki elérhető lenne: %s."
 
-#: src/vcal_meeting_gtk.c:617
+#: src/vcal_meeting_gtk.c:689
 msgid ""
 "\n"
 "\n"
@@ -608,72 +604,72 @@ msgstr ""
 "\n"
 "Nem lehetséges találkozó létrehozása mindenkivel a megelőző vagy következő 6 órában."
 
-#: src/vcal_meeting_gtk.c:622
+#: src/vcal_meeting_gtk.c:694
 #, c-format
 msgid "would be available %s or %s"
 msgstr "elérhető lenne: %s vagy %s"
 
-#: src/vcal_meeting_gtk.c:624
+#: src/vcal_meeting_gtk.c:696
 #, c-format
 msgid "would be available %s"
 msgstr "elérhető lenne: %s"
 
-#: src/vcal_meeting_gtk.c:626
-#: src/vcal_meeting_gtk.c:687
-#: src/vcal_meeting_gtk.c:757
+#: src/vcal_meeting_gtk.c:698
+#: src/vcal_meeting_gtk.c:759
+#: src/vcal_meeting_gtk.c:829
 msgid "not available"
 msgstr "nem elérhető"
 
-#: src/vcal_meeting_gtk.c:629
+#: src/vcal_meeting_gtk.c:701
 #, c-format
 msgid ", but would be available %s or %s."
 msgstr ", de elérhető lenne: %s vagy %s."
 
-#: src/vcal_meeting_gtk.c:631
+#: src/vcal_meeting_gtk.c:703
 #, c-format
 msgid ", but would be available %s."
 msgstr ", de elérhető lenne: %s."
 
-#: src/vcal_meeting_gtk.c:633
+#: src/vcal_meeting_gtk.c:705
 msgid ", and isn't available in the previous or next 6 hours."
 msgstr ", és nem elérhető a megelőző vagy következő 6 órában."
 
-#: src/vcal_meeting_gtk.c:690
+#: src/vcal_meeting_gtk.c:762
 msgid "available"
 msgstr "elérhető"
 
-#: src/vcal_meeting_gtk.c:692
-#: src/vcal_meeting_gtk.c:933
+#: src/vcal_meeting_gtk.c:764
+#: src/vcal_meeting_gtk.c:1008
 msgid "Free/busy retrieval failed"
 msgstr "Szabad/elfoglalt információ vétele sikertelen"
 
-#: src/vcal_meeting_gtk.c:774
+#: src/vcal_meeting_gtk.c:846
 msgid "Not everyone is available"
 msgstr "Senki sem elérhető"
 
-#: src/vcal_meeting_gtk.c:775
+#: src/vcal_meeting_gtk.c:847
 msgid "Send anyway"
 msgstr "Mindenképp elküld"
 
-#: src/vcal_meeting_gtk.c:786
+#: src/vcal_meeting_gtk.c:858
 msgid "Not everyone is available. See tooltips for more info..."
 msgstr "Senki sem elérhető. További információ a buboréksúgóban..."
 
-#: src/vcal_meeting_gtk.c:942
+#: src/vcal_meeting_gtk.c:1017
 msgid "Available"
 msgstr "Elérhető"
 
-#: src/vcal_meeting_gtk.c:955
-#: src/vcal_meeting_gtk.c:962
-#: src/vcal_meeting_gtk.c:970
+#: src/vcal_meeting_gtk.c:1030
+#: src/vcal_meeting_gtk.c:1037
+#: src/vcal_meeting_gtk.c:1045
 msgid "Everyone is available."
 msgstr "Mindenki elérhető."
 
-#: src/vcal_meeting_gtk.c:972
+#: src/vcal_meeting_gtk.c:1047
 msgid "Everyone seems available, but some free/busy information failed to be retrieved."
 msgstr "Úgy tűnik, mindenki elérhető, de néhány szabad/elfoglalt információ lekérdezése nem sikerült."
 
-#: src/vcal_meeting_gtk.c:1117
+#: src/vcal_meeting_gtk.c:1195
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
@@ -681,63 +677,58 @@ msgstr ""
 "A meghívást a találkozóra nem lehet elküldeni.\n"
 "Ellenőrizd a címzetteket."
 
-#: src/vcal_meeting_gtk.c:1204
+#: src/vcal_meeting_gtk.c:1292
 msgid "Save & Send"
 msgstr "Mentés és küldés"
 
-#: src/vcal_meeting_gtk.c:1205
+#: src/vcal_meeting_gtk.c:1293
 msgid "Check availability"
 msgstr "Elérhetőség ellenőrzése"
 
-#: src/vcal_meeting_gtk.c:1304
+#: src/vcal_meeting_gtk.c:1405
 msgid "<b>Starts at:</b> "
 msgstr "<b>Kezdete:</b> "
 
-#: src/vcal_meeting_gtk.c:1309
-#: src/vcal_meeting_gtk.c:1329
-msgid "h"
-msgstr "óra"
-
-#: src/vcal_meeting_gtk.c:1312
-#: src/vcal_meeting_gtk.c:1332
+#: src/vcal_meeting_gtk.c:1410
+#: src/vcal_meeting_gtk.c:1427
 msgid "<b> on:</b>"
 msgstr "<b> dátum:</b>"
 
-#: src/vcal_meeting_gtk.c:1324
+#: src/vcal_meeting_gtk.c:1422
 msgid "<b>Ends at:</b> "
 msgstr "<b>Vége:</b> "
 
-#: src/vcal_meeting_gtk.c:1366
+#: src/vcal_meeting_gtk.c:1461
 msgid "New meeting"
 msgstr "Új találkozó"
 
-#: src/vcal_meeting_gtk.c:1368
+#: src/vcal_meeting_gtk.c:1463
 #, c-format
 msgid "%s - Edit meeting"
 msgstr "%s - Találkozó módosítása"
 
-#: src/vcal_meeting_gtk.c:1422
+#: src/vcal_meeting_gtk.c:1517
 msgid "Time:"
 msgstr "Idő:"
 
-#: src/vcal_meeting_gtk.c:1508
+#: src/vcal_meeting_gtk.c:1603
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d óra"
 
-#: src/vcal_meeting_gtk.c:1511
+#: src/vcal_meeting_gtk.c:1606
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d perc"
 
-#: src/vcal_meeting_gtk.c:1522
+#: src/vcal_meeting_gtk.c:1617
 #, c-format
 msgid "Upcoming event: %s"
 msgstr "Következő esemény: %s"
 
-#: src/vcal_meeting_gtk.c:1523
+#: src/vcal_meeting_gtk.c:1618
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
@@ -752,105 +743,123 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_meeting_gtk.c:1538
+#: src/vcal_meeting_gtk.c:1633
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
 msgstr[0] "Emlékeztető %d perc múlva"
 
-#: src/vcal_meeting_gtk.c:1660
+#: src/vcal_meeting_gtk.c:1757
 msgid "Empty calendar"
 msgstr "Naptár ürítése"
 
-#: src/vcal_meeting_gtk.c:1661
+#: src/vcal_meeting_gtk.c:1758
 msgid "There is nothing to export."
 msgstr "Nincs exportálandó."
 
-#: src/vcal_meeting_gtk.c:1701
+#: src/vcal_meeting_gtk.c:1798
 msgid "Could not export the calendar."
 msgstr "A naptár nem exportálható."
 
-#: src/vcal_meeting_gtk.c:1718
+#: src/vcal_meeting_gtk.c:1815
 msgid "Export calendar to ICS"
 msgstr "Naptár exportálása ICS-be"
 
-#: src/vcal_meeting_gtk.c:1734
+#: src/vcal_meeting_gtk.c:1837
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
 msgstr "A naptár nem exportálható ide: '%s'\n"
 
-#: src/vcal_meeting_gtk.c:1993
+#: src/vcal_meeting_gtk.c:2098
 msgid "Could not export the freebusy info."
 msgstr "A szabad/elfoglalt információ nem exportálható. "
 
-#: src/vcal_meeting_gtk.c:2019
+#: src/vcal_meeting_gtk.c:2130
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
 msgstr "A szabad/elfoglalt információ nem exportálható ide: '%s'\n"
 
-#: src/vcal_prefs.c:132
+#: src/vcal_prefs.c:255
 msgid "Reminders"
 msgstr "Emlékeztetők"
 
-#: src/vcal_prefs.c:141
+#: src/vcal_prefs.c:264
 msgid "Alert me"
 msgstr "Figyelmeztető"
 
-#: src/vcal_prefs.c:153
+#: src/vcal_prefs.c:276
 msgid "minutes before an event"
 msgstr "perccel az esemény előtt"
 
-#: src/vcal_prefs.c:165
+#: src/vcal_prefs.c:288
 msgid "Calendar export"
 msgstr "A naptár exportálása"
 
-#: src/vcal_prefs.c:174
+#: src/vcal_prefs.c:299
 msgid "Automatically export calendar to"
 msgstr "Naptár automatikus exportálása"
 
-#: src/vcal_prefs.c:183
-#: src/vcal_prefs.c:252
+#: src/vcal_prefs.c:308
+#: src/vcal_prefs.c:417
 msgid "You can export to a local file or URL"
 msgstr "Exportálhatsz helyi fájlt vagy URL-t"
 
-#: src/vcal_prefs.c:186
-msgid "Specify a local file or URL (http://user:pass@server/path/file.ics)"
-msgstr "Add meg a helyi fájlt vagy az URL-t (http://user:pass@server/path/file.ics)"
+#: src/vcal_prefs.c:311
+msgid "Specify a local file or URL (http://server/path/file.ics)"
+msgstr "Add meg a helyi fájlt vagy az URL-t (http://server/path/file.ics)"
 
-#: src/vcal_prefs.c:195
+#: src/vcal_prefs.c:320
+#: src/vcal_prefs.c:429
+msgid "User ID"
+msgstr "Felhasználó-azonosító"
+
+#: src/vcal_prefs.c:328
+#: src/vcal_prefs.c:437
+msgid "Password"
+msgstr "Jelszó"
+
+#: src/vcal_prefs.c:342
 msgid "Include webcal subscriptions in export"
 msgstr "Webcal feliratkozások is szerepeljenek az exportálásban"
 
-#: src/vcal_prefs.c:205
+#: src/vcal_prefs.c:352
 msgid "Command to run after calendar export"
 msgstr "Naptár exportálása után futtatandó parancs"
 
-#: src/vcal_prefs.c:233
+#: src/vcal_prefs.c:381
+msgid "Register Claws' Calendar in Xfce's Orage clock"
+msgstr "A Claws Naptár regisztrálása az Xfce Orage órájába"
+
+#: src/vcal_prefs.c:383
+msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
+msgstr "A Claws Mail naptár megjelenítésének engedélyezése az Orage-ban (4.4 verzió felett)"
+
+#: src/vcal_prefs.c:396
 msgid "Free/Busy information"
 msgstr "Szabad/elfoglalt információ"
 
-#: src/vcal_prefs.c:243
+#: src/vcal_prefs.c:408
 msgid "Automatically export free/busy status to"
 msgstr "Szabad/elfoglalt állapot automatikus exportálása ide:"
 
-#: src/vcal_prefs.c:255
-msgid "Specify a local file or URL (http://user:pass@server/path/file.ifb)"
-msgstr "Helyi fájl vagy URL megadása (http://user:pass@server/path/file.ifb)"
+#: src/vcal_prefs.c:420
+msgid "Specify a local file or URL (http://server/path/file.ifb)"
+msgstr "Helyi fájl vagy URL megadása (http://server/path/file.ifb)"
 
-#: src/vcal_prefs.c:264
+#: src/vcal_prefs.c:451
 msgid "Command to run after free/busy status export"
 msgstr "Szabad/elfoglalt státusz exportálása után futtatandó parancs"
 
-#: src/vcal_prefs.c:291
+#: src/vcal_prefs.c:478
 msgid "Get free/busy status of others from"
 msgstr "Mások szabad/elfoglalt státuszának vétele innen:"
 
-#: src/vcal_prefs.c:299
+#: src/vcal_prefs.c:486
 #, c-format
-msgid "Specify a local file or URL (http://user:pass@server/path/file.ifb). Use %u for the left part of the email address, %d for the domain"
-msgstr "Add meg a helyi fájlt vagy URL-t (http://user:pass@server/path/file.ifb). Használd az %u -t az e-mail cím '@' előtti részéhez, %d -t a domain-hez."
+msgid "Specify a local file or URL (http://server/path/file.ifb). Use %u for the left part of the email address, %d for the domain"
+msgstr "Add meg a helyi fájlt vagy URL-t (http://server/path/file.ifb). Használd az %u -t az e-mail cím '@' előtti részéhez, %d -t a domain-hez."
 
-#: src/vcal_prefs.c:407
+#: src/vcal_prefs.c:644
 msgid "Plugins"
 msgstr "Pluginek"
 
