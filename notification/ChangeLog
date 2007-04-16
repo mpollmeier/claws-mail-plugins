@@ -1,3 +1,13 @@
+2007-04-16 [paul]	0.9cvs10
+
+	* configure.ac
+	* po/ca.po
+	* po/hu.po
+	* po/pt_BR.po
+		added Catalan, Hungarian, and Brazilian
+		Portuguese translations by Miquel Oliete,
+		Pader Rezso, and Frederico Goncalves Guimaraes
+
 2007-03-30 [holger]	0.9cvs9
 
 	* src/notification_core.c

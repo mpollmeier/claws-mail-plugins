@@ -1,0 +1,311 @@
+# translation of pt_BR.po to Português do Brasil
+# translation of pt_BR.po to
+# Copyright (C) YEAR Holger Berndt
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: pt_BR\n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2007-04-10 15:41+0100\n"
+"PO-Revision-Date: 2007-04-15 18:42-0300\n"
+"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
+"Language-Team: Português do Brasil\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: src/notification_banner.c:293
+msgid "From:"
+msgstr "De:"
+
+#: src/notification_banner.c:297
+msgid "Subject:"
+msgstr "Assunto:"
+
+#: src/notification_banner.c:301
+msgid "Folder:"
+msgstr "Pasta:"
+
+#: src/notification_foldercheck.c:474
+msgid "Select folder(s)"
+msgstr "Selecione a(s) pasta(s)"
+
+#: src/notification_foldercheck.c:570
+msgid "select recursively"
+msgstr "seleção recursiva"
+
+#: src/notification_plugin.c:99 src/notification_plugin.c:178
+#: src/notification_prefs.c:213 src/notification_prefs.c:227
+#: src/notification_prefs.c:244 src/notification_prefs.c:261
+msgid "Notification"
+msgstr "Notificação"
+
+#: src/notification_plugin.c:104
+msgid "The Notification plugin needs threading support."
+msgstr "O plugin Notificação precisa suporte a agrupamento."
+
+#: src/notification_plugin.c:111
+msgid "Failed to register folder item update hook in the Notification plugin"
+msgstr "Erro ao registrar o gancho de atualização de item da pasta no plugin Notificação"
+
+#: src/notification_plugin.c:119
+msgid "Failed to register msginfo update hook in the Notification plugin"
+msgstr "Erro ao registrar o gancho de atualização msginfo no plugin Notificação"
+
+#: src/notification_plugin.c:183
+msgid ""
+"This plugin provides various ways to notify the user of new and unread "
+"email.\n"
+"Feedback to <berndth@gmx.de> is welcome."
+msgstr ""
+"Esse plugin fornece várias formas de notificar o usuário sobre mensagens "
+"novas e não lidas.\n"
+"Opiniões para <berndth@gmx.de> são bem-vindas."
+
+#: src/notification_plugin.c:206
+msgid "Various tools"
+msgstr "Várias ferramentas"
+
+#: src/notification_popup.c:297
+msgid "New Mail message"
+msgstr "Nova mensagem de e-mail"
+
+#: src/notification_popup.c:324
+msgid "New News message"
+msgstr "Nova mensagem de Newsgroup"
+
+#: src/notification_popup.c:325
+msgid "A new mesesage arrived"
+msgstr "Chegou uma nova mensagem"
+
+#: src/notification_popup.c:328
+msgid "New Calendar message"
+msgstr "Nova mensagem de Agenda"
+
+#: src/notification_popup.c:329
+msgid "A new calendar message arrived"
+msgstr "Chegou uma nova mensagem de Agenda"
+
+#: src/notification_popup.c:332
+msgid "New RSS feed article"
+msgstr "Novo artigo RSS"
+
+#: src/notification_popup.c:333
+msgid "A new article in a RSS feed arrived"
+msgstr "Chegou um novo artigo de um alimentador RSS"
+
+#: src/notification_popup.c:336
+msgid "New unknown message"
+msgstr "Nova mensagem desconhecida"
+
+#: src/notification_popup.c:337
+msgid "Unknown message type arrived"
+msgstr "Chegou uma mensagem de tipo desconhecido"
+
+#: src/notification_popup.c:420
+msgid "Mail message"
+msgstr "Mensagem de e-mail"
+
+#: src/notification_popup.c:421 src/notification_popup.c:427
+#, c-format
+msgid "%d new message arrived"
+msgid_plural "%d new messages arrived"
+msgstr[0] "Chegou %d nova mensagem"
+msgstr[1] "Chegaram %d novas mensagens"
+
+#: src/notification_popup.c:426
+msgid "News message"
+msgstr "Mensagem de Newsgroup"
+
+#: src/notification_popup.c:432
+msgid "Calendar message"
+msgstr "Mensagem de Agenda"
+
+#: src/notification_popup.c:433
+#, c-format
+msgid "%d new calendar message arrived"
+msgid_plural "%d new calendar messages arrived"
+msgstr[0] "Chegou %d nova mensagem de Agenda"
+msgstr[1] "Chegaram %d novas mensagens de Agenda"
+
+#: src/notification_popup.c:438
+msgid "RSS news feed"
+msgstr "Alimentador de notícias RSS"
+
+#: src/notification_popup.c:439
+#, c-format
+msgid "%d new article in a RSS feed arrived"
+msgid_plural "%d new articles in a RSS feed arrived"
+msgstr[0] "Chegou %d novo artigo de um alimentador RSS"
+msgstr[1] "Chegaram %d novos artigos de um alimentador RSS"
+
+#: src/notification_popup.c:535
+#, c-format
+msgid "%d new message"
+msgid_plural "%d new messages"
+msgstr[0] "%d nova messagem"
+msgstr[1] "%d novas messagens"
+
+#: src/notification_prefs.c:212 src/notification_prefs.c:226
+#: src/notification_prefs.c:243 src/notification_prefs.c:260
+msgid "Plugins"
+msgstr "Plugins"
+
+#: src/notification_prefs.c:228
+msgid "Banner"
+msgstr "Letreiro"
+
+#: src/notification_prefs.c:245
+msgid "Popup"
+msgstr "Popup"
+
+#: src/notification_prefs.c:262
+msgid "Command"
+msgstr "Comando"
+
+#: src/notification_prefs.c:306
+msgid ""
+"\n"
+"Notification Plugin: Failed to write plugin configuration to file\n"
+msgstr ""
+"\n"
+"Plugin Notificação: Não foi possível salvar a configuração do plugin no arquivo\n"
+
+#: src/notification_prefs.c:329
+msgid "Include folder types"
+msgstr "Incluir os tipos de pasta"
+
+#: src/notification_prefs.c:339
+msgid "Mail folders"
+msgstr "Pastas de e-mail"
+
+#: src/notification_prefs.c:347
+msgid "News folders"
+msgstr "Pastas de Newsgroups"
+
+#: src/notification_prefs.c:355
+msgid "RSS folders"
+msgstr "Pastas RSS"
+
+#: src/notification_prefs.c:363
+msgid "Calendar folders"
+msgstr "Pastas de Agenda"
+
+#: src/notification_prefs.c:371
+msgid "These settings overwrite folder-specific selections."
+msgstr "Essas configurações têm prioridade sobre as seleções especificas das pastas."
+
+#: src/notification_prefs.c:425
+msgid "Show banner"
+msgstr "Mostrar letreiro"
+
+#: src/notification_prefs.c:430
+msgid "Never"
+msgstr "Nunca"
+
+#: src/notification_prefs.c:432
+msgid "Always"
+msgstr "Sempre"
+
+#: src/notification_prefs.c:434
+msgid "Only when not empty"
+msgstr "Apenas quando não estiver vazio"
+
+#: src/notification_prefs.c:452
+msgid "slow"
+msgstr "lento"
+
+#: src/notification_prefs.c:456
+msgid "fast"
+msgstr "rápido"
+
+#: src/notification_prefs.c:460
+msgid "Banner speed"
+msgstr "Velocidade do letreiro"
+
+#: src/notification_prefs.c:477
+msgid "Include unread mails in banner"
+msgstr "Incluir mensagens não lidas no letreiro"
+
+#: src/notification_prefs.c:485
+msgid "Make banner sticky"
+msgstr "Tornar o letreiro aderente"
+
+#: src/notification_prefs.c:495 src/notification_prefs.c:688
+#: src/notification_prefs.c:946
+msgid "Only include selected folders"
+msgstr "Incluir apenas as pastas selecionadas"
+
+#: src/notification_prefs.c:504 src/notification_prefs.c:697
+#: src/notification_prefs.c:955
+msgid "Select folders..."
+msgstr "Selecione as pastas..."
+
+#: src/notification_prefs.c:514 src/notification_prefs.c:729
+msgid "Use custom colors"
+msgstr "Usar cores personalizadas"
+
+#: src/notification_prefs.c:527 src/notification_prefs.c:742
+msgid "Foreground"
+msgstr "Frente"
+
+#: src/notification_prefs.c:533 src/notification_prefs.c:748
+msgid "Foreground color"
+msgstr "Cor da frente"
+
+#: src/notification_prefs.c:538 src/notification_prefs.c:753
+msgid "Background"
+msgstr "Fundo"
+
+#: src/notification_prefs.c:544 src/notification_prefs.c:759
+msgid "Background color"
+msgstr "Cor do fundo"
+
+#: src/notification_prefs.c:652
+msgid "Enable popup"
+msgstr "Habilitar popup"
+
+#: src/notification_prefs.c:669
+msgid "Popup timeout:"
+msgstr "Limite de tempo do popup:"
+
+#: src/notification_prefs.c:679 src/notification_prefs.c:937
+msgid "seconds"
+msgstr "segundos"
+
+#: src/notification_prefs.c:708
+msgid "Make popup sticky"
+msgstr "Tornar o popup aderente"
+
+#: src/notification_prefs.c:718
+msgid "Set popup window width and position"
+msgstr "Configure a largura e posição da janela popup"
+
+#: src/notification_prefs.c:723
+msgid "(the window manager is free to ignore this)"
+msgstr "(o gerenciador de janelas tem liberdade para ignorar isso)"
+
+#: src/notification_prefs.c:823
+msgid "Sample popup window"
+msgstr "Janela popup de exemplo"
+
+#: src/notification_prefs.c:829
+msgid "Done"
+msgstr "Feito"
+
+#: src/notification_prefs.c:897
+msgid "Enable command"
+msgstr "Habilitar comando"
+
+#: src/notification_prefs.c:914
+msgid "Command to execute:"
+msgstr "Comando a ser executado:"
+
+#: src/notification_prefs.c:927
+msgid "Block command after execution for"
+msgstr "Bloquear o comando após ser executado para"
+
