@@ -1,3 +1,73 @@
+2007-04-16 [paul]	0.15.0
+
+	0.15 released
+
+2007-04-16 [paul]	0.14.2cvs11
+
+	* po/ca.po
+	* po/es.po
+	* po/hu.po
+	* po/pt_BR.po
+	* po/sr.po
+		updated by Miquel Oliete, Ricardo Mones Lastra,
+		Pader Rezso, Frederico Goncalves Guimaraes, and
+		Aleksandar Urosevic
+
+2007-04-07 [colin]	0.14.2cvs10
+
+	* src/gtkhtml2_viewer.c
+		Don't translate mime-type, thanks to 
+		Pascal Terjan
+
+2007-03-21 [colin]	0.14.2cvs9
+
+	* src/gtkhtml2_viewer.c
+		Fix busy cursor after cancelling load
+
+2007-03-21 [wwp]	0.14.2cvs8
+
+	* configure.ac
+		Bumped up the minimal Claws-Mail version this
+		plugin requires.
+
+2007-03-21 [wwp]	0.14.2cvs7
+
+	* src/gtkhtml2_viewer.c
+		Reflect changes to the log API (2.8.1cvs30).
+
+2007-03-15 [colin]	0.14.2cvs6
+
+	* src/gtkhtml2_viewer.c
+		Implement backward search
+
+2007-03-15 [colin]	0.14.2cvs5
+
+	* src/gtkhtml2_viewer.c
+		And don't break in an infinite loop if searching
+		for 'x'
+
+2007-03-15 [colin]	0.14.2cvs4
+
+	* src/gtkhtml2_viewer.c
+		Add message search implementation
+		(TODO: backward search)
+
+2007-03-13 [colin]	0.14.2cvs3
+
+	* src/gtkhtml2_viewer.c
+		Revert previous patch for now. It crashes on interrupted
+		load.
+
+2007-03-12 [colin]	0.14.2cvs2
+
+	* src/gtkhtml2_viewer.c
+		Fix timeout handling. Patch by Pawel Pekala
+
+2007-03-02 [colin]	0.14.2cvs1
+
+	* src/gtkhtml2_viewer.c
+		Set busy cursor when loading URLs
+
 2007-02-26 [paul]	0.14.2
 
 	0.14.2 released
