@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer \n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-02-25 18:52+0100\n"
-"PO-Revision-Date: 2007-02-26 01:27+0200\n"
+"POT-Creation-Date: 2007-04-14 14:17+0200\n"
+"PO-Revision-Date: 2007-04-14 14:42+0200\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,20 +44,20 @@ msgstr "Limpiar el almacén temporal de imágenes al salir"
 msgid "Clear image cache now"
 msgstr "Limpiar el almacén temporal de imágenes ahora"
 
-#: src/gtkhtml2_viewer.c:91
+#: src/gtkhtml2_viewer.c:94
 msgid "/_Open with Web browser"
 msgstr "/_Abrir con el navegador web"
 
-#: src/gtkhtml2_viewer.c:92
+#: src/gtkhtml2_viewer.c:95
 msgid "/Copy this _link"
 msgstr "/Copiar este en_lace"
 
-#: src/gtkhtml2_viewer.c:610
+#: src/gtkhtml2_viewer.c:618
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Excedido el tiempo conectando a %s\n"
 
-#: src/gtkhtml2_viewer.c:678
+#: src/gtkhtml2_viewer.c:688
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -65,7 +65,7 @@ msgstr ""
 "Hay imágenes remotas, pero no se cargaron\n"
 "tal y como indican sus preferencias."
 
-#: src/gtkhtml2_viewer.c:680
+#: src/gtkhtml2_viewer.c:690
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -73,24 +73,21 @@ msgstr ""
 "Hay imágenes remotas, pero no se cargaron\n"
 "porque está trabajando sin conexión."
 
-#: src/gtkhtml2_viewer.c:682
+#: src/gtkhtml2_viewer.c:692
 msgid "Remote images exist, but loading them failed."
 msgstr "Hay imágenes remotas, pero falló su carga."
 
-#: src/gtkhtml2_viewer.c:686
+#: src/gtkhtml2_viewer.c:696
 msgid "Load images"
 msgstr "Cargar imágenes"
 
-#: src/gtkhtml2_viewer.c:869 src/gtkhtml2_viewer.c:905
+#: src/gtkhtml2_viewer.c:1030 src/gtkhtml2_viewer.c:1066
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visor HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:910
+#: src/gtkhtml2_viewer.c:1071
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Este módulo muestra el correo HTML usando el componente de presentación "
 "gtkhtml2"
 
-#: src/gtkhtml2_viewer.c:932
-msgid "text/html"
-msgstr "text/html"

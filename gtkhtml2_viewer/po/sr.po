@@ -1,18 +1,15 @@
-# translation of sr.po to Serbian
+# Serbian translation of sr.po
+# Copyright (C) 2007 Andrej Kacian
+# This file is distributed under the same license as the Claws-Mail package.
 #
-# This file is distributed under the same license as the Sylpheed-Claws package.
-#
-# Maintainer: Александар Урошевић <urke@users.sf.net>
-#
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2006.
-# Aleksandar Urošević <urke@users.sourceforge.net>, 2006.
+# Aleksandar Urošević <urke@users.sf.net>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: sr\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2006-09-18 09:23+0100\n"
-"PO-Revision-Date: 2006-09-18 22:39+0200\n"
-"Last-Translator: Aleksandar Urošević <urke@users.sourceforge.net>\n"
+"POT-Creation-Date: 2007-02-19 08:22+0000\n"
+"PO-Revision-Date: 2007-04-11 19:34+0200\n"
+"Last-Translator: Aleksandar Urošević <urke@users.sf.net>\n"
 "Language-Team: Serbian <gnome@prevod.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,76 +23,74 @@ msgstr "Додаци"
 
 #: src/gtkhtml2_prefs.c:81
 msgid "GtkHtml2 Viewer"
-msgstr "GtkHtml2 прегледник"
+msgstr "GtkHtml2 Прегледник"
 
 #: src/gtkhtml2_prefs.c:128
 msgid "Cache cleared."
-msgstr "Кеш је очишћен"
+msgstr "Остава испражњена."
 
 #: src/gtkhtml2_prefs.c:148
 msgid "Load remote images in mails"
-msgstr "Учитавање удаљених слика у поруку"
+msgstr "Учитавај удаљене слике у порукама"
 
 #: src/gtkhtml2_prefs.c:155
 msgid "Cache remote images locally"
-msgstr "Локално кеширање удаљених слика"
+msgstr "Смештај удаљене слике у локалну оставу"
 
 #: src/gtkhtml2_prefs.c:162
 msgid "Clear images cache when quitting"
-msgstr "Брисање кешираних слика при затварању програма"
+msgstr "Уклони слике из локалне оставе при затварању"
 
 #: src/gtkhtml2_prefs.c:169
 msgid "Clear image cache now"
-msgstr "Обриши кеширане слике сада"
+msgstr "Уклони слике из локалне оставе сада"
 
-#: src/gtkhtml2_viewer.c:532
+#: src/gtkhtml2_viewer.c:91
+msgid "/_Open with Web browser"
+msgstr "/_Отвори у Веб претраживачу"
+
+#: src/gtkhtml2_viewer.c:92
+msgid "/Copy this _link"
+msgstr "/Умноћи ову _везу"
+
+#: src/gtkhtml2_viewer.c:610
 #, c-format
 msgid "Timeout connecting to %s\n"
-msgstr "Истекло време за повезивање са %s\n"
+msgstr "Истекло је време за повезивање на %s\n"
 
-#: src/gtkhtml2_viewer.c:600
+#: src/gtkhtml2_viewer.c:678
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
 msgstr ""
 "Постоје удаљене слике, али нису учитане\n"
-"по вашим подешавањима."
+"како сте одредили у подешавањима."
 
-#: src/gtkhtml2_viewer.c:602
+#: src/gtkhtml2_viewer.c:680
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
 msgstr ""
 "Постоје удаљене слике, али нису учитане\n"
-"зато што нисте повезани на Интернет."
+"јер сте у режиму „Ван мреже“."
 
-#: src/gtkhtml2_viewer.c:604
+#: src/gtkhtml2_viewer.c:682
 msgid "Remote images exist, but loading them failed."
-msgstr "Постоје удаљене слике, али нису успешно учитане."
+msgstr "Постоје удаљене слике, али њихово учитавање није успело."
 
-#: src/gtkhtml2_viewer.c:607
+#: src/gtkhtml2_viewer.c:686
 msgid "Load images"
 msgstr "Учитај слике"
 
-#: src/gtkhtml2_viewer.c:780
-msgid ""
-"Your version of Sylpheed-Claws is newer than the version the Gtkhtml2Viewer "
-"plugin was built with"
-msgstr "Sylpheed-Claws који користите је новиј иод верзије за коју је компајлиран Gtkhtml2Viewer додатак"
-
-#: src/gtkhtml2_viewer.c:785
-msgid "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
-msgstr "Sylpheed-Claws који користите је сувише стар за Gtkhtml2Viewer додатак"
-
-#: src/gtkhtml2_viewer.c:822
+#: src/gtkhtml2_viewer.c:869 src/gtkhtml2_viewer.c:905
 msgid "GtkHtml2 HTML Viewer"
-msgstr "GtkHtml2 HTML прегледник"
+msgstr "GtkHtml2 HTML Прегледник"
 
-#: src/gtkhtml2_viewer.c:827
+#: src/gtkhtml2_viewer.c:910
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
-msgstr "Овај додатак рендерује HTML поруке користећи gtkhtml2rendering виџет."
+msgstr "Овај додатак приказује HTML поруке користећи gtkhtml2rendering виџет."
 
-#: src/gtkhtml2_viewer.c:849
+#: src/gtkhtml2_viewer.c:932
 msgid "text/html"
 msgstr "text/html"
 

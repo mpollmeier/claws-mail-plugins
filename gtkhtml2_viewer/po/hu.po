@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GtkHtml2 Viewer 0.14.1\n"
+"Project-Id-Version: GtkHtml2 Viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 09:02+0000\n"
-"PO-Revision-Date: 2007-02-19 22:43+0100\n"
+"PO-Revision-Date: 2007-04-10 19:07+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -78,20 +78,20 @@ msgstr ""
 msgid "Remote images exist, but loading them failed."
 msgstr "A távoli képek léteznek, de nem sikerült a betöltésük."
 
-#: src/gtkhtml2_viewer.c:685
+#: src/gtkhtml2_viewer.c:686
 msgid "Load images"
 msgstr "Képek betöltése"
 
-#: src/gtkhtml2_viewer.c:868
-#: src/gtkhtml2_viewer.c:904
+#: src/gtkhtml2_viewer.c:869
+#: src/gtkhtml2_viewer.c:905
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML megjelenítő"
 
-#: src/gtkhtml2_viewer.c:909
+#: src/gtkhtml2_viewer.c:910
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "A plugin a HTML leveleket a gtkhtml2 megjelenítő widget-tel jeleníti meg."
 
-#: src/gtkhtml2_viewer.c:931
+#: src/gtkhtml2_viewer.c:932
 msgid "text/html"
 msgstr "text/html"
 
