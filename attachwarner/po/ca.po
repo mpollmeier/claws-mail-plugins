@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-02-19 08:22+0000\n"
-"PO-Revision-Date: 2007-02-25 20:22+00001\n"
+"POT-Creation-Date: 2007-04-10 15:38+0100\n"
+"PO-Revision-Date: 2007-04-11 23:00+00001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,9 @@ msgstr "Saltar-se línies marcades"
 
 #: src/attachwarner_prefs.c:96
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "Excloure línies marcades de la comprovació de les expressions regulars prèvies"
+msgstr ""
+"Excloure línies marcades de la comprovació de les expressions regulars "
+"prèvies"
 
 #: src/attachwarner_prefs.c:99
 msgid "Skip forwards and redirections"

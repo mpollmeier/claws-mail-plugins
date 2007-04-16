@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-02-25 18:59+0100\n"
-"PO-Revision-Date: 2007-02-26 00:59+0100\n"
+"POT-Creation-Date: 2007-04-14 14:23+0200\n"
+"PO-Revision-Date: 2007-04-14 14:48+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr "Obviar las líneas citadas"
 
 #: src/attachwarner_prefs.c:96
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "" 
+msgstr ""
 "Excluye las líneas citadas de la comprobación con las expresiones regulares "
 "anteriores"
 
@@ -77,8 +77,7 @@ msgstr "No comprobar reenvíos ni redirecciones"
 #: src/attachwarner_prefs.c:106
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
-msgstr ""
-"No comprueba si faltan adjuntos al reenviar o redirijir mensajes"
+msgstr "No comprueba si faltan adjuntos al reenviar o redirijir mensajes"
 
 #: src/attachwarner_prefs.c:177
 msgid "Plugins"
@@ -87,4 +86,3 @@ msgstr "Módulos"
 #: src/attachwarner_prefs.c:178
 msgid "Attach Warner"
 msgstr "Aviso de adjuntos"
-
