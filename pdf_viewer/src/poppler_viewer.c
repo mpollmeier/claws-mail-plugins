@@ -1120,8 +1120,9 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image)
 
 	pixmap = mask = NULL;
 	PIXMAP_CREATE(mainwindow_get_mainwindow()->window, pixmap, mask, button_image);
-	gtk_button_set_image(GTK_BUTTON(widg), 
+	gtk_container_add(GTK_CONTAINER(widg), 
 	gtk_image_new_from_pixmap(pixmap, mask));
+	gtk_widget_show_all(widg);
 }
 
 #define BUTTON_H_PADDING 3
@@ -1130,7 +1131,7 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image)
 	button_set_pixmap(widget, xpm); \
 	gtk_widget_set_size_request(GTK_WIDGET(widget), 26, 26); \
 	gtk_table_attach(GTK_TABLE(viewer->buttons_table), GTK_WIDGET(widget), \
-					col, col+1, 0, 1, 0, 0, BUTTON_H_PADDING, 0); \
+				col, col+1, 0, 1, 0, 0, BUTTON_H_PADDING, 0); \
 	col++;
 
 #define ADD_SEP_TO_TABLE \
