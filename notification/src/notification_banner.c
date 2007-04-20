@@ -290,11 +290,11 @@ static GtkWidget* create_entrybox(GSList *msg_list)
 
       banner.entries[ii].table = gtk_table_new(3, 2, FALSE);
 
-      label1 = gtk_label_new(prefs_common.trans_hdr ? _("From:") : "From:");
+      label1 = gtk_label_new(prefs_common_translated_header_name("From:"));
       gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(banner.entries[ii].table), 
 				label1, 0, 1, 0, 1);
-      label2 = gtk_label_new(prefs_common.trans_hdr ? _("Subject:") : "Subject:");
+      label2 = gtk_label_new(prefs_common_translated_header_name("Subject:"));
       gtk_misc_set_alignment(GTK_MISC(label2), 0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(banner.entries[ii].table),
 				label2, 0, 1, 1, 2);

@@ -1,3 +1,10 @@
+2007-04-20 [wwp]	0.10cvs1
+
+	* src/notification_banner.c
+		Reflect changes to 2.9.1cvs5:
+		replaced nearly all uses of prefs_common.trans_hdr with a call
+		to prefs_common_translated_header_name().
+
 2007-04-16 [paul]	0.10
 
 	0.10 released
