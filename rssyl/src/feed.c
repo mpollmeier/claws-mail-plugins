@@ -138,6 +138,11 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_USERAGENT,
 		"Claws Mail RSSyl plugin "PLUGINVERSION
 		" (" PLUGINS_URI ")");
+#ifdef RSSYL_DEBUG
+	curl_easy_setopt(eh, CURLOPT_VERBOSE, 1);
+#endif
+	curl_easy_setopt(eh, CURLOPT_COOKIEFILE,
+			rssyl_prefs_get()->cookies_path);
 	
 	if( !ctx->defer_modified_check ) {
 		if( ctx->last_update != -1 ) {

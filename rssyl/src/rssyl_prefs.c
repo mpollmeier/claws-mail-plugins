@@ -47,6 +47,8 @@ static PrefParam param[] = {
 		NULL, NULL, NULL },
 	{ "refresh_on_startup", FALSE, &rssyl_prefs.refresh_on_startup, P_BOOL,
 		NULL, NULL, NULL },
+	{ "cookies_path", "", &rssyl_prefs.cookies_path, P_STRING,
+		NULL, NULL, NULL },
 	{ 0, 0, 0, 0, 0, 0, 0 }
 };
 
@@ -86,6 +88,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	GtkWidget *refresh;
 	GtkWidget *expired;
 	GtkWidget *refresh_on_startup;
+	GtkWidget *cookies_path;
 	GtkWidget *label;
 	GtkObject *refresh_adj, *expired_adj;
 	GtkTooltips *tooltips;
@@ -131,12 +134,25 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_table_attach(GTK_TABLE(table), refresh_on_startup, 0, 2, 3, 4,
 			GTK_FILL, 0, 0, 0);
 
+	label = gtk_label_new(_("Path to cookies file"));
+	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5,
+			GTK_FILL, 0, 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
+
+	cookies_path = gtk_entry_new ();
+	gtk_entry_set_text(GTK_ENTRY(cookies_path), rssyl_prefs.cookies_path);
+	gtk_table_attach(GTK_TABLE(table), cookies_path, 1, 2, 4, 5,
+			GTK_FILL, 0, 0, 0);
+	gtk_tooltips_set_tip(tooltips, cookies_path,
+			_("Path to Netscape-style cookies.txt file containing your cookies"), NULL);
+
 	gtk_widget_show_all(table);
 
 	prefs_page->page.widget = table;
 	prefs_page->refresh = refresh;
 	prefs_page->expired = expired;
 	prefs_page->refresh_on_startup = refresh_on_startup;
+	prefs_page->cookies_path = cookies_path;
 }
 
 static void destroy_rssyl_prefs_page(PrefsPage *page)
@@ -157,6 +173,8 @@ static void save_rssyl_prefs(PrefsPage *page)
 			GTK_SPIN_BUTTON(prefs_page->expired));
 	rssyl_prefs.refresh_on_startup = gtk_toggle_button_get_active(
 			GTK_TOGGLE_BUTTON(prefs_page->refresh_on_startup));
+	rssyl_prefs.cookies_path = g_strdup(gtk_entry_get_text(
+			GTK_ENTRY(prefs_page->cookies_path)));
 
 	pref_file = prefs_write_open(rc_file_path);
 	g_free(rc_file_path);

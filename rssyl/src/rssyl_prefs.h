@@ -3,7 +3,7 @@
 
 #define PREFS_BLOCK_NAME	"rssyl"
 
-#define RSSYL_NUM_PREFS		3
+#define RSSYL_NUM_PREFS		5
 
 #define RSSYL_PREF_DEFAULT_REFRESH	"180"
 #define RSSYL_PREF_DEFAULT_EXPIRED	"-1"
@@ -14,6 +14,7 @@ struct _RSSylPrefs {
 	gint refresh;
 	gint expired;
 	gboolean refresh_on_startup;
+	gchar *cookies_path;
 };
 
 typedef struct _RSSylPrefsPage RSSylPrefsPage;
@@ -23,6 +24,7 @@ struct _RSSylPrefsPage {
 	GtkWidget *refresh;
 	GtkWidget *expired;
 	GtkWidget *refresh_on_startup;
+	GtkWidget *cookies_path;
 };
 
 void rssyl_prefs_init(void);
