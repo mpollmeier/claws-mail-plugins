@@ -3,7 +3,7 @@
 
 #define PREFS_BLOCK_NAME	"rssyl"
 
-#define RSSYL_NUM_PREFS		5
+#define RSSYL_NUM_PREFS		4
 
 #define RSSYL_PREF_DEFAULT_REFRESH	"180"
 #define RSSYL_PREF_DEFAULT_EXPIRED	"-1"

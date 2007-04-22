@@ -1,3 +1,8 @@
+2007-04-22 [ticho]	0.12.0cvs2
+
+	* src/rssyl_prefs.h
+		Fix NUM_PREFS
+
 2007-04-20 [ticho]	0.12.0cvs1
 
 	* src/feed.c
