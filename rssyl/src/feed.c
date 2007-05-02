@@ -877,8 +877,13 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		return 1;
 
 	/* ID should be unique. If it matches, we've found what we came for. */
-	if( ((a->id != NULL) && (b->id != NULL) && (strcmp(a->id, b->id) == 0)) ) {
-		return 0;
+	if( (a->id != NULL) && (b->id != NULL) ) {
+		if( strcmp(a->id, b->id) == 0 )
+			return 0;
+
+		/* If both IDs are present, but they do not match, we need
+		 * to look elsewhere. */
+		return 1;
 	}
 
 	/* Ok, we have no ID to aid us. Let's have a look at item timestamps

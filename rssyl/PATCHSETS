@@ -81,3 +81,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/rssyl_prefs.h;  ) > 0.12.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.73 -r 1.1.2.74 src/feed.c;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/feed.h;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/parsers.c;  ) > 0.12.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.74 -r 1.1.2.75 src/feed.c;  ) > 0.12.0cvs4.patchset
+( cvs diff -u -r 1.1.2.75 -r 1.1.2.76 src/feed.c;  ) > 0.12.0cvs5.patchset

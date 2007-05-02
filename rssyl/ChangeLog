@@ -1,3 +1,8 @@
+2007-05-02 [ticho]	0.12.0cvs5
+
+	* src/feed.c
+		Small fix in new item comparing routine.
+
 2007-05-02 [ticho]	0.12.0cvs4
 
 	* src/feed.c
