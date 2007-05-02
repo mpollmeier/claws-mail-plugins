@@ -632,9 +632,11 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 	}
 
 	fitem = g_new0(RSSylFeedItem, 1); /* free that */
-	fitem->date = -1;
+	fitem->date = 0;
+	fitem->date_published = 0;
 	fitem->link = NULL;
 	fitem->text = NULL;
+	fitem->id = NULL;
 	fitem->realpath = g_strdup(path);
 
 	parsing_headers = TRUE;
@@ -774,6 +776,8 @@ void rssyl_free_feeditem(RSSylFeedItem *item)
 	item->text = NULL;
 	g_free(item->link);
 	item->link = NULL;
+	g_free(item->id);
+	item->id = NULL;
 	g_free(item->comments_link);
 	item->comments_link = NULL;
 	g_free(item->parent_link);
@@ -858,20 +862,43 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		const RSSylFeedItem *b)
 {
-	gboolean link_eq = FALSE, date_eq = FALSE;
+	gboolean date_publ_eq = FALSE, link_eq = FALSE;
 
 	if( a == NULL || b == NULL )
 		return 1;
 
-	if( strcmp(a->link, b->link) == 0 )
+	/* ID should be unique. If it matches, we've found what we came for. */
+	if( ((a->id != NULL) && (b->id != NULL) && (strcmp(a->id, b->id) == 0)) ) {
+		return 0;
+	}
+
+	/* Ok, we have no ID to aid us. Let's have a look at item timestamps
+	 * and item link. */
+
+	if( ((a->link != NULL) && (b->link != NULL) &&
+				(strcmp(a->link, b->link) == 0)) ) {
 		link_eq = TRUE;
+	}
 
-	if( a->date == b->date || a->date <= 0 || b->date <= 0)
-		date_eq = TRUE;
+	/* If there's no 'published' timestamp for the item, we can only judge
+	 * by item link - 'modified' timestamp can have changed if the item was
+	 * updated recently. */
+	if( a->date_published <= 0 ) {
+		if( link_eq == TRUE )
+			return 0;
+	}
 
-	/* only say the two are same if both link and date match */
-	if( date_eq && link_eq ) return 0;
+	if( ((a->date_published > 0) && (b->date_published > 0) &&
+			(a->date_published == b->date_published)) ) {
+		date_publ_eq = TRUE;
+	}
 
+	/* If 'published' time and item link match, it is reasonable to assume
+	 * it's this item. */
+	if( link_eq && date_publ_eq )
+		return 0;
+
+	/* We don't know this item. */
 	return 1;
 }
 
@@ -1072,7 +1099,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	f = fdopen(fd, "w");
 	g_return_val_if_fail(f != NULL, FALSE);
 
-	if( fitem->date != -1 ) {
+	if( fitem->date != 0 ) {
 		gchar *tmpdate = createRFC822Date(&fitem->date);
 		fprintf(f, "Date: %s\n", tmpdate );
 		g_free(tmpdate);

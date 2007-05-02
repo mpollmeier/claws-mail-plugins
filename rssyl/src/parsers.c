@@ -56,7 +56,7 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		if( !xmlStrcmp(node->name, "item") ) {
 			/* We've found an "item" tag, let's poke through its contents */
 			fitem = g_new0(RSSylFeedItem, 1);
-			fitem->date = -1;
+			fitem->date = 0;
 #ifdef RSSYL_DEBUG
 			fetched = xmlGetProp(rnode, "fetched");
 			fitem->debug_fetched = atoll(fetched);
@@ -96,7 +96,7 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 					if( fitem->date > 0 ) {
 						debug_print("RSSyl: XML - RDF date found\n" );
 					} else
-						fitem->date = -1;
+						fitem->date = 0;
 				}
 				/* Date - ISO8701 format */
 				if( !xmlStrcmp(n->name, "date") ) {
@@ -179,7 +179,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		n = node->children;
 		fitem = g_new0(RSSylFeedItem, 1);
 		fitem->media = NULL;
-		fitem->date = -1;
+		fitem->date = 0;
 #ifdef RSSYL_DEBUG
 		fetched = xmlGetProp(rnode, "fetched");
 		fitem->debug_fetched = atoll(fetched);
@@ -238,7 +238,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				if( fitem->date > 0 ) {
 					debug_print("RSSyl: XML - item date found\n" );
 				} else
-					fitem->date = -1;
+					fitem->date = 0;
 			}
 			/* Date - ISO8701 format */
 			if( !strcmp(n->name, "date") ) {
@@ -337,7 +337,8 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	
 		n = node->children;
 		fitem = g_new0(RSSylFeedItem, 1);
-		fitem->date = -1;
+		fitem->date = 0;
+		fitem->date_published = 0;
 		fitem->text = NULL;
 		
 		do {
@@ -348,6 +349,15 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				xmlFree(content);
 				debug_print("RSSyl: XML - Atom item title: '%s'\n", fitem->title);
 			}
+
+			/* ID */
+			if( !strcmp(n->name, "guid") ) {
+				content = xmlNodeGetContent(n);
+				fitem->id = g_strdup(content);
+				xmlFree(content);
+				debug_print("RSSyl: XML - Atom guid: '%s'\n", fitem->id);
+			}
+
 			/* Text */
 			if( !strcmp(n->name, "summary") && !got_content ) {
 				content = xmlNodeGetContent(n);
@@ -381,12 +391,20 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 					xmlFree(link_type);
 			}
 
-			/* Date - ISO8701 format */
+			/* Date published - ISO8701 format */
 			if( !strcmp(n->name, "issued") ) {
+				content = xmlNodeGetContent(n);
+				fitem->date_published = parseISO8601Date(content);
+				xmlFree(content);
+				debug_print("RSSyl: XML - Atom item 'issued' date found\n" );
+			}
+
+			/* Date modified - ISO8701 format */
+			if( !strcmp(n->name, "updated") ) {
 				content = xmlNodeGetContent(n);
 				fitem->date = parseISO8601Date(content);
 				xmlFree(content);
-				debug_print("RSSyl: XML - Atom item date found\n" );
+				debug_print("RSSyl: XML - Atom item 'updated' date found\n" );
 			}
 
 			/* Author */

@@ -1,3 +1,11 @@
+2007-05-02 [ticho]	0.12.0cvs3
+
+	* src/feed.c
+	* src/feed.h
+	* src/parsers.c
+		Rewrite first phase of item comparing (check if item
+		already exists) to be less stupid.
+
 2007-04-22 [ticho]	0.12.0cvs2
 
 	* src/rssyl_prefs.h

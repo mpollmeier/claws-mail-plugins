@@ -40,6 +40,7 @@ struct _RSSylFeedItem {
 	gchar *parent_link;
 	gchar *comments_link;
 	gchar *author;
+	gchar *id;
 
 	RSSylFeedItemMedia *media;
 
@@ -49,6 +50,7 @@ struct _RSSylFeedItem {
 
 	gchar *realpath;
 	time_t date;
+	time_t date_published;
 };
 
 typedef struct _RSSylFeedItem RSSylFeedItem;
