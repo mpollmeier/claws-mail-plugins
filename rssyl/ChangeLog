@@ -1,3 +1,8 @@
+2007-05-02 [ticho]	0.12.0cvs4
+
+	* src/feed.c
+		Extract Message-ID from stored items.
+
 2007-05-02 [ticho]	0.12.0cvs3
 
 	* src/feed.c

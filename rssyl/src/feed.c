@@ -608,7 +608,7 @@ static gchar **strplit_no_copy(gchar *str, char delimiter)
  */
 static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 {
-	gchar *contents, **lines, **line;
+	gchar *contents, **lines, **line, **splid;
 	GError *error = NULL;
 	RSSylFeedItem *fitem;
 	gint i = 0;
@@ -683,6 +683,15 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 					debug_print("RSSyl: got link '%s'\n", fitem->link);
 					started_link = TRUE;
 				}
+
+				/* ID */
+				if( !strcmp(line[0], "Message-ID") ) {
+					splid = g_strsplit_set(line[1], "<>", 3);
+					if( strlen(splid[1]) != 0 )
+						fitem->id = g_strdup(splid[1]);
+					g_strfreev(splid);
+				}
+
 				if( !strcmp(line[0], "X-RSSyl-Comments") ) {
 					fitem->comments_link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
 					debug_print("RSSyl: got clink '%s'\n", fitem->comments_link);
