@@ -1,3 +1,9 @@
+2007-05-04 [colin]	0.7.0cvs1
+
+	* src/plugin.c
+	* src/smime.c
+		Add warning about encryption
+
 2007-02-26 [paul]	0.7
 
 	0.7 released

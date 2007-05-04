@@ -655,6 +655,23 @@ gchar *smime_get_encrypt_data(GSList *recp_names)
 	return sgpgme_get_encrypt_data(recp_names, GPGME_PROTOCOL_CMS);
 }
 
+static const gchar *smime_get_encrypt_warning(void)
+{
+	if (prefs_gpg_should_skip_encryption_warning(smime_system.id))
+		return NULL;
+	else
+		return _("Please note that email headers, like Subject, "
+			 "are not encrypted by the S/MIME system.");
+}
+
+static void smime_inhibit_encrypt_warning(gboolean inhibit)
+{
+	if (inhibit)
+		prefs_gpg_add_skip_encryption_warning(smime_system.id);
+	else
+		prefs_gpg_remove_skip_encryption_warning(smime_system.id);
+}
+
 static gchar *fp_read_noconv(FILE *fp)
 {
 	GByteArray *array;
@@ -838,6 +855,8 @@ static PrivacySystem smime_system = {
 	TRUE,
 	smime_get_encrypt_data,
 	smime_encrypt,
+	smime_get_encrypt_warning,
+	smime_inhibit_encrypt_warning,
 };
 
 void smime_init()
