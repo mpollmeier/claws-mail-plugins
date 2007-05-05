@@ -1314,7 +1314,7 @@ static gchar *filename_from_utf8(const gchar *path)
 	gchar *real_path = g_filename_from_utf8(path, -1, NULL, NULL, NULL);
 
 	if (!real_path) {
-		g_warning("filename_from_utf8: faild to convert character set\n");
+		g_warning("filename_from_utf8: failed to convert character set\n");
 		real_path = g_strdup(path);
 	}
 
@@ -1325,7 +1325,7 @@ static gchar *filename_to_utf8(const gchar *path)
 {
 	gchar *utf8path = g_filename_to_utf8(path, -1, NULL, NULL, NULL);
 	if (!utf8path) {
-		g_warning("filename_to_utf8: faild to convert character set\n");
+		g_warning("filename_to_utf8: failed to convert character set\n");
 		utf8path = g_strdup(path);
 	}
 

@@ -1,3 +1,9 @@
+2007-05-05 [wwp]	0.24.4cvs1
+
+	* src/maildir.c
+		Fix "faild" typos everywhere and capitalization of
+		some g_warnings.
+
 2007-01-09 [paul]	0.24.4
 
 	0.24.4 released
