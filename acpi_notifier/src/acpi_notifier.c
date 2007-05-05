@@ -64,6 +64,7 @@ char *acpi_help[] = {
 	    "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"),
 	N_("Make sure that the kernel module 'acer_acpi' is loaded.\n"
 	    "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"),
+	N_("Make sure that the kernel module 'asus_laptop' is loaded."),
 	N_("Make sure that the kernel module 'asus_acpi' is loaded."),
 	N_("Make sure that the kernel module 'ibm_acpi' is loaded."),
 	N_("Make sure that you have apanelc installed.\n"
@@ -76,6 +77,8 @@ PredefinedAcpis known_implementations[] = {
 	{"ACER (acerhk)", "1", "0", "/proc/driver/acerhk/led", FALSE, NULL},
 
 	{"ACER (acer_acpi)", "1", "0", "/proc/acpi/acer/mailled", FALSE, NULL},
+
+	{"ASUS (asus_laptop)", "1", "0", "/sys/class/leds/asus:mail/brightness", FALSE, NULL},
 
 	{"ASUS (asus_acpi)", "1", "0", "/proc/acpi/asus/mled", FALSE, NULL},
 

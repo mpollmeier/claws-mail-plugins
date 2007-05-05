@@ -1,3 +1,9 @@
+2007-05-05 [colin]	1.0.9cvs1
+
+	* src/acpi_notifier.c
+		Add asus_laptop (supercedes asus_acpi in the
+		kernel)
+
 2007-04-16 [paul]	1.0.9
 
 	1.0.9 released
