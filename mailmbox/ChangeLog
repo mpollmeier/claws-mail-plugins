@@ -1,3 +1,8 @@
+2007-05-09 [colin]	1.13.0cvs1
+
+	* src/mailimf_types_helper.c
+		Use reentrant variant on time functions
+
 2007-02-26 [paul]	1.13
 
 	1.13 released
