@@ -95,9 +95,10 @@ time_t parseISO8601Date(gchar *date) {
 
 	if(TRUE == success) {
 		if((time_t)(-1) != (t = mktime(&tm))) {
+			struct tm buft;
 			/* Correct for the local timezone*/
 			t = t - offset;
-			t2 = mktime(gmtime(&t));
+			t2 = mktime(gmtime_r(&t, &buft));
 			t = t - (t2 - t);
 			
 			return t;
@@ -116,8 +117,8 @@ gchar *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 
 gchar *createRFC822Date(const time_t *time) {
 	struct tm *tm;
-
-	tm = gmtime(time); /* No need to free because it is statically allocated */
+	struct tm buft;
+	tm = gmtime_r(time, &buft); /* No need to free because it is statically allocated */
 	return g_strdup_printf("%s, %2d %s %4d %02d:%02d:%02d GMT", dayofweek[tm->tm_wday], tm->tm_mday,
 					   months[tm->tm_mon], 1900 + tm->tm_year, tm->tm_hour, tm->tm_min, tm->tm_sec);
 }
