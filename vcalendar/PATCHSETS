@@ -103,3 +103,4 @@
 ( cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/plugin.c;  ) > 1.94.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.59 -r 1.1.2.60 src/vcal_meeting_gtk.c;  ) > 1.94.0cvs11.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/es.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sr.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/zh_CN.po;  ) > 1.94.0cvs12.patchset
+( cvs diff -u -r 1.1 -r 1.2 src/icaltime_as_local.c;  cvs diff -u -r 1.1.2.56 -r 1.1.2.57 src/vcal_manager.c;  cvs diff -u -r 1.1.2.60 -r 1.1.2.61 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.54 -r 1.2.2.55 src/vcalendar.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libical/libical/icalcomponent.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libical/libical/icaltime.c;  ) > 1.95.0cvs1.patchset

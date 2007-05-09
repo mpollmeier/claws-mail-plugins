@@ -503,10 +503,12 @@ static void get_rfc822_date_from_time_t(gchar *buf, gint len, time_t t)
 	struct tm *lt;
 	gchar day[4], mon[4];
 	gint dd, hh, mm, ss, yyyy;
+	gchar buft1[512];
+	struct tm buft2;
 
-	lt = localtime(&t);
+	lt = localtime_r(&t, &buft2);
 
-	sscanf(asctime(lt), "%3s %3s %d %d:%d:%d %d\n",
+	sscanf(asctime_r(lt, buft1), "%3s %3s %d %d:%d:%d %d\n",
 	       day, mon, &dd, &hh, &mm, &ss, &yyyy);
 	g_snprintf(buf, len, "%s, %d %s %d %02d:%02d:%02d %s",
 		   day, dd, mon, yyyy, hh, mm, ss, tzoffset(&t));
@@ -519,6 +521,7 @@ static gchar *write_headers_date(const gchar *uid)
 	gchar date[128];
 	time_t t;
 	struct tm lt;
+	struct tm buft;
 
 	memset(subject, 0, sizeof(subject));
 	memset(date, 0, sizeof(date));
@@ -543,7 +546,7 @@ static gchar *write_headers_date(const gchar *uid)
 		return NULL;
 	} 
 	
-	lt = *localtime(&t);
+	lt = *localtime_r(&t, &buft);
 	lt.tm_hour = lt.tm_min = lt.tm_sec = 0;
 	t = mktime(&lt);
 
@@ -751,13 +754,15 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 
 	if (dtend && strlen(dtend)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
-		event->end	= g_strdup(ctime(&tmp));
+		gchar buft[512];
+		event->end	= g_strdup(ctime_r(&tmp, buft));
 	}
 	
 	if (dtstart && strlen(dtstart)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
 		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
-		event->start	= g_strdup(ctime(&tmp));
+		gchar buft[512];
+		event->start	= g_strdup(ctime_r(&tmp, buft));
 	}
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
@@ -1413,7 +1418,8 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 	struct tm evtstart, today;
 	time_t evtstart_t, today_t;
 	struct icaltimetype itt;
-	
+	struct tm buft;
+
 	tzset();
 	
 	today_t = time(NULL);
@@ -1424,7 +1430,7 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 		evtstart_t = t;
 	}
 	
-	today = *localtime(&today_t);
+	today = *localtime_r(&today_t, &buft);
 	localtime_r(&evtstart_t, &evtstart);
 	
 	if (today.tm_year == evtstart.tm_year) {

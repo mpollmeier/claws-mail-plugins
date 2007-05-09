@@ -2,7 +2,7 @@
   FILE: icalcomponent.c
   CREATOR: eric 28 April 1999
   
-  $Id: icalcomponent.c,v 1.1.2.1 2005-07-04 17:06:56 colinleroy Exp $
+  $Id: icalcomponent.c,v 1.1.2.2 2007-05-09 16:46:57 colinler Exp $
 
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -695,16 +695,22 @@ time_t icalcomponent_convert_time(icalproperty *p)
     }
 
     if(sict.is_utc == 1){
+#ifdef TEST_CONVERT_TIME
+	gchar buft[512];
+#endif
 	/* _as_timet will use gmtime() to do the conversion */
 	convt = icaltime_as_timet(sict);
 
 #ifdef TEST_CONVERT_TIME
 	printf("convert time: use as_timet:\n %s\n %s",
-	       icalproperty_as_ical_string(p), ctime(&convt));
+	       icalproperty_as_ical_string(p), ctime_r(&convt,buft));
 #endif
 
     } else if (sict.is_utc == 0 && tzp == 0 ) {
 	time_t offset;
+#ifdef TEST_CONVERT_TIME
+	gchar buft[512];
+#endif
 
 	/* _as_timet will use localtime() to do the conversion */
 	convt = icaltime_as_timet(sict);
@@ -713,16 +719,19 @@ time_t icalcomponent_convert_time(icalproperty *p)
 
 #ifdef TEST_CONVERT_TIME
 	printf("convert time: use as_timet and adjust:\n %s\n %s",
-	       icalproperty_as_ical_string(p), ctime(&convt));
+	       icalproperty_as_ical_string(p), ctime_r(&convt,buft));
 #endif
     } else {
+#ifdef TEST_CONVERT_TIME
+	gchar buft[512];
+#endif
 	/* Convert the time to UTC for the named timezone*/
 	const char* timezone = icalparameter_get_tzid(tzp);
 	convt = icaltime_as_timet(icaltime_as_utc(sict,timezone));
 
 #ifdef TEST_CONVERT_TIME
 	printf("convert time: use _as_utc:\n %s\n %s",
-	       icalproperty_as_ical_string(p), ctime(&convt));
+	       icalproperty_as_ical_string(p), ctime_r(&convt,buft));
 #endif
     }	    
 
@@ -735,6 +744,9 @@ struct icaltime_span icalcomponent_get_span(icalcomponent* comp)
     icalcomponent_kind kind;
     struct icaltime_span span;
     struct icaltimetype start;
+#ifdef TEST_CONVERT_TIME
+    gchar buft[512];
+#endif
 
     span.start = 0;
     span.end = 0;
@@ -798,7 +810,7 @@ struct icaltime_span icalcomponent_get_span(icalcomponent* comp)
 
 #ifdef TEST_CONVERT_TIME
     printf("convert time:\n %s %s",
-	   icalproperty_as_ical_string(p), ctime(&span.start));
+	   icalproperty_as_ical_string(p), ctime_r(&span.start, buft));
 #endif
 
     if(icalerrno != ICAL_NO_ERROR){

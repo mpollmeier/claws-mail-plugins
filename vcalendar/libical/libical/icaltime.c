@@ -3,7 +3,7 @@
   FILE: icaltime.c
   CREATOR: eric 02 June 2000
   
-  $Id: icaltime.c,v 1.1.2.2 2007-03-27 08:38:18 wwp Exp $
+  $Id: icaltime.c,v 1.1.2.3 2007-05-09 16:46:57 colinler Exp $
   $Locker:  $
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -51,9 +51,9 @@ struct icaltimetype
 icaltime_from_timet(time_t tm, int is_date)
 {
     struct icaltimetype tt = icaltime_null_time();
-    struct tm t;
+    struct tm t, buft;
 
-    t = *(gmtime(&tm));
+    t = *(gmtime_r(&tm, &buft));
      
     if(is_date == 0){ 
 	tt.second = t.tm_sec;
@@ -247,7 +247,7 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
 
     time_t tt = icaltime_as_timet(ictt);
     time_t offset_tt;
-    struct tm gtm;
+    struct tm gtm, buft1, buft2;
     struct set_tz_save old_tz; 
 
     if(tzid != 0){
@@ -255,8 +255,8 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     }
  
     /* Mis-interpret a UTC broken out time as local time */
-    gtm = *(gmtime(&tt));
-    gtm.tm_isdst = localtime(&tt)->tm_isdst;    
+    gtm = *(gmtime_r(&tt, &buft1));
+    gtm.tm_isdst = localtime_r(&tt, &buft2)->tm_isdst;    
     offset_tt = mktime(&gtm);
     
     if(tzid != 0){
@@ -274,7 +274,7 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
 
 struct icaltimetype icaltime_normalize(struct icaltimetype tt)
 {
-    struct tm stm;
+    struct tm stm, buft;
     time_t tut;
 
     memset(&stm,0,sizeof( struct tm));
@@ -290,7 +290,7 @@ struct icaltimetype icaltime_normalize(struct icaltimetype tt)
 
     tut = mktime(&stm);
 
-    stm = *(localtime(&tut));
+    stm = *(localtime_r(&tut, &buft));
 
     tt.second = stm.tm_sec;
     tt.minute = stm.tm_min;
@@ -380,9 +380,9 @@ char ctime_str[20];
 char* icaltime_as_ctime(struct icaltimetype t)
 {
     time_t tt;
- 
+    char buft[512];
     tt = icaltime_as_timet(t);
-    sprintf(ctime_str,"%s",ctime(&tt));
+    sprintf(ctime_str,"%s",ctime_r(&tt, buft));
 
     ctime_str[strlen(ctime_str)-1] = 0;
 
@@ -417,12 +417,12 @@ short icaltime_days_in_month(short month,short year)
 short icaltime_day_of_week(struct icaltimetype t){
 
     time_t tt = icaltime_as_timet(t);
-    struct tm *tm;
+    struct tm *tm, buft;
 
     if(t.is_utc == 1){
-	tm = gmtime(&tt);
+	tm = gmtime_r(&tt, &buft);
     } else {
-	tm = localtime(&tt);
+	tm = localtime_r(&tt, &buft);
     }
 
     return tm->tm_wday+1;
@@ -432,15 +432,15 @@ short icaltime_day_of_week(struct icaltimetype t){
 short icaltime_start_doy_of_week(struct icaltimetype t){
     time_t tt = icaltime_as_timet(t);
     time_t start_tt;
-    struct tm *stm;
+    struct tm *stm, buft1, buft2;
     int syear;
 
-    stm = gmtime(&tt);
+    stm = gmtime_r(&tt, &buft1);
     syear = stm->tm_year;
 
     start_tt = tt - stm->tm_wday*(60*60*24);
 
-    stm = gmtime(&start_tt);
+    stm = gmtime_r(&start_tt, &buft2);
     
     if(syear == stm->tm_year){
 	return stm->tm_yday+1;
@@ -465,8 +465,9 @@ short icaltime_week_number(struct icaltimetype ictt)
     char str[5];
     time_t t = icaltime_as_timet(ictt);
     int week_no;
+    struct tm buft;
 
-    strftime(str,5,"%V", gmtime(&t));
+    strftime(str,5,"%V", gmtime_r(&t, &buft));
 
     week_no = atoi(str);
 
@@ -477,12 +478,12 @@ short icaltime_week_number(struct icaltimetype ictt)
 
 short icaltime_day_of_year(struct icaltimetype t){
     time_t tt = icaltime_as_timet(t);
-    struct tm *stm;
+    struct tm *stm, buft;
 
     if(t.is_utc==1){
-	stm = gmtime(&tt);
+	stm = gmtime_r(&tt, &buft);
     } else {
-	stm = localtime(&tt);
+	stm = localtime_r(&tt, &buft);
     }
 
     return stm->tm_yday+1;

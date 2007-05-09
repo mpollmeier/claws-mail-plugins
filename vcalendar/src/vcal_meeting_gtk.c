@@ -219,9 +219,10 @@ static gchar *get_month_name(gint i)
 	time_t t;
 	gchar day[4], mon[4];
 	gint dd, hh, mm, ss, yyyy;
-
+	struct tm buft;
+	
 	t = time(NULL);
-	lt = localtime(&t);
+	lt = localtime_r(&t, &buft);
 	lt->tm_mon = i;
 	
 	sscanf(asctime(lt), "%3s %3s %d %d:%d:%d %d\n",
@@ -233,7 +234,8 @@ static gchar *get_month_name(gint i)
 static gint get_dtdate(const gchar *str, gint field)
 {
 	time_t t = icaltime_as_timet((icaltime_from_string(str)));
-	struct tm *lt = localtime(&t);
+	struct tm buft;
+	struct tm *lt = localtime_r(&t, &buft);
 
 	switch(field){
 	case DAY:
@@ -431,9 +433,10 @@ static gchar *get_date(VCalMeeting *meet, int start)
 	time_t t;
 	guint d, m, y;
 	int dst_offset = 0;
+	struct tm buft;
 
 	t = time(NULL);
-	lt = localtime(&t);
+	lt = localtime_r(&t, &buft);
 	
 	gtk_calendar_get_date(GTK_CALENDAR(start ? meet->start_c : meet->end_c), &y, &m, &d);
 	lt->tm_mday = d;
@@ -1392,7 +1395,8 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	
 	if (!event) {
 		time_t t = time (NULL)+ 3600;
- 		struct tm *lt = localtime (&t);
+		struct tm buft1, buft2;
+ 		struct tm *lt = localtime_r (&t, &buft1);
 		int num = -1;
 		mktime(lt);
 		gtk_calendar_select_day(GTK_CALENDAR(meet->start_c),
@@ -1405,7 +1409,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 			gtk_list_select_item(GTK_LIST(GTK_COMBO(meet->start_time)->list), num);
 
 		t += 3600;
-		lt = localtime(&t);
+		lt = localtime_r(&t, &buft2);
 		
 		gtk_calendar_select_day(GTK_CALENDAR(meet->end_c),
 					lt->tm_mday);

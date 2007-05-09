@@ -1,3 +1,13 @@
+2007-05-09 [colin]	1.95.0cvs1
+
+	* src/icaltime_as_local.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+	* libical/libical/icalcomponent.c
+	* libical/libical/icaltime.c
+		Use reentrant variant on time functions
+
 2007-04-16 [paul]	1.95.0
 
 	1.95 released
