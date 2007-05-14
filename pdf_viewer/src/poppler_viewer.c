@@ -161,14 +161,14 @@ static void pdf_viewer_render_page(PopplerPage *page, GtkWidget *view, double wi
 	
 	debug_print("width: %f\n", width);
 	pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 
-							FALSE, 8, 
-						(int)(width * zoom), 
-						(int)(height * zoom));	
+				FALSE, 8, 
+				(int)(width * zoom), 
+				(int)(height * zoom));	
 	
 			poppler_page_render_to_pixbuf(page, 0, 0, 
-									(int)(width * zoom), 
-									(int)(height * zoom), 
-										zoom, rotate, pb);
+				(int)(width * zoom), 
+				(int)(height * zoom), 
+				zoom, rotate, pb);
 		
 			gtk_image_set_from_pixbuf(GTK_IMAGE(view), pb);
 			g_object_unref(G_OBJECT(pb));
@@ -663,6 +663,36 @@ static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer) 
 	
 }
 
+static gboolean pdf_viewer_scroll_cb(GtkWidget *widget, GdkEventScroll *event,
+				    PdfViewer *viewer)
+{
+	GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
+	static gboolean in_scroll_cb = FALSE;
+	gboolean handled = FALSE;
+	gint cur_p = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page));		
+
+	if (in_scroll_cb)
+		return FALSE;
+
+	in_scroll_cb = TRUE;
+
+	if (event->direction == GDK_SCROLL_UP &&
+	    adj->value == adj->lower && 
+	    cur_p > 1) {
+		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_BACKWARD, 1);
+		adj->value = adj->upper - adj->page_size;
+		handled = TRUE;
+	} else if (event->direction == GDK_SCROLL_DOWN &&
+	    adj->value + adj->page_size == adj->upper &&
+	    cur_p < viewer->num_pages) {
+		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_FORWARD, 1);
+		adj->value = 0.0;
+		handled = TRUE;
+	}
+	in_scroll_cb = FALSE;
+	return handled;
+}
+
 static void pdf_viewer_button_zoom_fit_cb(GtkButton *button, PdfViewer *viewer)
 {
 	GtkAllocation *allocation;
@@ -856,7 +886,8 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 			/* convert postscript to pdf */
 			tmpfile = get_tmp_file();
 			cmdline = g_strdup_printf(
-				"gs -dnopause -dbatch -sdevice=pdfwrite -soutputfile=%s -c .setpdfwrite -f \"%s\"",
+				"gs -dSAFER -dCompatibilityLevel=1.2 -q -dNOPAUSE -dBATCH "
+				  "-sDEVICE=pdfwrite -sOutputFile=%s -c .setpdfwrite -f \"%s\"",
 				tmpfile, viewer->filename);
 			result = execute_command_line(cmdline, FALSE);
 			if (result == 0) {
@@ -893,7 +924,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb,(gpointer *)viewer);
 		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
-				    	(g_strdup_printf(_("%s Document(%d page%s)"), 
+				    	(g_strdup_printf(_("%s Document (%d page%s)"), 
 						     pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript",
 						     viewer->num_pages,
 						     viewer->num_pages > 1 ? "s":"")));
@@ -1040,6 +1071,7 @@ static void pdf_viewer_clear(MimeViewer *_viewer)
 	vadj->value = 0.0;
 	g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
 	gtk_tree_store_clear(GTK_TREE_STORE(viewer->index_model));
+	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->pdf_view), NULL);
 }
 
 static void pdf_viewer_destroy(MimeViewer *_viewer)
@@ -1491,6 +1523,10 @@ static MimeViewer *pdf_viewer_create(void)
 	g_signal_connect(G_OBJECT(viewer->doc_index), 
 				    "clicked", 
 				    G_CALLBACK(pdf_viewer_show_document_index_cb), 
+				   (gpointer) viewer);
+	g_signal_connect(G_OBJECT(viewer->scrollwin), 
+				    "scroll-event", 
+				    G_CALLBACK(pdf_viewer_scroll_cb), 
 				   (gpointer) viewer);
 
 /*
