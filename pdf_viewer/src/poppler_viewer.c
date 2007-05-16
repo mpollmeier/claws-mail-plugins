@@ -618,22 +618,26 @@ static FileType pdf_viewer_mimepart_get_type(MimeInfo *partinfo)
 }
 
 /* Callbacks */
-static void pdf_viewer_button_first_page_cb(GtkButton *button, PdfViewer *viewer) {
+static void pdf_viewer_button_first_page_cb(GtkButton *button, PdfViewer *viewer) 
+{
 	
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
 }
 
-static void pdf_viewer_button_prev_page_cb(GtkButton *button, PdfViewer *viewer) {
+static void pdf_viewer_button_prev_page_cb(GtkButton *button, PdfViewer *viewer) 
+{
 	
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_BACKWARD, 1);
 }
 
-static void pdf_viewer_button_next_page_cb(GtkButton *button, PdfViewer *viewer) {
+static void pdf_viewer_button_next_page_cb(GtkButton *button, PdfViewer *viewer) 
+{
 	
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_STEP_FORWARD, 1);
 }
 
-static void pdf_viewer_button_last_page_cb(GtkButton *button, PdfViewer *viewer) {
+static void pdf_viewer_button_last_page_cb(GtkButton *button, PdfViewer *viewer) 
+{
 	
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_END, 1);
 }
@@ -645,7 +649,8 @@ static void pdf_viewer_spin_change_page_cb(GtkSpinButton *button, PdfViewer *vie
 			gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
 }
 
-static void pdf_viewer_button_zoom_in_cb(GtkButton *button, PdfViewer *viewer) {
+static void pdf_viewer_button_zoom_in_cb(GtkButton *button, PdfViewer *viewer) 
+{
 
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->zoom_scroll), GTK_SPIN_STEP_FORWARD, ZOOM_FACTOR);
 }
@@ -657,10 +662,87 @@ static void pdf_viewer_spin_zoom_scroll_cb(GtkSpinButton *button, PdfViewer *vie
 			FALSE,
 			gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(viewer->cur_page)));
 }
-static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer) {
+
+static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer) 
+{
 
 	gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->zoom_scroll), GTK_SPIN_STEP_BACKWARD, ZOOM_FACTOR);
 	
+}
+/* Set the grab cursor*/
+static void pdf_viewer_init_mouse_scroll_cb(GtkWidget *widget, GdkEventButton *event, PdfViewer *viewer) 
+{
+	static GdkCursor *hand_cur = NULL;
+	
+	if (!hand_cur) hand_cur = gdk_cursor_new(GDK_FLEUR);
+	
+	if (event->button == 1) {
+		viewer->pdf_view_scroll = TRUE;
+		gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window,hand_cur);
+		viewer->last_x = event->x;
+		viewer->last_y = event->y;
+		viewer->last_dir_x = 0;
+		viewer->last_dir_y = 0;
+	}
+}
+/* Grab the document and scroll it with mouse*/
+static void pdf_viewer_mouse_scroll_cb(GtkWidget *widget, GdkEventMotion *event, PdfViewer *viewer) 
+{
+	if (viewer->pdf_view_scroll) {
+		viewer->pdf_view_vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
+		viewer->pdf_view_hadj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
+			
+			if (event->x < viewer->last_x
+					&& viewer->pdf_view_hadj->value < (viewer->pdf_view_hadj->upper - viewer->pdf_view_hadj->page_size)) {
+				if (viewer->last_dir_x == -1) {
+					viewer->pdf_view_hadj->value += viewer->last_x - event->x; 
+					g_signal_emit_by_name(G_OBJECT(viewer->pdf_view_hadj),
+								"value_changed", 0);
+				}
+				viewer->last_dir_x = -1;
+			}
+			else if(event->x > viewer->last_x
+					&& viewer->pdf_view_hadj->value > 0.0)  {
+				if (viewer->last_dir_x == +1) {
+					viewer->pdf_view_hadj->value += viewer->last_x - event->x; 
+					g_signal_emit_by_name(G_OBJECT(viewer->pdf_view_hadj),
+								"value_changed", 0);
+				}
+				viewer->last_dir_x = +1;
+			}
+
+			if (event->y < viewer->last_y
+					&& viewer->pdf_view_vadj->value < (viewer->pdf_view_vadj->upper - viewer->pdf_view_vadj->page_size)) {
+				if (viewer->last_dir_y == -1) {
+					viewer->pdf_view_vadj->value += viewer->last_y - event->y; 
+					g_signal_emit_by_name(G_OBJECT(viewer->pdf_view_vadj),
+								"value_changed", 0);
+				}
+				viewer->last_dir_y = -1;
+			}
+			else if(event->y > viewer->last_y
+					&& viewer->pdf_view_vadj->value > 0.0)  {
+				if (viewer->last_dir_y == +1) {
+					viewer->pdf_view_vadj->value += viewer->last_y - event->y; 
+					g_signal_emit_by_name(G_OBJECT(viewer->pdf_view_vadj),
+								"value_changed", 0);
+				}
+				viewer->last_dir_y = +1;
+			}
+			viewer->last_x = event->x;
+			viewer->last_y = event->y;
+			GTK_EVENTS_FLUSH();
+		} 
+}
+/* Set the normal cursor*/
+static void pdf_viewer_destroy_mouse_scroll_cb(GtkWidget *widget, GdkEventButton *event, PdfViewer *viewer) 
+{
+	
+	if (event->button == 1) {
+		viewer->pdf_view_scroll = FALSE;
+		gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, 
+							  NULL);
+	}
 }
 
 static gboolean pdf_viewer_scroll_cb(GtkWidget *widget, GdkEventScroll *event,
@@ -828,11 +910,12 @@ static void pdf_viewer_show_controls(PdfViewer *viewer, gboolean show)
 		gtk_widget_hide(viewer->rotate_left);
 		gtk_widget_hide(viewer->doc_info);
 		gtk_widget_hide(viewer->doc_index);
-		gtk_widget_hide(GTK_WIDGET(viewer->zoom_scroll));
+		gtk_widget_hide(viewer->zoom_scroll);
 	}
 }
 /** Render the current page, page_num on the viewer */
-static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int page_num) {
+static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int page_num) 
+{
 
 	PdfViewer *viewer = (PdfViewer *) _viewer;
 	GError *error;
@@ -1182,9 +1265,12 @@ static MimeViewer *pdf_viewer_create(void)
 	GtkWidget *sep;
 	gint col = 0;
 
+
 	viewer = g_new0(PdfViewer, 1);
 	debug_print("pdf_viewer_create\n");
     
+	viewer->last_x = 0;
+	viewer->last_y = 0;
 	viewer->mimeviewer.factory = &pdf_viewer_factory;
 	viewer->mimeviewer.get_widget = pdf_viewer_get_widget;
 	viewer->mimeviewer.show_mimepart = pdf_viewer_show_mimepart;
@@ -1195,9 +1281,18 @@ static MimeViewer *pdf_viewer_create(void)
 	viewer->mimeviewer.scroll_one_line = pdf_viewer_scroll_one_line;
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	viewer->scrollwin_index = gtk_scrolled_window_new(NULL, NULL);
+	viewer->pdf_view_ebox = gtk_event_box_new();
+	gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->pdf_view_ebox), FALSE);
+							
 	viewer->mimeinfo  = NULL;
 
 	viewer->pdf_view = gtk_image_new();
+	gtk_widget_set_events(viewer->pdf_view,
+						GDK_BUTTON_RELEASE_MASK
+						| GDK_BUTTON_PRESS_MASK
+						| GDK_BUTTON_MOTION_MASK
+					    );
+	gtk_container_add (GTK_CONTAINER(viewer->pdf_view_ebox), viewer->pdf_view);
 	viewer->icon_type = gtk_image_new();
 
 	viewer->doc_label = gtk_label_new("");
@@ -1218,10 +1313,8 @@ static MimeViewer *pdf_viewer_create(void)
 	ADD_BUTTON_TO_TABLE(viewer->prev_page, left_arrow_xpm)
 	viewer->cur_page = gtk_spin_button_new_with_range(0.0, 0.0, 1.0);
 	viewer->zoom_scroll = gtk_spin_button_new_with_range(0.20, 8.0, 0.20);
-//	gtk_signal_handlers_block_by_func(G_OBJECT(viewer->zoom_scroll,pdf_viewer_spin_zoom_scroll_cb, "value-changed" ));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(viewer->zoom_scroll), 1.0);
 	viewer->zoom = 1.0;
-//	gtk_signal_handlers_unblock_by_func(G_OBJECT(viewer->zoom_scroll,pdf_viewer_spin_zoom_scroll_cb, "value-changed" ));
 	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->cur_page), TRUE);
 	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(viewer->zoom_scroll), TRUE);
 	gtk_table_attach(GTK_TABLE(viewer->buttons_table), GTK_WIDGET(viewer->cur_page),
@@ -1270,7 +1363,7 @@ static MimeViewer *pdf_viewer_create(void)
 
 	gtk_scrolled_window_add_with_viewport(
 			GTK_SCROLLED_WINDOW(viewer->scrollwin),
-			viewer->pdf_view);
+			viewer->pdf_view_ebox);
 
 	viewer->vbox = gtk_vbox_new(FALSE, 4);
 	viewer->hbox = gtk_hbox_new(FALSE, 4);
@@ -1331,12 +1424,13 @@ static MimeViewer *pdf_viewer_create(void)
 
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->hbox, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->doc_index_pane, TRUE, TRUE, 0);
-
 	/* show widgets */
 	gtk_widget_show(GTK_WIDGET(viewer->doc_index_pane));
 	gtk_widget_ref(GTK_WIDGET(viewer->doc_index_pane));
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
+	gtk_widget_show(GTK_WIDGET(viewer->pdf_view_ebox));
+	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view_ebox));
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin_index));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin_index));
 	gtk_widget_show(GTK_WIDGET(viewer->hbox));
@@ -1528,25 +1622,18 @@ static MimeViewer *pdf_viewer_create(void)
 				    "scroll-event", 
 				    G_CALLBACK(pdf_viewer_scroll_cb), 
 				   (gpointer) viewer);
-
-/*
-	g_signal_connect(G_OBJECT(viewer->scrollwin), 
-				    "key_press_event", 
-				    G_CALLBACK(scrollwin_key_down_cb), 
+	g_signal_connect(G_OBJECT(viewer->pdf_view_ebox), 
+				    "button_press_event", 
+				    G_CALLBACK(pdf_viewer_init_mouse_scroll_cb), 
 				   (gpointer) viewer);
-	g_signal_connect(G_OBJECT(viewer->scrollwin), 
-				    "key_press_event", 
-				    G_CALLBACK(scrollwin_key_up_cb), 
+	g_signal_connect(G_OBJECT(viewer->pdf_view_ebox), 
+				    "button_release_event", 
+				    G_CALLBACK(pdf_viewer_destroy_mouse_scroll_cb), 
 				   (gpointer) viewer);
-	g_signal_connect(G_OBJECT(viewer->scrollwin), 
-				    "key_press_event", 
-				    G_CALLBACK(scrollwin_page_down_cb), 
+	g_signal_connect(G_OBJECT(viewer->pdf_view_ebox), 
+				    "motion_notify_event", 
+				    G_CALLBACK(pdf_viewer_mouse_scroll_cb), 
 				   (gpointer) viewer);
-	g_signal_connect(G_OBJECT(viewer->pdf_view), 
-				    "key_press_event", 
-				    G_CALLBACK(scrollwin_page_up_cb), 
-				   (gpointer) viewer);
-*/
 
 	viewer->target_filename = NULL;
 	viewer->filename = NULL;

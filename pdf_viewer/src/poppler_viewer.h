@@ -79,6 +79,7 @@ struct _PdfViewer
 	GtkWidget			*pdf_view;
 	GtkWidget			*scrollwin;
 	GtkWidget			*scrollwin_index;
+	GtkWidget			*pdf_view_ebox;
 	GtkWidget			*icon_type;
 	GdkPixmap			*icon_pixmap;
 	GdkBitmap			*icon_bitmap;
@@ -109,6 +110,8 @@ struct _PdfViewer
 	PopplerRectangle	*last_rect;
 	PageResult			*last_page_result;
 
+	GtkAdjustment		*pdf_view_vadj;
+	GtkAdjustment		*pdf_view_hadj;
 	GtkTreeModel		*index_model;
 	
 	GList				*page_results;
@@ -128,6 +131,11 @@ struct _PdfViewer
 	double				zoom;
 	double				width;
 	double				height;
+	double				last_x;
+	double				last_y;
+	int					last_dir_x;
+	int					last_dir_y;
+	gboolean			pdf_view_scroll;
 	MimeInfo			*mimeinfo;
 	MimeInfo			*to_load;
 	
