@@ -920,7 +920,8 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	PdfViewer *viewer = (PdfViewer *) _viewer;
 	GError *error;
 	gchar *tmpfile = NULL;
-	
+	gchar *tmp;
+
 	debug_print("pdf_viewer_update\n");
 
 	error = NULL;
@@ -1006,15 +1007,17 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 		g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb,(gpointer *)viewer);
 		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
+		tmp = g_strdup_printf(_("%s Document"),pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript");
 		gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips),
 				GTK_WIDGET(viewer->icon_type_ebox),
-				g_strdup_printf(_("%s Document"),pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript"),
+				tmp,
 				NULL);
+		g_free(tmp);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
-				    	(g_strdup_printf(_("(%d page%s)"), 
+				    	(tmp = g_strdup_printf(_("(%d page%s)"), 
 							viewer->num_pages,
 							viewer->num_pages > 1 ? "s":"")));
-		
+		g_free(tmp);
 
 		pdf_viewer_show_controls(viewer, TRUE);
 		main_window_cursor_normal(mainwindow_get_mainwindow());
