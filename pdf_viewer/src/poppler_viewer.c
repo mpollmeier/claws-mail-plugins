@@ -1006,12 +1006,16 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 
 		g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb,(gpointer *)viewer);
 		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
+		gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips),
+				GTK_WIDGET(viewer->icon_type_ebox),
+				g_strdup_printf(_("%s Document"),pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript"),
+				NULL);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
-				    	(g_strdup_printf(_("%s Document (%d page%s)"), 
-						     pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript",
-						     viewer->num_pages,
-						     viewer->num_pages > 1 ? "s":"")));
+				    	(g_strdup_printf(_("(%d page%s)"), 
+							viewer->num_pages,
+							viewer->num_pages > 1 ? "s":"")));
 		
+
 		pdf_viewer_show_controls(viewer, TRUE);
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 	} 
@@ -1294,6 +1298,9 @@ static MimeViewer *pdf_viewer_create(void)
 					    );
 	gtk_container_add (GTK_CONTAINER(viewer->pdf_view_ebox), viewer->pdf_view);
 	viewer->icon_type = gtk_image_new();
+	viewer->icon_type_ebox = gtk_event_box_new();
+
+	gtk_container_add(GTK_CONTAINER(viewer->icon_type_ebox), viewer->icon_type);
 
 	viewer->doc_label = gtk_label_new("");
 
@@ -1413,7 +1420,7 @@ static MimeViewer *pdf_viewer_create(void)
 				viewer->icon_bitmap);
 
 	/* pack widgets*/
-	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->icon_type, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->icon_type_ebox, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->doc_label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->buttons_table, FALSE, FALSE, 0);
 
@@ -1429,6 +1436,8 @@ static MimeViewer *pdf_viewer_create(void)
 	gtk_widget_ref(GTK_WIDGET(viewer->doc_index_pane));
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
+	gtk_widget_show(GTK_WIDGET(viewer->icon_type_ebox));
+	gtk_widget_ref(GTK_WIDGET(viewer->icon_type_ebox));
 	gtk_widget_show(GTK_WIDGET(viewer->pdf_view_ebox));
 	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view_ebox));
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin_index));
@@ -1553,7 +1562,6 @@ static MimeViewer *pdf_viewer_create(void)
 				viewer->zoom_scroll,
 				_("Zoom Factor"),
 				NULL);
-
 	/* Connect Signals */
 	g_signal_connect(G_OBJECT(viewer->cur_page), 
 				    "value-changed", 

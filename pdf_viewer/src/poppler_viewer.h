@@ -80,6 +80,7 @@ struct _PdfViewer
 	GtkWidget			*scrollwin;
 	GtkWidget			*scrollwin_index;
 	GtkWidget			*pdf_view_ebox;
+	GtkWidget			*icon_type_ebox;
 	GtkWidget			*icon_type;
 	GdkPixmap			*icon_pixmap;
 	GdkBitmap			*icon_bitmap;
