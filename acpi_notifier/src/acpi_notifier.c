@@ -40,11 +40,10 @@
 #include "menu.h"
 #include "hooks.h"
 #include "plugin.h"
+#include "alertpanel.h"
 
 #define PREFS_BLOCK_NAME "AcpiNotifier"
 #define PLUGIN_NAME _("Acpi Notifier")
-
-extern gboolean alertpanel_is_open;
 
 typedef struct _PredefinedAcpis {
 	gchar *name;
@@ -89,7 +88,8 @@ PredefinedAcpis known_implementations[] = {
 	{NULL, NULL, NULL, NULL, FALSE, NULL}
 };
 
-static guint hook_id;
+static guint folder_hook_id;
+static guint alertpanel_hook_id;
 
 struct AcpiNotifierPage
 {
@@ -171,7 +171,7 @@ static gboolean check_impl (const gchar *filepath)
 			return (found == 0);
 		}
 	}
-	return FALSE;
+	return is_file_exist(filepath);
 }
 
 static gboolean is_program (const gchar *filepath)
@@ -642,13 +642,20 @@ static void acpi_prefs_save_func(PrefsPage * _page)
 static void acpi_set(gboolean on)
 {
 	FILE *fp = NULL;
-	if (!acpiprefs.file_path)
+
+	if (!acpiprefs.file_path) {
+		debug_print("acpiprefs.file_path NULL\n");
 		return;
-	if (!check_impl(acpiprefs.file_path))
+	}
+	if (!check_impl(acpiprefs.file_path)) {
+		debug_print("acpiprefs.file_path not implemented\n");
 		return;
-	if (!acpiprefs.on_param || !acpiprefs.off_param)
+	}
+	if (!acpiprefs.on_param || !acpiprefs.off_param) {
+		debug_print("no param\n");
 		return;
-	
+	}
+
 	if (!is_program(acpiprefs.file_path)) {
 		fp = fopen(acpiprefs.file_path, "wb");
 		if (fp == NULL)
@@ -664,34 +671,44 @@ static void acpi_set(gboolean on)
 		gchar *cmd = g_strdup_printf("%s %s", 
 				acpiprefs.file_path,
 				on ? acpiprefs.on_param:acpiprefs.off_param);
-		system(cmd);
+		execute_command_line(cmd, TRUE);
 		g_free(cmd);
 	}
 }
 
 static guint should_quit = FALSE;
-static GThread *thread = NULL;
-static guint my_new = 0, my_unread = 0;
-static gpointer update_led_thread(gpointer data)
+static int last_blink = 0;
+
+static gint acpi_blink(gpointer data)
 {
-	int last_blink = 0;
+	if (!should_quit) {
+		acpi_set(last_blink); 
+		last_blink = !last_blink; 
+		return TRUE;
+	} else {
+		acpi_set(FALSE);
+		return FALSE;
+	}
+}
+
+static int blink_timeout_id = 0;
+static int alertpanel_blink_timeout_id = 0;
+static gint my_new = -1, my_unread = -1;
+static int my_action = -1;
+
+static gboolean acpi_update_hook(gpointer source, gpointer data)
+{
 	int action = 0;
+	guint new, unread, unreadmarked, marked, total;
+	
+	if (alertpanel_blink_timeout_id)
+		return FALSE;
 
-	while (!should_quit) {
-		sleep(1);
-		
-		if (alertpanel_is_open
-		&&  acpiprefs.blink_on_err) {
-			int i;
-			for (i = 0; i < 4; i++) {
-				acpi_set(TRUE);
-				usleep(200000);
-				acpi_set(FALSE);
-				usleep(200000);
-			}
-			continue;
-		}
+	folder_count_total_msgs(&new, &unread, &unreadmarked, &marked, &total);
 
+	if (my_new != new || my_unread != unread) {
+		my_new = new;
+		my_unread = unread;
 		if (my_new > 0) {
 			action = acpiprefs.new_mail_action;
 		} else if (my_unread > 0) {
@@ -700,31 +717,57 @@ static gpointer update_led_thread(gpointer data)
 			action = acpiprefs.no_mail_action;
 		}
 		
-		switch (action) {
-		case ON: 
-			acpi_set(TRUE); 
-			break;
-		case BLINK:	
-			acpi_set(last_blink); 
-			last_blink = !last_blink; 
-			break;
-		case OFF:	
-			acpi_set(FALSE); 
-			break;
+		if (action != my_action) {
+			my_action = action;
+			
+			if (action != BLINK && blink_timeout_id != 0) {
+				g_source_remove(blink_timeout_id);
+				blink_timeout_id = 0;
+			}
+
+			switch (action) {
+			case ON: 
+				acpi_set(TRUE); 
+				break;
+			case BLINK:	
+				acpi_set(TRUE); 
+				last_blink = FALSE; 
+				blink_timeout_id = g_timeout_add(1000, acpi_blink, NULL);
+				break;
+			case OFF:	
+				acpi_set(FALSE); 
+				break;
+			}
 		}
 	}
-	acpi_set(FALSE);
-	return NULL;
+
+	return FALSE;
 }
 
-static gboolean acpi_update_hook(gpointer source, gpointer data)
+static gboolean acpi_alertpanel_hook(gpointer source, gpointer data)
 {
-	guint new, unread, unreadmarked, marked, total;
-	folder_count_total_msgs(&new, &unread, &unreadmarked, &marked, &total);
+	gboolean *opened = (gboolean *)source;
 
-	my_new = new;
-	my_unread = unread;
-	
+	if (*opened == TRUE) {
+		if (blink_timeout_id)
+			g_source_remove(blink_timeout_id);
+		blink_timeout_id = 0;
+		
+		if (alertpanel_blink_timeout_id)
+			return FALSE;
+		
+		acpi_set(TRUE); 
+		last_blink = FALSE; 
+		alertpanel_blink_timeout_id = g_timeout_add(250, acpi_blink, NULL);
+	} else {
+		if (alertpanel_blink_timeout_id)
+			g_source_remove(alertpanel_blink_timeout_id);
+		alertpanel_blink_timeout_id = 0;
+		my_new = -1;
+		my_unread = -1;
+		my_action = -1;
+		acpi_update_hook(NULL, NULL);
+	}
 	return FALSE;
 }
 
@@ -749,26 +792,22 @@ void acpi_prefs_init(void)
 	acpi_prefs_page.page.save_page = acpi_prefs_save_func;
 
 	prefs_gtk_register_page((PrefsPage *) &acpi_prefs_page);
-	hook_id = hooks_register_hook (FOLDER_ITEM_UPDATE_HOOKLIST, 
+	folder_hook_id = hooks_register_hook (FOLDER_ITEM_UPDATE_HOOKLIST, 
 			acpi_update_hook, NULL);
-	
+	alertpanel_hook_id = hooks_register_hook (ALERTPANEL_OPENED_HOOKLIST, 
+			acpi_alertpanel_hook, NULL);
 	should_quit = FALSE;
-	my_new = 0;
-	my_unread = 0;
-	
-	thread = g_thread_create(update_led_thread, NULL, TRUE, &error);
 }
 
 void acpi_prefs_done(void)
 {
 	should_quit = TRUE;
-	g_thread_join(thread);
-	thread = NULL;
 	acpi_set(FALSE); 
 	if (claws_is_exiting())
 		return;
 	prefs_gtk_unregister_page((PrefsPage *) &acpi_prefs_page);
-	hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_id);
+	hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, folder_hook_id);
+	hooks_unregister_hook(ALERTPANEL_OPENED_HOOKLIST, alertpanel_hook_id);
 }
 
 
@@ -791,7 +830,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 9, 2, 27),
 				VERSION_NUMERIC, PLUGIN_NAME, error) )
 		return -1;
 
