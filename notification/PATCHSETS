@@ -43,3 +43,4 @@
 ( cvs diff -u -r 1.1.2.63 -r 1.1.2.64 configure.ac;  diff -u /dev/null po/ca.po;  diff -u /dev/null po/hu.po;  diff -u /dev/null po/pt_BR.po;  ) > 0.9cvs10.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_banner.c;  ) > 0.10cvs1.patchset
 ( cvs diff -u -r 1.1.2.66 -r 1.1.2.67 configure.ac;  ) > 0.10cvs2.patchset
+( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/notification_popup.c;  ) > 0.10cvs3.patchset

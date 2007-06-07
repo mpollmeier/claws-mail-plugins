@@ -295,8 +295,10 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   switch(nftype) {
   case F_TYPE_MAIL:
     summary = _("New Mail message");
-    from    = notification_libnotify_sanitize_str(msginfo->from);
-    subj    = notification_libnotify_sanitize_str(msginfo->subject);
+    from    = notification_libnotify_sanitize_str(msginfo->from ? 
+                                                  msginfo->from : _("(No From)"));
+    subj    = notification_libnotify_sanitize_str(msginfo->subject ?
+                                                  msginfo->subject : _("(No Subject)"));
     text    = g_strconcat(from,"\n\n",subj,NULL);
     /* Make sure text is valid UTF8 */
     if(!g_utf8_validate(text, -1, NULL)) {
@@ -580,10 +582,12 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
   /* Vbox with labels */
   ppopup->vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_set_border_width(GTK_CONTAINER(ppopup->vbox), 5);
-  ppopup->label1 = gtk_label_new(msginfo->from);
+  ppopup->label1 = gtk_label_new(msginfo->from ?
+                                 msginfo->from : _("(No From)"));
   gtk_box_pack_start(GTK_BOX(ppopup->vbox), ppopup->label1, FALSE, FALSE, 0);
 
-  ppopup->label2 = gtk_label_new(msginfo->subject);
+  ppopup->label2 = gtk_label_new(msginfo->subject ?
+                                 msginfo->subject : _("(No Subject)"));
   gtk_box_pack_start(GTK_BOX(ppopup->vbox), ppopup->label2, FALSE, FALSE, 0);
 
   gtk_container_add(GTK_CONTAINER(ppopup->frame), ppopup->vbox);
