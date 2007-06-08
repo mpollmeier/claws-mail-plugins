@@ -261,7 +261,7 @@ static void default_action_cb(NotifyNotification *notification,
 	select_str = g_strdup(popup[F_TYPE_MAIL].msg_path);
 	G_UNLOCK(popup);
 	debug_print("Select message %s\n", select_str);
-	mainwindow_jump_to(select_str);
+	mainwindow_jump_to(select_str, FALSE);
 	g_free(select_str);
       }
     }
@@ -639,7 +639,7 @@ static gboolean notification_popup_button(GtkWidget *widget,
 	select_str = g_strdup(popup.msg_path);
 	G_UNLOCK(popup);
 	debug_print("Select message %s\n", select_str);
-	mainwindow_jump_to(select_str);
+	mainwindow_jump_to(select_str, FALSE);
 	g_free(select_str);
       }
     }

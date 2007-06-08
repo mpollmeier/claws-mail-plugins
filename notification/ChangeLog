@@ -1,3 +1,8 @@
+2007-06-08 [colin]	0.10cvs4
+
+	* src/notification_popup.c
+		Fix build
+
 2007-06-07 [paul]	0.10cvs3
 
 	* src/notification_popup.c
