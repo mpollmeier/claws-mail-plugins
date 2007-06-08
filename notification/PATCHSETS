@@ -45,3 +45,4 @@
 ( cvs diff -u -r 1.1.2.66 -r 1.1.2.67 configure.ac;  ) > 0.10cvs2.patchset
 ( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/notification_popup.c;  ) > 0.10cvs3.patchset
 ( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/notification_popup.c;  ) > 0.10cvs4.patchset
+( cvs diff -u -r 1.1.2.69 -r 1.1.2.70 configure.ac;  ) > 0.10cvs5.patchset
