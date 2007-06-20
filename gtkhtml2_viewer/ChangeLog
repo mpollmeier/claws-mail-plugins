@@ -1,3 +1,8 @@
+2007-06-20 [colin]	0.15.0cvs1
+
+	* src/gtkhtml2_viewer.c
+		Fix blinking of the last viewed html part
+
 2007-04-16 [paul]	0.15.0
 
 	0.15 released

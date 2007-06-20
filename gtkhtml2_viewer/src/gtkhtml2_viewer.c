@@ -275,6 +275,7 @@ static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 	
 	debug_print("gtkhtml2_clear_viewer\n");
 	viewer->to_load = NULL;
+	html_document_clear(viewer->html_doc);
 	viewer->last_search_match = -1;
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
