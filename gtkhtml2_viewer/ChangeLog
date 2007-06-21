@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.15.0cvs2
+
+	* src/gtkhtml2_viewer.c
+		Update plugin API
+
 2007-06-20 [colin]	0.15.0cvs1
 
 	* src/gtkhtml2_viewer.c

@@ -275,7 +275,8 @@ static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 	
 	debug_print("gtkhtml2_clear_viewer\n");
 	viewer->to_load = NULL;
-	html_document_clear(viewer->html_doc);
+	if (!viewer->loading)
+		html_document_clear(viewer->html_doc);
 	viewer->last_search_match = -1;
 	vadj = gtk_scrolled_window_get_vadjustment(
 		GTK_SCROLLED_WINDOW(viewer->scrollwin));
@@ -579,7 +580,7 @@ not_found_local:
 #ifdef HAVE_LIBCURL
 		real_url = NULL;
 		cache_file = NULL;
-                if (!viewer->force_image_loading && (gtkhtml_prefs.local || prefs_common.work_offline)) {
+                if (!viewer->force_image_loading && gtkhtml_prefs.local) {
 			remote_not_loaded = TRUE;
                         goto fail;
 		}
@@ -600,6 +601,10 @@ not_found_local:
 				}
 			} 
 			debug_print("cache file not found (%s)\n", cache_file);
+			if (!viewer->force_image_loading && prefs_common.work_offline) {
+				remote_not_loaded = TRUE;
+				goto fail;
+			}
 		}
 	        ctx = g_new0(GtkHtmlThreadCtx, 1);
 	        ctx->url = real_url;
@@ -1027,7 +1032,7 @@ gint plugin_init(gchar **error)
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 8, 1, 15),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, _("GtkHtml2 HTML Viewer"), error))
 		return -1;
 
@@ -1049,7 +1054,7 @@ void gtkhtml2_viewer_clear_cache(void)
 	make_dir_hier(gtkhtml2_viewer_tmpdir);
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	if (gtkhtml_prefs.clear_cache)
 		remove_dir_recursive(gtkhtml2_viewer_tmpdir);
@@ -1060,6 +1065,7 @@ void plugin_done(void)
 	gtkhtml_prefs_done();
 #endif
 	mimeview_unregister_viewer_factory(&gtkhtml2_viewer_factory);
+	return FALSE;
 }
 
 const gchar *plugin_name(void)
