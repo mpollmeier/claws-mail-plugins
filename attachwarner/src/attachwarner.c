@@ -271,7 +271,7 @@ gint plugin_init(gchar **error)
         bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				  VERSION_NUMERIC, _("Attach warner"), error))
 		return -1;
 
@@ -294,11 +294,12 @@ gint plugin_init(gchar **error)
  * Destructor for the plugin.
  * Unregister the callback function and frees matcher.
  */
-void plugin_done(void)
+gboolean plugin_done(void)
 {	
 	hooks_unregister_hook(COMPOSE_CHECK_BEFORE_SEND_HOOKLIST, hook_id);
 	attachwarner_prefs_done();
 	debug_print("Attachment warner plugin unloaded\n");
+	return TRUE;
 }
 
 /**

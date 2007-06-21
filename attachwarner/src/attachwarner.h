@@ -44,7 +44,7 @@ gboolean 	does_not_have_attachments (Compose *compose);
 gboolean 	my_before_send_hook	  (gpointer source, gpointer data);
 
 gint 		plugin_init	  	  (gchar **error);
-void 		plugin_done		  (void);
+gboolean	plugin_done		  (void);
 const gchar *	plugin_name		  (void);
 const gchar *	plugin_desc		  (void);
 const gchar *	plugin_type		  (void);
