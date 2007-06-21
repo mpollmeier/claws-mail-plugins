@@ -9,3 +9,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/plugin.c;  ) > 0.10.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 configure.ac;  ) > 0.10.2cvs3.patchset
 ( cvs diff -u -r 1.1.2.21 -r 1.1.2.22 configure.ac;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/plugin.c;  ) > 0.10.3cvs1.patchset
+( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/plugin.c;  ) > 0.10.4cvs1.patchset

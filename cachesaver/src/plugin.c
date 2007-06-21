@@ -50,7 +50,7 @@ gint save_caches(void *data)
 
 gint plugin_init(gchar **error)
 {
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, "Cachesaver", error) )
 		return -1;
 
@@ -59,12 +59,13 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done()
+gboolean plugin_done()
 {
 	if (tag != 0) {
 		gtk_timeout_remove(tag);
 		tag = 0;
 	}
+	return TRUE;
 }
 
 const gchar *plugin_name()
