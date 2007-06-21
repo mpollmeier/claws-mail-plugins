@@ -83,3 +83,4 @@
 ( cvs diff -u -r 1.1.2.74 -r 1.1.2.75 src/feed.c;  ) > 0.12.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.75 -r 1.1.2.76 src/feed.c;  ) > 0.12.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/date.c;  ) > 0.13.0cvs1.patchset
+( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/plugin.c;  ) > 0.13.0cvs2.patchset
