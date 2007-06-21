@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.4.18cvs1
+
+	* src/fetchinfo_plugin.c
+		Update plugin API
+
 2007-01-09 [paul]	0.4.18
 
 	0.4.18 released
