@@ -830,7 +830,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 9, 2, 27),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, PLUGIN_NAME, error) )
 		return -1;
 
@@ -838,9 +838,10 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	acpi_done();
+	return TRUE;
 }
 
 const gchar *plugin_name(void)

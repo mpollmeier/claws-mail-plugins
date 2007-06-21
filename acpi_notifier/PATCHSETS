@@ -30,3 +30,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ca.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/es.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/hu.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sr.po;  ) > 1.0.8cvs3.patchset
 ( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/acpi_notifier.c;  ) > 1.0.9cvs1.patchset
 ( cvs diff -u -r 1.1.2.60 -r 1.1.2.61 configure.ac;  cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/acpi_notifier.c;  ) > 1.0.10cvs1.patchset
+( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/acpi_notifier.c;  ) > 1.0.10cvs2.patchset
