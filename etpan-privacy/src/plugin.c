@@ -46,7 +46,7 @@ gint plugin_init(gchar **error)
 {
 	int r;
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, _("etPan! Privacy"), error) )
 		return -1;
 	
@@ -63,11 +63,12 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	etpan_privacy_prefs_done();
 	etpan_privacy_done();
 	debug_print(_("etPan! - Privacy plugin unloaded\n"));
+	return TRUE;
 }
 
 const gchar *plugin_name(void)

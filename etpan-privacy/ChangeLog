@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.15.5cvs1
+
+	* src/plugin.c
+		Update plugin API
+
 2007-01-09 [paul]	0.15.5
 
 	0.15.5 released
