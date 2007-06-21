@@ -32,7 +32,7 @@
 
 gint plugin_init(gchar **error)
 {
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 75),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, "Maildir++", error))
 		return -1;
 
@@ -44,12 +44,13 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	maildir_gtk_done();
 	if (!claws_is_exiting())
 		folder_unregister_class(maildir_get_class());
 	uiddb_done();
+	return TRUE;
 }
 
 const gchar *plugin_name(void)
