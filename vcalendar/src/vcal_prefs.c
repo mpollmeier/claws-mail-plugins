@@ -378,7 +378,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	hbox3 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox3);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
-	register_orage_checkbtn = gtk_check_button_new_with_label(_("Register Claws' Calendar in Xfce's Orage clock"));
+	register_orage_checkbtn = gtk_check_button_new_with_label(_("Register Claws' calendar in XFCE's Orage clock"));
 	gtk_tooltips_set_tip(tooltips, register_orage_checkbtn, 
 			    _("Allows Orage (version greater than 4.4) to see Claws Mail's calendar"),
 			     NULL);

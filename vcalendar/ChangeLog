@@ -1,3 +1,9 @@
+2007-06-21 [colin]	1.95.0cvs3
+
+	* src/plugin.c
+	* src/vcal_prefs.c
+		Update plugin API
+
 2007-06-21 [iwkse]	1.95.0cvs2
 
 	* src/vcal_folder.c
