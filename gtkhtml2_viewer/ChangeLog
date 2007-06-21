@@ -2,6 +2,9 @@
 
 	* src/gtkhtml2_viewer.c
 		Update plugin API
+		Fix crash caused by 0.15.0cvs1
+		Fix display of images when offline, but
+		they're in cache
 
 2007-06-20 [colin]	0.15.0cvs1
 
