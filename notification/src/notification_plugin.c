@@ -95,7 +95,7 @@ gint plugin_init(gchar **error)
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
   
   /* Version check */
-  if(!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+  if(!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 			   VERSION_NUMERIC, _("Notification"), error))
     return -1;
 
@@ -143,7 +143,7 @@ gint plugin_init(gchar **error)
   return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
   notify_save_config();
 
@@ -171,6 +171,7 @@ void plugin_done(void)
   notification_pixbuf_free_all();
 
   debug_print("Notification plugin unloaded\n");
+  return TRUE;
 }
 
 const gchar *plugin_name(void)

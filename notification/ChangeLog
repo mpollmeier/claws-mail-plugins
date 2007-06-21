@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.10cvs6
+
+	* src/notification_plugin.c
+		Update plugin API
+
 2007-06-08 [wwp]	0.10cvs5
 
 	* configure.ac
