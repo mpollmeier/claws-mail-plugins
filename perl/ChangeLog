@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.9.8cvs1
+
+	* src/perl_plugin.c
+		Update plugin API
+
 2007-04-16 [paul]	0.9.8
 
 	0.9.8 released

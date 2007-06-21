@@ -2031,7 +2031,7 @@ gint plugin_init(gchar **error)
   *env  = NULL;
 
   /* version check */
-	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, "Perl", error))
 		return -1;
 
@@ -2093,7 +2093,7 @@ gint plugin_init(gchar **error)
   return 0;	
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
   hooks_unregister_hook(MAIL_FILTERING_HOOKLIST,
 			filtering_hook_id);
@@ -2113,6 +2113,7 @@ void plugin_done(void)
 
   perl_gtk_done();
   debug_print("Perl Plugin unloaded\n");
+  return TRUE;
 }
 
 const gchar *plugin_name(void)
