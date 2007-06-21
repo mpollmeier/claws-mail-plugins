@@ -169,7 +169,7 @@ gint plugin_init(gchar **error)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, _("AttRemover"), error) )
 		return -1;
 
@@ -180,7 +180,7 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
@@ -188,7 +188,7 @@ void plugin_done(void)
 	GtkWidget *widget;
 
 	if (mainwin == NULL)
-		return;
+		return TRUE;
 
 	summaryview = mainwin->summaryview;
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
@@ -199,6 +199,7 @@ void plugin_done(void)
 	widget = gtk_item_factory_get_widget(summaryview->popupfactory, remove_att_context_menu.path);
 	gtk_widget_destroy(widget);
 	gtk_item_factory_delete_item(summaryview->popupfactory, remove_att_context_menu.path);
+	return TRUE;
 }
 
 const gchar *plugin_name(void)

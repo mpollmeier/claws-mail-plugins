@@ -8,3 +8,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 debian/README.Debian;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/Makefile.am;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/att_remover.c;  ) > 1.0.3cvs2.patchset
 ( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 configure.ac;  ) > 1.0.3cvs3.patchset
 ( cvs diff -u -r 1.1.2.21 -r 1.1.2.22 configure.ac;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/att_remover.c;  ) > 1.0.4cvs1.patchset
+( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/att_remover.c;  ) > 1.0.5cvs1.patchset

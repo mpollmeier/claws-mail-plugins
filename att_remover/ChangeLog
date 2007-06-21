@@ -1,3 +1,8 @@
+2007-06-21 [colin]	1.0.5cvs1
+
+	* src/att_remover.c
+		Update plugin API
+
 2007-01-09 [paul]	1.0.5
 
 	1.0.5 released
