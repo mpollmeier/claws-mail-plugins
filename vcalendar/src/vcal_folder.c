@@ -1072,6 +1072,7 @@ void vcal_folder_gtk_done(void)
 		g_free(file);
 	}
 	g_slist_free(created_files);
+	folderview_unregister_popup(&vcal_popup);
 }
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
