@@ -77,7 +77,7 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image);
 
 /** Claws-Mail Plugin functions*/
 gint plugin_init(gchar **error);
-void plugin_done(void);
+gboolean plugin_done(void);
 const gchar *plugin_name(void);
 const gchar *plugin_desc(void);
 const gchar *plugin_type(void);
@@ -1676,17 +1676,18 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 7, 2, 57),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 		    VERSION_NUMERIC, _("PDF Viewer"), error)) return -1;
 	
 	mimeview_register_viewer_factory(&pdf_viewer_factory);
 	return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	g_free(msg);	
 	mimeview_unregister_viewer_factory(&pdf_viewer_factory);
+	return TRUE;
 }
 
 const gchar *plugin_name(void)

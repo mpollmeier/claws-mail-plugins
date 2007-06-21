@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.4.0cvs5
+
+	* src/poppler_viewer.c
+		Update plugin API
+
 2007-05-16 [iwkse]	0.4.0cvs4
 
 	* src/poppler_viewer.c
