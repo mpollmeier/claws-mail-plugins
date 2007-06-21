@@ -1,3 +1,8 @@
+2007-06-21 [colin]	1.13.0cvs2
+
+	* src/plugin.c
+		Update plugin API
+
 2007-05-09 [colin]	1.13.0cvs1
 
 	* src/mailimf_types_helper.c

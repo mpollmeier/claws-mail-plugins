@@ -31,7 +31,7 @@
 
 gint plugin_init(gchar **error)
 {
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 75),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, "Mailmbox", error))
 		return -1;
 
@@ -40,11 +40,12 @@ gint plugin_init(gchar **error)
 	return 0;
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
 	plugin_gtk_done();
 	if (!claws_is_exiting())
 		folder_unregister_class(claws_mailmbox_get_class());
+	return TRUE;
 }
 
 const gchar *plugin_name(void)
