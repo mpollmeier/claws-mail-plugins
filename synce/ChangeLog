@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.7.0cvs1
+
+	* src/synce_plugin.c
+		Update plugin API
+
 2007-02-26 [paul]	0.7
 
 	0.7 released

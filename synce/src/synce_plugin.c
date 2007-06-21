@@ -38,7 +38,7 @@
 gint plugin_init(gchar **error)
 {
   /* version check */
-	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, "SynCE", error))
 		return -1;
 
@@ -48,10 +48,11 @@ gint plugin_init(gchar **error)
   return 0;	
 }
 
-void plugin_done(void)
+gboolean plugin_done(void)
 {
   synce_gtk_done();
   debug_print("SynCE Plugin unloaded\n");
+  return TRUE;
 }
 
 const gchar *plugin_name(void)
