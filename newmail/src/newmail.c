@@ -78,7 +78,7 @@ gboolean newmail_hook (gpointer source, gpointer data)
     return (FALSE);
     } /* newmail_hook */
 
-void plugin_done (void)
+gboolean plugin_done (void)
 {
     if (NewLog) {
 	(void)fclose (NewLog);
@@ -88,11 +88,12 @@ void plugin_done (void)
     hooks_unregister_hook (MAIL_POSTFILTERING_HOOKLIST, hook_id);
 
     printf (_("Newmail plugin unloaded\n"));
+    return TRUE;
     } /* plugin_done */
 
 gint plugin_init (gchar **error)
 {
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2, 6, 1, 41),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 				VERSION_NUMERIC, _("NewMail"), error))
 		return -1;
 

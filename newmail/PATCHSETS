@@ -8,3 +8,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 README;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/newmail.c;  ) > 0.0.7cvs2.patchset
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 configure.ac;  ) > 0.0.7cvs3.patchset
 ( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 configure.ac;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/newmail.c;  ) > 0.0.8cvs1.patchset
+( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/newmail.c;  ) > 0.0.9cvs1.patchset

@@ -1,3 +1,8 @@
+2007-06-21 [colin]	0.0.9cvs1
+
+	* src/newmail.c
+		Update plugin API
+
 2007-01-09 [paul]	0.0.9
 
 	0.0.9 released
