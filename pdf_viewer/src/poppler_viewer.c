@@ -77,7 +77,6 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image);
 
 /** Claws-Mail Plugin functions*/
 gint plugin_init(gchar **error);
-gboolean plugin_done(void);
 const gchar *plugin_name(void);
 const gchar *plugin_desc(void);
 const gchar *plugin_type(void);
