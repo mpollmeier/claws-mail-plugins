@@ -82,3 +82,4 @@
 ( cvs diff -u -r 1.1.2.64 -r 1.1.2.65 src/poppler_viewer.c;  ) > 0.4.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.65 -r 1.1.2.66 src/poppler_viewer.c;  ) > 0.4.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.66 -r 1.1.2.67 src/poppler_viewer.c;  ) > 0.4.0cvs7.patchset
+( cvs diff -u -r 1.1.2.67 -r 1.1.2.68 src/poppler_viewer.c;  ) > 0.4.0cvs8.patchset

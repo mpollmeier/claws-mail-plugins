@@ -1,3 +1,8 @@
+2007-06-28 [iwkse]	0.4.0cvs8
+
+	* src/poppler_viewer.c
+			add gs to info
+
 2007-06-28 [iwkse]	0.4.0cvs7
 
 	* src/poppler_viewer.c
