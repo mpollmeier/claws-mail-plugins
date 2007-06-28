@@ -1668,8 +1668,7 @@ gint plugin_init(gchar **error)
 {
 	msg = g_strdup_printf(_("This plugin enables the viewing of PDF and PostScript "
 				"attachments using the Poppler %s Lib.\n\n"
-				"PDF Viewer is Copyright(C) 2007\n"
-				"by Salvatore De Paolis <iwkse@claws-mail.org>"
+				"Any feedback is welcome: iwkse@claws-mail.org"
 				),poppler_get_version());
 
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
