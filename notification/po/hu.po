@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Notification plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
 "POT-Creation-Date: 2007-04-10 15:41+0100\n"
-"PO-Revision-Date: 2007-04-10 19:31+0100\n"
+"PO-Revision-Date: 2007-06-25 12:12+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -17,14 +17,6 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
-
-#: src/notification_banner.c:293
-msgid "From:"
-msgstr "Feladó:"
-
-#: src/notification_banner.c:297
-msgid "Subject:"
-msgstr "Tárgy:"
 
 #: src/notification_banner.c:301
 msgid "Folder:"
@@ -39,7 +31,7 @@ msgid "select recursively"
 msgstr "rekurzív kijelölés"
 
 #: src/notification_plugin.c:99
-#: src/notification_plugin.c:178
+#: src/notification_plugin.c:179
 #: src/notification_prefs.c:213
 #: src/notification_prefs.c:227
 #: src/notification_prefs.c:244
@@ -59,7 +51,7 @@ msgstr "Mappaelem frissítési szabálylánc regisztrálása nem sikerült az É
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Üzenetinformáció frissítési szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
 
-#: src/notification_plugin.c:183
+#: src/notification_plugin.c:184
 msgid ""
 "This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
@@ -67,7 +59,7 @@ msgstr ""
 "A plugin többféle módon lehetővé teszi a felhasználó értesítését az új és olvasatlan levelekről.\n"
 "Örömmel veszek minden visszajelzést a <berndth@gmx.de> címre."
 
-#: src/notification_plugin.c:206
+#: src/notification_plugin.c:207
 msgid "Various tools"
 msgstr "Egyéb eszközök"
 
@@ -75,74 +67,84 @@ msgstr "Egyéb eszközök"
 msgid "New Mail message"
 msgstr "Új levél üzenet"
 
-#: src/notification_popup.c:324
+#: src/notification_popup.c:299
+#: src/notification_popup.c:586
+msgid "(No From)"
+msgstr "(Nincs feladó)"
+
+#: src/notification_popup.c:301
+#: src/notification_popup.c:590
+msgid "(No Subject)"
+msgstr "(Nincs tárgy)"
+
+#: src/notification_popup.c:326
 msgid "New News message"
 msgstr "Új hír üzenet"
 
-#: src/notification_popup.c:325
+#: src/notification_popup.c:327
 msgid "A new mesesage arrived"
 msgstr "Új üzenet érkezett"
 
-#: src/notification_popup.c:328
+#: src/notification_popup.c:330
 msgid "New Calendar message"
 msgstr "Új Naptár (esemény) üzenet"
 
-#: src/notification_popup.c:329
+#: src/notification_popup.c:331
 msgid "A new calendar message arrived"
 msgstr "Új naptár (esemény) üzenet érkezett"
 
-#: src/notification_popup.c:332
+#: src/notification_popup.c:334
 msgid "New RSS feed article"
 msgstr "Új RSS hírcsatorna üzenet"
 
-#: src/notification_popup.c:333
+#: src/notification_popup.c:335
 msgid "A new article in a RSS feed arrived"
 msgstr "Új cikk érkezett egy RSS hírcsatornába"
 
-#: src/notification_popup.c:336
+#: src/notification_popup.c:338
 msgid "New unknown message"
 msgstr "Új ismeretlen üzenet"
 
-#: src/notification_popup.c:337
+#: src/notification_popup.c:339
 msgid "Unknown message type arrived"
 msgstr "Ismeretlen típusú üzenet érkezett"
 
-#: src/notification_popup.c:420
+#: src/notification_popup.c:422
 msgid "Mail message"
 msgstr "Levél üzenet"
 
-#: src/notification_popup.c:421
-#: src/notification_popup.c:427
+#: src/notification_popup.c:423
+#: src/notification_popup.c:429
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "%d új üzenet érkezett"
 
-#: src/notification_popup.c:426
+#: src/notification_popup.c:428
 msgid "News message"
 msgstr "Hír üzenet"
 
-#: src/notification_popup.c:432
+#: src/notification_popup.c:434
 msgid "Calendar message"
 msgstr "Naptár üzenet"
 
-#: src/notification_popup.c:433
+#: src/notification_popup.c:435
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "%d új naptár üzenet érkezett"
 
-#: src/notification_popup.c:438
+#: src/notification_popup.c:440
 msgid "RSS news feed"
 msgstr "RSS hírcsatorna"
 
-#: src/notification_popup.c:439
+#: src/notification_popup.c:441
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] "%d cikk érkezett egy RSS hírcsatornába"
 
-#: src/notification_popup.c:535
+#: src/notification_popup.c:537
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"

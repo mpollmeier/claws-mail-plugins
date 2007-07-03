@@ -1,54 +1,50 @@
-# translation of pt_BR.po to Português do Brasil
-# translation of pt_BR.po to
-# Copyright (C) YEAR Holger Berndt
-# This file is distributed under the same license as the PACKAGE package.
+# Simplified Chinese translations for notfication_plugin of Claws-Mail 
+# Copyright (C) YEAR Holger Berndt 
+# This file is distributed under the same license as the notification_plugin package.
+# Ralph Young <bamanzi@gmail.com> 2007
 #
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version: notification_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2007-06-22 06:25+0200\n"
-"PO-Revision-Date: 2007-07-01 21:46-0300\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Português do Brasil\n"
+"POT-Creation-Date: 2007-06-25 08:17+0100\n"
+"PO-Revision-Date: 2007-06-28 00:47+0800\n"
+"Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
+"Language-Team: Simplified Chinese \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/notification_banner.c:301
 msgid "Folder:"
-msgstr "Pasta:"
+msgstr "目录:"
 
 #: src/notification_foldercheck.c:474
 msgid "Select folder(s)"
-msgstr "Selecione a(s) pasta(s)"
+msgstr "选择目录"
 
 #: src/notification_foldercheck.c:570
 msgid "select recursively"
-msgstr "seleção recursiva"
+msgstr "递归选择"
 
 #: src/notification_plugin.c:99 src/notification_plugin.c:179
 #: src/notification_prefs.c:213 src/notification_prefs.c:227
 #: src/notification_prefs.c:244 src/notification_prefs.c:261
 msgid "Notification"
-msgstr "Notificação"
+msgstr "通知"
 
 #: src/notification_plugin.c:104
 msgid "The Notification plugin needs threading support."
-msgstr "O plugin Notificação precisa suporte a agrupamento."
+msgstr "邮件通知插件需要线程支持。"
 
 #: src/notification_plugin.c:111
 msgid "Failed to register folder item update hook in the Notification plugin"
-msgstr ""
-"Erro ao registrar o gancho de atualização de item da pasta no plugin "
-"Notificação"
+msgstr "注册邮件目录更新钩子失败"
 
 #: src/notification_plugin.c:119
 msgid "Failed to register msginfo update hook in the Notification plugin"
-msgstr "Erro ao registrar o gancho de atualização msginfo no plugin Notificação"
+msgstr "注册邮件内容更新钩子失败"
 
 #: src/notification_plugin.c:184
 msgid ""
@@ -56,118 +52,113 @@ msgid ""
 "email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Esse plugin fornece várias formas de notificar o usuário sobre mensagens "
-"novas e não lidas.\n"
-"Opiniões para <berndth@gmx.de> são bem-vindas."
+"本插件提供各种方式告知用户有新邮件和未读邮件。\n"
+"欢迎反馈意见和建议到 <berndth@gmx.de> "
 
 #: src/notification_plugin.c:207
 msgid "Various tools"
-msgstr "Várias ferramentas"
+msgstr "各种工具"
 
 #: src/notification_popup.c:297
 msgid "New Mail message"
-msgstr "Nova mensagem de e-mail"
+msgstr "新邮件通知"
 
 #: src/notification_popup.c:299 src/notification_popup.c:586
 msgid "(No From)"
-msgstr "(Sem remetente)"
+msgstr "(无发件人)"
 
 #: src/notification_popup.c:301 src/notification_popup.c:590
 msgid "(No Subject)"
-msgstr "(Sem assunto)"
+msgstr "(无主题)"
 
 #: src/notification_popup.c:326
 msgid "New News message"
-msgstr "Nova mensagem de Newsgroup"
+msgstr "新的新闻组消息"
 
 #: src/notification_popup.c:327
 msgid "A new mesesage arrived"
-msgstr "Chegou uma nova mensagem"
+msgstr "收到一个新邮件"
 
 #: src/notification_popup.c:330
 msgid "New Calendar message"
-msgstr "Nova mensagem de Agenda"
+msgstr "新的日程安排"
 
 #: src/notification_popup.c:331
 msgid "A new calendar message arrived"
-msgstr "Chegou uma nova mensagem de Agenda"
+msgstr "收到一个新的日程信息"
 
 #: src/notification_popup.c:334
 msgid "New RSS feed article"
-msgstr "Novo artigo RSS"
+msgstr "新的RSS文章"
 
 #: src/notification_popup.c:335
 msgid "A new article in a RSS feed arrived"
-msgstr "Chegou um novo artigo de um alimentador RSS"
+msgstr "收到一个新的RSS供稿文章"
 
 #: src/notification_popup.c:338
 msgid "New unknown message"
-msgstr "Nova mensagem desconhecida"
+msgstr "新的其它消息"
 
 #: src/notification_popup.c:339
 msgid "Unknown message type arrived"
-msgstr "Chegou uma mensagem de tipo desconhecido"
+msgstr "收到新的未知类型信息"
 
 #: src/notification_popup.c:422
 msgid "Mail message"
-msgstr "Mensagem de e-mail"
+msgstr "邮件信息"
 
 #: src/notification_popup.c:423 src/notification_popup.c:429
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
-msgstr[0] "Chegou %d nova mensagem"
-msgstr[1] "Chegaram %d novas mensagens"
+msgstr[0] "收到%d个新邮件"
 
 #: src/notification_popup.c:428
 msgid "News message"
-msgstr "Mensagem de Newsgroup"
+msgstr "新闻组信息"
 
 #: src/notification_popup.c:434
 msgid "Calendar message"
-msgstr "Mensagem de Agenda"
+msgstr "日程安排"
 
 #: src/notification_popup.c:435
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
-msgstr[0] "Chegou %d nova mensagem de Agenda"
-msgstr[1] "Chegaram %d novas mensagens de Agenda"
+msgstr[0] "收到%d个日程安排"
 
 #: src/notification_popup.c:440
 msgid "RSS news feed"
-msgstr "Alimentador de notícias RSS"
+msgstr "RSS供稿项"
 
 #: src/notification_popup.c:441
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
-msgstr[0] "Chegou %d novo artigo de um alimentador RSS"
-msgstr[1] "Chegaram %d novos artigos de um alimentador RSS"
+msgstr[0] ""
 
 #: src/notification_popup.c:537
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
-msgstr[0] "%d nova messagem"
-msgstr[1] "%d novas messagens"
+msgstr[0] "%d个新邮件"
 
 #: src/notification_prefs.c:212 src/notification_prefs.c:226
 #: src/notification_prefs.c:243 src/notification_prefs.c:260
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "插件"
 
 #: src/notification_prefs.c:228
 msgid "Banner"
-msgstr "Letreiro"
+msgstr "横幅"
 
 #: src/notification_prefs.c:245
 msgid "Popup"
-msgstr "Popup"
+msgstr "弹出窗口"
 
 #: src/notification_prefs.c:262
 msgid "Command"
-msgstr "Comando"
+msgstr "命令"
 
 #: src/notification_prefs.c:306
 msgid ""
@@ -175,140 +166,138 @@ msgid ""
 "Notification Plugin: Failed to write plugin configuration to file\n"
 msgstr ""
 "\n"
-"Plugin Notificação: Não foi possível salvar a configuração do plugin no "
-"arquivo\n"
+"邮件通知插件: 写配置到文件失败\n"
 
 #: src/notification_prefs.c:329
 msgid "Include folder types"
-msgstr "Incluir os tipos de pasta"
+msgstr "检查以下类型的目录"
 
 #: src/notification_prefs.c:339
 msgid "Mail folders"
-msgstr "Pastas de e-mail"
+msgstr "邮件目录"
 
 #: src/notification_prefs.c:347
 msgid "News folders"
-msgstr "Pastas de Newsgroups"
+msgstr "新闻组目录"
 
 #: src/notification_prefs.c:355
 msgid "RSS folders"
-msgstr "Pastas RSS"
+msgstr "RSS目录"
 
 #: src/notification_prefs.c:363
 msgid "Calendar folders"
-msgstr "Pastas de Agenda"
+msgstr "日程安排目录"
 
 #: src/notification_prefs.c:371
 msgid "These settings overwrite folder-specific selections."
-msgstr "Essas configurações têm prioridade sobre as seleções especificas das pastas."
+msgstr "此设置优先于各种通知方式中的目录设置"
 
 #: src/notification_prefs.c:425
 msgid "Show banner"
-msgstr "Mostrar letreiro"
+msgstr "显示横幅"
 
 #: src/notification_prefs.c:430
 msgid "Never"
-msgstr "Nunca"
+msgstr "从不"
 
 #: src/notification_prefs.c:432
 msgid "Always"
-msgstr "Sempre"
+msgstr "总显示"
 
 #: src/notification_prefs.c:434
 msgid "Only when not empty"
-msgstr "Apenas quando não estiver vazio"
+msgstr "仅仅非空时"
 
 #: src/notification_prefs.c:452
 msgid "slow"
-msgstr "lento"
+msgstr "慢速"
 
 #: src/notification_prefs.c:456
 msgid "fast"
-msgstr "rápido"
+msgstr "快速"
 
 #: src/notification_prefs.c:460
 msgid "Banner speed"
-msgstr "Velocidade do letreiro"
+msgstr "横幅速度"
 
 #: src/notification_prefs.c:477
 msgid "Include unread mails in banner"
-msgstr "Incluir mensagens não lidas no letreiro"
+msgstr "横幅中包含未读邮件信息"
 
 #: src/notification_prefs.c:485
 msgid "Make banner sticky"
-msgstr "Tornar o letreiro aderente"
+msgstr "紧贴屏幕上方"
 
 #: src/notification_prefs.c:495 src/notification_prefs.c:688
 #: src/notification_prefs.c:946
 msgid "Only include selected folders"
-msgstr "Incluir apenas as pastas selecionadas"
+msgstr "只显示选定目录的信息"
 
 #: src/notification_prefs.c:504 src/notification_prefs.c:697
 #: src/notification_prefs.c:955
 msgid "Select folders..."
-msgstr "Selecione as pastas..."
+msgstr "选择目录..."
 
 #: src/notification_prefs.c:514 src/notification_prefs.c:729
 msgid "Use custom colors"
-msgstr "Usar cores personalizadas"
+msgstr "自定义颜色"
 
 #: src/notification_prefs.c:527 src/notification_prefs.c:742
 msgid "Foreground"
-msgstr "Frente"
+msgstr "前景色"
 
 #: src/notification_prefs.c:533 src/notification_prefs.c:748
 msgid "Foreground color"
-msgstr "Cor da frente"
+msgstr "前景色"
 
 #: src/notification_prefs.c:538 src/notification_prefs.c:753
 msgid "Background"
-msgstr "Fundo"
+msgstr "背景色"
 
 #: src/notification_prefs.c:544 src/notification_prefs.c:759
 msgid "Background color"
-msgstr "Cor do fundo"
+msgstr "背景色"
 
 #: src/notification_prefs.c:652
 msgid "Enable popup"
-msgstr "Habilitar popup"
+msgstr "启动弹出对话框"
 
 #: src/notification_prefs.c:669
 msgid "Popup timeout:"
-msgstr "Limite de tempo do popup:"
+msgstr "超时时间:"
 
 #: src/notification_prefs.c:679 src/notification_prefs.c:937
 msgid "seconds"
-msgstr "segundos"
+msgstr "秒"
 
 #: src/notification_prefs.c:708
 msgid "Make popup sticky"
-msgstr "Tornar o popup aderente"
+msgstr "紧贴窗口上方"
 
 #: src/notification_prefs.c:718
 msgid "Set popup window width and position"
-msgstr "Configure a largura e posição da janela popup"
+msgstr "设置弹出窗口的宽度与位置"
 
 #: src/notification_prefs.c:723
 msgid "(the window manager is free to ignore this)"
-msgstr "(o gerenciador de janelas tem liberdade para ignorar isso)"
+msgstr "(窗口管理器可能会忽略此设置)"
 
 #: src/notification_prefs.c:823
 msgid "Sample popup window"
-msgstr "Janela popup de exemplo"
+msgstr "(示例窗口)"
 
 #: src/notification_prefs.c:829
 msgid "Done"
-msgstr "Feito"
+msgstr "确定"
 
 #: src/notification_prefs.c:897
 msgid "Enable command"
-msgstr "Habilitar comando"
+msgstr "启用命令通知"
 
 #: src/notification_prefs.c:914
 msgid "Command to execute:"
-msgstr "Comando a ser executado:"
+msgstr "执行命令:"
 
 #: src/notification_prefs.c:927
 msgid "Block command after execution for"
-msgstr "Bloquear o comando após ser executado para"
-
+msgstr "命令执行后一段时间不重复执行"
