@@ -1,3 +1,8 @@
+2007-07-03 [colin]	0.15.1cvs1
+
+	* po/zh_CN.po
+		Fix msgfmt error
+
 2007-07-03 [paul]	0.15.1
 
 	0.15.1 released
