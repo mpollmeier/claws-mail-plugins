@@ -1,3 +1,11 @@
+2007-07-03 [paul]	0.13.0cvs3
+
+	* po/hu.po
+	* po/pt_BR.po
+	* po/zh_CN.po
+		updated by Pader Rezso, Frederico
+		Goncalves Guimaraes, and Ralgh Young
+
 2007-06-21 [colin]	0.13.0cvs2
 
 	* src/plugin.c

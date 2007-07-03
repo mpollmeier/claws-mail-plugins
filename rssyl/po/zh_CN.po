@@ -1,14 +1,14 @@
 # Simplified Chinese translation of rssyl plugin for Sylpheed-Claws
 # Copyright (C) 2005 Andrej Kacian
 # This file is distributed under the same license as the rssyl package.
-# Ralgh Young <bamanzi@gmail.com>, 2005-2006.
+# Ralgh Young <bamanzi@gmail.com>, 2005-2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: rssyl 0.4\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-04-10 15:43+0100\n"
-"PO-Revision-Date: 2007-04-15 00:22中國標準時間\n"
+"POT-Creation-Date: 2007-06-25 08:19+0100\n"
+"PO-Revision-Date: 2007-06-28 20:45+0800\n"
 "Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
 "Language-Team: Simplified Chinese\n"
 "MIME-Version: 1.0\n"
@@ -23,60 +23,60 @@ msgstr "无法打开临时文件"
 msgid "Cannot init libCURL"
 msgstr "无法初始化libCURL"
 
-#: src/feed.c:199
+#: src/feed.c:204
 msgid "401 (Authorisation required)"
 msgstr "401 (需要鉴权)"
 
-#: src/feed.c:202
+#: src/feed.c:207
 msgid "403 (Unauthorised)"
 msgstr "403 (未授权)"
 
-#: src/feed.c:205
+#: src/feed.c:210
 msgid "404 (Not found)"
 msgstr "404 (未找到)"
 
-#: src/feed.c:208
+#: src/feed.c:213
 #, c-format
 msgid "Error %d"
 msgstr "错误号 %d"
 
-#: src/feed.c:271
+#: src/feed.c:276
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "正在提取 '%s'..."
 
-#: src/feed.c:322
+#: src/feed.c:327
 msgid "Malformed feed"
 msgstr ""
 
-#: src/feed.c:980
+#: src/feed.c:1026
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "正在刷新源'%s'..."
 
-#: src/feed.c:995
+#: src/feed.c:1041
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
 "comments of '%s'"
 msgstr "RSSyl: 不支持从RDF源提取评论。无法获得'%s'的评论"
 
-#: src/feed.c:1003
+#: src/feed.c:1049
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
 "comments of '%s'"
 msgstr "RSSyl: Atom源不支持提取评论。无法获取'%s'的评论。"
 
-#: src/feed.c:1009
+#: src/feed.c:1055
 msgid "This feed format is not supported yet."
 msgstr "不支持该源的格式。"
 
-#: src/feed.c:1038
+#: src/feed.c:1084
 msgid "N/A"
 msgstr "未知"
 
-#: src/feed.c:1277
+#: src/feed.c:1323
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -85,11 +85,11 @@ msgstr ""
 "RSSyl: 无法更新源%s:\n"
 "%s\n"
 
-#: src/feed.c:1429
+#: src/feed.c:1475
 msgid "You are already subscribed to this feed."
 msgstr "您已经订阅了该源。"
 
-#: src/feed.c:1437
+#: src/feed.c:1483
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -98,11 +98,11 @@ msgstr ""
 "无法提取到网址'%s'的内容:\n"
 "%s"
 
-#: src/feed.c:1437 src/feed.c:1439
+#: src/feed.c:1483 src/feed.c:1485
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/feed.c:1439
+#: src/feed.c:1485
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -111,12 +111,12 @@ msgstr ""
 "无法提取到网址'%s'的内容:\n"
 "%s\n"
 
-#: src/feed.c:1449
+#: src/feed.c:1495
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "无法订阅源'%s'。"
 
-#: src/feed.c:1549 src/rssyl_cb_menu.c:275
+#: src/feed.c:1595 src/rssyl_cb_menu.c:275
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] ""
@@ -152,7 +152,7 @@ msgstr "RSSyl: 正在更新源%s\n"
 msgid "RSSyl: Feed update finished: %s\n"
 msgstr "RSSyl: 完成更新: %s\n"
 
-#: src/plugin.c:63
+#: src/plugin.c:64
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"
@@ -161,12 +161,12 @@ msgid ""
 "the web. You can read them, and delete or keep old entries."
 msgstr ""
 "本插件使得您可以创建一个邮箱来阅读 RSS 1.0, RSS 2.0或者Atom格式的"
-"newsfeeds。\n"
+"新闻源。\n"
 "\n"
 "每项新闻源将创建一个邮件夹，从网络提取内容。您可以阅读，删除或者保留里面的条"
 "目。"
 
-#: src/plugin.c:87
+#: src/plugin.c:88
 msgid "RSS feed"
 msgstr "RSS源"
 
@@ -221,7 +221,7 @@ msgstr "删除(_R)"
 #: src/rssyl_cb_menu.c:198
 #, c-format
 msgid "Can't remove feed '%s'."
-msgstr "无法删除feed '%s'。"
+msgstr "无法删除源 '%s'。"
 
 #: src/rssyl_cb_menu.c:226
 #, c-format
@@ -360,12 +360,10 @@ msgid "/File/Add mailbox/RSSyl..."
 msgstr "/文件/添加邮箱/RSSyl..."
 
 #: src/rssyl_gtk.c:239
-#, fuzzy
 msgid "Use default refresh interval"
-msgstr "定时刷新(180分钟刷新一次)"
+msgstr "采用缺省定时刷新设置"
 
 #: src/rssyl_gtk.c:251
-#, fuzzy
 msgid "Keep default number of expired entries"
 msgstr "需保存的过期条目数: 采用缺省值"
 
@@ -421,29 +419,37 @@ msgstr "删除已有的条目"
 msgid "_Unsubscribe"
 msgstr "取消订阅(_U)"
 
-#: src/rssyl_prefs.c:58
+#: src/rssyl_prefs.c:60
 msgid "Plugins"
 msgstr "插件"
 
-#: src/rssyl_prefs.c:101
+#: src/rssyl_prefs.c:104
 msgid "Default refresh interval in minutes"
 msgstr "定时刷新(180分钟刷新一次)"
 
-#: src/rssyl_prefs.c:112
+#: src/rssyl_prefs.c:115
 msgid "Set to 0 to disable automatic refreshing"
 msgstr "设置为0表示禁止自动刷新"
 
-#: src/rssyl_prefs.c:114
+#: src/rssyl_prefs.c:117
 msgid "Default number of expired items to keep"
 msgstr "要保存的过期条目的缺省数量"
 
-#: src/rssyl_prefs.c:125
+#: src/rssyl_prefs.c:128
 msgid "Set to -1 to keep expired items"
 msgstr "设置为-1表示保存全部过期条目"
 
-#: src/rssyl_prefs.c:128
+#: src/rssyl_prefs.c:131
 msgid "Refresh all feeds on application start"
 msgstr "程序启动时全部刷新"
+
+#: src/rssyl_prefs.c:137
+msgid "Path to cookies file"
+msgstr "cookies文件位置"
+
+#: src/rssyl_prefs.c:147
+msgid "Path to Netscape-style cookies.txt file containing your cookies"
+msgstr "Netscape风格的cookies.txt，该文件保存着您的cookies"
 
 #: src/rssyl.h:8
 msgid "RSSyl"
@@ -452,4 +458,3 @@ msgstr ""
 #: src/rssyl.h:14
 msgid "My Feeds"
 msgstr "我的源"
-

@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-03-31 14:36+0200\n"
-"PO-Revision-Date: 2007-04-15 20:15-0300\n"
+"POT-Creation-Date: 2007-06-22 06:27+0200\n"
+"PO-Revision-Date: 2007-07-01 21:56-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -22,38 +22,38 @@ msgstr "Não foi possível abrir o arquivo temporário"
 msgid "Cannot init libCURL"
 msgstr "Não foi possível iniciar a libCURL"
 
-#: src/feed.c:199
+#: src/feed.c:204
 msgid "401 (Authorisation required)"
 msgstr "401 (Requer autorização)"
 
-#: src/feed.c:202
+#: src/feed.c:207
 msgid "403 (Unauthorised)"
 msgstr "403 (Não autorizado)"
 
-#: src/feed.c:205
+#: src/feed.c:210
 msgid "404 (Not found)"
 msgstr "404 (Não encontrado)"
 
-#: src/feed.c:208
+#: src/feed.c:213
 #, c-format
 msgid "Error %d"
 msgstr "Erro %d"
 
-#: src/feed.c:271
+#: src/feed.c:276
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Obtendo '%s'..."
 
-#: src/feed.c:322
+#: src/feed.c:327
 msgid "Malformed feed"
 msgstr "Fonta malformatada"
 
-#: src/feed.c:980
+#: src/feed.c:1026
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Atualizando a fonte '%s'"
 
-#: src/feed.c:995
+#: src/feed.c:1041
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -62,7 +62,7 @@ msgstr ""
 "RSSyl: A obtenção de comentários não é suportada para fontes RDF. Não foi "
 "possível obter os comentários de '%s'"
 
-#: src/feed.c:1003
+#: src/feed.c:1049
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
@@ -71,15 +71,15 @@ msgstr ""
 "RSSyl: A obtenção de comentários não é suportada para fontes Atom. Não foi "
 "possível obter os comentários de '%s'"
 
-#: src/feed.c:1009
+#: src/feed.c:1055
 msgid "This feed format is not supported yet."
 msgstr "O formato dessa fonte (feed) não é suportado ainda."
 
-#: src/feed.c:1038
+#: src/feed.c:1084
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1277
+#: src/feed.c:1323
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -88,11 +88,11 @@ msgstr ""
 "RSSyl: Não foi possível atualizar a fonte %s:\n"
 "%s\n"
 
-#: src/feed.c:1429
+#: src/feed.c:1475
 msgid "You are already subscribed to this feed."
 msgstr "Você já está inscrito nessa fonte."
 
-#: src/feed.c:1437
+#: src/feed.c:1483
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -101,11 +101,11 @@ msgstr ""
 "Não foi possível buscar a URL '%s':\n"
 "%s"
 
-#: src/feed.c:1437 src/feed.c:1439
+#: src/feed.c:1483 src/feed.c:1485
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/feed.c:1439
+#: src/feed.c:1485
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -114,12 +114,12 @@ msgstr ""
 "Não foi possível buscar a URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1449
+#: src/feed.c:1495
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Não foi possível inscrever-se na fonte '%s'."
 
-#: src/feed.c:1549 src/rssyl_cb_menu.c:275
+#: src/feed.c:1595 src/rssyl_cb_menu.c:275
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "O Claws Mail necessita de acesso à rede para atualizar a fonte."
@@ -155,7 +155,7 @@ msgstr "RSSyl: Atualizando a fonte %s\n"
 msgid "RSSyl: Feed update finished: %s\n"
 msgstr "RSSyl: Atualização da fonte finalizada: %s\n"
 
-#: src/plugin.c:63
+#: src/plugin.c:64
 msgid ""
 "This plugin allows you to create a mailbox tree where you can add newsfeeds "
 "in RSS 1.0, RSS 2.0 or Atom format.\n"
@@ -169,7 +169,7 @@ msgstr ""
 "Cada fonte de notícia irá criar uma pasta com as entradas apropriadas, "
 "buscadas na Web. Você pode lê-las e apagar ou manter as entradas antigas."
 
-#: src/plugin.c:87
+#: src/plugin.c:88
 msgid "RSS feed"
 msgstr "Fonte RSS"
 
@@ -424,29 +424,37 @@ msgstr "Remover as entradas do cache"
 msgid "_Unsubscribe"
 msgstr "Desinscrever-se"
 
-#: src/rssyl_prefs.c:58
+#: src/rssyl_prefs.c:60
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/rssyl_prefs.c:101
+#: src/rssyl_prefs.c:104
 msgid "Default refresh interval in minutes"
 msgstr "Intervalo de atualização padrão, em minutos"
 
-#: src/rssyl_prefs.c:112
+#: src/rssyl_prefs.c:115
 msgid "Set to 0 to disable automatic refreshing"
 msgstr "Defina como 0 para desabilitar a atualização automática"
 
-#: src/rssyl_prefs.c:114
+#: src/rssyl_prefs.c:117
 msgid "Default number of expired items to keep"
 msgstr "Número padrão de itens expirados a manter"
 
-#: src/rssyl_prefs.c:125
+#: src/rssyl_prefs.c:128
 msgid "Set to -1 to keep expired items"
 msgstr "Defina como -1 para manter os itens expirados"
 
-#: src/rssyl_prefs.c:128
+#: src/rssyl_prefs.c:131
 msgid "Refresh all feeds on application start"
 msgstr "Atualizar todas as fontes ao iniciar o programa"
+
+#: src/rssyl_prefs.c:137
+msgid "Path to cookies file"
+msgstr "Caminho para o arquivo de cookies"
+
+#: src/rssyl_prefs.c:147
+msgid "Path to Netscape-style cookies.txt file containing your cookies"
+msgstr "Caminho para o arquivo cookies.txt (estilo Netscape), contendo seus cookies"
 
 #: src/rssyl.h:8
 msgid "RSSyl"
