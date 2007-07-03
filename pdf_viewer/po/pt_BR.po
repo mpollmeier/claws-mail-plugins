@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-04-04 18:41+0200\n"
-"PO-Revision-Date: 2007-04-15 18:49-0300\n"
+"POT-Creation-Date: 2007-06-29 06:23+0200\n"
+"PO-Revision-Date: 2007-07-01 21:53-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -17,143 +17,146 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 
-#: src/poppler_viewer.c:554
+#: src/poppler_viewer.c:553
 msgid "Filename:"
 msgstr "Nome do arquivo:"
 
-#: src/poppler_viewer.c:555
+#: src/poppler_viewer.c:554
 msgid "Size:"
 msgstr "Tamanho:"
 
-#: src/poppler_viewer.c:557
+#: src/poppler_viewer.c:556
 msgid "Title:"
 msgstr "Título:"
 
-#: src/poppler_viewer.c:558
+#: src/poppler_viewer.c:557
 msgid "Subject:"
 msgstr "Assunto:"
 
-#: src/poppler_viewer.c:559
+#: src/poppler_viewer.c:558
 msgid "Author:"
 msgstr "Autor:"
 
-#: src/poppler_viewer.c:560
+#: src/poppler_viewer.c:559
 msgid "Keywords:"
 msgstr "Palavras-chave:"
 
-#: src/poppler_viewer.c:561
+#: src/poppler_viewer.c:560
 msgid "Creator:"
 msgstr "Criador:"
 
-#: src/poppler_viewer.c:562
+#: src/poppler_viewer.c:561
 msgid "Producer:"
 msgstr "Produtor:"
 
-#: src/poppler_viewer.c:565
+#: src/poppler_viewer.c:564
 msgid "Created:"
 msgstr "Criado:"
 
-#: src/poppler_viewer.c:569
+#: src/poppler_viewer.c:568
 msgid "Modified:"
 msgstr "Modificado:"
 
-#: src/poppler_viewer.c:572
+#: src/poppler_viewer.c:571
 msgid "Format:"
 msgstr "Formato:"
 
-#: src/poppler_viewer.c:573
+#: src/poppler_viewer.c:572
 msgid "Optimized:"
 msgstr "Otimizado:"
 
-#: src/poppler_viewer.c:742
+#: src/poppler_viewer.c:853
 msgid "PDF Viewer Plugin"
 msgstr "Plugin Visualizador PDF"
 
-#: src/poppler_viewer.c:846
+#: src/poppler_viewer.c:959
 msgid "Loading..."
 msgstr "Abrindo..."
 
-#: src/poppler_viewer.c:896
+#: src/poppler_viewer.c:1009
 #, c-format
-msgid "%s Document(%d page%s)"
-msgstr "%s Documento(%d pág.%s)"
+msgid "%s Document"
+msgstr "Documento %s"
 
-#: src/poppler_viewer.c:1179 src/poppler_viewer.c:1419
+#: src/poppler_viewer.c:1016
+#, c-format
+msgid "(%d page%s)"
+msgstr "(%d página%s)"
+
+#: src/poppler_viewer.c:1316 src/poppler_viewer.c:1557
 msgid "Document Index"
 msgstr "Índice do documento"
 
-#: src/poppler_viewer.c:1253
+#: src/poppler_viewer.c:1388
 msgid "Name"
 msgstr "Nome"
 
-#: src/poppler_viewer.c:1365
+#: src/poppler_viewer.c:1503
 msgid "First Page"
 msgstr "Primeira página"
 
-#: src/poppler_viewer.c:1370
+#: src/poppler_viewer.c:1508
 msgid "Previous Page"
 msgstr "Página anterior"
 
-#: src/poppler_viewer.c:1375
+#: src/poppler_viewer.c:1513
 msgid "Next Page"
 msgstr "Próxima página"
 
-#: src/poppler_viewer.c:1380
+#: src/poppler_viewer.c:1518
 msgid "Last Page"
 msgstr "Última página"
 
-#: src/poppler_viewer.c:1385
+#: src/poppler_viewer.c:1523
 msgid "Zoom In"
 msgstr "Aumentar zoom"
 
-#: src/poppler_viewer.c:1389
+#: src/poppler_viewer.c:1527
 msgid "Zoom Out"
 msgstr "Diminuir zoom"
 
-#: src/poppler_viewer.c:1394
+#: src/poppler_viewer.c:1532
 msgid "Fit Page"
 msgstr "Ajustar a página"
 
-#: src/poppler_viewer.c:1399
+#: src/poppler_viewer.c:1537
 msgid "Fit Page Width"
 msgstr "Ajustar a largura da página"
 
-#: src/poppler_viewer.c:1404
+#: src/poppler_viewer.c:1542
 msgid "Rotate Left"
 msgstr "Girar para a esquerda"
 
-#: src/poppler_viewer.c:1409
+#: src/poppler_viewer.c:1547
 msgid "Rotate Right"
 msgstr "Girar para a direita"
 
-#: src/poppler_viewer.c:1414
+#: src/poppler_viewer.c:1552
 msgid "Document Info"
 msgstr "Informações do documento"
 
-#: src/poppler_viewer.c:1423
+#: src/poppler_viewer.c:1561
 msgid "Page Number"
 msgstr "Número da página"
 
-#: src/poppler_viewer.c:1427
+#: src/poppler_viewer.c:1565
 msgid "Zoom Factor"
 msgstr "Fator de zoom"
 
-#: src/poppler_viewer.c:1535
+#: src/poppler_viewer.c:1669
 #, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
-"Poppler %s Lib.\n"
+"Poppler %s Lib and the gs tool.\n"
 "\n"
-"PDF Viewer is Copyright(C) 2007\n"
-"by Salvatore De Paolis <iwkse@claws-mail.org>"
+"Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
 "Esse plugin habilita a visualização de anexos em PDF e PostScript usando a "
-"biblioteca Poppler %s.\n"
+"biblioteca Poppler %s e a ferramenta gs.\n"
 "\n"
-"PDF Viewer possui Copyright(C) 2007\n"
-"por Salvatore De Paolis <iwkse@claws-mail.org>"
+"Qualquer retorno é bem-vindo: iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1545 src/poppler_viewer.c:1559
+#: src/poppler_viewer.c:1678 src/poppler_viewer.c:1693
 msgid "PDF Viewer"
 msgstr "Visualizador PDF"
 
