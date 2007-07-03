@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GtkHtml2 Viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 09:02+0000\n"
-"PO-Revision-Date: 2007-04-10 19:07+0100\n"
+"PO-Revision-Date: 2007-06-25 12:11+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -45,20 +45,20 @@ msgstr "Képek gyorsítótárának törlése kilépéskor"
 msgid "Clear image cache now"
 msgstr "Képek gyorsítótárának törlése most"
 
-#: src/gtkhtml2_viewer.c:91
+#: src/gtkhtml2_viewer.c:94
 msgid "/_Open with Web browser"
 msgstr "/_Megnyitás böngészővel"
 
-#: src/gtkhtml2_viewer.c:92
+#: src/gtkhtml2_viewer.c:95
 msgid "/Copy this _link"
 msgstr "/_Link másolása"
 
-#: src/gtkhtml2_viewer.c:610
+#: src/gtkhtml2_viewer.c:624
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Időtúllépés a kapcsolódásnál: %s\n"
 
-#: src/gtkhtml2_viewer.c:678
+#: src/gtkhtml2_viewer.c:694
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -66,7 +66,7 @@ msgstr ""
 "A távoli képek léteznek, de nem tölthetőek be\n"
 "mivel a beállításoknál ezt letiltottad."
 
-#: src/gtkhtml2_viewer.c:680
+#: src/gtkhtml2_viewer.c:696
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -74,24 +74,20 @@ msgstr ""
 "A távoli kép létezik, de nem tölthető be,\n"
 "mert nincs kapcsolat."
 
-#: src/gtkhtml2_viewer.c:682
+#: src/gtkhtml2_viewer.c:698
 msgid "Remote images exist, but loading them failed."
 msgstr "A távoli képek léteznek, de nem sikerült a betöltésük."
 
-#: src/gtkhtml2_viewer.c:686
+#: src/gtkhtml2_viewer.c:702
 msgid "Load images"
 msgstr "Képek betöltése"
 
-#: src/gtkhtml2_viewer.c:869
-#: src/gtkhtml2_viewer.c:905
+#: src/gtkhtml2_viewer.c:1036
+#: src/gtkhtml2_viewer.c:1073
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML megjelenítő"
 
-#: src/gtkhtml2_viewer.c:910
+#: src/gtkhtml2_viewer.c:1078
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "A plugin a HTML leveleket a gtkhtml2 megjelenítő widget-tel jeleníti meg."
-
-#: src/gtkhtml2_viewer.c:932
-msgid "text/html"
-msgstr "text/html"
 
