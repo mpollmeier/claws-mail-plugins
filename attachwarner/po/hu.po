@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Attach Warner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2007-01-15 09:20+0000\n"
-"PO-Revision-Date: 2007-04-10 19:07+0100\n"
+"PO-Revision-Date: 2007-06-25 12:10+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -30,8 +30,8 @@ msgid "+_Send"
 msgstr "+Küldé_s"
 
 #: src/attachwarner.c:275
-#: src/attachwarner.c:311
-#: src/attachwarner.c:363
+#: src/attachwarner.c:312
+#: src/attachwarner.c:364
 msgid "Attach warner"
 msgstr "Melléklet figyelmeztető"
 
@@ -39,7 +39,7 @@ msgstr "Melléklet figyelmeztető"
 msgid "Failed to register check before send hook"
 msgstr "'Az ellenőrzés küldés előtt' kapcsolat regisztrációja nem sikerült."
 
-#: src/attachwarner.c:321
+#: src/attachwarner.c:322
 msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
 msgstr "Figyelmetet, ha hivatkozás van csatolásra a levélben, de nem lett fájl csatolva."
 
