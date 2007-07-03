@@ -1,3 +1,10 @@
+2007-07-03 [paul]	1.0.10cvs3
+
+	* po/hu.po
+	* po/pt_BR.po
+		updated by Pader Rezso and Frederico
+		Goncalves Guimaraes
+
 2007-06-21 [colin]	1.0.10cvs2
 
 	* src/acpi_notifier.c

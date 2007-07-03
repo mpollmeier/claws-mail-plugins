@@ -1,23 +1,23 @@
 # translation of pt_BR.po to Português do Brasil
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006.
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-03-03 14:27+0100\n"
-"PO-Revision-Date: 2007-04-15 18:04-0300\n"
+"POT-Creation-Date: 2007-06-22 06:19+0200\n"
+"PO-Revision-Date: 2007-07-01 21:43-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
-#: src/acpi_notifier.c:45
+#: src/acpi_notifier.c:46
 msgid "Acpi Notifier"
 msgstr "Notificador ACPI"
 
-#: src/acpi_notifier.c:63
+#: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
@@ -25,13 +25,17 @@ msgstr ""
 "Certifique-se de que o módulo do kernel 'acerhk' foi carregado.\n"
 "Você pode obtê-lo em http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
-#: src/acpi_notifier.c:65
+#: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
 msgstr ""
 "Certifique-se de que o módulo do kernel 'acer_acpi' foi carregado.\n"
 "Você pode obtê-lo em http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'asus_laptop' is loaded."
+msgstr "Certifique-se de que o módulo do kernel 'asus_laptop' foi carregado."
 
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
@@ -49,77 +53,67 @@ msgstr ""
 "Certifique-se de que apanelc está instalado.\n"
 "Você pode obtê-lo em http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:197
-#: src/acpi_notifier.c:203
-#: src/acpi_notifier.c:415
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "O arquivo de controle não existe."
 
-#: src/acpi_notifier.c:295
+#: src/acpi_notifier.c:298
 msgid " : no new or unread mail"
 msgstr " : nenhuma mensagem nova ou não lida"
 
-#: src/acpi_notifier.c:296
+#: src/acpi_notifier.c:299
 msgid " : unread mail"
 msgstr " : mensagem não lida"
 
-#: src/acpi_notifier.c:297
+#: src/acpi_notifier.c:300
 msgid " : new mail"
 msgstr " : mensagem nova"
 
-#: src/acpi_notifier.c:299
-#: src/acpi_notifier.c:305
-#: src/acpi_notifier.c:311
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
 msgstr "apagado"
 
-#: src/acpi_notifier.c:301
-#: src/acpi_notifier.c:307
-#: src/acpi_notifier.c:313
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "piscando"
 
-#: src/acpi_notifier.c:303
-#: src/acpi_notifier.c:309
-#: src/acpi_notifier.c:315
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
 msgstr "aceso"
 
-#: src/acpi_notifier.c:337
-#: src/acpi_notifier.c:346
-#: src/acpi_notifier.c:361
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
 msgstr "LED "
 
-#: src/acpi_notifier.c:376
+#: src/acpi_notifier.c:379
 msgid "ACPI type: "
 msgstr "Tipo ACPI: "
 
-#: src/acpi_notifier.c:385
+#: src/acpi_notifier.c:388
 msgid "ACPI file: "
 msgstr "Arquivo ACPI: "
 
-#: src/acpi_notifier.c:396
+#: src/acpi_notifier.c:399
 msgid "values - On: "
 msgstr "valores - Ligado: "
 
-#: src/acpi_notifier.c:401
+#: src/acpi_notifier.c:404
 msgid " - Off: "
 msgstr " - Desligado: "
 
-#: src/acpi_notifier.c:423
+#: src/acpi_notifier.c:426
 msgid "Blink when user interaction is required"
 msgstr "Piscar quando for necessário uma intervenção do usuário"
 
-#: src/acpi_notifier.c:734
+#: src/acpi_notifier.c:780
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/acpi_notifier.c:811
+#: src/acpi_notifier.c:854
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Esse plugin manipula diversos LED's de mensagens ACPI."
 
-#: src/acpi_notifier.c:832
+#: src/acpi_notifier.c:875
 msgid "Laptop LED"
 msgstr "LED do laptop"
 
