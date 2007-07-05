@@ -1,3 +1,8 @@
+2007-07-05 [colin]	0.1.1cvs3
+
+	* src/spam_report.c
+		Fix copy/paste error
+
 2007-07-05 [colin]	0.1.1cvs2
 
 	* .cvsignore

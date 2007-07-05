@@ -144,7 +144,7 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 		curl_easy_setopt(curl, CURLOPT_URL, intf->url);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqbody);
 		curl_easy_setopt(curl, CURLOPT_USERPWD, auth);
-		curl_easy_setopt(curl_ctx, CURLOPT_USERAGENT,
+		curl_easy_setopt(curl, CURLOPT_USERAGENT,
                 	"Claws Mail SpamReport plugin "
 	                "(" PLUGINS_URI ")");
 		res = curl_easy_perform(curl);
