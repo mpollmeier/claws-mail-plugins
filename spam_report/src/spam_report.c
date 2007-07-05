@@ -43,6 +43,7 @@
 #include "plugin.h"
 #include "menu.h"
 #include "defs.h"
+#include "base64.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
@@ -132,7 +133,8 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 	
 	debug_print("reporting via %s\n", intf->name);
 	tmp = spamreport_strreplace(intf->body, "%claws_mail_body%", contents);
-	b64 = g_base64_encode(contents, strlen(contents));
+	b64 = g_malloc0(B64LEN(strlen(contents)) + 1);
+	base64_encode(b64, contents, strlen(contents));
 	reqbody = spamreport_strreplace(tmp, "%claws_mail_body_b64%", b64);
 	g_free(b64);
 	g_free(tmp);

@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=1
 MICRO_VERSION=1
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -70,7 +70,7 @@ AC_SUBST(CLAWS_MAIL_LIBS)
 AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
 dnl Check for GLib
-AM_PATH_GLIB_2_0(2.12.0,,
+AM_PATH_GLIB_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
         gmodule gobject gthread)
 

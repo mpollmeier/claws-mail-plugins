@@ -103,7 +103,7 @@ static void create_spamreport_prefs_page(PrefsPage *page,
 	GtkWidget *tmp;
 	int i = 0;
 	
-        vbox = gtk_vbox_new(FALSE, 3);
+        vbox = gtk_vbox_new(FALSE, VSPACING_NARROW);
         gtk_container_set_border_width(GTK_CONTAINER(vbox), VBOX_BORDER);
         
 	for (i = 0; i < INTF_LAST; i++) {
@@ -121,6 +121,9 @@ static void create_spamreport_prefs_page(PrefsPage *page,
 
 
 		table = gtk_table_new(2, 2, FALSE);
+		gtk_container_set_border_width(GTK_CONTAINER(table), 8);
+		gtk_table_set_row_spacings(GTK_TABLE(table), 4);
+		gtk_table_set_col_spacings(GTK_TABLE(table), 8);
 
 		gtk_container_add(GTK_CONTAINER(prefs_page->frame[i]), table);
 		tmp = gtk_label_new(_("Username:"));
