@@ -1,3 +1,8 @@
+2007-07-05 [paul]	0.1.1cvs4
+
+	* configure.ac
+		g_base64_encode() needs GLib >= 2.12.x
+
 2007-07-05 [colin]	0.1.1cvs3
 
 	* src/spam_report.c
