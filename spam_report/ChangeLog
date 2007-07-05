@@ -1,0 +1,39 @@
+2007-07-05 [colin]	0.1.1cvs2
+
+	* .cvsignore
+	* AUTHORS
+	* COPYING
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* PATCHSETS
+	* README
+	* aclocal.m4
+	* autogen.sh
+	* commitHelper
+	* config.h.in
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/.cvsignore
+	* po/ChangeLog
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/fr.po
+	* po/remove-potcdate.sin
+	* po/spam_report.pot
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/gettext.h
+	* src/spam_report.c
+	* src/spam_report_prefs.c
+	* src/spam_report_prefs.h
+		First release of SpamReport, a plugin to report spam
+		to online anti-spam services. For now, only Spam-Signal
+		(http://www.spam-signal.fr/) is supported.
+
+
