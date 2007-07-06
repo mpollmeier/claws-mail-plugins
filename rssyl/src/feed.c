@@ -335,6 +335,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 #ifdef RSSYL_DEBUG
 	/* debug mode - get timestamp, add it to returned xmlDoc, and make a copy
 	 * of the fetched feed file */
+	tmptitle = rssyl_strreplace(url, "/", "\\");
 	unixtime_str = g_strdup_printf("%ld", time(NULL) );
 	debugfname = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, ".", tmptitle, ".", unixtime_str, NULL);
@@ -347,6 +348,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	xmlSetProp(rnode, "fetched", unixtime_str);
 	g_free(unixtime_str);
 	g_free(debugfname);
+	g_free(tmptitle);
 #endif	/* RSSYL_DEBUG */
 
 	g_unlink(template);
