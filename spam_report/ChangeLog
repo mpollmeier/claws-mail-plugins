@@ -1,3 +1,8 @@
+2007-07-06 [wwp]	0.1.1cvs6
+
+	* src/spam_report.c
+		Few speed optimizations.
+
 2007-07-05 [wwp]	0.1.1cvs5
 
 	* src/spam_report_prefs.c

@@ -69,6 +69,7 @@ static gchar *spamreport_strreplace(gchar *source, gchar *pattern,
 {
 	gchar *new, *w_new, *c;
 	guint count = 0, final_length;
+	size_t len_pattern, len_replacement;
 
 	if( source == NULL || pattern == NULL ) {
 		debug_print("source or pattern is NULL!!!\n");
@@ -85,15 +86,18 @@ static gchar *spamreport_strreplace(gchar *source, gchar *pattern,
 		return NULL;
 	}
 
+	len_pattern = strlen(pattern);
+	len_replacement = strlen(replacement);
+
 	c = source;
 	while( ( c = g_strstr_len(c, strlen(c), pattern) ) ) {
 		count++;
-		c += strlen(pattern);
+		c += len_pattern;
 	}
 
 	final_length = strlen(source)
-		- ( count * strlen(pattern) )
-		+ ( count * strlen(replacement) );
+		- ( count * len_pattern )
+		+ ( count * len_replacement );
 
 	new = malloc(final_length + 1);
 	w_new = new;
@@ -102,18 +106,18 @@ static gchar *spamreport_strreplace(gchar *source, gchar *pattern,
 	c = source;
 
 	while( *c != '\0' ) {
-		if( !memcmp(c, pattern, strlen(pattern)) ) {
+		if( !memcmp(c, pattern, len_pattern) ) {
 			gboolean break_after_rep = FALSE;
-			int i;
-			if (*(c + strlen(pattern)) == '\0')
+			size_t i;
+			if (*(c + len_pattern) == '\0')
 				break_after_rep = TRUE;
-			for (i = 0; i < strlen(replacement); i++) {
+			for (i = 0; i < len_replacement; i++) {
 				*w_new = replacement[i];
 				w_new++;
 			}
 			if (break_after_rep)
 				break;
-			c = c + strlen(pattern);
+			c = c + len_pattern;
 		} else {
 			*w_new = *c;
 			w_new++;
@@ -127,14 +131,16 @@ static gchar *spamreport_strreplace(gchar *source, gchar *pattern,
 static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar *contents)
 {
 	gchar *reqbody = NULL, *tmp = NULL, *auth = NULL, *b64 = NULL;
+	size_t len_contents;
 	CURL *curl;
 	CURLcode res;
 	long response;
 	
 	debug_print("reporting via %s\n", intf->name);
 	tmp = spamreport_strreplace(intf->body, "%claws_mail_body%", contents);
-	b64 = g_malloc0(B64LEN(strlen(contents)) + 1);
-	base64_encode(b64, contents, strlen(contents));
+	len_contents = strlen(contents);
+	b64 = g_malloc0(B64LEN(len_contents) + 1);
+	base64_encode(b64, contents, len_contents);
 	reqbody = spamreport_strreplace(tmp, "%claws_mail_body_b64%", b64);
 	g_free(b64);
 	g_free(tmp);
