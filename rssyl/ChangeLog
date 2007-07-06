@@ -1,3 +1,8 @@
+2007-07-06 [wwp]	0.14.0cvs1
+
+	* src/strreplace.c
+		Few speed optimizations.
+
 2007-07-03 [paul]	0.14.0
 
 	0.14 released
