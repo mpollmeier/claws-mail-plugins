@@ -7,39 +7,157 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lpoppler_viewer-0\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-02-19 09:37+0000\n"
-"PO-Revision-Date: 2007-02-20 03:47+0200\n"
+"POT-Creation-Date: 2007-06-25 08:18+0100\n"
+"PO-Revision-Date: 2007-06-27 05:46+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/poppler_viewer.c:158
-#, c-format
-msgid "%s document, page %d/%d"
-msgstr "%s‐teksti, sivu %d∕%d"
+#: src/poppler_viewer.c:554
+msgid "Filename:"
+msgstr "Tiedostonimi:"
 
-#: src/poppler_viewer.c:167
-msgid "Prev page"
-msgstr "Edellinen sivu"
+#: src/poppler_viewer.c:555
+msgid "Size:"
+msgstr "Koko:"
 
-#: src/poppler_viewer.c:170
-msgid "Next page"
-msgstr "Seuraava sivu"
+#: src/poppler_viewer.c:557
+msgid "Title:"
+msgstr "Otsikko:"
 
-#: src/poppler_viewer.c:191 src/poppler_viewer.c:348
+#: src/poppler_viewer.c:558
+msgid "Subject:"
+msgstr "Aihe:"
+
+#: src/poppler_viewer.c:559
+msgid "Author:"
+msgstr "Tekijä:"
+
+#: src/poppler_viewer.c:560
+msgid "Keywords:"
+msgstr "Avainsanat:"
+
+#: src/poppler_viewer.c:561
+msgid "Creator:"
+msgstr "Luoja:"
+
+#: src/poppler_viewer.c:562
+msgid "Producer:"
+msgstr "Tuottaja:"
+
+#: src/poppler_viewer.c:565
+msgid "Created:"
+msgstr "Tehty:"
+
+#: src/poppler_viewer.c:569
+msgid "Modified:"
+msgstr "Muokattu:"
+
+#: src/poppler_viewer.c:572
+msgid "Format:"
+msgstr "Muoto:"
+
+#: src/poppler_viewer.c:573
+msgid "Optimized:"
+msgstr "Optimointi:"
+
+#: src/poppler_viewer.c:854
+msgid "PDF Viewer Plugin"
+msgstr "PDF‐näytinliitännäinen"
+
+#: src/poppler_viewer.c:960
 msgid "Loading..."
 msgstr "Ladataan…"
 
-#: src/poppler_viewer.c:385 src/poppler_viewer.c:398
+#: src/poppler_viewer.c:1010
+#, c-format
+msgid "%s Document"
+msgstr "%s-asiakirja"
+
+#: src/poppler_viewer.c:1017
+#, c-format
+msgid "(%d page%s)"
+msgstr "(%d sivu%s)"
+
+#: src/poppler_viewer.c:1317 src/poppler_viewer.c:1558
+msgid "Document Index"
+msgstr "Asiakirjahakemisto"
+
+#: src/poppler_viewer.c:1389
+msgid "Name"
+msgstr "Nimi"
+
+#: src/poppler_viewer.c:1504
+msgid "First Page"
+msgstr "Ensimmäinen sivu"
+
+#: src/poppler_viewer.c:1509
+msgid "Previous Page"
+msgstr "Edellinen sivu"
+
+#: src/poppler_viewer.c:1514
+msgid "Next Page"
+msgstr "Seuraava sivu"
+
+#: src/poppler_viewer.c:1519
+msgid "Last Page"
+msgstr "Viimeinen sivu"
+
+#: src/poppler_viewer.c:1524
+msgid "Zoom In"
+msgstr "Zoomaa sisään"
+
+#: src/poppler_viewer.c:1528
+msgid "Zoom Out"
+msgstr "Zoomaa ulos"
+
+#: src/poppler_viewer.c:1533
+msgid "Fit Page"
+msgstr "Sivun kokoiseksi"
+
+#: src/poppler_viewer.c:1538
+msgid "Fit Page Width"
+msgstr "Sivun levyiseksi"
+
+#: src/poppler_viewer.c:1543
+msgid "Rotate Left"
+msgstr "Kierrä vasemmalle"
+
+#: src/poppler_viewer.c:1548
+msgid "Rotate Right"
+msgstr "Kierrä oikealle"
+
+#: src/poppler_viewer.c:1553
+msgid "Document Info"
+msgstr "Asiakirjan tiedot"
+
+#: src/poppler_viewer.c:1562
+msgid "Page Number"
+msgstr "Sivunumero"
+
+#: src/poppler_viewer.c:1566
+msgid "Zoom Factor"
+msgstr "Zoom-kerroin"
+
+#: src/poppler_viewer.c:1670
+#, c-format
+msgid ""
+"This plugin enables the viewing of PDF and PostScript attachments using the "
+"Poppler %s Lib.\n"
+"\n"
+"PDF Viewer is Copyright(C) 2007\n"
+"by Salvatore De Paolis <iwkse@claws-mail.org>"
+msgstr ""
+"Tällä liitännäisellä voi katsella PDF:iä ja PostScriptejä Poppler‐kirjaston "
+"%s avulla.\n"
+"\n"
+"PDF-näytin © 2007 Salvatore De Paolis <iwkse@claws-mail.org>"
+
+#: src/poppler_viewer.c:1680 src/poppler_viewer.c:1695
 msgid "PDF Viewer"
 msgstr "PDF‐näytin"
 
-#: src/poppler_viewer.c:403
-msgid ""
-"This plugin enables the viewing of PDF and PostScript attachments using the "
-"Poppler lib."
-msgstr ""
-"Tällä liitännäisellä voi katsella PDF:iä ja PostScriptejä Poppler‐kirjaston "
-"avulla."
+#~ msgid "%s document, page %d/%d"
+#~ msgstr "%s‐teksti, sivu %d∕%d"
