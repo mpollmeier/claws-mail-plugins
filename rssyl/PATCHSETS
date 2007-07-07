@@ -87,3 +87,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/hu.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/pt_BR.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/zh_CN.po;  ) > 0.13.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/strreplace.c;  ) > 0.14.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.76 -r 1.1.2.77 src/feed.c;  ) > 0.14.0cvs2.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fi.po;  ) > 0.14.0cvs3.patchset
