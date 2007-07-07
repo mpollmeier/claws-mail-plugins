@@ -107,3 +107,4 @@
 ( cvs diff -u -r 1.2.2.66 -r 1.2.2.67 src/vcal_folder.c;  ) > 1.95.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/plugin.c;  cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/vcal_prefs.c;  ) > 1.95.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/hu.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/pt_BR.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/zh_CN.po;  ) > 1.95.0cvs4.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fi.po;  ) > 1.96.0cvs1.patchset
