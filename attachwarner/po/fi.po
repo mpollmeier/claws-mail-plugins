@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-02-19 08:22+0000\n"
+"POT-Creation-Date: 2007-06-25 08:15+0100\n"
 "PO-Revision-Date: 2007-02-20 03:24+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "+_Send"
 msgstr "_Lähetä"
 
-#: src/attachwarner.c:275 src/attachwarner.c:311 src/attachwarner.c:363
+#: src/attachwarner.c:275 src/attachwarner.c:312 src/attachwarner.c:364
 msgid "Attach warner"
 msgstr "Liitä varoitin"
 
@@ -40,7 +40,7 @@ msgstr "Liitä varoitin"
 msgid "Failed to register check before send hook"
 msgstr "Lähetyskoukun rekisteröinti epäonnistui"
 
-#: src/attachwarner.c:321
+#: src/attachwarner.c:322
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
