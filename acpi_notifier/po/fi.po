@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-02-19 08:21+0000\n"
-"PO-Revision-Date: 2007-01-03 06:56+0200\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2007-06-25 08:14+0100\n"
+"PO-Revision-Date: 2007-06-27 05:26+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/acpi_notifier.c:45
+#: src/acpi_notifier.c:46
 msgid "Acpi Notifier"
 msgstr "ACPI Notifier"
 
-#: src/acpi_notifier.c:63
+#: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
@@ -28,7 +28,7 @@ msgstr ""
 "Varmista, että ytimen acerhk-moduuli on ladattu.\n"
 "Sen voi hakea osoitteesta http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
-#: src/acpi_notifier.c:65
+#: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
@@ -36,6 +36,10 @@ msgstr ""
 "Varmista, että ytimen acer_acpi-moduuli on ladattu.\n"
 "Sen voi hakea osoitteesta http://www.archernar.co.uk/acer_acpi/"
 "acer_acpi_main.html"
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'asus_laptop' is loaded."
+msgstr "Varmista, että ytimen asus_laptop-moduuli on ladattu."
 
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
@@ -53,67 +57,67 @@ msgstr ""
 "Varmista, että apanelc on asennettu.\n"
 "Sen voi hakea osoitteesta http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "Ohjaustiedosto puuttuu"
 
-#: src/acpi_notifier.c:295
+#: src/acpi_notifier.c:298
 msgid " : no new or unread mail"
 msgstr ": ei uutta tai lukematonta postia"
 
-#: src/acpi_notifier.c:296
+#: src/acpi_notifier.c:299
 msgid " : unread mail"
 msgstr ": lukematonta postia"
 
-#: src/acpi_notifier.c:297
+#: src/acpi_notifier.c:300
 msgid " : new mail"
 msgstr ": uutta postia"
 
-#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
 msgstr "pois päältä"
 
-#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "välkkyy"
 
-#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
 msgstr "päällä"
 
-#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
 msgstr "Ledi "
 
-#: src/acpi_notifier.c:376
+#: src/acpi_notifier.c:379
 msgid "ACPI type: "
 msgstr "ACPI-tyyppi: "
 
-#: src/acpi_notifier.c:385
+#: src/acpi_notifier.c:388
 msgid "ACPI file: "
 msgstr "ACPI-tiedosto: "
 
-#: src/acpi_notifier.c:396
+#: src/acpi_notifier.c:399
 msgid "values - On: "
 msgstr "arvot — päällä: "
 
-#: src/acpi_notifier.c:401
+#: src/acpi_notifier.c:404
 msgid " - Off: "
 msgstr " — pois päältä: "
 
-#: src/acpi_notifier.c:423
+#: src/acpi_notifier.c:426
 msgid "Blink when user interaction is required"
 msgstr "Välkytä, kun käyttäjän tarvitsee tehdä jotain"
 
-#: src/acpi_notifier.c:734
+#: src/acpi_notifier.c:780
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/acpi_notifier.c:811
+#: src/acpi_notifier.c:854
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tämä liitännäinen ohjaa ACPI-postiledejä."
 
-#: src/acpi_notifier.c:832
+#: src/acpi_notifier.c:875
 msgid "Laptop LED"
 msgstr "Kannettavan ledi"
 
