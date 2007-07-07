@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-02-19 08:22+0000\n"
+"POT-Creation-Date: 2007-06-25 08:16+0100\n"
 "PO-Revision-Date: 2007-02-20 03:26+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -44,20 +44,20 @@ msgstr "Poista kuvat välimuistista lopetettaessa"
 msgid "Clear image cache now"
 msgstr "Poista kuvat välimuistista"
 
-#: src/gtkhtml2_viewer.c:91
+#: src/gtkhtml2_viewer.c:94
 msgid "/_Open with Web browser"
 msgstr "_Avaa veppiselaimessa"
 
-#: src/gtkhtml2_viewer.c:92
+#: src/gtkhtml2_viewer.c:95
 msgid "/Copy this _link"
 msgstr "Kopioi _linkki"
 
-#: src/gtkhtml2_viewer.c:610
+#: src/gtkhtml2_viewer.c:624
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Aikakatkaisu yhdistettäessä kohteeseen %s\n"
 
-#: src/gtkhtml2_viewer.c:678
+#: src/gtkhtml2_viewer.c:694
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -65,7 +65,7 @@ msgstr ""
 "Etäkuvia ei ladattu\n"
 "asetusten mukaan."
 
-#: src/gtkhtml2_viewer.c:680
+#: src/gtkhtml2_viewer.c:696
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -73,27 +73,26 @@ msgstr ""
 "Etäkuvia ei ladattu\n"
 "yhteydettömässä tilassa."
 
-#: src/gtkhtml2_viewer.c:682
+#: src/gtkhtml2_viewer.c:698
 msgid "Remote images exist, but loading them failed."
 msgstr "Etäkuvia ei onnistuttu lataamaan."
 
-#: src/gtkhtml2_viewer.c:686
+#: src/gtkhtml2_viewer.c:702
 msgid "Load images"
 msgstr "Lataa kuvat"
 
-#: src/gtkhtml2_viewer.c:869 src/gtkhtml2_viewer.c:905
+#: src/gtkhtml2_viewer.c:1036 src/gtkhtml2_viewer.c:1073
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML-näytin"
 
-#: src/gtkhtml2_viewer.c:910
+#: src/gtkhtml2_viewer.c:1078
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Tämä liitännäinen piirtää HTML-viestit käyttäen gtkhtml2rendering-"
 "vuorovaikutinta"
 
-#: src/gtkhtml2_viewer.c:932
-msgid "text/html"
-msgstr "text/html"
+#~ msgid "text/html"
+#~ msgstr "text/html"
 
 #~ msgid ""
 #~ "Your version of Sylpheed-Claws is newer than the version the "
