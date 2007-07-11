@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-06-22 06:29+0200\n"
+"POT-Creation-Date: 2007-07-11 14:31+0200\n"
 "PO-Revision-Date: 2007-07-01 21:57-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
@@ -111,8 +111,10 @@ msgstr "%s <span weight=\"bold\">(esse evento se repete)</span>"
 
 #: src/vcalendar.c:659
 #, c-format
-msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
-msgstr "%s <span weight=\"bold\">(esse evento é parte de um evento repetitivo)</span>"
+msgid ""
+"%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
+msgstr ""
+"%s <span weight=\"bold\">(esse evento é parte de um evento repetitivo)</span>"
 
 #: src/vcalendar.c:1210
 msgid "Cancel meeting"
@@ -808,7 +810,8 @@ msgstr "Você pode exportar para um arquivo local ou uma URL"
 
 #: src/vcal_prefs.c:311
 msgid "Specify a local file or URL (http://server/path/file.ics)"
-msgstr "Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ics)"
+msgstr ""
+"Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ics)"
 
 #: src/vcal_prefs.c:320 src/vcal_prefs.c:429
 msgid "User ID"
@@ -846,11 +849,13 @@ msgstr "Exportar a informação de livre/ocupado automaticamente para"
 
 #: src/vcal_prefs.c:420
 msgid "Specify a local file or URL (http://server/path/file.ifb)"
-msgstr "Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ifb)"
+msgstr ""
+"Especifique um arquivo local ou uma URL (http://servidor/caminho/arquivo.ifb)"
 
 #: src/vcal_prefs.c:451
 msgid "Command to run after free/busy status export"
-msgstr "Comando a ser executado após a exportação da informação de livre/ocupado"
+msgstr ""
+"Comando a ser executado após a exportação da informação de livre/ocupado"
 
 #: src/vcal_prefs.c:478
 msgid "Get free/busy status of others from"
@@ -868,4 +873,3 @@ msgstr ""
 #: src/vcal_prefs.c:644
 msgid "Plugins"
 msgstr "Plugins"
-

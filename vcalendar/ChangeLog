@@ -1,3 +1,33 @@
+2007-07-11 [colin]	1.96.0cvs2
+
+	* COPYING
+	* configure.ac
+	* po/ca.po
+	* po/de.po
+	* po/es.po
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+	* po/it.po
+	* po/pl.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/sr.po
+	* po/zh_CN.po
+	* src/gettext.h
+	* src/plugin.c
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcal_meeting_gtk.h
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
+	* src/vcalendar.c
+	* src/vcalendar.h
+		Upgrade to GPLv3 or later
+
 2007-07-07 [paul]	1.96.0cvs1
 
 	* po/fi.po

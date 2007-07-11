@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=96
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -40,6 +40,12 @@ AC_PROG_LIBTOOL
 AM_PROG_LEX
 AC_PROG_YACC
 
+case "$host" in
+  *-sun-solaris2.8)
+    CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
+    CFLAGS="$CFLAGS -DSOLARIS"
+    ;;
+esac
 #
 # Find pkg-config
 #
@@ -95,8 +101,12 @@ AC_DEFUN([MY_CURL],[
  if eval curl-config --version 2>/dev/null >/dev/null; then
    ver=`curl-config --version | sed -e "s/libcurl //g"`
    hex_ver=`curl-config --vernum | tr 'a-f' 'A-F'`
-   ok=`echo "ibase=16; if($hex_ver>=$check_hex) $hex_ver else 0" | bc`
-
+   bc_exists=`which bc`
+   if test x$bc_exists != x; then
+    ok=`echo "ibase=16; if($hex_ver>=$check_hex) $hex_ver else 0" | bc`
+   else
+    ok=1
+   fi
    if test x$ok != x0; then
      my_cv_curl_vers="$ver"
      AC_MSG_RESULT([$my_cv_curl_vers])
