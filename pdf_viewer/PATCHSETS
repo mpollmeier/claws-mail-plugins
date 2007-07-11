@@ -87,3 +87,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  ) > 0.5.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.68 -r 1.1.2.69 src/poppler_viewer.c;  ) > 0.5.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  ) > 0.5.0cvs3.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  cvs diff -u -r 1.1.2.69 -r 1.1.2.70 src/poppler_viewer.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/poppler_viewer.h;  ) > 0.5.0cvs4.patchset

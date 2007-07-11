@@ -1,3 +1,10 @@
+2007-07-11 [colin]	0.5.0cvs4
+
+	* src/gettext.h
+	* src/poppler_viewer.c
+	* src/poppler_viewer.h
+		Complete previous patch
+
 2007-07-11 [iwkse]	0.5.0cvs3
 
 	* COPYING
