@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-07-05 14:27+0200\n"
+"POT-Creation-Date: 2007-07-05 18:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,17 +16,29 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/spam_report.c:62 src/spam_report.c:82 src/spam_report_prefs.c:74
+#: src/spam_report.c:188
+msgid "Reporting spam..."
+msgstr ""
+
+#: src/spam_report.c:222
+msgid "/Message/Report spam online"
+msgstr ""
+
+#: src/spam_report.c:230
+msgid "/Report spam online"
+msgstr ""
+
+#: src/spam_report.c:247 src/spam_report.c:291 src/spam_report_prefs.c:74
 msgid "SpamReport"
 msgstr ""
 
-#: src/spam_report.c:87
+#: src/spam_report.c:296
 msgid ""
 "This plugin reports spam to various places. Currently only spam-signal.fr is "
 "supported."
 msgstr ""
 
-#: src/spam_report.c:109
+#: src/spam_report.c:318
 msgid "Spam reporting"
 msgstr ""
 
@@ -34,10 +46,10 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: src/spam_report_prefs.c:124
-msgid "SignalSpam username:"
+#: src/spam_report_prefs.c:126
+msgid "Username:"
 msgstr ""
 
-#: src/spam_report_prefs.c:132
-msgid "SignalSpam password:"
+#: src/spam_report_prefs.c:134
+msgid "Password:"
 msgstr ""
