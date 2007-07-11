@@ -1,3 +1,12 @@
+2007-07-11 [colin]	0.15.1cvs3
+
+	* COPYING
+	* src/gettext.h
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_prefs.h
+	* src/gtkhtml2_viewer.c
+		Upgrade to GPLv3 or later
+
 2007-07-07 [paul]	0.15.1cvs2
 
 	* po/fi.po
