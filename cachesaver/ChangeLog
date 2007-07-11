@@ -1,3 +1,9 @@
+2007-07-11 [colin]	0.10.5cvs1
+
+	* COPYING
+	* src/plugin.c
+		Upgrade to GPLv3 or later
+
 2007-07-03 [paul]	0.10.5
 
 	0.10.5 released
