@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/spam_report_prefs.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/spam_report.c;  ) > 0.1.1cvs5.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/spam_report.c;  ) > 0.1.1cvs6.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 aclocal.m4;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/spam_report.pot;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/spam_report.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/spam_report_prefs.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/spam_report_prefs.h;  ) > 0.1.1cvs7.patchset
+( cvs diff -u -r -1.1.2.2 -r -1.1.2.3 aclocal.m4;  ) > 0.1.1cvs8.patchset

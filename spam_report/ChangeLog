@@ -1,3 +1,8 @@
+2007-07-11 [wwp]	0.1.1cvs8
+
+	* aclocal.m4
+		Removed that (generated) file.
+
 2007-07-11 [colin]	0.1.1cvs7
 
 	* COPYING
