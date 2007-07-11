@@ -1,3 +1,8 @@
+2007-07-11 [colin]	0.4.19cvs1
+
+	* src/fetchinfo_plugin.c
+		Specify license better (GPL2+)
+
 2007-07-03 [paul]	0.4.19
 
 	0.4.19 released
