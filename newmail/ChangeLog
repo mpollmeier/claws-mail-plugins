@@ -1,3 +1,8 @@
+2007-07-11 [colin]	0.0.10cvs1
+
+	* src/newmail.c
+		Specify license better (GPL2+)
+
 2007-07-03 [paul]	0.0.10
 
 	0.0.10 released
