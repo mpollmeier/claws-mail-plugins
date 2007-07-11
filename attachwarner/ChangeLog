@@ -1,3 +1,8 @@
+2007-07-11 [colin]	0.2.7cvs2
+
+	* src/attachwarner.c
+		Specify license better (GPL2+)
+
 2007-07-07 [paul]	0.2.7cvs1
 
 	* po/fi.po
