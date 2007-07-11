@@ -1,3 +1,8 @@
+2007-07-11 [colin]	0.9.9cvs1
+
+	* src/perl_plugin.c
+		Specify license better (GPL2+)
+
 2007-07-03 [paul]	0.9.9
 
 	0.9.9 released
