@@ -1,3 +1,8 @@
+2007-07-11 [iwkse]	0.5.0cvs3
+
+	* COPYING
+		update to GPL³
+
 2007-07-11 [colin]	0.5.0cvs2
 
 	* src/poppler_viewer.c
