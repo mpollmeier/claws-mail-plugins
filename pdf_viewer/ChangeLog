@@ -1,3 +1,15 @@
+2007-07-12 [iwkse]	0.5.0cvs5
+
+	* COPYING
+		how I could forget??
+
+<<<<<<< ChangeLog
+2007-07-12 [iwkse]	0.5.0cvs4
+
+	* COPYING
+		wont forget you more guys:)!
+
+=======
 2007-07-11 [colin]	0.5.0cvs4
 
 	* src/gettext.h
@@ -5,6 +17,7 @@
 	* src/poppler_viewer.h
 		Complete previous patch
 
+>>>>>>> 1.1.2.93
 2007-07-11 [iwkse]	0.5.0cvs3
 
 	* COPYING
