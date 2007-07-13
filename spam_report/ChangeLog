@@ -1,3 +1,8 @@
+2007-07-13 [paul]	0.1.1cvs9
+
+	* src/spam_report.c
+		specify the license (GPL2+)
+
 2007-07-11 [wwp]	0.1.1cvs8
 
 	* aclocal.m4
