@@ -34,3 +34,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/hu.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/pt_BR.po;  ) > 1.0.10cvs3.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fi.po;  ) > 1.0.11cvs1.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/acpi_notifier.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  ) > 1.0.11cvs2.patchset
+( cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/acpi_notifier.c;  ) > 1.0.11cvs3.patchset
