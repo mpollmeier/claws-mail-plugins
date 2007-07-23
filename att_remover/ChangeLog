@@ -1,3 +1,8 @@
+2007-07-23 [colin]	1.0.6cvs2
+
+	* src/att_remover.c
+		Fix license
+
 2007-07-11 [colin]	1.0.6cvs1
 
 	* COPYING
