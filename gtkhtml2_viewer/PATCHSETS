@@ -65,3 +65,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/zh_CN.po;  ) > 0.15.1cvs1.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fi.po;  ) > 0.15.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/gtkhtml2_prefs.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/gtkhtml2_prefs.h;  cvs diff -u -r 1.1.2.55 -r 1.1.2.56 src/gtkhtml2_viewer.c;  ) > 0.15.1cvs3.patchset
+( cvs diff -u -r 1.1.2.56 -r 1.1.2.57 src/gtkhtml2_viewer.c;  ) > 0.15.1cvs4.patchset
