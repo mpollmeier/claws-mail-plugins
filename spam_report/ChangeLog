@@ -1,3 +1,8 @@
+2007-07-23 [colin]	0.1.1cvs10
+
+	* src/spam_report.c
+		Fix licence 
+
 2007-07-13 [paul]	0.1.1cvs9
 
 	* src/spam_report.c
