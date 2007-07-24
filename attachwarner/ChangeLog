@@ -1,3 +1,10 @@
+2007-07-24 [mones]	0.2.7cvs3
+
+	* COPYING
+	* src/attachwarner.c
+	* src/gettext.h
+		Change license to GPLv3
+
 2007-07-11 [colin]	0.2.7cvs2
 
 	* src/attachwarner.c
