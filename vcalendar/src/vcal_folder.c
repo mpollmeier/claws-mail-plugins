@@ -1401,7 +1401,7 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	
 	g_free(msg);
 
-#if (defined USE_PTHREAD && defined __GLIBC__ && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)))
+#if (defined USE_PTHREAD && ((defined __GLIBC__ && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3))) || !defined __GLIBC__))
 	if (pthread_create(&pt, PTHREAD_CREATE_JOINABLE, 
 			url_read_thread, td) != 0) {
 		url_read_thread(td);	
