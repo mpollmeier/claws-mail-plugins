@@ -1,3 +1,8 @@
+2007-07-31 [colin]	0.2.7cvs4
+
+	* src/attachwarner.c
+		Fix possible namespace clash
+
 2007-07-24 [mones]	0.2.7cvs3
 
 	* COPYING

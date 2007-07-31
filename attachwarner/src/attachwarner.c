@@ -109,7 +109,7 @@ MatcherProp * new_matcherprop(void)
  *
  * @return TRUE if the string given matches, FALSE otherwise.
  */
-gboolean matcherprop_string_match(MatcherProp *mp, gchar *str)
+static gboolean aw_matcherprop_string_match(MatcherProp *mp, gchar *str)
 {
 	MsgInfo info;
 	gboolean ret = FALSE;
@@ -168,7 +168,7 @@ gboolean are_attachments_mentioned(Compose *compose)
 
 	debug_print("checking text for attachment mentions\n");
 	if (text != NULL) {
-		mentioned = matcherprop_string_match(matcher, text);
+		mentioned = aw_matcherprop_string_match(matcher, text);
 		
 		g_free(text);
 	}	

@@ -22,3 +22,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  ) > 0.2.7cvs1.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/attachwarner.c;  ) > 0.2.7cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/attachwarner.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  ) > 0.2.7cvs3.patchset
+( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/attachwarner.c;  ) > 0.2.7cvs4.patchset
