@@ -221,6 +221,8 @@ static gchar *get_month_name(gint i)
 	gint dd, hh, mm, ss, yyyy;
 	struct tm buft;
 	
+	tzset();
+	
 	t = time(NULL);
 	lt = localtime_r(&t, &buft);
 	lt->tm_mon = i;
@@ -235,7 +237,11 @@ static gint get_dtdate(const gchar *str, gint field)
 {
 	time_t t = icaltime_as_timet((icaltime_from_string(str)));
 	struct tm buft;
-	struct tm *lt = localtime_r(&t, &buft);
+	struct tm *lt;
+	
+	tzset();
+
+	lt = localtime_r(&t, &buft);
 
 	switch(field){
 	case DAY:
@@ -408,6 +414,8 @@ static int get_current_gmt_offset(void)
 	struct tm gmt;
 	struct tm local;
 	
+	tzset();
+
 	gmtime_r(& now, & gmt);
 	localtime_r(& now, & local);
 	
@@ -420,6 +428,8 @@ static int get_gmt_offset_at_time(time_t then)
 	struct tm gmt;
 	struct tm local;
 	
+	tzset();
+
 	gmtime_r(& then, & gmt);
 	localtime_r(& then, & local);
 	
@@ -434,6 +444,8 @@ static gchar *get_date(VCalMeeting *meet, int start)
 	guint d, m, y;
 	int dst_offset = 0;
 	struct tm buft;
+
+	tzset();
 
 	t = time(NULL);
 	lt = localtime_r(&t, &buft);
@@ -535,6 +547,8 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 		   GTK_ENTRY(GTK_COMBO(meet->start_time)->entry))) < 5)
 		return;
 
+	tzset();
+
 	start_t = time(NULL);
 	end_t = time(NULL);
 	localtime_r(&start_t, &start_lt);
@@ -602,6 +616,9 @@ static void meeting_end_changed(GtkWidget *widget, gpointer data)
 		return;
 	start_t = time(NULL);
 	end_t = time(NULL);
+
+	tzset();
+
 	localtime_r(&start_t, &start_lt);
 	localtime_r(&end_t, &end_lt);
 	
@@ -626,6 +643,8 @@ static void meeting_end_changed(GtkWidget *widget, gpointer data)
 	}
 	start_t = end_t - 3600;
 	
+	tzset();
+
 	localtime_r(&start_t, &start_lt);
 	debug_print("n %d %d %d, %d:%d\n", start_lt.tm_mday, start_lt.tm_mon, start_lt.tm_year, start_lt.tm_hour, start_lt.tm_min);
 
@@ -1393,7 +1412,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_widget_set_size_request(meet->description, -1, 100);
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(meet->description), GTK_WRAP_WORD);
 	
-	if (!event) {
+	if (!event || (event && !event->dtstart && !event->dtend)) {
 		time_t t = time (NULL)+ 3600;
 		struct tm buft1, buft2;
  		struct tm *lt = localtime_r (&t, &buft1);
@@ -1695,6 +1714,8 @@ gint vcal_meeting_alert_check(gpointer data)
 		time_t start, end, current;
 		gboolean warn = FALSE;
 
+		tzset();
+
 		start = icaltime_as_timet(icaltime_from_string(event->dtstart));
 		end = icaltime_as_timet(icaltime_from_string(event->dtend));
 		current = time(NULL);
@@ -1716,6 +1737,8 @@ gint vcal_meeting_alert_check(gpointer data)
 			gchar *title = NULL;
 			gchar *label = NULL;
 			int postpone_min = 0;
+
+			tzset();
 
 			estart = g_strdup(ctime(&tmpt));
 

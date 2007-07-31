@@ -1,3 +1,13 @@
+2007-07-31 [colin]	1.96.0cvs5
+
+	* src/plugin.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Fix TZ offsets; add "Create meeting from
+		message" in Message menu and message list
+		contextual menu
+
 2007-07-26 [colin]	1.96.0cvs4
 
 	* src/vcal_folder.c

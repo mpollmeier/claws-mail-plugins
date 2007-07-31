@@ -755,6 +755,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	if (dtend && strlen(dtend)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
 		gchar buft[512];
+		tzset();
 		event->end	= g_strdup(ctime_r(&tmp, buft));
 	}
 	
@@ -762,6 +763,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
 		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		gchar buft[512];
+		tzset();
 		event->start	= g_strdup(ctime_r(&tmp, buft));
 	}
 	event->dtstart		= g_strdup(dtstart?dtstart:"");

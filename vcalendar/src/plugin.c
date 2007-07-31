@@ -22,6 +22,7 @@
 #  include "config.h"
 #endif
 
+#include <time.h>
 #include <stddef.h>
 #include <curl/curl.h>
 
@@ -40,9 +41,11 @@ gint plugin_init(gchar **error)
 				VERSION_NUMERIC, _("vCalendar"), error))
 		return -1;
 
+	tzset();
+
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	vcalendar_init();
-
+	
 	return 0;	
 }
 

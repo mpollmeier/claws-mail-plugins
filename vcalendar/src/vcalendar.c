@@ -40,10 +40,14 @@
 #include "xmlprops.h"
 #include "alertpanel.h"
 #include "vcal_prefs.h"
+#include "statusbar.h"
 
 MimeViewerFactory vcal_viewer_factory;
 
 static void refresh_folder_contents(VCalViewer *vcalviewer);
+
+static void create_meeting_from_message_cb(gpointer callback_data, guint callback_action, GtkWidget *widget);
+
 static GdkColor uri_color = {
 	(gulong)0,
 	(gushort)0,
@@ -78,6 +82,142 @@ struct _VCalViewer
 	GtkWidget *attendees;
 	GtkWidget *unavail_box;
 };
+
+static GtkItemFactoryEntry vcalendar_main_menu = {
+	N_("/Message/Create meeting from message..."),
+	NULL,
+	create_meeting_from_message_cb,
+	0,
+	NULL
+};
+
+static GtkItemFactoryEntry vcalendar_context_menu = {
+	N_("/Create meeting from message..."),
+	NULL,
+	create_meeting_from_message_cb,
+	0,
+	NULL
+};
+
+static void create_meeting_from_message_cb(gpointer callback_data, guint callback_action, GtkWidget *widget)
+{
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	SummaryView *summaryview = mainwin->summaryview;
+	GSList *msglist = summary_get_selected_msg_list(summaryview);
+	FolderItem *item = NULL;
+	GSList *cur;
+	gchar *msg;
+	gint curnum=0, total=0;
+
+	if (summary_is_locked(summaryview) || !msglist) {
+		if (msglist)
+			g_slist_free(msglist);
+		return;
+	}
+	total = g_slist_length(msglist);
+	
+	msg = g_strdup_printf(_("You are about to create %d "
+				       "meetings, one by one. Do you "
+				       "want to continue?"), 
+				       total);
+	if (total > 9
+	&&  alertpanel(_("Warning"), msg, GTK_STOCK_CANCEL, "+" GTK_STOCK_YES, NULL)
+	    != G_ALERTALTERNATE) {
+		g_free(msg);
+		return;
+	}
+	g_free(msg);
+
+	main_window_cursor_wait(summaryview->mainwin);
+	gtk_clist_freeze(GTK_CLIST(summaryview->ctree));
+	folder_item_update_freeze();
+	inc_lock();
+
+	item = summaryview->folder_item;
+
+	STATUSBAR_PUSH(mainwin, _("Creating meeting..."));
+
+	for (cur = msglist; cur; cur = cur->next) {
+		MsgInfo *msginfo = procmsg_msginfo_get_full_info((MsgInfo *)cur->data);
+		VCalEvent *event = NULL;
+		FILE *fp = NULL;
+
+		if (MSG_IS_ENCRYPTED(msginfo->flags)) {
+			fp = procmime_get_first_encrypted_text_content(msginfo);
+		} else {
+			fp = procmime_get_first_text_content(msginfo);
+		}
+		
+		if (fp) {
+			gchar uid[256];
+			time_t t = time(NULL);
+			time_t t2 = t+3600;
+			gchar *org = NULL;
+			gchar *orgname = NULL;
+			gchar *summary = g_strdup(msginfo->subject ? msginfo->subject:_("no subject"));
+			gchar *description = file_read_stream_to_str(fp);
+			gchar *dtstart = g_strdup(icaltime_as_ical_string(icaltime_from_timet(t, FALSE)));
+			gchar *dtend = g_strdup(icaltime_as_ical_string(icaltime_from_timet(t2, FALSE)));
+			gchar *recur = NULL;
+			gchar *tzid = g_strdup("UTC");
+			gchar *url = NULL;
+			gint method = ICAL_METHOD_REQUEST;
+			gint sequence = 1;
+			PrefsAccount *account = NULL;
+			
+			fclose(fp);
+
+			if (item && item->prefs && item->prefs->enable_default_account)
+				account = account_find_from_id(item->prefs->default_account);
+
+		 	if (!account) 
+				account = cur_account;
+			
+			if (!account)
+				goto bail;
+
+			org = g_strdup(account->address);
+
+			generate_msgid(uid, 255);
+			
+			event = vcal_manager_new_event(uid,
+					org, NULL, summary, description, 
+					dtstart, dtend, recur, tzid, url, method, sequence, 
+					ICAL_VTODO_COMPONENT);
+			
+			/* hack to get default hours */
+			g_free(event->dtstart);
+			g_free(event->dtend);
+			event->dtstart = NULL;
+			event->dtend = NULL;
+
+			vcal_meeting_create(event);
+			vcal_manager_free_event(event);
+			
+bail:
+			g_free(org);
+			g_free(orgname);
+			g_free(summary);
+			g_free(description);
+			g_free(dtstart);
+			g_free(dtend);
+			g_free(recur);
+			g_free(tzid);
+			g_free(url);
+		}
+
+		procmsg_msginfo_free(msginfo);
+	}
+
+	statusbar_progress_all(0,0,0);
+	STATUSBAR_POP(mainwin);
+	inc_unlock();
+	folder_item_update_thaw();
+	gtk_clist_thaw(GTK_CLIST(summaryview->ctree));
+	main_window_cursor_normal(summaryview->mainwin);
+	g_slist_free(msglist);
+}
+
 
 static gchar *get_tmpfile(VCalViewer *vcalviewer)
 {
@@ -1515,6 +1655,9 @@ static gint vcal_webcal_check(gpointer data)
 
 void vcalendar_init(void)
 {
+	GtkItemFactory *ifactory;
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	SummaryView *summaryview = mainwin->summaryview;
 	Folder *folder = NULL;
 	GSList *events = NULL;
 	GSList *cur = NULL;
@@ -1552,6 +1695,12 @@ void vcalendar_init(void)
 		gtkut_convert_int_to_gdk_color(prefs_common.uri_col,
 				       &uri_color);
 	}
+
+	vcalendar_main_menu.path = _(vcalendar_main_menu.path);
+	vcalendar_context_menu.path = _(vcalendar_context_menu.path);
+	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
+	gtk_item_factory_create_item(ifactory, &vcalendar_main_menu, mainwin, 1);
+	gtk_item_factory_create_item(summaryview->popupfactory, &vcalendar_context_menu, summaryview, 1);
 }
 
 void vcalendar_done(void)
@@ -1559,11 +1708,15 @@ void vcalendar_done(void)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	FolderView *folderview = NULL;
 	FolderItem *fitem = NULL;
+	GtkItemFactory *ifactory;
+	SummaryView *summaryview = NULL;
+	GtkWidget *widget;
 
 	icalmemory_free_ring();
 
 	if (mainwin == NULL)
 		return;
+	summaryview = mainwin->summaryview;
 	folderview = mainwin->folderview;
 	fitem = folderview->summaryview->folder_item;
 
@@ -1581,4 +1734,13 @@ void vcalendar_done(void)
 	alert_timeout_tag = 0;
 	gtk_timeout_remove(scan_timeout_tag);
 	scan_timeout_tag = 0;
+
+	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
+	widget = gtk_item_factory_get_widget(ifactory, vcalendar_main_menu.path);
+	gtk_widget_destroy(widget);
+	gtk_item_factory_delete_item(ifactory, vcalendar_main_menu.path);
+
+	widget = gtk_item_factory_get_widget(summaryview->popupfactory, vcalendar_context_menu.path);
+	gtk_widget_destroy(widget);
+	gtk_item_factory_delete_item(summaryview->popupfactory, vcalendar_context_menu.path);
 }
