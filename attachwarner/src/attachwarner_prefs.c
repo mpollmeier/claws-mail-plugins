@@ -19,8 +19,9 @@
  */
 
 #include <gtk/gtk.h>
-#include "defs.h"
+
 #include "gettext.h"
+#include "defs.h"
 #include "attachwarner_prefs.h"
 #include "prefs_common.h"
 #include "prefs_gtk.h"

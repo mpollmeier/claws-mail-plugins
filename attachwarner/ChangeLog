@@ -1,3 +1,13 @@
+2007-07-31 [paul]	0.2.7cvs5
+
+	* autogen.sh
+	* configure.ac
+	* src/attachwarner.c
+	* src/attachwarner.h
+	* src/attachwarner_prefs.c
+		fix crash
+		thanks to Colin
+
 2007-07-31 [colin]	0.2.7cvs4
 
 	* src/attachwarner.c

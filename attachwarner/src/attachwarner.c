@@ -23,6 +23,8 @@
 #include "codeconv.h"
 #include "prefs_common.h"
 
+#include "pluginconfig.h"
+
 /** Identifier for the hook. */
 static guint hook_id;
 

@@ -21,11 +21,7 @@
 #ifndef __ATTACHWARNER_H
 #define __ATTACHWARNER_H
 
-#include <libintl.h>
-
 #include <glib.h>
-
-#include "gettext.h"
 
 #include "version.h"
 #include "claws.h"
@@ -35,6 +31,7 @@
 #include "compose.h"
 #include "matcher.h"
 #include "alertpanel.h"
+#include "gettext.h"
 
 
 MatcherProp *	new_matcherprop		  (void);

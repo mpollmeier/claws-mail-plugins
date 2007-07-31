@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=7
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -24,6 +24,8 @@ else
 	VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
+
+AM_CONFIG_HEADER(pluginconfig.h)
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
@@ -61,6 +63,7 @@ AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])
 AM_GNU_GETTEXT([external])
+
 
 dnl Check for claws-mail
 PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 2.6.1.41)
