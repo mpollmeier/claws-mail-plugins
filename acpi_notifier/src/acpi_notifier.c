@@ -840,6 +840,11 @@ gint plugin_init(gchar **error)
 
 gboolean plugin_done(void)
 {
+	if (blink_timeout_id)
+		g_source_remove(blink_timeout_id);
+	if (alertpanel_blink_timeout_id)
+		g_source_remove(alertpanel_blink_timeout_id);
+
 	acpi_done();
 	return TRUE;
 }

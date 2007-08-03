@@ -1,3 +1,8 @@
+2007-08-03 [colin]	1.0.11cvs4
+
+	* src/acpi_notifier.c
+		Fix crash on plugin unload
+
 2007-07-23 [colin]	1.0.11cvs3
 
 	* src/acpi_notifier.c
