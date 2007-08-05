@@ -1042,15 +1042,13 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	
 	if (page_num > 0 && page_num <= viewer->num_pages) {
 
-		gchar *page_str = g_strdup_printf("%d", page_num);
 		GTK_EVENTS_FLUSH();
 		
 		if (viewer->pdf_page) {
 			g_object_unref(G_OBJECT(viewer->pdf_page));
 		}
 			
-		viewer->pdf_page = poppler_document_get_page_by_label(viewer->pdf_doc, page_str);
-		g_free(page_str);
+		viewer->pdf_page = poppler_document_get_page(viewer->pdf_doc, page_num - 1);
 
 		if (viewer->pdf_page == NULL) {
 			g_warning("Page not found\n");
