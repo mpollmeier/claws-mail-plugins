@@ -1,36 +1,13 @@
+2007-08-05 [iwkse]	0.5.0cvs11
+
+	* configure.ac
+		had a problem with CVS...
+
 2007-08-05 [iwkse]	0.5.0cvs10
 
 	* src/poppler_viewer.c
 		return pages by index
 
-<<<<<<< ChangeLog
-2007-08-05 [iwkse]	0.5.0cvs10
-
-	* src/poppler_viewer.c
-		return pages by index
-
-2007-08-05 [iwkse]	0.5.0cvs9
-
-	* src/poppler_viewer.c
-			return pages by index
-
-2007-08-05 [iwkse]	0.5.0cvs8
-
-	* src/poppler_viewer.c
-		return pages by index
-
-=======
-2007-08-05 [iwkse]	0.5.0cvs9
-
-	* src/poppler_viewer.c
-			return pages by index
-
-2007-08-05 [iwkse]	0.5.0cvs8
-
-	* src/poppler_viewer.c
-		return pages by index
-
->>>>>>> 1.1.2.97
 2007-07-23 [colin]	0.5.0cvs7
 
 	* src/poppler_viewer.c

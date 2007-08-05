@@ -87,20 +87,9 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  ) > 0.5.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.68 -r 1.1.2.69 src/poppler_viewer.c;  ) > 0.5.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  ) > 0.5.0cvs3.patchset
-<<<<<<< PATCHSETS
-( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 COPYING;  ) > 0.5.0cvs4.patchset
-=======
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  cvs diff -u -r 1.1.2.69 -r 1.1.2.70 src/poppler_viewer.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/poppler_viewer.h;  ) > 0.5.0cvs4.patchset
->>>>>>> 1.1.2.88
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 COPYING;  ) > 0.5.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.94 -r 1.1.2.95 ChangeLog;  ) > 0.5.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 src/poppler_viewer.c;  ) > 0.5.0cvs7.patchset
-<<<<<<< PATCHSETS
-( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/poppler_viewer.c;  ) > 0.5.0cvs8.patchset
-( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/poppler_viewer.c;  ) > 0.5.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/poppler_viewer.c;  ) > 0.5.0cvs10.patchset
-=======
-( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/poppler_viewer.c;  ) > 0.5.0cvs8.patchset
-( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/poppler_viewer.c;  ) > 0.5.0cvs9.patchset
->>>>>>> 1.1.2.92
-( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/poppler_viewer.c;  ) > 0.5.0cvs10.patchset
+( cvs diff -u -r 1.1.2.97 -r 1.1.2.98 configure.ac;  ) > 0.5.0cvs11.patchset
