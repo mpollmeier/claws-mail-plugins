@@ -1,3 +1,8 @@
+2007-08-05 [iwkse]	0.5.0cvs12
+
+	* src/poppler_viewer.c
+			fix search to work with page index
+
 2007-08-05 [iwkse]	0.5.0cvs11
 
 	* configure.ac

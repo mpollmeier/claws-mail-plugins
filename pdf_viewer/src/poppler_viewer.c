@@ -299,9 +299,7 @@ static gboolean	pdf_viewer_text_search(MimeViewer *_viewer, gboolean backward,
 		
 		for(i = 1; i <= viewer->num_pages; i++) {
 			
-			gchar *page_str = g_strdup_printf("%d",i);
-			PopplerPage *pdf_page = poppler_document_get_page_by_label(viewer->pdf_doc, page_str);
-			g_free(page_str);
+			PopplerPage *pdf_page = poppler_document_get_page(viewer->pdf_doc, i - 1);
 			viewer->page_results = poppler_page_find_text(pdf_page, str);
 			
 			if (viewer->page_results != NULL) {
