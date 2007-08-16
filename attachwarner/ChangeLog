@@ -1,3 +1,8 @@
+2007-08-16 [paul]	0.2.7cvs6
+
+	* configure.ac
+		use pkgconfig to check for gtk and glib
+
 2007-07-31 [paul]	0.2.7cvs5
 
 	* autogen.sh
