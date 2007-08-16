@@ -1,3 +1,8 @@
+2007-08-16 [paul]	0.5.0cvs13
+
+	* configure.ac
+		use pkgconfig to check for gtk and glib
+
 2007-08-05 [iwkse]	0.5.0cvs12
 
 	* src/poppler_viewer.c
