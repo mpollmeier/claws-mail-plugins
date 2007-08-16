@@ -1,3 +1,8 @@
+2007-08-16 [paul]	1.0.11cvs5
+
+	* configure.ac
+		use pkgconfig to check for gtk and glib
+
 2007-08-03 [colin]	1.0.11cvs4
 
 	* src/acpi_notifier.c

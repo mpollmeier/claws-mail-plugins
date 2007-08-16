@@ -36,3 +36,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/acpi_notifier.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/gettext.h;  ) > 1.0.11cvs2.patchset
 ( cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/acpi_notifier.c;  ) > 1.0.11cvs3.patchset
 ( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/acpi_notifier.c;  ) > 1.0.11cvs4.patchset
+( cvs diff -u -r 1.1.2.68 -r 1.1.2.69 configure.ac;  ) > 1.0.11cvs5.patchset
