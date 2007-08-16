@@ -112,3 +112,4 @@
 ( cvs diff -u -r 1.1.2.32 -r 1.1.2.33 src/plugin.c;  ) > 1.96.0cvs3.patchset
 ( cvs diff -u -r 1.2.2.68 -r 1.2.2.69 src/vcal_folder.c;  ) > 1.96.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.33 -r 1.1.2.34 src/plugin.c;  cvs diff -u -r 1.1.2.58 -r 1.1.2.59 src/vcal_manager.c;  cvs diff -u -r 1.1.2.62 -r 1.1.2.63 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.56 -r 1.2.2.57 src/vcalendar.c;  ) > 1.96.0cvs5.patchset
+( cvs diff -u -r 1.2.2.205 -r 1.2.2.206 configure.ac;  ) > 1.96.0cvs6.patchset
