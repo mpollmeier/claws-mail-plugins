@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=13
 MICRO_VERSION=1
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -57,12 +57,17 @@ AC_SUBST(CLAWS_MAIL_CFLAGS)
 AC_SUBST(CLAWS_MAIL_LIBS)
 AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
-AM_PATH_GLIB_2_0(2.6.0,,
-        AC_MSG_ERROR(Test for GLIB failed. See the file 'INSTALL' for help.),
-        gthread)
+dnl Check for GLib
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.6 gmodule-2.0 >= 2.6 gobject-2.0 >= 2.6 gthread-2.0 >= 2.6)
+      
+GLIB_GENMARSHAL=`pkg-config --variable=glib_genmarshal glib-2.0`
+AC_SUBST(GLIB_GENMARSHAL)
 
-AM_PATH_GTK_2_0(2.6.0,,
-	AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
+
+dnl Check for GTK+
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
