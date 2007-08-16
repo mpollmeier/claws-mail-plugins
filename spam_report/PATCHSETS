@@ -8,3 +8,4 @@
 ( cvs diff -u -r -1.1.2.2 -r -1.1.2.3 aclocal.m4;  ) > 0.1.1cvs8.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/spam_report.c;  ) > 0.1.1cvs9.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/spam_report.c;  ) > 0.1.1cvs10.patchset
+( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 configure.ac;  ) > 0.1.1cvs11.patchset
