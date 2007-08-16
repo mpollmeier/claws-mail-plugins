@@ -17,3 +17,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 Makefile.am;  ) > 0.6.6cvs3.patchset
 ( cvs diff -u -r 1.2.2.11 -r 1.2.2.12 src/synce_plugin.c;  ) > 0.7.0cvs1.patchset
 ( cvs diff -u -r 1.2.2.12 -r 1.2.2.13 src/synce_plugin.c;  ) > 0.7.1cvs1.patchset
+( cvs diff -u -r 1.2.2.38 -r 1.2.2.39 configure.ac;  ) > 0.7.1cvs2.patchset

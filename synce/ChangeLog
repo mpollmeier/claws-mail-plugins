@@ -1,3 +1,8 @@
+2007-08-16 [paul]	0.7.1cvs2
+
+	* configure.ac
+		use pkgconfig to check for gtk and glib
+
 2007-07-11 [colin]	0.7.1cvs1
 
 	* src/synce_plugin.c
