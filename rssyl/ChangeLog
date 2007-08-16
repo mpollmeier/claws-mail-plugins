@@ -1,3 +1,8 @@
+2007-08-16 [paul]	0.14.0cvs5
+
+	* configure.ac
+		use pkgconfig to check for gtk and glib
+
 2007-07-11 [colin]	0.14.0cvs4
 
 	* src/plugin.c
