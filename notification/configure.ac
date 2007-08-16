@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=11
 MICRO_VERSION=0
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -60,12 +60,16 @@ AM_GNU_GETTEXT_VERSION([0.15])
 AM_GNU_GETTEXT([external])
 
 dnl Check for GLib
-AM_PATH_GLIB_2_0(2.6.0,,
-        AC_MSG_ERROR(Test for GLIB failed.),
-        gmodule gobject gthread)
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.6 gmodule-2.0 >= 2.6 gobject-2.0 >= 2.6 gthread-2.0 >= 2.6)
+      
+GLIB_GENMARSHAL=`pkg-config --variable=glib_genmarshal glib-2.0`
+AC_SUBST(GLIB_GENMARSHAL)
 
-AM_PATH_GTK_2_0(2.6.0,,
-        AC_MSG_ERROR(Test for GTK failed.))
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
+
+dnl Check for GTK+
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
 dnl Check for libnotify support
 LIBNOTIFY_REQUIRED=0.4.3

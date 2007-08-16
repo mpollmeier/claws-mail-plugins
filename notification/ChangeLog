@@ -1,3 +1,8 @@
+2007-08-16 [paul]	0.11cvs3
+
+	* configure.ac
+		use pkgconfig to check for gtk and glib
+
 2007-07-11 [colin]	0.11cvs2
 
 	* src/notification_plugin.c
