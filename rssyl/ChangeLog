@@ -1,3 +1,9 @@
+2007-08-17 [colin]	0.14.0cvs7
+
+	* src/parsers.c
+		Fix duplicates on RSS (caused by previous
+		commit)
+
 2007-08-17 [colin]	0.14.0cvs6
 
 	* src/parsers.c

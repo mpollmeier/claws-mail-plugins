@@ -301,9 +301,14 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			}
 		} while( (n = n->next) != NULL);
 
-		if (!fitem->link && fitem->id)
-			fitem->link = g_strdup(fitem->id);
-
+		if (fitem->link && fitem->id) {
+			g_free(fitem->id);
+			fitem->id = NULL;
+		}
+		if (!fitem->link && fitem->id) {
+			fitem->link = fitem->id;
+			fitem->id = NULL;
+		}
 		if( fitem->link && fitem->title ) {
 			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {
 				rssyl_free_feeditem(fitem);
