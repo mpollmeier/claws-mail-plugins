@@ -90,3 +90,4 @@
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fi.po;  ) > 0.14.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/plugin.c;  ) > 0.14.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.148 -r 1.1.2.149 configure.ac;  ) > 0.14.0cvs5.patchset
+( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/parsers.c;  ) > 0.14.0cvs6.patchset

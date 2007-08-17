@@ -186,6 +186,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		xmlFree(fetched);
 #endif	/* RSSYL_DEBUG */
 		fitem->text = NULL;
+		
 		if (parent)
 			fitem->parent_link = g_strdup(parent);
 
@@ -228,6 +229,18 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				fitem->link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
 				xmlFree(content);
 				debug_print("RSSyl: XML - item link: '%s'\n", fitem->link);
+			}
+
+			/* GUID - sometimes used as link */
+			if( !strcmp(n->name, "guid") ) {
+				gchar *tmp = xmlGetProp(n, "isPermaLink");
+				content = xmlNodeGetContent(n);
+				if (!tmp || strcmp(tmp, "false")) {
+					fitem->id = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+					xmlFree(content);
+					debug_print("RSSyl: XML - item guid: '%s'\n", fitem->id);
+				}
+				g_free(tmp);
 			}
 
 			/* Date - rfc822 format */
@@ -287,6 +300,9 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				debug_print("RSSyl: XML - comments_link: '%s'\n", fitem->comments_link);
 			}
 		} while( (n = n->next) != NULL);
+
+		if (!fitem->link && fitem->id)
+			fitem->link = g_strdup(fitem->id);
 
 		if( fitem->link && fitem->title ) {
 			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {

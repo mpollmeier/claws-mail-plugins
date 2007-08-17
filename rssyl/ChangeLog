@@ -1,3 +1,9 @@
+2007-08-17 [colin]	0.14.0cvs6
+
+	* src/parsers.c
+		Use <guid> as <link> if there's no <link> and isPermaLink
+		isn't false in RSS items.
+
 2007-08-16 [paul]	0.14.0cvs5
 
 	* configure.ac
