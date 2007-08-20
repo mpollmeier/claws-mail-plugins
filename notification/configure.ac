@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=11
 MICRO_VERSION=0
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -150,6 +150,16 @@ dnl fi
 dnl AC_MSG_CHECKING([whether to include trayicon support])
 dnl AC_MSG_RESULT($enable_trayicon)
 
+#dnl lcdproc
+dnl AC_ARG_ENABLE(lcdproc,
+dnl 	[  --disable-lcdproc       do not include lcdproc support],
+dnl  	[enable_lcdproc=$enableval], [enable_lcdproc=yes])
+dnl AC_MSG_CHECKING([whether to include lcdproc support])
+dnl if test x"$enable_lcdproc" = xyes; then
+dnl    AC_DEFINE(NOTIFICATION_LCDPROC, 1, Activate lcdproc support)
+dnl fi
+dnl AC_MSG_RESULT($enable_lcdproc)
+
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
@@ -174,10 +184,12 @@ echo ""
 echo "Popup   : $enable_popup"
 echo "Banner  : $enable_banner"
 echo "Command : $enable_command"
+dnl echo "LCD     : $enable_lcdproc"
 dnl echo "Trayicon: $enable_trayicon"
 if test x"$enable_popup" = xno \
      -a x"$enable_banner" = xno \
 dnl     -a x"$enable_trayicon" = xno \
+dnl     -a x"$enable_lcdproc" = xno \
      -a x"$enable_command" = xno; then
       echo ""
       echo "No features selected. The plugin will be useless!"

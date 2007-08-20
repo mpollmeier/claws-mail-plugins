@@ -29,6 +29,8 @@ typedef struct {
   GSList *collected_msgs;
   GSList *folder_items;
   gboolean unread_also;
+  gint max_msgs;
+  gint num_msgs;
 } TraverseCollect;
 
 static gboolean notification_traverse_collect(GNode*, gpointer);
@@ -215,8 +217,11 @@ static void notification_new_unnotified_do_msg(MsgInfo *msg)
 #endif
 }
 
-/* if folders is not NULL, then consider only those folder items */
-GSList* notification_collect_msgs(gboolean unread_also, GSList *folder_items)
+/* If folders is not NULL, then consider only those folder items
+ * If max_msgs is not 0, stop after collecting msg_msgs messages
+ */
+GSList* notification_collect_msgs(gboolean unread_also, GSList *folder_items,
+				  gint max_msgs)
 {
   GList *folder_list, *walk;
   Folder *folder;
@@ -225,6 +230,8 @@ GSList* notification_collect_msgs(gboolean unread_also, GSList *folder_items)
   collect_data.unread_also = unread_also;
   collect_data.collected_msgs = NULL;
   collect_data.folder_items = folder_items;
+  collect_data.max_msgs = max_msgs;
+  collect_data.num_msgs = 0;
 
   folder_list = folder_get_list();
   for(walk = folder_list; walk != NULL; walk = g_list_next(walk)) {
@@ -274,8 +281,6 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
     gboolean eq;
     gboolean folder_in_list = FALSE;
 
-    
-
     for(walk = cdata->folder_items; walk != NULL; walk = g_slist_next(walk)) {
       list_item = walk->data;
       folder_id_list = folder_item_get_identifier(list_item);
@@ -297,6 +302,10 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
     for(walk = msg_list; walk != NULL; walk = g_slist_next(walk)) {
       MsgInfo *msg_info = walk->data;
       CollectedMsg *cmsg;
+
+      if((cdata->max_msgs != 0) && (cdata->num_msgs >= cdata->max_msgs))
+	return FALSE;
+
       if(MSG_IS_NEW(msg_info->flags) ||
 	 (MSG_IS_UNREAD(msg_info->flags) && cdata->unread_also)) {
 	cmsg = g_new(CollectedMsg, 1);
@@ -307,6 +316,7 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
 	else
 	  cmsg->folderitem_name = g_strdup("");
 	cdata->collected_msgs = g_slist_prepend(cdata->collected_msgs, cmsg);
+	cdata->num_msgs++;
       }
     }
     procmsg_msg_list_free(msg_list);

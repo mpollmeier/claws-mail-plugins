@@ -43,6 +43,7 @@ typedef struct {
   NotifyBannerShow banner_show;
   gint             banner_speed;
   gboolean         banner_include_unread;
+  gint             banner_max_msgs;
   gboolean         banner_sticky;
   gint             banner_root_x;
   gint             banner_root_y;

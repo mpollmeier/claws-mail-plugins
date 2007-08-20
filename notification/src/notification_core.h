@@ -29,7 +29,7 @@ typedef struct {
 
 
 /* Collect new and possibly unread messages in all folders */
-GSList*  notification_collect_msgs(gboolean, GSList*);
+GSList*  notification_collect_msgs(gboolean, GSList*, gint);
 void     notification_collected_msgs_free(GSList*);
 
 /* New mail notification */

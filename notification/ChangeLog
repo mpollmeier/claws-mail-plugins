@@ -1,3 +1,15 @@
+2007-08-20 [holger]	0.11cvs4
+
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Add an option to restrict the maximum number of
+		messages in the banner module. Having too many messages there
+		causes too high system load. Defaults to 100. This restriction
+		can be deactivated by setting the option to 0.
+
 2007-08-16 [paul]	0.11cvs3
 
 	* configure.ac

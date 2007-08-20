@@ -229,7 +229,7 @@ void notification_update_banner(void)
       banner_collected_msgs =
 	notification_collect_msgs(notify_config.banner_include_unread,
 				  notify_config.banner_folder_specific ? 
-				  folder_list : NULL);
+				  folder_list : NULL, notify_config.banner_max_msgs);
   }
   
   notification_banner_show(banner_collected_msgs);
