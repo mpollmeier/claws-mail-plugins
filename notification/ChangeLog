@@ -1,3 +1,25 @@
+2007-08-21 [holger]	0.11cvs8
+
+	* COPYING
+	* src/notification_banner.c
+	* src/notification_banner.h
+	* src/notification_command.c
+	* src/notification_command.h
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_foldercheck.c
+	* src/notification_foldercheck.h
+	* src/notification_lcdproc.h
+	* src/notification_pixbuf.c
+	* src/notification_pixbuf.h
+	* src/notification_plugin.c
+	* src/notification_plugin.h
+	* src/notification_popup.c
+	* src/notification_popup.h
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Change license to GPLv3 or later.
+
 2007-08-21 [holger]	0.11cvs7
 
 	* src/notification_lcdproc.c
