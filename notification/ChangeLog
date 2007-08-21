@@ -1,3 +1,9 @@
+2007-08-21 [holger]	0.11cvs7
+
+	* src/notification_lcdproc.c
+		Don't even try to connect to LCDd
+		if the module is deactivated.
+
 2007-08-21 [holger]	0.11cvs6
 
 	* src/notification_core.c
