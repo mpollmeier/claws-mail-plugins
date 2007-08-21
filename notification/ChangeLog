@@ -1,3 +1,13 @@
+2007-08-21 [holger]	0.11cvs6
+
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_lcdproc.c
+	* src/notification_lcdproc.h
+	* src/notification_plugin.c
+		Better structure for notifications
+		of message counts.
+
 2007-08-21 [holger]	0.11cvs5
 
 	* ChangeLog

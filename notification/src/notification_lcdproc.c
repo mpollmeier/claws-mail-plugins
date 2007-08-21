@@ -25,11 +25,9 @@
 
 #include "notification_lcdproc.h"
 #include "notification_prefs.h"
+#include "notification_core.h"
 
-#include "folder.h"
 #include "common/socket.h"
-
-#include <glib.h>
 
 #include <string.h>
 
@@ -101,8 +99,7 @@ void notification_lcdproc_connect(void)
   notification_sock_puts(sock, "widget_add msg_counts line1 string");
   notification_sock_puts(sock, "widget_add msg_counts line2 string");
 
-
-  notification_update_lcdproc();
+  notification_update_msg_counts();
 }
 
 void notification_lcdproc_disconnect(void)
@@ -119,13 +116,8 @@ void notification_lcdproc_disconnect(void)
   }
 }
 
-void notification_update_lcdproc(void)
+void notification_update_lcdproc(guint new_msgs, guint unread_msgs)
 {
-  guint unread_msgs;
-  guint new_msgs;
-  guint unread_marked_msgs;
-  guint marked_msgs;
-  guint total_msgs;
   gchar *buf;
 
   if(!notify_config.lcdproc_enabled || !sock)
@@ -136,8 +128,6 @@ void notification_update_lcdproc(void)
     return;
   }
   
-  folder_count_total_msgs(&new_msgs, &unread_msgs, &unread_marked_msgs,
-			  &marked_msgs, &total_msgs);
 
   if((new_msgs + unread_msgs) > 0) {
     buf =

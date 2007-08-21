@@ -24,6 +24,7 @@
 #include "notification_banner.h"
 #include "notification_popup.h"
 #include "notification_command.h"
+#include "notification_lcdproc.h"
 
 typedef struct {
   GSList *collected_msgs;
@@ -36,6 +37,23 @@ typedef struct {
 static gboolean notification_traverse_collect(GNode*, gpointer);
 static void     notification_new_unnotified_do_msg(MsgInfo*);
 static gboolean notification_traverse_hash_startup(GNode*, gpointer);
+
+void notification_update_msg_counts(void)
+{
+  guint unread_msgs;
+  guint new_msgs;
+  guint unread_marked_msgs;
+  guint marked_msgs;
+  guint total_msgs;
+
+  folder_count_total_msgs(&new_msgs, &unread_msgs, &unread_marked_msgs,
+			  &marked_msgs, &total_msgs);
+
+#ifdef NOTIFICATION_LCDPROC
+  notification_update_lcdproc(new_msgs, unread_msgs);
+#endif
+}
+
 
 /* Replacement for the post-filtering hook:
    Pseudocode by Colin:

@@ -71,11 +71,11 @@ static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
     return FALSE;
 
   if(update_data->update_flags & F_ITEM_UPDATE_MSGCNT) {
-#if NOTIFICATION_BANNER
+#ifdef NOTIFICATION_BANNER
     notification_update_banner();
 #endif
-#if NOTIFICATION_LCDPROC
-    notification_update_lcdproc();
+#ifdef NOTIFICATION_LCDPROC
+    notification_update_msg_counts();
 #endif
 #if defined(NOTIFICATION_POPUP) || defined(NOTIFICATION_COMMAND)
     notification_new_unnotified_msgs(update_data);
