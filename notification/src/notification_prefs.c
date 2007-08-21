@@ -1,5 +1,5 @@
 /* Notification Plugin for Claws Mail
- * Copyright (C) 2005-2006 Holger Berndt
+ * Copyright (C) 2005-2007 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the version 2 of the GNU General Public License
@@ -32,6 +32,7 @@
 #include "notification_plugin.h"
 #include "notification_popup.h"
 #include "notification_command.h"
+#include "notification_lcdproc.h"
 #include "notification_foldercheck.h"
 
 
@@ -96,6 +97,17 @@ typedef struct {
 } NotifyCommandPage;
 NotifyCommandPage command_page;
 #endif /* NOTIFICATION_COMMAND */
+
+#ifdef NOTIFICATION_LCDPROC
+typedef struct {
+  PrefsPage page;
+  GtkWidget *lcdproc_enabled;
+  GtkWidget *lcdproc_cont_enable;
+  GtkWidget *lcdproc_hostname;
+  GtkWidget *lcdproc_port;
+} NotifyLCDProcPage;
+NotifyLCDProcPage lcdproc_page;
+#endif
 
 PrefParam notify_param[] = {
 
@@ -166,6 +178,15 @@ PrefParam notify_param[] = {
    NULL, NULL, NULL},
 #endif
 
+#ifdef NOTIFICATION_LCDPROC
+  {"lcdproc_enabled", "FALSE", &notify_config.lcdproc_enabled, P_BOOL,
+   NULL, NULL, NULL},
+  {"lcdproc_hostname", "localhost", &notify_config.lcdproc_hostname, P_STRING,
+   NULL, NULL, NULL},
+  {"lcdproc_port", "13666", &notify_config.lcdproc_port, P_INT,
+   NULL, NULL, NULL},
+#endif
+
   {NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
 
@@ -204,6 +225,13 @@ static void notify_save_command(PrefsPage*);
 static void notify_command_enable_set_sensitivity(GtkToggleButton*, gpointer);
 static void notify_command_folder_specific_set_sensitivity(GtkToggleButton*,
 							   gpointer);
+#endif
+
+#ifdef NOTIFICATION_LCDPROC
+static void notify_create_lcdproc_page(PrefsPage*, GtkWindow*, gpointer);
+static void notify_destroy_lcdproc_page(PrefsPage*);
+static void notify_save_lcdproc(PrefsPage*);
+static void notify_lcdproc_enable_set_sensitivity(GtkToggleButton*, gpointer);
 #endif
 
 static gint conv_color_to_int(GdkColor*);
@@ -273,6 +301,22 @@ void notify_gtk_init(void)
  }
 #endif /* NOTIFICATION_COMMAND */
 
+#ifdef NOTIFICATION_LCDPROC
+ {
+   static gchar *lcdproc_path[4];
+   
+   lcdproc_path[0] = _("Plugins");
+   lcdproc_path[1] = _("Notification");
+   lcdproc_path[2] = _("LCD");
+   lcdproc_path[3] = NULL;
+   
+   lcdproc_page.page.path = lcdproc_path;
+   lcdproc_page.page.create_widget  = notify_create_lcdproc_page;
+   lcdproc_page.page.destroy_widget = notify_destroy_lcdproc_page;
+   lcdproc_page.page.save_page      = notify_save_lcdproc;
+   prefs_gtk_register_page((PrefsPage*) &lcdproc_page);
+ }
+#endif /* NOTIFICATION_LCDPROC */
 }
 
 void notify_gtk_done(void)
@@ -288,6 +332,9 @@ void notify_gtk_done(void)
 #endif
 #ifdef NOTIFICATION_COMMAND
   prefs_gtk_unregister_page((PrefsPage*) &command_page);
+#endif
+#ifdef NOTIFICATION_LCDPROC
+  prefs_gtk_unregister_page((PrefsPage*) &lcdproc_page);
 #endif
 }
 
@@ -483,7 +530,7 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   spinner = gtk_spin_button_new_with_range(0., 1000., 1.);
-  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 0.);
+  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 0);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner), notify_config.banner_max_msgs);
   gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
@@ -586,8 +633,8 @@ static void notify_save_banner(PrefsPage *page)
 
   notify_config.banner_show = 
     gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page.banner_show));
-notify_config.banner_max_msgs = 
-  gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(banner_page.banner_max_msgs));
+  notify_config.banner_max_msgs = 
+    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(banner_page.banner_max_msgs));
   notify_config.banner_include_unread = 
     gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(banner_page.banner_include_unread));
@@ -690,7 +737,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   spinner = gtk_spin_button_new_with_range(0.2, 60., 0.5);
-  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 1.);
+  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 1);
   timeout = notify_config.popup_timeout/1000.;
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner), timeout);
   gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
@@ -948,7 +995,7 @@ static void notify_create_command_page(PrefsPage *page, GtkWindow *window,
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   gtk_widget_show(label);
   spinner = gtk_spin_button_new_with_range(0., 600., 1.);
-  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 0.);
+  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 0);
   timeout = notify_config.command_timeout/1000.;
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner), timeout);
   gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
@@ -1034,7 +1081,102 @@ static void notify_command_folder_specific_set_sensitivity(GtkToggleButton *bu,
 }
 #endif /* NOTIFICATION_COMMAND */
 
+#ifdef NOTIFICATION_LCDPROC
+static void notify_create_lcdproc_page(PrefsPage *page, GtkWindow *window,
+				       gpointer data)
+{
+  GtkWidget *pvbox;
+  GtkWidget *vbox;
+  GtkWidget *label;
+  GtkWidget *entry;
+  GtkWidget *spinner;
+  GtkWidget *checkbox;
+  GtkWidget *hbox;
 
+  pvbox = gtk_vbox_new(FALSE, 20);
+  gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
+
+  /* Enable lcdproc */
+  checkbox = gtk_check_button_new_with_label(_("Enable LCD"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.lcdproc_enabled);
+  gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_lcdproc_enable_set_sensitivity), NULL);
+  gtk_widget_show(checkbox);
+  lcdproc_page.lcdproc_enabled = checkbox;
+
+  /* Container vbox for greying out everything */
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+  gtk_widget_show(vbox);
+  lcdproc_page.lcdproc_cont_enable = vbox;
+
+  /* Hostname and port information */
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_widget_show(hbox);
+  label = gtk_label_new(_("Hostname:Port of LCDd server:"));
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  entry = gtk_entry_new();
+  gtk_entry_set_text(GTK_ENTRY(entry), notify_config.lcdproc_hostname);
+  gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
+  gtk_widget_show(entry);
+  gtk_widget_show(label);
+  label = gtk_label_new(":");
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  gtk_widget_show(label);
+  spinner = gtk_spin_button_new_with_range(1., 65535., 1.);
+  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 0);
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner),
+			    notify_config.lcdproc_port);
+  gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
+  gtk_widget_show(spinner);
+  lcdproc_page.lcdproc_hostname = entry;
+  lcdproc_page.lcdproc_port     = spinner;
+
+  notify_lcdproc_enable_set_sensitivity
+    (GTK_TOGGLE_BUTTON(lcdproc_page.lcdproc_enabled), NULL);
+  gtk_widget_show(pvbox);
+  lcdproc_page.page.widget = pvbox;
+}
+
+static void notify_destroy_lcdproc_page(PrefsPage *page)
+{
+}
+
+static void notify_save_lcdproc(PrefsPage *page)
+{
+  notify_config.lcdproc_enabled = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(lcdproc_page.lcdproc_enabled));
+
+  if(notify_config.lcdproc_hostname)
+    g_free(notify_config.lcdproc_hostname);
+  notify_config.lcdproc_hostname =
+    g_strdup(gtk_entry_get_text(GTK_ENTRY(lcdproc_page.lcdproc_hostname)));
+
+  notify_config.lcdproc_port = 
+    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(lcdproc_page.lcdproc_port));
+
+  if(notify_config.lcdproc_enabled)
+    notification_lcdproc_connect();
+  else
+    notification_lcdproc_disconnect();
+}
+
+static void notify_lcdproc_enable_set_sensitivity(GtkToggleButton *button,
+						  gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(lcdproc_page.lcdproc_enabled));
+  gtk_widget_set_sensitive(lcdproc_page.lcdproc_cont_enable, active);
+}
+
+#endif /* NOTIFICATION_LCDPROC */
+
+/* This feels so wrong... */
 static gint conv_color_to_int(GdkColor *color)
 {
   gint result;

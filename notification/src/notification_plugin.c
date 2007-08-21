@@ -35,8 +35,7 @@
 #include "notification_core.h"
 #include "notification_prefs.h"
 #include "notification_banner.h"
-#include "notification_popup.h"
-#include "notification_command.h"
+#include "notification_lcdproc.h"
 #include "notification_foldercheck.h"
 #include "notification_pixbuf.h"
 #include "plugin.h"
@@ -74,6 +73,9 @@ static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
   if(update_data->update_flags & F_ITEM_UPDATE_MSGCNT) {
 #if NOTIFICATION_BANNER
     notification_update_banner();
+#endif
+#if NOTIFICATION_LCDPROC
+    notification_update_lcdproc();
 #endif
 #if defined(NOTIFICATION_POPUP) || defined(NOTIFICATION_COMMAND)
     notification_new_unnotified_msgs(update_data);
@@ -134,6 +136,9 @@ gint plugin_init(gchar **error)
 #ifdef NOTIFICATION_BANNER
   notification_update_banner();
 #endif
+#ifdef NOTIFICATION_LCDPROC
+  notification_lcdproc_connect();
+#endif
 
   notification_notified_hash_startup_init();
 
@@ -151,6 +156,9 @@ gboolean plugin_done(void)
   notification_collected_msgs_free(banner_collected_msgs);
   banner_collected_msgs = NULL;
   notification_banner_destroy();
+#endif
+#ifdef NOTIFICATION_LCDPROC
+  notification_lcdproc_disconnect();
 #endif
 
   notification_notified_hash_free();

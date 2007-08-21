@@ -1,5 +1,5 @@
 /* Notification Plugin for Claws Mail
- * Copyright (C) 2005 Holger Berndt
+ * Copyright (C) 2005-2007 Holger Berndt
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the version 2 of the GNU General Public License
@@ -71,6 +71,12 @@ typedef struct {
   gint             command_timeout;
   gboolean         command_folder_specific;
   gchar*           command_line;
+#endif
+#ifdef NOTIFICATION_LCDPROC
+  gboolean         lcdproc_enabled;
+  gchar*           lcdproc_hostname;
+  guint 	   lcdproc_port;
+
 #endif
 } NotifyPrefs;
 

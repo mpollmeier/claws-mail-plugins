@@ -1,3 +1,24 @@
+2007-08-21 [holger]	0.11cvs5
+
+	* ChangeLog
+	* README
+	* configure.ac
+	* src/Makefile.am
+	* src/notification_lcdproc.c
+	* src/notification_lcdproc.h
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Add a new module: lcdproc
+		to display the status of new and unread messages
+		on an external LCD. Needs a LCDd server up and running.
+		This is a rewrite of the former LCDProc plugin
+		for Sylpheed-Claws (GTK1 branch) which is copyrighted by
+		Leandro Pereira.
+		The module is not built by default until I can find my
+		soldering iron and actually test with my old LCD (instead
+		of just using the LCDd curses driver).
+
 2007-08-20 [holger]	0.11cvs4
 
 	* src/notification_core.c
@@ -9,6 +30,7 @@
 		messages in the banner module. Having too many messages there
 		causes too high system load. Defaults to 100. This restriction
 		can be deactivated by setting the option to 0.
+		Thanks to Mykilx and Paul for reporting.
 
 2007-08-16 [paul]	0.11cvs3
 
