@@ -5,7 +5,20 @@ tmpfile=${0##*/}.tmp
 head -n 16 configure.ac | grep -E "^[A-Z_]*VERSION=" > $tmpfile
 source $tmpfile
 EXTRA_VERSION=`echo $EXTRA_VERSION | awk -F'.' '{for (i=1;i<NF;i++){printf $i"."};printf $NF+1}'`
-nextsversion="${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}"
+if test \( $EXTRA_VERSION -eq 0 \); then
+    if test \( $MICRO_VERSION -eq 0 \); then
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION} 
+    else
+	VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
+    fi
+else
+    if test \( $MICRO_VERSION -eq 0 \); then
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}cvs${EXTRA_VERSION}
+    else
+	VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
+    fi
+fi
+nextsversion="${VERSION}"
 nextextra="$EXTRA_VERSION"
 nextextratype="head"
 rm -f $tmpfile
@@ -66,6 +79,9 @@ if [ "$name" == "msp" ]; then
 fi;
 if [ "$name" == "devel" ]; then
 	name="mones";
+fi;
+if [ "$name" == "hb" ]; then
+	name="holger";
 fi;
 
 log="`date --utc +%Y-%m-%d` [$name]\t$nextsversion\n\n"
