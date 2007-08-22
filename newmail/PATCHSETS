@@ -12,3 +12,4 @@
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/newmail.c;  ) > 0.0.10cvs1.patchset
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/newmail.c;  ) > 0.0.10cvs2.patchset
 ( cvs diff -u -r 1.1.2.26 -r 1.1.2.27 configure.ac;  ) > 0.0.10cvs3.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  ) > 0.0.10cvs4.patchset
