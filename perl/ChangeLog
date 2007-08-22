@@ -1,3 +1,14 @@
+2007-08-22 [hb]	0.9.9cvs3
+
+	* COPYING
+	* sc_perl.pod
+	* src/perl_gtk.c
+	* src/perl_gtk.h
+	* src/perl_plugin.c
+	* src/perl_plugin.h
+	* tools/matcherrc2perlfilter.pl
+		Change license to GPLv3 or later
+
 2007-08-16 [paul]	0.9.9cvs2
 
 	* configure.ac
