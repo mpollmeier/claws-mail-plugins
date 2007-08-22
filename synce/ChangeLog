@@ -1,3 +1,16 @@
+2007-08-22 [holger]	0.7.1cvs3
+
+	* COPYING
+	* NEWS
+	* src/synce_comp.c
+	* src/synce_comp.h
+	* src/synce_gtk.c
+	* src/synce_gtk.h
+	* src/synce_plugin.c
+	* src/synce_rapi.c
+	* src/synce_rapi.h
+		Change license to GPLv3 or later
+
 2007-08-16 [paul]	0.7.1cvs2
 
 	* configure.ac
