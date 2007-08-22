@@ -1,3 +1,11 @@
+2007-08-22 [colin]	0.4.19cvs3
+
+	* COPYING
+	* src/fetchinfo_plugin.c
+	* src/fetchinfo_plugin.h
+	* src/fetchinfo_plugin_gtk.c
+		Update licence to GPL3+
+
 2007-08-16 [paul]	0.4.19cvs2
 
 	* configure.ac
