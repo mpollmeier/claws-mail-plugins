@@ -1,3 +1,13 @@
+2007-08-22 [colin]	1.13.1cvs3
+
+	* COPYING
+	* src/mailmbox_folder.c
+	* src/mailmbox_folder.h
+	* src/plugin.c
+	* src/plugin_gtk.c
+	* src/plugin_gtk.h
+		Update licence to GPL3+ for Hoa.
+
 2007-08-16 [paul]	1.13.1cvs2
 
 	* configure.ac
