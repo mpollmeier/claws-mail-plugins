@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=11
 MICRO_VERSION=0
-EXTRA_VERSION=8
+EXTRA_VERSION=9
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -153,7 +153,7 @@ dnl AC_MSG_RESULT($enable_trayicon)
 dnl lcdproc
 AC_ARG_ENABLE(lcdproc,
 	[  --disable-lcdproc       do not include lcdproc support],
- 	[enable_lcdproc=$enableval], [enable_lcdproc=no])
+ 	[enable_lcdproc=$enableval], [enable_lcdproc=yes])
 AC_MSG_CHECKING([whether to include lcdproc support])
 if test x"$enable_lcdproc" = xyes; then
    AC_DEFINE(NOTIFICATION_LCDPROC, 1, Activate lcdproc support)

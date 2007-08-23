@@ -24,12 +24,10 @@
 
 #include <glib.h>
 
-#define LCDPROC_SPECIFIC_FOLDER_ID_STR "lcd"
-
 void notification_lcdproc_connect(void);
 void notification_lcdproc_disconnect(void);
 
-void notification_update_lcdproc(guint, guint);
+void notification_update_lcdproc(guint, guint, guint);
 
 #endif /* NOTIFICATION_LCDPROC */
 

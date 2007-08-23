@@ -1,3 +1,12 @@
+2007-08-23 [holger]	0.11cvs9
+
+	* configure.ac
+	* src/notification_core.c
+	* src/notification_lcdproc.c
+	* src/notification_lcdproc.h
+		As I was able to verify the lcdproc module with
+		real hardware now, built the module by default.
+
 2007-08-21 [holger]	0.11cvs8
 
 	* COPYING

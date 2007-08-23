@@ -50,7 +50,7 @@ void notification_update_msg_counts(void)
 			  &marked_msgs, &total_msgs);
 
 #ifdef NOTIFICATION_LCDPROC
-  notification_update_lcdproc(new_msgs, unread_msgs);
+  notification_update_lcdproc(new_msgs, unread_msgs, total_msgs);
 #endif
 }
 

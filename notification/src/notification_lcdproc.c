@@ -97,6 +97,7 @@ void notification_lcdproc_connect(void)
   notification_sock_puts(sock, "widget_set msg_counts title {Claws-Mail}");
   notification_sock_puts(sock, "widget_add msg_counts line1 string");
   notification_sock_puts(sock, "widget_add msg_counts line2 string");
+  notification_sock_puts(sock, "widget_add msg_counts line3 string");
 
   notification_update_msg_counts();
 }
@@ -104,18 +105,13 @@ void notification_lcdproc_connect(void)
 void notification_lcdproc_disconnect(void)
 {
   if(sock) {
-    debug_print("Disconnecting from LCDd\n");
-    
-    if(sock->state != CONN_FAILED) {
-      notification_sock_puts(sock, "screen_del msg_counts");
-      sock_close(sock);
-    }
-    
+    sock_close(sock);    
     sock = NULL;
   }
 }
 
-void notification_update_lcdproc(guint new_msgs, guint unread_msgs)
+void notification_update_lcdproc(guint new_msgs, guint unread_msgs,
+				 guint total_msgs)
 {
   gchar *buf;
 
@@ -135,11 +131,16 @@ void notification_update_lcdproc(guint new_msgs, guint unread_msgs)
     buf =
       g_strdup_printf("widget_set msg_counts line2 1 3 {Unread: %d}",unread_msgs);
     notification_sock_puts(sock, buf);
+    buf =
+      g_strdup_printf("widget_set msg_counts line3 1 4 {Total: %d}",total_msgs);
+    notification_sock_puts(sock, buf);
   }
   else {
     buf = g_strdup_printf("widget_set msg_counts line1 1 2 {No new messages}");
     notification_sock_puts(sock, buf);
     buf = g_strdup_printf("widget_set msg_counts line2 1 3 {}");
+    notification_sock_puts(sock, buf);
+    buf = g_strdup_printf("widget_set msg_counts line3 1 4 {}");
     notification_sock_puts(sock, buf);
   }
 
