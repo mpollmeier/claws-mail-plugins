@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=11
 MICRO_VERSION=0
-EXTRA_VERSION=9
+EXTRA_VERSION=10
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -130,25 +130,25 @@ fi
 AC_MSG_RESULT($enable_command)
 
 dnl Trayicon
-dnl AC_ARG_ENABLE(trayicon,
-dnl 	[  --disable-trayicon     do not include trayicon support],
-dnl 	[enable_trayicon=$enableval], [enable_trayicon=auto])
-dnl if test "x$enable_trayicon" != "xno"; then
-dnl    dnl Need GTK+ >= 2.10
-dnl    PKG_CHECK_MODULES(GTK_2_10, gtk+-2.0 >= 2.10.0,
-dnl      have_gtk_2_10=yes, have_gtk_2_10=no)
-dnl   if test "x$have_gtk_2_10" = "xno" -a "x$enable_trayicon" = "xyes"; then
-dnl     AC_MSG_ERROR([Trayicon module explicitly requested, but GTK+ >= 2.10 couldn't be found])
-dnl   fi
-dnl   if test "x$have_gtk_2_10" = "xyes"; then
-dnl     enable_trayicon=yes
-dnl     AC_DEFINE(NOTIFICATION_TRAYICON, 1, Activate notification trayicon)
-dnl   else
-dnl     enable_trayicon=no
-dnl   fi
-dnl fi
-dnl AC_MSG_CHECKING([whether to include trayicon support])
-dnl AC_MSG_RESULT($enable_trayicon)
+AC_ARG_ENABLE(trayicon,
+	[  --disable-trayicon     do not include trayicon support],
+	[enable_trayicon=$enableval], [enable_trayicon=auto])
+if test "x$enable_trayicon" != "xno"; then
+  dnl Need GTK+ >= 2.10
+  PKG_CHECK_MODULES(GTK_2_10, gtk+-2.0 >= 2.10.0,
+   have_gtk_2_10=yes, have_gtk_2_10=no)
+  if test "x$have_gtk_2_10" = "xno" -a "x$enable_trayicon" = "xyes"; then
+    AC_MSG_ERROR([Trayicon module explicitly requested, but GTK+ >= 2.10 couldn't be found])
+  fi
+  if test "x$have_gtk_2_10" = "xyes"; then
+    enable_trayicon=yes
+    AC_DEFINE(NOTIFICATION_TRAYICON, 1, Activate notification trayicon)
+  else
+    enable_trayicon=no
+  fi
+fi
+AC_MSG_CHECKING([whether to include trayicon support])
+AC_MSG_RESULT($enable_trayicon)
 
 dnl lcdproc
 AC_ARG_ENABLE(lcdproc,
@@ -181,14 +181,14 @@ echo "-----------------------------------------------------------"
 echo ""
 echo "Configuration Summary:"
 echo ""
-echo "Popup   : $enable_popup"
-echo "Banner  : $enable_banner"
-echo "Command : $enable_command"
-echo "LCD     : $enable_lcdproc"
-dnl echo "Trayicon: $enable_trayicon"
+echo "Popup    : $enable_popup"
+echo "Banner   : $enable_banner"
+echo "Command  : $enable_command"
+echo "LCD      : $enable_lcdproc"
+echo "Trayicon : $enable_trayicon"
 if test x"$enable_popup" = xno \
      -a x"$enable_banner" = xno \
-dnl     -a x"$enable_trayicon" = xno \
+     -a x"$enable_trayicon" = xno \
      -a x"$enable_lcdproc" = xno \
      -a x"$enable_command" = xno; then
       echo ""

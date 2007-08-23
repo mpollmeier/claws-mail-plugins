@@ -25,6 +25,8 @@
 
 #include "common/socket.h"
 
+#include "gettext.h"
+
 #include <string.h>
 
 #define NOTIFICATION_LCDPROC_BUFFER_SIZE 8192
@@ -126,17 +128,21 @@ void notification_update_lcdproc(guint new_msgs, guint unread_msgs,
 
   if((new_msgs + unread_msgs) > 0) {
     buf =
-      g_strdup_printf("widget_set msg_counts line1 1 2 {New: %d}",new_msgs);
+      g_strdup_printf("widget_set msg_counts line1 1 2 {%s: %d}",_("New"),
+		      new_msgs);
     notification_sock_puts(sock, buf);
     buf =
-      g_strdup_printf("widget_set msg_counts line2 1 3 {Unread: %d}",unread_msgs);
+      g_strdup_printf("widget_set msg_counts line2 1 3 {%s: %d}",_("Unread"),
+		      unread_msgs);
     notification_sock_puts(sock, buf);
     buf =
-      g_strdup_printf("widget_set msg_counts line3 1 4 {Total: %d}",total_msgs);
+      g_strdup_printf("widget_set msg_counts line3 1 4 {%s: %d}",_("Total"),
+		      total_msgs);
     notification_sock_puts(sock, buf);
   }
   else {
-    buf = g_strdup_printf("widget_set msg_counts line1 1 2 {No new messages}");
+    buf = g_strdup_printf("widget_set msg_counts line1 1 2 {%s}",
+			  _("No new messages"));
     notification_sock_puts(sock, buf);
     buf = g_strdup_printf("widget_set msg_counts line2 1 3 {}");
     notification_sock_puts(sock, buf);

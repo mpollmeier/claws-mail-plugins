@@ -1,3 +1,9 @@
+2007-08-23 [holger]	0.11cvs10
+
+	* src/notification_lcdproc.c
+		Make messages appearing on LCD
+		translatable.
+
 2007-08-23 [holger]	0.11cvs9
 
 	* configure.ac
