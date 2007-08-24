@@ -108,7 +108,9 @@ void notification_lcdproc_connect(void)
 void notification_lcdproc_disconnect(void)
 {
   if(sock) {
+#ifndef G_OS_WIN32
     shutdown(sock->sock, SHUT_RDWR);
+#endif
     sock_close(sock);
     sock = NULL;
   }

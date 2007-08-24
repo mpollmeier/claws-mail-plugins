@@ -59,3 +59,4 @@
 ( cvs diff -u -r 1.1.2.81 -r 1.1.2.82 configure.ac;  cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/notification_core.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/notification_lcdproc.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/notification_lcdproc.h;  ) > 0.11cvs9.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_lcdproc.c;  ) > 0.11cvs10.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/notification_lcdproc.c;  ) > 0.11cvs11.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/notification_lcdproc.c;  ) > 0.11cvs12.patchset

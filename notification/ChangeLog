@@ -1,3 +1,10 @@
+2007-08-24 [holger]	0.11cvs12
+
+	* src/notification_lcdproc.c
+		Actually, do the call to shutdown() only on
+		non-Windows systems, since on Windows, shutdown()
+		is already called in sock_close()
+
 2007-08-24 [holger]	0.11cvs11
 
 	* src/notification_lcdproc.c
