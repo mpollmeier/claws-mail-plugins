@@ -32,6 +32,7 @@
 #define NOTIFICATION_LCDPROC_BUFFER_SIZE 8192
 
 void notification_sock_puts(SockInfo*, gchar*);
+void notification_lcdproc_send(gchar*);
 
 static SockInfo *sock = NULL;
 
@@ -90,24 +91,25 @@ void notification_lcdproc_connect(void)
     return;
   }
   
-  notification_sock_puts(sock, "client_set -name \"{Claws-Mail}\"");
+  notification_lcdproc_send("client_set -name \"{Claws-Mail}\"");
 
-  notification_sock_puts(sock, "screen_add msg_counts");
-  notification_sock_puts(sock, "screen_set msg_counts -name {Claws-Mail Message Count}");
+  notification_lcdproc_send("screen_add msg_counts");
+  notification_lcdproc_send("screen_set msg_counts -name {Claws-Mail Message Count}");
   
-  notification_sock_puts(sock, "widget_add msg_counts title title");
-  notification_sock_puts(sock, "widget_set msg_counts title {Claws-Mail}");
-  notification_sock_puts(sock, "widget_add msg_counts line1 string");
-  notification_sock_puts(sock, "widget_add msg_counts line2 string");
-  notification_sock_puts(sock, "widget_add msg_counts line3 string");
+  notification_lcdproc_send("widget_add msg_counts title title");
+  notification_lcdproc_send("widget_set msg_counts title {Claws-Mail}");
+  notification_lcdproc_send("widget_add msg_counts line1 string");
+  notification_lcdproc_send("widget_add msg_counts line2 string");
+  notification_lcdproc_send("widget_add msg_counts line3 string");
 
-  notification_update_msg_counts();
+  notification_update_msg_counts(NULL);
 }
 
 void notification_lcdproc_disconnect(void)
 {
   if(sock) {
-    sock_close(sock);    
+    shutdown(sock->sock, SHUT_RDWR);
+    sock_close(sock);
     sock = NULL;
   }
 }
@@ -130,24 +132,24 @@ void notification_update_lcdproc(guint new_msgs, guint unread_msgs,
     buf =
       g_strdup_printf("widget_set msg_counts line1 1 2 {%s: %d}",_("New"),
 		      new_msgs);
-    notification_sock_puts(sock, buf);
+    notification_lcdproc_send(buf);
     buf =
       g_strdup_printf("widget_set msg_counts line2 1 3 {%s: %d}",_("Unread"),
 		      unread_msgs);
-    notification_sock_puts(sock, buf);
+    notification_lcdproc_send(buf);
     buf =
       g_strdup_printf("widget_set msg_counts line3 1 4 {%s: %d}",_("Total"),
 		      total_msgs);
-    notification_sock_puts(sock, buf);
+    notification_lcdproc_send(buf);
   }
   else {
     buf = g_strdup_printf("widget_set msg_counts line1 1 2 {%s}",
 			  _("No new messages"));
-    notification_sock_puts(sock, buf);
+    notification_lcdproc_send(buf);
     buf = g_strdup_printf("widget_set msg_counts line2 1 3 {}");
-    notification_sock_puts(sock, buf);
+    notification_lcdproc_send(buf);
     buf = g_strdup_printf("widget_set msg_counts line3 1 4 {}");
-    notification_sock_puts(sock, buf);
+    notification_lcdproc_send(buf);
   }
 
   g_free(buf);
@@ -159,5 +161,10 @@ void notification_sock_puts(SockInfo *socket, gchar *string)
   sock_write(socket, "\n", 1);
 }
 
+void notification_lcdproc_send(gchar *string)
+{
+  notification_sock_puts(sock, string);
+  /* TODO: Check return message from LCDd */
+}
 
 #endif /* NOTIFICATION_LCDPROC */

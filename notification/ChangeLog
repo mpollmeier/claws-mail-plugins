@@ -1,3 +1,11 @@
+2007-08-24 [holger]	0.11cvs11
+
+	* src/notification_lcdproc.c
+		Fix messages getting stuck at times on LCD by adding
+		a call to shutdown() for the socket before
+		calling sock_close(). Also make it easier to check
+		for return messages from the LCD deamon in the future.
+
 2007-08-23 [holger]	0.11cvs10
 
 	* src/notification_lcdproc.c
