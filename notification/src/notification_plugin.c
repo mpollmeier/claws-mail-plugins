@@ -71,7 +71,9 @@ static gboolean my_account_list_changed_hook(gpointer source,
 					     gpointer data)
 {
   gboolean retVal = FALSE;
+
 #ifdef NOTIFICATION_TRAYICON
+  notification_update_msg_counts(NULL);
   retVal = notification_trayicon_account_list_changed(source, data);
 #endif
   return retVal;
@@ -83,6 +85,7 @@ static gboolean my_main_window_got_iconified_hook(gpointer source,
 {
   gboolean retVal = FALSE;
 #ifdef NOTIFICATION_TRAYICON
+  notification_update_msg_counts(NULL);
   retVal = notification_trayicon_main_window_got_iconified(source, data);
 #endif
   return retVal;
@@ -92,6 +95,7 @@ static gboolean my_main_window_close_hook(gpointer source, gpointer data)
 {
   gboolean retVal = FALSE;
 #ifdef NOTIFICATION_TRAYICON
+  notification_update_msg_counts(NULL);
   retVal = notification_trayicon_main_window_close(source, data);
 #endif
   return retVal;

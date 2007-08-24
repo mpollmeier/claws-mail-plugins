@@ -1,3 +1,13 @@
+2007-08-24 [holger]	0.11cvs14
+
+	* src/notification_plugin.c
+	* src/notification_trayicon.c
+		Fix crash when the plugin was loaded when the
+		trayicon was disabled. Fixes (reopened) 
+		Bug #1299.
+		Thanks to Zygfryd Homonto <zyghom@yahoo.co.uk>
+		for the report.
+
 2007-08-24 [holger]	0.11cvs13
 
 	* src/Makefile.am

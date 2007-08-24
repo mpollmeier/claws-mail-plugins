@@ -133,6 +133,9 @@ void notification_update_trayicon(guint new_msgs, guint unread_msgs,
 
 gboolean notification_trayicon_main_window_close(gpointer source, gpointer data)
 {
+  if(!notify_config.trayicon_enabled)
+    return FALSE;
+
   if(source) {
     gboolean *close_allowed = (gboolean*)source;
 
@@ -152,6 +155,9 @@ gboolean notification_trayicon_main_window_got_iconified(gpointer source,
 {
   MainWindow *mainwin = mainwindow_get_mainwindow();
 
+  if(!notify_config.trayicon_enabled)
+    return FALSE;
+
   if(notify_config.trayicon_hide_when_iconified &&
      mainwin && GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))
      && !gtk_window_get_skip_taskbar_hint(GTK_WINDOW(mainwin->window))) {
@@ -169,6 +175,9 @@ gboolean notification_trayicon_account_list_changed(gpointer source,
   PrefsAccount *ac_prefs;
   
   GList *account_list = account_get_list();
+
+  if(!notify_config.trayicon_enabled)
+    return FALSE;
 
   menu = gtk_item_factory_get_widget(traymenu_factory,
 				     "/Email from account");
