@@ -78,6 +78,12 @@ typedef struct {
   guint 	   lcdproc_port;
 
 #endif
+#ifdef NOTIFICATION_TRAYICON
+  gboolean         trayicon_enabled;
+  gboolean         trayicon_hide_at_startup;
+  gboolean         trayicon_close_to_tray;
+  gboolean         trayicon_hide_when_iconified;
+#endif
 } NotifyPrefs;
 
 extern NotifyPrefs notify_config;

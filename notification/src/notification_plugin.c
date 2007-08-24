@@ -27,6 +27,8 @@
 #include "folder.h"
 #include "hooks.h"
 #include "procmsg.h"
+#include "mainwindow.h"
+#include "main.h"
 
 #include "gettext.h"
 
@@ -35,6 +37,7 @@
 #include "notification_prefs.h"
 #include "notification_banner.h"
 #include "notification_lcdproc.h"
+#include "notification_trayicon.h"
 #include "notification_foldercheck.h"
 #include "notification_pixbuf.h"
 #include "plugin.h"
@@ -45,15 +48,62 @@
 
 
 static gboolean my_folder_item_update_hook(gpointer, gpointer);
+static gboolean my_folder_update_hook(gpointer, gpointer);
 static gboolean my_msginfo_update_hook(gpointer, gpointer);
+static gboolean my_offline_switch_hook(gpointer, gpointer);
+static gboolean my_main_window_close_hook(gpointer, gpointer);
+static gboolean my_main_window_got_iconified_hook(gpointer, gpointer);
+static gboolean my_account_list_changed_hook(gpointer, gpointer);
 
 static guint hook_f_item;
+static guint hook_f;
 static guint hook_m_info;
+static guint hook_offline;
+static guint hook_mw_close;
+static guint hook_got_iconified;
+static guint hook_account;
 
 #ifdef NOTIFICATION_BANNER
 static GSList* banner_collected_msgs;
 #endif
 
+static gboolean my_account_list_changed_hook(gpointer source,
+					     gpointer data)
+{
+  gboolean retVal = FALSE;
+#ifdef NOTIFICATION_TRAYICON
+  retVal = notification_trayicon_account_list_changed(source, data);
+#endif
+  return retVal;
+}
+
+
+static gboolean my_main_window_got_iconified_hook(gpointer source,
+						  gpointer data)
+{
+  gboolean retVal = FALSE;
+#ifdef NOTIFICATION_TRAYICON
+  retVal = notification_trayicon_main_window_got_iconified(source, data);
+#endif
+  return retVal;
+}
+
+static gboolean my_main_window_close_hook(gpointer source, gpointer data)
+{
+  gboolean retVal = FALSE;
+#ifdef NOTIFICATION_TRAYICON
+  retVal = notification_trayicon_main_window_close(source, data);
+#endif
+  return retVal;
+}
+
+static gboolean my_offline_switch_hook(gpointer source, gpointer data)
+{
+#ifdef NOTIFICATION_TRAYICON
+  notification_update_msg_counts(NULL);
+#endif
+  return FALSE;
+}
 
 static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
 {
@@ -62,6 +112,10 @@ static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
   gchar *uistr;
 
   g_return_val_if_fail(source != NULL, FALSE);  
+
+#if defined(NOTIFICATION_LCDPROC) || defined(NOTIFICATION_TRAYICON)
+    notification_update_msg_counts(NULL);
+#endif
 
   /* Check if the folder types is to be notified about */
   ftype = update_data->item->folder->klass->type;
@@ -73,15 +127,31 @@ static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
 #ifdef NOTIFICATION_BANNER
     notification_update_banner();
 #endif
-#ifdef NOTIFICATION_LCDPROC
-    notification_update_msg_counts();
-#endif
 #if defined(NOTIFICATION_POPUP) || defined(NOTIFICATION_COMMAND)
     notification_new_unnotified_msgs(update_data);
 #endif
   }
   return FALSE;
 }
+
+static gboolean my_folder_update_hook(gpointer source, gpointer data)
+{
+  FolderUpdateData *hookdata;
+
+  g_return_val_if_fail(source != NULL, FALSE);  
+  hookdata = source;
+
+#if defined(NOTIFICATION_LCDPROC) || defined(NOTIFICATION_TRAYICON)
+  if(hookdata->update_flags & FOLDER_REMOVE_FOLDERITEM)
+    notification_update_msg_counts(hookdata->item);
+  else
+    notification_update_msg_counts(NULL);
+#endif
+  
+  return FALSE;
+
+}
+
 
 static gboolean my_msginfo_update_hook(gpointer source, gpointer data)
 {
@@ -114,14 +184,77 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
+  hook_f = hooks_register_hook(FOLDER_UPDATE_HOOKLIST,
+			       my_folder_update_hook, NULL);
+  if(hook_f == (guint) -1) {
+    *error = g_strdup(_("Failed to register folder update hook in the "
+			"Notification plugin"));
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    return -1;
+  }
+
+
   hook_m_info = hooks_register_hook(MSGINFO_UPDATE_HOOKLIST,
 				    my_msginfo_update_hook, NULL);
   if(hook_m_info == (guint) -1) {
     *error = g_strdup(_("Failed to register msginfo update hook in the "
 			"Notification plugin"));
     hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
     return -1;
   }
+
+  hook_offline = hooks_register_hook(OFFLINE_SWITCH_HOOKLIST,
+				     my_offline_switch_hook, NULL);
+  if(hook_offline == (guint) -1) {
+    *error = g_strdup(_("Failed to register offline switch hook in the "
+			"Notification plugin"));
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
+    hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+    return -1;
+  }
+
+  hook_mw_close = hooks_register_hook(MAIN_WINDOW_CLOSE,
+				      my_main_window_close_hook, NULL);
+  if(hook_mw_close == (guint) -1) {
+    *error = g_strdup(_("Failed to register main window close hook in the "
+			"Notification plugin"));
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
+    hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+    hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
+    return -1;
+  }
+
+  hook_got_iconified = hooks_register_hook(MAIN_WINDOW_GOT_ICONIFIED,
+					   my_main_window_got_iconified_hook,
+					   NULL);
+  if(hook_got_iconified == (guint) -1) {
+    *error = g_strdup(_("Failed to register got iconified hook in the "
+			"Notification plugin"));
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
+    hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+    hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
+    hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
+    return -1;
+  }
+
+  hook_account = hooks_register_hook(ACCOUNT_LIST_CHANGED_HOOKLIST,
+				     my_account_list_changed_hook, NULL);
+  if (hook_account == (guint) -1) {
+    *error = g_strdup(_("Failed to register account list changed hook in the "
+			"Notification plugin"));
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
+    hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+    hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
+    hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
+    hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
+    return -1;
+  }
+
 
   /* Configuration */
   prefs_set_default(notify_param);
@@ -132,16 +265,28 @@ gint plugin_init(gchar **error)
   /* Folder specific stuff */
   notification_foldercheck_read_array();
 
+  notification_notified_hash_startup_init();
+
+  notify_gtk_init();
+
 #ifdef NOTIFICATION_BANNER
   notification_update_banner();
 #endif
 #ifdef NOTIFICATION_LCDPROC
   notification_lcdproc_connect();
 #endif
+#ifdef NOTIFICATION_TRAYICON
+  if(notify_config.trayicon_hide_at_startup && claws_is_starting()) {
+    MainWindow *mainwin = mainwindow_get_mainwindow();
 
-  notification_notified_hash_startup_init();
+    if(mainwin && GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window)))
+      main_window_hide(mainwin);
+    main_set_show_at_startup(FALSE);
+  }
+#endif
 
-  notify_gtk_init();
+  my_account_list_changed_hook(NULL,NULL);
+
   debug_print("Notification plugin loaded\n");
 
   return 0;
@@ -163,7 +308,13 @@ gboolean plugin_done(void)
   notification_notified_hash_free();
 
   hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+  hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
   hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+  hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
+  hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
+  hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
+  hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
+
   notify_gtk_done();
 
   /* foldercheck cleanup */
@@ -200,7 +351,7 @@ const gchar *plugin_type(void)
 
 const gchar *plugin_licence(void)
 {
-  return "GPL3+";
+  return "GPL";
 }
 
 const gchar *plugin_version(void)

@@ -33,7 +33,7 @@ GSList*  notification_collect_msgs(gboolean, GSList*, gint);
 void     notification_collected_msgs_free(GSList*);
 
 /* New mail notification */
-void     notification_update_msg_counts(void);
+void     notification_update_msg_counts(FolderItem*);
 void     notification_new_unnotified_msgs(FolderItemUpdateData*);
 void     notification_notified_hash_free(void);
 gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);

@@ -30,9 +30,13 @@
 
 #include "notification_prefs.h"
 #include "notification_plugin.h"
+#include "notification_core.h"
+
 #include "notification_popup.h"
 #include "notification_command.h"
 #include "notification_lcdproc.h"
+#include "notification_trayicon.h"
+
 #include "notification_foldercheck.h"
 
 
@@ -107,6 +111,18 @@ typedef struct {
   GtkWidget *lcdproc_port;
 } NotifyLCDProcPage;
 NotifyLCDProcPage lcdproc_page;
+#endif
+
+#ifdef NOTIFICATION_TRAYICON
+typedef struct {
+  PrefsPage page;
+  GtkWidget *trayicon_enabled;
+  GtkWidget *trayicon_cont_enable;
+  GtkWidget *trayicon_hide_at_startup;
+  GtkWidget *trayicon_close_to_tray;
+  GtkWidget *trayicon_hide_when_iconified;
+} NotifyTrayiconPage;
+NotifyTrayiconPage trayicon_page;
 #endif
 
 PrefParam notify_param[] = {
@@ -187,6 +203,17 @@ PrefParam notify_param[] = {
    NULL, NULL, NULL},
 #endif
 
+#ifdef NOTIFICATION_TRAYICON
+  {"trayicon_enabled", "FALSE", &notify_config.trayicon_enabled, P_BOOL,
+   NULL, NULL, NULL},
+  {"trayicon_hide_at_startup", "FALSE",
+   &notify_config.trayicon_hide_at_startup, P_BOOL, NULL, NULL, NULL},
+  {"trayicon_close_to_tray", "FALSE",
+   &notify_config.trayicon_close_to_tray, P_BOOL, NULL, NULL, NULL},
+  {"trayicon_hide_when_iconified", "FALSE",
+   &notify_config.trayicon_hide_when_iconified, P_BOOL, NULL, NULL, NULL},
+#endif
+
   {NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
 
@@ -232,6 +259,13 @@ static void notify_create_lcdproc_page(PrefsPage*, GtkWindow*, gpointer);
 static void notify_destroy_lcdproc_page(PrefsPage*);
 static void notify_save_lcdproc(PrefsPage*);
 static void notify_lcdproc_enable_set_sensitivity(GtkToggleButton*, gpointer);
+#endif
+
+#ifdef NOTIFICATION_TRAYICON
+static void notify_create_trayicon_page(PrefsPage*, GtkWindow*, gpointer);
+static void notify_destroy_trayicon_page(PrefsPage*);
+static void notify_save_trayicon(PrefsPage*);
+static void notify_trayicon_enable_set_sensitivity(GtkToggleButton*, gpointer);
 #endif
 
 static gint conv_color_to_int(GdkColor*);
@@ -317,6 +351,23 @@ void notify_gtk_init(void)
    prefs_gtk_register_page((PrefsPage*) &lcdproc_page);
  }
 #endif /* NOTIFICATION_LCDPROC */
+
+#ifdef NOTIFICATION_TRAYICON
+ {
+   static gchar *trayicon_path[4];
+   
+   trayicon_path[0] = _("Plugins");
+   trayicon_path[1] = _("Notification");
+   trayicon_path[2] = _("SysTrayicon");
+   trayicon_path[3] = NULL;
+   
+   trayicon_page.page.path = trayicon_path;
+   trayicon_page.page.create_widget  = notify_create_trayicon_page;
+   trayicon_page.page.destroy_widget = notify_destroy_trayicon_page;
+   trayicon_page.page.save_page      = notify_save_trayicon;
+   prefs_gtk_register_page((PrefsPage*) &trayicon_page);
+ }
+#endif /* NOTIFICATION_TRAYICON */
 }
 
 void notify_gtk_done(void)
@@ -335,6 +386,9 @@ void notify_gtk_done(void)
 #endif
 #ifdef NOTIFICATION_LCDPROC
   prefs_gtk_unregister_page((PrefsPage*) &lcdproc_page);
+#endif
+#ifdef NOTIFICATION_TRAYICON
+  prefs_gtk_unregister_page((PrefsPage*) &trayicon_page);
 #endif
 }
 
@@ -1173,8 +1227,102 @@ static void notify_lcdproc_enable_set_sensitivity(GtkToggleButton *button,
     (GTK_TOGGLE_BUTTON(lcdproc_page.lcdproc_enabled));
   gtk_widget_set_sensitive(lcdproc_page.lcdproc_cont_enable, active);
 }
-
 #endif /* NOTIFICATION_LCDPROC */
+
+#ifdef NOTIFICATION_TRAYICON
+static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
+				       gpointer data)
+{
+  GtkWidget *pvbox;
+  GtkWidget *vbox;
+  GtkWidget *checkbox;
+
+  pvbox = gtk_vbox_new(FALSE, 20);
+  gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
+
+  /* Enable trayicon */
+  checkbox = gtk_check_button_new_with_label(_("Enable Trayicon"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.trayicon_enabled);
+  gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_trayicon_enable_set_sensitivity), NULL);
+  gtk_widget_show(checkbox);
+  trayicon_page.trayicon_enabled = checkbox;
+
+  /* Container vbox for greying out everything */
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+  gtk_widget_show(vbox);
+  trayicon_page.trayicon_cont_enable = vbox;
+
+  /* Hide at startup */
+  checkbox = gtk_check_button_new_with_label(_("Hide at start-up"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.trayicon_hide_at_startup);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  trayicon_page.trayicon_hide_at_startup = checkbox;
+
+  /* Close to tray */
+  checkbox = gtk_check_button_new_with_label(_("Close to tray"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.trayicon_close_to_tray);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  trayicon_page.trayicon_close_to_tray = checkbox;
+
+  /* Hide when iconified */
+  checkbox = gtk_check_button_new_with_label(_("Hide when iconified"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.trayicon_hide_when_iconified);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+  gtk_widget_show(checkbox);
+  trayicon_page.trayicon_hide_when_iconified = checkbox;
+
+  notify_trayicon_enable_set_sensitivity
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_enabled), NULL);
+  gtk_widget_show(pvbox);
+  trayicon_page.page.widget = pvbox;
+}
+
+static void notify_destroy_trayicon_page(PrefsPage *page)
+{
+}
+
+static void notify_save_trayicon(PrefsPage *page)
+{
+  notify_config.trayicon_enabled = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_enabled));
+
+  notify_config.trayicon_hide_at_startup = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_hide_at_startup));
+
+  notify_config.trayicon_close_to_tray = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_close_to_tray));
+
+  notify_config.trayicon_hide_when_iconified = 
+    gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_hide_when_iconified));
+
+  if(notify_config.trayicon_enabled)
+    notification_update_msg_counts(NULL);
+  else
+    notification_trayicon_destroy();
+}
+
+static void notify_trayicon_enable_set_sensitivity(GtkToggleButton *button,
+						   gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_enabled));
+  gtk_widget_set_sensitive(trayicon_page.trayicon_cont_enable, active);
+}
+#endif /* NOTIFICATION_TRAYICON */
 
 /* This feels so wrong... */
 static gint conv_color_to_int(GdkColor *color)

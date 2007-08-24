@@ -1,3 +1,33 @@
+2007-08-24 [holger]	0.11cvs13
+
+	* src/Makefile.am
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_pixbuf.c
+	* src/notification_pixbuf.h
+	* src/notification_plugin.c
+	* src/notification_popup.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+	* src/raw_trayicon_newmail.h
+	* src/raw_trayicon_newmail_offline.h
+	* src/raw_trayicon_newmarkedmail.h
+	* src/raw_trayicon_newmarkedmail_offline.h
+	* src/raw_trayicon_nomail.h
+	* src/raw_trayicon_nomail_offline.h
+	* src/raw_trayicon_unreadmail.h
+	* src/raw_trayicon_unreadmail_offline.h
+	* src/raw_trayicon_unreadmarkedmail.h
+	* src/raw_trayicon_unreadmarkedmail_offline.h
+		Add a new module: trayicon
+		This is a port of the standard trayicon plugin that ships
+		with Claws-Mail. It uses GTK+'s implementation of the
+		Freedesktop.org system tray specification instead of the
+		old, unmaintained and depreciated libeggtrayicon library.
+
+
 2007-08-24 [holger]	0.11cvs12
 
 	* src/notification_lcdproc.c

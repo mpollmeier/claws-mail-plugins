@@ -356,7 +356,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 				 notification_libnotify_free_func);
 
   /* Icon */
-  pixbuf = notification_pixbuf_get_logo_64x64();
+  pixbuf = notification_pixbuf_get(NOTIFICATION_CM_LOGO_64x64);
   if(pixbuf)
     notify_notification_set_icon_from_pixbuf(ppopup->notification, pixbuf);
   else /* This is not fatal */

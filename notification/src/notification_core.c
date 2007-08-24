@@ -25,6 +25,7 @@
 #include "notification_popup.h"
 #include "notification_command.h"
 #include "notification_lcdproc.h"
+#include "notification_trayicon.h"
 
 typedef struct {
   GSList *collected_msgs;
@@ -38,7 +39,7 @@ static gboolean notification_traverse_collect(GNode*, gpointer);
 static void     notification_new_unnotified_do_msg(MsgInfo*);
 static gboolean notification_traverse_hash_startup(GNode*, gpointer);
 
-void notification_update_msg_counts(void)
+void notification_update_msg_counts(FolderItem *removed_item)
 {
   guint unread_msgs;
   guint new_msgs;
@@ -49,8 +50,18 @@ void notification_update_msg_counts(void)
   folder_count_total_msgs(&new_msgs, &unread_msgs, &unread_marked_msgs,
 			  &marked_msgs, &total_msgs);
 
+  if(removed_item) {
+    total_msgs -= removed_item->total_msgs;
+    new_msgs -= removed_item->new_msgs;
+    unread_msgs -= removed_item->unread_msgs;
+  }
+
 #ifdef NOTIFICATION_LCDPROC
   notification_update_lcdproc(new_msgs, unread_msgs, total_msgs);
+#endif
+#ifdef NOTIFICATION_TRAYICON
+  notification_update_trayicon(new_msgs, unread_msgs, unread_marked_msgs,
+			       marked_msgs, total_msgs);
 #endif
 }
 
