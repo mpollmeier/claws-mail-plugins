@@ -1,6 +1,6 @@
 This plugin collects various ways to notify the user of new (and
 possibly unread) mail. Currently, command execution, a popup, a mail
-banner and an LCDProc client are implemented.
+banner, a LCDProc client and a trayicon are implemented.
 
 You can configure the plugin via the Preferences - Plugins menu.
 
