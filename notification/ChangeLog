@@ -5,8 +5,8 @@
 		Fix crash when the plugin was loaded when the
 		trayicon was disabled. Fixes (reopened) 
 		Bug #1299.
-		Thanks to Zygfryd Homonto <zyghom@yahoo.co.uk>
-		for the report.
+		Thanks to Zygfryd Homonto and
+		Charles A Edwards for the reports.
 
 2007-08-24 [holger]	0.11cvs13
 
