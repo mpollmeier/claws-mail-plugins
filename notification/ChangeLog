@@ -1,3 +1,10 @@
+2007-08-26 [holger]	0.11cvs16
+
+	* src/notification_trayicon.c
+		Add a menu item to the trayicon popup menu
+		to enable/disable the trayicon popups that have
+		been introduced in the last commit.
+
 2007-08-26 [holger]	0.11cvs15
 
 	* src/notification_core.c

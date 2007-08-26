@@ -16,7 +16,7 @@
  */
 
 /* This module is of course inspired by the trayicon plugin which is
- * shipped with Claws-Mail, copyrighted by the Claws-Mail team. */
+ * shipped with Claws-Mail, copyrighted by the Claws-Mail Team. */
 
 #include "pluginconfig.h"
 
@@ -52,6 +52,9 @@ static void trayicon_compose_acc_cb(GtkMenuItem*, gpointer);
 static void trayicon_addressbook_cb(gpointer, guint, GtkWidget*);
 static void trayicon_exit_cb(gpointer, guint, GtkWidget*);
 static void trayicon_toggle_offline_cb(gpointer, guint, GtkWidget*);
+#ifdef HAVE_LIBNOTIFY
+static void trayicon_toggle_notify_cb(gpointer, guint, GtkWidget*);
+#endif
 
 #ifdef HAVE_LIBNOTIFY
 #include <libnotify/notify.h>
@@ -98,6 +101,9 @@ static GtkItemFactoryEntry trayicon_popup_menu_entries[] = {
   {"/---",		      NULL,NULL,		      0, "<Separator>"},
   {N_("/Open A_ddressbook"),  NULL,trayicon_addressbook_cb,   0, NULL},
   {"/---",		      NULL,NULL,		      0, "<Separator>"},
+#ifdef HAVE_LIBNOTIFY
+  {N_("/Show Trayicon Notifications"), NULL,trayicon_toggle_notify_cb, 0, "<CheckItem>"},
+#endif
   {N_("/_Work Offline"),      NULL,trayicon_toggle_offline_cb,0, "<CheckItem>"},
   {"/---",		      NULL,NULL,		      0, "<Separator>"},
   {N_("/E_xit Claws Mail"),   NULL,trayicon_exit_cb,	      0, NULL}
@@ -400,11 +406,16 @@ static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,
 
   /* tell callbacks to skip any event */
   updating_menu = TRUE;
-  /* initialize checkitem according to current offline state */
+  /* initialize checkitems according to current states */
   gtk_check_menu_item_set_active
     (GTK_CHECK_MENU_ITEM(gtk_item_factory_get_item
 			 (traymenu_factory, "/Work Offline")),
      prefs_common.work_offline);
+  gtk_check_menu_item_set_active
+    (GTK_CHECK_MENU_ITEM(gtk_item_factory_get_item
+			 (traymenu_factory, "/Show Trayicon Notifications")),
+     notify_config.trayicon_popup_enabled);
+
   gtk_widget_set_sensitive(GTK_WIDGET(gtk_item_factory_get_item(traymenu_factory,
 								"/Get Mail")),
 			   mainwin->lock_count == 0);
@@ -440,12 +451,14 @@ static void trayicon_compose_acc_cb( GtkMenuItem *menuitem, gpointer data )
   compose_new((PrefsAccount *)data, NULL, NULL);
 }
 
-static void trayicon_addressbook_cb( gpointer data, guint action, GtkWidget *widget )
+static void trayicon_addressbook_cb(gpointer data, guint action,
+				    GtkWidget *widget)
 {
   addressbook_open(NULL);
 }
 
-static void trayicon_toggle_offline_cb( gpointer data, guint action, GtkWidget *widget )
+static void trayicon_toggle_offline_cb(gpointer data, guint action,
+				       GtkWidget *widget)
 {
   /* toggle offline mode if menu checkitem has been clicked */
   if(!updating_menu) {
@@ -453,6 +466,16 @@ static void trayicon_toggle_offline_cb( gpointer data, guint action, GtkWidget *
     main_window_toggle_work_offline(mainwin, !prefs_common.work_offline, TRUE);
   }
 }
+
+#ifdef HAVE_LIBNOTIFY
+static void trayicon_toggle_notify_cb(gpointer data, guint action,
+				      GtkWidget *widget)
+{
+  if(!updating_menu) {
+    notify_config.trayicon_popup_enabled = !notify_config.trayicon_popup_enabled;
+  }
+}
+#endif
 
 static void app_exit_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 {
