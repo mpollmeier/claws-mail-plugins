@@ -1,3 +1,11 @@
+2007-08-26 [wwp]	0.14.0cvs8
+
+	* src/feed.c
+	* src/rssyl_cb_menu.c
+		Use g_markup_printf_escaped() to avoid pango confusion
+		with possible tags in strings, when calling alertpanel
+		functions.
+
 2007-08-17 [colin]	0.14.0cvs7
 
 	* src/parsers.c

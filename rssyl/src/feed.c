@@ -1481,9 +1481,13 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 
 	doc = rssyl_fetch_feed(myurl, -1, &title, &error);
 	if( !title ) {
-		if (verbose)
-			alertpanel_error(_("Couldn't fetch URL '%s':\n%s"), myurl, error ? error:_("Unknown error"));
-		else
+		if (verbose) {
+			gchar *tmp;
+			tmp = g_markup_printf_escaped(_("Couldn't fetch URL '%s':\n%s"),
+						myurl, error ? error:_("Unknown error"));
+			alertpanel_error(tmp);
+			g_free(tmp);
+		} else
 			log_error(LOG_PROTOCOL, _("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
 		g_free(myurl);
 		g_free(error);
@@ -1493,8 +1497,12 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 
 	new_item = folder_create_folder(parent, title);
 	if( !new_item ) {
-		if (verbose)
+		if (verbose) {
+			gchar *tmp;
+			tmp = g_markup_printf_escaped("%s", title);
 			alertpanel_error(_("Can't subscribe feed '%s'."), title);
+			g_free(tmp);
+		}
 		g_free(myurl);
 		return FALSE;
 	}
