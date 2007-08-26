@@ -1,3 +1,20 @@
+2007-08-26 [holger]	0.11cvs15
+
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_popup.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+		Add support for the fd.o desktop notification spec
+		for the trayicon module if compiled with libnotify
+		support. This allows to have a passive toaster
+		popup attached to the trayicon when new mail arrives,
+		just like Rhythmbox and other GNOME apps. Some people
+		may prefer that over the toaster popups of the popup
+		module. 
+
 2007-08-24 [holger]	0.11cvs14
 
 	* src/notification_plugin.c

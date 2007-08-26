@@ -24,7 +24,6 @@
 #include "mainwindow.h"
 #include "procmsg.h"
 #include "folder.h"
-#include "codeconv.h"
 #include "gtk/gtkutils.h"
 
 #include "gettext.h"
@@ -33,18 +32,11 @@
 #include "notification_prefs.h"
 #include "notification_foldercheck.h"
 #include "notification_pixbuf.h"
+#include "notification_core.h"
 
 #ifdef HAVE_LIBNOTIFY
 #  include <libnotify/notify.h>
 #endif
-
-typedef enum {
-  F_TYPE_MAIL=0,
-  F_TYPE_NEWS,
-  F_TYPE_CALENDAR,
-  F_TYPE_RSS,
-  F_TYPE_LAST
-} NotificationFolderType;
 
 typedef struct {
   gint count;
@@ -79,7 +71,6 @@ static gboolean notification_libnotify_create(MsgInfo*,
 static gboolean notification_libnotify_add_msg(MsgInfo*,
 					       NotificationFolderType);
 static void default_action_cb(NotifyNotification*, const char*,void*);
-static gchar* notification_libnotify_sanitize_str(gchar*);
 static void notification_libnotify_free_func(gpointer);
 
 #else /* !HAVE_LIBNOTIFY */
@@ -205,6 +196,7 @@ static gboolean popup_timeout_fun(gpointer data)
   G_LOCK(popup);
 #ifdef HAVE_LIBNOTIFY
   ppopup = &(popup[nftype]);
+
   if(!notify_notification_close(ppopup->notification, &(ppopup->error))) {
     debug_print("Notification Plugin: Failed to close notification: %s.\n",
 		ppopup->error->message);
@@ -300,30 +292,17 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     subj    = notification_libnotify_sanitize_str(msginfo->subject ?
                                                   msginfo->subject : _("(No Subject)"));
     text    = g_strconcat(from,"\n\n",subj,NULL);
+
+
     /* Make sure text is valid UTF8 */
-    if(!g_utf8_validate(text, -1, NULL)) {
-      debug_print("Notification plugin: String is not valid utf8, trying to fix it...\n");
-      /* fix it */
-      utf8_str = conv_codeset_strdup(text,
-				     conv_get_locale_charset_str_no_utf8(),
-				     CS_INTERNAL);
-      /* check if the fix worked */
-      if(utf8_str == NULL || !g_utf8_validate(utf8_str, -1, NULL)) {
-	debug_print("Notification plugin: String is still not valid utf8, sanitizing...\n");
-	utf8_str = g_malloc(strlen(text)*2+1);
-	conv_localetodisp(utf8_str, strlen(text)*2+1, text);
-      }
-      g_free(text);
-    }
-    else {
-      debug_print("Notification plugin: String is valid utf8\n");
-      utf8_str = text;
-    }
+    utf8_str = notification_validate_utf8_str(text);
+    g_free(text);
+
     if(from) g_free(from);
     if(subj) g_free(subj);
     break;
   case F_TYPE_NEWS:
-    summary = _("New News message");
+    summary = _("New News post");
     utf8_str    = g_strdup(_("A new mesesage arrived"));
     break;
   case F_TYPE_CALENDAR:
@@ -467,41 +446,6 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
   debug_print("Notification Plugin: Popup successfully modified "
 	      "with libnotify.\n");
   return TRUE;
-}
-
-#define STR_MAX_LEN 511
-/* Returns a newly allocated string which needs to be freed */
-static gchar* notification_libnotify_sanitize_str(gchar *in)
-{
-  gint i_out;
-  gchar tmp_str[STR_MAX_LEN+1];
-
-  if(in == NULL) return NULL;
-
-  i_out = 0;
-  while(*in) {
-    if(*in == '<') {
-      if(i_out+3 >= STR_MAX_LEN) break;
-      memcpy(&(tmp_str[i_out]),"&lt;",4);
-      in++; i_out += 4;
-    }
-    else if(*in == '>') {
-      if(i_out+3 >= STR_MAX_LEN) break;
-      memcpy(&(tmp_str[i_out]),"&gt;",4);
-      in++; i_out += 4;
-    }
-    else if(*in == '&') {
-      if(i_out+4 >= STR_MAX_LEN) break;
-      memcpy(&(tmp_str[i_out]),"&amp;",5);
-      in++; i_out += 5;
-    }
-    else {
-      if(i_out >= STR_MAX_LEN) break;
-      tmp_str[i_out++] = *in++;
-    }
-  }
-  tmp_str[i_out] = '\0';
-  return strdup(tmp_str);
 }
 
 void notification_libnotify_free_func(gpointer data)

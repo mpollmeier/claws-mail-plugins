@@ -27,6 +27,13 @@ typedef struct {
   gchar *folderitem_name;
 } CollectedMsg;
 
+typedef enum {
+  F_TYPE_MAIL=0,
+  F_TYPE_NEWS,
+  F_TYPE_CALENDAR,
+  F_TYPE_RSS,
+  F_TYPE_LAST
+} NotificationFolderType;
 
 /* Collect new and possibly unread messages in all folders */
 GSList*  notification_collect_msgs(gboolean, GSList*, gint);
@@ -41,5 +48,15 @@ void     notification_notified_hash_startup_init(void);
 
 /* folder type specific settings */
 gboolean notify_include_folder_type(FolderType, gchar*);
+
+#ifdef HAVE_LIBNOTIFY
+/* Sanitize a string to use with libnotify. Returns a freshly
+ * allocated string that must be freed by the user. */
+gchar* notification_libnotify_sanitize_str(gchar*);
+/* Returns a freshly allocated copy of the input string, which
+ * is guaranteed to be valid UTF8. The returned string has to
+ * be freed. */
+gchar* notification_validate_utf8_str(gchar*);
+#endif
 
 #endif /* NOTIFICATION_CORE_H */

@@ -18,6 +18,7 @@
 #include "pluginconfig.h"
 
 #include "folder.h"
+#include "codeconv.h"
 
 #include "notification_prefs.h"
 #include "notification_core.h"
@@ -26,6 +27,7 @@
 #include "notification_command.h"
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
+
 
 typedef struct {
   GSList *collected_msgs;
@@ -244,6 +246,9 @@ static void notification_new_unnotified_do_msg(MsgInfo *msg)
 #ifdef NOTIFICATION_COMMAND
   notification_command_msg(msg);
 #endif
+#ifdef NOTIFICATION_TRAYICON
+  notification_trayicon_msg(msg);
+#endif
 }
 
 /* If folders is not NULL, then consider only those folder items
@@ -391,3 +396,66 @@ gboolean notify_include_folder_type(FolderType ftype, gchar *uistr)
 
   return retval;
 }
+
+#ifdef HAVE_LIBNOTIFY
+#define STR_MAX_LEN 511
+/* Returns a newly allocated string which needs to be freed */
+gchar* notification_libnotify_sanitize_str(gchar *in)
+{
+  gint i_out;
+  gchar tmp_str[STR_MAX_LEN+1];
+
+  if(in == NULL) return NULL;
+
+  i_out = 0;
+  while(*in) {
+    if(*in == '<') {
+      if(i_out+3 >= STR_MAX_LEN) break;
+      memcpy(&(tmp_str[i_out]),"&lt;",4);
+      in++; i_out += 4;
+    }
+    else if(*in == '>') {
+      if(i_out+3 >= STR_MAX_LEN) break;
+      memcpy(&(tmp_str[i_out]),"&gt;",4);
+      in++; i_out += 4;
+    }
+    else if(*in == '&') {
+      if(i_out+4 >= STR_MAX_LEN) break;
+      memcpy(&(tmp_str[i_out]),"&amp;",5);
+      in++; i_out += 5;
+    }
+    else {
+      if(i_out >= STR_MAX_LEN) break;
+      tmp_str[i_out++] = *in++;
+    }
+  }
+  tmp_str[i_out] = '\0';
+  return strdup(tmp_str);
+}
+
+gchar* notification_validate_utf8_str(gchar *text)
+{
+  gchar *utf8_str = NULL;
+
+  if(!g_utf8_validate(text, -1, NULL)) {
+    debug_print("Notification plugin: String is not valid utf8, "
+		"trying to fix it...\n");
+    /* fix it */
+    utf8_str = conv_codeset_strdup(text,
+				   conv_get_locale_charset_str_no_utf8(),
+				   CS_INTERNAL);
+    /* check if the fix worked */
+    if(utf8_str == NULL || !g_utf8_validate(utf8_str, -1, NULL)) {
+      debug_print("Notification plugin: String is still not valid utf8, "
+		  "sanitizing...\n");
+      utf8_str = g_malloc(strlen(text)*2+1);
+      conv_localetodisp(utf8_str, strlen(text)*2+1, text);
+    }
+  }
+  else {
+    debug_print("Notification plugin: String is valid utf8\n");
+    utf8_str = g_strdup(text);
+  }
+  return utf8_str;
+}
+#endif

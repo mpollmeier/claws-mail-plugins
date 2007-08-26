@@ -24,6 +24,14 @@
 
 #include <glib.h>
 
+#include "procmsg.h"
+
+#ifdef HAVE_LIBNOTIFY
+#define TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR "trayicon_popup"
+#endif
+
+void notification_trayicon_msg(MsgInfo*);
+
 void notification_trayicon_destroy(void);
 
 /* creates it, if necessary */

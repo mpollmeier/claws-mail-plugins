@@ -65,7 +65,7 @@ typedef struct {
   gulong           popup_color_bg;
   gulong           popup_color_fg;
 #endif /* !HAVE_LIBNOTIFY */
-#endif
+#endif /* Popup */
 #ifdef NOTIFICATION_COMMAND
   gboolean         command_enabled;
   gint             command_timeout;
@@ -83,7 +83,12 @@ typedef struct {
   gboolean         trayicon_hide_at_startup;
   gboolean         trayicon_close_to_tray;
   gboolean         trayicon_hide_when_iconified;
-#endif
+#ifdef HAVE_LIBNOTIFY
+  gboolean         trayicon_popup_enabled;
+  gint             trayicon_popup_timeout;
+  gboolean         trayicon_popup_folder_specific;
+#endif /* HAVE_LIBNOTIFY */
+#endif /* Trayicon */
 } NotifyPrefs;
 
 extern NotifyPrefs notify_config;
