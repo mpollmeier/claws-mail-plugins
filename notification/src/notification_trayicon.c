@@ -65,6 +65,7 @@ typedef struct {
   gint num_news;
   gint num_calendar;
   gint num_rss;
+  gchar *msg_path;
   guint timeout_id;
   NotifyNotification *notification;
   GError *error;
@@ -519,6 +520,11 @@ static gboolean notification_trayicon_popup_add_msg(MsgInfo *msginfo,
   /* Count messages */
   notification_trayicon_popup_count_msgs(nftype);
 
+  if(popup.msg_path) {
+    g_free(popup.msg_path);
+    popup.msg_path = NULL;
+  }
+
   summary  = notification_trayicon_popup_assemble_summary();
   utf8_str = notification_trayicon_popup_assemble_body(msginfo);
   retval = notify_notification_update(popup.notification, summary, 
@@ -576,7 +582,7 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
 				 "default", "Present main window",
 				 (NotifyActionCallback)
 				 notification_trayicon_popup_default_action_cb,
-				 NULL,
+				 GINT_TO_POINTER(nftype),
 				 notification_trayicon_popup_free_func);
 
   if(popup.notification == NULL) {
@@ -607,6 +613,19 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
     return FALSE;
   }
 
+  /* Store path to message */
+  if(nftype == F_TYPE_MAIL) {
+    if(msginfo->folder && msginfo->folder) {
+      gchar *ident;
+      ident = folder_item_get_identifier(msginfo->folder);
+      popup.msg_path = g_strdup_printf("%s%s%u", ident,G_DIR_SEPARATOR_S,
+				       msginfo->msgnum);
+      g_free(ident);
+    }
+    else
+      popup.msg_path = NULL;
+  }
+
   debug_print("Notification Plugin: Popup created with libnotify.\n");
 
   return TRUE;
@@ -625,7 +644,7 @@ static gboolean popup_timeout_fun(gpointer data)
     g_object_unref(G_OBJECT(popup.notification));
     debug_print("Notification Plugin: Popup closed due to timeout.\n");
   }
-  popup.notification = NULL;    
+  popup.notification = NULL;
   g_clear_error(&(popup.error));
 
   popup.timeout_id = 0;
@@ -636,6 +655,11 @@ static gboolean popup_timeout_fun(gpointer data)
   popup.num_calendar = 0;
   popup.num_rss = 0;
 
+  if(popup.msg_path) {
+    g_free(popup.msg_path);
+    popup.msg_path = NULL;
+  }
+
   G_UNLOCK(trayicon_popup);
 
   return FALSE;
@@ -643,6 +667,11 @@ static gboolean popup_timeout_fun(gpointer data)
 
 static void notification_trayicon_popup_free_func(gpointer data)
 {
+  if(popup.msg_path) {
+    g_free(popup.msg_path);
+    popup.msg_path = NULL;
+  }
+
   debug_print("Freed notification data\n");
 }
 
@@ -654,7 +683,28 @@ static void notification_trayicon_popup_default_action_cb(NotifyNotification
   if(strcmp("default", action))
     return;
 
-  return;
+  MainWindow *mainwin;
+  mainwin = mainwindow_get_mainwindow();
+  if(mainwin) {
+    NotificationFolderType nftype;
+
+    /* Let mainwindow pop up */
+    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
+    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
+    main_window_show(mainwin);
+    gtk_window_present(GTK_WINDOW(mainwin->window));
+    /* If there is only one new mail message, jump to this message */
+    nftype = (NotificationFolderType)GPOINTER_TO_INT(user_data);
+    if((popup.count == 1) && (nftype == F_TYPE_MAIL)) {
+      gchar *select_str;
+      G_LOCK(trayicon_popup);
+      select_str = g_strdup(popup.msg_path);
+      G_UNLOCK(trayicon_popup);
+      debug_print("Notification plugin: Select message %s\n", select_str);
+      mainwindow_jump_to(select_str, FALSE);
+      g_free(select_str);
+    }
+  }
 }
 
 static void notification_trayicon_popup_count_msgs(NotificationFolderType nftype)

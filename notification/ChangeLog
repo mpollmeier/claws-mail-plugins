@@ -1,3 +1,10 @@
+2007-08-26 [holger]	0.11cvs18
+
+	* src/notification_trayicon.c
+		If a single mail message arrives, a click
+		on the trayicon popup now opens that mail
+		message in Claws-Mail.
+
 2007-08-26 [holger]	0.11cvs17
 
 	* src/notification_trayicon.c
