@@ -411,10 +411,13 @@ static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,
     (GTK_CHECK_MENU_ITEM(gtk_item_factory_get_item
 			 (traymenu_factory, "/Work Offline")),
      prefs_common.work_offline);
+
+#ifdef HAVE_LIBNOTIFY
   gtk_check_menu_item_set_active
     (GTK_CHECK_MENU_ITEM(gtk_item_factory_get_item
 			 (traymenu_factory, "/Show Trayicon Notifications")),
      notify_config.trayicon_popup_enabled);
+#endif
 
   gtk_widget_set_sensitive(GTK_WIDGET(gtk_item_factory_get_item(traymenu_factory,
 								"/Get Mail")),

@@ -1,3 +1,8 @@
+2007-08-26 [holger]	0.11cvs17
+
+	* src/notification_trayicon.c
+		Fix compile without libnotify support.
+
 2007-08-26 [holger]	0.11cvs16
 
 	* src/notification_trayicon.c
