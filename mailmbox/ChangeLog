@@ -1,3 +1,9 @@
+2007-08-27 [colin]	1.13.1cvs4
+
+	* src/plugin.c
+	* src/plugin_gtk.c
+		Fix loss of subfolders properties when renaming folder
+
 2007-08-22 [colin]	1.13.1cvs3
 
 	* COPYING
