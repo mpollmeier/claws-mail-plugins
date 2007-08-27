@@ -1785,6 +1785,6 @@ static void rename_cb(FolderView *folderview, guint action,
 		return;
 	}
 
-	folder_item_prefs_save_config(item);
+	folder_item_prefs_save_config_recursive(item);
 	folder_write_list();
 }

@@ -1,3 +1,9 @@
+2007-08-27 [colin]	1.96.0cvs7
+
+	* src/plugin.c
+	* src/vcal_folder.c
+		Fix loss of subfolders properties when renaming folder
+
 2007-08-16 [paul]	1.96.0cvs6
 
 	* configure.ac
