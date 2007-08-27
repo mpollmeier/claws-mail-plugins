@@ -1,3 +1,8 @@
+2007-08-27 [colin]	0.24.4cvs4
+
+	* src/maildir_gtk.c
+		Fix loss of subfolders properties when renaming folder
+
 2007-07-11 [colin]	0.24.4cvs3
 
 	* src/plugin.c

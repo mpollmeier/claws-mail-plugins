@@ -19,3 +19,4 @@
 ( cvs diff -u -r 1.22.2.11 -r 1.22.2.12 src/maildir.c;  ) > 0.24.4cvs1.patchset
 ( cvs diff -u -r 1.6.2.14 -r 1.6.2.15 src/plugin.c;  ) > 0.24.4cvs2.patchset
 ( cvs diff -u -r 1.6.2.15 -r 1.6.2.16 src/plugin.c;  ) > 0.24.4cvs3.patchset
+( cvs diff -u -r 1.6.2.14 -r 1.6.2.15 src/maildir_gtk.c;  ) > 0.24.4cvs4.patchset
