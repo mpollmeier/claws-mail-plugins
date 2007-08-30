@@ -1549,15 +1549,11 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 
 	if (feed == NULL) {
 		if (verbose && manual_update) {
-			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n%s"),
+			alertpanel_error(_("Could not retrieve the Webcal URL:\n%s\n%s"),
 					uri, error ? error:_("Unknown error"));
-			alertpanel_error(buf);
-			g_free(buf);
 		} else  {
-			gchar *buf = g_strdup_printf(_("Could not retrieve the Webcal URL:\n%s\n%s\n"),
+			log_error(LOG_PROTOCOL, _("Could not retrieve the Webcal URL:\n%s\n%s\n"),
 					uri, error ? error:_("Unknown error"));
-			log_error(LOG_PROTOCOL, buf);
-			g_free(buf);
 		}
 		main_window_cursor_normal(mainwindow_get_mainwindow());
 		g_free(feed);
@@ -1567,17 +1563,11 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 	}
 	if (strncmp(feed, "BEGIN:VCALENDAR", strlen("BEGIN:VCALENDAR"))) {
 		if (verbose && manual_update) {
-			gchar *buf = g_strdup_printf(
-					_("This URL does not look like a WebCal URL:\n%s\n%s"),
+			alertpanel_error(_("This URL does not look like a WebCal URL:\n%s\n%s"),
 					uri, error ? error:_("Unknown error"));
-			alertpanel_error(buf);
-			g_free(buf);
 		} else  {
-			gchar *buf = g_strdup_printf(
-					_("This URL does not look like a WebCal URL:\n%s\n%s\n"),
+			log_error(LOG_PROTOCOL, _("This URL does not look like a WebCal URL:\n%s\n%s\n"),
 					uri, error ? error:_("Unknown error"));
-			log_error(LOG_PROTOCOL, buf);
-			g_free(buf);
 		}
 		g_free(feed);
 		main_window_cursor_normal(mainwindow_get_mainwindow());

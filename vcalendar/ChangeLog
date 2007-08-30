@@ -1,3 +1,9 @@
+2007-08-30 [colin]	1.96.0cvs8
+
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+		Fix all potential misuses of format string functions
+
 2007-08-27 [colin]	1.96.0cvs7
 
 	* src/plugin.c

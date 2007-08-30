@@ -1387,7 +1387,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 				folder_item_remove_msg(folderitem, msgnum);
 			folder_item_scan(folderitem);
 		} else if (err) {
-			alertpanel_error_log(err);
+			alertpanel_error_log("%s", err);
 			g_free(err);
 		}
 	}
