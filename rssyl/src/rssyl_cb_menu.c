@@ -197,7 +197,7 @@ void rssyl_remove_feed_cb(FolderView *folderview, guint action,
 	if( item->folder->klass->remove_folder(item->folder, item) < 0 ) {
 		gchar *tmp;
 		tmp = g_markup_printf_escaped(_("Can't remove feed '%s'."), item->name);
-		alertpanel_error(tmp);
+		alertpanel_error("%s", tmp);
 		g_free(tmp);
 		if( folderview->opened == folderview->selected )
 			summary_show(folderview->summaryview,

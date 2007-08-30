@@ -1,3 +1,9 @@
+2007-08-30 [colin]	0.14.0cvs10
+
+	* src/feed.c
+	* src/rssyl_cb_menu.c
+		Fix all potential misuses of format string functions
+
 2007-08-27 [colin]	0.14.0cvs9
 
 	* src/plugin.c

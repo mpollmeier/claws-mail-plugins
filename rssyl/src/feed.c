@@ -1485,7 +1485,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 			gchar *tmp;
 			tmp = g_markup_printf_escaped(_("Couldn't fetch URL '%s':\n%s"),
 						myurl, error ? error:_("Unknown error"));
-			alertpanel_error(tmp);
+			alertpanel_error("%s", tmp);
 			g_free(tmp);
 		} else
 			log_error(LOG_PROTOCOL, _("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
