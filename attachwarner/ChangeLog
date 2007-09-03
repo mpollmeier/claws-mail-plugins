@@ -1,3 +1,8 @@
+2007-09-03 [wwp]	0.2.8cvs1
+
+	* src/attachwarner.c
+		Warn differently when sending or sending later (queueing).
+
 2007-09-03 [paul]	0.2.8
 
 	0.2.8 released

@@ -250,10 +250,20 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 		   && are_attachments_mentioned(compose));
 	if (askuser) { 
 		AlertValue aval;
+		gchar *button_label;
+		gchar *message;
+		
+		if (compose->sending)
+			button_label = _("+_Send");
+		else
+			button_label = _("+_Queue");
 
-		aval = alertpanel(_("Attachment warning"),
-				  _("An attachment is mentioned in the mail you're sending, but no file was attached. Send it anyway?"),
-				  GTK_STOCK_CANCEL, _("+_Send"), NULL);
+		message = g_strdup_printf(
+				_("An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"),
+				compose->sending?_("Send"):_("Queue"));
+		aval = alertpanel(_("Attachment warning"), message,
+				  GTK_STOCK_CANCEL, button_label, NULL);
+		g_free(message);
 		if (aval != G_ALERTALTERNATE)
 			return TRUE;
 	}
