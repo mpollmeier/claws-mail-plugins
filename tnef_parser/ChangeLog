@@ -1,3 +1,8 @@
+2007-09-03 [colin]	0.1.1cvs2
+
+	* po/spam_report.pot
+		Remove file
+
 2007-09-03 [colin]	0.1.1cvs1
 
 	* .cvsignore
