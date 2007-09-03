@@ -2,58 +2,73 @@
 # Copyright (C) YEAR Holger Berndt 
 # Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: notification plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2007-04-10 15:41+0100\n"
-"PO-Revision-Date: 2007-04-11 23:26+ZONE\n"
+"POT-Creation-Date: 2007-08-28 09:11+0100\n"
+"PO-Revision-Date: 2007-08-30 21:31+ZONE\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#: src/notification_banner.c:293
-msgid "From:"
-msgstr "Des de:"
-
-#: src/notification_banner.c:297
-msgid "Subject:"
-msgstr "Assumpte:"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: src/notification_banner.c:301
 msgid "Folder:"
 msgstr "Carpeta:"
 
-#: src/notification_foldercheck.c:474
+#: src/notification_foldercheck.c:473
 msgid "Select folder(s)"
 msgstr "Seleccionar carpeta(s)"
 
-#: src/notification_foldercheck.c:570
+#: src/notification_foldercheck.c:569
 msgid "select recursively"
 msgstr "seleccionar recursivament"
 
-#: src/notification_plugin.c:99 src/notification_plugin.c:178
-#: src/notification_prefs.c:213 src/notification_prefs.c:227
-#: src/notification_prefs.c:244 src/notification_prefs.c:261
+#: src/notification_plugin.c:174 src/notification_plugin.c:341
+#: src/notification_prefs.c:300 src/notification_prefs.c:314
+#: src/notification_prefs.c:331 src/notification_prefs.c:348
+#: src/notification_prefs.c:365 src/notification_prefs.c:382
 msgid "Notification"
 msgstr "Notificació"
 
-#: src/notification_plugin.c:104
+#: src/notification_plugin.c:179
 msgid "The Notification plugin needs threading support."
 msgstr "El mòdul de notificació necessita suport de fils."
 
-#: src/notification_plugin.c:111
+#: src/notification_plugin.c:186
 msgid "Failed to register folder item update hook in the Notification plugin"
-msgstr "Error al registrar el canvi de l'element de la carpeta al mòdul de notificació"
+msgstr "Error al registrar el canvi de l'element de la carpeta al mòdul de "
+"notificació"
 
-#: src/notification_plugin.c:119
+#: src/notification_plugin.c:194
+msgid "Failed to register folder update hook in the Notification plugin"
+msgstr "Error al registrar el canvi de la carpeta al mòdul de notificació"
+
+#: src/notification_plugin.c:204
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Error al registrar el canvi de la informació al mòdul de notificació"
 
-#: src/notification_plugin.c:183
+#: src/notification_plugin.c:214
+msgid "Failed to register offline switch hook in the Notification plugin"
+msgstr "Error al registrar el canvi a fora de línia al mòdul de notificació"
+
+#: src/notification_plugin.c:225
+msgid "Failed to register main window close hook in the Notification plugin"
+msgstr "Error al registrar el tancament de la finestra principal al mòdul de notificació"
+
+#: src/notification_plugin.c:238
+msgid "Failed to register got iconified hook in the Notification plugin"
+msgstr "Error al registrar la iconificació al mòdul de notificació"
+
+#: src/notification_plugin.c:251
+msgid "Failed to register account list changed hook in the Notification plugin"
+msgstr "Error al registrar el canvi de la llista de comptes al mòdul de notificació"
+
+#: src/notification_plugin.c:346
 msgid ""
 "This plugin provides various ways to notify the user of new and unread "
 "email.\n"
@@ -63,108 +78,125 @@ msgstr ""
 "correus nous i no llegits.\n"
 "Opinions a <berndt@gmx.de> són benvingudes."
 
-#: src/notification_plugin.c:206
+#: src/notification_plugin.c:369
 msgid "Various tools"
 msgstr "Eines variades"
 
-#: src/notification_popup.c:297
+#: src/notification_popup.c:289
 msgid "New Mail message"
 msgstr "Nou missatge de correu"
 
-#: src/notification_popup.c:324
-msgid "New News message"
+#: src/notification_popup.c:291 src/notification_popup.c:530
+msgid "(No From)"
+msgstr "(Sense Desde"
+
+#: src/notification_popup.c:293 src/notification_popup.c:534
+msgid "(No Subject)"
+msgstr "(Sense assumpte)"
+
+#: src/notification_popup.c:305
+msgid "New News post"
 msgstr "Nou missatge de notícies"
 
-#: src/notification_popup.c:325
+#: src/notification_popup.c:306
 msgid "A new mesesage arrived"
 msgstr "Ha arribat un nou missatge"
 
-#: src/notification_popup.c:328
+#: src/notification_popup.c:309
 msgid "New Calendar message"
 msgstr "Nou missatge de calendari"
 
-#: src/notification_popup.c:329
+#: src/notification_popup.c:310
 msgid "A new calendar message arrived"
 msgstr "Ha arribat un nou missatge de calendari"
 
-#: src/notification_popup.c:332
+#: src/notification_popup.c:313
 msgid "New RSS feed article"
 msgstr "Nou article de feed RSS"
 
-#: src/notification_popup.c:333
+#: src/notification_popup.c:314
 msgid "A new article in a RSS feed arrived"
 msgstr "Ha arribat un nou article a un feed RSS"
 
-#: src/notification_popup.c:336
+#: src/notification_popup.c:317
 msgid "New unknown message"
 msgstr "Nou missatge desconegut"
 
-#: src/notification_popup.c:337
+#: src/notification_popup.c:318
 msgid "Unknown message type arrived"
 msgstr "Ha arribat un missatge de tipus desconegut"
 
-#: src/notification_popup.c:420
+#: src/notification_popup.c:401
 msgid "Mail message"
 msgstr "Missatge de correu"
 
-#: src/notification_popup.c:421 src/notification_popup.c:427
+#: src/notification_popup.c:402 src/notification_popup.c:408
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "Ha arribat %d missatge nou"
 msgstr[1] "Han arribat %d missatges nous"
 
-#: src/notification_popup.c:426
+#: src/notification_popup.c:407
 msgid "News message"
 msgstr "Missatge de notícies"
 
-#: src/notification_popup.c:432
+#: src/notification_popup.c:413
 msgid "Calendar message"
 msgstr "Missatge de calendari"
 
-#: src/notification_popup.c:433
+#: src/notification_popup.c:414
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "Ha arribat %d nou missatge de calendari"
 msgstr[1] "Han arribat %d nous missatges de calendari"
 
-#: src/notification_popup.c:438
+#: src/notification_popup.c:419
 msgid "RSS news feed"
 msgstr "Feed RSS de notícies"
 
-#: src/notification_popup.c:439
+#: src/notification_popup.c:420
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] "Ha arribat %d nou article de feed RSS"
 msgstr[1] "HAn arribat %d nous articles de feed RSS"
 
-#: src/notification_popup.c:535
+#: src/notification_popup.c:481
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
 msgstr[0] "%d nou missatge"
 msgstr[1] "%d nous missatges"
 
-#: src/notification_prefs.c:212 src/notification_prefs.c:226
-#: src/notification_prefs.c:243 src/notification_prefs.c:260
+#: src/notification_prefs.c:299 src/notification_prefs.c:313
+#: src/notification_prefs.c:330 src/notification_prefs.c:347
+#: src/notification_prefs.c:364 src/notification_prefs.c:381
 msgid "Plugins"
 msgstr "Mòduls"
 
-#: src/notification_prefs.c:228
+#: src/notification_prefs.c:315
 msgid "Banner"
 msgstr "Anunci"
 
-#: src/notification_prefs.c:245
+#: src/notification_prefs.c:332
 msgid "Popup"
 msgstr "Element emergent"
 
-#: src/notification_prefs.c:262
+#: src/notification_prefs.c:349
 msgid "Command"
 msgstr "Comanda"
 
-#: src/notification_prefs.c:306
+#: src/notification_prefs.c:366
+msgid "LCD"
+msgstr "LCD"
+
+#: src/notification_prefs.c:383
+msgid "SysTrayicon"
+msgstr "Icona de safata de sistema"
+
+#: src/notification_prefs.c:432
 msgid ""
 "\n"
 "Notification Plugin: Failed to write plugin configuration to file\n"
@@ -172,136 +204,176 @@ msgstr ""
 "\n"
 "Mòdul de notificació: Error al escriure la configuració del mòdul a l'arxiu\n"
 
-#: src/notification_prefs.c:329
+#: src/notification_prefs.c:455
 msgid "Include folder types"
 msgstr "Incloure tipus de carpeta"
 
-#: src/notification_prefs.c:339
+#: src/notification_prefs.c:465
 msgid "Mail folders"
 msgstr "Carpetes de correus"
 
-#: src/notification_prefs.c:347
+#: src/notification_prefs.c:473
 msgid "News folders"
 msgstr "Carpetes de notícies"
 
-#: src/notification_prefs.c:355
+#: src/notification_prefs.c:481
 msgid "RSS folders"
 msgstr "Carpetes de RSS"
 
-#: src/notification_prefs.c:363
+#: src/notification_prefs.c:489
 msgid "Calendar folders"
 msgstr "Carpetes de calendaris"
 
-#: src/notification_prefs.c:371
+#: src/notification_prefs.c:497
 msgid "These settings overwrite folder-specific selections."
 msgstr "Aquests elements sobreescriuran les seleccions de carpeta."
 
-#: src/notification_prefs.c:425
+#: src/notification_prefs.c:552
 msgid "Show banner"
 msgstr "Mostra avís"
 
-#: src/notification_prefs.c:430
+#: src/notification_prefs.c:557
 msgid "Never"
 msgstr "Mai"
 
-#: src/notification_prefs.c:432
+#: src/notification_prefs.c:559
 msgid "Always"
 msgstr "Sempre"
 
-#: src/notification_prefs.c:434
+#: src/notification_prefs.c:561
 msgid "Only when not empty"
 msgstr "Només quan no estigui buit"
 
-#: src/notification_prefs.c:452
+#: src/notification_prefs.c:579
 msgid "slow"
 msgstr "lent"
 
-#: src/notification_prefs.c:456
+#: src/notification_prefs.c:583
 msgid "fast"
 msgstr "ràpid"
 
-#: src/notification_prefs.c:460
+#: src/notification_prefs.c:587
 msgid "Banner speed"
 msgstr "Velocitat de l'avís"
 
-#: src/notification_prefs.c:477
+#: src/notification_prefs.c:605
+msgid "Maximum number of messages (0 means unlimited)"
+msgstr "Número màxim de missatges (0 significa il·limitat)"
+
+#: src/notification_prefs.c:618
 msgid "Include unread mails in banner"
 msgstr "Incloure correus no llegit a l'avís"
 
-#: src/notification_prefs.c:485
+#: src/notification_prefs.c:626
 msgid "Make banner sticky"
 msgstr "Fer que l'avís s'enganxi"
 
-#: src/notification_prefs.c:495 src/notification_prefs.c:688
-#: src/notification_prefs.c:946
+#: src/notification_prefs.c:636 src/notification_prefs.c:831
+#: src/notification_prefs.c:1089 src/notification_prefs.c:1368
 msgid "Only include selected folders"
 msgstr "Incloure només carpetes seleccionades"
 
-#: src/notification_prefs.c:504 src/notification_prefs.c:697
-#: src/notification_prefs.c:955
+#: src/notification_prefs.c:645 src/notification_prefs.c:840
+#: src/notification_prefs.c:1098 src/notification_prefs.c:1377
 msgid "Select folders..."
 msgstr "Seleccionar carpetes..."
 
-#: src/notification_prefs.c:514 src/notification_prefs.c:729
+#: src/notification_prefs.c:655 src/notification_prefs.c:872
 msgid "Use custom colors"
 msgstr "Usar colors definits"
 
-#: src/notification_prefs.c:527 src/notification_prefs.c:742
+#: src/notification_prefs.c:668 src/notification_prefs.c:885
 msgid "Foreground"
 msgstr "Primer pla"
 
-#: src/notification_prefs.c:533 src/notification_prefs.c:748
+#: src/notification_prefs.c:674 src/notification_prefs.c:891
 msgid "Foreground color"
 msgstr "Color de primer pla"
 
-#: src/notification_prefs.c:538 src/notification_prefs.c:753
+#: src/notification_prefs.c:679 src/notification_prefs.c:896
 msgid "Background"
 msgstr "Fons"
 
-#: src/notification_prefs.c:544 src/notification_prefs.c:759
+#: src/notification_prefs.c:685 src/notification_prefs.c:902
 msgid "Background color"
 msgstr "Color de fons"
 
-#: src/notification_prefs.c:652
+#: src/notification_prefs.c:795
 msgid "Enable popup"
 msgstr "Activar elements emergents"
 
-#: src/notification_prefs.c:669
+#: src/notification_prefs.c:812 src/notification_prefs.c:1348
 msgid "Popup timeout:"
 msgstr "Temps límit d'elements emergents:"
 
-#: src/notification_prefs.c:679 src/notification_prefs.c:937
+#: src/notification_prefs.c:822 src/notification_prefs.c:1080
+#: src/notification_prefs.c:1358
 msgid "seconds"
 msgstr "segons"
 
-#: src/notification_prefs.c:708
+#: src/notification_prefs.c:851
 msgid "Make popup sticky"
 msgstr "Fer que l'element emergent s'enganxi"
 
-#: src/notification_prefs.c:718
+#: src/notification_prefs.c:861
 msgid "Set popup window width and position"
 msgstr "Definir amplada i posició de les finestres emergents"
 
-#: src/notification_prefs.c:723
+#: src/notification_prefs.c:866
 msgid "(the window manager is free to ignore this)"
 msgstr "(el gestor de finestres és lliure d'ignorar-ho)"
 
-#: src/notification_prefs.c:823
+#: src/notification_prefs.c:966
 msgid "Sample popup window"
 msgstr "Mostra finestra emergent"
 
-#: src/notification_prefs.c:829
+#: src/notification_prefs.c:972
 msgid "Done"
 msgstr "Fet"
 
-#: src/notification_prefs.c:897
+#: src/notification_prefs.c:1040
 msgid "Enable command"
 msgstr "Activar comanda"
 
-#: src/notification_prefs.c:914
+#: src/notification_prefs.c:1057
 msgid "Command to execute:"
 msgstr "Comanda a executar:"
 
-#: src/notification_prefs.c:927
+#: src/notification_prefs.c:1070
 msgid "Block command after execution for"
 msgstr "Bloqeujar comanda després de l'execució per"
+
+#: src/notification_prefs.c:1176
+msgid "Enable LCD"
+msgstr "Activar LCD"
+
+#: src/notification_prefs.c:1195
+msgid "Hostname:Port of LCDd server:"
+msgstr "Nom de servidor:Port del servei LCDd"
+
+#: src/notification_prefs.c:1277
+msgid "Enable Trayicon"
+msgstr "Activar la icona de safata"
+
+#: src/notification_prefs.c:1293
+msgid "Hide at start-up"
+msgstr "Ocultar al iniciar-se"
+
+#: src/notification_prefs.c:1301
+msgid "Close to tray"
+msgstr "Tancar a la safata"
+
+#: src/notification_prefs.c:1309
+msgid "Hide when iconified"
+msgstr "Ocultar al iconificar"
+
+#: src/notification_prefs.c:1319
+msgid "Passive toaster popup"
+msgstr "Avís emergent passiu"
+
+#: src/notification_prefs.c:1330
+msgid "Enable Popup"
+msgstr "Activar avís emergents"
+
+#~ msgid "From:"
+#~ msgstr "Des de:"

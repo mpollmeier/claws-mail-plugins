@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: notification\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2007-06-25 08:17+0100\n"
-"PO-Revision-Date: 2007-06-27 05:41+0300\n"
+"POT-Creation-Date: 2007-08-28 09:11+0100\n"
+"PO-Revision-Date: 2007-08-28 17:09+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@gentoo.org>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,33 +20,54 @@ msgstr ""
 msgid "Folder:"
 msgstr "Kansio:"
 
-#: src/notification_foldercheck.c:474
+#: src/notification_foldercheck.c:473
 msgid "Select folder(s)"
 msgstr "Valitse kansioita"
 
-#: src/notification_foldercheck.c:570
+#: src/notification_foldercheck.c:569
 msgid "select recursively"
 msgstr "valitse rekursiivisesti"
 
-#: src/notification_plugin.c:99 src/notification_plugin.c:179
-#: src/notification_prefs.c:213 src/notification_prefs.c:227
-#: src/notification_prefs.c:244 src/notification_prefs.c:261
+#: src/notification_plugin.c:174 src/notification_plugin.c:341
+#: src/notification_prefs.c:300 src/notification_prefs.c:314
+#: src/notification_prefs.c:331 src/notification_prefs.c:348
+#: src/notification_prefs.c:365 src/notification_prefs.c:382
 msgid "Notification"
 msgstr "Ilmoitus"
 
-#: src/notification_plugin.c:104
+#: src/notification_plugin.c:179
 msgid "The Notification plugin needs threading support."
 msgstr "Ilmoitusliitännäinen vaatii säietuen."
 
-#: src/notification_plugin.c:111
+#: src/notification_plugin.c:186
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "Päivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:119
+#: src/notification_plugin.c:194
+msgid "Failed to register folder update hook in the Notification plugin"
+msgstr "Kansiopäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+
+#: src/notification_plugin.c:204
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Viesti-info-koukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:184
+#: src/notification_plugin.c:214
+msgid "Failed to register offline switch hook in the Notification plugin"
+msgstr "Yhteydettömyyskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+
+#: src/notification_plugin.c:225
+msgid "Failed to register main window close hook in the Notification plugin"
+msgstr "Ikkunan sulkemsiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+
+#: src/notification_plugin.c:238
+msgid "Failed to register got iconified hook in the Notification plugin"
+msgstr "Pienentymiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+
+#: src/notification_plugin.c:251
+msgid "Failed to register account list changed hook in the Notification plugin"
+msgstr "Tililistapäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+
+#: src/notification_plugin.c:346
 msgid ""
 "This plugin provides various ways to notify the user of new and unread "
 "email.\n"
@@ -56,252 +77,299 @@ msgstr ""
 "postista.\n"
 "Palaute osoitteeseen <berndth@gmx.de>, suomennoksesta <flammie@iki.fi>"
 
-#: src/notification_plugin.c:207
+#: src/notification_plugin.c:369
 msgid "Various tools"
 msgstr "Työkaluja"
 
-#: src/notification_popup.c:297
+#: src/notification_popup.c:289
 msgid "New Mail message"
 msgstr "Uusi viesti"
 
-#: src/notification_popup.c:299 src/notification_popup.c:586
+#: src/notification_popup.c:291 src/notification_popup.c:530
 msgid "(No From)"
 msgstr "(Lähettäjä puuttuu)"
 
-#: src/notification_popup.c:301 src/notification_popup.c:590
+#: src/notification_popup.c:293 src/notification_popup.c:534
 msgid "(No Subject)"
 msgstr "(Aihe puuttuu)"
 
-#: src/notification_popup.c:326
-msgid "New News message"
+#: src/notification_popup.c:305
+msgid "New News post"
 msgstr "Uusi nyyssiviesti"
 
-#: src/notification_popup.c:327
+#: src/notification_popup.c:306
 msgid "A new mesesage arrived"
 msgstr "Uusi viesti saapui"
 
-#: src/notification_popup.c:330
+#: src/notification_popup.c:309
 msgid "New Calendar message"
 msgstr "Uusi kalenteriviesti"
 
-#: src/notification_popup.c:331
+#: src/notification_popup.c:310
 msgid "A new calendar message arrived"
 msgstr "Uusi kalenteriviesti saapui"
 
-#: src/notification_popup.c:334
+#: src/notification_popup.c:313
 msgid "New RSS feed article"
 msgstr "Uusi RSS-syöte"
 
-#: src/notification_popup.c:335
+#: src/notification_popup.c:314
 msgid "A new article in a RSS feed arrived"
 msgstr "Uusi RSS-syöte saapui"
 
-#: src/notification_popup.c:338
+#: src/notification_popup.c:317
 msgid "New unknown message"
 msgstr "Uusi tunnistamaton viesti"
 
-#: src/notification_popup.c:339
+#: src/notification_popup.c:318
 msgid "Unknown message type arrived"
 msgstr "Uusi tunnistamaton viesti saapui"
 
-#: src/notification_popup.c:422
+#: src/notification_popup.c:401
 msgid "Mail message"
 msgstr "Sähköpostiviesti"
 
-#: src/notification_popup.c:423 src/notification_popup.c:429
+#: src/notification_popup.c:402 src/notification_popup.c:408
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "%d uusi viesti saapunut"
 msgstr[1] "%d uutta viestiä saapunut"
 
-#: src/notification_popup.c:428
+#: src/notification_popup.c:407
 msgid "News message"
 msgstr "Nyyssiviesti"
 
-#: src/notification_popup.c:434
+#: src/notification_popup.c:413
 msgid "Calendar message"
 msgstr "Kalenteriviesti"
 
-#: src/notification_popup.c:435
+#: src/notification_popup.c:414
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "%d uusi kalenteriviesti saapunut"
 msgstr[1] "%d uutta kalenteriviestiä saapunut"
 
-#: src/notification_popup.c:440
+#: src/notification_popup.c:419
 msgid "RSS news feed"
 msgstr "RSS-syöte"
 
-#: src/notification_popup.c:441
+#: src/notification_popup.c:420
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] "%d uusi viesti RSS-syötteessä saapunut"
 msgstr[1] "%d uutta viestiä RSS-syötteessä saapunut"
 
-#: src/notification_popup.c:537
+#: src/notification_popup.c:481
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
 msgstr[0] "%d uusi viesti"
 msgstr[1] "%d uutta viestiä"
 
-#: src/notification_prefs.c:212 src/notification_prefs.c:226
-#: src/notification_prefs.c:243 src/notification_prefs.c:260
+#: src/notification_prefs.c:299 src/notification_prefs.c:313
+#: src/notification_prefs.c:330 src/notification_prefs.c:347
+#: src/notification_prefs.c:364 src/notification_prefs.c:381
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/notification_prefs.c:228
+#: src/notification_prefs.c:315
 msgid "Banner"
 msgstr "Banneri"
 
-#: src/notification_prefs.c:245
+#: src/notification_prefs.c:332
 msgid "Popup"
 msgstr "Ponnahdus"
 
-#: src/notification_prefs.c:262
+#: src/notification_prefs.c:349
 msgid "Command"
 msgstr "Komento"
 
-#: src/notification_prefs.c:306
+#: src/notification_prefs.c:366
+msgid "LCD"
+msgstr "LCD"
+
+#: src/notification_prefs.c:383
+msgid "SysTrayicon"
+msgstr "Ilmoitusaluekuvake"
+
+#: src/notification_prefs.c:432
 msgid ""
 "\n"
 "Notification Plugin: Failed to write plugin configuration to file\n"
-msgstr "\n"
+msgstr ""
+"\n"
 "Ilmoitusliitännäinen: liitännäisasetusten kirjoitus tiedostoon epäonnistui\n"
 
-#: src/notification_prefs.c:329
+#: src/notification_prefs.c:455
 msgid "Include folder types"
 msgstr "Sisällytä kansiotyypit"
 
-#: src/notification_prefs.c:339
+#: src/notification_prefs.c:465
 msgid "Mail folders"
 msgstr "Sähköpostikansiot"
 
-#: src/notification_prefs.c:347
+#: src/notification_prefs.c:473
 msgid "News folders"
 msgstr "Nyyssikansiot"
 
-#: src/notification_prefs.c:355
+#: src/notification_prefs.c:481
 msgid "RSS folders"
 msgstr "RSS-kansiot"
 
-#: src/notification_prefs.c:363
+#: src/notification_prefs.c:489
 msgid "Calendar folders"
 msgstr "Kalenterikansiot"
 
-#: src/notification_prefs.c:371
+#: src/notification_prefs.c:497
 msgid "These settings overwrite folder-specific selections."
 msgstr "Asetukset korvaavat kansioittaiset valinnat."
 
-#: src/notification_prefs.c:425
+#: src/notification_prefs.c:552
 msgid "Show banner"
 msgstr "Näytä banneri"
 
-#: src/notification_prefs.c:430
+#: src/notification_prefs.c:557
 msgid "Never"
 msgstr "Ei koskaan"
 
-#: src/notification_prefs.c:432
+#: src/notification_prefs.c:559
 msgid "Always"
 msgstr "Aina"
 
-#: src/notification_prefs.c:434
+#: src/notification_prefs.c:561
 msgid "Only when not empty"
 msgstr "Vain jollei tyhjä"
 
-#: src/notification_prefs.c:452
+#: src/notification_prefs.c:579
 msgid "slow"
 msgstr "hidas"
 
-#: src/notification_prefs.c:456
+#: src/notification_prefs.c:583
 msgid "fast"
 msgstr "nopea"
 
-#: src/notification_prefs.c:460
+#: src/notification_prefs.c:587
 msgid "Banner speed"
 msgstr "Bannerin vauhti"
 
-#: src/notification_prefs.c:477
+#: src/notification_prefs.c:605
+msgid "Maximum number of messages (0 means unlimited)"
+msgstr "Enimmäismäärä viestejä (0 rajoittamattomalle)"
+
+#: src/notification_prefs.c:618
 msgid "Include unread mails in banner"
 msgstr "Sisällytä lukemattomat viestit banneriin"
 
-#: src/notification_prefs.c:485
+#: src/notification_prefs.c:626
 msgid "Make banner sticky"
 msgstr "Tee bannerista tarttuva"
 
-#: src/notification_prefs.c:495 src/notification_prefs.c:688
-#: src/notification_prefs.c:946
+#: src/notification_prefs.c:636 src/notification_prefs.c:831
+#: src/notification_prefs.c:1089 src/notification_prefs.c:1368
 msgid "Only include selected folders"
 msgstr "Sisällytä vain valitut kansiot"
 
-#: src/notification_prefs.c:504 src/notification_prefs.c:697
-#: src/notification_prefs.c:955
+#: src/notification_prefs.c:645 src/notification_prefs.c:840
+#: src/notification_prefs.c:1098 src/notification_prefs.c:1377
 msgid "Select folders..."
 msgstr "Valitse kansioita…"
 
-#: src/notification_prefs.c:514 src/notification_prefs.c:729
+#: src/notification_prefs.c:655 src/notification_prefs.c:872
 msgid "Use custom colors"
 msgstr "Käytä omia värejä"
 
-#: src/notification_prefs.c:527 src/notification_prefs.c:742
+#: src/notification_prefs.c:668 src/notification_prefs.c:885
 msgid "Foreground"
 msgstr "Edusta"
 
-#: src/notification_prefs.c:533 src/notification_prefs.c:748
+#: src/notification_prefs.c:674 src/notification_prefs.c:891
 msgid "Foreground color"
 msgstr "Edustaväri"
 
-#: src/notification_prefs.c:538 src/notification_prefs.c:753
+#: src/notification_prefs.c:679 src/notification_prefs.c:896
 msgid "Background"
 msgstr "Tausta"
 
-#: src/notification_prefs.c:544 src/notification_prefs.c:759
+#: src/notification_prefs.c:685 src/notification_prefs.c:902
 msgid "Background color"
 msgstr "Taustaväri"
 
-#: src/notification_prefs.c:652
+#: src/notification_prefs.c:795
 msgid "Enable popup"
 msgstr "Salli ponnahdus"
 
-#: src/notification_prefs.c:669
+#: src/notification_prefs.c:812 src/notification_prefs.c:1348
 msgid "Popup timeout:"
 msgstr "Ponnahdusaika:"
 
-#: src/notification_prefs.c:679 src/notification_prefs.c:937
+#: src/notification_prefs.c:822 src/notification_prefs.c:1080
+#: src/notification_prefs.c:1358
 msgid "seconds"
 msgstr "sekuntia"
 
-#: src/notification_prefs.c:708
+#: src/notification_prefs.c:851
 msgid "Make popup sticky"
 msgstr "Tee ponnahduksesta tarttuva"
 
-#: src/notification_prefs.c:718
+#: src/notification_prefs.c:861
 msgid "Set popup window width and position"
 msgstr "Aseta ponnahdusikkunan leveys ja sijainti"
 
-#: src/notification_prefs.c:723
+#: src/notification_prefs.c:866
 msgid "(the window manager is free to ignore this)"
 msgstr "(ikkunointiohjelma voi sivuuttaa asetukset)"
 
-#: src/notification_prefs.c:823
+#: src/notification_prefs.c:966
 msgid "Sample popup window"
 msgstr "Esimerkkiponnahdus"
 
-#: src/notification_prefs.c:829
+#: src/notification_prefs.c:972
 msgid "Done"
 msgstr "Valmis"
 
-#: src/notification_prefs.c:897
+#: src/notification_prefs.c:1040
 msgid "Enable command"
 msgstr "Käytä komentoa"
 
-#: src/notification_prefs.c:914
+#: src/notification_prefs.c:1057
 msgid "Command to execute:"
 msgstr "Ajettava komento:"
 
-#: src/notification_prefs.c:927
+#: src/notification_prefs.c:1070
 msgid "Block command after execution for"
 msgstr "Estä komento ajaksi"
+
+#: src/notification_prefs.c:1176
+msgid "Enable LCD"
+msgstr "Salli LCD"
+
+#: src/notification_prefs.c:1195
+msgid "Hostname:Port of LCDd server:"
+msgstr "Konenimi:portti LCDd-palvelimeen:"
+
+#: src/notification_prefs.c:1277
+msgid "Enable Trayicon"
+msgstr "Käytä ilmoitusaluekuvaketta"
+
+#: src/notification_prefs.c:1293
+msgid "Hide at start-up"
+msgstr "Piilota käynnistyksessä"
+
+#: src/notification_prefs.c:1301
+msgid "Close to tray"
+msgstr "Sulje ilmoitusalueelle"
+
+#: src/notification_prefs.c:1309
+msgid "Hide when iconified"
+msgstr "Piilota pienennettynä"
+
+#: src/notification_prefs.c:1319
+msgid "Passive toaster popup"
+msgstr ""
+
+#: src/notification_prefs.c:1330
+msgid "Enable Popup"
+msgstr "Salli ponnahdus"

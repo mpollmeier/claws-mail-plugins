@@ -1,3 +1,14 @@
+2007-09-03 [paul]	0.11cvs19
+
+	* po/ca.po
+	* po/fi.po
+	* po/hu.po
+	* po/pt_BR.po
+	* po/zh_CN.po
+		updated by Miquel Oliete, Flammie Pirinen,
+		Pader Rezso, Frederico Goncalves Guimaraes,
+		Ralph Young
+
 2007-08-26 [holger]	0.11cvs18
 
 	* src/notification_trayicon.c
