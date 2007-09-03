@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vcalendar 1.29\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-07-11 14:31+0200\n"
-"PO-Revision-Date: 2007-06-28 01:01+0800\n"
+"POT-Creation-Date: 2007-08-28 09:16+0100\n"
+"PO-Revision-Date: 2007-08-29 23:56+0800\n"
 "Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
 "Language-Team: Simplified Chinese\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: src/plugin.c:40 src/plugin.c:57 src/vcal_prefs.c:645
+#: src/plugin.c:41 src/plugin.c:60 src/vcal_prefs.c:645
 msgid "vCalendar"
 msgstr ""
 
-#: src/plugin.c:62
+#: src/plugin.c:65
 msgid ""
 "This plugin enables vCalendar message handling like that produced by "
 "Evolution or Outlook.\n"
@@ -48,45 +48,72 @@ msgstr ""
 "你也可以订阅远程的webcal数据，导出会议和日历安排，发布您的空余时间信息或者获"
 "取其它人的信息。"
 
-#: src/plugin.c:95
+#: src/plugin.c:98
 msgid "Calendar"
 msgstr "日历"
 
-#: src/vcalendar.c:508
+#: src/vcalendar.c:87
+msgid "/Message/Create meeting from message..."
+msgstr "/邮件/根据邮件创建会议日程..."
+
+#: src/vcalendar.c:95
+msgid "/Create meeting from message..."
+msgstr "/根据邮件创建会议日程..."
+
+#: src/vcalendar.c:119
+#, c-format
+msgid ""
+"You are about to create %d meetings, one by one. Do you want to continue?"
+msgstr ""
+"您将要创建%d个会议（创建将逐一进行），是否继续？"
+
+#: src/vcalendar.c:124
+msgid "Warning"
+msgstr "警告："
+
+#: src/vcalendar.c:138
+msgid "Creating meeting..."
+msgstr "创建会议..."
+
+#: src/vcalendar.c:157
+msgid "no subject"
+msgstr "无主题"
+
+#: src/vcalendar.c:648
 msgid "Accept"
 msgstr "接受"
 
-#: src/vcalendar.c:509
+#: src/vcalendar.c:649
 msgid "Tentatively accept"
 msgstr "暂且接受"
 
-#: src/vcalendar.c:510
+#: src/vcalendar.c:650
 msgid "Decline"
 msgstr "拒绝"
 
-#: src/vcalendar.c:573
+#: src/vcalendar.c:713
 msgid "You have a Todo item."
 msgstr "您有一个待办事宜。"
 
-#: src/vcalendar.c:574 src/vcalendar.c:579 src/vcalendar.c:584
-#: src/vcalendar.c:599 src/vcalendar.c:611 src/vcalendar.c:617
-#: src/vcalendar.c:939
+#: src/vcalendar.c:714 src/vcalendar.c:719 src/vcalendar.c:724
+#: src/vcalendar.c:739 src/vcalendar.c:751 src/vcalendar.c:757
+#: src/vcalendar.c:1079
 msgid "Details follow:"
 msgstr "详细内容如下:"
 
-#: src/vcalendar.c:578
+#: src/vcalendar.c:718
 msgid "You have created a meeting."
 msgstr "您已经创建了一个会议。"
 
-#: src/vcalendar.c:583
+#: src/vcalendar.c:723
 msgid "You have been invited to a meeting."
 msgstr "您已经被邀请参加一个会议。"
 
-#: src/vcalendar.c:598 src/vcalendar.c:938
+#: src/vcalendar.c:738 src/vcalendar.c:1078
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "您已经接收到一项未知会议提议的回复。"
 
-#: src/vcalendar.c:602 src/vcalendar.c:942
+#: src/vcalendar.c:742 src/vcalendar.c:1082
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -95,30 +122,31 @@ msgstr ""
 "您已经收到一项会议提议的回复。\n"
 "%s 已经%s了该邀请。详细内容如下："
 
-#: src/vcalendar.c:610
+#: src/vcalendar.c:750
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "邀请您参加的一项会议已经被取消。"
 
-#: src/vcalendar.c:616
+#: src/vcalendar.c:756
 msgid "You have been forwarded an appointment."
 msgstr "您收到一份转发的约会"
 
-#: src/vcalendar.c:653
+#: src/vcalendar.c:793
 #, c-format
 msgid "%s <span weight=\"bold\">(this event recurs)</span>"
-msgstr ""
+msgstr "%s <span weight=\"bold\">(此事务为长期事务)</span>"
 
-#: src/vcalendar.c:659
+#: src/vcalendar.c:799
 #, c-format
 msgid ""
 "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
 msgstr ""
+"%s <span weight=\"bold\">(此事务为一长期事务的一部分)</span>"
 
-#: src/vcalendar.c:1210
+#: src/vcalendar.c:1350
 msgid "Cancel meeting"
 msgstr "取消会议"
 
-#: src/vcalendar.c:1211
+#: src/vcalendar.c:1351
 msgid ""
 "Are you sure you want to cancel this meeting?\n"
 "A notification will be sent to attendees."
@@ -126,11 +154,11 @@ msgstr ""
 "您确定要取消该会议嘛？\n"
 "如果确定取消，将向所有会议参加者发送通知。"
 
-#: src/vcalendar.c:1278
+#: src/vcalendar.c:1418
 msgid "No account found"
 msgstr "没有找到账户"
 
-#: src/vcalendar.c:1279
+#: src/vcalendar.c:1419
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
@@ -138,63 +166,63 @@ msgstr ""
 "在会议名单中找不到您的名字。\n"
 "是否确实要回复？"
 
-#: src/vcalendar.c:1281
+#: src/vcalendar.c:1421
 msgid "+Reply anyway"
 msgstr "+仍旧回复"
 
-#: src/vcalendar.c:1407
+#: src/vcalendar.c:1547
 msgid "Answer"
 msgstr "答复"
 
-#: src/vcalendar.c:1408
+#: src/vcalendar.c:1548
 msgid "Edit meeting..."
 msgstr "编辑会议..."
 
-#: src/vcalendar.c:1409
+#: src/vcalendar.c:1549
 msgid "Cancel meeting..."
 msgstr "取消会议..."
 
-#: src/vcalendar.c:1410
+#: src/vcalendar.c:1550
 msgid "Launch website"
 msgstr "打开网站"
 
-#: src/vcalendar.c:1414
+#: src/vcalendar.c:1554
 msgid "You are already busy at this time."
 msgstr "您那时正忙。"
 
-#: src/vcalendar.c:1468 src/vcal_meeting_gtk.c:1625
+#: src/vcalendar.c:1608 src/vcal_meeting_gtk.c:1644
 msgid "Event:"
 msgstr "时间："
 
-#: src/vcalendar.c:1469 src/vcal_meeting_gtk.c:1604
-#: src/vcal_meeting_gtk.c:1614
+#: src/vcalendar.c:1609 src/vcal_meeting_gtk.c:1623
+#: src/vcal_meeting_gtk.c:1633
 msgid "Organizer:"
 msgstr "组织："
 
-#: src/vcalendar.c:1470 src/vcal_meeting_gtk.c:1605
-#: src/vcal_meeting_gtk.c:1615
+#: src/vcalendar.c:1610 src/vcal_meeting_gtk.c:1624
+#: src/vcal_meeting_gtk.c:1634
 msgid "Summary:"
 msgstr "摘要："
 
-#: src/vcalendar.c:1471
+#: src/vcalendar.c:1611
 msgid "Starting:"
 msgstr "开始时间："
 
-#: src/vcalendar.c:1472
+#: src/vcalendar.c:1612
 msgid "Ending:"
 msgstr "结束时间："
 
-#: src/vcalendar.c:1473 src/vcal_meeting_gtk.c:1607
-#: src/vcal_meeting_gtk.c:1616
+#: src/vcalendar.c:1613 src/vcal_meeting_gtk.c:1626
+#: src/vcal_meeting_gtk.c:1635
 msgid "Description:"
 msgstr "描述："
 
-#: src/vcalendar.c:1474 src/vcal_meeting_gtk.c:1608
-#: src/vcal_meeting_gtk.c:1617
+#: src/vcalendar.c:1614 src/vcal_meeting_gtk.c:1627
+#: src/vcal_meeting_gtk.c:1636
 msgid "Attendees:"
 msgstr "参加人员："
 
-#: src/vcalendar.c:1476
+#: src/vcalendar.c:1616
 msgid "Action:"
 msgstr "动作："
 
@@ -467,47 +495,47 @@ msgstr "本周"
 msgid "Later"
 msgstr "以后"
 
-#: src/vcal_manager.c:1193
+#: src/vcal_manager.c:1195
 msgid "Accepted: "
 msgstr "已接受的: "
 
-#: src/vcal_manager.c:1195
+#: src/vcal_manager.c:1197
 msgid "Declined: "
 msgstr "已拒绝的: "
 
-#: src/vcal_manager.c:1197
+#: src/vcal_manager.c:1199
 msgid "Tentatively Accepted: "
 msgstr "暂且接受的: "
 
-#: src/vcal_meeting_gtk.c:289
+#: src/vcal_meeting_gtk.c:295
 msgid "Use <tab> to autocomplete from addressbook"
 msgstr "使用<tab>键可根据地址簿自动补齐"
 
-#: src/vcal_meeting_gtk.c:307
+#: src/vcal_meeting_gtk.c:313
 msgid "Individual"
 msgstr "个人"
 
-#: src/vcal_meeting_gtk.c:308
+#: src/vcal_meeting_gtk.c:314
 msgid "Group"
 msgstr "群组"
 
-#: src/vcal_meeting_gtk.c:309
+#: src/vcal_meeting_gtk.c:315
 msgid "Resource"
 msgstr "资源"
 
-#: src/vcal_meeting_gtk.c:310
+#: src/vcal_meeting_gtk.c:316
 msgid "Room"
 msgstr "房间"
 
-#: src/vcal_meeting_gtk.c:323
+#: src/vcal_meeting_gtk.c:329
 msgid "Add..."
 msgstr "添加..."
 
-#: src/vcal_meeting_gtk.c:324
+#: src/vcal_meeting_gtk.c:330
 msgid "Remove"
 msgstr "删除"
 
-#: src/vcal_meeting_gtk.c:728
+#: src/vcal_meeting_gtk.c:747
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
@@ -515,61 +543,61 @@ msgstr ""
 "以下人员在您所计划的时间内将不会有空:\n"
 "- "
 
-#: src/vcal_meeting_gtk.c:729 src/vcal_meeting_gtk.c:818
-#: src/vcal_meeting_gtk.c:904
+#: src/vcal_meeting_gtk.c:748 src/vcal_meeting_gtk.c:837
+#: src/vcal_meeting_gtk.c:923
 msgid "You"
 msgstr "您"
 
-#: src/vcal_meeting_gtk.c:730
+#: src/vcal_meeting_gtk.c:749
 msgid "You are busy at the time of your planned meeting"
 msgstr "您自己在计划的会议时间内无空"
 
-#: src/vcal_meeting_gtk.c:732
+#: src/vcal_meeting_gtk.c:751
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
 msgstr "%s 在您计划的会议时间内无空"
 
-#: src/vcal_meeting_gtk.c:734
+#: src/vcal_meeting_gtk.c:753
 #, c-format
 msgid "%d hour sooner"
 msgstr "之前%d小时"
 
-#: src/vcal_meeting_gtk.c:736
+#: src/vcal_meeting_gtk.c:755
 #, c-format
 msgid "%d hours sooner"
 msgstr "之后%d小时"
 
-#: src/vcal_meeting_gtk.c:738
+#: src/vcal_meeting_gtk.c:757
 #, c-format
 msgid "%d hours and %d minutes sooner"
 msgstr "之前%d小时%d分钟"
 
-#: src/vcal_meeting_gtk.c:740
+#: src/vcal_meeting_gtk.c:759
 #, c-format
 msgid "%d minutes sooner"
 msgstr "之前%d分钟"
 
-#: src/vcal_meeting_gtk.c:745
+#: src/vcal_meeting_gtk.c:764
 #, c-format
 msgid "%d hour later"
 msgstr "之后%d小时"
 
-#: src/vcal_meeting_gtk.c:747
+#: src/vcal_meeting_gtk.c:766
 #, c-format
 msgid "%d hours later"
 msgstr "之后%d小时"
 
-#: src/vcal_meeting_gtk.c:749
+#: src/vcal_meeting_gtk.c:768
 #, c-format
 msgid "%d hours and %d minutes later"
 msgstr "之后%d小时%d分钟"
 
-#: src/vcal_meeting_gtk.c:751
+#: src/vcal_meeting_gtk.c:770
 #, c-format
 msgid "%d minutes later"
 msgstr "之后%d分"
 
-#: src/vcal_meeting_gtk.c:757
+#: src/vcal_meeting_gtk.c:776
 #, c-format
 msgid ""
 "\n"
@@ -580,7 +608,7 @@ msgstr ""
 "\n"
 "所有人在%s或%s均有空."
 
-#: src/vcal_meeting_gtk.c:759
+#: src/vcal_meeting_gtk.c:778
 #, c-format
 msgid ""
 "\n"
@@ -591,7 +619,7 @@ msgstr ""
 "\n"
 "所有人均有空 %s."
 
-#: src/vcal_meeting_gtk.c:761
+#: src/vcal_meeting_gtk.c:780
 msgid ""
 "\n"
 "\n"
@@ -602,71 +630,71 @@ msgstr ""
 "\n"
 "在此前和此后6个小时内不可能让所有人参加这个会议。"
 
-#: src/vcal_meeting_gtk.c:766
+#: src/vcal_meeting_gtk.c:785
 #, c-format
 msgid "would be available %s or %s"
 msgstr "将会在%s或者%s有空"
 
-#: src/vcal_meeting_gtk.c:768
+#: src/vcal_meeting_gtk.c:787
 #, c-format
 msgid "would be available %s"
 msgstr "将会在%s有空"
 
-#: src/vcal_meeting_gtk.c:770 src/vcal_meeting_gtk.c:831
-#: src/vcal_meeting_gtk.c:901
+#: src/vcal_meeting_gtk.c:789 src/vcal_meeting_gtk.c:850
+#: src/vcal_meeting_gtk.c:920
 msgid "not available"
 msgstr "无空"
 
-#: src/vcal_meeting_gtk.c:773
+#: src/vcal_meeting_gtk.c:792
 #, c-format
 msgid ", but would be available %s or %s."
 msgstr ", 但在%s或者%s有空。"
 
-#: src/vcal_meeting_gtk.c:775
+#: src/vcal_meeting_gtk.c:794
 #, c-format
 msgid ", but would be available %s."
 msgstr ", 但在%s有空。"
 
-#: src/vcal_meeting_gtk.c:777
+#: src/vcal_meeting_gtk.c:796
 msgid ", and isn't available in the previous or next 6 hours."
 msgstr ", 而且在此前和此后6小时内均无空。"
 
-#: src/vcal_meeting_gtk.c:834
+#: src/vcal_meeting_gtk.c:853
 msgid "available"
 msgstr "有空"
 
-#: src/vcal_meeting_gtk.c:836 src/vcal_meeting_gtk.c:1080
+#: src/vcal_meeting_gtk.c:855 src/vcal_meeting_gtk.c:1099
 msgid "Free/busy retrieval failed"
 msgstr "获取忙/闲信息失败"
 
-#: src/vcal_meeting_gtk.c:918
+#: src/vcal_meeting_gtk.c:937
 msgid "Not everyone is available"
 msgstr "并非所有人都有空"
 
-#: src/vcal_meeting_gtk.c:919
+#: src/vcal_meeting_gtk.c:938
 msgid "Send anyway"
 msgstr "坚持发送"
 
-#: src/vcal_meeting_gtk.c:930
+#: src/vcal_meeting_gtk.c:949
 msgid "Not everyone is available. See tooltips for more info..."
 msgstr "并非所有人都有空。查看提示以获取更多信息..."
 
-#: src/vcal_meeting_gtk.c:1089
+#: src/vcal_meeting_gtk.c:1108
 msgid "Available"
 msgstr "有空"
 
-#: src/vcal_meeting_gtk.c:1102 src/vcal_meeting_gtk.c:1109
-#: src/vcal_meeting_gtk.c:1117
+#: src/vcal_meeting_gtk.c:1121 src/vcal_meeting_gtk.c:1128
+#: src/vcal_meeting_gtk.c:1136
 msgid "Everyone is available."
 msgstr "所有人均有空。"
 
-#: src/vcal_meeting_gtk.c:1119
+#: src/vcal_meeting_gtk.c:1138
 msgid ""
 "Everyone seems available, but some free/busy information failed to be "
 "retrieved."
 msgstr "似乎所有人都有空，但目前获得的忙/闲信息不完整。"
 
-#: src/vcal_meeting_gtk.c:1267
+#: src/vcal_meeting_gtk.c:1286
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
@@ -674,57 +702,57 @@ msgstr ""
 "无法发送会议邀请。\n"
 "请检查接收名单。"
 
-#: src/vcal_meeting_gtk.c:1369
+#: src/vcal_meeting_gtk.c:1388
 msgid "Save & Send"
 msgstr "保存并发送邀请"
 
-#: src/vcal_meeting_gtk.c:1370
+#: src/vcal_meeting_gtk.c:1389
 msgid "Check availability"
 msgstr "坚持各人是否有空"
 
-#: src/vcal_meeting_gtk.c:1488
+#: src/vcal_meeting_gtk.c:1507
 msgid "<b>Starts at:</b> "
 msgstr "<b>开始于:</b>"
 
-#: src/vcal_meeting_gtk.c:1493 src/vcal_meeting_gtk.c:1515
+#: src/vcal_meeting_gtk.c:1512 src/vcal_meeting_gtk.c:1534
 msgid "<b> on:</b>"
 msgstr "<b> 在:<b>"
 
-#: src/vcal_meeting_gtk.c:1510
+#: src/vcal_meeting_gtk.c:1529
 msgid "<b>Ends at:</b> "
 msgstr "<b>结束于:<b>"
 
-#: src/vcal_meeting_gtk.c:1549
+#: src/vcal_meeting_gtk.c:1568
 msgid "New meeting"
 msgstr "新建会议"
 
-#: src/vcal_meeting_gtk.c:1551
+#: src/vcal_meeting_gtk.c:1570
 #, c-format
 msgid "%s - Edit meeting"
 msgstr "%s - 编辑会议"
 
-#: src/vcal_meeting_gtk.c:1606 src/vcal_meeting_gtk.c:1629
+#: src/vcal_meeting_gtk.c:1625 src/vcal_meeting_gtk.c:1648
 msgid "Time:"
 msgstr "时间:"
 
-#: src/vcal_meeting_gtk.c:1723
+#: src/vcal_meeting_gtk.c:1746
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d小时"
 
-#: src/vcal_meeting_gtk.c:1726
+#: src/vcal_meeting_gtk.c:1749
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d分"
 
-#: src/vcal_meeting_gtk.c:1737
+#: src/vcal_meeting_gtk.c:1760
 #, c-format
 msgid "Upcoming event: %s"
 msgstr "待办事宜: %s"
 
-#: src/vcal_meeting_gtk.c:1738
+#: src/vcal_meeting_gtk.c:1761
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
@@ -739,38 +767,38 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_meeting_gtk.c:1753
+#: src/vcal_meeting_gtk.c:1776
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
 msgstr[0] ""
 
-#: src/vcal_meeting_gtk.c:1877
+#: src/vcal_meeting_gtk.c:1900
 msgid "Empty calendar"
 msgstr "清空日历"
 
-#: src/vcal_meeting_gtk.c:1878
+#: src/vcal_meeting_gtk.c:1901
 msgid "There is nothing to export."
 msgstr "没有可以导出的内容。"
 
-#: src/vcal_meeting_gtk.c:1918
+#: src/vcal_meeting_gtk.c:1941
 msgid "Could not export the calendar."
 msgstr "无法导出此日历项"
 
-#: src/vcal_meeting_gtk.c:1935
+#: src/vcal_meeting_gtk.c:1958
 msgid "Export calendar to ICS"
 msgstr "导出日历到ICS"
 
-#: src/vcal_meeting_gtk.c:1957
+#: src/vcal_meeting_gtk.c:1980
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
 msgstr "无法导出日历到'%s'\n"
 
-#: src/vcal_meeting_gtk.c:2218
+#: src/vcal_meeting_gtk.c:2241
 msgid "Could not export the freebusy info."
 msgstr "无法导出忙闲信息。"
 
-#: src/vcal_meeting_gtk.c:2250
+#: src/vcal_meeting_gtk.c:2273
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
 msgstr "无法导出忙闲信息到'%s'\n"
