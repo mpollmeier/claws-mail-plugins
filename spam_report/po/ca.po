@@ -1,0 +1,56 @@
+# Catalan translation of spam report.
+# Copyright (C) YEAR Andrej Kacian
+# Miquel Oliete <ktalanet@yahoo.es>, 2007.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Spam report\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-08-28 09:14+0100\n"
+"PO-Revision-Date: 2007-09-01 18:32+0100\n"
+"Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/spam_report.c:196
+msgid "Reporting spam..."
+msgstr "Reportant correu brossa..."
+
+#: src/spam_report.c:230
+msgid "/Message/Report spam online"
+msgstr "/Missatge/Reportar correu brossa en línia"
+
+#: src/spam_report.c:238
+msgid "/Report spam online"
+msgstr "/Reportar correu brossa en línia"
+
+#: src/spam_report.c:255 src/spam_report.c:299 src/spam_report_prefs.c:74
+msgid "SpamReport"
+msgstr "InformeCorreuBrossa"
+
+#: src/spam_report.c:304
+msgid ""
+"This plugin reports spam to various places. Currently only spam-signal.fr is "
+"supported."
+msgstr ""
+"Aquest mòdul reporta correu brossa a diferents localitzacions. Actualment només spam-signal.fr és "
+"informat ."
+
+#: src/spam_report.c:326
+msgid "Spam reporting"
+msgstr "Informe de Correu Brossa"
+
+#: src/spam_report_prefs.c:73
+msgid "Plugins"
+msgstr "Mòduls"
+
+#: src/spam_report_prefs.c:129
+msgid "Username:"
+msgstr "Nom d'usuari:"
+
+#: src/spam_report_prefs.c:137
+msgid "Password:"
+msgstr "Paraula clau:"

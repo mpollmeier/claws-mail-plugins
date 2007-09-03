@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Andrej Kacian
+# This file is distributed under the same license as the PACKAGE package.
+# Páder Rezső (rezso) <rezso@rezso.net>, 2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Spam report plugin for Claws Mail\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-07-05 18:38+0200\n"
+"PO-Revision-Date: 2007-08-29 07:02+0100\n"
+"Last-Translator: rezso <rezso@rezso.net>\n"
+"Language-Team:  <NONE>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: src/spam_report.c:196
+msgid "Reporting spam..."
+msgstr "Spam jelentés..."
+
+#: src/spam_report.c:230
+msgid "/Message/Report spam online"
+msgstr "/Üzenet/Online spam jelentés"
+
+#: src/spam_report.c:238
+msgid "/Report spam online"
+msgstr "/Online spam jelentés"
+
+#: src/spam_report.c:255
+#: src/spam_report.c:299
+#: src/spam_report_prefs.c:74
+msgid "SpamReport"
+msgstr "Spam jelentés"
+
+#: src/spam_report.c:304
+msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
+msgstr "E plugin a spameket jelenti különböző helyekre. Jelenleg csak a spam-signal.fr támogatott."
+
+#: src/spam_report.c:326
+msgid "Spam reporting"
+msgstr "Spam jelentése"
+
+#: src/spam_report_prefs.c:73
+msgid "Plugins"
+msgstr "Pluginek"
+
+#: src/spam_report_prefs.c:129
+msgid "Username:"
+msgstr "Felhasználónév:"
+
+#: src/spam_report_prefs.c:137
+msgid "Password:"
+msgstr "Jelszó:"
+

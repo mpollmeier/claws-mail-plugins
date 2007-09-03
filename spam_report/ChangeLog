@@ -1,3 +1,18 @@
+2007-09-03 [paul]	0.1.1cvs12
+
+	* configure.ac
+	* po/ca.po
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/pt_BR.po
+	* po/sk.po
+		added by Miquel Oliete, Ricardo Mones Lastra,
+		Flammie Pirinen, Pader Rezso, Frederico
+		Goncalves Guimaraes, Andrej Kacian
+	* po/spam_report.pot
+		removed
+
 2007-08-16 [paul]	0.1.1cvs11
 
 	* configure.ac
