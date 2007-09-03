@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-08-28 09:16+0100\n"
+"POT-Creation-Date: 2007-09-03 10:36+0100\n"
 "PO-Revision-Date: 2007-09-01 18:24+00001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/plugin.c:41 src/plugin.c:60 src/vcal_prefs.c:645
 msgid "vCalendar"
@@ -67,8 +67,7 @@ msgstr "/Crear reunió des del missatge..."
 #, c-format
 msgid ""
 "You are about to create %d meetings, one by one. Do you want to continue?"
-msgstr ""
-"Esteu a punt de crear %d reunions, una a una. Voleu continuar?"
+msgstr "Esteu a punt de crear %d reunions, una a una. Voleu continuar?"
 
 #: src/vcalendar.c:124
 msgid "Warning"
@@ -345,12 +344,12 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1553 src/vcal_folder.c:1558 src/vcal_folder.c:1572
-#: src/vcal_folder.c:1578
+#: src/vcal_folder.c:1553 src/vcal_folder.c:1556 src/vcal_folder.c:1567
+#: src/vcal_folder.c:1570
 msgid "Unknown error"
 msgstr "Error desconegut"
 
-#: src/vcal_folder.c:1557
+#: src/vcal_folder.c:1555
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -361,7 +360,7 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1571
+#: src/vcal_folder.c:1566
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -372,7 +371,7 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1577
+#: src/vcal_folder.c:1569
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -383,59 +382,59 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1632
+#: src/vcal_folder.c:1622
 msgid "Claws Mail needs network access in order to update the Webcal feed."
 msgstr "Claws Mail necessita accés a xarxa per actualitzar el feed de Webcal."
 
-#: src/vcal_folder.c:1647
+#: src/vcal_folder.c:1637
 msgid "Claws Mail needs network access in order to update the subscription."
 msgstr "Claws Mail necessita accés a xarxa per actualitzar la subscripció."
 
-#: src/vcal_folder.c:1659
+#: src/vcal_folder.c:1649
 msgid "Subscribe to WebCal"
 msgstr "Subscriure's a WebCal"
 
-#: src/vcal_folder.c:1659
+#: src/vcal_folder.c:1649
 msgid "Enter the WebCal URL:"
 msgstr "Entreu la URL de WebCal:"
 
-#: src/vcal_folder.c:1671
+#: src/vcal_folder.c:1661
 msgid "Could not parse the URL."
 msgstr "No s'ha pogut processar la URL."
 
-#: src/vcal_folder.c:1699
+#: src/vcal_folder.c:1689
 msgid "Do you really want to unsubscribe?"
 msgstr "Realment voleu desubscriure-vos"
 
-#: src/vcal_folder.c:1700
+#: src/vcal_folder.c:1690
 msgid "Delete folder"
 msgstr "Esborrar carpeta"
 
-#: src/vcal_folder.c:1719
+#: src/vcal_folder.c:1709
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "No es pot esborrar la carpeta '%s'."
 
-#: src/vcal_folder.c:1762
+#: src/vcal_folder.c:1752
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Entreu un nou nom per '%s':"
 
-#: src/vcal_folder.c:1763
+#: src/vcal_folder.c:1753
 msgid "Rename folder"
 msgstr "Renombrar carpeta"
 
-#: src/vcal_folder.c:1770
+#: src/vcal_folder.c:1760
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "'%c' no pot ser inclòs en el nom de la carpeta."
 
-#: src/vcal_folder.c:1777
+#: src/vcal_folder.c:1767
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "La carpeta '%s' ja existeix."
 
-#: src/vcal_folder.c:1783
+#: src/vcal_folder.c:1773
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."

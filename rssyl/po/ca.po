@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rssyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-08-28 09:13+0100\n"
+"POT-Creation-Date: 2007-09-03 10:24+0100\n"
 "PO-Revision-Date: 2007-09-01 18:17+00001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/feed.c:103
 msgid "Cannot open temporary file"
@@ -458,7 +458,8 @@ msgstr "Ruta a l'arxiu de les cookies"
 
 #: src/rssyl_prefs.c:147
 msgid "Path to Netscape-style cookies.txt file containing your cookies"
-msgstr "Ruta a l'arxiu d'estil Netscape cookies.txt que conté les vostres cookies"
+msgstr ""
+"Ruta a l'arxiu d'estil Netscape cookies.txt que conté les vostres cookies"
 
 #: src/rssyl.h:8
 msgid "RSSyl"

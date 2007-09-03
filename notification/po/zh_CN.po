@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: notification_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2007-08-28 09:11+0100\n"
+"POT-Creation-Date: 2007-09-03 10:01+0100\n"
 "PO-Revision-Date: 2007-08-31 22:45+0800\n"
 "Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
 "Language-Team: Simplified Chinese \n"
@@ -106,9 +106,6 @@ msgstr "新的新闻组消息"
 msgid "A new mesesage arrived"
 msgstr "收到一个新邮件"
 
-msgid "A new message arrived"
-msgstr "收到一个新邮件"
-
 #: src/notification_popup.c:309
 msgid "New Calendar message"
 msgstr "新的日程安排"
@@ -138,11 +135,10 @@ msgid "Mail message"
 msgstr "邮件信息"
 
 #: src/notification_popup.c:402 src/notification_popup.c:408
-#, c-format
+#, fuzzy, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "收到%d个新邮件"
-msgstr[1] "收到%d个新邮件"
 
 #: src/notification_popup.c:407
 msgid "News message"
@@ -157,7 +153,6 @@ msgstr "日程安排"
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "收到%d个日程安排"
-msgstr[1] "收到%d个日程安排"
 
 #: src/notification_popup.c:419
 msgid "RSS news feed"
@@ -168,14 +163,12 @@ msgstr "RSS供稿项"
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/notification_popup.c:481
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
 msgstr[0] "%d个新邮件"
-msgstr[1] "%d个新邮件"
 
 #: src/notification_prefs.c:299 src/notification_prefs.c:313
 #: src/notification_prefs.c:330 src/notification_prefs.c:347
@@ -382,3 +375,6 @@ msgstr ""
 #: src/notification_prefs.c:1330
 msgid "Enable Popup"
 msgstr "启动弹出对话框"
+
+#~ msgid "A new message arrived"
+#~ msgstr "收到一个新邮件"
