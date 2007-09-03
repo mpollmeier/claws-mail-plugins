@@ -1,161 +1,160 @@
 # Translation of Claws Mail Poppler plugin to Finnish.
 # Copyright © 2007 Salvatore De Paolis 
 # This file is distributed under the same license as the Claws Mail package.
-# Flammie <flammie@iki.fi>, 2007.
+# Flammie Pirinen <flammie@iki.fi>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: lpoppler_viewer-0\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-06-25 08:18+0100\n"
-"PO-Revision-Date: 2007-06-27 05:46+0300\n"
+"POT-Creation-Date: 2007-08-28 09:12+0100\n"
+"PO-Revision-Date: 2007-08-28 17:10+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/poppler_viewer.c:554
+#: src/poppler_viewer.c:551
 msgid "Filename:"
 msgstr "Tiedostonimi:"
 
-#: src/poppler_viewer.c:555
+#: src/poppler_viewer.c:552
 msgid "Size:"
 msgstr "Koko:"
 
-#: src/poppler_viewer.c:557
+#: src/poppler_viewer.c:554
 msgid "Title:"
 msgstr "Otsikko:"
 
-#: src/poppler_viewer.c:558
+#: src/poppler_viewer.c:555
 msgid "Subject:"
 msgstr "Aihe:"
 
-#: src/poppler_viewer.c:559
+#: src/poppler_viewer.c:556
 msgid "Author:"
 msgstr "Tekijä:"
 
-#: src/poppler_viewer.c:560
+#: src/poppler_viewer.c:557
 msgid "Keywords:"
 msgstr "Avainsanat:"
 
-#: src/poppler_viewer.c:561
+#: src/poppler_viewer.c:558
 msgid "Creator:"
 msgstr "Luoja:"
 
-#: src/poppler_viewer.c:562
+#: src/poppler_viewer.c:559
 msgid "Producer:"
 msgstr "Tuottaja:"
 
-#: src/poppler_viewer.c:565
+#: src/poppler_viewer.c:562
 msgid "Created:"
 msgstr "Tehty:"
 
-#: src/poppler_viewer.c:569
+#: src/poppler_viewer.c:566
 msgid "Modified:"
 msgstr "Muokattu:"
 
-#: src/poppler_viewer.c:572
+#: src/poppler_viewer.c:569
 msgid "Format:"
 msgstr "Muoto:"
 
-#: src/poppler_viewer.c:573
+#: src/poppler_viewer.c:570
 msgid "Optimized:"
 msgstr "Optimointi:"
 
-#: src/poppler_viewer.c:854
+#: src/poppler_viewer.c:851
 msgid "PDF Viewer Plugin"
 msgstr "PDF‐näytinliitännäinen"
 
-#: src/poppler_viewer.c:960
+#: src/poppler_viewer.c:957
 msgid "Loading..."
 msgstr "Ladataan…"
 
-#: src/poppler_viewer.c:1010
+#: src/poppler_viewer.c:1007
 #, c-format
 msgid "%s Document"
 msgstr "%s-asiakirja"
 
-#: src/poppler_viewer.c:1017
+#: src/poppler_viewer.c:1014
 #, c-format
 msgid "(%d page%s)"
 msgstr "(%d sivu%s)"
 
-#: src/poppler_viewer.c:1317 src/poppler_viewer.c:1558
+#: src/poppler_viewer.c:1312 src/poppler_viewer.c:1553
 msgid "Document Index"
 msgstr "Asiakirjahakemisto"
 
-#: src/poppler_viewer.c:1389
+#: src/poppler_viewer.c:1384
 msgid "Name"
 msgstr "Nimi"
 
-#: src/poppler_viewer.c:1504
+#: src/poppler_viewer.c:1499
 msgid "First Page"
 msgstr "Ensimmäinen sivu"
 
-#: src/poppler_viewer.c:1509
+#: src/poppler_viewer.c:1504
 msgid "Previous Page"
 msgstr "Edellinen sivu"
 
-#: src/poppler_viewer.c:1514
+#: src/poppler_viewer.c:1509
 msgid "Next Page"
 msgstr "Seuraava sivu"
 
-#: src/poppler_viewer.c:1519
+#: src/poppler_viewer.c:1514
 msgid "Last Page"
 msgstr "Viimeinen sivu"
 
-#: src/poppler_viewer.c:1524
+#: src/poppler_viewer.c:1519
 msgid "Zoom In"
 msgstr "Zoomaa sisään"
 
-#: src/poppler_viewer.c:1528
+#: src/poppler_viewer.c:1523
 msgid "Zoom Out"
 msgstr "Zoomaa ulos"
 
-#: src/poppler_viewer.c:1533
+#: src/poppler_viewer.c:1528
 msgid "Fit Page"
 msgstr "Sivun kokoiseksi"
 
-#: src/poppler_viewer.c:1538
+#: src/poppler_viewer.c:1533
 msgid "Fit Page Width"
 msgstr "Sivun levyiseksi"
 
-#: src/poppler_viewer.c:1543
+#: src/poppler_viewer.c:1538
 msgid "Rotate Left"
 msgstr "Kierrä vasemmalle"
 
-#: src/poppler_viewer.c:1548
+#: src/poppler_viewer.c:1543
 msgid "Rotate Right"
 msgstr "Kierrä oikealle"
 
-#: src/poppler_viewer.c:1553
+#: src/poppler_viewer.c:1548
 msgid "Document Info"
 msgstr "Asiakirjan tiedot"
 
-#: src/poppler_viewer.c:1562
+#: src/poppler_viewer.c:1557
 msgid "Page Number"
 msgstr "Sivunumero"
 
-#: src/poppler_viewer.c:1566
+#: src/poppler_viewer.c:1561
 msgid "Zoom Factor"
 msgstr "Zoom-kerroin"
 
-#: src/poppler_viewer.c:1670
+#: src/poppler_viewer.c:1665
 #, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
-"Poppler %s Lib.\n"
+"Poppler %s Lib and the gs tool.\n"
 "\n"
-"PDF Viewer is Copyright(C) 2007\n"
-"by Salvatore De Paolis <iwkse@claws-mail.org>"
+"Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
-"Tällä liitännäisellä voi katsella PDF:iä ja PostScriptejä Poppler‐kirjaston "
-"%s avulla.\n"
+"Tällä liitännäisellä voi katsella PDF:iä ja PostScriptejä Poppler‐kirjaston %"
+"s ja gs-työkalun avulla.\n"
 "\n"
-"PDF-näytin © 2007 Salvatore De Paolis <iwkse@claws-mail.org>"
+"Palaute on tervetullutta iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1680 src/poppler_viewer.c:1695
+#: src/poppler_viewer.c:1674 src/poppler_viewer.c:1689
 msgid "PDF Viewer"
 msgstr "PDF‐näytin"
 
