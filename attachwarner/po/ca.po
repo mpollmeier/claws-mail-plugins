@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-04-10 15:38+0100\n"
+"POT-Creation-Date: 2007-08-28 09:09+0100\n"
 "PO-Revision-Date: 2007-04-11 23:00+00001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/attachwarner.c:252
+#: src/attachwarner.c:254
 msgid "Attachment warning"
 msgstr "Avís d'adjunts"
 
-#: src/attachwarner.c:253
+#: src/attachwarner.c:255
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
@@ -26,19 +26,19 @@ msgstr ""
 "Un adjunt és anomenat dins del missatge que esteu enviant, però no s'ha "
 "adjuntat cap arxiu. Voleu enviar-lo de totes maneres?"
 
-#: src/attachwarner.c:254
+#: src/attachwarner.c:256
 msgid "+_Send"
 msgstr "+_Enviar"
 
-#: src/attachwarner.c:275 src/attachwarner.c:311 src/attachwarner.c:363
+#: src/attachwarner.c:277 src/attachwarner.c:314 src/attachwarner.c:366
 msgid "Attach warner"
 msgstr "Avisador d'adjunts"
 
-#: src/attachwarner.c:282
+#: src/attachwarner.c:284
 msgid "Failed to register check before send hook"
 msgstr "Ha fallat el registre de la comprovació abans d'enviar"
 
-#: src/attachwarner.c:321
+#: src/attachwarner.c:324
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
@@ -46,11 +46,11 @@ msgstr ""
 "Avisa a l'usuari si es troba alguna referència als adjunts dins el text del "
 "missatge i no hi ha cap arxiu adjuntat"
 
-#: src/attachwarner_prefs.c:44
+#: src/attachwarner_prefs.c:45
 msgid "attach"
 msgstr "adjuntar"
 
-#: src/attachwarner_prefs.c:70
+#: src/attachwarner_prefs.c:71
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -58,30 +58,30 @@ msgstr ""
 "Avisar quan coincideixin les següents expressions regulars:\n"
 "(una per línia)"
 
-#: src/attachwarner_prefs.c:89
+#: src/attachwarner_prefs.c:90
 msgid "Skip quoted lines"
 msgstr "Saltar-se línies marcades"
 
-#: src/attachwarner_prefs.c:96
+#: src/attachwarner_prefs.c:97
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr ""
 "Excloure línies marcades de la comprovació de les expressions regulars "
 "prèvies"
 
-#: src/attachwarner_prefs.c:99
+#: src/attachwarner_prefs.c:100
 msgid "Skip forwards and redirections"
 msgstr "Saltar-se reenviaments i redireccions"
 
-#: src/attachwarner_prefs.c:106
+#: src/attachwarner_prefs.c:107
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr ""
 "No comprovar per adjunts inexistents quan es reenvíi o redireccioni missatges"
 
-#: src/attachwarner_prefs.c:177
+#: src/attachwarner_prefs.c:178
 msgid "Plugins"
 msgstr "Mòduls"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:179
 msgid "Attach Warner"
 msgstr "Avisador d'Adjunts"

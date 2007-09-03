@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-06-25 08:15+0100\n"
-"PO-Revision-Date: 2007-02-20 03:24+0200\n"
+"POT-Creation-Date: 2007-08-28 09:09+0100\n"
+"PO-Revision-Date: 2007-08-28 16:31+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/attachwarner.c:252
+#: src/attachwarner.c:254
 msgid "Attachment warning"
 msgstr "Liitetiedostovaroitus"
 
-#: src/attachwarner.c:253
+#: src/attachwarner.c:255
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
@@ -28,19 +28,19 @@ msgstr ""
 "Liitetiedostosta mainitaan viestissä jota lähetetään, mutta tiedostoa ei ole "
 "liitetty. Jatketaanko lähettämistä?"
 
-#: src/attachwarner.c:254
+#: src/attachwarner.c:256
 msgid "+_Send"
 msgstr "_Lähetä"
 
-#: src/attachwarner.c:275 src/attachwarner.c:312 src/attachwarner.c:364
+#: src/attachwarner.c:277 src/attachwarner.c:314 src/attachwarner.c:366
 msgid "Attach warner"
 msgstr "Liitä varoitin"
 
-#: src/attachwarner.c:282
+#: src/attachwarner.c:284
 msgid "Failed to register check before send hook"
 msgstr "Lähetyskoukun rekisteröinti epäonnistui"
 
-#: src/attachwarner.c:322
+#: src/attachwarner.c:324
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
@@ -48,11 +48,11 @@ msgstr ""
 "Varoittaa, jos viestin tekstissä puhutaan liitteistä, mutta tiedostoja ei "
 "ole liitetty."
 
-#: src/attachwarner_prefs.c:44
+#: src/attachwarner_prefs.c:45
 msgid "attach"
 msgstr "liite"
 
-#: src/attachwarner_prefs.c:70
+#: src/attachwarner_prefs.c:71
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -60,30 +60,30 @@ msgstr ""
 "Varoita seuraavista säännöllisistä täsmäyksistä:\n"
 "(yksi riviä kohti)"
 
-#: src/attachwarner_prefs.c:89
+#: src/attachwarner_prefs.c:90
 msgid "Skip quoted lines"
 msgstr "Ohita lainaukset"
 
-#: src/attachwarner_prefs.c:96
+#: src/attachwarner_prefs.c:97
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr "Älä tarkasta lainattuja rivejä säännöllisillä ilmauksilla"
 
-#: src/attachwarner_prefs.c:99
+#: src/attachwarner_prefs.c:100
 msgid "Skip forwards and redirections"
 msgstr "Ohita edelleenlähetykset ja uudelleenohjaukset"
 
-#: src/attachwarner_prefs.c:106
+#: src/attachwarner_prefs.c:107
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr ""
 "Älä tarkasta puuttuvia liitetiedostoja kun edelleenlähetetään tai "
 "uudelleenohjataan"
 
-#: src/attachwarner_prefs.c:177
+#: src/attachwarner_prefs.c:178
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:179
 msgid "Attach Warner"
 msgstr "Liitä varoitin"
 

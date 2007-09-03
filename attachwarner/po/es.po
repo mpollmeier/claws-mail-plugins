@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-04-14 14:23+0200\n"
-"PO-Revision-Date: 2007-04-14 14:48+0100\n"
+"POT-Creation-Date: 2007-09-03 01:09+0200\n"
+"PO-Revision-Date: 2007-09-03 08:55+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/attachwarner.c:252
+#: src/attachwarner.c:254
 msgid "Attachment warning"
 msgstr "Aviso de adjuntos"
 
-#: src/attachwarner.c:253
+#: src/attachwarner.c:255
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
@@ -28,19 +28,19 @@ msgstr ""
 "Se mencionan adjuntos en el correo que está a punto de enviar, pero no se "
 "adjunto ningún fichero. ¿Enviarlo igualmente?"
 
-#: src/attachwarner.c:254
+#: src/attachwarner.c:256
 msgid "+_Send"
 msgstr "+_Enviar"
 
-#: src/attachwarner.c:275 src/attachwarner.c:311 src/attachwarner.c:363
+#: src/attachwarner.c:277 src/attachwarner.c:314 src/attachwarner.c:366
 msgid "Attach warner"
 msgstr "Aviso de adjuntos"
 
-#: src/attachwarner.c:282
+#: src/attachwarner.c:284
 msgid "Failed to register check before send hook"
 msgstr "Falló el registro de la función de comprobar antes de enviar"
 
-#: src/attachwarner.c:321
+#: src/attachwarner.c:324
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
@@ -48,11 +48,11 @@ msgstr ""
 "Avisa al usuario si se encuentra alguna referencia a adjuntos en el texto "
 "del mensaje pero no hay ningún fichero adjunto"
 
-#: src/attachwarner_prefs.c:44
+#: src/attachwarner_prefs.c:45
 msgid "attach"
 msgstr "adjunt"
 
-#: src/attachwarner_prefs.c:70
+#: src/attachwarner_prefs.c:71
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -60,29 +60,29 @@ msgstr ""
 "Avisar cuando coincida con alguna de las siguientes expresiones regulares:\n"
 "(una por cada línea)"
 
-#: src/attachwarner_prefs.c:89
+#: src/attachwarner_prefs.c:90
 msgid "Skip quoted lines"
 msgstr "Obviar las líneas citadas"
 
-#: src/attachwarner_prefs.c:96
+#: src/attachwarner_prefs.c:97
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr ""
 "Excluye las líneas citadas de la comprobación con las expresiones regulares "
 "anteriores"
 
-#: src/attachwarner_prefs.c:99
+#: src/attachwarner_prefs.c:100
 msgid "Skip forwards and redirections"
 msgstr "No comprobar reenvíos ni redirecciones"
 
-#: src/attachwarner_prefs.c:106
+#: src/attachwarner_prefs.c:107
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "No comprueba si faltan adjuntos al reenviar o redirijir mensajes"
 
-#: src/attachwarner_prefs.c:177
+#: src/attachwarner_prefs.c:178
 msgid "Plugins"
 msgstr "Módulos"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:179
 msgid "Attach Warner"
 msgstr "Aviso de adjuntos"
