@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer \n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-04-14 14:17+0200\n"
-"PO-Revision-Date: 2007-04-14 14:42+0200\n"
+"POT-Creation-Date: 2007-09-03 01:04+0200\n"
+"PO-Revision-Date: 2007-09-03 08:48+0200\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -52,12 +52,12 @@ msgstr "/_Abrir con el navegador web"
 msgid "/Copy this _link"
 msgstr "/Copiar este en_lace"
 
-#: src/gtkhtml2_viewer.c:618
+#: src/gtkhtml2_viewer.c:624
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Excedido el tiempo conectando a %s\n"
 
-#: src/gtkhtml2_viewer.c:688
+#: src/gtkhtml2_viewer.c:694
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -65,7 +65,7 @@ msgstr ""
 "Hay imágenes remotas, pero no se cargaron\n"
 "tal y como indican sus preferencias."
 
-#: src/gtkhtml2_viewer.c:690
+#: src/gtkhtml2_viewer.c:696
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -73,21 +73,20 @@ msgstr ""
 "Hay imágenes remotas, pero no se cargaron\n"
 "porque está trabajando sin conexión."
 
-#: src/gtkhtml2_viewer.c:692
+#: src/gtkhtml2_viewer.c:698
 msgid "Remote images exist, but loading them failed."
 msgstr "Hay imágenes remotas, pero falló su carga."
 
-#: src/gtkhtml2_viewer.c:696
+#: src/gtkhtml2_viewer.c:702
 msgid "Load images"
 msgstr "Cargar imágenes"
 
-#: src/gtkhtml2_viewer.c:1030 src/gtkhtml2_viewer.c:1066
+#: src/gtkhtml2_viewer.c:1036 src/gtkhtml2_viewer.c:1073
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visor HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:1071
+#: src/gtkhtml2_viewer.c:1078
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Este módulo muestra el correo HTML usando el componente de presentación "
 "gtkhtml2"
-

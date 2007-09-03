@@ -2,11 +2,12 @@
 # Copyright (C) YEAR Andrej Kacian
 # Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GTKHTML2 viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-02-19 08:22+0000\n"
+"POT-Creation-Date: 2007-08-28 09:10+0100\n"
 "PO-Revision-Date: 2007-04-11 23:04+00001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
@@ -42,20 +43,20 @@ msgstr "Esborrar imatges emmagatzemades al sortir."
 msgid "Clear image cache now"
 msgstr "Esborrar imatges emmagatzemades ara"
 
-#: src/gtkhtml2_viewer.c:91
+#: src/gtkhtml2_viewer.c:94
 msgid "/_Open with Web browser"
 msgstr "/_Obrir amb Navegador web"
 
-#: src/gtkhtml2_viewer.c:92
+#: src/gtkhtml2_viewer.c:95
 msgid "/Copy this _link"
 msgstr "/Copiar aquest en_llaç"
 
-#: src/gtkhtml2_viewer.c:610
+#: src/gtkhtml2_viewer.c:624
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Temps d'espera connectant a %s excedit\n"
 
-#: src/gtkhtml2_viewer.c:678
+#: src/gtkhtml2_viewer.c:694
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -63,7 +64,7 @@ msgstr ""
 "Les imatges remotes existeixen, però no han estat carregades\n"
 "d'acord amb les vostres preferències."
 
-#: src/gtkhtml2_viewer.c:680
+#: src/gtkhtml2_viewer.c:696
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -71,22 +72,21 @@ msgstr ""
 "Les imatges remotes existeixen, però no han estat carregades\n"
 "perque esteu sense connexió."
 
-#: src/gtkhtml2_viewer.c:682
+#: src/gtkhtml2_viewer.c:698
 msgid "Remote images exist, but loading them failed."
 msgstr "Les imatges remotes existeixen, però ha fallat la càrrega."
 
-#: src/gtkhtml2_viewer.c:686
+#: src/gtkhtml2_viewer.c:702
 msgid "Load images"
 msgstr "Carrega imatges"
 
-#: src/gtkhtml2_viewer.c:869 src/gtkhtml2_viewer.c:905
+#: src/gtkhtml2_viewer.c:1036 src/gtkhtml2_viewer.c:1073
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visor HTML per GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:910
+#: src/gtkhtml2_viewer.c:1078
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Aquest mòdul dibuixa correus HTML usant el control gtkhtml2rendering."
 
-#: src/gtkhtml2_viewer.c:932
-msgid "text/html"
-msgstr "text/html"
+#~ msgid "text/html"
+#~ msgstr "text/html"
