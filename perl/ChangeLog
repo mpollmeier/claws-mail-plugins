@@ -1,3 +1,11 @@
+2007-09-03 [ticho]	0.9.10cvs1
+
+	* Makefile.am
+	* README
+	* cm_perl.pod
+	* sc_perl.pod
+		Renamed "sc_perl.pod" to "cm_perl.pod".
+
 2007-09-03 [paul]	0.9.10
 
 	0.9.10 released

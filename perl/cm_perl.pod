@@ -1,6 +1,6 @@
 =head1 NAME
 
-sc_perl -- A Perl Plugin for Claws Mail
+cm_perl -- A Perl Plugin for Claws Mail
 
 
 =head1 DESCRIPTION

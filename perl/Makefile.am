@@ -6,4 +6,4 @@ EXTRA_DIST = \
 	README \
 	NEWS \
 	ChangeLog \
-	sc_perl.pod
+	cm_perl.pod
