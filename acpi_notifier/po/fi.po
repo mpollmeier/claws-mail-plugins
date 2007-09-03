@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-06-25 08:14+0100\n"
-"PO-Revision-Date: 2007-06-27 05:26+0300\n"
+"POT-Creation-Date: 2007-08-28 09:07+0100\n"
+"PO-Revision-Date: 2007-08-28 16:30+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -113,11 +113,11 @@ msgstr "Välkytä, kun käyttäjän tarvitsee tehdä jotain"
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/acpi_notifier.c:854
+#: src/acpi_notifier.c:859
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tämä liitännäinen ohjaa ACPI-postiledejä."
 
-#: src/acpi_notifier.c:875
+#: src/acpi_notifier.c:880
 msgid "Laptop LED"
 msgstr "Kannettavan ledi"
 

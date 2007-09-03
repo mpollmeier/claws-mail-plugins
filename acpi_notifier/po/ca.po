@@ -2,23 +2,24 @@
 # Copyright (C) 2007 Andrej Kacian
 # Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ACPI notifier\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-04-10 15:38+0100\n"
-"PO-Revision-Date: 2007-04-11 22:56+00001\n"
+"POT-Creation-Date: 2007-08-28 09:07+0100\n"
+"PO-Revision-Date: 2007-08-30 21:27+01\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/acpi_notifier.c:45
+#: src/acpi_notifier.c:46
 msgid "Acpi Notifier"
 msgstr "Notificador Acpi"
 
-#: src/acpi_notifier.c:63
+#: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
@@ -26,7 +27,7 @@ msgstr ""
 "Assegureu-vos de que el mòdul del kernel 'acerhk' està carregat.\n"
 "Podeu aconseguir-lo a http://www.informatik.hu-berlin.de/~tauber/acerhk/"
 
-#: src/acpi_notifier.c:65
+#: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
@@ -35,13 +36,17 @@ msgstr ""
 "Podeu aconseguir-lo a http://www.archernar.co.uk/acer_acpi/acer_acpi_main."
 "html"
 
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'asus_laptop' is loaded."
+msgstr "Assegureu-vos que el mòdul del nucli 'asus_laptop' està carregat."
+
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Assegureu-vos de que el mòdul del nucli 'asus_acpi' està carregat."
+msgstr "Assegureu-vos que el mòdul del nucli 'asus_acpi' està carregat."
 
 #: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Assegureu-vos de que el mòdul del nucli 'ibm_acpi' està carregat."
+msgstr "Assegureu-vos que el mòdul del nucli 'ibm_acpi' està carregat."
 
 #: src/acpi_notifier.c:69
 msgid ""
@@ -51,67 +56,67 @@ msgstr ""
 "Assegureu-vos de que teniu apanelc instal·lat.\n"
 "Podeu aconseguir-lo a http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:197 src/acpi_notifier.c:203 src/acpi_notifier.c:415
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "L'arxiu de control no existeix."
 
-#: src/acpi_notifier.c:295
+#: src/acpi_notifier.c:298
 msgid " : no new or unread mail"
 msgstr " : no hi ha cap correu nou o sense llegir"
 
-#: src/acpi_notifier.c:296
+#: src/acpi_notifier.c:299
 msgid " : unread mail"
 msgstr "correu sense llegir"
 
-#: src/acpi_notifier.c:297
+#: src/acpi_notifier.c:300
 msgid " : new mail"
 msgstr " : nou correu"
 
-#: src/acpi_notifier.c:299 src/acpi_notifier.c:305 src/acpi_notifier.c:311
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
 msgstr "apagat"
 
-#: src/acpi_notifier.c:301 src/acpi_notifier.c:307 src/acpi_notifier.c:313
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "pampalluguejant"
 
-#: src/acpi_notifier.c:303 src/acpi_notifier.c:309 src/acpi_notifier.c:315
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
 msgstr "encès"
 
-#: src/acpi_notifier.c:337 src/acpi_notifier.c:346 src/acpi_notifier.c:361
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
 msgstr "LED"
 
-#: src/acpi_notifier.c:376
+#: src/acpi_notifier.c:379
 msgid "ACPI type: "
 msgstr "tipus d'ACPI: "
 
-#: src/acpi_notifier.c:385
+#: src/acpi_notifier.c:388
 msgid "ACPI file: "
 msgstr "arxiu ACPI: "
 
-#: src/acpi_notifier.c:396
+#: src/acpi_notifier.c:399
 msgid "values - On: "
 msgstr "valors - Encès: "
 
-#: src/acpi_notifier.c:401
+#: src/acpi_notifier.c:404
 msgid " - Off: "
 msgstr " - Apagat: "
 
-#: src/acpi_notifier.c:423
+#: src/acpi_notifier.c:426
 msgid "Blink when user interaction is required"
 msgstr "Pampalluguejarà quan sigui necessària la interacció amb l'usuari"
 
-#: src/acpi_notifier.c:734
+#: src/acpi_notifier.c:780
 msgid "Plugins"
 msgstr "Mòduls"
 
-#: src/acpi_notifier.c:811
+#: src/acpi_notifier.c:859
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Aquest mòdul controla varis LEDs de correus ACPI."
 
-#: src/acpi_notifier.c:832
+#: src/acpi_notifier.c:880
 msgid "Laptop LED"
 msgstr "LED de portàtil"
 
