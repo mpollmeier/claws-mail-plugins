@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: RSSyl\n"
+"Project-Id-Version: RSSyl plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 09:12+0000\n"
-"PO-Revision-Date: 2007-06-25 12:14+0100\n"
+"PO-Revision-Date: 2007-08-29 07:01+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -52,30 +52,30 @@ msgstr "'%s' vétele..."
 msgid "Malformed feed"
 msgstr "Hibásan formázott hírforrás"
 
-#: src/feed.c:1026
+#: src/feed.c:1028
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "'%s' hírforrás frissítése..."
 
-#: src/feed.c:1041
+#: src/feed.c:1043
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Hozzászólások vétele nem támogatott az RDF hírforrásoknál. '%s' hozzászólásai nem lesznek lekérdezve."
 
-#: src/feed.c:1049
+#: src/feed.c:1051
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Hozzászólások vétele nem támogatott az Atom hírforrásoknál. '%s' hozzászólásai nem lesznek lekérdezve."
 
-#: src/feed.c:1055
+#: src/feed.c:1057
 msgid "This feed format is not supported yet."
 msgstr "A hírforrás formátuma nem támogatott."
 
-#: src/feed.c:1084
+#: src/feed.c:1086
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1323
+#: src/feed.c:1325
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -84,11 +84,11 @@ msgstr ""
 "RSSyl: %s hírforrás nem frissíthető:\n"
 "%s\n"
 
-#: src/feed.c:1475
+#: src/feed.c:1477
 msgid "You are already subscribed to this feed."
 msgstr "Már feliratkoztál e hírforrásra."
 
-#: src/feed.c:1483
+#: src/feed.c:1486
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -97,12 +97,12 @@ msgstr ""
 "'%s' URL nem elérhető:\n"
 "%s"
 
-#: src/feed.c:1483
-#: src/feed.c:1485
+#: src/feed.c:1487
+#: src/feed.c:1491
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: src/feed.c:1485
+#: src/feed.c:1491
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -111,13 +111,13 @@ msgstr ""
 "'%s' URL nem elérhető:\n"
 "%s\n"
 
-#: src/feed.c:1495
+#: src/feed.c:1503
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "'%s' hírforrás nem vehető fel."
 
-#: src/feed.c:1595
-#: src/rssyl_cb_menu.c:275
+#: src/feed.c:1605
+#: src/rssyl_cb_menu.c:278
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "A hírforrás(ok) frissítéséhez hálózati kapcsolat kell."
@@ -187,13 +187,13 @@ msgid "NewFolder"
 msgstr "Új mappa"
 
 #: src/rssyl_cb_menu.c:92
-#: src/rssyl_cb_menu.c:329
+#: src/rssyl_cb_menu.c:332
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "A mappanév nem tartalmazhatja '%c'-t."
 
 #: src/rssyl_cb_menu.c:102
-#: src/rssyl_cb_menu.c:336
+#: src/rssyl_cb_menu.c:339
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "'%s' mappa már létezik."
@@ -216,12 +216,12 @@ msgstr "Mappafa törlése"
 msgid "_Remove"
 msgstr "_Törlés"
 
-#: src/rssyl_cb_menu.c:198
+#: src/rssyl_cb_menu.c:199
 #, c-format
 msgid "Can't remove feed '%s'."
 msgstr "'%s' hírforrás nem törölhető."
 
-#: src/rssyl_cb_menu.c:226
+#: src/rssyl_cb_menu.c:229
 #, c-format
 msgid ""
 "All folders and messages under '%s' will be permanently deleted. Recovery will not be possible.\n"
@@ -232,25 +232,25 @@ msgstr ""
 "\n"
 "Tényleg törölni akarod?"
 
-#: src/rssyl_cb_menu.c:229
+#: src/rssyl_cb_menu.c:232
 msgid "Delete folder"
 msgstr "Mappa törlése"
 
-#: src/rssyl_cb_menu.c:248
+#: src/rssyl_cb_menu.c:251
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "'%s' mappa nem távolítható el."
 
-#: src/rssyl_cb_menu.c:321
+#: src/rssyl_cb_menu.c:324
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "'%s' új neve:"
 
-#: src/rssyl_cb_menu.c:322
+#: src/rssyl_cb_menu.c:325
 msgid "Rename folder"
 msgstr "Mappa átnevezése"
 
-#: src/rssyl_cb_menu.c:342
+#: src/rssyl_cb_menu.c:345
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."

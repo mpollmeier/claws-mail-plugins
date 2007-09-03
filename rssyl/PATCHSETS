@@ -95,3 +95,4 @@
 ( cvs diff -u -r 1.1.2.77 -r 1.1.2.78 src/feed.c;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/rssyl_cb_menu.c;  ) > 0.14.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/plugin.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/rssyl_cb_menu.c;  ) > 0.14.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.78 -r 1.1.2.79 src/feed.c;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/rssyl_cb_menu.c;  ) > 0.14.0cvs10.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/es.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/hu.po;  cvs diff -u -r 1.1.2.16 -r 1.1.2.17 po/sk.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/zh_CN.po;  ) > 0.14.0cvs11.patchset

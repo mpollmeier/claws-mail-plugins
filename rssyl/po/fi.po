@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-06-25 08:19+0100\n"
-"PO-Revision-Date: 2007-06-27 05:48+0300\n"
+"POT-Creation-Date: 2007-08-28 09:13+0100\n"
+"PO-Revision-Date: 2007-08-28 17:10+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,12 +50,12 @@ msgstr "Haetaan syötettä %s…"
 msgid "Malformed feed"
 msgstr "Viallinen syöte"
 
-#: src/feed.c:1026
+#: src/feed.c:1028
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Päivitetään syötettä %s…"
 
-#: src/feed.c:1041
+#: src/feed.c:1043
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -64,7 +64,7 @@ msgstr ""
 "RSSyl: Kommentien haku ei toimi RDF-syötteillä. Syötteen %s kommentteja ei "
 "haeta."
 
-#: src/feed.c:1049
+#: src/feed.c:1051
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
@@ -73,15 +73,15 @@ msgstr ""
 "RSSyl: Kommenttien haku ei toimi Atom-syötteillä. Syötteen %s kommentteja ei "
 "haeta."
 
-#: src/feed.c:1055
+#: src/feed.c:1057
 msgid "This feed format is not supported yet."
 msgstr "Tätä syötemuotoa ei tueta vielä."
 
-#: src/feed.c:1084
+#: src/feed.c:1086
 msgid "N/A"
 msgstr "—"
 
-#: src/feed.c:1323
+#: src/feed.c:1325
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -90,11 +90,11 @@ msgstr ""
 "RSSyl: Syötettä %s ei voi päivittää:\n"
 "%s\n"
 
-#: src/feed.c:1475
+#: src/feed.c:1477
 msgid "You are already subscribed to this feed."
 msgstr "Olet jo tilannut tämän syötteen."
 
-#: src/feed.c:1483
+#: src/feed.c:1486
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -103,11 +103,11 @@ msgstr ""
 "URLia %s ei voitu hakea:\n"
 "%s"
 
-#: src/feed.c:1483 src/feed.c:1485
+#: src/feed.c:1487 src/feed.c:1491
 msgid "Unknown error"
 msgstr "Tuntematon virhe"
 
-#: src/feed.c:1485
+#: src/feed.c:1491
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -116,12 +116,12 @@ msgstr ""
 "URLia %s ei voitu hakea.:\n"
 "%s\n"
 
-#: src/feed.c:1495
+#: src/feed.c:1503
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Syötettä %s ei voida tilata."
 
-#: src/feed.c:1595 src/rssyl_cb_menu.c:275
+#: src/feed.c:1605 src/rssyl_cb_menu.c:278
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "Syötteen päivittämiseksi tarvitaan verkkoyhteyttä."
@@ -195,12 +195,12 @@ msgstr "Anna nimi uudelle kansiolle:"
 msgid "NewFolder"
 msgstr "UusiKansio"
 
-#: src/rssyl_cb_menu.c:92 src/rssyl_cb_menu.c:329
+#: src/rssyl_cb_menu.c:92 src/rssyl_cb_menu.c:332
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "Merkkiä %c ei voi olla kansion nimessä."
 
-#: src/rssyl_cb_menu.c:102 src/rssyl_cb_menu.c:336
+#: src/rssyl_cb_menu.c:102 src/rssyl_cb_menu.c:339
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "Kansio %s on jo olemassa."
@@ -223,12 +223,12 @@ msgstr "Poista kansiopuu"
 msgid "_Remove"
 msgstr "_Poista"
 
-#: src/rssyl_cb_menu.c:198
+#: src/rssyl_cb_menu.c:199
 #, c-format
 msgid "Can't remove feed '%s'."
 msgstr "Syötettä %s ei voida poistaa"
 
-#: src/rssyl_cb_menu.c:226
+#: src/rssyl_cb_menu.c:229
 #, c-format
 msgid ""
 "All folders and messages under '%s' will be permanently deleted. Recovery "
@@ -241,25 +241,25 @@ msgstr ""
 "\n"
 "Poistetaanko?"
 
-#: src/rssyl_cb_menu.c:229
+#: src/rssyl_cb_menu.c:232
 msgid "Delete folder"
 msgstr "Poista kansio"
 
-#: src/rssyl_cb_menu.c:248
+#: src/rssyl_cb_menu.c:251
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "Kansiota %s ei voida poistaa"
 
-#: src/rssyl_cb_menu.c:321
+#: src/rssyl_cb_menu.c:324
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Anna nimi syötteelle %s:"
 
-#: src/rssyl_cb_menu.c:322
+#: src/rssyl_cb_menu.c:325
 msgid "Rename folder"
 msgstr "Poista kansio"
 
-#: src/rssyl_cb_menu.c:342
+#: src/rssyl_cb_menu.c:345
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
