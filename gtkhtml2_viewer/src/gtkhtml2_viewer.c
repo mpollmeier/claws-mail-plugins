@@ -76,6 +76,9 @@ struct _GtkHtml2Viewer
 	GMutex		*mutex;
 	GtkWidget 	*link_popupmenu;
 	GtkItemFactory 	*link_popupfactory;
+	GtkWidget	*context_popupmenu;
+	GtkItemFactory 	*context_popupfactory;
+	gboolean	 is_on_url;
 	gint		 last_search_match;
 };
 
@@ -88,11 +91,20 @@ static void gtkhtml_open_uri_cb			(GtkHtml2Viewer *viewer,
 static void gtkhtml_copy_uri_cb			(GtkHtml2Viewer *viewer,
 						 guint		 action,
 						 void		*data);
+static void gtkhtml_zoom_cb			(GtkHtml2Viewer *viewer,
+						 guint		 action,
+						 void		*data);
 
 static GtkItemFactoryEntry gtkhtml_link_popup_entries[] = 
 {
 	{N_("/_Open with Web browser"),	NULL, gtkhtml_open_uri_cb, 0, NULL},
 	{N_("/Copy this _link"),	NULL, gtkhtml_copy_uri_cb, 0, NULL},
+};
+
+static GtkItemFactoryEntry gtkhtml_context_popup_entries[] = 
+{
+	{N_("/Zoom _in"),	NULL, gtkhtml_zoom_cb, 1, NULL},
+	{N_("/Zoom _out"),	NULL, gtkhtml_zoom_cb, 0, NULL},
 };
 
 static void scrolled_cb (GtkAdjustment *adj, GtkHtml2Viewer *viewer)
@@ -410,10 +422,12 @@ static void on_url(GtkWidget *widget, const gchar *url, gpointer data)
 				   messageview->statusbar_cid, trimmed_uri);
 		g_free(real_url);
 		g_free(trimmed_uri);
+		((GtkHtml2Viewer *)viewer)->is_on_url = TRUE;
 	} else {
 		if (messageview->statusbar)
 			gtk_statusbar_pop(GTK_STATUSBAR(messageview->statusbar),
 				   messageview->statusbar_cid);
+		((GtkHtml2Viewer *)viewer)->is_on_url = FALSE;
 	}
 }
 
@@ -908,6 +922,25 @@ static gboolean htmlview_scrolled(GtkWidget *widget, GdkEventScroll *event,
 	return FALSE;
 }
 
+static void gtkhtml_zoom_cb (GtkHtml2Viewer *viewer, guint action, void *data)
+{
+	if (action == 1) {
+		html_view_zoom_in(HTML_VIEW(viewer->html_view));
+	} else {
+		html_view_zoom_out(HTML_VIEW(viewer->html_view));
+	}
+}
+
+static gboolean htmlview_btn_released(GtkWidget *widget, GdkEventButton *event,
+				    GtkHtml2Viewer *viewer)
+{
+	if (event->button == 3 && !viewer->is_on_url)
+		gtk_menu_popup(GTK_MENU(viewer->context_popupmenu), 
+		       NULL, NULL, NULL, NULL, 
+		       event->button, event->time);
+	return FALSE;
+}
+
 static MimeViewer *gtkhtml2_viewer_create(void)
 {
 	GtkHtml2Viewer *viewer;
@@ -917,6 +950,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	gint n_entries;
 	GtkWidget *link_popupmenu;
 	GtkItemFactory *link_popupfactory;
+	GtkWidget *context_popupmenu;
+	GtkItemFactory *context_popupfactory;
 
 	debug_print("gtkhtml2_viewer_create\n");
 
@@ -983,6 +1018,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	g_signal_connect(G_OBJECT(viewer->html_view),"on_url", G_CALLBACK(on_url), viewer);
 	g_signal_connect(G_OBJECT(viewer->html_view), "scroll_event",
 			 G_CALLBACK(htmlview_scrolled), viewer);
+	g_signal_connect(G_OBJECT(viewer->html_view), "button_release_event",
+			 G_CALLBACK(htmlview_btn_released), viewer);
 
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
@@ -996,6 +1033,15 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 				      viewer);
 	viewer->link_popupmenu = link_popupmenu;
 	viewer->link_popupfactory = link_popupfactory;
+
+	n_entries = sizeof(gtkhtml_context_popup_entries) /
+		sizeof(gtkhtml_context_popup_entries[0]);
+	context_popupmenu = menu_create_items(gtkhtml_context_popup_entries, n_entries,
+				      "<UriPopupMenu>", &context_popupfactory,
+				      viewer);
+	viewer->context_popupmenu = context_popupmenu;
+	viewer->context_popupfactory = context_popupfactory;
+
 	viewer->filename = NULL;
 
 	return (MimeViewer *) viewer;
