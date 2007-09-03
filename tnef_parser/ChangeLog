@@ -1,0 +1,36 @@
+2007-09-03 [colin]	0.1.1cvs1
+
+	* .cvsignore
+	* AUTHORS
+	* COPYING
+	* COPYING.ytnef
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* PATCHSETS
+	* README
+	* autogen.sh
+	* commitHelper
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/.cvsignore
+	* po/ChangeLog
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/fr.po
+	* po/remove-potcdate.sin
+	* po/spam_report.pot
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/gettext.h
+	* src/tnef_dump.c
+	* src/tnef_dump.h
+	* src/tnef_parse.c
+		Initial release
+
+

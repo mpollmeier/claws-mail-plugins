@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Andrej Kacian
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-07-05 14:27+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/spam_report.c:62 src/spam_report.c:82 src/spam_report_prefs.c:74
+msgid "SpamReport"
+msgstr ""
+
+#: src/spam_report.c:87
+msgid ""
+"This plugin reports spam to various places. Currently only spam-signal.fr is "
+"supported."
+msgstr ""
+
+#: src/spam_report.c:109
+msgid "Spam reporting"
+msgstr ""
+
+#: src/spam_report_prefs.c:73
+msgid "Plugins"
+msgstr ""
+
+#: src/spam_report_prefs.c:124
+msgid "SignalSpam username:"
+msgstr ""
+
+#: src/spam_report_prefs.c:132
+msgid "SignalSpam password:"
+msgstr ""
