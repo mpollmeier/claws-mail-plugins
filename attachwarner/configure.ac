@@ -8,8 +8,8 @@ PACKAGE=attachwarner
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
-MICRO_VERSION=7
-EXTRA_VERSION=7
+MICRO_VERSION=8
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
