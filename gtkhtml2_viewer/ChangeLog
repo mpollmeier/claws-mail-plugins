@@ -1,3 +1,8 @@
+2007-09-03 [colin]	0.15.2cvs1
+
+	* po/zh_CN.po
+		Fix breakage
+
 2007-09-03 [paul]	0.15.2
 
 	0.15.1 released
