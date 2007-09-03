@@ -1,3 +1,8 @@
+2007-09-03 [ticho]	0.6.0cvs2
+
+	* src/poppler_viewer.c
+		Fix my previous commit to actually make it work again.
+
 2007-09-03 [ticho]	0.6.0cvs1
 
 	* src/poppler_viewer.c
