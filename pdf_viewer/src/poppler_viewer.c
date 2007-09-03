@@ -1010,10 +1010,9 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 				tmp,
 				NULL);
 		g_free(tmp);
-		gtk_label_set_text(GTK_LABEL(viewer->doc_label),
-				    	(tmp = g_strdup_printf(_("(%d page%s)"), 
-							viewer->num_pages,
-							viewer->num_pages > 1 ? "s":"")));
+
+		tmp = ngettext("%d page", "%d pages", viewer->num_pages);
+		gtk_label_set_text(GTK_LABEL(viewer->doc_label), tmp);
 		g_free(tmp);
 
 		pdf_viewer_show_controls(viewer, TRUE);
