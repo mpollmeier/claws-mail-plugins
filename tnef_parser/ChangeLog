@@ -1,3 +1,10 @@
+2007-09-o5 [colin]	0.1.1cvs3
+
+	* COPYING
+	* COPYING.ytnef
+		Add an exception to link to the GPL2 libytnef,
+		Thanks to Randall Hand.
+
 2007-09-03 [colin]	0.1.1cvs2
 
 	* po/spam_report.pot

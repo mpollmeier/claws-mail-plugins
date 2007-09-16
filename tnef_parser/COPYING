@@ -3,7 +3,10 @@ and the Claws Mail team.
 
 The code in src/tnef_dump.c is Copyright Randall Hand <yerase@yerot.com> 
 and comes from the ytnef package. Thanks to him for allowing redistribution
-of this code under the terms of the GPL v3 (see COPYING.ytnef).
+of this code under the terms of the GPL v3 (see also COPYING.ytnef).
+
+As a special exception, Randall Hand and the Claws Mail team give 
+permission to link to the GPL2 libytnef (see also COPYING.ytnef).
 
 -------------------------------------------------------------------------------
                     GNU GENERAL PUBLIC LICENSE
