@@ -1218,7 +1218,19 @@ static gchar *write_headers(PrefsAccount 	*account,
 		calmsgid = g_strdup("");
 	}
 
+	if (account && account->set_domain && account->domain) {
+		g_snprintf(msgid, sizeof(msgid), "%s", account->domain); 
+	} else if (!strncmp(get_domain_name(), "localhost", strlen("localhost"))) {
+		g_snprintf(msgid, sizeof(msgid), "%s", 
+			strchr(account->address, '@') ?
+				strchr(account->address, '@')+1 :
+				account->address);
+	} else {
+		g_snprintf(msgid, sizeof(msgid), "%s", "");
+	}
+
 	generate_msgid(msgid, sizeof(msgid));
+
 	result = g_strdup_printf("%s"
 				"From: %s <%s>\n"
 				"To: <%s>\n"

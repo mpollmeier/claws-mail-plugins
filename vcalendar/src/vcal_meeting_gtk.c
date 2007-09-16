@@ -1190,8 +1190,6 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	gboolean res = FALSE;
 	gboolean found_att = FALSE;
 
-	generate_msgid(buf, 255);
-
 	if (meet->uid == NULL && meet->visible && 
 	    !check_attendees_availability(meet, FALSE, TRUE)) {
 		return FALSE;
@@ -1202,14 +1200,28 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	if (meet->window->window)
 		gdk_window_set_cursor(meet->window->window, watch_cursor);
 
+	organizer	= get_organizer(meet);
+	organizer_name	= get_organizer_name(meet);
+	account		= account_find_from_address(organizer);
+
+	if (account && account->set_domain && account->domain) {
+		g_snprintf(buf, sizeof(buf), "%s", account->domain); 
+	} else if (!strncmp(get_domain_name(), "localhost", strlen("localhost"))) {
+		g_snprintf(buf, sizeof(buf), "%s", 
+			strchr(account->address, '@') ?
+				strchr(account->address, '@')+1 :
+				account->address);
+	} else {
+		g_snprintf(buf, sizeof(buf), "%s", "");
+	}
+	generate_msgid(buf, 255);
+
 	if (meet->uid) {
 		uid 	= g_strdup(meet->uid);
 	} else {
 		uid 	= g_strdup(buf);
 	}
-	organizer	= get_organizer(meet);
-	organizer_name	= get_organizer_name(meet);
-	account		= account_find_from_address(organizer);
+
 	dtstart		= get_date(meet, TRUE);
 	dtend		= get_date(meet, FALSE);
 	summary		= get_summary(meet);

@@ -1,3 +1,10 @@
+2007-09-16 [cleroy]	1.97.0cvs2
+
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Allow setting domain name in msgids
+
 2007-09-03 [colin]	1.97.0cvs1
 
 	* po/ca.po

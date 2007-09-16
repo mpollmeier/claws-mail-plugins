@@ -41,6 +41,7 @@
 #include "alertpanel.h"
 #include "vcal_prefs.h"
 #include "statusbar.h"
+#include "timing.h"
 
 MimeViewerFactory vcal_viewer_factory;
 
@@ -178,6 +179,16 @@ static void create_meeting_from_message_cb(gpointer callback_data, guint callbac
 
 			org = g_strdup(account->address);
 
+			if (account->set_domain && account->domain) {
+				g_snprintf(uid, sizeof(uid), "%s", account->domain); 
+			} else if (!strncmp(get_domain_name(), "localhost", strlen("localhost"))) {
+				g_snprintf(uid, sizeof(uid), "%s", 
+					strchr(account->address, '@') ?
+					strchr(account->address, '@')+1 :
+					account->address);
+			} else {
+				g_snprintf(uid, sizeof(uid), "%s", "");
+			}
 			generate_msgid(uid, 255);
 			
 			event = vcal_manager_new_event(uid,
@@ -1664,6 +1675,7 @@ void vcalendar_init(void)
 	gchar *tmp = NULL;
 	gchar *directory = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"vcalendar", NULL);
+	START_TIMING("");
 	if (!is_dir_exist(directory))
 		make_dir (directory);
 	g_free(directory);
@@ -1675,13 +1687,18 @@ void vcalendar_init(void)
 
 	folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	if (!folder) {
+		START_TIMING("creating folder");
 		folder = folder_new(vcal_folder_get_class(), "vCalendar", NULL);
 		folder->klass->create_tree(folder);
 		folder_add(folder);
 		folder_scan_tree(folder, TRUE);
+		END_TIMING();
 	}
-	if (folder)
+	if (folder) {
+		START_TIMING("scanning folder");
 		folder_item_scan(folder->inbox);
+		END_TIMING();
+	}
 	
 	vcal_folder_gtk_init();
 
@@ -1701,6 +1718,7 @@ void vcalendar_init(void)
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifactory, &vcalendar_main_menu, mainwin, 1);
 	gtk_item_factory_create_item(summaryview->popupfactory, &vcalendar_context_menu, summaryview, 1);
+	END_TIMING();
 }
 
 void vcalendar_done(void)
