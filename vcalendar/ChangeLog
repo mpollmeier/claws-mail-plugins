@@ -1,14 +1,11 @@
-2007-09-16 [cleroy]	1.97.0cvs2
+2007-09-16 [colin]	1.97.0cvs1-stable
 
 	* src/vcal_manager.c
 	* src/vcal_meeting_gtk.c
 	* src/vcalendar.c
-		Allow setting domain name in msgids
-
-2007-09-03 [colin]	1.97.0cvs1
-
 	* po/ca.po
-		Fix breakage
+		From 1.97.0cvs1: Fix ca.po breakage
+		From 1.97.0cvs2: Allow setting msgids from domain
 
 2007-09-03 [paul]	1.97.0
 
