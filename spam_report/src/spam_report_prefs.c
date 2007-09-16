@@ -47,14 +47,18 @@ typedef struct _SpamReportPage SpamReportPage;
 struct _SpamReportPage {
         PrefsPage page;
         GtkWidget *frame[INTF_LAST];
+	GtkWidget *enabled_chkbtn[INTF_LAST];
 	GtkWidget *user_entry[INTF_LAST];
 	GtkWidget *pass_entry[INTF_LAST];
 };
 
 static PrefParam param[] = {
+        {"signalspam_enabled", "FALSE", &spamreport_prefs.enabled[INTF_SIGNALSPAM], P_BOOL, NULL, NULL, NULL},
         {"signalspam_user", "", &spamreport_prefs.user[INTF_SIGNALSPAM], P_STRING, NULL, NULL, NULL},
         {"signalspam_pass", "", &spamreport_prefs.pass[INTF_SIGNALSPAM], P_PASSWORD, NULL, NULL, NULL},
-        {0,0,0,0,0,0,0}
+	{"spamcop_enabled",    "FALSE", &spamreport_prefs.enabled[INTF_SPAMCOP], P_BOOL, NULL, NULL, NULL},
+	{"spamcop_user",    "", &spamreport_prefs.user[INTF_SPAMCOP], P_STRING, NULL, NULL, NULL},
+       {0,0,0,0,0,0,0}
 };
 
 static SpamReportPage spamreport_prefs_page;
@@ -105,44 +109,67 @@ static void create_spamreport_prefs_page(PrefsPage *page,
 	
         vbox = gtk_vbox_new(FALSE, VSPACING_NARROW);
         gtk_container_set_border_width(GTK_CONTAINER(vbox), VBOX_BORDER);
-        
+ 	gtk_widget_show(vbox);
+       
 	for (i = 0; i < INTF_LAST; i++) {
 		prefs_page->frame[i] = gtk_frame_new(spam_interfaces[i].name);
 		gtk_box_pack_start(GTK_BOX(vbox), prefs_page->frame[i], FALSE, FALSE, 6);
 
 		prefs_page->user_entry[i] = gtk_entry_new();
 		prefs_page->pass_entry[i] = gtk_entry_new();
+		prefs_page->enabled_chkbtn[i] = gtk_check_button_new_with_label(_("Enabled"));
+
 		gtk_entry_set_visibility(GTK_ENTRY(prefs_page->pass_entry[i]), FALSE);
 
 		gtk_entry_set_text(GTK_ENTRY(prefs_page->user_entry[i]),
 			spamreport_prefs.user[i] ? spamreport_prefs.user[i]:"");
 		gtk_entry_set_text(GTK_ENTRY(prefs_page->pass_entry[i]),
 			spamreport_prefs.pass[i] ? spamreport_prefs.pass[i]:"");
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(prefs_page->enabled_chkbtn[i]),
+			spamreport_prefs.enabled[i]);
 
-
-		table = gtk_table_new(2, 2, FALSE);
+		table = gtk_table_new(3, 2, FALSE);
 		gtk_container_set_border_width(GTK_CONTAINER(table), 8);
 		gtk_table_set_row_spacings(GTK_TABLE(table), 4);
 		gtk_table_set_col_spacings(GTK_TABLE(table), 8);
-
+	
 		gtk_container_add(GTK_CONTAINER(prefs_page->frame[i]), table);
-		tmp = gtk_label_new(_("Username:"));
-		gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 0, 1,
-				0, 0, 
-				0, 0);
-		gtk_table_attach(GTK_TABLE(table), prefs_page->user_entry[i], 1, 2, 0, 1,
+		gtk_widget_show(prefs_page->frame[i]);
+		gtk_widget_show(table);
+
+		gtk_table_attach(GTK_TABLE(table), prefs_page->enabled_chkbtn[i], 0, 2, 0, 1,
 				GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 
 				0, 0);
+		gtk_widget_show(prefs_page->enabled_chkbtn[i]);
 
-		tmp = gtk_label_new(_("Password:"));
+		switch(spam_interfaces[i].type) {
+		case INTF_MAIL:
+			tmp = gtk_label_new(_("Forward to:"));
+			break;
+		default:
+			tmp = gtk_label_new(_("Username:"));
+		}
 		gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 1, 2,
 				0, 0, 
 				0, 0);
-		gtk_table_attach(GTK_TABLE(table), prefs_page->pass_entry[i], 1, 2, 1, 2,
+		gtk_table_attach(GTK_TABLE(table), prefs_page->user_entry[i], 1, 2, 1, 2,
 				GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 
 				0, 0);
+		gtk_widget_show(tmp);
+		gtk_widget_show(prefs_page->user_entry[i]);
+
+		tmp = gtk_label_new(_("Password:"));
+		gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 2, 3,
+				0, 0, 
+				0, 0);
+		gtk_table_attach(GTK_TABLE(table), prefs_page->pass_entry[i], 1, 2, 2, 3,
+				GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 
+				0, 0);
+		if (spam_interfaces[i].type != INTF_MAIL) {
+			gtk_widget_show(tmp);
+			gtk_widget_show(prefs_page->pass_entry[i]);
+		}
 	}
-	gtk_widget_show_all(vbox);
         prefs_page->page.widget = vbox;
 }
 
@@ -164,6 +191,8 @@ static void save_spamreport_prefs(PrefsPage *page)
         	g_free(spamreport_prefs.user[i]);
 		g_free(spamreport_prefs.pass[i]);
 
+		spamreport_prefs.enabled[i] = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(prefs_page->enabled_chkbtn[i]));
 		spamreport_prefs.user[i] = gtk_editable_get_chars(
 			GTK_EDITABLE(prefs_page->user_entry[i]), 0, -1);
 		spamreport_prefs.pass[i] = gtk_editable_get_chars(

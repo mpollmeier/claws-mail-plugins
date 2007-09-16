@@ -1,3 +1,10 @@
+2007-09-16 [colin]	0.2.0cvs1
+
+	* src/spam_report.c
+	* src/spam_report_prefs.c
+	* src/spam_report_prefs.h
+		Bug 1308: Add support for spamcop
+
 2007-09-03 [paul]	0.2.0
 
 	0.2 released (initial release)

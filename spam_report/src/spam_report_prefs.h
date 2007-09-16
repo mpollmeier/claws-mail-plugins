@@ -27,12 +27,14 @@ typedef struct _SpamReportPrefs	SpamReportPrefs;
 
 typedef enum {
 	INTF_SIGNALSPAM,
+	INTF_SPAMCOP,
 	INTF_LAST
 } InterfaceId;
 
 typedef enum {
 	INTF_HTTP,
 	INTF_HTTP_AUTH,
+	INTF_MAIL,
 	INTF_NULL
 } InterfaceType;
 
@@ -47,6 +49,7 @@ extern ReportInterface spam_interfaces[];
 
 struct _SpamReportPrefs
 {
+	gboolean enabled[INTF_LAST];
 	gchar *user[INTF_LAST];
 	gchar *pass[INTF_LAST];
 };

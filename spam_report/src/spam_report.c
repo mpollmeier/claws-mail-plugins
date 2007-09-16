@@ -60,6 +60,7 @@
 ReportInterface spam_interfaces[] = {
 	{ "Signal-Spam.fr", INTF_HTTP_AUTH, "https://www.signal-spam.fr/api/signaler",
 		"message=%claws_mail_body_b64%"},
+	{ "Spamcop.net", INTF_MAIL, NULL, NULL},
 	{ NULL, INTF_NULL, NULL, NULL}
 };
 
@@ -136,6 +137,10 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 	CURLcode res;
 	long response;
 	
+	if (spamreport_prefs.enabled[id] == FALSE) {
+		debug_print("not reporting via %s (disabled)\n", intf->name);
+		return;
+	}
 	debug_print("reporting via %s\n", intf->name);
 	tmp = spamreport_strreplace(intf->body, "%claws_mail_body%", contents);
 	len_contents = strlen(contents);
@@ -145,33 +150,45 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 	g_free(b64);
 	g_free(tmp);
 	
-	if (spamreport_prefs.user[id] && *(spamreport_prefs.user[id])) {
-		auth = g_strdup_printf("%s:%s", spamreport_prefs.user[id], spamreport_prefs.pass[id]);
+	switch(intf->type) {
+	case INTF_HTTP_AUTH:
+		if (spamreport_prefs.user[id] && *(spamreport_prefs.user[id])) {
+			auth = g_strdup_printf("%s:%s", spamreport_prefs.user[id], spamreport_prefs.pass[id]);
 
-		curl = curl_easy_init();
-		curl_easy_setopt(curl, CURLOPT_URL, intf->url);
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqbody);
-		curl_easy_setopt(curl, CURLOPT_USERPWD, auth);
-		curl_easy_setopt(curl, CURLOPT_USERAGENT,
-                	"Claws Mail SpamReport plugin "
-	                "(" PLUGINS_URI ")");
-		res = curl_easy_perform(curl);
-		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response);
-		curl_easy_cleanup(curl);
-		switch (response) {
-		case 400: /* Bad Request */
-			log_error(LOG_PROTOCOL, "%s: Bad Request\n", intf->url);
-			break;
-		case 401: /* Not Authorized */
-			log_error(LOG_PROTOCOL, "%s: Wrong login or password\n", intf->url);
-			break;
-		case 404: /* Not Authorized */
-			log_error(LOG_PROTOCOL, "%s: Not found\n", intf->url);
-			break;
+			curl = curl_easy_init();
+			curl_easy_setopt(curl, CURLOPT_URL, intf->url);
+			curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqbody);
+			curl_easy_setopt(curl, CURLOPT_USERPWD, auth);
+			curl_easy_setopt(curl, CURLOPT_USERAGENT,
+                		"Claws Mail SpamReport plugin "
+	                	"(" PLUGINS_URI ")");
+			res = curl_easy_perform(curl);
+			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response);
+			curl_easy_cleanup(curl);
+			switch (response) {
+			case 400: /* Bad Request */
+				log_error(LOG_PROTOCOL, "%s: Bad Request\n", intf->url);
+				break;
+			case 401: /* Not Authorized */
+				log_error(LOG_PROTOCOL, "%s: Wrong login or password\n", intf->url);
+				break;
+			case 404: /* Not Authorized */
+				log_error(LOG_PROTOCOL, "%s: Not found\n", intf->url);
+				break;
+			}
+			g_free(auth);
 		}
-
-
-		g_free(auth);
+		break;
+	case INTF_MAIL:
+		if (spamreport_prefs.user[id] && *(spamreport_prefs.user[id])) {
+			Compose *compose = compose_forward(NULL, msginfo, TRUE, NULL, TRUE, TRUE);
+			compose->use_signing = FALSE;
+			compose_entry_append(compose, spamreport_prefs.user[id], COMPOSE_TO);
+			compose_send(compose);
+		}
+		break;
+	default:
+		g_warning("Unknown method\n");
 	}
 	g_free(reqbody);
 }
