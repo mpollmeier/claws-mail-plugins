@@ -1,3 +1,8 @@
+2007-09-16 [mones]	1.0.12cvs2
+
+	* src/acpi_notifier.c
+		Fix building
+
 2007-09-16 [colin]	1.0.12cvs1
 
 	* src/acpi_notifier.c

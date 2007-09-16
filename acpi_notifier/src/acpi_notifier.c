@@ -866,11 +866,7 @@ const gchar *plugin_type(void)
 
 const gchar *plugin_licence(void)
 {
-<<<<<<< acpi_notifier.c
-	return "GPL2+";
-=======
 	return "GPL3+";
->>>>>>> 1.1.2.27
 }
 
 const gchar *plugin_version(void)
