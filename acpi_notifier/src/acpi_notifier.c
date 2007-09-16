@@ -60,9 +60,9 @@ typedef struct _PredefinedAcpis {
 char *acpi_help[] = {
 	"",
 	N_("Make sure that the kernel module 'acerhk' is loaded.\n"
-	    "You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"),
+	    "You can get it from http://www.cakey.de/acerhk/"),
 	N_("Make sure that the kernel module 'acer_acpi' is loaded.\n"
-	    "You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"),
+	    "You can get it from http://code.google.com/p/aceracpi/"),
 	N_("Make sure that the kernel module 'asus_laptop' is loaded."),
 	N_("Make sure that the kernel module 'asus_acpi' is loaded."),
 	N_("Make sure that the kernel module 'ibm_acpi' is loaded."),
@@ -866,7 +866,11 @@ const gchar *plugin_type(void)
 
 const gchar *plugin_licence(void)
 {
+<<<<<<< acpi_notifier.c
+	return "GPL2+";
+=======
 	return "GPL3+";
+>>>>>>> 1.1.2.27
 }
 
 const gchar *plugin_version(void)
