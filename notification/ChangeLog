@@ -1,3 +1,9 @@
+2007-09-07 [holger]	0.12cvs1
+
+	* src/notification_lcdproc.c
+		Add missing include. Hopefully fixes build on FreeBSD.
+		Thanks to Martin Wilke (miwi) for reporting.
+
 2007-09-03 [paul]	0.12
 
 	* 0.12 released

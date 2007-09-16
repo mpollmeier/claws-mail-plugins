@@ -28,6 +28,7 @@
 #include "gettext.h"
 
 #include <string.h>
+#include <sys/socket.h>
 
 #define NOTIFICATION_LCDPROC_BUFFER_SIZE 8192
 
