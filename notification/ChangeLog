@@ -1,14 +1,7 @@
-2007-09-07 [holger]	0.12cvs2
-
-	* src/notification_popup.c
-		Fix typo in English popup string. Thanks to
-		Andrea Spadaccini for reporting.
-
-2007-09-07 [holger]	0.12cvs1
+2007-09-16 [colin]	0.12cvs1-stable
 
 	* src/notification_lcdproc.c
-		Add missing include. Hopefully fixes build on FreeBSD.
-		Thanks to Martin Wilke (miwi) for reporting.
+		From 0.12cvs1: Fix compilation on BSD
 
 2007-09-03 [paul]	0.12
 
