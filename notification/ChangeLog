@@ -1,3 +1,9 @@
+2007-09-07 [holger]	0.12cvs2
+
+	* src/notification_popup.c
+		Fix typo in English popup string. Thanks to
+		Andrea Spadaccini for reporting.
+
 2007-09-07 [holger]	0.12cvs1
 
 	* src/notification_lcdproc.c

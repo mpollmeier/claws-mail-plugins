@@ -303,7 +303,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     break;
   case F_TYPE_NEWS:
     summary = _("New News post");
-    utf8_str    = g_strdup(_("A new mesesage arrived"));
+    utf8_str    = g_strdup(_("A new message arrived"));
     break;
   case F_TYPE_CALENDAR:
     summary = _("New Calendar message");
