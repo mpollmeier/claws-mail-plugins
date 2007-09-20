@@ -1,3 +1,9 @@
+2007-09-20 [paul]	0.2.0cvs2
+
+	* configure.ac
+	* po/it.po
+		submitted by Andrea Spadaccini
+
 2007-09-16 [colin]	0.2.0cvs1
 
 	* src/spam_report.c
