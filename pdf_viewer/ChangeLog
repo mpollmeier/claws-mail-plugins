@@ -1,3 +1,8 @@
+2007-09-20 [paul]	0.6.0cvs3
+
+	* po/it.po
+		updated by Andrea Spadaccini
+
 2007-09-03 [ticho]	0.6.0cvs2
 
 	* src/poppler_viewer.c
