@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.7.0\n"
+"Project-Id-Version: 3.0.0\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-01-01 10:41+0000\n"
-"PO-Revision-Date: 2007-01-06 16:12+0100\n"
+"POT-Creation-Date: 2007-08-28 09:10+0100\n"
+"PO-Revision-Date: 2007-08-30 23:24+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -43,20 +43,20 @@ msgstr "Pulisci la cache immagini all'uscita"
 msgid "Clear image cache now"
 msgstr "Pulisci ora la cache immagini"
 
-#: src/gtkhtml2_viewer.c:91
+#: src/gtkhtml2_viewer.c:94
 msgid "/_Open with Web browser"
 msgstr "/_Apri con browser web"
 
-#: src/gtkhtml2_viewer.c:92
+#: src/gtkhtml2_viewer.c:95
 msgid "/Copy this _link"
 msgstr "Copia _collegamento"
 
-#: src/gtkhtml2_viewer.c:592
+#: src/gtkhtml2_viewer.c:624
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Timeout durante la connessione a %s\n"
 
-#: src/gtkhtml2_viewer.c:660
+#: src/gtkhtml2_viewer.c:694
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -64,7 +64,7 @@ msgstr ""
 "Le immagini remote non sono state caricate\n"
 "secondo le impostazioni."
 
-#: src/gtkhtml2_viewer.c:662
+#: src/gtkhtml2_viewer.c:696
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -72,27 +72,26 @@ msgstr ""
 "Le immagini remote non sono state caricate\n"
 "perché è attiva la modalità offline."
 
-#: src/gtkhtml2_viewer.c:664
+#: src/gtkhtml2_viewer.c:698
 msgid "Remote images exist, but loading them failed."
 msgstr "Il caricamento delle immagini remote è fallito."
 
-#: src/gtkhtml2_viewer.c:667
+#: src/gtkhtml2_viewer.c:702
 msgid "Load images"
 msgstr "Carica immagini"
 
-#: src/gtkhtml2_viewer.c:850 src/gtkhtml2_viewer.c:886
+#: src/gtkhtml2_viewer.c:1036 src/gtkhtml2_viewer.c:1073
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visualizzatore HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:891
+#: src/gtkhtml2_viewer.c:1078
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Questo plugin visualizza le mail in HTML utilizzando il widget "
 "gtkhtml2rendering"
 
-#: src/gtkhtml2_viewer.c:913
-msgid "text/html"
-msgstr "text/html"
+#~ msgid "text/html"
+#~ msgstr "text/html"
 
 #~ msgid ""
 #~ "Your version of Sylpheed-Claws is newer than the version the "
