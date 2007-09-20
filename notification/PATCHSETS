@@ -69,3 +69,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ca.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/hu.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/zh_CN.po;  ) > 0.11cvs19.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/notification_lcdproc.c;  ) > 0.12cvs1.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/notification_popup.c;  ) > 0.12cvs2.patchset
+( cvs diff -u -r 1.1.2.96 -r 1.1.2.97 configure.ac;  diff -u /dev/null po/it.po;  ) > 0.12.1cvs1.patchset
