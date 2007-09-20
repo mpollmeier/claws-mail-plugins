@@ -1,3 +1,8 @@
+2007-09-20 [paul]	1.0.12cvs3
+
+	* po/it.po
+		updated by Andrea Spadaccini
+
 2007-09-16 [mones]	1.0.12cvs2
 
 	* src/acpi_notifier.c
