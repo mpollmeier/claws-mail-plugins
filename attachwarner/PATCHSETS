@@ -27,3 +27,4 @@
 ( cvs diff -u -r 1.1.2.36 -r 1.1.2.37 configure.ac;  ) > 0.2.7cvs6.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/es.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fi.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/hu.po;  ) > 0.2.7cvs7.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/attachwarner.c;  ) > 0.2.8cvs1.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/it.po;  ) > 0.2.8cvs2.patchset

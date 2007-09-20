@@ -1,49 +1,86 @@
-# Italian translation for the Attach Warner plugin for Claws Mail
+# Italian translation for the AttachWarner plugin for Claws Mail
 # Copyright (C) 2007 Andrea Spadaccini
 # This file is distributed under the same license as the attachwarner package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.7.0\n"
+"Project-Id-Version: 3.0.0\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-01-01 10:39+0000\n"
-"PO-Revision-Date: 2007-01-06 16:10+0100\n"
+"POT-Creation-Date: 2007-08-28 09:09+0100\n"
+"PO-Revision-Date: 2007-08-30 23:34+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/attachwarner.c:199
+#: src/attachwarner.c:254
 msgid "Attachment warning"
-msgstr "Avvertimento - Allegati"
+msgstr "Avviso allegato"
 
-#: src/attachwarner.c:200
+#: src/attachwarner.c:255
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. Send it anyway?"
 msgstr ""
-"Un allegato è menzionato nel messaggio in uscita, ma nessun file è stato "
-"allegato. Spedirlo comunque?"
+"Un allegato è menzionato nel messaggio in invio, ma nessun file è stato "
+"allegato. Inviarlo comunque?"
 
-#: src/attachwarner.c:201
+#: src/attachwarner.c:256
 msgid "+_Send"
-msgstr "+_Spedisci"
+msgstr "+_Invia"
 
-#: src/attachwarner.c:222 src/attachwarner.c:257 src/attachwarner.c:309
+#: src/attachwarner.c:277 src/attachwarner.c:314 src/attachwarner.c:366
 msgid "Attach warner"
-msgstr "Allarme allegati"
+msgstr "Monitor allegati"
 
-#: src/attachwarner.c:228
+#: src/attachwarner.c:284
 msgid "Failed to register check before send hook"
-msgstr "Errore durante la registrazione dell'azione di controllo prima della "
-"spedizione"
+msgstr "Impossibile registrare la funzione di controllo prima dell'invio"
 
-#: src/attachwarner.c:267
+#: src/attachwarner.c:324
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
-"no file is attached"
+"no file is attached."
 msgstr ""
-"Avverte l'utente se nel messaggio ci sono riferimenti ad allegati e nessun "
-"file viene allegato"
+"Avvisa l'utente se nel testo del messaggio sono presenti riferimenti ad allegati "
+"e non è allegato alcun file"
+
+#: src/attachwarner_prefs.c:45
+msgid "attach"
+msgstr "allega"
+
+#: src/attachwarner_prefs.c:71
+msgid ""
+"Warn when matching the following regular expressions:\n"
+"(one per line)"
+msgstr ""
+"Avvisa se una di queste espressioni regolari corrisponde:\n"
+"(una per riga)"
+
+#: src/attachwarner_prefs.c:90
+msgid "Skip quoted lines"
+msgstr "Salta righe quotate"
+
+#: src/attachwarner_prefs.c:97
+msgid "Exclude quoted lines from checking for the regular expressions above"
+msgstr "Escludi righe quotate dal controllo per le espressioni regolari"
+
+#: src/attachwarner_prefs.c:100
+msgid "Skip forwards and redirections"
+msgstr "Salta invii e redirezioni"
+
+#: src/attachwarner_prefs.c:107
+msgid ""
+"Don't check for missing attachments when forwarding or redirecting messages"
+msgstr ""
+"Non controllare messaggi inoltrati o rediretti"
+
+#: src/attachwarner_prefs.c:178
+msgid "Plugins"
+msgstr "Plugin"
+
+#: src/attachwarner_prefs.c:179
+msgid "Attach Warner"
+msgstr "Monitor allegati"
