@@ -62,6 +62,7 @@ gboolean rssyl_refresh_timeout_cb(gpointer data)
 {
 	RSSylRefreshCtx *ctx = (RSSylRefreshCtx *)data;
 	time_t tt = time(NULL);
+	gchar *tmpdate;
 
 	g_return_val_if_fail(ctx != NULL, FALSE);
 
@@ -75,14 +76,18 @@ gboolean rssyl_refresh_timeout_cb(gpointer data)
 	}
 
 	if( ctx->id != ctx->ritem->refresh_id ) {
+		tmpdate = createRFC822Date(&tt);
 		debug_print(" %s: timeout id changed, stopping: %d != %d\n",
-				createRFC822Date(&tt), ctx->id, ctx->ritem->refresh_id);
+				tmpdate, ctx->id, ctx->ritem->refresh_id);
+		g_free(tmpdate);
 		g_free(ctx);
 		return FALSE;
 	}
 
-	debug_print(" %s: refresh %s (%d)\n", createRFC822Date(&tt), ctx->ritem->url,
+	tmpdate = createRFC822Date(&tt);
+	debug_print(" %s: refresh %s (%d)\n", tmpdate, ctx->ritem->url,
 			ctx->ritem->refresh_id);
+	g_free(tmpdate);
 	rssyl_update_feed(ctx->ritem);
 
 	return TRUE;

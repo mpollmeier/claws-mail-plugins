@@ -1,3 +1,8 @@
+2007-09-23 [ticho]	0.15.0cvs2
+
+	* src/rssyl_cb_gtk.c
+		Fix small memory leak.
+
 2007-09-20 [paul]	0.15.0cvs1
 
 	* po/it.po
