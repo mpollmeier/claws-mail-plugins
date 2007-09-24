@@ -1,3 +1,8 @@
+2007-09-24 [holger]	0.0.1cvs2
+
+	* src/address_dup_finder.c
+		Correct license specification.
+
 2007-09-24 [holger]	0.0.1cvs1
 
 	* src/adf_finder.c

@@ -83,7 +83,7 @@ const gchar *plugin_type(void)
 
 const gchar *plugin_licence(void)
 {
-  return "GPL";
+  return "GPL3+";
 }
 
 const gchar *plugin_version(void)
