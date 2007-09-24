@@ -159,8 +159,6 @@ static gint collect_emails(ItemPerson *itemperson, const gchar *book)
   GSList *new_val;
   AdfListEntry *entry;
 
-  addritem_print_item_person(itemperson, stderr);
-
   /* Process each E-Mail address */
   nodeM = itemperson->listEMail;
   while(nodeM) {

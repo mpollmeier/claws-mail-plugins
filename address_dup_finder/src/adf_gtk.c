@@ -185,15 +185,15 @@ void adf_present_finder_results(GHashTable *hash)
   close = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
   gtk_box_pack_end(GTK_BOX(hbox), close, FALSE, FALSE, 0);
 
-  delete = gtk_button_new_from_stock(GTK_STOCK_DELETE);
-  gtk_box_pack_end(GTK_BOX(hbox), delete, FALSE, FALSE, 10);
+  /*delete = gtk_button_new_from_stock(GTK_STOCK_DELETE);*/
+  /*gtk_box_pack_end(GTK_BOX(hbox), delete, FALSE, FALSE, 10);*/
 
   g_signal_connect(dialog, "destroy",
 		   G_CALLBACK(cb_dialog_destroy), hash);
   g_signal_connect_swapped(close, "clicked",
 			   G_CALLBACK(gtk_widget_destroy), dialog);
-  g_signal_connect(delete, "clicked",
-		   G_CALLBACK(cb_delete_clicked), NULL);
+  /*g_signal_connect(delete, "clicked",
+    G_CALLBACK(cb_delete_clicked), NULL);*/
 
   gtk_widget_show_all(dialog);
 }

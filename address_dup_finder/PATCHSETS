@@ -1,0 +1,1 @@
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/adf_finder.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/adf_gtk.c;  ) > 0.0.1cvs1.patchset
