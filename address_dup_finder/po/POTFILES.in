@@ -1,0 +1,3 @@
+# List of source files which contain translatable strings.
+src/address_dup_finder.c
+src/adf_gtk.c
