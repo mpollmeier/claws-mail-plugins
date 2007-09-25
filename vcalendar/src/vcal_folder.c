@@ -741,19 +741,15 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 {
 	MsgInfo *msginfo = NULL;
 	gchar *file;
-	gchar *snum = NULL;
 
 	debug_print("get_msginfo\n");
 	
 	g_return_val_if_fail(item != NULL, NULL);
 	g_return_val_if_fail(num > 0, NULL);
 
-	snum = g_strdup_printf("%d", num);
-
 	file = vcal_fetch_msg(folder, item, num);
 
 	if (!file) {
-		g_free(snum);
 		return NULL;
 	}
 
@@ -765,12 +761,10 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 
 		vcal_change_flags(NULL, NULL, msginfo, 0);
 
-		debug_print("  adding %s\n", snum);
+		debug_print("  adding %d\n", num);
 	}
 	unlink(file);
 	g_free(file);
-
-	g_free(snum);
 
 	debug_print("  got msginfo %p\n", msginfo);
 

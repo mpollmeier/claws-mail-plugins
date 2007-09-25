@@ -119,3 +119,4 @@
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/ca.po;  ) > 1.97.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.60 -r 1.1.2.61 src/vcal_manager.c;  cvs diff -u -r 1.1.2.63 -r 1.1.2.64 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.57 -r 1.2.2.58 src/vcalendar.c;  ) > 1.97.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/it.po;  ) > 1.98.0cvs1.patchset
+( cvs diff -u -r 1.2.2.71 -r 1.2.2.72 src/vcal_folder.c;  cvs diff -u -r 1.1.2.61 -r 1.1.2.62 src/vcal_manager.c;  ) > 1.98.0cvs2.patchset

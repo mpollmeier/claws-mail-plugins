@@ -1,3 +1,9 @@
+2007-09-25 [colin]	1.98.0cvs2
+
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+		Fix crash on disk full
+
 2007-09-20 [paul]	1.98.0cvs1
 
 	* po/it.po
