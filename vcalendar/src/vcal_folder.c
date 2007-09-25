@@ -474,8 +474,8 @@ static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_u
 			orig_uid = g_strdup(uid);
 
 add_new:			
-			item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
-			item->evtlist = g_slist_append(item->evtlist, data);
+			item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
+			item->evtlist = g_slist_prepend(item->evtlist, data);
 			data = NULL;
 			debug_print("add %d : %s\n", num, uid);
 			g_free(uid);
@@ -485,35 +485,35 @@ add_new:
 				struct icaltimetype itt = icalproperty_get_dtstart(prop);
 				days = event_to_today(NULL, icaltime_as_timet(itt));
 				if (days == EVENT_PAST && past_msg == -1) {
-					item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+					item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
 					data = icalfeeddata_new(NULL, EVENT_PAST_ID);
 					past_msg = num++;
 				} else if (days == EVENT_TODAY && today_msg == -1) {
-					item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+					item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
 					data = icalfeeddata_new(NULL, EVENT_TODAY_ID);
 					today_msg = num++;
 				} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) {
-					item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+					item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
 					data = icalfeeddata_new(NULL, EVENT_TOMORROW_ID);
 					tomorrow_msg = num++;
 				} else if (days == EVENT_THISWEEK && thisweek_msg == -1) {
-					item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+					item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
 					data = icalfeeddata_new(NULL, EVENT_THISWEEK_ID);
 					thisweek_msg = num++;
 				} else if (days == EVENT_LATER && later_msg == -1) {
-					item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+					item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
 					data = icalfeeddata_new(NULL, EVENT_LATER_ID);
 					later_msg = num++;
 				}
 			} else {
 				if (past_msg == -1) {
-					item->numlist = g_slist_append(item->numlist, GINT_TO_POINTER(num));
+					item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
 					data = icalfeeddata_new(NULL, EVENT_PAST_ID);
 					past_msg = num++;
 				}
 			}
 			if (data) {
-				item->evtlist = g_slist_append(item->evtlist, data);
+				item->evtlist = g_slist_prepend(item->evtlist, data);
 				data = NULL;
 			}
 			if (rprop) {
@@ -562,6 +562,9 @@ add_new:
 		evt = icalcomponent_get_next_component(
 			item->cal, type);
 	}
+	item->numlist = g_slist_reverse(item->numlist);
+	item->evtlist = g_slist_reverse(item->evtlist);
+	
 	*list = item->numlist ? g_slist_copy(item->numlist) : NULL;
 	debug_print("return %d\n", num);
 	return num;
@@ -573,31 +576,31 @@ add_new:
 	debug_print("should add %d %s? %d %d\n", n_msg, event->uid, status, status == ICAL_PARTSTAT_ACCEPTED); \
 	if (status == ICAL_PARTSTAT_ACCEPTED \
 	||  status == ICAL_PARTSTAT_TENTATIVE) { \
-		*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
 		debug_print("add %d %s\n", n_msg, event->uid); \
 		n_msg++; \
 		days = event_to_today(event, 0); \
 	 \
 		if (days == EVENT_PAST && past_msg == -1) { \
-			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
 			past_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, g_strdup_printf("%d", past_msg), g_strdup(EVENT_PAST_ID)); \
+			g_hash_table_insert(hash_uids, GINT_TO_POINTER(past_msg), g_strdup(EVENT_PAST_ID)); \
 		} else if (days == EVENT_TODAY && today_msg == -1) { \
-			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
 			today_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, g_strdup_printf("%d", today_msg), g_strdup(EVENT_TODAY_ID)); \
+			g_hash_table_insert(hash_uids, GINT_TO_POINTER(today_msg), g_strdup(EVENT_TODAY_ID)); \
 		} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) { \
-			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
 			tomorrow_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, g_strdup_printf("%d", tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
+			g_hash_table_insert(hash_uids, GINT_TO_POINTER(tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
 		} else if (days == EVENT_THISWEEK && thisweek_msg == -1) { \
-			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
 			thisweek_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, g_strdup_printf("%d", thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
+			g_hash_table_insert(hash_uids, GINT_TO_POINTER(thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
 		} else if (days == EVENT_LATER && later_msg == -1) { \
-			*list = g_slist_append(*list, GINT_TO_POINTER(n_msg)); \
+			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
 			later_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, g_strdup_printf("%d", later_msg), g_strdup(EVENT_LATER_ID)); \
+			g_hash_table_insert(hash_uids, GINT_TO_POINTER(later_msg), g_strdup(EVENT_LATER_ID)); \
 		} \
 	} \
 }
@@ -608,9 +611,10 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	DIR *dp;
 	struct dirent *d;
 	int n_msg = 1;
-	gchar *snmsg = NULL;
 	gint past_msg = -1, today_msg = -1, tomorrow_msg = -1, 
 		thisweek_msg = -1, later_msg = -1;
+
+	g_return_val_if_fail (*list == NULL, 0); /* we expect a NULL list */
 
 	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
 	
@@ -630,8 +634,8 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	if (hash_uids != NULL)
 		g_hash_table_destroy(hash_uids);
 		
-	hash_uids = g_hash_table_new_full(g_str_hash, g_str_equal,
-					  g_free, g_free);
+	hash_uids = g_hash_table_new_full(g_direct_hash, g_direct_equal,
+					  NULL, g_free);
 	
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
@@ -641,8 +645,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		||  !strcmp(d->d_name, "multisync")) 
 			continue;
 
-		snmsg = g_strdup_printf("%d",n_msg);
-		g_hash_table_insert(hash_uids, snmsg, g_strdup(d->d_name));
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(n_msg), g_strdup(d->d_name));
 		
 		event = vcal_manager_load_event(d->d_name);
 		if (!event)
@@ -699,8 +702,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 					vcal_manager_copy_attendees(event, nevent);
 					nevent->rec_occurence = TRUE;
 					vcal_manager_save_event(nevent, FALSE);
-					snmsg = g_strdup_printf("%d",n_msg);
-					g_hash_table_insert(hash_uids, snmsg, uid);
+					g_hash_table_insert(hash_uids, GINT_TO_POINTER(n_msg), uid);
 					VCAL_FOLDER_ADD_EVENT(nevent);
 					vcal_manager_free_event(nevent);
 					next = icalrecur_iterator_next(ritr);
@@ -717,6 +719,9 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	}
 	closedir(dp);
 	vcal_folder_export();
+
+	*list = g_slist_reverse(*list);
+
 	return g_slist_length(*list);
 }
 
@@ -825,15 +830,13 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 				gint num)
 {
 	gchar *filename = NULL;
-	gchar *snum = NULL;
 	gchar *uid = NULL;
 	
 	debug_print(" fetch for %s %d\n", ((VCalFolderItem *)item)->uri, num);
 	if (((VCalFolderItem *)item)->uri) 
 		return feed_fetch_item(item, num);
 
-	snum = g_strdup_printf("%d",num);
-	uid = g_hash_table_lookup(hash_uids, snum);
+	uid = g_hash_table_lookup(hash_uids, GINT_TO_POINTER(num));
 
 	if (uid && 
 	    (!strcmp(uid, EVENT_PAST_ID) ||
@@ -856,8 +859,6 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 
 		vcal_manager_free_event(event);
 	} 
-
-	g_free(snum);
 		
 	return filename;
 }
@@ -1122,7 +1123,7 @@ GSList * vcal_folder_get_waiting_events(void)
 
 			if (status == ICAL_PARTSTAT_ACCEPTED
 			||  status == ICAL_PARTSTAT_TENTATIVE) {
-				list = g_slist_append(list, event);
+				list = g_slist_prepend(list, event);
 			} else {
 				vcal_manager_free_event(event);
 			}
@@ -1133,7 +1134,7 @@ GSList * vcal_folder_get_waiting_events(void)
 
 	closedir(dp);
 		
-	return list;
+	return g_slist_reverse(list);
 }
 
 typedef struct _get_webcal_data {
@@ -1153,7 +1154,7 @@ static gboolean get_webcal_events_func(GNode *node, gpointer user_data)
 	for (cur = ((VCalFolderItem *)item)->evtlist; cur; cur = cur->next) {
 		IcalFeedData *fdata = (IcalFeedData *)cur->data;
 		if (fdata->event)
-			data->list = g_slist_append(data->list, fdata->event);
+			data->list = g_slist_prepend(data->list, fdata->event);
 	}
 	return FALSE;
 }
@@ -1169,7 +1170,7 @@ GSList * vcal_folder_get_webcal_events(void)
 	list = data->list;
 	g_free(data);
 
-	return list;
+	return g_slist_reverse(list);
 }
 
 gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
@@ -1208,7 +1209,7 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 			} else
 				summary = g_strdup("-");
 
-			strs = g_slist_append(strs, summary);
+			strs = g_slist_prepend(strs, summary);
 		}
 	} else {
 		GSList *evtlist = vcal_folder_get_waiting_events();
@@ -1219,7 +1220,7 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 			gchar *summary = NULL;
 			if (days == date) {
 				summary = g_strdup(event->summary);
-				strs = g_slist_append(strs, summary);
+				strs = g_slist_prepend(strs, summary);
 			}
 			vcal_manager_free_event(event);
 		}
@@ -1246,7 +1247,7 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 	result = g_strdup_printf(_("\nThese are the events planned %s:\n"),
 			datestr);
 	
-	for (cur = strs; cur; cur = cur->next) {
+	for (cur = g_slist_reverse(strs); cur; cur = cur->next) {
 		int e_len = strlen(result);
 		int n_len = strlen((gchar *)cur->data);
 		if (e_len) {
