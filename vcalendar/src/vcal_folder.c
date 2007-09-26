@@ -839,21 +839,11 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 {
 	gchar *filename = NULL;
 	const gchar *uid = NULL;
-	MsgInfo *msginfo = NULL;
 
 	debug_print(" fetch for %s %d\n", ((VCalFolderItem *)item)->uri, num);
 	if (((VCalFolderItem *)item)->uri) 
 		return feed_fetch_item(item, num);
 
-	if (item->cache)
-		msginfo = msgcache_get_msg(item->cache, num);
-	
-	if (msginfo) {
-		uid = msginfo->msgid;
-		debug_print("msgid %s\n", uid);
-		procmsg_msginfo_free(msginfo);
-	}
-	
 	if (!uid) {
 		if (!hash_uids)
 			folder_item_scan_full(item, FALSE);
@@ -1004,7 +994,7 @@ static void vcal_set_mtime(Folder *folder, FolderItem *item)
 void vcal_folder_export(Folder *folder)
 {	
 	FolderItem *item = folder?folder->inbox:NULL;
-	gboolean need_scan = folder?vcal_scan_required(folder, item):FALSE;
+	gboolean need_scan = folder?vcal_scan_required(folder, item):TRUE;
 
 	if (vcal_folder_lock_count) /* blocked */
 		return;
@@ -1031,7 +1021,7 @@ void vcal_folder_export(Folder *folder)
 				vcalprefs.export_freebusy_command, TRUE);
 	}
 	vcal_folder_lock_count--;
-	if (!need_scan) {
+	if (!need_scan && folder) {
 		vcal_set_mtime(folder, folder->inbox);
 	}
 }
@@ -1067,6 +1057,7 @@ static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginf
 	EventTime date;
 
 	if (newflags & MSG_DELETED) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
 		/* delete the stuff */
 		msginfo->flags.perm_flags |= MSG_DELETED;
 		vcal_remove_event(folder, msginfo);

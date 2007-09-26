@@ -1361,6 +1361,8 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	VCalMeeting *meet = NULL;
 	gchar *file = NULL;
 	gint val = 0;
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	gboolean redisp = FALSE;
 	val = alertpanel_full(_("Cancel meeting"),
 				   _("Are you sure you want to cancel this meeting?\n"
 			           "A notification will be sent to attendees."),
@@ -1377,13 +1379,25 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 		return TRUE;
 	event->method = ICAL_METHOD_CANCEL;
 	
+	if (folder) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		if (mainwin->summaryview->folder_item == folder->inbox) {
+			redisp = TRUE;
+			summary_show(mainwin->summaryview, NULL);
+		}
+	}
 	meet = vcal_meeting_create_hidden(event);
 	if (!vcal_meeting_send(meet)) {
 		event->method = ICAL_METHOD_REQUEST;
 		vcal_manager_save_event(event, TRUE);
 		vcal_manager_free_event(event);
-		refresh_folder_contents(vcalviewer);
-		vcalviewer_reset(vcalviewer);
+		if (folder)
+			folder_item_scan(folder->inbox);
+
+		if (folder && redisp) {
+			MainWindow *mainwin = mainwindow_get_mainwindow();
+			summary_show(mainwin->summaryview, folder->inbox);
+		}
 		return TRUE;
 	}
 
@@ -1393,8 +1407,12 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	unlink(file);
 	vcal_manager_free_event(event);
 	g_free(file);
-	refresh_folder_contents(vcalviewer);
-	vcalviewer_reset(vcalviewer);
+	if (folder)
+		folder_item_scan(folder->inbox);
+	if (folder && redisp) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		summary_show(mainwin->summaryview, folder->inbox);
+	}
 
 	return TRUE;
 }

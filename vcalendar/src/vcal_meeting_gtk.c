@@ -37,6 +37,7 @@
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
 #include "vcal_prefs.h"
+#include "mainwindow.h"
 #include "prefs_account.h"
 #include "account.h"
 #include "filesel.h"
@@ -1189,12 +1190,21 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	PrefsAccount *account = NULL;
 	gboolean res = FALSE;
 	gboolean found_att = FALSE;
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	gboolean redisp = FALSE;
 
 	if (meet->uid == NULL && meet->visible && 
 	    !check_attendees_availability(meet, FALSE, TRUE)) {
 		return FALSE;
 	}
 
+	if (folder) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		if (mainwin->summaryview->folder_item == folder->inbox) {
+			redisp = TRUE;
+			summary_show(mainwin->summaryview, NULL);
+		}
+	}
 	gtk_widget_set_sensitive(meet->save_btn, FALSE);
 	gtk_widget_set_sensitive(meet->avail_btn, FALSE);
 	if (meet->window->window)
@@ -1297,13 +1307,14 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	} else {
 		alertpanel_error(_("Could not send the meeting invitation.\n"
 				   "Check the recipients."));
-		return res;
 	}
-	if (!found_att) {
-		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
-		if (folder)
-			folder_item_scan(folder->inbox);
-		vcalviewer_reload();
+
+	if (folder)
+		folder_item_scan(folder->inbox);
+
+	if (folder && redisp) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		summary_show(mainwin->summaryview, folder->inbox);
 	}
 
 	return res;

@@ -1,3 +1,10 @@
+2007-09-26 [colin]	1.98.0cvs5
+
+	* src/vcal_folder.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Fix new bugs
+
 2007-09-26 [colin]	1.98.0cvs4
 
 	* src/plugin.c
