@@ -35,7 +35,7 @@ void notification_trayicon_msg(MsgInfo*);
 void notification_trayicon_destroy(void);
 
 /* creates it, if necessary */
-void notification_update_trayicon(guint, guint, guint, guint, guint);
+void notification_update_trayicon(void);
 
 gboolean notification_trayicon_main_window_close(gpointer, gpointer);
 gboolean notification_trayicon_main_window_got_iconified(gpointer, gpointer);

@@ -215,17 +215,29 @@ void notification_trayicon_destroy(void)
   }
 }
 
-void notification_update_trayicon(guint new_msgs, guint unread_msgs,
-				  guint unreadmarked_msgs, guint marked_msgs,
-				  guint total_msgs)
+void notification_update_trayicon()
 {
   gchar *buf;
   static GdkPixbuf *old_icon = NULL;
   GdkPixbuf *new_icon;
   gint offset;
+  NotificationMsgCount count;
+  GSList *list;
 
   if(!notify_config.trayicon_enabled)
     return;
+
+  if(notify_config.trayicon_popup_folder_specific) {
+    guint id;
+    id =
+      notification_register_folder_specific_list
+      (TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR);
+    list = notification_foldercheck_get_list(id);
+  }
+  else
+    list = NULL;
+    
+  notification_core_get_msg_count(list, &count);
 
   if(!trayicon) {
     old_icon = notification_trayicon_create();
@@ -237,23 +249,24 @@ void notification_update_trayicon(guint new_msgs, guint unread_msgs,
 
   /* Tooltip */
   buf = g_strdup_printf(_("New %d, Unread: %d, Total: %d"),
-			new_msgs, unread_msgs, total_msgs);
+			count.new_msgs, count.unread_msgs,
+			count.total_msgs);
   gtk_status_icon_set_tooltip(trayicon, buf);
   g_free(buf);
 
   /* Pixmap */
   (prefs_common.work_offline) ? (offset = 1) : (offset = 0);
 
-  if((new_msgs > 0) && (unreadmarked_msgs > 0))
+  if((count.new_msgs > 0) && (count.unreadmarked_msgs > 0))
     new_icon =
       notification_pixbuf_get(NOTIFICATION_TRAYICON_NEWMARKEDMAIL+offset);
-  else if(new_msgs > 0)
+  else if(count.new_msgs > 0)
     new_icon =
       notification_pixbuf_get(NOTIFICATION_TRAYICON_NEWMAIL+offset);
-  else if(unreadmarked_msgs > 0)
+  else if(count.unreadmarked_msgs > 0)
     new_icon =
       notification_pixbuf_get(NOTIFICATION_TRAYICON_UNREADMARKEDMAIL+offset);
-  else if(unread_msgs > 0)
+  else if(count.unread_msgs > 0)
     new_icon =
       notification_pixbuf_get(NOTIFICATION_TRAYICON_UNREADMAIL+offset);
   else

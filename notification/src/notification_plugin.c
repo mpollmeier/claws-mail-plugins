@@ -309,7 +309,7 @@ gboolean plugin_done(void)
   notification_lcdproc_disconnect();
 #endif
 
-  notification_notified_hash_free();
+  notification_core_free();
 
   hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
   hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);

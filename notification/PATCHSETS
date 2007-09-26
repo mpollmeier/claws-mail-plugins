@@ -70,3 +70,4 @@
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/notification_lcdproc.c;  ) > 0.12cvs1.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/notification_popup.c;  ) > 0.12cvs2.patchset
 ( cvs diff -u -r 1.1.2.96 -r 1.1.2.97 configure.ac;  diff -u /dev/null po/it.po;  ) > 0.12.1cvs1.patchset
+( cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/notification_core.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/notification_core.h;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/notification_lcdproc.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_lcdproc.h;  cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/notification_plugin.c;  cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/notification_prefs.c;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/notification_trayicon.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/notification_trayicon.h;  ) > 0.12.1cvs2.patchset

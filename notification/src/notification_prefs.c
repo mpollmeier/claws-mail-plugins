@@ -522,6 +522,8 @@ static void notify_save_prefs(PrefsPage *page)
   notify_config.include_calendar = 
     gtk_toggle_button_get_active
     (GTK_TOGGLE_BUTTON(notify_page.include_calendar));
+
+  notification_core_global_includes_changed();
 }
 
 #ifdef NOTIFICATION_BANNER
@@ -1313,16 +1315,37 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(checkbox);
   trayicon_page.trayicon_hide_when_iconified = checkbox;
 
+  /* folder specific */
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_widget_show(hbox);
+  checkbox = gtk_check_button_new_with_label(_("Only include selected folders"));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			       notify_config.trayicon_popup_folder_specific);
+  gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
+  g_signal_connect(G_OBJECT(checkbox), "toggled",
+		   G_CALLBACK(notify_trayicon_popup_folder_specific_set_sensitivity),
+		   NULL);
+  gtk_widget_show(checkbox);
+  trayicon_page.trayicon_popup_folder_specific = checkbox;
+  button = gtk_button_new_with_label(_("Select folders..."));
+  g_signal_connect(G_OBJECT(button), "clicked",
+		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
+		   TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+  trayicon_page.trayicon_popup_cont_folder_specific = button;
+  gtk_widget_show(button);
+
 
 #ifdef HAVE_LIBNOTIFY
   /* Frame for trayicon popup stuff */
   frame = gtk_frame_new(_("Passive toaster popup"));
-  gtk_container_set_border_width(GTK_CONTAINER(frame), 10);
   gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
   gtk_widget_show(frame);
 
   /* vbox for frame */
   svbox = gtk_vbox_new(FALSE, 10);
+  gtk_container_set_border_width(GTK_CONTAINER(svbox), 5);
   gtk_container_add(GTK_CONTAINER(frame), svbox);
   gtk_widget_show(svbox);
 
@@ -1360,27 +1383,6 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(label);
   gtk_widget_show(hbox);
   trayicon_page.trayicon_popup_timeout = spinner;
-
-  /* folder specific */
-  hbox = gtk_hbox_new(FALSE, 10);
-  gtk_box_pack_start(GTK_BOX(ssvbox), hbox, FALSE, FALSE, 0);
-  gtk_widget_show(hbox);
-  checkbox = gtk_check_button_new_with_label(_("Only include selected folders"));
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
-			       notify_config.trayicon_popup_folder_specific);
-  gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
-  g_signal_connect(G_OBJECT(checkbox), "toggled",
-		   G_CALLBACK(notify_trayicon_popup_folder_specific_set_sensitivity),
-		   NULL);
-  gtk_widget_show(checkbox);
-  trayicon_page.trayicon_popup_folder_specific = checkbox;
-  button = gtk_button_new_with_label(_("Select folders..."));
-  g_signal_connect(G_OBJECT(button), "clicked",
-		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
-		   TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR);
-  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-  trayicon_page.trayicon_popup_cont_folder_specific = button;
-  gtk_widget_show(button);
 #endif
 
   notify_trayicon_enable_set_sensitivity

@@ -1,3 +1,18 @@
+2007-09-26 [holger]	0.12.1cvs2
+
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_lcdproc.c
+	* src/notification_lcdproc.h
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+		Make trayicon and LCD obey global
+		folder preferences. Also, add "selected
+		folders only" option to the complete trayicon
+		module (and not only to the popups)
+
 2007-09-20 [paul]	0.12.1cvs1
 
 	* configure.ac

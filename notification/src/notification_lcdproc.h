@@ -27,7 +27,7 @@
 void notification_lcdproc_connect(void);
 void notification_lcdproc_disconnect(void);
 
-void notification_update_lcdproc(guint, guint, guint);
+void notification_update_lcdproc(void);
 
 #endif /* NOTIFICATION_LCDPROC */
 

@@ -35,14 +35,24 @@ typedef enum {
   F_TYPE_LAST
 } NotificationFolderType;
 
+typedef struct 
+{
+  guint new_msgs;
+  guint unread_msgs;
+  guint unreadmarked_msgs;
+  guint marked_msgs;
+  guint total_msgs;
+} NotificationMsgCount;
+
 /* Collect new and possibly unread messages in all folders */
 GSList*  notification_collect_msgs(gboolean, GSList*, gint);
 void     notification_collected_msgs_free(GSList*);
 
-/* New mail notification */
+void     notification_core_global_includes_changed(void);
+void     notification_core_free(void);
 void     notification_update_msg_counts(FolderItem*);
+void     notification_core_get_msg_count(GSList*,NotificationMsgCount*);
 void     notification_new_unnotified_msgs(FolderItemUpdateData*);
-void     notification_notified_hash_free(void);
 gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);
 void     notification_notified_hash_startup_init(void);
 

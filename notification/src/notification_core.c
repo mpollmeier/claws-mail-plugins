@@ -20,8 +20,9 @@
 #include "folder.h"
 #include "codeconv.h"
 
-#include "notification_prefs.h"
 #include "notification_core.h"
+#include "notification_plugin.h"
+#include "notification_prefs.h"
 #include "notification_banner.h"
 #include "notification_popup.h"
 #include "notification_command.h"
@@ -41,30 +42,142 @@ static gboolean notification_traverse_collect(GNode*, gpointer);
 static void     notification_new_unnotified_do_msg(MsgInfo*);
 static gboolean notification_traverse_hash_startup(GNode*, gpointer);
 
+static GHashTable *msg_count_hash;
+static NotificationMsgCount msg_count;
+
+static void msg_count_hash_update_func(FolderItem*, gpointer);
+static void msg_count_update_from_hash(gpointer, gpointer, gpointer);
+static void msg_count_clear(NotificationMsgCount*);
+static void msg_count_add(NotificationMsgCount*,NotificationMsgCount*);
+static void msg_count_copy(NotificationMsgCount*,NotificationMsgCount*);
+
+void notification_core_global_includes_changed(void)
+{
+  notification_update_banner();
+
+  if(msg_count_hash) {
+    g_hash_table_destroy(msg_count_hash);
+    msg_count_hash = NULL;
+  }
+  notification_update_msg_counts(NULL);
+}
+
+
 void notification_update_msg_counts(FolderItem *removed_item)
 {
-  guint unread_msgs;
-  guint new_msgs;
-  guint unread_marked_msgs;
-  guint marked_msgs;
-  guint total_msgs;
+  if(!msg_count_hash)
+    msg_count_hash = g_hash_table_new_full(g_str_hash,g_str_equal,
+					   g_free,g_free);
 
-  folder_count_total_msgs(&new_msgs, &unread_msgs, &unread_marked_msgs,
-			  &marked_msgs, &total_msgs);
+  folder_func_to_all_folders(msg_count_hash_update_func, msg_count_hash);
 
   if(removed_item) {
-    total_msgs -= removed_item->total_msgs;
-    new_msgs -= removed_item->new_msgs;
-    unread_msgs -= removed_item->unread_msgs;
+    gchar *identifier;
+    identifier = folder_item_get_identifier(removed_item);
+    if(identifier) {
+      g_hash_table_remove(msg_count_hash, identifier);
+      g_free(identifier);
+    }
   }
+  msg_count_clear(&msg_count);
+  g_hash_table_foreach(msg_count_hash, msg_count_update_from_hash, NULL);
 
 #ifdef NOTIFICATION_LCDPROC
-  notification_update_lcdproc(new_msgs, unread_msgs, total_msgs);
+  notification_update_lcdproc();
 #endif
 #ifdef NOTIFICATION_TRAYICON
-  notification_update_trayicon(new_msgs, unread_msgs, unread_marked_msgs,
-			       marked_msgs, total_msgs);
+  notification_update_trayicon();
 #endif
+}
+
+static void msg_count_clear(NotificationMsgCount *count)
+{
+  count->new_msgs          = 0;
+  count->unread_msgs       = 0;
+  count->unreadmarked_msgs = 0;
+  count->marked_msgs       = 0;
+  count->total_msgs        = 0;
+}
+
+/* c1 += c2 */
+static void msg_count_add(NotificationMsgCount *c1,NotificationMsgCount *c2)
+{
+  c1->new_msgs          += c2->new_msgs;
+  c1->unread_msgs       += c2->unread_msgs;
+  c1->unreadmarked_msgs += c2->unreadmarked_msgs;
+  c1->marked_msgs       += c2->marked_msgs;
+  c1->total_msgs        += c2->total_msgs;
+}
+
+/* c1 = c2 */
+static void msg_count_copy(NotificationMsgCount *c1,NotificationMsgCount *c2)
+{
+  c1->new_msgs          = c2->new_msgs;
+  c1->unread_msgs       = c2->unread_msgs;
+  c1->unreadmarked_msgs = c2->unreadmarked_msgs;
+  c1->marked_msgs       = c2->marked_msgs;
+  c1->total_msgs        = c2->total_msgs;
+}
+
+void notification_core_get_msg_count(GSList *folder_list,
+				     NotificationMsgCount *count)
+{
+  GSList *walk;
+
+  if(!folder_list)
+    msg_count_copy(count,&msg_count);
+  else {
+    msg_count_clear(count);
+    for(walk = folder_list; walk; walk = walk->next) {
+      gchar *identifier;
+      NotificationMsgCount *item_count;
+      FolderItem *item = (FolderItem*) walk->data;
+      identifier = folder_item_get_identifier(item);
+      if(identifier) {
+	item_count = g_hash_table_lookup(msg_count_hash,identifier);
+	g_free(identifier);
+	if(item_count)
+	  msg_count_add(count, item_count);
+      }
+    }
+  }
+}
+
+static void msg_count_hash_update_func(FolderItem *item, gpointer data)
+{
+  gchar *identifier;
+  NotificationMsgCount *count;
+  GHashTable *hash = data;
+
+  if(!notify_include_folder_type(item->folder->klass->type,
+				 item->folder->klass->uistr))
+    return;
+
+  identifier = folder_item_get_identifier(item);
+  if(!identifier)
+    return;
+
+  count = g_hash_table_lookup(hash, identifier);
+
+  if(!count) {
+    count = g_new0(NotificationMsgCount,1);
+    g_hash_table_insert(hash, identifier, count);
+  }
+  else
+    g_free(identifier);
+
+  count->new_msgs          = item->new_msgs;
+  count->unread_msgs       = item->unread_msgs;
+  count->unreadmarked_msgs = item->unreadmarked_msgs;
+  count->marked_msgs       = item->marked_msgs;
+  count->total_msgs        = item->total_msgs;
+}
+
+static void msg_count_update_from_hash(gpointer key, gpointer value,
+				       gpointer data)
+{
+  NotificationMsgCount *count = value;
+  msg_count_add(&msg_count,count);
 }
 
 
@@ -187,13 +300,17 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
   return FALSE;
 }
 
-void notification_notified_hash_free(void)
+void notification_core_free(void)
 {
   if(notified_hash) {
     g_hash_table_destroy(notified_hash);
     notified_hash = NULL;
-    debug_print("Notification Plugin: Hash table destroyed\n");
   }
+  if(msg_count_hash) {
+    g_hash_table_destroy(msg_count_hash);
+    msg_count_hash = NULL;
+  }
+  debug_print("Notification Plugin: Freed internal data\n");
 }
 
 void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)

@@ -117,9 +117,9 @@ void notification_lcdproc_disconnect(void)
   }
 }
 
-void notification_update_lcdproc(guint new_msgs, guint unread_msgs,
-				 guint total_msgs)
+void notification_update_lcdproc(void)
 {
+  NotificationMsgCount count;
   gchar *buf;
 
   if(!notify_config.lcdproc_enabled || !sock)
@@ -130,19 +130,20 @@ void notification_update_lcdproc(guint new_msgs, guint unread_msgs,
     return;
   }
   
+  notification_core_get_msg_count(NULL, &count);
 
-  if((new_msgs + unread_msgs) > 0) {
+  if((count.new_msgs + count.unread_msgs) > 0) {
     buf =
       g_strdup_printf("widget_set msg_counts line1 1 2 {%s: %d}",_("New"),
-		      new_msgs);
+		      count.new_msgs);
     notification_lcdproc_send(buf);
     buf =
       g_strdup_printf("widget_set msg_counts line2 1 3 {%s: %d}",_("Unread"),
-		      unread_msgs);
+		      count.unread_msgs);
     notification_lcdproc_send(buf);
     buf =
       g_strdup_printf("widget_set msg_counts line3 1 4 {%s: %d}",_("Total"),
-		      total_msgs);
+		      count.total_msgs);
     notification_lcdproc_send(buf);
   }
   else {
