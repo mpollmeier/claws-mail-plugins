@@ -31,7 +31,7 @@ void vcal_folder_gtk_init(void);
 void vcal_folder_gtk_done(void);
 GSList *vcal_folder_get_waiting_events(void);
 GSList *vcal_folder_get_webcal_events(void);
-void vcal_folder_export(void);
+void vcal_folder_export(Folder *folder);
 
 gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, const gchar *pass);
 gchar *vcal_curl_read(const char *url, gboolean verbose, 

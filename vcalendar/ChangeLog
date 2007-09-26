@@ -1,3 +1,14 @@
+2007-09-26 [colin]	1.98.0cvs4
+
+	* src/plugin.c
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_prefs.c
+	* src/vcalendar.c
+		Optimise loading of inbox (My meetings) by
+		better use of the cache.
+
 2007-09-25 [colin]	1.98.0cvs3
 
 	* src/vcal_folder.c

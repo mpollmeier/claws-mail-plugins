@@ -1250,10 +1250,13 @@ static VCalViewer *s_vcalviewer = NULL;
 static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file, MimeInfo *mimeinfo)
 {
 	VCalViewer *vcalviewer = (VCalViewer *) _mimeviewer;
+	START_TIMING("");
+
 	s_vcalviewer = vcalviewer;
 
 	if (mimeinfo == NULL) {
 		vcal_viewer_clear_viewer(_mimeviewer);
+		END_TIMING();
 		return;
 	}
 	debug_print("vcal_viewer_show_mimepart : %s\n", file);
@@ -1282,7 +1285,7 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 			pango_font_description_free(font_desc);
 		}
 	}
-	
+	END_TIMING();	
 }
 
 void vcalviewer_reload(void)
@@ -1695,9 +1698,11 @@ void vcalendar_init(void)
 		END_TIMING();
 	}
 	if (folder) {
-		START_TIMING("scanning folder");
-		folder_item_scan(folder->inbox);
-		END_TIMING();
+		if (folder->klass->scan_required(folder, folder->inbox)) {
+			START_TIMING("scanning folder");
+			folder_item_scan(folder->inbox);
+			END_TIMING();
+		}
 	}
 	
 	vcal_folder_gtk_init();

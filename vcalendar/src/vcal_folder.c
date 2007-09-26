@@ -52,6 +52,8 @@
 #include "log.h"
 #include "mainwindow.h"
 #include "statusbar.h"
+#include "msgcache.h"
+#include "timing.h"
 
 #include <gtk/gtk.h>
 #include <dirent.h>
@@ -102,6 +104,7 @@ static FolderItem *vcal_create_folder(Folder * folder,
 static gint vcal_create_tree(Folder *folder);
 static gint vcal_remove_folder(Folder *folder, FolderItem *item);
 static gboolean vcal_scan_required(Folder *folder, FolderItem *item);
+static void vcal_set_mtime(Folder *folder, FolderItem *item);
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags);
 static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -292,6 +295,7 @@ FolderClass *vcal_folder_get_class()
 		vcal_class.remove_folder = vcal_remove_folder;
 		vcal_class.rename_folder = vcal_rename_folder;
 		vcal_class.scan_required = vcal_scan_required;
+		vcal_class.set_mtime = vcal_set_mtime;
 		vcal_class.get_num_list = vcal_get_num_list;
 		vcal_class.set_batch = vcal_folder_set_batch;
 
@@ -329,7 +333,7 @@ static void vcal_folder_set_batch	(Folder		*folder,
 		/* ici */
 		item->batching = FALSE;
 		if (item->dirty)
-			vcal_folder_export();
+			vcal_folder_export(folder);
 		item->dirty = FALSE;
 	}
 }
@@ -613,7 +617,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	int n_msg = 1;
 	gint past_msg = -1, today_msg = -1, tomorrow_msg = -1, 
 		thisweek_msg = -1, later_msg = -1;
-
+	START_TIMING("");
 	g_return_val_if_fail (*list == NULL, 0); /* we expect a NULL list */
 
 	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
@@ -662,7 +666,9 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 			enum icalparameter_partstat status = \
 				account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION; \
 			VCAL_FOLDER_ADD_EVENT(event);
-			if (event->recur && strlen(event->recur)) {
+			if ((status == ICAL_PARTSTAT_ACCEPTED
+			     || status == ICAL_PARTSTAT_TENTATIVE) 
+			    && event->recur && *(event->recur)) {
         			struct icalrecurrencetype recur;
         			struct icaltimetype dtstart;
         			struct icaltimetype next;
@@ -671,7 +677,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 				struct icaldurationtype ical_dur;
 				int i = 0;
 
-				debug_print("dumping recurring events from main event\n");
+				debug_print("dumping recurring events from main event %s\n", d->d_name);
         			recur = icalrecurrencetype_from_string(event->recur);
 				dtstart = icaltime_from_string(event->dtstart);
 
@@ -718,10 +724,12 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 
 	}
 	closedir(dp);
-	vcal_folder_export();
+	vcal_folder_export(folder);
 
+	vcal_set_mtime(folder, item);
+	
 	*list = g_slist_reverse(*list);
-
+	END_TIMING();
 	return g_slist_length(*list);
 }
 
@@ -830,14 +838,28 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 				gint num)
 {
 	gchar *filename = NULL;
-	gchar *uid = NULL;
-	
+	const gchar *uid = NULL;
+	MsgInfo *msginfo = NULL;
+
 	debug_print(" fetch for %s %d\n", ((VCalFolderItem *)item)->uri, num);
 	if (((VCalFolderItem *)item)->uri) 
 		return feed_fetch_item(item, num);
 
-	uid = g_hash_table_lookup(hash_uids, GINT_TO_POINTER(num));
+	if (item->cache)
+		msginfo = msgcache_get_msg(item->cache, num);
+	
+	if (msginfo) {
+		uid = msginfo->msgid;
+		debug_print("msgid %s\n", uid);
+		procmsg_msginfo_free(msginfo);
+	}
+	
+	if (!uid) {
+		if (!hash_uids)
+			folder_item_scan_full(item, FALSE);
 
+		uid = g_hash_table_lookup(hash_uids, GINT_TO_POINTER(num));
+	}
 	if (uid && 
 	    (!strcmp(uid, EVENT_PAST_ID) ||
 	     !strcmp(uid, EVENT_TODAY_ID) ||
@@ -942,13 +964,48 @@ static gint vcal_remove_folder(Folder *folder, FolderItem *fitem)
 
 static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 {
-	return TRUE;
+	struct stat s;
+	VCalFolderItem *vitem = (VCalFolderItem *)item;
+
+	if (vitem->uri) {
+		return TRUE;
+	} else if (stat(vcal_manager_get_event_path(), &s) < 0) {
+		return TRUE;
+	} else if ((s.st_mtime > item->mtime) &&
+		(s.st_mtime - 3600 != item->mtime)) {
+		return TRUE;
+	}
+	return FALSE;
 }
 
 static gint vcal_folder_lock_count = 0;
 
-void vcal_folder_export(void)
+static void vcal_set_mtime(Folder *folder, FolderItem *item)
+{
+	struct stat s;
+	gchar *path = folder_item_get_path(item);
+
+	if (folder->inbox != item)
+		return;
+
+	g_return_if_fail(path != NULL);
+
+	if (stat(path, &s) < 0) {
+		FILE_OP_ERROR(path, "stat");
+		g_free(path);
+		return;
+	}
+
+	item->mtime = s.st_mtime;
+	debug_print("VCAL: forced mtime of %s to %ld\n", item->name?item->name:"(null)", item->mtime);
+	g_free(path);
+}
+
+void vcal_folder_export(Folder *folder)
 {	
+	FolderItem *item = folder?folder->inbox:NULL;
+	gboolean need_scan = folder?vcal_scan_required(folder, item):FALSE;
+
 	if (vcal_folder_lock_count) /* blocked */
 		return;
 	vcal_folder_lock_count++;
@@ -974,6 +1031,9 @@ void vcal_folder_export(void)
 				vcalprefs.export_freebusy_command, TRUE);
 	}
 	vcal_folder_lock_count--;
+	if (!need_scan) {
+		vcal_set_mtime(folder, folder->inbox);
+	}
 }
 
 static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
@@ -996,7 +1056,7 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 	}
 	
 	if (!item || !item->batching)
-		vcal_folder_export();
+		vcal_folder_export(folder);
 	else if (item) {
 		item->dirty = TRUE;
 	}

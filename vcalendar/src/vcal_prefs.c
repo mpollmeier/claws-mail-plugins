@@ -633,7 +633,7 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 
 	prefs_file_close(pfile);
 	
-	vcal_folder_export();
+	vcal_folder_export(NULL);
 }
 
 void vcal_prefs_init(void)

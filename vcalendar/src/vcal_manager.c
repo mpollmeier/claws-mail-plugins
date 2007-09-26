@@ -90,9 +90,10 @@ void vcal_manager_copy_attendees(VCalEvent *src, VCalEvent *dest)
 	while (cur && cur->data) {
 		Answer *a = (Answer *)cur->data;
 		Answer *b = answer_new(a->attendee, a->name, a->answer, a->cutype);
-		dest->answers = g_slist_append(dest->answers, b);
+		dest->answers = g_slist_prepend(dest->answers, b);
 		cur = cur->next;
 	}
+	dest->answers = g_slist_reverse(dest->answers);
 }
 
 gchar *vcal_manager_answer_get_text(enum icalparameter_partstat ans) 
@@ -180,9 +181,10 @@ GSList *vcal_manager_get_answers_emails(VCalEvent *event)
 	GSList *cur = event->answers;
 	while (cur && cur->data) {
 		Answer *b = (Answer *)cur->data;
-		new = g_slist_append(new, b->attendee);
+		new = g_slist_prepend(new, b->attendee);
 		cur = cur->next;
 	}
+	new = g_slist_reverse(new);
 	return new;	
 }
 
@@ -390,7 +392,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_vanew_dtstart((icaltime_from_string(event->dtstart)), 0));
 	icalcomponent_add_property(ievent,
 		icalproperty_vanew_dtend((icaltime_from_string(event->dtend)), 0));
-	if (event->recur && strlen(event->recur)) {
+	if (event->recur && *(event->recur)) {
 		icalcomponent_add_property(ievent,
 			icalproperty_vanew_rrule((icalrecurrencetype_from_string(event->recur)), 0));
 	}
@@ -422,7 +424,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 
         icalcomponent_add_component(calendar, ievent);
 
-	if (event->url && strlen(event->url)) {
+	if (event->url && *(event->url)) {
 		attprop = icalproperty_new_url(event->url);
         	icalcomponent_add_property(ievent, attprop);
 	}
@@ -472,6 +474,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		g_free(attendee);
 		return NULL;
 	}
+
 	headers = write_headers(account, event, is_pseudo_event, is_reply, is_pseudo_event);
 
 	if (!headers) {
@@ -762,14 +765,14 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->organizer 	= g_strdup(organizer?organizer:"");
 	event->orgname	 	= g_strdup(orgname?orgname:"");
 
-	if (dtend && strlen(dtend)) {
+	if (dtend && *(dtend)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
 		gchar buft[512];
 		tzset();
 		event->end	= g_strdup(ctime_r(&tmp, buft));
 	}
 	
-	if (dtstart && strlen(dtstart)) {
+	if (dtstart && *(dtstart)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
 		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		gchar buft[512];
@@ -947,7 +950,7 @@ void vcal_manager_save_event (VCalEvent *event, gboolean export_after)
 	}
  
  	if (export_after)
-		vcal_folder_export();
+		vcal_folder_export(NULL);
 }
 
 static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
@@ -1050,11 +1053,12 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 				cutype = atoi(attr->value);
 		}
 
-		event->answers = g_slist_append(event->answers, answer_new(attendee, name, answer, cutype));
+		event->answers = g_slist_prepend(event->answers, answer_new(attendee, name, answer, cutype));
 		g_free(attendee);
 		g_free(name);
 		node = node->next;
 	}
+	event->answers = g_slist_reverse(event->answers);
 	
 	return event;
 }
