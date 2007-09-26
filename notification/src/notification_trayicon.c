@@ -128,7 +128,7 @@ void notification_trayicon_msg(MsgInfo *msginfo)
      !MSG_IS_NEW(msginfo->flags))
     return;
 
-  if(notify_config.trayicon_popup_folder_specific) {
+  if(notify_config.trayicon_folder_specific) {
     guint id;
     GSList *list;
     gchar *identifier;
@@ -141,7 +141,7 @@ void notification_trayicon_msg(MsgInfo *msginfo)
 
     id =
       notification_register_folder_specific_list
-      (TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR);
+      (TRAYICON_SPECIFIC_FOLDER_ID_STR);
     list = notification_foldercheck_get_list(id);
     for(; (list != NULL) && !found; list = g_slist_next(list)) {
       gchar *list_identifier;
@@ -227,11 +227,11 @@ void notification_update_trayicon()
   if(!notify_config.trayicon_enabled)
     return;
 
-  if(notify_config.trayicon_popup_folder_specific) {
+  if(notify_config.trayicon_folder_specific) {
     guint id;
     id =
       notification_register_folder_specific_list
-      (TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR);
+      (TRAYICON_SPECIFIC_FOLDER_ID_STR);
     list = notification_foldercheck_get_list(id);
   }
   else

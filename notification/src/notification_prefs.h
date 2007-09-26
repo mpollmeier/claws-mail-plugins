@@ -83,10 +83,10 @@ typedef struct {
   gboolean         trayicon_hide_at_startup;
   gboolean         trayicon_close_to_tray;
   gboolean         trayicon_hide_when_iconified;
+  gboolean         trayicon_folder_specific;
 #ifdef HAVE_LIBNOTIFY
   gboolean         trayicon_popup_enabled;
   gint             trayicon_popup_timeout;
-  gboolean         trayicon_popup_folder_specific;
 #endif /* HAVE_LIBNOTIFY */
 #endif /* Trayicon */
 } NotifyPrefs;

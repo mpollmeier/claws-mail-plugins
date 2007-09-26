@@ -121,12 +121,12 @@ typedef struct {
   GtkWidget *trayicon_hide_at_startup;
   GtkWidget *trayicon_close_to_tray;
   GtkWidget *trayicon_hide_when_iconified;
+  GtkWidget *trayicon_folder_specific;
+  GtkWidget *trayicon_cont_folder_specific;
 #ifdef HAVE_LIBNOTIFY
   GtkWidget *trayicon_popup_enabled;
   GtkWidget *trayicon_popup_cont_enable;
   GtkWidget *trayicon_popup_timeout;
-  GtkWidget *trayicon_popup_folder_specific;
-  GtkWidget *trayicon_popup_cont_folder_specific;
 #endif
 } NotifyTrayiconPage;
 NotifyTrayiconPage trayicon_page;
@@ -219,14 +219,14 @@ PrefParam notify_param[] = {
    &notify_config.trayicon_close_to_tray, P_BOOL, NULL, NULL, NULL},
   {"trayicon_hide_when_iconified", "FALSE",
    &notify_config.trayicon_hide_when_iconified, P_BOOL, NULL, NULL, NULL},
+  {"trayicon_folder_specific", "FALSE",
+   &notify_config.trayicon_folder_specific,
+   P_BOOL, NULL, NULL, NULL},
 #ifdef HAVE_LIBNOTIFY
   {"trayicon_popup_enabled", "TRUE", &notify_config.trayicon_popup_enabled,
    P_BOOL, NULL, NULL, NULL},
   {"trayicon_popup_timeout", "5000", &notify_config.trayicon_popup_timeout,
    P_INT, NULL, NULL, NULL},
-  {"trayicon_popup_folder_specific", "FALSE",
-   &notify_config.trayicon_popup_folder_specific,
-   P_BOOL, NULL, NULL, NULL},
 #endif /* HAVE_LIBNOTIFY */
 #endif
 
@@ -282,11 +282,11 @@ static void notify_create_trayicon_page(PrefsPage*, GtkWindow*, gpointer);
 static void notify_destroy_trayicon_page(PrefsPage*);
 static void notify_save_trayicon(PrefsPage*);
 static void notify_trayicon_enable_set_sensitivity(GtkToggleButton*, gpointer);
+static void notify_trayicon_folder_specific_set_sensitivity(GtkToggleButton*,
+							    gpointer);
 #ifdef HAVE_LIBNOTIFY
 static void notify_trayicon_popup_enable_set_sensitivity(GtkToggleButton*,
 							 gpointer);
-static void notify_trayicon_popup_folder_specific_set_sensitivity(GtkToggleButton*,
-								  gpointer);
 #endif
 #endif
 
@@ -1260,6 +1260,8 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
   GtkWidget *pvbox;
   GtkWidget *vbox;
   GtkWidget *checkbox;
+  GtkWidget *hbox;
+  GtkWidget *button;
 
 #ifdef HAVE_LIBNOTIFY
   GtkWidget *svbox;
@@ -1267,8 +1269,6 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
   GtkWidget *frame;
   GtkWidget *label;
   GtkWidget *spinner;
-  GtkWidget *hbox;
-  GtkWidget *button;
   gdouble timeout;
 #endif
   
@@ -1321,19 +1321,19 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
   gtk_widget_show(hbox);
   checkbox = gtk_check_button_new_with_label(_("Only include selected folders"));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
-			       notify_config.trayicon_popup_folder_specific);
+			       notify_config.trayicon_folder_specific);
   gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
   g_signal_connect(G_OBJECT(checkbox), "toggled",
-		   G_CALLBACK(notify_trayicon_popup_folder_specific_set_sensitivity),
+		   G_CALLBACK(notify_trayicon_folder_specific_set_sensitivity),
 		   NULL);
   gtk_widget_show(checkbox);
-  trayicon_page.trayicon_popup_folder_specific = checkbox;
+  trayicon_page.trayicon_folder_specific = checkbox;
   button = gtk_button_new_with_label(_("Select folders..."));
   g_signal_connect(G_OBJECT(button), "clicked",
 		   G_CALLBACK(notification_foldercheck_sel_folders_cb),
-		   TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR);
+		   TRAYICON_SPECIFIC_FOLDER_ID_STR);
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-  trayicon_page.trayicon_popup_cont_folder_specific = button;
+  trayicon_page.trayicon_cont_folder_specific = button;
   gtk_widget_show(button);
 
 
@@ -1391,9 +1391,10 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 #ifdef HAVE_LIBNOTIFY
   notify_trayicon_popup_enable_set_sensitivity
     (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_popup_enabled), NULL);
-  notify_trayicon_popup_folder_specific_set_sensitivity
-    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_popup_folder_specific), NULL);
 #endif
+
+  notify_trayicon_folder_specific_set_sensitivity
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_folder_specific), NULL);
 
   gtk_widget_show(pvbox);
   trayicon_page.page.widget = pvbox;
@@ -1435,9 +1436,9 @@ static void notify_save_trayicon(PrefsPage *page)
 			      (trayicon_page.trayicon_popup_timeout));
   notify_config.trayicon_popup_timeout = (gint)floor(timeout*1000+0.5);
 
-  notify_config.trayicon_popup_folder_specific = 
+  notify_config.trayicon_folder_specific = 
     gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_popup_folder_specific));
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_folder_specific));
 #endif
 
   if(notify_config.trayicon_enabled)
@@ -1455,6 +1456,15 @@ static void notify_trayicon_enable_set_sensitivity(GtkToggleButton *button,
   gtk_widget_set_sensitive(trayicon_page.trayicon_cont_enable, active);
 }
 
+static void notify_trayicon_folder_specific_set_sensitivity(GtkToggleButton *bu,
+								  gpointer data)
+{
+  gboolean active;
+  active = gtk_toggle_button_get_active
+    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_folder_specific));
+  gtk_widget_set_sensitive(trayicon_page.trayicon_cont_folder_specific, active);
+}
+
 #ifdef HAVE_LIBNOTIFY
 static void notify_trayicon_popup_enable_set_sensitivity(GtkToggleButton *bu,
 							 gpointer data)
@@ -1465,14 +1475,6 @@ static void notify_trayicon_popup_enable_set_sensitivity(GtkToggleButton *bu,
   gtk_widget_set_sensitive(trayicon_page.trayicon_popup_cont_enable, active);
 }
 
-static void notify_trayicon_popup_folder_specific_set_sensitivity(GtkToggleButton *bu,
-								  gpointer data)
-{
-  gboolean active;
-  active = gtk_toggle_button_get_active
-    (GTK_TOGGLE_BUTTON(trayicon_page.trayicon_popup_folder_specific));
-  gtk_widget_set_sensitive(trayicon_page.trayicon_popup_cont_folder_specific, active);
-}
 #endif /* HAVE_LIBNOTIFY */
 
 #endif /* NOTIFICATION_TRAYICON */

@@ -26,9 +26,7 @@
 
 #include "procmsg.h"
 
-#ifdef HAVE_LIBNOTIFY
-#define TRAYICON_POPUP_SPECIFIC_FOLDER_ID_STR "trayicon_popup"
-#endif
+#define TRAYICON_SPECIFIC_FOLDER_ID_STR "trayicon"
 
 void notification_trayicon_msg(MsgInfo*);
 

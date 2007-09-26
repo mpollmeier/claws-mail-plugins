@@ -1,3 +1,12 @@
+2007-09-26 [holger]	0.12.1cvs3
+
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+		Fix compile without libnotify support.
+		Thanks to Brian Morrison for reporting.
+
 2007-09-26 [holger]	0.12.1cvs2
 
 	* src/notification_core.c
