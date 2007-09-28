@@ -259,7 +259,7 @@ static gboolean tnef_parse (MimeParser *parser, MimeInfo *mimeinfo)
 	if (mimeinfo->content == MIMECONTENT_FILE)
 		debug_print("content: %s\n", mimeinfo->data.filename);
 	else 
-		debug_print("contents in memory (len %d)\n", 
+		debug_print("contents in memory (len %zd)\n", 
 			strlen(mimeinfo->data.mem));
 			
 	TNEFInitialize(&tnef);

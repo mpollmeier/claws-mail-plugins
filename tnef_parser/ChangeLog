@@ -1,4 +1,9 @@
-2007-09-o5 [colin]	0.1.1cvs3
+2007-09-28 [colin]	0.1.1cvs4
+
+	* src/tnef_parse.c
+		Fix warnings
+
+2007-09-05 [colin]	0.1.1cvs3
 
 	* COPYING
 	* COPYING.ytnef
