@@ -960,7 +960,7 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 	gchar *tmp = NULL;
 	gchar *real_url = NULL;
 	gint num_format = 0;
-	gint change_user = -1, change_dom = -1;
+	gchar *change_user = NULL, change_dom = NULL;
 	gchar *problems = NULL;
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
@@ -993,11 +993,11 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 
 		tmp = NULL;
 		if (strstr(real_url, "%u") != NULL) {
-			change_user = (gint)strstr(real_url, "%u");
+			change_user = strstr(real_url, "%u");
 			*(strstr(real_url, "%u")+1) = 's';
 		} 
 		if (strstr(real_url, "%d") != NULL) {
-			change_dom = (gint)strstr(real_url, "%d");
+			change_dom = strstr(real_url, "%d");
 			*(strstr(real_url, "%d")+1) = 's';
 		} 
 		debug_print("url format %s\n", real_url);
@@ -1057,14 +1057,14 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 				domain = g_strdup("");
 			}
 			g_free(remail);
-			if (change_user > 0 && change_dom > 0) {
+			if (change_user && change_dom) {
 				if (change_user < change_dom)
 					tmp = g_strdup_printf(real_url, user, domain);
 				else
 					tmp = g_strdup_printf(real_url, domain, user);
-			} else if (change_user > 0) {
+			} else if (change_user) {
 				tmp = g_strdup_printf(real_url, user);
-			} else if (change_dom > 0) {
+			} else if (change_dom) {
 				tmp = g_strdup_printf(real_url, domain);
 			} else {
 				tmp = g_strdup(real_url);

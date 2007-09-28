@@ -3,7 +3,7 @@
   FILE: icalvalue.c
   CREATOR: eric 02 May 1999
   
-  $Id: icalvalue.c,v 1.1.2.1 2005-07-04 17:06:58 colinleroy Exp $
+  $Id: icalvalue.c,v 1.1.2.2 2007-09-28 18:45:11 colinler Exp $
 
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -484,7 +484,7 @@ icalvalue_free (icalvalue* value)
 #endif
 
     if(v->x_value != 0){
-        free(v->x_value);
+        free((char *)v->x_value);
     }
 
     switch (v->kind){

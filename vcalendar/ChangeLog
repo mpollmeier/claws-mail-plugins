@@ -1,3 +1,10 @@
+2007-09-28 [colin]	1.98.0cvs6
+
+	* libical/libical/icalcomponent.c
+	* libical/libical/icalvalue.c
+	* src/vcal_meeting_gtk.c
+		Fix warnings
+
 2007-09-26 [colin]	1.98.0cvs5
 
 	* src/vcal_folder.c

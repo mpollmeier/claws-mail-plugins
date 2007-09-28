@@ -2,7 +2,7 @@
   FILE: icalcomponent.c
   CREATOR: eric 28 April 1999
   
-  $Id: icalcomponent.c,v 1.1.2.2 2007-05-09 16:46:57 colinler Exp $
+  $Id: icalcomponent.c,v 1.1.2.3 2007-09-28 18:45:11 colinler Exp $
 
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -37,6 +37,7 @@
 #include "icalperiod.h"
 #include "icalparser.h"
 
+#include <string.h>  /* for strcpy & memset */
 #include <stdlib.h>  /* for malloc */
 #include <stdarg.h> /* for va_list, etc */
 #include <errno.h>
