@@ -271,9 +271,10 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 
 			/* Media enclosure */
 			if( !strcmp(n->name, "enclosure") ) {
+				gchar *tmp = xmlGetProp(n, "length");
 				media_url = xmlGetProp(n, "url");
 				media_type = xmlGetProp(n, "type");
-				media_size = xmlGetProp(n, "length");
+				media_size = tmp ? atoi(tmp):0;
 
 				if( media_url != NULL &&
 						media_type != NULL &&

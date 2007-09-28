@@ -1,3 +1,8 @@
+2007-09-28 [colin]	0.15.0cvs3
+
+	* src/parsers.c
+		Fix warnings
+
 2007-09-23 [ticho]	0.15.0cvs2
 
 	* src/rssyl_cb_gtk.c

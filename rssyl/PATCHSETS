@@ -98,3 +98,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/es.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/hu.po;  cvs diff -u -r 1.1.2.16 -r 1.1.2.17 po/sk.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/zh_CN.po;  ) > 0.14.0cvs11.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/it.po;  ) > 0.15.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_cb_gtk.c;  ) > 0.15.0cvs2.patchset
+( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/parsers.c;  ) > 0.15.0cvs3.patchset
