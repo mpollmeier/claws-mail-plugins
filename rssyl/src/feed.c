@@ -1072,7 +1072,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 {
 	MsgFlags *flags;
-	gchar *template;
+	gchar *template, *tmps;
 	gchar tmp[512];
 	gint d, fd, dif = 0;
 	FILE *f;
@@ -1141,8 +1141,13 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	if( fitem->link ) {
 		fprintf(f, "X-RSSyl-URL: %s\n", fitem->link);
-		fprintf(f, "Message-ID: <%s>\n", fitem->link);
 	}
+
+	if( (tmps = fitem->id) == NULL )
+		tmps = fitem->link;
+	if( tmps != NULL )
+		fprintf(f, "Message-ID: <%s>\n", tmps);
+
 	if( fitem->comments_link ) {
 		fprintf(f, "X-RSSyl-Comments: %s\n", fitem->comments_link);
 	}

@@ -1,3 +1,11 @@
+2007-10-01 [ticho]	0.15.0cvs4
+
+	* src/feed.c
+	* src/parsers.c
+		Do not mangle feed items' id and link after parsing. We'll
+		decide later which one to use where.
+		Use "id" and not "guid" for Atom feeds.
+
 2007-09-28 [colin]	0.15.0cvs3
 
 	* src/parsers.c
