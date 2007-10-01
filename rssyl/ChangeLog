@@ -1,3 +1,12 @@
+2007-10-01 [ticho]	0.15.0cvs5
+
+	* src/feed.c
+	* src/feed.h
+	* src/parsers.c
+		Use feed link and id (or guid) fields better, with regards
+		determining which one to use when. Fixes false new items for
+		certain feeds who use unusual values for these fields.
+
 2007-10-01 [ticho]	0.15.0cvs4
 
 	* src/feed.c

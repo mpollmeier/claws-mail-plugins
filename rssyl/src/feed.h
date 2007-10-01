@@ -41,6 +41,7 @@ struct _RSSylFeedItem {
 	gchar *comments_link;
 	gchar *author;
 	gchar *id;
+	gboolean id_is_permalink;
 
 	RSSylFeedItemMedia *media;
 

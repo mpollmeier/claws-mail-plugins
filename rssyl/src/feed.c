@@ -639,6 +639,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 	fitem->link = NULL;
 	fitem->text = NULL;
 	fitem->id = NULL;
+	fitem->id_is_permalink = FALSE;
 	fitem->realpath = g_strdup(path);
 
 	parsing_headers = TRUE;
@@ -1072,7 +1073,7 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 {
 	MsgFlags *flags;
-	gchar *template, *tmps;
+	gchar *template, *tmpurl, *tmpid;
 	gchar tmp[512];
 	gint d, fd, dif = 0;
 	FILE *f;
@@ -1139,14 +1140,17 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 			fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE));
 	}
 
-	if( fitem->link ) {
-		fprintf(f, "X-RSSyl-URL: %s\n", fitem->link);
+	if( (tmpurl = fitem->link) == NULL ) {
+		if( fitem->id != NULL && fitem->id_is_permalink )
+			tmpurl = fitem->id;
 	}
+	if( tmpurl != NULL )
+		fprintf(f, "X-RSSyl-URL: %s\n", tmpurl);
 
-	if( (tmps = fitem->id) == NULL )
-		tmps = fitem->link;
-	if( tmps != NULL )
-		fprintf(f, "Message-ID: <%s>\n", tmps);
+	if( (tmpid = fitem->id) == NULL )
+		tmpid = fitem->link;
+	if( tmpid != NULL )
+		fprintf(f, "Message-ID: <%s>\n", tmpid);
 
 	if( fitem->comments_link ) {
 		fprintf(f, "X-RSSyl-Comments: %s\n", fitem->comments_link);
@@ -1172,9 +1176,9 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		fprintf(f, "Content-Type: text/html\n\n");
 	}
 
-	if( fitem->link )
+	if( tmpurl )
 		fprintf(f, "<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
-				fitem->link, fitem->link);
+				tmpurl, tmpurl);
 
 	if( fitem->text )
 		fprintf(f, "<html><head>"

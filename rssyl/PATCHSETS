@@ -100,3 +100,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_cb_gtk.c;  ) > 0.15.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/parsers.c;  ) > 0.15.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.79 -r 1.1.2.80 src/feed.c;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/parsers.c;  ) > 0.15.0cvs4.patchset
+( cvs diff -u -r 1.1.2.80 -r 1.1.2.81 src/feed.c;  cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/feed.h;  cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/parsers.c;  ) > 0.15.0cvs5.patchset

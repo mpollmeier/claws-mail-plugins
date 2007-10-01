@@ -232,14 +232,15 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			}
 
 			/* GUID - sometimes used as link */
-			if( !strcmp(n->name, "id") ) {
+			if( !strcmp(n->name, "guid") ) {
 				gchar *tmp = xmlGetProp(n, "isPermaLink");
 				content = xmlNodeGetContent(n);
-				if (!tmp || strcmp(tmp, "false")) {
-					fitem->id = rssyl_format_string(g_strdup(content), FALSE, FALSE);
-					xmlFree(content);
-					debug_print("RSSyl: XML - item id: '%s'\n", fitem->id);
-				}
+				fitem->id_is_permalink = FALSE;
+				if( !tmp || strcmp(tmp, "false") )	/* permalink? */
+					fitem->id_is_permalink = TRUE;
+				fitem->id = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+				xmlFree(content);
+				debug_print("RSSyl: XML - item guid: '%s'\n", fitem->id);
 				g_free(tmp);
 			}
 
@@ -302,7 +303,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			}
 		} while( (n = n->next) != NULL);
 
-		if( fitem->link && fitem->title ) {
+		if( (fitem->link || fitem->id) && fitem->title ) {
 			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {
 				rssyl_free_feeditem(fitem);
 				fitem = NULL;
