@@ -628,7 +628,7 @@ int etpan_privacy_init(void)
 	gchar * tmp_dir;
 	int r;
 	
-	tmp_dir = get_tmp_dir();
+	tmp_dir = (gchar *)get_tmp_dir();
 	privacy = mailprivacy_new(tmp_dir, 0);
 	
 	if (privacy == NULL)

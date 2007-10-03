@@ -1,3 +1,8 @@
+2007-10-03 [colin]	0.15.5cvs3
+
+	* src/etpan_privacy.c
+		Fix warning
+
 2007-07-11 [colin]	0.15.5cvs2
 
 	* src/plugin.c
