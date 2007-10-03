@@ -35,7 +35,6 @@
 #include <pthread.h>
 #include <time.h>
 
-#include "common/utils.h"
 #include "common/claws.h"
 #include "codeconv.h"
 #include "procmsg.h"
@@ -48,6 +47,7 @@
 #include "prefs_common.h"
 #include "defs.h"
 #include "inc.h"
+#include "common/utils.h"
 
 #include "gettext.h"
 

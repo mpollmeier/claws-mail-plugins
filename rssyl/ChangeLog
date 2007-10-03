@@ -1,3 +1,8 @@
+2007-10-03 [colin]	0.15.0cvs7
+
+	* src/feed.c
+		Fix warnings
+
 2007-10-03 [colin]	0.15.0cvs6
 
 	* configure.ac
