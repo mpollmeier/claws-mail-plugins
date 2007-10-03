@@ -34,11 +34,11 @@
 #include <gtk/gtk.h>
 
 #include "gtkutils.h"
-#include "utils.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
 #include "prefswindow.h"
 #include "alertpanel.h"
+#include "utils.h"
 
 #include "gtkhtml2_prefs.h"
 

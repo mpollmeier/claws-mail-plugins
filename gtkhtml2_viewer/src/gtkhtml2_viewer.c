@@ -37,7 +37,6 @@
 #include "common/version.h"
 #include "main.h"
 #include "plugin.h"
-#include "utils.h"
 #include "mimeview.h"
 #include "messageview.h"
 #include "prefs_common.h"
@@ -47,6 +46,7 @@
 #include "plugin.h"
 #include "menu.h"
 #include "defs.h"
+#include "utils.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>

@@ -1,3 +1,9 @@
+2007-10-03 [colin]	0.15.2cvs5
+
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_viewer.c
+		Fix warnings
+
 2007-10-03 [colin]	0.15.2cvs4
 
 	* configure.ac
