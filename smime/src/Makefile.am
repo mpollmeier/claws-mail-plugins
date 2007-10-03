@@ -24,7 +24,8 @@ AM_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
-	$(GPGME_CFLAGS)
+	$(GPGME_CFLAGS) \
+	-Wno-deprecated-declarations
 
 EXTRA_DIST = \
 	smime.h smime.deps

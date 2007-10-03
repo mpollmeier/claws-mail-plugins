@@ -27,3 +27,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 COPYING;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/plugin.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/smime.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/smime.h;  ) > 0.7.1cvs1.patchset
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/plugin.c;  ) > 0.7.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.39 -r 1.1.2.40 configure.ac;  ) > 0.7.1cvs3.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/Makefile.am;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/smime.c;  ) > 0.7.2cvs1.patchset

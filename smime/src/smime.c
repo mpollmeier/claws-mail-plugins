@@ -249,7 +249,7 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
 		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
 			gpgme_data_t cipher, plain;
-			int len;
+			size_t len;
 			if (oldenc == ENC_BASE64)
 				gpgme_data_set_encoding (textdata, GPGME_DATA_ENCODING_BASE64);
 			gpgme_data_new(&cipher);
