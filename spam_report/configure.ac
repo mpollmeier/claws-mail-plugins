@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=0
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -44,7 +44,6 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 		 sys/param.h sys/utsname.h sys/select.h \
 		 wchar.h wctype.h locale.h netdb.h)
 
-<<<<<<< configure.ac
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_OFF_T
@@ -52,10 +51,8 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
 
-ALL_LINGUAS="ca es fi fr hu pt_BR sk"
-=======
 ALL_LINGUAS="ca es fi fr hu it pt_BR sk"
->>>>>>> 1.1.2.14
+
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])
