@@ -4,6 +4,7 @@
 		Get rid of double definition of _() symbol
 		by undefining the Perl version (which is not used,
 		and doesn't do anything anyways).
+		Thanks to Colin for pointing this out.
 
 2007-09-03 [ticho]	0.9.10cvs1
 
