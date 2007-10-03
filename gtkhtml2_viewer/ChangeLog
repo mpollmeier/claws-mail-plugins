@@ -1,3 +1,8 @@
+2007-10-03 [colin]	0.15.2cvs4
+
+	* configure.ac
+		Fix missing type checks
+
 2007-09-20 [paul]	0.15.2cvs3
 
 	* po/it.po
