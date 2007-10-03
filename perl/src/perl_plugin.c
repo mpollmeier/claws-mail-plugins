@@ -24,9 +24,6 @@
 #endif
 #include "pluginconfig.h"
 
-#include <glib.h>
-#include <glib/gi18n.h>
-
 #include "common/version.h"
 #include "common/defs.h"
 #include "common/utils.h"
@@ -47,15 +44,22 @@
 #include "log.h"
 #include "plugin.h"
 
+#include <EXTERN.h>
+#include <perl.h>
+#include <XSUB.h>
+
+#ifdef _
+# undef _
+#endif
+
+#include <glib.h>
+#include <glib/gi18n.h>
+
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-#include <EXTERN.h>
-#include <perl.h>
-#include <XSUB.h>
 
 #include "pluginconfig.h"
 #include "perl_plugin.h"
