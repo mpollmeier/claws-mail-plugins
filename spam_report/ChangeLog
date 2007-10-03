@@ -1,3 +1,8 @@
+2007-10-03 [colin]	0.2.0cvs3
+
+	* configure.ac
+		Fix missing type checks
+
 2007-09-20 [paul]	0.2.0cvs2
 
 	* configure.ac
