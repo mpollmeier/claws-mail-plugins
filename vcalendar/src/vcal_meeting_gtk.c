@@ -31,7 +31,6 @@
 #include <curl/curl.h>
 #include <curl/curlver.h>
 
-#include "utils.h"
 #include "vcalendar.h"
 #include "vcal_folder.h"
 #include "vcal_manager.h"
@@ -45,6 +44,7 @@
 #include "addr_compl.h"
 #include "gtkutils.h"
 #include "log.h"
+#include "utils.h"
 
 struct _VCalMeeting
 {

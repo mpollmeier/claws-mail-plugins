@@ -26,11 +26,11 @@
 
 #include <glib.h>
 
-#include "common/utils.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
 #include "prefswindow.h"
 #include "gettext.h"
+#include "common/utils.h"
 
 #include "vcal_prefs.h"
 

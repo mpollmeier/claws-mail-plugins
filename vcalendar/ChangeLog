@@ -1,3 +1,10 @@
+2007-10-03 [colin]	1.98.0cvs8
+
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+		Fix warnings
+
 2007-10-03 [colin]	1.98.0cvs7
 
 	* configure.ac

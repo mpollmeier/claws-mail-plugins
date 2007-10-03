@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 #include "gettext.h"
 #include <ical.h>
-#include "utils.h"
 #include "vcalendar.h"
 #include "vcal_folder.h"
 #include "vcal_manager.h"
@@ -42,6 +41,7 @@
 #include <time.h>
 #include "folder.h"
 #include "quoted-printable.h"
+#include "utils.h"
 
 typedef struct _Answer Answer;
 
