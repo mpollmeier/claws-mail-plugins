@@ -3,7 +3,7 @@
   FILE: icalrecur.c
   CREATOR: eric 16 May 2000
   
-  $Id: icalrecur.c,v 1.1.2.1 2005-07-04 17:06:57 colinleroy Exp $
+  $Id: icalrecur.c,v 1.1.2.2 2007-10-03 18:26:03 colinler Exp $
   $Locker:  $
     
 
@@ -140,6 +140,7 @@
 #include "icalmemory.h"
 #endif
 
+#include <glib.h> /* for malloc */
 #include <stdlib.h> /* for malloc */
 #include <errno.h> /* for errno */
 #include <string.h> /* for strdup and strchr*/
@@ -1657,7 +1658,7 @@ pvl_list expand_by_day(struct icalrecur_iterator_impl* impl,short year)
                 if(doy > end_year_day){
                     break;
                 } else {
-                    pvl_push(days_list,(void*)(int)doy);
+                    pvl_push(days_list, GINT_TO_POINTER((int)doy));
                 }
             } 
             
@@ -1670,7 +1671,7 @@ pvl_list expand_by_day(struct icalrecur_iterator_impl* impl,short year)
                 first = dow - start_dow + 8;
             }
             
-            pvl_push(days_list,(void*)(first+  (pos-1) * 7));
+            pvl_push(days_list,GINT_TO_POINTER(first+  (pos-1) * 7));
             
         } else { /* pos < 0 */ 
             assert(0);
@@ -1796,7 +1797,7 @@ int expand_year_days(struct icalrecur_iterator_impl* impl,short year)
 
 
         for(i=pvl_head(days);i!=0;i=pvl_next(i)){
-            short day = (short)(int)pvl_data(i);
+            short day = (short)GPOINTER_TO_INT(pvl_data(i));
             impl->days[days_index++] = day;
         }
 
@@ -1853,7 +1854,7 @@ int expand_year_days(struct icalrecur_iterator_impl* impl,short year)
         pvl_list days = expand_by_day(impl,year);
 
         for(itr=pvl_head(days);itr!=0;itr=pvl_next(itr)){
-            short day = (short)(int)pvl_data(itr);
+            short day = (short)GPOINTER_TO_INT(pvl_data(itr));
             struct icaltimetype tt; 
             short i,j;
             
@@ -1884,7 +1885,7 @@ int expand_year_days(struct icalrecur_iterator_impl* impl,short year)
         pvl_list days = expand_by_day(impl,year);
 
         for(itr=pvl_head(days);itr!=0;itr=pvl_next(itr)){
-            short day = (short)(int)pvl_data(itr);
+            short day = (short)GPOINTER_TO_INT(pvl_data(itr));
             struct icaltimetype tt; 
             short i;
             
