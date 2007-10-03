@@ -29,11 +29,11 @@
 #include <gtk/gtk.h>
 
 #include "gtkutils.h"
-#include "utils.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
 #include "prefswindow.h"
 #include "alertpanel.h"
+#include "utils.h"
 
 #include "spam_report_prefs.h"
 

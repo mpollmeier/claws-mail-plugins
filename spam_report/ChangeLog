@@ -1,3 +1,9 @@
+2007-10-03 [colin]	0.2.0cvs5
+
+	* src/spam_report.c
+	* src/spam_report_prefs.c
+		Fix warnings
+
 2007-10-03 [colin]	0.2.0cvs4
 
 	* configure.ac

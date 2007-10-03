@@ -14,3 +14,4 @@
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 configure.ac;  diff -u /dev/null po/it.po;  ) > 0.2.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 configure.ac;  ) > 0.2.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 configure.ac;  ) > 0.2.0cvs4.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/spam_report.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/spam_report_prefs.c;  ) > 0.2.0cvs5.patchset
