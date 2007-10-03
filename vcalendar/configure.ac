@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=98
 MICRO_VERSION=0
-EXTRA_VERSION=6
+EXTRA_VERSION=7
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -182,6 +182,8 @@ AC_CHECK_HEADERS(time.h sys/types.h assert.h wchar.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
+AC_TYPE_OFF_T
+AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
 

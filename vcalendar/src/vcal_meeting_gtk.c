@@ -960,7 +960,7 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 	gchar *tmp = NULL;
 	gchar *real_url = NULL;
 	gint num_format = 0;
-	gchar *change_user = NULL, change_dom = NULL;
+	gchar *change_user = NULL, *change_dom = NULL;
 	gchar *problems = NULL;
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
