@@ -1,3 +1,19 @@
+2007-10-04 [ticho]	0.15.0cvs10
+
+	* src/feed.c
+	* src/parsers.c
+		Parse Atom enclosures.
+		Say "size unknown" if source feed doesn't announce size
+		of an enclosure.
+
+2007-10-04 [ticho]	0.15.0cvs9
+
+	* src/feed.c
+	* src/parsers.c
+		Parse Atom enclosures.
+		Say "size unknown" if source feed doesn't announce
+		enclosure size.
+
 2007-10-04 [colin]	0.15.0cvs8
 
 	* src/feed.c

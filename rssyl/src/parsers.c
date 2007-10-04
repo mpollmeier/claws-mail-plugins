@@ -275,7 +275,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				gchar *tmp = xmlGetProp(n, "length");
 				media_url = xmlGetProp(n, "url");
 				media_type = xmlGetProp(n, "type");
-				media_size = tmp ? atoi(tmp):0;
+				media_size = (tmp ? atoi(tmp) : -1);
 
 				if( media_url != NULL &&
 						media_type != NULL &&
@@ -328,7 +328,9 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 	xmlNodePtr node, n;
 	gint count = 0;
 	RSSylFeedItem *fitem = NULL;
-	gchar *link_type, *link_href;
+	RSSylFeedItemMedia *media = NULL;
+	gchar *link_type, *link_href, *link_rel, *tmp;
+	gulong link_size;
 	gchar *content;
 
 	g_return_val_if_fail(doc != NULL, 0);
@@ -391,19 +393,28 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				got_content = TRUE;
 			}
 
-			/* URL link to the original post */
+			/* link */
 			if( !strcmp(n->name, "link") ) {
 
 				link_type = xmlGetProp(n, "type");
-				if( !link_type || !strcmp("text/html", link_type) ) {
-					link_href = xmlGetProp(n, "href");
-					fitem->link = (link_href ? g_strdup(link_href) : NULL);
+				link_rel = xmlGetProp(n, "rel");
+				link_href = xmlGetProp(n, "href");
+				tmp = xmlGetProp(n, "length");
+				link_size = (tmp ? atoi(tmp) : 0);
+				g_free(tmp);
+
+				if( link_rel && !strcmp(link_rel, "alternate") ) {
+					fitem->link = link_href;
 					debug_print("RSSyl: XML - Atom item link: '%s'\n", fitem->link);
-					if (link_href)
-						xmlFree(link_href);
+				} else if( link_rel && !strcmp(link_rel, "enclosure") ) {
+					debug_print("RSSyl: XML - Atom item enclosure: '%s' (%ld) [%s]\n",
+							link_href, link_size, link_type);
+					media = g_new(RSSylFeedItemMedia, 1);
+					media->url = link_href;
+					media->type = link_type;
+					media->size = link_size;
+					fitem->media = media;
 				}
-				if (link_type)
-					xmlFree(link_type);
 			}
 
 			/* Date published - ISO8701 format */

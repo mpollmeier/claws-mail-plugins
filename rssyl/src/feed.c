@@ -1196,8 +1196,23 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	g_free(meta_charset);
 
+	if( fitem->media ) {
+		if( fitem->media->size > 0 ) {
+			tmpid = g_strdup_printf(ngettext("%ld byte", "%ld bytes",
+						fitem->media->size), fitem->media->size);
+		} else {
+			tmpid = g_strdup(_("size unknown"));
+		}
+
+		fprintf(f, "<p><a href=\"%s\">Attached media file</a> [%s] (%s)</p>\n",
+				fitem->media->url, fitem->media->type, tmpid);
+		
+		g_free(tmpid);
+	}
+
 	if( fitem->media )
-		err |= (fprintf(f, "<p><a href=\"%s\">Attached media file</a> [%s] (%ld bytes)</p>\n",
+		err |= (fprintf(f,
+					"<p><a href=\"%s\">Attached media file</a> [%s] (%ld bytes)</p>\n",
 				fitem->media->url, fitem->media->type, fitem->media->size) < 0);
 
 	err |= (fprintf(f, "</body></html>\n") < 0);
