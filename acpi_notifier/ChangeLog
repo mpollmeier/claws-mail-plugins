@@ -1,3 +1,8 @@
+2007-10-04 [colin]	1.0.12cvs4
+
+	* src/acpi_notifier.c
+		Verify success on writes
+
 2007-09-20 [paul]	1.0.12cvs3
 
 	* po/it.po
