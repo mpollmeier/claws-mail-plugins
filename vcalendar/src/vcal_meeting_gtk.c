@@ -1883,10 +1883,12 @@ void multisync_export(void)
 	if (fp) {
 		for (cur = files; cur; cur = cur->next) {
 			file = (char *)cur->data;
-			fprintf(fp, "1 1 %s\n", file);
+			if (fprintf(fp, "1 1 %s\n", file) < 0)
+				perror(file);
 			g_free(file);
 		}
-		fclose(fp);
+		if (fclose(fp) == EOF)
+			perror(file);
 	} else {
 		perror(file);
 	}

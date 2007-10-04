@@ -629,9 +629,11 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 		prefs_file_close_revert(pfile);
 		return;
 	}
-	fprintf(pfile->fp, "\n");
-
-	prefs_file_close(pfile);
+        if (fprintf(pfile->fp, "\n") < 0) {
+		FILE_OP_ERROR(rcpath, "fprintf");
+		prefs_file_close_revert(pfile);
+	} else
+	        prefs_file_close(pfile);
 	
 	vcal_folder_export(NULL);
 }

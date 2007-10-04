@@ -1,3 +1,9 @@
+2007-10-04 [colin]	1.98.0cvs10
+
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+		Verify success on writes
+
 2007-10-03 [colin]	1.98.0cvs9
 
 	* libical/libical/Makefile.am
