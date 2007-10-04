@@ -1079,6 +1079,8 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	FILE *f;
 	RSSylFeedItem *oldfitem = NULL;
 	gchar *meta_charset = NULL;
+	gboolean err = FALSE;
+
 	g_return_val_if_fail(ritem != NULL, FALSE);
 	g_return_val_if_fail(ritem->item.path != NULL, FALSE);
 	g_return_val_if_fail(fitem != NULL, FALSE);
@@ -1118,7 +1120,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	if( fitem->date != 0 ) {
 		gchar *tmpdate = createRFC822Date(&fitem->date);
-		fprintf(f, "Date: %s\n", tmpdate );
+		err |= (fprintf(f, "Date: %s\n", tmpdate ) < 0);
 		g_free(tmpdate);
 	}
 
@@ -1126,18 +1128,18 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		if (g_utf8_validate(fitem->author, -1, NULL)) {
 			conv_encode_header_full(tmp, 511, fitem->author, 
 				strlen("From: "), TRUE, CS_UTF_8);
-			fprintf(f, "From: %s\n", tmp);
+			err |= (fprintf(f, "From: %s\n", tmp) < 0);
 		} else
-			fprintf(f, "From: %s\n", fitem->author);
+			err |= (fprintf(f, "From: %s\n", fitem->author) < 0);
 	} 
 
 	if( fitem->title ) {
 		if (g_utf8_validate(fitem->title, -1, NULL)) {
 			conv_encode_header_full(tmp, 511, fitem->title, 
 				strlen("Subject: "), FALSE, CS_UTF_8);
-			fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE));
+			err |= (fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE)) < 0);
 		} else
-			fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE));
+			err |= (fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE)) < 0);
 	}
 
 	if( (tmpurl = fitem->link) == NULL ) {
@@ -1145,43 +1147,43 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 			tmpurl = fitem->id;
 	}
 	if( tmpurl != NULL )
-		fprintf(f, "X-RSSyl-URL: %s\n", tmpurl);
+		err |= (fprintf(f, "X-RSSyl-URL: %s\n", tmpurl) < 0);
 
 	if( (tmpid = fitem->id) == NULL )
 		tmpid = fitem->link;
 	if( tmpid != NULL )
-		fprintf(f, "Message-ID: <%s>\n", tmpid);
+		err |= (fprintf(f, "Message-ID: <%s>\n", tmpid) < 0);
 
 	if( fitem->comments_link ) {
-		fprintf(f, "X-RSSyl-Comments: %s\n", fitem->comments_link);
+		err |= (fprintf(f, "X-RSSyl-Comments: %s\n", fitem->comments_link) < 0);
 	}
 	if( fitem->parent_link) {
-		fprintf(f, "X-RSSyl-Parent: %s\n", fitem->parent_link);
-		fprintf(f, "References: <%s>\n", fitem->parent_link);
+		err |= (fprintf(f, "X-RSSyl-Parent: %s\n", fitem->parent_link) < 0);
+		err |= (fprintf(f, "References: <%s>\n", fitem->parent_link) < 0);
 	}
 
 #ifdef RSSYL_DEBUG
 	if( fitem->debug_fetched != -1 ) {
-		fprintf(f, "X-RSSyl-Debug-Fetched: %ld\n", fitem->debug_fetched);
+		err |= (fprintf(f, "X-RSSyl-Debug-Fetched: %ld\n", fitem->debug_fetched) < 0);
 	}
 #endif	/* RSSYL_DEBUG */
 
 	if (fitem->text && g_utf8_validate(fitem->text, -1, NULL)) {
 		/* if it passes UTF-8 validation, specify it. */
-		fprintf(f, "Content-Type: text/html; charset=UTF-8\n\n");
+		err |= (fprintf(f, "Content-Type: text/html; charset=UTF-8\n\n") < 0);
 		meta_charset = g_strdup("<meta http-equiv=\"Content-Type\" "
 			       "content=\"text/html; charset=UTF-8\">");
 	} else {
 		/* make sure Claws Mail displays it as html */
-		fprintf(f, "Content-Type: text/html\n\n");
+		err |= (fprintf(f, "Content-Type: text/html\n\n") < 0);
 	}
 
 	if( tmpurl )
-		fprintf(f, "<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
-				tmpurl, tmpurl);
+		err |= (fprintf(f, "<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
+				tmpurl, tmpurl) < 0);
 
 	if( fitem->text )
-		fprintf(f, "<html><head>"
+		err |= (fprintf(f, "<html><head>"
 				"%s\n"
 				"<base href=\"%s\">\n"
 			        "</head><body>\n"
@@ -1190,28 +1192,30 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 				RSSYL_TEXT_END"\n\n",
 				meta_charset ? meta_charset:"",
 				fitem->link,
-				fitem->text, (fitem->text ? "\n" : "") );
+				fitem->text, (fitem->text ? "\n" : "") ) < 0);
 
 	g_free(meta_charset);
 
 	if( fitem->media )
-		fprintf(f, "<p><a href=\"%s\">Attached media file</a> [%s] (%ld bytes)</p>\n",
-				fitem->media->url, fitem->media->type, fitem->media->size);
+		err |= (fprintf(f, "<p><a href=\"%s\">Attached media file</a> [%s] (%ld bytes)</p>\n",
+				fitem->media->url, fitem->media->type, fitem->media->size) < 0);
 
-	fprintf(f, "</body></html>\n");
+	err |= (fprintf(f, "</body></html>\n") < 0);
 
-	fclose(f);
+	err |= (fclose(f) == EOF);
 
 	flags->perm_flags = MSG_NEW | MSG_UNREAD;
 	flags->tmp_flags = 0;
 
-	g_return_val_if_fail(template != NULL, FALSE);
-	d = folder_item_add_msg(&ritem->item, template, flags, TRUE);
+	if (!err) {
+		g_return_val_if_fail(template != NULL, FALSE);
+		d = folder_item_add_msg(&ritem->item, template, flags, TRUE);
+	}
 	g_free(template);
+	
+	debug_print("RSSyl: folder_item_add_msg(): %d, err %d\n", d, err);
 
-	debug_print("RSSyl: folder_item_add_msg(): %d\n", d);
-
-	return TRUE;
+	return err ? FALSE:TRUE;
 }
 
 MsgInfo *rssyl_parse_feed_item_to_msginfo(gchar *file, MsgFlags flags,

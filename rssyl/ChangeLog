@@ -1,3 +1,9 @@
+2007-10-04 [colin]	0.15.0cvs8
+
+	* src/feed.c
+	* src/rssyl_prefs.c
+		Verify success on writes
+
 2007-10-03 [colin]	0.15.0cvs7
 
 	* src/feed.c
