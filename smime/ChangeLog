@@ -1,3 +1,8 @@
+2007-10-04 [colin]	0.7.2cvs2
+
+	* src/smime.c
+		Verify success on writes
+
 2007-10-03 [colin]	0.7.2cvs1
 
 	* src/Makefile.am

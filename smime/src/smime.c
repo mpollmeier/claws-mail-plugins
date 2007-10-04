@@ -441,14 +441,40 @@ static MimeInfo *smime_decrypt(MimeInfo *mimeinfo)
 		return NULL;
     	}
 
-	fprintf(dstfp, "MIME-Version: 1.0\n");
+	if (fprintf(dstfp, "MIME-Version: 1.0\n") < 0) {
+        	FILE_OP_ERROR(fname, "fprintf");
+        	g_free(fname);
+        	gpgme_data_release(plain);
+		gpgme_release(ctx);
+		debug_print("can't close!\n");
+		privacy_set_error(_("Couldn't write to temporary file"));
+		return NULL;
+	}
 
 	chars = sgpgme_data_release_and_get_mem(plain, &len);
 
 	if (len > 0) {
-		fwrite(chars, len, 1, dstfp);
+		if (fwrite(chars, 1, len, dstfp) < len) {
+        		FILE_OP_ERROR(fname, "fwrite");
+        		g_free(fname);
+        		g_free(chars);
+        		gpgme_data_release(plain);
+			gpgme_release(ctx);
+			debug_print("can't write!\n");
+			privacy_set_error(_("Couldn't write to temporary file"));
+			return NULL;
+		}
 	}
-	fclose(dstfp);
+	if (fclose(dstfp) == EOF) {
+        	FILE_OP_ERROR(fname, "fclose");
+        	g_free(fname);
+       		g_free(chars);
+        	gpgme_data_release(plain);
+		gpgme_release(ctx);
+		debug_print("can't close!\n");
+		privacy_set_error(_("Couldn't close temporary file"));
+		return NULL;
+	}
 	g_free(chars);
 
 	parseinfo = procmime_scan_file(fname);
@@ -812,10 +838,22 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 	tmpfile = get_tmp_file();
 	fp = fopen(tmpfile, "wb");
 	if (fp) {
-		fwrite(enccontent, 1, len, fp);
-		fclose(fp);
+		if (fwrite(enccontent, 1, len, fp) < len) {
+			FILE_OP_ERROR(tmpfile, "fwrite");
+			fclose(fp);
+			g_unlink(tmpfile);
+			g_free(tmpfile);
+			return FALSE;
+		}
+		if (fclose(fp) == EOF) {
+			FILE_OP_ERROR(tmpfile, "fclose");
+			g_unlink(tmpfile);
+			g_free(tmpfile);
+			return FALSE;
+		}
 	} else {
 		perror("get_tmp_file");
+		g_free(tmpfile);
 		return FALSE;
 	}
 	gpgme_data_release(gpgtext);
