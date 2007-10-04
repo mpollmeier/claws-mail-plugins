@@ -1,3 +1,8 @@
+2007-10-04 [colin]	0.2.8cvs3
+
+	* src/attachwarner_prefs.c
+		Verify success on writes
+
 2007-09-20 [paul]	0.2.8cvs2
 
 	* po/it.po
