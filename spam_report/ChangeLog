@@ -1,3 +1,8 @@
+2007-10-04 [colin]	0.2.0cvs6
+
+	* src/spam_report_prefs.c
+		Verify success on writes
+
 2007-10-03 [colin]	0.2.0cvs5
 
 	* src/spam_report.c

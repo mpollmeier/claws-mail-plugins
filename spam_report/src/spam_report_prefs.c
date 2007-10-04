@@ -211,6 +211,9 @@ static void save_spamreport_prefs(PrefsPage *page)
           prefs_file_close_revert(pref_file);
           return;
         }
-        fprintf(pref_file->fp, "\n");
-        prefs_file_close(pref_file);
+        if (fprintf(pref_file->fp, "\n") < 0) {
+		FILE_OP_ERROR(rc_file_path, "fprintf");
+		prefs_file_close_revert(pref_file);
+	} else
+	        prefs_file_close(pref_file);
 }
