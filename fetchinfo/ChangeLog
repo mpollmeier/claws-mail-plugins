@@ -1,3 +1,8 @@
+2007-10-04 [colin]	0.4.20cvs1
+
+	* src/fetchinfo_plugin.c
+		Verify success on writes
+
 2007-09-03 [paul]	0.4.20
 
 	0.4.20 released
