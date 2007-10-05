@@ -1075,7 +1075,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	MsgFlags *flags;
 	gchar *template, *tmpurl, *tmpid;
 	gchar tmp[512];
-	gint d, fd, dif = 0;
+	gint d = -1, fd, dif = 0;
 	FILE *f;
 	RSSylFeedItem *oldfitem = NULL;
 	gchar *meta_charset = NULL;
