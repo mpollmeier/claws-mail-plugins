@@ -2093,27 +2093,6 @@ gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
 		icaltime_as_ical_string(itt_start),
 		icaltime_as_ical_string(itt_end));
 
-#if 0
-	for (cur = busy_spots; cur; cur = cur->next) {
-		icalproperty *prop;
-		struct icalperiodtype ipt;
-
-		BusySpot *spot = (BusySpot *)cur->data;
-		debug_print("FREEBUSY:%s/%s\n",
-			icaltime_as_ical_string(icaltime_from_timet(spot->start, FALSE)),
-			icaltime_as_ical_string(icaltime_from_timet(spot->end, FALSE)));
-		
-		ipt.start = icaltime_from_timet(spot->start, FALSE);
-		ipt.end = icaltime_from_timet(spot->end, FALSE);
-		ipt.duration = icaltime_subtract(ipt.end, ipt.start);
-		prop = icalproperty_new_freebusy(ipt);
-		icalcomponent_add_property(vfreebusy, prop);
-
-		g_free(spot);
-	}
-	g_slist_free(busy_spots);
-#endif
-
 	for (cur = list; cur; cur = cur->next) {
 		VCalEvent *event = (VCalEvent *)cur->data;
 		icalproperty *prop;

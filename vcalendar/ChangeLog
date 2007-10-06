@@ -1,3 +1,8 @@
+2007-10-06 [colin]	1.98.0cvs12
+
+	* src/vcal_meeting_gtk.c
+		Remove more unused code
+
 2007-10-06 [colin]	1.98.0cvs11
 
 	* src/vcal_manager.c
