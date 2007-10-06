@@ -128,3 +128,4 @@
 ( cvs diff -u -r 1.1.2.63 -r 1.1.2.64 src/vcal_manager.c;  cvs diff -u -r 1.1.2.67 -r 1.1.2.68 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/vcal_prefs.c;  ) > 1.98.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libical/libical/Makefile.am;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libical/libical/icalrecur.c;  ) > 1.98.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.68 -r 1.1.2.69 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/vcal_prefs.c;  ) > 1.98.0cvs10.patchset
+( cvs diff -u -r 1.1.2.64 -r 1.1.2.65 src/vcal_manager.c;  cvs diff -u -r 1.1.2.69 -r 1.1.2.70 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.60 -r 1.2.2.61 src/vcalendar.c;  ) > 1.98.0cvs11.patchset

@@ -2025,113 +2025,6 @@ putfile:
 	return res;
 }
 
-#if 0
-typedef struct _BusySpot BusySpot;
-struct _BusySpot {
-	time_t start;
-	time_t end;
-};
-
-static GSList *vcal_g_slist_merge(GSList *list, BusySpot *spot, gboolean append_if_not_merged)
-{
-	BusySpot *newspot = g_new0(BusySpot, 1);
-	newspot->start = spot->start;
-	newspot->end = spot->end;
-	gchar a[100], b[100], c[100], d[100];
-
-	if (list == NULL) {
-		debug_print("%p (%s-%s) fits nowhere because list empty, %smerging\n",
-			spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
-			append_if_not_merged?"":"not ");
-		if (append_if_not_merged)
-			return g_slist_append(NULL, newspot);
-		else 
-			return NULL;
-	} else {
-		GSList *cur = list;
-		for (; cur; cur = cur->next) {
-			BusySpot *curspot = (BusySpot *)cur->data;
-			if (curspot == spot) {
-				/* same one ! don't merge. */
-				debug_print("not merging %p (%s-%s) with itself\n", spot, ctime_r(&spot->start, a),
-					ctime_r(&spot->end, b));
-				continue;
-			} else if (curspot->start <= newspot->start && curspot->end >= newspot->end) {
-				/* fits in, remove the new one */
-				debug_print("%p:\n%s%s fits in %p:\n%s%s\n\n",
-					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
-					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
-				g_free(newspot);
-				return list;
-			} else if (newspot->start < curspot->start && newspot->end > curspot->end) {
-				/* the new one extends the existing one */
-				debug_print("%p:\n%s%s extends %p:\n%s%s\n\n",
-					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
-					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
-				curspot->start = newspot->start;
-				curspot->end = newspot->end;
-				g_free(newspot);
-				return list;
-			} else if (newspot->start < curspot->start && newspot->end >= curspot->start) {
-				/* the new one starts before, update the existing */
-				debug_print("%p:\n%s%s starts before %p:\n%s%s\n\n",
-					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
-					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
-				curspot->start = newspot->start;
-				g_free(newspot);
-				return list;
-			} else if (newspot->end > curspot->end && newspot->start <= curspot->end) {
-				/* the new one ends after, update the existing */
-				debug_print("%p:\n%s%s ends after %p:\n%s%s\n\n",
-					spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
-					curspot, ctime_r(&curspot->start, c), ctime_r(&curspot->end, d));
-				curspot->end = newspot->end;
-				g_free(newspot);
-				return list;
-			} else {
-				/* they don't overlap. continue searching. */
-			}
-		}
-		debug_print("%p (%s-%s) fits nowhere, %sadding\n",
-			spot, ctime_r(&spot->start, a), ctime_r(&spot->end, b),
-			append_if_not_merged?"":"not ");
-
-		/* if we reach that, we found nowhere to overlap, so insert */
-		if (append_if_not_merged)
-			return g_slist_append(list, newspot);
-		else
-			return list;
-	}
-}
-
-static GSList *vcal_g_slist_merge_all(GSList *list)
-{
-	int length = 0;
-	
-merge_again:
-	length = g_slist_length(list);
-	
-	if (length <= 1) {
-		/* unmergeable */
-		return list;
-	} else {
-		GSList *cur = list;
-		GSList *new_list = NULL;
-		for (cur = list; cur; cur = cur->next) {
-			new_list = vcal_g_slist_merge(new_list, (BusySpot *)cur->data, TRUE);
-			g_free(cur->data);
-		}
-		g_slist_free(list);
-		list = new_list;
-		if (g_slist_length(new_list) < length) {
-			/* we did merge stuff */
-			goto merge_again;
-		}
-		return list;
-	}
-}
-#endif
-
 gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
 				const gchar *pass)
 {
@@ -2181,22 +2074,6 @@ gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
         icalcomponent_add_component(timezone, tzc);
 
 	icalcomponent_add_component(calendar, timezone);
-
-#if 0
-	for (cur = list; cur; cur = cur->next) {
-		VCalEvent *event = (VCalEvent *)cur->data;
-		BusySpot *busy = g_new0(BusySpot, 1);
-		BusySpot *merged;
-		busy->start = icaltime_as_timet((icaltime_from_string(event->dtstart)));
-		busy->end = icaltime_as_timet((icaltime_from_string(event->dtend)));
-		busy_spots = vcal_g_slist_merge(busy_spots, busy, TRUE);
-		g_free(busy);
-		vcal_manager_free_event(event);
-	}
-
-	busy_spots = vcal_g_slist_merge_all(busy_spots);
-	debug_print("merged to %d events\n", g_slist_length(busy_spots));
-#endif
 
 	itt_start = icaltime_from_timet(whole_start, FALSE);
 	itt_end = icaltime_from_timet(whole_end, FALSE);

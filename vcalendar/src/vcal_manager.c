@@ -769,7 +769,11 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtend)));
 		gchar buft[512];
 		tzset();
+#ifndef SOLARIS
 		event->end	= g_strdup(ctime_r(&tmp, buft));
+#else
+		event->end	= g_strdup(ctime_r(&tmp, buft, sizeof(buft)));
+#endif
 	}
 	
 	if (dtstart && *(dtstart)) {
@@ -777,7 +781,11 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		gchar buft[512];
 		tzset();
+#ifndef SOLARIS
 		event->start	= g_strdup(ctime_r(&tmp, buft));
+#else
+		event->start	= g_strdup(ctime_r(&tmp, buft, sizeof(buft)));
+#endif
 	}
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
