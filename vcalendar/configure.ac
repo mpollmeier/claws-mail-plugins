@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=98
 MICRO_VERSION=0
-EXTRA_VERSION=12
+EXTRA_VERSION=13
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -41,11 +41,7 @@ AM_PROG_LEX
 AC_PROG_YACC
 
 case "$host" in
-  *-sun-solaris*)
-    CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
-    CFLAGS="$CFLAGS -DSOLARIS"
-    ;;
-  *-pc-solaris*)
+  *-*-solaris*)
     CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
     CFLAGS="$CFLAGS -DSOLARIS"
     ;;

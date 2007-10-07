@@ -1178,11 +1178,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
 		gchar buft[512];
 		time_t tmp = icaltime_as_timet(itt);
-#ifndef SOLARIS
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), ctime_r(&tmp, buft));
-#else
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), ctime_r(&tmp, buft, sizeof(buft)));
-#endif
 		icalproperty_free(iprop);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
@@ -1193,11 +1189,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
 		gchar buft[512];
 		time_t tmp = icaltime_as_timet(itt);
-#ifndef SOLARIS
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), ctime_r(&tmp, buft));
-#else
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), ctime_r(&tmp, buft, sizeof(buft)));
-#endif
 		icalproperty_free(iprop);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");

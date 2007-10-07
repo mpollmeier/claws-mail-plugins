@@ -130,3 +130,4 @@
 ( cvs diff -u -r 1.1.2.68 -r 1.1.2.69 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/vcal_prefs.c;  ) > 1.98.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.64 -r 1.1.2.65 src/vcal_manager.c;  cvs diff -u -r 1.1.2.69 -r 1.1.2.70 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.60 -r 1.2.2.61 src/vcalendar.c;  ) > 1.98.0cvs11.patchset
 ( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 src/vcal_meeting_gtk.c;  ) > 1.98.0cvs12.patchset
+( cvs diff -u -r 1.1.2.65 -r 1.1.2.66 src/vcal_manager.c;  cvs diff -u -r 1.2.2.61 -r 1.2.2.62 src/vcalendar.c;  ) > 1.98.0cvs13.patchset
