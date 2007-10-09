@@ -394,7 +394,7 @@ static void add_to_claws_addressbook(gpointer key, gpointer value,
   fromname = g_strdup_printf("%s%s%s", (person->first_name)?(person->first_name):"",
 			               (person->first_name)?" "                 :"",
 			               (person->last_name) ?(person->last_name) :"");
-  addressbook_add_contact(fromname, (gchar*)key, NULL);
+  addressbook_add_contact(fromname, (gchar*)key, NULL, NULL);
   g_free(fromname);
 }
 

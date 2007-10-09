@@ -20,3 +20,4 @@
 ( cvs diff -u -r 1.2.2.38 -r 1.2.2.39 configure.ac;  ) > 0.7.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 COPYING;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 NEWS;  cvs diff -u -r 1.2.2.5 -r 1.2.2.6 src/synce_comp.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/synce_comp.h;  cvs diff -u -r 1.2.2.8 -r 1.2.2.9 src/synce_gtk.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/synce_gtk.h;  cvs diff -u -r 1.2.2.13 -r 1.2.2.14 src/synce_plugin.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/synce_rapi.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/synce_rapi.h;  ) > 0.7.1cvs3.patchset
 ( cvs diff -u -r 1.2.2.6 -r 1.2.2.7 src/synce_comp.c;  ) > 0.7.2cvs1.patchset
+( cvs diff -u -r 1.2.2.42 -r 1.2.2.43 configure.ac;  cvs diff -u -r 1.2.2.7 -r 1.2.2.8 src/synce_comp.c;  cvs diff -u -r 1.2.2.2 -r 1.2.2.3 src/.cvsignore;  ) > 0.7.2cvs2.patchset
