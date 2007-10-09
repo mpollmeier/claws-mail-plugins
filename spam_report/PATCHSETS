@@ -16,3 +16,4 @@
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 configure.ac;  ) > 0.2.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/spam_report.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/spam_report_prefs.c;  ) > 0.2.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/spam_report_prefs.c;  ) > 0.2.0cvs6.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/.cvsignore;  ) > 0.2.0cvs7.patchset
