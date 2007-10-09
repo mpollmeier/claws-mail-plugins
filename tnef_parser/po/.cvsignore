@@ -4,4 +4,4 @@ POTFILES
 *.gmo
 *.po~
 stamp-po
-gtkhtml2_viewer.pot
+tnef_parse.pot
