@@ -20,13 +20,13 @@
  */
 
 #include "poppler_viewer.h"
+#include "printing.h"
 
 static FileType pdf_viewer_mimepart_get_type(MimeInfo *partinfo);
 static MimeViewerFactory pdf_viewer_factory;
 
 static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 				MimeInfo *partinfo);
-static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer);
 
 static MimeViewer *pdf_viewer_create(void);
 static void pdf_viewer_clear(MimeViewer *_viewer);
@@ -1071,7 +1071,8 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	}
 }
 
-static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
+static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
+				MimeInfo *partinfo)
 {
 	PdfViewer *viewer = (PdfViewer *) _viewer;
 	gchar buf[4096];
@@ -1079,7 +1080,9 @@ static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
 	MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
 					?((MimeViewer *)viewer)->mimeview->messageview 
 					: NULL;
-	MimeInfo *partinfo = viewer->to_load;
+
+	viewer->rotate = 0;
+	viewer->to_load = partinfo;
 
 	memset(buf, 0, sizeof(buf));
 	messageview->updating = TRUE;
@@ -1120,17 +1123,6 @@ static gint pdf_viewer_show_mimepart_real(MimeViewer *_viewer)
 	pdf_viewer_update((MimeViewer *)viewer, TRUE, 1);
 	
 	messageview->updating = FALSE;
-	return FALSE;
-}
-
-static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
-				MimeInfo *partinfo)
-{
-	PdfViewer *viewer = (PdfViewer *) _viewer;
-	viewer->rotate = 0;
-	viewer->to_load = partinfo;
-	gtk_timeout_add(5,(GtkFunction)pdf_viewer_show_mimepart_real, viewer);
-	
 }
 
 static void pdf_viewer_clear(MimeViewer *_viewer)
@@ -1258,6 +1250,76 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image)
 	gtk_table_set_col_spacing(GTK_TABLE(viewer->buttons_table), col, 3*BUTTON_H_PADDING); \
 	col++;
 
+#if GTK_CHECK_VERSION(2,10,0) && POPPLER_HAS_CAIRO
+static PangoContext *pdf_viewer_get_pango_context(gpointer data)
+{
+	return NULL;
+}
+
+static gpointer pdf_viewer_get_data_to_print(gpointer data, gint sel_start, gint sel_end)
+{
+	return NULL; /* we don't need it */
+}
+
+static void pdf_viewer_cb_begin_print(GtkPrintOperation *op, GtkPrintContext *context,
+			   gpointer user_data)
+{
+  PrintData *print_data;
+  PopplerDocument *pdf_doc;
+  gint n_pages = 0;
+  print_data = (PrintData*) user_data;
+  pdf_doc = (PopplerDocument *)printing_get_renderer_data(print_data);
+
+  debug_print("Preparing print job...\n");
+
+  n_pages = poppler_document_get_n_pages(pdf_doc);
+  printing_set_n_pages(print_data, n_pages);
+  gtk_print_operation_set_n_pages(op, n_pages);
+
+  debug_print("Starting print job...\n");
+}
+
+static void pdf_viewer_cb_draw_page(GtkPrintOperation *op, GtkPrintContext *context,
+			 int page_nr, gpointer user_data)
+{
+  cairo_t *cr;
+  PrintData *print_data;
+  PopplerDocument *pdf_doc;
+  PopplerPage *pdf_page;
+  
+  print_data = (PrintData*) user_data;
+  pdf_doc = (PopplerDocument *)printing_get_renderer_data(print_data);
+  pdf_page = poppler_document_get_page(pdf_doc, page_nr);
+
+  cr = gtk_print_context_get_cairo_context(context);
+  cairo_scale(cr, printing_get_zoom(print_data), printing_get_zoom(print_data));
+  cairo_set_source_rgb(cr, 0., 0., 0.);
+
+  poppler_page_render(pdf_page, cr);
+
+  g_object_unref(G_OBJECT(pdf_page));
+
+  debug_print("Sent page %d to printer\n", page_nr+1);
+}
+
+static void pdf_viewer_print(MimeViewer *mviewer)
+{
+	PdfViewer *viewer = (PdfViewer *)mviewer;
+	PrintRenderer *pdf_renderer = g_new0(PrintRenderer, 1);
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	
+	pdf_renderer->get_pango_context = pdf_viewer_get_pango_context;
+	pdf_renderer->get_data_to_print = pdf_viewer_get_data_to_print;
+	pdf_renderer->cb_begin_print    = pdf_viewer_cb_begin_print;
+	pdf_renderer->cb_draw_page      = pdf_viewer_cb_draw_page;
+
+	printing_print_full(mainwin ? GTK_WINDOW(mainwin->window):NULL, 
+			pdf_renderer, viewer->pdf_doc, -1, -1);
+	
+	g_free(pdf_renderer);
+}
+#endif
+
 static MimeViewer *pdf_viewer_create(void)
 {
 	PdfViewer *viewer;
@@ -1281,6 +1343,9 @@ static MimeViewer *pdf_viewer_create(void)
 	viewer->mimeviewer.text_search = pdf_viewer_text_search;
 	viewer->mimeviewer.scroll_page = pdf_viewer_scroll_page;
 	viewer->mimeviewer.scroll_one_line = pdf_viewer_scroll_one_line;
+#if GTK_CHECK_VERSION(2,10,0) && POPPLER_HAS_CAIRO
+	viewer->mimeviewer.print = pdf_viewer_print;
+#endif
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	viewer->scrollwin_index = gtk_scrolled_window_new(NULL, NULL);
 	viewer->pdf_view_ebox = gtk_event_box_new();

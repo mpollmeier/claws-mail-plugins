@@ -1,3 +1,13 @@
+2007-10-10 [colin]	0.6.0cvs4
+
+	* src/poppler_viewer.c
+		Allow direct printing of PDF/PS documents.
+		Printing preview works fine each time, real
+		printing sometimes fails with "Error 
+		Printing: Too many failed attempts". As 
+		valgrind is silent, it's probably not a Claws
+		bug.
+
 2007-09-20 [paul]	0.6.0cvs3
 
 	* po/it.po
