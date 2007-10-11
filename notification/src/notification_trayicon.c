@@ -844,7 +844,9 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
     utf8_str = g_strdup("");
 
     if(popup.num_mail) {
-      msg = g_strdup_printf(_("%d new mail message arrived"),
+      msg = g_strdup_printf(ngettext("%d new mail message arrived",
+		      		     "%d new mail messages arrived",
+		            popup.num_mail),
 			    popup.num_mail);
       tmp = g_strdup_printf("%s%s%s",utf8_str,str_empty?"":"\n",msg);
       g_free(msg);
@@ -853,7 +855,9 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       str_empty = FALSE;
     }
     if(popup.num_news) {
-      msg = g_strdup_printf(_("%d new news posts arrived"),
+      msg = g_strdup_printf(ngettext("%d new news post arrived",
+		      		     "%d new news posts arrived",
+		            popup.num_news),
 			    popup.num_news);
       tmp = g_strdup_printf("%s%s%s",utf8_str,str_empty?"":"\n",msg);
       g_free(msg);
@@ -862,7 +866,9 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       str_empty = FALSE;
     }
     if(popup.num_calendar) {
-      msg = g_strdup_printf(_("%d new calendar messages arrived"),
+      msg = g_strdup_printf(ngettext("%d new calendar message arrived",
+		      		     "%d new calendar messages arrived",
+		            popup.num_calendar),
 			    popup.num_calendar);
       tmp = g_strdup_printf("%s%s%s",utf8_str,str_empty?"":"\n",msg);
       g_free(msg);
@@ -871,7 +877,9 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       str_empty = FALSE;
     }
     if(popup.num_rss) {
-      msg = g_strdup_printf(_("%d new articles in RSS feeds arrived"),
+      msg = g_strdup_printf(ngettext("%d new article in RSS feeds arrived",
+		      		     "%d new articles in RSS feeds arrived",
+		            popup.num_rss),
 			    popup.num_rss);
       tmp = g_strdup_printf("%s%s%s",utf8_str,str_empty?"":"\n",msg);
       g_free(msg);
