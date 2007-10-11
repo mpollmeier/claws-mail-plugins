@@ -24,6 +24,8 @@
 #include "mainwindow.h"
 #include "procmsg.h"
 #include "folder.h"
+#include "addrindex.h"
+#include "common/utils.h"
 #include "gtk/gtkutils.h"
 
 #include "gettext.h"
@@ -335,9 +337,38 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 				 notification_libnotify_free_func);
 
   /* Icon */
-  pixbuf = notification_pixbuf_get(NOTIFICATION_CM_LOGO_64x64);
-  if(pixbuf)
+  pixbuf = NULL;
+  if(msginfo && msginfo->from) {
+    gchar *icon_path;
+    icon_path = addrindex_get_picture_file(msginfo->from);
+    if(is_file_exist(icon_path)) {
+      GError *error = NULL;
+      gint w, h;
+
+      gdk_pixbuf_get_file_info(icon_path, &w, &h);
+      if((w > 64) || (h > 64))
+	pixbuf = gdk_pixbuf_new_from_file_at_scale(icon_path,
+						   64, 64, TRUE, &error);
+      else
+	pixbuf = gdk_pixbuf_new_from_file(icon_path, &error);
+
+      if(!pixbuf) {
+	debug_print("Could not load picture file: %s\n",
+		    error ? error->message : "no details");
+	g_error_free(error);
+      }
+    }
+    else 
+      debug_print("Picture path does not exist: %s\n",icon_path);
+    g_free(icon_path);
+  }
+  if(!pixbuf)
+   pixbuf = g_object_ref(notification_pixbuf_get(NOTIFICATION_CM_LOGO_64x64));
+
+  if(pixbuf) {
     notify_notification_set_icon_from_pixbuf(ppopup->notification, pixbuf);
+    g_object_unref(pixbuf);
+  }
   else /* This is not fatal */
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
@@ -383,6 +414,7 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
   gchar *text;
   gboolean retval;
   NotificationPopup *ppopup;
+  GdkPixbuf *pixbuf;
 
   ppopup = &(popup[nftype]);
 
@@ -395,6 +427,11 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
     g_free(ppopup->msg_path);
     ppopup->msg_path = NULL;
   }
+
+  /* make sure we show a logo on many msg arrival */
+  pixbuf = notification_pixbuf_get(NOTIFICATION_CM_LOGO_64x64);
+  if(pixbuf)
+    notify_notification_set_icon_from_pixbuf(ppopup->notification, pixbuf);
 
   switch(nftype) {
   case F_TYPE_MAIL:

@@ -1,3 +1,14 @@
+2007-10-11 [holger]	0.12.1cvs5
+
+	* configure.ac
+	* src/notification_plugin.c
+		Update required Claws-Mail version
+	* src/notification_popup.c
+	* src/notification_trayicon.c
+		If a single mail arrived and there is a picture
+		of the sender in the addressbook, use this picture
+		in the libnotify popup instead of the Claws Mail logo.
+
 2007-10-04 [colin]	0.12.1cvs4
 
 	* src/notification_prefs.c
