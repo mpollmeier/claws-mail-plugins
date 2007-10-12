@@ -1,3 +1,9 @@
+2007-10-12 [holger]	0.12.1cvs8
+
+	* src/notification_plugin.c
+		Make unregistering the hooks the first thing
+		to do in plugin_done(). Thanks to Colin.
+
 2007-10-12 [holger]	0.12.1cvs7
 
 	* src/notification_plugin.c

@@ -298,7 +298,21 @@ gint plugin_init(gchar **error)
 
 gboolean plugin_done(void)
 {
+  hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+  hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
+  hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+  hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
+  hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
+  hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
+  hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
+
   notify_save_config();
+
+  notify_gtk_done();
+
+  /* foldercheck cleanup */
+  notification_foldercheck_write_array();
+  notification_free_folder_specific_array();
 
 #ifdef NOTIFICATION_BANNER
   notification_collected_msgs_free(banner_collected_msgs);
@@ -313,20 +327,6 @@ gboolean plugin_done(void)
 #endif
 
   notification_core_free();
-
-  hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
-  hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
-  hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
-  hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
-  hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
-  hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
-  hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
-
-  notify_gtk_done();
-
-  /* foldercheck cleanup */
-  notification_foldercheck_write_array();
-  notification_free_folder_specific_array();
 
 #ifdef HAVE_LIBNOTIFY
   if(notify_is_initted())
