@@ -1,3 +1,11 @@
+2007-10-12 [holger]	0.12.1cvs7
+
+	* src/notification_plugin.c
+		Destroy the trayicon on plugin unload. This call
+		was for sure missing, but doesn't fix the problem
+		that plugin unloading causes memory corruptions and
+		crashes. More debugging is necessary on this.
+
 2007-10-11 [colin]	0.12.1cvs6
 
 	* src/notification_trayicon.c

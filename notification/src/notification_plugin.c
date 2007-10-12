@@ -308,6 +308,9 @@ gboolean plugin_done(void)
 #ifdef NOTIFICATION_LCDPROC
   notification_lcdproc_disconnect();
 #endif
+#ifdef NOTIFICATION_TRAYICON
+  notification_trayicon_destroy();
+#endif
 
   notification_core_free();
 
