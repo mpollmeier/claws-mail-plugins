@@ -556,14 +556,11 @@ gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_r
 		res = g_strdup(str);
 
 	if (replace_returns) {
-		tmp = rssyl_strreplace(res, "\n", "");
-		g_free(res);
-		res = tmp;
+		g_strdelimit(res, "\r\n", ' ');
 	}
 
-	tmp = rssyl_strreplace(res, "\t", " ");
-	g_free(res);
-	res = tmp;
+	g_strdelimit(res, "\t", ' ');
+
 	while (strstr(res, "  ")) {
 		tmp = rssyl_strreplace(res, "  ", " ");
 		g_free(res);
@@ -662,7 +659,7 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Author */
 				if( !strcmp(line[0], "From") ) {
-					fitem->author = rssyl_format_string(g_strdup(line[1]), TRUE, TRUE);
+					fitem->author = g_strdup(line[1]);
 					debug_print("RSSyl: got author '%s'\n", fitem->author);
 					started_author = TRUE;
 				}
@@ -675,14 +672,14 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 
 				/* Title */
 				if( !strcmp(line[0], "Subject") ) {
-					fitem->title = rssyl_format_string(g_strdup(line[1]), TRUE, TRUE);
+					fitem->title = g_strdup(line[1]);
 					debug_print("RSSyl: got title '%s'\n", fitem->title);
 					started_subject = TRUE;
 				}
 
 				/* Link */
 				if( !strcmp(line[0], "X-RSSyl-URL") ) {
-					fitem->link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
+					fitem->link = g_strdup(line[1]);
 					debug_print("RSSyl: got link '%s'\n", fitem->link);
 					started_link = TRUE;
 				}
@@ -696,12 +693,12 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 				}
 
 				if( !strcmp(line[0], "X-RSSyl-Comments") ) {
-					fitem->comments_link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
+					fitem->comments_link = g_strdup(line[1]);
 					debug_print("RSSyl: got clink '%s'\n", fitem->comments_link);
 					started_clink = TRUE;
 				}
 				if( !strcmp(line[0], "X-RSSyl-Parent") ) {
-					fitem->parent_link = rssyl_format_string(g_strdup(line[1]), FALSE, FALSE);
+					fitem->parent_link = g_strdup(line[1]);
 					debug_print("RSSyl: got plink '%s'\n", fitem->parent_link);
 					started_plink = TRUE;
 				}
@@ -709,27 +706,27 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 				gchar *tmp = NULL;
 				/* continuation line */
 				if (started_author) {
-					tmp = rssyl_format_string(g_strdup_printf("%s %s", fitem->author, lines[i]+1), TRUE, TRUE);
+					tmp = g_strdup_printf("%s %s", fitem->author, lines[i]+1);
 					g_free(fitem->author);
 					fitem->author = tmp;
 					debug_print("RSSyl: updated author to '%s'\n", fitem->author);
 				} else if (started_subject) {
-					tmp = rssyl_format_string(g_strdup_printf("%s %s", fitem->title, lines[i]+1), TRUE, TRUE);
+					tmp = g_strdup_printf("%s %s", fitem->title, lines[i]+1);
 					g_free(fitem->title);
 					fitem->title = tmp;
 					debug_print("RSSyl: updated title to '%s'\n", fitem->title);
 				} else if (started_link) {
-					tmp = rssyl_format_string(g_strdup_printf("%s%s", fitem->link, lines[i]+1), FALSE, FALSE);
+					tmp = g_strdup_printf("%s%s", fitem->link, lines[i]+1);
 					g_free(fitem->link);
 					fitem->link = tmp;
 					debug_print("RSSyl: updated link to '%s'\n", fitem->link);
 				} else if (started_clink) {
-					tmp = rssyl_format_string(g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1), FALSE, FALSE);
+					tmp = g_strdup_printf("%s%s", fitem->comments_link, lines[i]+1);
 					g_free(fitem->comments_link);
 					fitem->comments_link = tmp;
 					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->comments_link);
 				} else if (started_plink) {
-					tmp = rssyl_format_string(g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1), FALSE, FALSE);
+					tmp = g_strdup_printf("%s%s", fitem->parent_link, lines[i]+1);
 					g_free(fitem->parent_link);
 					fitem->parent_link = tmp;
 					debug_print("RSSyl: updated comments_link to '%s'\n", fitem->parent_link);
@@ -1135,11 +1132,11 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	if( fitem->title ) {
 		if (g_utf8_validate(fitem->title, -1, NULL)) {
-			conv_encode_header_full(tmp, 511, fitem->title, 
+			conv_encode_header_full(tmp, 1023, fitem->title, 
 				strlen("Subject: "), FALSE, CS_UTF_8);
-			err |= (fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE)) < 0);
+			err |= (fprintf(f, "Subject: %s\n", tmp) < 0);
 		} else
-			err |= (fprintf(f, "Subject: %s\n", rssyl_format_string(tmp, TRUE, TRUE)) < 0);
+			err |= (fprintf(f, "Subject: %s\n", tmp) < 0);
 	}
 
 	if( (tmpurl = fitem->link) == NULL ) {

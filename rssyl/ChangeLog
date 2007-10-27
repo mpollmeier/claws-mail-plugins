@@ -1,3 +1,8 @@
+2007-10-27 [ticho]	0.15.0cvs13
+
+	* src/feed.c
+		Some fixes for rssyl_format_string() and its usage.
+
 2007-10-05 [colin]	0.15.0cvs12
 
 	* src/feed.c
