@@ -1250,7 +1250,7 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image)
 	gtk_table_set_col_spacing(GTK_TABLE(viewer->buttons_table), col, 3*BUTTON_H_PADDING); \
 	col++;
 
-#if GTK_CHECK_VERSION(2,10,0) && POPPLER_HAS_CAIRO
+#if GTK_CHECK_VERSION(2,10,0) && POPPLER_HAS_CAIRO && !USE_LIBGNOMEPRINT
 static PangoContext *pdf_viewer_get_pango_context(gpointer data)
 {
 	return NULL;
@@ -1343,7 +1343,7 @@ static MimeViewer *pdf_viewer_create(void)
 	viewer->mimeviewer.text_search = pdf_viewer_text_search;
 	viewer->mimeviewer.scroll_page = pdf_viewer_scroll_page;
 	viewer->mimeviewer.scroll_one_line = pdf_viewer_scroll_one_line;
-#if GTK_CHECK_VERSION(2,10,0) && POPPLER_HAS_CAIRO
+#if GTK_CHECK_VERSION(2,10,0) && POPPLER_HAS_CAIRO && !USE_LIBGNOMEPRINT
 	viewer->mimeviewer.print = pdf_viewer_print;
 #endif
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);

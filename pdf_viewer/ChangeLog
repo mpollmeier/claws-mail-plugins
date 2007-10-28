@@ -1,3 +1,9 @@
+2007-10-28 [colin]	0.6.0cvs5
+
+	* src/poppler_viewer.c
+		Fix build when Claws has been built with
+		libgnomeprint
+
 2007-10-10 [colin]	0.6.0cvs4
 
 	* src/poppler_viewer.c
