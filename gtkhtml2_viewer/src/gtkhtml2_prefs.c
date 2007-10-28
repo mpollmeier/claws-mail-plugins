@@ -129,8 +129,10 @@ static void local_checkbox_toggled(GtkToggleButton *button,
 	gtk_widget_set_sensitive(prefs_page->cache_images, active);
 	
 	gtk_widget_set_sensitive(prefs_page->whitelist_ab, active);
-	gtk_widget_set_sensitive(prefs_page->whitelist_ab_folder_combo, active);
-	gtk_widget_set_sensitive(prefs_page->whitelist_ab_select_btn, active);
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab_folder_combo, active && 
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->whitelist_ab)));
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab_select_btn, active && 
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->whitelist_ab)));
 	
 	active &= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->cache_images));
 	gtk_widget_set_sensitive(prefs_page->clear_cache, active);	
