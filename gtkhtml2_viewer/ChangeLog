@@ -1,3 +1,11 @@
+2007-10-28 [colin]	0.15.2cvs7
+
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_prefs.h
+	* src/gtkhtml2_viewer.c
+		Add addressbook-based whitelisting for loading
+		remote images
+
 2007-10-04 [colin]	0.15.2cvs6
 
 	* src/gtkhtml2_prefs.c

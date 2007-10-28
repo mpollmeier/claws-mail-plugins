@@ -74,3 +74,4 @@
 ( cvs diff -u -r 1.1.2.99 -r 1.1.2.100 configure.ac;  ) > 0.15.2cvs4.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/gtkhtml2_prefs.c;  cvs diff -u -r 1.1.2.58 -r 1.1.2.59 src/gtkhtml2_viewer.c;  ) > 0.15.2cvs5.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/gtkhtml2_prefs.c;  ) > 0.15.2cvs6.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/gtkhtml2_prefs.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/gtkhtml2_prefs.h;  cvs diff -u -r 1.1.2.59 -r 1.1.2.60 src/gtkhtml2_viewer.c;  ) > 0.15.2cvs7.patchset

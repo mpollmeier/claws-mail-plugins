@@ -39,8 +39,9 @@
 #include "prefswindow.h"
 #include "alertpanel.h"
 #include "utils.h"
-
+#include "addressbook.h"
 #include "gtkhtml2_prefs.h"
+#include "combobox.h"
 
 #define PREFS_BLOCK_NAME "gtkhtml2"
 
@@ -52,6 +53,9 @@ typedef struct _GtkHtmlBrowserPage GtkHtmlBrowserPage;
 struct _GtkHtmlBrowserPage {
         PrefsPage page;
         GtkWidget *local;
+	GtkWidget *whitelist_ab;
+	GtkWidget *whitelist_ab_folder_combo;
+	GtkWidget *whitelist_ab_select_btn;
 	GtkWidget *cache_images;
 	GtkWidget *clear_cache;
 	GtkWidget *empty_cache;
@@ -61,10 +65,26 @@ static PrefParam param[] = {
         {"local_browse", "TRUE", &gtkhtml_prefs.local, P_BOOL, NULL, NULL, NULL},
         {"cache_images", "TRUE", &gtkhtml_prefs.cache_images, P_BOOL, NULL, NULL, NULL},
         {"clear_cache", "TRUE", &gtkhtml_prefs.clear_cache, P_BOOL, NULL, NULL, NULL},
+	{"whitelist_ab", "FALSE", &gtkhtml_prefs.whitelist_ab, P_BOOL,
+	 NULL, NULL, NULL},
+	{"whitelist_ab_folder", N_("Any"), &gtkhtml_prefs.whitelist_ab_folder, P_STRING,
+	 NULL, NULL, NULL},
         {0,0,0,0,0,0,0}
 };
 
 static GtkHtmlBrowserPage gtkhtml_prefs_page;
+
+static void gtkhtml_whitelist_ab_select_cb(GtkWidget *widget, gpointer data)
+{
+	GtkHtmlBrowserPage *page = (GtkHtmlBrowserPage *) data;
+	gchar *folderpath = NULL;
+	gboolean ret = FALSE;
+
+	folderpath = (gchar *) gtk_entry_get_text(GTK_ENTRY(GTK_BIN(page->whitelist_ab_folder_combo)->child));
+	ret = addressbook_folder_selection(&folderpath);
+	if ( ret != FALSE && folderpath != NULL)
+		gtk_entry_set_text(GTK_ENTRY(GTK_BIN(page->whitelist_ab_folder_combo)->child), folderpath);
+}
 
 static void create_gtkhtml_prefs_page	(PrefsPage *page,
 					 GtkWindow *window,
@@ -108,8 +128,24 @@ static void local_checkbox_toggled(GtkToggleButton *button,
 
 	gtk_widget_set_sensitive(prefs_page->cache_images, active);
 	
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab, active);
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab_folder_combo, active);
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab_select_btn, active);
+	
 	active &= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->cache_images));
-	gtk_widget_set_sensitive(prefs_page->clear_cache, active);
+	gtk_widget_set_sensitive(prefs_page->clear_cache, active);	
+}
+
+static void whitelist_checkbox_toggled(GtkToggleButton *button,
+					  gpointer user_data)
+{
+	gboolean active = gtk_toggle_button_get_active(button);
+        GtkHtmlBrowserPage *prefs_page = (GtkHtmlBrowserPage *) user_data;
+
+	active &= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->local));
+
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab_folder_combo, active);
+	gtk_widget_set_sensitive(prefs_page->whitelist_ab_select_btn, active);
 }
 
 static void cache_images_checkbox_toggled(GtkToggleButton *button,
@@ -136,9 +172,15 @@ static void create_gtkhtml_prefs_page(PrefsPage *page,
 
         GtkWidget *vbox, *hbox;
         GtkWidget *local_checkbox;
+	
+	GtkWidget *whitelist_ab_checkbtn;
+	GtkWidget *whitelist_ab_folder_combo;
+	GtkWidget *whitelist_ab_select_btn;
+
         GtkWidget *cache_images_checkbox;
         GtkWidget *clear_cache_checkbox;
         GtkWidget *empty_cache_btn;
+	GtkWidget *hbox_whitelist, *spacer;
 
         vbox = gtk_vbox_new(FALSE, 3);
         gtk_container_set_border_width(GTK_CONTAINER(vbox), VBOX_BORDER);
@@ -151,6 +193,32 @@ static void create_gtkhtml_prefs_page(PrefsPage *page,
         gtk_box_pack_start(GTK_BOX(vbox), local_checkbox, FALSE, FALSE, 0);
         gtk_widget_show(local_checkbox);
         
+	hbox_whitelist = gtk_hbox_new(FALSE, 8);
+	gtk_widget_show(hbox_whitelist);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox_whitelist, FALSE, FALSE, 0);
+	
+	spacer = gtk_hbox_new(FALSE, 0);
+	gtk_widget_set_size_request(spacer, 12, -1);
+	gtk_widget_show(spacer);
+	gtk_box_pack_start(GTK_BOX(hbox_whitelist), spacer, FALSE, FALSE, 0);
+
+	whitelist_ab_checkbtn = gtk_check_button_new_with_label(_("Only for senders found in address book/folder"));
+	gtk_widget_show(whitelist_ab_checkbtn);
+	gtk_box_pack_start(GTK_BOX(hbox_whitelist), whitelist_ab_checkbtn, FALSE, FALSE, 0);
+
+	whitelist_ab_folder_combo = combobox_text_new(TRUE, _("Any"), NULL);
+	gtk_widget_set_size_request(whitelist_ab_folder_combo, 100, -1);
+	gtk_box_pack_start (GTK_BOX (hbox_whitelist), whitelist_ab_folder_combo, TRUE, TRUE, 0);
+
+	whitelist_ab_select_btn = gtk_button_new_with_label(_("Select ..."));
+	gtk_widget_show (whitelist_ab_select_btn);
+	gtk_box_pack_start (GTK_BOX (hbox_whitelist), whitelist_ab_select_btn, FALSE, FALSE, 0);
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(whitelist_ab_checkbtn), gtkhtml_prefs.whitelist_ab);
+	if (gtkhtml_prefs.whitelist_ab_folder != NULL)
+		gtk_entry_set_text(GTK_ENTRY(GTK_BIN(whitelist_ab_folder_combo)->child),
+				gtkhtml_prefs.whitelist_ab_folder);
+
         cache_images_checkbox = gtk_check_button_new_with_label
 				(_("Cache remote images locally"));
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cache_images_checkbox),
@@ -176,17 +244,31 @@ static void create_gtkhtml_prefs_page(PrefsPage *page,
 	g_signal_connect(G_OBJECT(local_checkbox), "toggled",
 			 G_CALLBACK(local_checkbox_toggled),
 			 prefs_page);
+
+	g_signal_connect(G_OBJECT(whitelist_ab_checkbtn), "toggled",
+			 G_CALLBACK(whitelist_checkbox_toggled),
+			 prefs_page);
+
+	gtk_widget_set_sensitive(whitelist_ab_checkbtn, !gtkhtml_prefs.local);
+	gtk_widget_set_sensitive(whitelist_ab_folder_combo, !gtkhtml_prefs.local && gtkhtml_prefs.whitelist_ab);
+	gtk_widget_set_sensitive(whitelist_ab_select_btn, !gtkhtml_prefs.local && gtkhtml_prefs.whitelist_ab);
+
 	g_signal_connect(G_OBJECT(cache_images_checkbox), "toggled",
 			 G_CALLBACK(cache_images_checkbox_toggled),
 			 prefs_page);
 	g_signal_connect(G_OBJECT(empty_cache_btn), "clicked",
 			 G_CALLBACK(empty_cache_btn_clicked),
 			 prefs_page);
+	g_signal_connect(G_OBJECT (whitelist_ab_select_btn), "clicked",
+			 G_CALLBACK(gtkhtml_whitelist_ab_select_cb), page);
 
         prefs_page->local = local_checkbox;
         prefs_page->cache_images = cache_images_checkbox;
         prefs_page->clear_cache = clear_cache_checkbox;
         prefs_page->empty_cache = empty_cache_btn;
+	prefs_page->whitelist_ab = whitelist_ab_checkbtn;
+	prefs_page->whitelist_ab_folder_combo = whitelist_ab_folder_combo;
+	prefs_page->whitelist_ab_select_btn = whitelist_ab_select_btn;
 
         prefs_page->page.widget = vbox;
 }
@@ -210,6 +292,10 @@ static void save_gtkhtml_prefs(PrefsPage *page)
         gtkhtml_prefs.clear_cache = gtk_toggle_button_get_active
 				(GTK_TOGGLE_BUTTON(prefs_page->clear_cache));
 
+	gtkhtml_prefs.whitelist_ab = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->whitelist_ab));
+	g_free(gtkhtml_prefs.whitelist_ab_folder);
+	gtkhtml_prefs.whitelist_ab_folder = gtk_editable_get_chars(
+				GTK_EDITABLE(GTK_BIN(prefs_page->whitelist_ab_folder_combo)->child), 0, -1);
         pref_file = prefs_write_open(rc_file_path);
         g_free(rc_file_path);
         

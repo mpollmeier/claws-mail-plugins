@@ -47,6 +47,7 @@
 #include "menu.h"
 #include "defs.h"
 #include "utils.h"
+#include "addr_compl.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
@@ -119,6 +120,73 @@ static GtkWidget *gtkhtml2_get_widget(MimeViewer *_viewer)
 	debug_print("gtkhtml2_get_widget: %p\n", viewer->scrollwin);
 
 	return GTK_WIDGET(viewer->scrollwin);
+}
+
+static gboolean found_in_addressbook(const gchar *address)
+{
+	gchar *addr = NULL;
+	gboolean found = FALSE;
+	gint num_addr = 0;
+	
+	if (!address)
+		return FALSE;
+	
+	addr = g_strdup(address);
+	extract_address(addr);
+	num_addr = complete_address(addr);
+	if (num_addr > 1) {
+		/* skip first item (this is the search string itself) */
+		int i = 1;
+		for (; i < num_addr && !found; i++) {
+			gchar *caddr = get_complete_address(i);
+			extract_address(caddr);
+			if (strcasecmp(caddr, addr) == 0)
+				found = TRUE;
+			g_free(caddr);
+		}
+	}
+	g_free(addr);
+	return found;
+}
+
+static gboolean load_images(GtkHtml2Viewer *viewer)
+{
+	MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
+					? ((MimeViewer *)viewer)->mimeview->messageview 
+					: NULL;
+	MsgInfo *msginfo = NULL;
+	gchar *ab_folderpath = NULL;
+
+	if (messageview == NULL)
+		return FALSE;
+	
+	msginfo = messageview->msginfo;
+	
+	if (msginfo == NULL)
+		return FALSE;
+
+	/* don't load remote images, period. */
+	if (gtkhtml_prefs.local)
+		return FALSE;
+	
+	/* don't do whitelisting -> load images */
+	if (!gtkhtml_prefs.whitelist_ab)
+		return TRUE;
+
+	if (*gtkhtml_prefs.whitelist_ab_folder != '\0' &&
+	    strcasecmp(gtkhtml_prefs.whitelist_ab_folder, _("Any")) != 0)
+		ab_folderpath = gtkhtml_prefs.whitelist_ab_folder;
+
+	start_address_completion(ab_folderpath);
+
+	/* do whitelisting -> check sender */
+	if (found_in_addressbook(msginfo->from)) {
+		end_address_completion();
+		return TRUE;
+	}
+	
+	end_address_completion();
+	return FALSE;
 }
 
 static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
@@ -594,7 +662,7 @@ not_found_local:
 #ifdef HAVE_LIBCURL
 		real_url = NULL;
 		cache_file = NULL;
-                if (!viewer->force_image_loading && gtkhtml_prefs.local) {
+                if (!viewer->force_image_loading && !load_images(viewer)) {
 			remote_not_loaded = TRUE;
                         goto fail;
 		}
@@ -704,7 +772,7 @@ fail:
 		if (messageview) {
 			gchar *text = NULL;
 			NoticeView *noticeview = messageview->noticeview;
-			if (gtkhtml_prefs.local) {
+			if (!load_images(viewer)) {
 				text = _("Remote images exist, but weren't loaded\naccording to your preferences.");
 			} else if (prefs_common.work_offline) {
 				text = _("Remote images exist, but weren't loaded\nbecause you are offline.");
