@@ -110,3 +110,4 @@
 ( cvs diff -u -r 1.1.2.84 -r 1.1.2.85 src/feed.c;  ) > 0.15.0cvs12.patchset
 ( cvs diff -u -r 1.1.2.85 -r 1.1.2.86 src/feed.c;  ) > 0.15.0cvs13.patchset
 ( cvs diff -u -r 1.1.2.86 -r 1.1.2.87 src/feed.c;  ) > 0.15.0cvs14.patchset
+( cvs diff -u -r 1.1.2.87 -r 1.1.2.88 src/feed.c;  ) > 0.15.0cvs15.patchset
