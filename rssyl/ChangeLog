@@ -1,3 +1,8 @@
+2007-11-08 [ticho]	0.15.0cvs16
+
+	* src/feed.c
+		Fix obvious crasher bug introduced in cvs14.
+
 2007-11-08 [ticho]	0.15.0cvs15
 
 	* src/feed.c

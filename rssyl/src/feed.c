@@ -565,7 +565,6 @@ gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_r
 		tmp = rssyl_strreplace(res, "  ", " ");
 		g_free(res);
 		res = tmp;
-		g_free(tmp);
 	}
 	res = strtailchomp(res, ' ');
 	strncpy(str, res, strlen(str));
