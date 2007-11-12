@@ -426,7 +426,7 @@ const gchar *plugin_version(void)
 struct PluginFeature *plugin_provides(void)
 {
 	static struct PluginFeature features[] = 
-		{ {PLUGIN_MIMEPARSER, N_("application/ms-tnef")},
+		{ {PLUGIN_MIMEPARSER, "application/ms-tnef"},
 		  {PLUGIN_NOTHING, NULL}};
 	return features;
 }
