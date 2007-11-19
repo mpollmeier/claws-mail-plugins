@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Attach Warner plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2007-01-15 09:20+0000\n"
-"PO-Revision-Date: 2007-08-29 07:01+0100\n"
+"PO-Revision-Date: 2007-11-13 15:14+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -18,29 +18,42 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/attachwarner.c:254
-msgid "Attachment warning"
-msgstr "Melléklet figyelmeztetés"
-
-#: src/attachwarner.c:255
-msgid "An attachment is mentioned in the mail you're sending, but no file was attached. Send it anyway?"
-msgstr "A küldendő levélben utalás van egy csatolásra, de nincs fájl csatolva. Elküldöd így?"
-
-#: src/attachwarner.c:256
+#: src/attachwarner.c:257
 msgid "+_Send"
 msgstr "+Küldé_s"
 
-#: src/attachwarner.c:277
-#: src/attachwarner.c:314
-#: src/attachwarner.c:366
+#: src/attachwarner.c:259
+msgid "+_Queue"
+msgstr "+_Küldés később"
+
+#: src/attachwarner.c:262
+#, c-format
+msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
+msgstr "A küldendő levélben utalás van egy csatolásra, de nincs fájl csatolva. %s így?"
+
+#: src/attachwarner.c:263
+msgid "Send"
+msgstr "Küldés"
+
+#: src/attachwarner.c:263
+msgid "Queue"
+msgstr "Küldés később"
+
+#: src/attachwarner.c:264
+msgid "Attachment warning"
+msgstr "Melléklet figyelmeztetés"
+
+#: src/attachwarner.c:287
+#: src/attachwarner.c:324
+#: src/attachwarner.c:376
 msgid "Attach warner"
 msgstr "Melléklet figyelmeztető"
 
-#: src/attachwarner.c:284
+#: src/attachwarner.c:294
 msgid "Failed to register check before send hook"
 msgstr "'Az ellenőrzés küldés előtt' kapcsolat regisztrációja nem sikerült."
 
-#: src/attachwarner.c:324
+#: src/attachwarner.c:334
 msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
 msgstr "Figyelmetet, ha hivatkozás van csatolásra a levélben, de nem lett fájl csatolva."
 
@@ -72,11 +85,11 @@ msgstr "Továbbítások és átirányítások átugrása"
 msgid "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "Ne ellenőrizze a hiányzó csatolásokat üzenet továbbításakor vagy átirányításakor"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:180
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/attachwarner_prefs.c:179
+#: src/attachwarner_prefs.c:181
 msgid "Attach Warner"
 msgstr "Melléklet figyelmeztető"
 

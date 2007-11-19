@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-01-23 11:05+0100\n"
-"PO-Revision-Date: 2007-04-15 18:05-0300\n"
+"POT-Creation-Date: 2007-07-31 15:42+0200\n"
+"PO-Revision-Date: 2007-11-15 23:26-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -16,37 +16,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/attachwarner.c:252
+#: src/attachwarner.c:257
+msgid "+_Send"
+msgstr "+Enviar _agora"
+
+#: src/attachwarner.c:259
+msgid "+_Queue"
+msgstr "+Enviar _depois"
+
+#: src/attachwarner.c:262
+#, c-format
+msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
+msgstr "Um anexo é mencionado na mensagem que você está enviando, mas nenhum arquivo foi anexado. %s mesmo assim?"
+
+#: src/attachwarner.c:263
+msgid "Send"
+msgstr "Enviar agora"
+
+#: src/attachwarner.c:263
+msgid "Queue"
+msgstr "Enviar depois"
+
+#: src/attachwarner.c:264
 msgid "Attachment warning"
 msgstr "Alerta de anexo"
 
-#: src/attachwarner.c:253
-msgid "An attachment is mentioned in the mail you're sending, but no file was attached. Send it anyway?"
-msgstr "Um anexo é mencionado na mensagem que você está enviando, mas nenhum arquivo foi anexado. Enviá-la mesmo assim?"
-
-#: src/attachwarner.c:254
-msgid "+_Send"
-msgstr "+_Enviar"
-
-#: src/attachwarner.c:275
-#: src/attachwarner.c:311
-#: src/attachwarner.c:363
+#: src/attachwarner.c:287
+#: src/attachwarner.c:324
+#: src/attachwarner.c:376
 msgid "Attach warner"
 msgstr "Alerta de anexo"
 
-#: src/attachwarner.c:282
+#: src/attachwarner.c:294
 msgid "Failed to register check before send hook"
 msgstr "Não foi possível registrar a checagem antes de enviar o gancho"
 
-#: src/attachwarner.c:321
+#: src/attachwarner.c:334
 msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
 msgstr "Avisa o usuário caso seja encontrada uma referência a anexos no texto da mensagem e não exista nenhum arquivo anexado"
 
-#: src/attachwarner_prefs.c:44
+#: src/attachwarner_prefs.c:45
 msgid "attach"
 msgstr "anexo"
 
-#: src/attachwarner_prefs.c:70
+#: src/attachwarner_prefs.c:71
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -54,27 +67,27 @@ msgstr ""
 "Avisar ao atender às seguintes expressões regulares:\n"
 "(uma por linha)"
 
-#: src/attachwarner_prefs.c:89
+#: src/attachwarner_prefs.c:90
 msgid "Skip quoted lines"
 msgstr "Ignorar linhas de citação"
 
-#: src/attachwarner_prefs.c:96
+#: src/attachwarner_prefs.c:97
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr "Exclui as linhas de citação da checagem pelas expressões regulares acima"
 
-#: src/attachwarner_prefs.c:99
+#: src/attachwarner_prefs.c:100
 msgid "Skip forwards and redirections"
 msgstr "Ignorar encaminhamentos e redirecionamentos"
 
-#: src/attachwarner_prefs.c:106
+#: src/attachwarner_prefs.c:107
 msgid "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "Não faz a verificação de anexos perdidos ao encaminhar ou redirecionar mensagens"
 
-#: src/attachwarner_prefs.c:177
+#: src/attachwarner_prefs.c:180
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:181
 msgid "Attach Warner"
 msgstr "Alerta de anexo"
 

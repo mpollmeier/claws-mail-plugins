@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-09-03 01:09+0200\n"
-"PO-Revision-Date: 2007-09-03 08:55+0100\n"
+"POT-Creation-Date: 2007-11-18 18:09+0100\n"
+"PO-Revision-Date: 2007-11-18 23:21+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,31 +16,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/attachwarner.c:254
-msgid "Attachment warning"
-msgstr "Aviso de adjuntos"
-
-#: src/attachwarner.c:255
-msgid ""
-"An attachment is mentioned in the mail you're sending, but no file was "
-"attached. Send it anyway?"
-msgstr ""
-"Se mencionan adjuntos en el correo que está a punto de enviar, pero no se "
-"adjunto ningún fichero. ¿Enviarlo igualmente?"
-
-#: src/attachwarner.c:256
+#: src/attachwarner.c:257
 msgid "+_Send"
 msgstr "+_Enviar"
 
-#: src/attachwarner.c:277 src/attachwarner.c:314 src/attachwarner.c:366
+#: src/attachwarner.c:259
+msgid "+_Queue"
+msgstr "+E_ncolar"
+
+#: src/attachwarner.c:262
+#, c-format
+msgid ""
+"An attachment is mentioned in the mail you're sending, but no file was "
+"attached. %s it anyway?"
+msgstr ""
+"Se menciona un adjunto en el correo que está a punto de enviar, pero no se "
+"adjunto ningún fichero. ¿%s igualmente?"
+
+#: src/attachwarner.c:263
+msgid "Send"
+msgstr "Enviar"
+
+#: src/attachwarner.c:263
+msgid "Queue"
+msgstr "Encolar"
+
+#: src/attachwarner.c:264
+msgid "Attachment warning"
+msgstr "Aviso de adjuntos"
+
+#: src/attachwarner.c:287 src/attachwarner.c:324 src/attachwarner.c:376
 msgid "Attach warner"
 msgstr "Aviso de adjuntos"
 
-#: src/attachwarner.c:284
+#: src/attachwarner.c:294
 msgid "Failed to register check before send hook"
 msgstr "Falló el registro de la función de comprobar antes de enviar"
 
-#: src/attachwarner.c:324
+#: src/attachwarner.c:334
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
@@ -79,10 +92,10 @@ msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "No comprueba si faltan adjuntos al reenviar o redirijir mensajes"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:180
 msgid "Plugins"
 msgstr "Módulos"
 
-#: src/attachwarner_prefs.c:179
+#: src/attachwarner_prefs.c:181
 msgid "Attach Warner"
 msgstr "Aviso de adjuntos"
