@@ -1,3 +1,16 @@
+2007-11-19 [paul]	0.15.2cvs9
+
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/zh_CN.po
+		updated by Ricardo Mones Lastra, Flammie Pirinen,
+		Pader Rezso, Andrea Spadaccini, Frederico Goncalves
+		Guimaraes, Andrej Kacian, and Ralph Young
+
 2007-10-28 [colin]	0.15.2cvs8
 
 	* src/gtkhtml2_prefs.c

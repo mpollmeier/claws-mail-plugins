@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-04-07 14:29+0200\n"
-"PO-Revision-Date: 2007-04-15 18:07-0300\n"
+"POT-Creation-Date: 2007-06-22 06:22+0200\n"
+"PO-Revision-Date: 2007-11-15 23:30-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -13,48 +13,70 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/gtkhtml2_prefs.c:80
+#: src/gtkhtml2_prefs.c:70
+#: src/gtkhtml2_prefs.c:211
+#: src/gtkhtml2_viewer.c:177
+msgid "Any"
+msgstr "Qualquer"
+
+#: src/gtkhtml2_prefs.c:100
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/gtkhtml2_prefs.c:81
+#: src/gtkhtml2_prefs.c:101
 msgid "GtkHtml2 Viewer"
 msgstr "Visualizador GtkHtml2"
 
-#: src/gtkhtml2_prefs.c:128
+#: src/gtkhtml2_prefs.c:166
 msgid "Cache cleared."
 msgstr "O cache foi limpo."
 
-#: src/gtkhtml2_prefs.c:148
+#: src/gtkhtml2_prefs.c:192
 msgid "Load remote images in mails"
 msgstr "Carregar imagens externas às mensagens"
 
-#: src/gtkhtml2_prefs.c:155
+#: src/gtkhtml2_prefs.c:207
+msgid "Only for senders found in address book/folder"
+msgstr "Apenas para remetentes encontrados no Livro de Endereços"
+
+#: src/gtkhtml2_prefs.c:215
+msgid "Select ..."
+msgstr "Selecione ..."
+
+#: src/gtkhtml2_prefs.c:225
 msgid "Cache remote images locally"
 msgstr "Armazenar as imagens remotas no cache local"
 
-#: src/gtkhtml2_prefs.c:162
+#: src/gtkhtml2_prefs.c:232
 msgid "Clear images cache when quitting"
 msgstr "Limpar as imagens do cache ao sair"
 
-#: src/gtkhtml2_prefs.c:169
+#: src/gtkhtml2_prefs.c:239
 msgid "Clear image cache now"
 msgstr "Limpar as imagens do cache agora"
 
-#: src/gtkhtml2_viewer.c:91
+#: src/gtkhtml2_viewer.c:101
 msgid "/_Open with Web browser"
 msgstr "/Abrir com o navegador _web"
 
-#: src/gtkhtml2_viewer.c:92
+#: src/gtkhtml2_viewer.c:102
 msgid "/Copy this _link"
 msgstr "/Copiar esse _link"
 
-#: src/gtkhtml2_viewer.c:610
+#: src/gtkhtml2_viewer.c:107
+msgid "/Zoom _in"
+msgstr "/_Aumentar o zoom"
+
+#: src/gtkhtml2_viewer.c:108
+msgid "/Zoom _out"
+msgstr "/_Reduzir o zoom"
+
+#: src/gtkhtml2_viewer.c:706
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Tempo esgotado na conexão com %s\n"
 
-#: src/gtkhtml2_viewer.c:678
+#: src/gtkhtml2_viewer.c:776
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -62,7 +84,7 @@ msgstr ""
 "Existem imagens remotas, mas, como definido\n"
 "em suas preferências, elas não foram carregadas."
 
-#: src/gtkhtml2_viewer.c:680
+#: src/gtkhtml2_viewer.c:778
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -70,24 +92,20 @@ msgstr ""
 "Existem imagens remotas, mas elas não foram\n"
 "carregadas porque você está offline."
 
-#: src/gtkhtml2_viewer.c:682
+#: src/gtkhtml2_viewer.c:780
 msgid "Remote images exist, but loading them failed."
 msgstr "Existem imagens remotas, mas não foi possível carregá-las."
 
-#: src/gtkhtml2_viewer.c:686
+#: src/gtkhtml2_viewer.c:784
 msgid "Load images"
 msgstr "Carregar imagens"
 
-#: src/gtkhtml2_viewer.c:869
-#: src/gtkhtml2_viewer.c:905
+#: src/gtkhtml2_viewer.c:1150
+#: src/gtkhtml2_viewer.c:1187
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visualizador HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:910
+#: src/gtkhtml2_viewer.c:1192
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Esse plugin renderiza mensagens em HTML usando o widget gtkhtml2rendering."
-
-#: src/gtkhtml2_viewer.c:932
-msgid "text/html"
-msgstr "texto/html"
 

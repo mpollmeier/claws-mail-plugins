@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GtkHtml2 Viewer plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 09:02+0000\n"
-"PO-Revision-Date: 2007-08-29 07:01+0100\n"
+"PO-Revision-Date: 2007-11-13 15:01+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -18,48 +18,70 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/gtkhtml2_prefs.c:80
+#: src/gtkhtml2_prefs.c:70
+#: src/gtkhtml2_prefs.c:211
+#: src/gtkhtml2_viewer.c:177
+msgid "Any"
+msgstr "Bármely"
+
+#: src/gtkhtml2_prefs.c:100
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/gtkhtml2_prefs.c:81
+#: src/gtkhtml2_prefs.c:101
 msgid "GtkHtml2 Viewer"
 msgstr "GtkHtml2 megjelenítő"
 
-#: src/gtkhtml2_prefs.c:128
+#: src/gtkhtml2_prefs.c:166
 msgid "Cache cleared."
 msgstr "A gyorsítótár törölve."
 
-#: src/gtkhtml2_prefs.c:148
+#: src/gtkhtml2_prefs.c:192
 msgid "Load remote images in mails"
 msgstr "Levelekben lévő távoli képek betöltése"
 
-#: src/gtkhtml2_prefs.c:155
+#: src/gtkhtml2_prefs.c:207
+msgid "Only for senders found in address book/folder"
+msgstr "Csak a címjegyzékben/mappában szereplő feladóktól"
+
+#: src/gtkhtml2_prefs.c:215
+msgid "Select ..."
+msgstr "Kiválasztás ..."
+
+#: src/gtkhtml2_prefs.c:225
 msgid "Cache remote images locally"
 msgstr "Távoli képek tárolása helyi gyorsítótárban"
 
-#: src/gtkhtml2_prefs.c:162
+#: src/gtkhtml2_prefs.c:232
 msgid "Clear images cache when quitting"
 msgstr "Képek gyorsítótárának törlése kilépéskor"
 
-#: src/gtkhtml2_prefs.c:169
+#: src/gtkhtml2_prefs.c:239
 msgid "Clear image cache now"
 msgstr "Képek gyorsítótárának törlése most"
 
-#: src/gtkhtml2_viewer.c:94
+#: src/gtkhtml2_viewer.c:101
 msgid "/_Open with Web browser"
 msgstr "/_Megnyitás böngészővel"
 
-#: src/gtkhtml2_viewer.c:95
+#: src/gtkhtml2_viewer.c:102
 msgid "/Copy this _link"
 msgstr "/_Link másolása"
 
-#: src/gtkhtml2_viewer.c:624
+#: src/gtkhtml2_viewer.c:107
+msgid "/Zoom _in"
+msgstr "/_Nagyítás"
+
+#: src/gtkhtml2_viewer.c:108
+msgid "/Zoom _out"
+msgstr "/_Kicsinyítés"
+
+#: src/gtkhtml2_viewer.c:706
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Időtúllépés a kapcsolódásnál: %s\n"
 
-#: src/gtkhtml2_viewer.c:694
+#: src/gtkhtml2_viewer.c:776
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -67,7 +89,7 @@ msgstr ""
 "A távoli képek léteznek, de nem tölthetőek be\n"
 "mivel a beállításoknál ezt letiltottad."
 
-#: src/gtkhtml2_viewer.c:696
+#: src/gtkhtml2_viewer.c:778
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -75,20 +97,20 @@ msgstr ""
 "A távoli kép létezik, de nem tölthető be,\n"
 "mert nincs kapcsolat."
 
-#: src/gtkhtml2_viewer.c:698
+#: src/gtkhtml2_viewer.c:780
 msgid "Remote images exist, but loading them failed."
 msgstr "A távoli képek léteznek, de nem sikerült a betöltésük."
 
-#: src/gtkhtml2_viewer.c:702
+#: src/gtkhtml2_viewer.c:784
 msgid "Load images"
 msgstr "Képek betöltése"
 
-#: src/gtkhtml2_viewer.c:1036
-#: src/gtkhtml2_viewer.c:1073
+#: src/gtkhtml2_viewer.c:1150
+#: src/gtkhtml2_viewer.c:1187
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML megjelenítő"
 
-#: src/gtkhtml2_viewer.c:1078
+#: src/gtkhtml2_viewer.c:1192
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "A plugin a HTML leveleket a gtkhtml2 megjelenítő widget-tel jeleníti meg."
 

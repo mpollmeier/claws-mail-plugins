@@ -7,56 +7,76 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-06-25 08:16+0100\n"
-"PO-Revision-Date: 2007-06-28 01:11+0800\n"
+"POT-Creation-Date: 2007-11-12 06:47+0000\n"
+"PO-Revision-Date: 2007-11-13 17:40中国标准时间\n"
 "Last-Translator: Ralph Young <bamanzi@gmail.com>\n"
-"Language-Team: Ralph Young<bamanzi@gmail.com>\n"
+"Language-Team: Claws Mail claws-mail-translators@dotsrc.org\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gtkhtml2_prefs.c:80
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:211 src/gtkhtml2_viewer.c:177
+msgid "Any"
+msgstr ""
+
+#: src/gtkhtml2_prefs.c:100
 msgid "Plugins"
 msgstr "插件"
 
-#: src/gtkhtml2_prefs.c:81
+#: src/gtkhtml2_prefs.c:101
 msgid "GtkHtml2 Viewer"
 msgstr "GtkHtml2查看器"
 
-#: src/gtkhtml2_prefs.c:128
+#: src/gtkhtml2_prefs.c:166
 msgid "Cache cleared."
 msgstr "缓存已被清除。"
 
-#: src/gtkhtml2_prefs.c:148
+#: src/gtkhtml2_prefs.c:192
 msgid "Load remote images in mails"
 msgstr "加载邮件中的远程图片"
 
-#: src/gtkhtml2_prefs.c:155
+#: src/gtkhtml2_prefs.c:207
+msgid "Only for senders found in address book/folder"
+msgstr "仅限于在地址簿中列出的人员发出的邮件"
+
+#: src/gtkhtml2_prefs.c:215
+msgid "Select ..."
+msgstr "选择..."
+
+#: src/gtkhtml2_prefs.c:225
 msgid "Cache remote images locally"
 msgstr "在本地缓存远程图片"
 
-#: src/gtkhtml2_prefs.c:162
+#: src/gtkhtml2_prefs.c:232
 msgid "Clear images cache when quitting"
 msgstr "退出时清楚图片缓存"
 
-#: src/gtkhtml2_prefs.c:169
+#: src/gtkhtml2_prefs.c:239
 msgid "Clear image cache now"
 msgstr "现在清除图片缓存"
 
-#: src/gtkhtml2_viewer.c:94
+#: src/gtkhtml2_viewer.c:101
 msgid "/_Open with Web browser"
 msgstr "/在网页浏览器中打开(_O)"
 
-#: src/gtkhtml2_viewer.c:95
+#: src/gtkhtml2_viewer.c:102
 msgid "/Copy this _link"
 msgstr "/拷贝此链接(_l)"
 
-#: src/gtkhtml2_viewer.c:624
+#: src/gtkhtml2_viewer.c:107
+msgid "/Zoom _in"
+msgstr "/放大(_i)"
+
+#: src/gtkhtml2_viewer.c:108
+msgid "/Zoom _out"
+msgstr "/缩小(_o)"
+
+#: src/gtkhtml2_viewer.c:706
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "连接%s超时\n"
 
-#: src/gtkhtml2_viewer.c:694
+#: src/gtkhtml2_viewer.c:776
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -64,7 +84,7 @@ msgstr ""
 "存在远程图片，但根据您的设置不被加载\n"
 " "
 
-#: src/gtkhtml2_viewer.c:696
+#: src/gtkhtml2_viewer.c:778
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -72,18 +92,18 @@ msgstr ""
 "存在远程图片，但因目前工作的离线模式而不加载\n"
 " "
 
-#: src/gtkhtml2_viewer.c:698
+#: src/gtkhtml2_viewer.c:780
 msgid "Remote images exist, but loading them failed."
 msgstr "远程图片存在，但加载失败。"
 
-#: src/gtkhtml2_viewer.c:702
+#: src/gtkhtml2_viewer.c:784
 msgid "Load images"
 msgstr "加载图片"
 
-#: src/gtkhtml2_viewer.c:1036 src/gtkhtml2_viewer.c:1073
+#: src/gtkhtml2_viewer.c:1150 src/gtkhtml2_viewer.c:1187
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML查看器"
 
-#: src/gtkhtml2_viewer.c:1078
+#: src/gtkhtml2_viewer.c:1192
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "本插件使用gtkhtml2引擎显示HTML邮件"
