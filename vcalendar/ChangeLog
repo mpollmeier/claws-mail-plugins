@@ -1,3 +1,13 @@
+2007-11-19 [paul]	1.98.0cvs14
+
+	* po/es.po
+	* po/fi.po
+	* po/it.po
+	* po/zh_CN.po
+		updated by Ricardo Mones Lastra, Flammie Pirinen,
+		Andrea Spadaccini, and Ralph Young
+						
+
 2007-10-07 [colin]	1.98.0cvs13
 
 	* src/vcal_manager.c
