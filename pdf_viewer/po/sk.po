@@ -1,14 +1,13 @@
-# translation of pdf%viewer to Slovak
+# translation of pdf_viewer to Slovak language
 # Copyright (C) 2007 Salvatore De Paolis
 # This file is distributed under the same license as the claws-mail package.
-#
 # Andrej Kacian <andrej@kacian.sk>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: pdf_viewer\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-02-19 09:37+0000\n"
-"PO-Revision-Date: 2007-02-25 20:54+0100\n"
+"POT-Creation-Date: 2007-11-12 06:49+0000\n"
+"PO-Revision-Date: 2007-11-18 14:49+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -17,32 +16,149 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/poppler_viewer.c:158
-#, c-format
-msgid "%s document, page %d/%d"
-msgstr "%s dokument, strana %d/%d"
+#: src/poppler_viewer.c:551
+msgid "Filename:"
+msgstr "Názov súboru:"
 
-#: src/poppler_viewer.c:167
-msgid "Prev page"
-msgstr "Predchádzajúca strana"
+#: src/poppler_viewer.c:552
+msgid "Size:"
+msgstr "Veľkosť:"
 
-#: src/poppler_viewer.c:170
-msgid "Next page"
-msgstr "Ďalšia strana"
+#: src/poppler_viewer.c:554
+msgid "Title:"
+msgstr "Titul:"
 
-#: src/poppler_viewer.c:191 src/poppler_viewer.c:348
+#: src/poppler_viewer.c:555
+msgid "Subject:"
+msgstr "Predmet:"
+
+#: src/poppler_viewer.c:556
+msgid "Author:"
+msgstr "Autor:"
+
+#: src/poppler_viewer.c:557
+msgid "Keywords:"
+msgstr "Kľúčové slová:"
+
+#: src/poppler_viewer.c:558
+msgid "Creator:"
+msgstr "Autor:"
+
+#: src/poppler_viewer.c:559
+msgid "Producer:"
+msgstr "Producent:"
+
+#: src/poppler_viewer.c:562
+msgid "Created:"
+msgstr "Vytvorené:"
+
+#: src/poppler_viewer.c:566
+msgid "Modified:"
+msgstr "Upravené:"
+
+#: src/poppler_viewer.c:569
+msgid "Format:"
+msgstr "Formát:"
+
+#: src/poppler_viewer.c:570
+msgid "Optimized:"
+msgstr "Optimizované:"
+
+#: src/poppler_viewer.c:851
+msgid "PDF Viewer Plugin"
+msgstr "Prehliadač PDF"
+
+#: src/poppler_viewer.c:957
 msgid "Loading..."
 msgstr "Načítavam..."
 
-#: src/poppler_viewer.c:385 src/poppler_viewer.c:398
-msgid "PDF Viewer"
-msgstr "Prehliadač PDF"
+#: src/poppler_viewer.c:1007
+#, c-format
+msgid "%s Document"
+msgstr "%s Dokument"
 
-#: src/poppler_viewer.c:403
+#: src/poppler_viewer.c:1014
+#, c-format
+msgid "%d page"
+msgid_plural "%d pages"
+msgstr[0] "%d strana"
+msgstr[1] "%d strany"
+msgstr[2] "%d strán"
+
+#: src/poppler_viewer.c:1377 src/poppler_viewer.c:1618
+msgid "Document Index"
+msgstr "Obsah dokumentu"
+
+#: src/poppler_viewer.c:1449
+msgid "Name"
+msgstr "Názov"
+
+#: src/poppler_viewer.c:1564
+msgid "First Page"
+msgstr "Prvá strana"
+
+#: src/poppler_viewer.c:1569
+msgid "Previous Page"
+msgstr "Predchádzajúca strana"
+
+#: src/poppler_viewer.c:1574
+msgid "Next Page"
+msgstr "Ďalšia strana"
+
+#: src/poppler_viewer.c:1579
+msgid "Last Page"
+msgstr "Posledná strana"
+
+#: src/poppler_viewer.c:1584
+msgid "Zoom In"
+msgstr "Priblížiť"
+
+#: src/poppler_viewer.c:1588
+msgid "Zoom Out"
+msgstr "Oddialiť"
+
+#: src/poppler_viewer.c:1593
+msgid "Fit Page"
+msgstr "Prispôsobiť veľkosť"
+
+#: src/poppler_viewer.c:1598
+msgid "Fit Page Width"
+msgstr "Prispôsobiť šírku"
+
+#: src/poppler_viewer.c:1603
+msgid "Rotate Left"
+msgstr "Otočiť doľava"
+
+#: src/poppler_viewer.c:1608
+msgid "Rotate Right"
+msgstr "Otočiť doprava"
+
+#: src/poppler_viewer.c:1613
+msgid "Document Info"
+msgstr "Údaje o dokumente"
+
+#: src/poppler_viewer.c:1622
+msgid "Page Number"
+msgstr "Číslo strany"
+
+#: src/poppler_viewer.c:1626
+msgid "Zoom Factor"
+msgstr "Priblíženie"
+
+#: src/poppler_viewer.c:1730
+#, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
-"Poppler lib."
+"Poppler %s Lib and the gs tool.\n"
+"\n"
+"Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
-"Tento plugin umožňuje prehliadanie PDF a PostScript príloh pomocou "
-"knižnice Poppler."
+"Tento plugin umožňuje prehliadanie PDF a PostScript príloh pomocou knižnice "
+"Poppler %s a nástroja gs.\n"
+"\n"
+"Akékoľvek komentáre sú vítané na adresu iwkse@claws-mail.org"
+
+#: src/poppler_viewer.c:1739 src/poppler_viewer.c:1754
+msgid "PDF Viewer"
+msgstr "Prehliadač PDF"
 

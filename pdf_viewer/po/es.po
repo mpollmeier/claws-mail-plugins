@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pdf_viewer 0.1.0cvs13\n"
 "Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
-"POT-Creation-Date: 2007-09-03 01:10+0200\n"
-"PO-Revision-Date: 2007-09-03 08:57+0100\n"
+"POT-Creation-Date: 2007-11-18 18:10+0100\n"
+"PO-Revision-Date: 2007-11-18 23:23+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/poppler_viewer.c:551
 msgid "Filename:"
@@ -78,70 +79,72 @@ msgstr "%s documento"
 
 #: src/poppler_viewer.c:1014
 #, c-format
-msgid "(%d page%s)"
-msgstr "(%d página%s)"
+msgid "%d page"
+msgid_plural "%d pages"
+msgstr[0] "%d página"
+msgstr[1] "%d páginas"
 
-#: src/poppler_viewer.c:1312 src/poppler_viewer.c:1553
+#: src/poppler_viewer.c:1377 src/poppler_viewer.c:1618
 msgid "Document Index"
 msgstr "Índice del documento"
 
-#: src/poppler_viewer.c:1384
+#: src/poppler_viewer.c:1449
 msgid "Name"
 msgstr "Nombre"
 
-#: src/poppler_viewer.c:1499
+#: src/poppler_viewer.c:1564
 msgid "First Page"
 msgstr "Primera página"
 
-#: src/poppler_viewer.c:1504
+#: src/poppler_viewer.c:1569
 msgid "Previous Page"
 msgstr "Página anterior"
 
-#: src/poppler_viewer.c:1509
+#: src/poppler_viewer.c:1574
 msgid "Next Page"
 msgstr "Página siguiente"
 
-#: src/poppler_viewer.c:1514
+#: src/poppler_viewer.c:1579
 msgid "Last Page"
 msgstr "Última página"
 
-#: src/poppler_viewer.c:1519
+#: src/poppler_viewer.c:1584
 msgid "Zoom In"
 msgstr "Aumentar"
 
-#: src/poppler_viewer.c:1523
+#: src/poppler_viewer.c:1588
 msgid "Zoom Out"
 msgstr "Alejar"
 
-#: src/poppler_viewer.c:1528
+#: src/poppler_viewer.c:1593
 msgid "Fit Page"
 msgstr "Ajustar página"
 
-#: src/poppler_viewer.c:1533
+#: src/poppler_viewer.c:1598
 msgid "Fit Page Width"
 msgstr "Ajustar ancho"
 
-#: src/poppler_viewer.c:1538
+#: src/poppler_viewer.c:1603
 msgid "Rotate Left"
 msgstr "Rotar izquierda"
 
-#: src/poppler_viewer.c:1543
+#: src/poppler_viewer.c:1608
 msgid "Rotate Right"
 msgstr "Rotar derecha"
 
-#: src/poppler_viewer.c:1548
+#: src/poppler_viewer.c:1613
 msgid "Document Info"
 msgstr "Información del documento"
 
-#: src/poppler_viewer.c:1557
+#: src/poppler_viewer.c:1622
 msgid "Page Number"
 msgstr "Número de página"
 
-#: src/poppler_viewer.c:1561
+#: src/poppler_viewer.c:1626
 msgid "Zoom Factor"
 msgstr "Factor de aumento"
 
-#: src/poppler_viewer.c:1665
+#: src/poppler_viewer.c:1730
 #, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
@@ -154,6 +157,6 @@ msgstr ""
 "\n"
 "Cualquier comentario bienvenido: iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1674 src/poppler_viewer.c:1689
+#: src/poppler_viewer.c:1739 src/poppler_viewer.c:1754
 msgid "PDF Viewer"
 msgstr "Visor PDF"
