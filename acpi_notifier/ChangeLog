@@ -1,3 +1,15 @@
+2007-11-19 [paul]	1.0.12cvs5
+
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+		updated by Ricardo Mones Lastra, Flammie Pirinen,
+		Pader Rezso, Andrea Spadaccini, Frederico Goncalves
+		Guimaraes, and Andrej Kacian
+
 2007-10-04 [colin]	1.0.12cvs4
 
 	* src/acpi_notifier.c

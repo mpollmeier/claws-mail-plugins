@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-08-28 09:07+0100\n"
-"PO-Revision-Date: 2007-08-28 16:30+0300\n"
+"POT-Creation-Date: 2007-11-12 06:45+0000\n"
+"PO-Revision-Date: 2007-11-14 01:55+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,31 +23,30 @@ msgstr "ACPI Notifier"
 #: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
-"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
-"Varmista, että ytimen acerhk-moduuli on ladattu.\n"
-"Sen voi hakea osoitteesta http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"Varmista, että ytimen acerhk‐moduuli on ladattu.\n"
+"Sen voi hakea osoitteesta http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
-"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
-"Varmista, että ytimen acer_acpi-moduuli on ladattu.\n"
-"Sen voi hakea osoitteesta http://www.archernar.co.uk/acer_acpi/"
-"acer_acpi_main.html"
+"Varmista, että ytimen acer_acpi‐moduuli on ladattu.\n"
+"Sen voi hakea osoitteesta http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
-msgstr "Varmista, että ytimen asus_laptop-moduuli on ladattu."
+msgstr "Varmista, että ytimen asus_laptop‐moduuli on ladattu."
 
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Varmista, että ytimen asus_acpi-moduuli on ladattu."
+msgstr "Varmista, että ytimen asus_acpi‐moduuli on ladattu."
 
 #: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Varmista, että ytimen ibm_acpi-moduuli on ladattu."
+msgstr "Varmista, että ytimen ibm_acpi‐moduuli on ladattu."
 
 #: src/acpi_notifier.c:69
 msgid ""
@@ -91,11 +90,11 @@ msgstr "Ledi "
 
 #: src/acpi_notifier.c:379
 msgid "ACPI type: "
-msgstr "ACPI-tyyppi: "
+msgstr "ACPI‐tyyppi: "
 
 #: src/acpi_notifier.c:388
 msgid "ACPI file: "
-msgstr "ACPI-tiedosto: "
+msgstr "ACPI‐tiedosto: "
 
 #: src/acpi_notifier.c:399
 msgid "values - On: "
@@ -109,15 +108,15 @@ msgstr " — pois päältä: "
 msgid "Blink when user interaction is required"
 msgstr "Välkytä, kun käyttäjän tarvitsee tehdä jotain"
 
-#: src/acpi_notifier.c:780
+#: src/acpi_notifier.c:782
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/acpi_notifier.c:859
+#: src/acpi_notifier.c:861
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "Tämä liitännäinen ohjaa ACPI-postiledejä."
+msgstr "Tämä liitännäinen ohjaa ACPI‐postiledejä."
 
-#: src/acpi_notifier.c:880
+#: src/acpi_notifier.c:882
 msgid "Laptop LED"
 msgstr "Kannettavan ledi"
 

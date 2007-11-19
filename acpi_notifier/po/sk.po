@@ -1,13 +1,13 @@
+# Andrej Kacian <andrej@kacian.sk>, 2006, 2007.
 # Slovak translations for acpi_notifier package
 # Copyright (C) 2006 Colin Leroy
 # This file is distributed under the same license as the acpi_notifier package.
-# Andrej Kacian <andrej@kacian.sk>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-08-28 09:07+0100\n"
-"PO-Revision-Date: 2007-09-02 18:50+0200\n"
+"POT-Creation-Date: 2007-11-12 06:45+0000\n"
+"PO-Revision-Date: 2007-11-18 14:36+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -23,20 +23,18 @@ msgstr "Acpi Oznamovač"
 #: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
-"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
 "Uistite sa, či je v jadre natiahnutý modul 'acerhk'.\n"
-"Tento modul je dostupný na adrese http://www.informatik.hu-berlin.de/~tauber/"
-"acerhk/"
+"Tento modul je dostupný na adrese http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
-"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
 "Uistite sa, či je v jadre natiahnutý modul 'acer_acpi'.\n"
-"Tento modul je dostupný na adrese http://www.archernar.co.uk/acer_acpi/"
-"acer_acpi_main.html"
+"Tento modul je dostupný na adrese http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
@@ -110,15 +108,15 @@ msgstr " - Vyp: "
 msgid "Blink when user interaction is required"
 msgstr "Bliká, ak je potrebný vstup od používateľa"
 
-#: src/acpi_notifier.c:780
+#: src/acpi_notifier.c:782
 msgid "Plugins"
 msgstr "Pluginy"
 
-#: src/acpi_notifier.c:859
+#: src/acpi_notifier.c:861
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tento plugin oznamuje stav pošty cez rôzne ACPI LED diódy."
 
-#: src/acpi_notifier.c:880
+#: src/acpi_notifier.c:882
 msgid "Laptop LED"
 msgstr "LED dióda laptopu"
 

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ACPI Notifier plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 08:54+0000\n"
-"PO-Revision-Date: 2007-08-29 07:02+0100\n"
+"PO-Revision-Date: 2007-11-13 15:08+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -25,18 +25,18 @@ msgstr "ACPI értesítő"
 #: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
-"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
 "Ellenőrizd, hogy az 'acerhk' kernel modul be lett töltve.\n"
-"Letöltheted a http://www.informatik.hu-berlin.de/~tauber/acerhk/ címről."
+"Letöltheted a http://www.cakey.de/acerhk/ címről."
 
 #: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
-"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
 "Ellenőrizd, hogy az 'acer_acpi' kernel modul be lett töltve.\n"
-"Letöltheted a http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html címről."
+"Letöltheted a http://code.google.com/p/aceracpi/ címről."
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
@@ -120,15 +120,15 @@ msgstr " - Ki: "
 msgid "Blink when user interaction is required"
 msgstr "Villog, ha felhasználói közreműködés szükséges"
 
-#: src/acpi_notifier.c:780
+#: src/acpi_notifier.c:782
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/acpi_notifier.c:859
+#: src/acpi_notifier.c:861
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "A plugin különböző ACPI e-mail LED-eket kezel (Acer, ASUS, Fujitsu, IBM)."
 
-#: src/acpi_notifier.c:880
+#: src/acpi_notifier.c:882
 msgid "Laptop LED"
 msgstr "Laptop LED"
 

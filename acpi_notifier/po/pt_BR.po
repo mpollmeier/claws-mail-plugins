@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-06-22 06:19+0200\n"
-"PO-Revision-Date: 2007-07-01 21:43-0300\n"
+"POT-Creation-Date: 2007-08-04 06:19+0200\n"
+"PO-Revision-Date: 2007-11-15 23:24-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -20,18 +20,18 @@ msgstr "Notificador ACPI"
 #: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
-"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
 "Certifique-se de que o módulo do kernel 'acerhk' foi carregado.\n"
-"Você pode obtê-lo em http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"Você pode obtê-lo em http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
-"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
 "Certifique-se de que o módulo do kernel 'acer_acpi' foi carregado.\n"
-"Você pode obtê-lo em http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"Você pode obtê-lo em http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
@@ -53,7 +53,9 @@ msgstr ""
 "Certifique-se de que apanelc está instalado.\n"
 "Você pode obtê-lo em http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
+#: src/acpi_notifier.c:200
+#: src/acpi_notifier.c:206
+#: src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "O arquivo de controle não existe."
 
@@ -69,19 +71,27 @@ msgstr " : mensagem não lida"
 msgid " : new mail"
 msgstr " : mensagem nova"
 
-#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
+#: src/acpi_notifier.c:302
+#: src/acpi_notifier.c:308
+#: src/acpi_notifier.c:314
 msgid "off"
 msgstr "apagado"
 
-#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
+#: src/acpi_notifier.c:304
+#: src/acpi_notifier.c:310
+#: src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "piscando"
 
-#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
+#: src/acpi_notifier.c:306
+#: src/acpi_notifier.c:312
+#: src/acpi_notifier.c:318
 msgid "on"
 msgstr "aceso"
 
-#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
+#: src/acpi_notifier.c:340
+#: src/acpi_notifier.c:349
+#: src/acpi_notifier.c:364
 msgid "LED "
 msgstr "LED "
 
@@ -105,15 +115,15 @@ msgstr " - Desligado: "
 msgid "Blink when user interaction is required"
 msgstr "Piscar quando for necessário uma intervenção do usuário"
 
-#: src/acpi_notifier.c:780
+#: src/acpi_notifier.c:782
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/acpi_notifier.c:854
+#: src/acpi_notifier.c:861
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Esse plugin manipula diversos LED's de mensagens ACPI."
 
-#: src/acpi_notifier.c:875
+#: src/acpi_notifier.c:882
 msgid "Laptop LED"
 msgstr "LED do laptop"
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0.0\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-08-28 09:07+0100\n"
-"PO-Revision-Date: 2007-08-30 23:24+0200\n"
+"POT-Creation-Date: 2007-11-12 06:45+0000\n"
+"PO-Revision-Date: 2007-11-18 13:02+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -21,19 +21,18 @@ msgstr "Notificatore ACPI"
 #: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
-"You can get it from http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
 "Assicurarsi che il modulo del kernel 'acerhk' sia caricato.\n"
-"È possibile prelevarlo da http://www.informatik.hu-berlin.de/~tauber/acerhk/"
+"È possibile prelevarlo da http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
-"You can get it from http://www.archernar.co.uk/acer_acpi/acer_acpi_main.html"
+"You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
 "Assicurarsi che il modulo del kernel 'acer_acpi' sia caricato.\n"
-"È possibile prelevarlo da http://www.archernar.co.uk/acer_acpi/"
-"acer_acpi_main.html"
+"È possibile prelevarlo da http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
@@ -107,15 +106,15 @@ msgstr " - Spento: "
 msgid "Blink when user interaction is required"
 msgstr "Lampeggia quando viene richiesta l'interazione dell'utente"
 
-#: src/acpi_notifier.c:780
+#: src/acpi_notifier.c:782
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/acpi_notifier.c:859
+#: src/acpi_notifier.c:861
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Questo plugin gestisce vari LED ACPI per la posta."
 
-#: src/acpi_notifier.c:880
+#: src/acpi_notifier.c:882
 msgid "Laptop LED"
 msgstr "LED Laptop"
 
