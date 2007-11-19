@@ -1,3 +1,16 @@
+2007-11-19 [paul]	0.1.1cvs7
+
+	* configure.ac
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+		added by Flammie Pirinen, Pader Reszo, Andrea
+		Spadaccini, Frederico Goncalves Guimaraes, and
+		Andrej Kacian
+						
+
 2007-11-12 [paul]	0.1.1cvs6
 
 	* src/tnef_parse.c

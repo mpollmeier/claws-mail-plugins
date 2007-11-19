@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+# Páder Rezső (rezso) <rezso@rezso.net>, 2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Tnef parser plugin for Claws Mail\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2007-11-12 06:51+0000\n"
+"PO-Revision-Date: 2007-11-13 15:24+0100\n"
+"Last-Translator: rezso <rezso@rezso.net>\n"
+"Language-Team:  <NONE>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: src/tnef_parse.c:65
+#, c-format
+msgid ""
+"\n"
+"Claws Mail TNEF parser:\n"
+"\n"
+"%s\n"
+msgstr ""
+"\n"
+"Claws Mail TNEF feldolgozó:\n"
+"\n"
+"%s\n"
+
+#: src/tnef_parse.c:67
+msgid "Unknown error"
+msgstr "Ismeretlen hiba"
+
+#: src/tnef_parse.c:116
+msgid "Failed to write the part data."
+msgstr "A rész adat írása nem sikerült."
+
+#: src/tnef_parse.c:158
+msgid "Failed to parse VCalendar data."
+msgstr "A VCalendar adat feldolgozása nem sikerült."
+
+#: src/tnef_parse.c:194
+msgid "Failed to parse VTask data."
+msgstr "A VTask adat feldolgozása nem sikerült."
+
+#: src/tnef_parse.c:240
+msgid "Failed to parse VCard data."
+msgstr "A VCard adat feldolgozása nem sikerült."
+
+#: src/tnef_parse.c:377
+#: src/tnef_parse.c:401
+msgid "TNEF Parser"
+msgstr "TNEF feldolgozó"
+
+#: src/tnef_parse.c:406
+msgid ""
+"This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
+"\n"
+"The plugin uses the Ytnef library, which is is copyright 2002-2007 by Randall Hand <yerase@yerot.com>"
+msgstr ""
+"Ez a Claws Mail lehetővé teszi az application/ms-tnef mellékletek elolvasását.\n"
+"\n"
+"A plugin az Ytnef függvénykönyvtárat használja, amelyet Randall Hand <yerase@yerot.com> írt."
+
+#: src/tnef_parse.c:429
+msgid "application/ms-tnef"
+msgstr "application/ms-tnef"
+
