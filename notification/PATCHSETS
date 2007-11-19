@@ -78,3 +78,4 @@
 ( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/notification_plugin.c;  ) > 0.12.1cvs7.patchset
 ( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/notification_plugin.c;  ) > 0.12.1cvs8.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/it.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pt_BR.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/zh_CN.po;  ) > 0.12.1cvs9.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/zh_CN.po;  ) > 0.12.1cvs10.patchset
