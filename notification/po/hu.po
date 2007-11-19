@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Notification plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
 "POT-Creation-Date: 2007-04-10 15:41+0100\n"
-"PO-Revision-Date: 2007-08-29 07:01+0100\n"
+"PO-Revision-Date: 2007-11-13 15:02+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgid "select recursively"
 msgstr "rekurzív kijelölés"
 
 #: src/notification_plugin.c:174
-#: src/notification_plugin.c:341
+#: src/notification_plugin.c:344
 #: src/notification_prefs.c:300
 #: src/notification_prefs.c:314
 #: src/notification_prefs.c:331
@@ -73,7 +73,7 @@ msgstr "Ikonméretre váltási szabálylánc regisztrálása nem sikerült az É
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr "Fióklista változási szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
 
-#: src/notification_plugin.c:346
+#: src/notification_plugin.c:349
 msgid ""
 "This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
@@ -81,92 +81,92 @@ msgstr ""
 "A plugin többféle módon lehetővé teszi a felhasználó értesítését az új és olvasatlan levelekről.\n"
 "Örömmel veszek minden visszajelzést a <berndth@gmx.de> címre."
 
-#: src/notification_plugin.c:369
+#: src/notification_plugin.c:372
 msgid "Various tools"
 msgstr "Egyéb eszközök"
 
-#: src/notification_popup.c:289
+#: src/notification_popup.c:291
 msgid "New Mail message"
 msgstr "Új e-mail"
 
-#: src/notification_popup.c:291
-#: src/notification_popup.c:530
+#: src/notification_popup.c:293
+#: src/notification_popup.c:567
 msgid "(No From)"
 msgstr "(Nincs feladó)"
 
-#: src/notification_popup.c:293
-#: src/notification_popup.c:534
+#: src/notification_popup.c:295
+#: src/notification_popup.c:571
 msgid "(No Subject)"
 msgstr "(Nincs tárgy)"
 
-#: src/notification_popup.c:305
+#: src/notification_popup.c:307
 msgid "New News post"
 msgstr "Új hírüzenet"
 
-#: src/notification_popup.c:306
-msgid "A new mesesage arrived"
+#: src/notification_popup.c:308
+msgid "A new message arrived"
 msgstr "Új üzenet érkezett"
 
-#: src/notification_popup.c:309
+#: src/notification_popup.c:311
 msgid "New Calendar message"
 msgstr "Új Naptár (esemény) üzenet"
 
-#: src/notification_popup.c:310
+#: src/notification_popup.c:312
 msgid "A new calendar message arrived"
 msgstr "Új naptár (esemény) üzenet érkezett"
 
-#: src/notification_popup.c:313
+#: src/notification_popup.c:315
 msgid "New RSS feed article"
 msgstr "Új RSS hírcsatorna üzenet"
 
-#: src/notification_popup.c:314
+#: src/notification_popup.c:316
 msgid "A new article in a RSS feed arrived"
 msgstr "Új cikk érkezett egy RSS hírcsatornába"
 
-#: src/notification_popup.c:317
+#: src/notification_popup.c:319
 msgid "New unknown message"
 msgstr "Új ismeretlen üzenet"
 
-#: src/notification_popup.c:318
+#: src/notification_popup.c:320
 msgid "Unknown message type arrived"
 msgstr "Ismeretlen típusú üzenet érkezett"
 
-#: src/notification_popup.c:401
+#: src/notification_popup.c:438
 msgid "Mail message"
 msgstr "E-mail"
 
-#: src/notification_popup.c:402
-#: src/notification_popup.c:408
+#: src/notification_popup.c:439
+#: src/notification_popup.c:445
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "%d új üzenet érkezett"
 
-#: src/notification_popup.c:407
+#: src/notification_popup.c:444
 msgid "News message"
 msgstr "Hír üzenet"
 
-#: src/notification_popup.c:413
+#: src/notification_popup.c:450
 msgid "Calendar message"
 msgstr "Naptár üzenet"
 
-#: src/notification_popup.c:414
+#: src/notification_popup.c:451
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "%d új naptár üzenet érkezett"
 
-#: src/notification_popup.c:419
+#: src/notification_popup.c:456
 msgid "RSS news feed"
 msgstr "RSS hírcsatorna"
 
-#: src/notification_popup.c:420
+#: src/notification_popup.c:457
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] "%d cikk érkezett egy RSS hírcsatornába"
 
-#: src/notification_popup.c:481
+#: src/notification_popup.c:518
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
@@ -209,185 +209,185 @@ msgstr ""
 "\n"
 "Értesítő plugin: a plugin konfiguráció fájlba írása nem sikerült\n"
 
-#: src/notification_prefs.c:455
+#: src/notification_prefs.c:458
 msgid "Include folder types"
 msgstr "Figyelembe vett mappatípusok"
 
-#: src/notification_prefs.c:465
+#: src/notification_prefs.c:468
 msgid "Mail folders"
 msgstr "Levélmappák"
 
-#: src/notification_prefs.c:473
+#: src/notification_prefs.c:476
 msgid "News folders"
 msgstr "Hírmappák"
 
-#: src/notification_prefs.c:481
+#: src/notification_prefs.c:484
 msgid "RSS folders"
 msgstr "RSS mappák"
 
-#: src/notification_prefs.c:489
+#: src/notification_prefs.c:492
 msgid "Calendar folders"
 msgstr "Naptár mappák"
 
-#: src/notification_prefs.c:497
+#: src/notification_prefs.c:500
 msgid "These settings overwrite folder-specific selections."
 msgstr "E beállítások felülbírálják a mappaspecifikus kijelöléseket."
 
-#: src/notification_prefs.c:552
+#: src/notification_prefs.c:557
 msgid "Show banner"
 msgstr "Banner megjelenítése"
 
-#: src/notification_prefs.c:557
+#: src/notification_prefs.c:562
 msgid "Never"
 msgstr "Soha"
 
-#: src/notification_prefs.c:559
+#: src/notification_prefs.c:564
 msgid "Always"
 msgstr "Mindig"
 
-#: src/notification_prefs.c:561
+#: src/notification_prefs.c:566
 msgid "Only when not empty"
 msgstr "Csak ha nem üres"
 
-#: src/notification_prefs.c:579
+#: src/notification_prefs.c:584
 msgid "slow"
 msgstr "lassú"
 
-#: src/notification_prefs.c:583
+#: src/notification_prefs.c:588
 msgid "fast"
 msgstr "gyors"
 
-#: src/notification_prefs.c:587
+#: src/notification_prefs.c:592
 msgid "Banner speed"
 msgstr "Banner sebessége"
 
-#: src/notification_prefs.c:605
+#: src/notification_prefs.c:610
 msgid "Maximum number of messages (0 means unlimited)"
 msgstr "Üzenetek maximális száma (0: korlátlan)"
 
-#: src/notification_prefs.c:618
+#: src/notification_prefs.c:623
 msgid "Include unread mails in banner"
 msgstr "Olvasatlan levelek számának kijelzése a bannerben"
 
-#: src/notification_prefs.c:626
+#: src/notification_prefs.c:631
 msgid "Make banner sticky"
 msgstr "\"Ragadós\" banner"
 
-#: src/notification_prefs.c:636
-#: src/notification_prefs.c:831
-#: src/notification_prefs.c:1089
-#: src/notification_prefs.c:1368
+#: src/notification_prefs.c:641
+#: src/notification_prefs.c:836
+#: src/notification_prefs.c:1094
+#: src/notification_prefs.c:1325
 msgid "Only include selected folders"
 msgstr "Csak a kijelölt mappák figyelembevétele"
 
-#: src/notification_prefs.c:645
-#: src/notification_prefs.c:840
-#: src/notification_prefs.c:1098
-#: src/notification_prefs.c:1377
+#: src/notification_prefs.c:650
+#: src/notification_prefs.c:845
+#: src/notification_prefs.c:1103
+#: src/notification_prefs.c:1334
 msgid "Select folders..."
 msgstr "Könyvtárak kiválasztása..."
 
-#: src/notification_prefs.c:655
-#: src/notification_prefs.c:872
+#: src/notification_prefs.c:660
+#: src/notification_prefs.c:877
 msgid "Use custom colors"
 msgstr "Egyéni színek használata"
 
-#: src/notification_prefs.c:668
-#: src/notification_prefs.c:885
+#: src/notification_prefs.c:673
+#: src/notification_prefs.c:890
 msgid "Foreground"
 msgstr "Előtér"
 
-#: src/notification_prefs.c:674
-#: src/notification_prefs.c:891
+#: src/notification_prefs.c:679
+#: src/notification_prefs.c:896
 msgid "Foreground color"
 msgstr "Előtér színe"
 
-#: src/notification_prefs.c:679
-#: src/notification_prefs.c:896
+#: src/notification_prefs.c:684
+#: src/notification_prefs.c:901
 msgid "Background"
 msgstr "Háttér"
 
-#: src/notification_prefs.c:685
-#: src/notification_prefs.c:902
+#: src/notification_prefs.c:690
+#: src/notification_prefs.c:907
 msgid "Background color"
 msgstr "Háttérszín"
 
-#: src/notification_prefs.c:795
+#: src/notification_prefs.c:800
 msgid "Enable popup"
 msgstr "Popup engedélyezése"
 
-#: src/notification_prefs.c:812
-#: src/notification_prefs.c:1348
+#: src/notification_prefs.c:817
+#: src/notification_prefs.c:1374
 msgid "Popup timeout:"
 msgstr "Popup késleltetése:"
 
-#: src/notification_prefs.c:822
-#: src/notification_prefs.c:1080
-#: src/notification_prefs.c:1358
+#: src/notification_prefs.c:827
+#: src/notification_prefs.c:1085
+#: src/notification_prefs.c:1384
 msgid "seconds"
 msgstr "másodperc"
 
-#: src/notification_prefs.c:851
+#: src/notification_prefs.c:856
 msgid "Make popup sticky"
 msgstr "\"Ragadós\" popup"
 
-#: src/notification_prefs.c:861
+#: src/notification_prefs.c:866
 msgid "Set popup window width and position"
 msgstr "Popup ablak szélességének és poziciójának beállítása"
 
-#: src/notification_prefs.c:866
+#: src/notification_prefs.c:871
 msgid "(the window manager is free to ignore this)"
 msgstr "(az ablakkezelő figyelmen kívül hagyhatja)"
 
-#: src/notification_prefs.c:966
+#: src/notification_prefs.c:971
 msgid "Sample popup window"
 msgstr "Példa felugró ablak"
 
-#: src/notification_prefs.c:972
+#: src/notification_prefs.c:977
 msgid "Done"
 msgstr "Kész"
 
-#: src/notification_prefs.c:1040
+#: src/notification_prefs.c:1045
 msgid "Enable command"
 msgstr "Parancs engedélyezése"
 
-#: src/notification_prefs.c:1057
+#: src/notification_prefs.c:1062
 msgid "Command to execute:"
 msgstr "Végrehajtandó parancs:"
 
-#: src/notification_prefs.c:1070
+#: src/notification_prefs.c:1075
 msgid "Block command after execution for"
 msgstr "Parancs tiltása végrehajtás után:"
 
-#: src/notification_prefs.c:1176
+#: src/notification_prefs.c:1181
 msgid "Enable LCD"
 msgstr "LCD engedélyezése"
 
-#: src/notification_prefs.c:1195
+#: src/notification_prefs.c:1200
 msgid "Hostname:Port of LCDd server:"
 msgstr "Hostnév: LCDd szerver port:"
 
-#: src/notification_prefs.c:1277
+#: src/notification_prefs.c:1282
 msgid "Enable Trayicon"
 msgstr "Tálcaikon engedélyezése"
 
-#: src/notification_prefs.c:1293
+#: src/notification_prefs.c:1298
 msgid "Hide at start-up"
 msgstr "Elrejtés induláskor"
 
-#: src/notification_prefs.c:1301
+#: src/notification_prefs.c:1306
 msgid "Close to tray"
 msgstr "Bezárás a tálcára"
 
-#: src/notification_prefs.c:1309
+#: src/notification_prefs.c:1314
 msgid "Hide when iconified"
 msgstr "Elrejtés ikonméretnél"
 
-#: src/notification_prefs.c:1319
+#: src/notification_prefs.c:1345
 msgid "Passive toaster popup"
 msgstr "Passzív toaster popup"
 
-#: src/notification_prefs.c:1330
+#: src/notification_prefs.c:1356
 msgid "Enable Popup"
 msgstr "Popup engedélyezése"
 

@@ -1,3 +1,14 @@
+2007-11-19 [paul]	0.12.1cvs9
+
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/zh_CN.po
+		Updated by Flammie Pirinen, Pader Rezso, Andrea
+		Spadaccini, Frederico Goncalves Guimaraes, and
+		Ralph Young
+
 2007-10-12 [holger]	0.12.1cvs8
 
 	* src/notification_plugin.c
