@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-08-28 09:14+0100\n"
-"PO-Revision-Date: 2007-09-01 17:14-0300\n"
+"PO-Revision-Date: 2007-11-15 23:37-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Português do Brasil\n"
 "MIME-Version: 1.0\n"
@@ -19,43 +19,49 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/spam_report.c:196
+#: src/spam_report.c:213
 msgid "Reporting spam..."
 msgstr "Reportando spam..."
 
-#: src/spam_report.c:230
+#: src/spam_report.c:247
 msgid "/Message/Report spam online"
 msgstr "/Mensagem/Reportar spam online"
 
-#: src/spam_report.c:238
+#: src/spam_report.c:255
 msgid "/Report spam online"
 msgstr "/Reportar spam online"
 
-#: src/spam_report.c:255 src/spam_report.c:299 src/spam_report_prefs.c:74
+#: src/spam_report.c:272
+#: src/spam_report.c:316
+#: src/spam_report_prefs.c:78
 msgid "SpamReport"
 msgstr "SpamReport"
 
-#: src/spam_report.c:304
-msgid ""
-"This plugin reports spam to various places. Currently only spam-signal.fr is "
-"supported."
-msgstr ""
-"Esse plugin reporta spam para vários lugares. Atualmente apenas o "
-"spam-signal.fr é suportado."
+#: src/spam_report.c:321
+msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
+msgstr "Esse plugin reporta spam para vários lugares. Atualmente apenas o spam-signal.fr é suportado."
 
-#: src/spam_report.c:326
+#: src/spam_report.c:343
 msgid "Spam reporting"
 msgstr "Reportando spam"
 
-#: src/spam_report_prefs.c:73
+#: src/spam_report_prefs.c:77
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/spam_report_prefs.c:129
+#: src/spam_report_prefs.c:120
+msgid "Enabled"
+msgstr "Habilitado"
+
+#: src/spam_report_prefs.c:147
+msgid "Forward to:"
+msgstr "Encaminhar para:"
+
+#: src/spam_report_prefs.c:150
 msgid "Username:"
 msgstr "Nome de usuário:"
 
-#: src/spam_report_prefs.c:137
+#: src/spam_report_prefs.c:161
 msgid "Password:"
 msgstr "Senha:"
 

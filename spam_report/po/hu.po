@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Spam report plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-07-05 18:38+0200\n"
-"PO-Revision-Date: 2007-08-29 07:02+0100\n"
+"PO-Revision-Date: 2007-11-13 15:06+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -18,41 +18,49 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/spam_report.c:196
+#: src/spam_report.c:213
 msgid "Reporting spam..."
 msgstr "Spam jelentés..."
 
-#: src/spam_report.c:230
+#: src/spam_report.c:247
 msgid "/Message/Report spam online"
 msgstr "/Üzenet/Online spam jelentés"
 
-#: src/spam_report.c:238
+#: src/spam_report.c:255
 msgid "/Report spam online"
 msgstr "/Online spam jelentés"
 
-#: src/spam_report.c:255
-#: src/spam_report.c:299
-#: src/spam_report_prefs.c:74
+#: src/spam_report.c:272
+#: src/spam_report.c:316
+#: src/spam_report_prefs.c:78
 msgid "SpamReport"
 msgstr "Spam jelentés"
 
-#: src/spam_report.c:304
+#: src/spam_report.c:321
 msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
 msgstr "E plugin a spameket jelenti különböző helyekre. Jelenleg csak a spam-signal.fr támogatott."
 
-#: src/spam_report.c:326
+#: src/spam_report.c:343
 msgid "Spam reporting"
 msgstr "Spam jelentése"
 
-#: src/spam_report_prefs.c:73
+#: src/spam_report_prefs.c:77
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/spam_report_prefs.c:129
+#: src/spam_report_prefs.c:120
+msgid "Enabled"
+msgstr "Engedélyezve"
+
+#: src/spam_report_prefs.c:147
+msgid "Forward to:"
+msgstr "Továbbítás:"
+
+#: src/spam_report_prefs.c:150
 msgid "Username:"
 msgstr "Felhasználónév:"
 
-#: src/spam_report_prefs.c:137
+#: src/spam_report_prefs.c:161
 msgid "Password:"
 msgstr "Jelszó:"
 

@@ -1,13 +1,12 @@
 # translation of Spam Report to Slovak
 # Copyright (C) 2007 Andrej Kacian
 # This file is distributed under the same license as the Spam Report package.
-# Andrej Kacian <andrej@kacian.sk>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: spam_report-sk\n"
+"Project-Id-Version: spam_report\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-08-28 09:14+0100\n"
-"PO-Revision-Date: 2007-09-02 19:01+0200\n"
+"POT-Creation-Date: 2007-11-12 06:50+0000\n"
+"PO-Revision-Date: 2007-11-18 14:52+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -16,23 +15,23 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/spam_report.c:196
+#: src/spam_report.c:213
 msgid "Reporting spam..."
 msgstr "Ohlasujem spam..."
 
-#: src/spam_report.c:230
+#: src/spam_report.c:247
 msgid "/Message/Report spam online"
 msgstr "/Správa/Ohlásiť spam online"
 
-#: src/spam_report.c:238
+#: src/spam_report.c:255
 msgid "/Report spam online"
 msgstr "/Ohlásiť spam online"
 
-#: src/spam_report.c:255 src/spam_report.c:299 src/spam_report_prefs.c:74
+#: src/spam_report.c:272 src/spam_report.c:316 src/spam_report_prefs.c:78
 msgid "SpamReport"
 msgstr "Ohlasovač spamu"
 
-#: src/spam_report.c:304
+#: src/spam_report.c:321
 msgid ""
 "This plugin reports spam to various places. Currently only spam-signal.fr is "
 "supported."
@@ -40,19 +39,27 @@ msgstr ""
 "Tento plugin dokáže ohlásiť spam online na rôzne miesta. V súčasnosti je "
 "podporovaný len spam-signal.fr."
 
-#: src/spam_report.c:326
+#: src/spam_report.c:343
 msgid "Spam reporting"
 msgstr "Ohlasovanie spamu"
 
-#: src/spam_report_prefs.c:73
+#: src/spam_report_prefs.c:77
 msgid "Plugins"
 msgstr "Pluginy"
 
-#: src/spam_report_prefs.c:129
+#: src/spam_report_prefs.c:120
+msgid "Enabled"
+msgstr "Povolený"
+
+#: src/spam_report_prefs.c:147
+msgid "Forward to:"
+msgstr "Preposlať na:"
+
+#: src/spam_report_prefs.c:150
 msgid "Username:"
 msgstr "Používateľské meno:"
 
-#: src/spam_report_prefs.c:137
+#: src/spam_report_prefs.c:161
 msgid "Password:"
 msgstr "Heslo:"
 
