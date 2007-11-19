@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rssyl 0.4\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-08-28 09:13+0100\n"
-"PO-Revision-Date: 2007-08-29 23:57+0800\n"
+"POT-Creation-Date: 2007-11-12 06:49+0000\n"
+"PO-Revision-Date: 2007-11-18 23:37中国标准时间\n"
 "Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
 "Language-Team: Simplified Chinese\n"
 "MIME-Version: 1.0\n"
@@ -49,26 +49,26 @@ msgstr "正在提取 '%s'..."
 msgid "Malformed feed"
 msgstr "输入源存在格式错误"
 
-#: src/feed.c:1028
+#: src/feed.c:1026
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "正在刷新源'%s'..."
 
-#: src/feed.c:1043
+#: src/feed.c:1041
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
 "comments of '%s'"
 msgstr "RSSyl: 不支持从RDF源提取评论。无法获得'%s'的评论"
 
-#: src/feed.c:1051
+#: src/feed.c:1049
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
 "comments of '%s'"
 msgstr "RSSyl: Atom源不支持提取评论。无法获取'%s'的评论。"
 
-#: src/feed.c:1057
+#: src/feed.c:1055
 msgid "This feed format is not supported yet."
 msgstr "不支持该源的格式。"
 
@@ -76,7 +76,18 @@ msgstr "不支持该源的格式。"
 msgid "N/A"
 msgstr "未知"
 
-#: src/feed.c:1325
+#: src/feed.c:1198
+#, c-format
+msgid "%ld byte"
+msgid_plural "%ld bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/feed.c:1201
+msgid "size unknown"
+msgstr "大小未知"
+
+#: src/feed.c:1350
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -85,11 +96,11 @@ msgstr ""
 "RSSyl: 无法更新源%s:\n"
 "%s\n"
 
-#: src/feed.c:1477
+#: src/feed.c:1502
 msgid "You are already subscribed to this feed."
 msgstr "您已经订阅了该源。"
 
-#: src/feed.c:1486
+#: src/feed.c:1511
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -98,11 +109,11 @@ msgstr ""
 "无法提取到网址'%s'的内容:\n"
 "%s"
 
-#: src/feed.c:1487 src/feed.c:1491
+#: src/feed.c:1512 src/feed.c:1516
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/feed.c:1491
+#: src/feed.c:1516
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -111,12 +122,12 @@ msgstr ""
 "无法提取到网址'%s'的内容:\n"
 "%s\n"
 
-#: src/feed.c:1503
+#: src/feed.c:1528
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "无法订阅源'%s'。"
 
-#: src/feed.c:1605 src/rssyl_cb_menu.c:278
+#: src/feed.c:1630 src/rssyl_cb_menu.c:278
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] ""

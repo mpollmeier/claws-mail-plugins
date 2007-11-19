@@ -1,3 +1,16 @@
+2007-11-19 [paul]	0.15.0cvs17
+
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/zh_CN.po
+		updated by Ricardo Mones Lastra, Flammie Pirinen,
+		Pader Reszo, Andrea Spadaccini, Frederico Goncalves
+		Guimaraes, Andrej Kacian, and Ralph Young
+
 2007-11-08 [ticho]	0.15.0cvs16
 
 	* src/feed.c

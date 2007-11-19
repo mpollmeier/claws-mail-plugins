@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0.0\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-08-28 09:13+0100\n"
-"PO-Revision-Date: 2007-08-31 00:20+0200\n"
+"POT-Creation-Date: 2007-11-12 06:49+0000\n"
+"PO-Revision-Date: 2007-11-18 13:04+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -49,12 +49,12 @@ msgstr "Prelievo di '%s' in corso"
 msgid "Malformed feed"
 msgstr "Feed non corretto"
 
-#: src/feed.c:1028
+#: src/feed.c:1026
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Aggiornamento del feed '%s' in corso"
 
-#: src/feed.c:1043
+#: src/feed.c:1041
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -63,7 +63,7 @@ msgstr ""
 "RSSyl: Non è presente il supporto per il prelievo di commenti da feed RDF. "
 "Impossibile prelevare i commenti di '%s'"
 
-#: src/feed.c:1051
+#: src/feed.c:1049
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
@@ -72,7 +72,7 @@ msgstr ""
 "RSSyl: Il prelievo dei commenti non è supportato per i feed Atom. "
 "Impossibile prelevare i commenti di '%s'"
 
-#: src/feed.c:1057
+#: src/feed.c:1055
 msgid "This feed format is not supported yet."
 msgstr "Questo formato di feed non è ancora supportato."
 
@@ -80,7 +80,18 @@ msgstr "Questo formato di feed non è ancora supportato."
 msgid "N/A"
 msgstr "N/D"
 
-#: src/feed.c:1325
+#: src/feed.c:1198
+#, c-format
+msgid "%ld byte"
+msgid_plural "%ld bytes"
+msgstr[0] "%ld byte"
+msgstr[1] "%ld byte"
+
+#: src/feed.c:1201
+msgid "size unknown"
+msgstr "dimensione sconosciuta"
+
+#: src/feed.c:1350
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -89,11 +100,11 @@ msgstr ""
 "RSSyl: Impossibile aggiornare il feed %s:\n"
 "%s\n"
 
-#: src/feed.c:1477
+#: src/feed.c:1502
 msgid "You are already subscribed to this feed."
 msgstr "È già presente una sottoscrizione a questo feed."
 
-#: src/feed.c:1486
+#: src/feed.c:1511
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -102,11 +113,11 @@ msgstr ""
 "Impossibile prelevare dall'URL '%s':\n"
 "%s"
 
-#: src/feed.c:1487 src/feed.c:1491
+#: src/feed.c:1512 src/feed.c:1516
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
-#: src/feed.c:1491
+#: src/feed.c:1516
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -115,12 +126,12 @@ msgstr ""
 "Impossibile prelevare dall'URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1503
+#: src/feed.c:1528
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossibile sottoscrivere il feed '%s'."
 
-#: src/feed.c:1605 src/rssyl_cb_menu.c:278
+#: src/feed.c:1630 src/rssyl_cb_menu.c:278
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] ""
@@ -431,7 +442,7 @@ msgstr "_Cancella sottoscrizione"
 
 #: src/rssyl_prefs.c:60
 msgid "Plugins"
-msgstr "P"
+msgstr "Plugin"
 
 #: src/rssyl_prefs.c:104
 msgid "Default refresh interval in minutes"

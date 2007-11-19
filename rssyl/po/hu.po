@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RSSyl plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2007-01-15 09:12+0000\n"
-"PO-Revision-Date: 2007-08-29 07:01+0100\n"
+"PO-Revision-Date: 2007-11-13 15:04+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -52,22 +52,22 @@ msgstr "'%s' vétele..."
 msgid "Malformed feed"
 msgstr "Hibásan formázott hírforrás"
 
-#: src/feed.c:1028
+#: src/feed.c:1026
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "'%s' hírforrás frissítése..."
 
-#: src/feed.c:1043
+#: src/feed.c:1041
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Hozzászólások vétele nem támogatott az RDF hírforrásoknál. '%s' hozzászólásai nem lesznek lekérdezve."
 
-#: src/feed.c:1051
+#: src/feed.c:1049
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Hozzászólások vétele nem támogatott az Atom hírforrásoknál. '%s' hozzászólásai nem lesznek lekérdezve."
 
-#: src/feed.c:1057
+#: src/feed.c:1055
 msgid "This feed format is not supported yet."
 msgstr "A hírforrás formátuma nem támogatott."
 
@@ -75,7 +75,17 @@ msgstr "A hírforrás formátuma nem támogatott."
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1325
+#: src/feed.c:1198
+#, c-format
+msgid "%ld byte"
+msgid_plural "%ld bytes"
+msgstr[0] "%ld bájt"
+
+#: src/feed.c:1201
+msgid "size unknown"
+msgstr "a méret nem állapítható meg"
+
+#: src/feed.c:1350
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -84,11 +94,11 @@ msgstr ""
 "RSSyl: %s hírforrás nem frissíthető:\n"
 "%s\n"
 
-#: src/feed.c:1477
+#: src/feed.c:1502
 msgid "You are already subscribed to this feed."
 msgstr "Már feliratkoztál e hírforrásra."
 
-#: src/feed.c:1486
+#: src/feed.c:1511
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -97,12 +107,12 @@ msgstr ""
 "'%s' URL nem elérhető:\n"
 "%s"
 
-#: src/feed.c:1487
-#: src/feed.c:1491
+#: src/feed.c:1512
+#: src/feed.c:1516
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: src/feed.c:1491
+#: src/feed.c:1516
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -111,12 +121,12 @@ msgstr ""
 "'%s' URL nem elérhető:\n"
 "%s\n"
 
-#: src/feed.c:1503
+#: src/feed.c:1528
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "'%s' hírforrás nem vehető fel."
 
-#: src/feed.c:1605
+#: src/feed.c:1630
 #: src/rssyl_cb_menu.c:278
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."

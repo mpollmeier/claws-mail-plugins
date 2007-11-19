@@ -1,14 +1,12 @@
 # translation of RSSyl to Slovak
-# Andrej Kacian <andrej@kacian.sk>, 2007.
-# Slovak translation of RSSyl plugin
 # Copyright (C) 2005,2006,2007 Andrej Kacian
 # This file is distributed under the same license as the rssyl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: rssyl-sk\n"
+"Project-Id-Version: rssyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-08-28 09:13+0100\n"
-"PO-Revision-Date: 2007-09-02 18:55+0200\n"
+"POT-Creation-Date: 2007-11-12 06:49+0000\n"
+"PO-Revision-Date: 2007-11-18 14:51+0100\n"
 "Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -51,12 +49,12 @@ msgstr "Sťahujem '%s'..."
 msgid "Malformed feed"
 msgstr "Poškodený kanál"
 
-#: src/feed.c:1028
+#: src/feed.c:1026
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Aktualizujem kanál '%s'..."
 
-#: src/feed.c:1043
+#: src/feed.c:1041
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -65,7 +63,7 @@ msgstr ""
 "RSSyl: Sťahovanie komentárov nie je pre RDF kanály podporované. Nepodarilo "
 "sa stiahnuť komentáre pre '%s'"
 
-#: src/feed.c:1051
+#: src/feed.c:1049
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
@@ -74,7 +72,7 @@ msgstr ""
 "RSSyl: Sťahovanie komentárov nie je pre Atom kanály podporované. Nepodarilo "
 "sa stiahnuť komentáre pre '%s'"
 
-#: src/feed.c:1057
+#: src/feed.c:1055
 msgid "This feed format is not supported yet."
 msgstr "Formát tohoto kanálu nie je podporovaný."
 
@@ -82,7 +80,19 @@ msgstr "Formát tohoto kanálu nie je podporovaný."
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1325
+#: src/feed.c:1198
+#, c-format
+msgid "%ld byte"
+msgid_plural "%ld bytes"
+msgstr[0] "%ld bajt"
+msgstr[1] "%ld bajty"
+msgstr[2] "%ld bajtov"
+
+#: src/feed.c:1201
+msgid "size unknown"
+msgstr "neznáma veľkosť"
+
+#: src/feed.c:1350
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -91,11 +101,11 @@ msgstr ""
 "RSSyl: Nepodarilo sa aktualizovať kanál %s:\n"
 "%s\n"
 
-#: src/feed.c:1477
+#: src/feed.c:1502
 msgid "You are already subscribed to this feed."
 msgstr "Tento kanál už máte prihlásený."
 
-#: src/feed.c:1486
+#: src/feed.c:1511
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -104,11 +114,11 @@ msgstr ""
 "Nepodarilo sa stiahnuť URL '%s':\n"
 "%s"
 
-#: src/feed.c:1487 src/feed.c:1491
+#: src/feed.c:1512 src/feed.c:1516
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/feed.c:1491
+#: src/feed.c:1516
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -117,12 +127,12 @@ msgstr ""
 "Nepodarilo sa stiahnuť URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1503
+#: src/feed.c:1528
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Nepodarilo sa prihlásiť kanál '%s'."
 
-#: src/feed.c:1605 src/rssyl_cb_menu.c:278
+#: src/feed.c:1630 src/rssyl_cb_menu.c:278
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "Claws Mail potrebuje pre aktualizáciu kanálu prístup na sieť."
