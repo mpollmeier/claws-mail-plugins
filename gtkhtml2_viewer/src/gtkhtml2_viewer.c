@@ -33,6 +33,11 @@
 #include <libgtkhtml/view/htmlselection.h>
 #include <libgtkhtml/layout/htmlbox.h>
 #include <libgtkhtml/layout/htmlboxtext.h>
+#if USE_PRINTUNIX
+#include <gtk/gtkprintoperation.h>
+#include <gtk/gtkprintjob.h>
+#include <gtk/gtkprintunixdialog.h>
+#endif
 #include "common/claws.h"
 #include "common/version.h"
 #include "main.h"
@@ -47,7 +52,9 @@
 #include "menu.h"
 #include "defs.h"
 #include "utils.h"
+#include "alertpanel.h"
 #include "addr_compl.h"
+#include "printing.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
@@ -81,6 +88,8 @@ struct _GtkHtml2Viewer
 	GtkItemFactory 	*context_popupfactory;
 	gboolean	 is_on_url;
 	gint		 last_search_match;
+	gboolean	 preparing;
+	gboolean	 printing;
 };
 
 static MimeViewerFactory gtkhtml2_viewer_factory;
@@ -298,6 +307,7 @@ out:
 	viewer->force_image_loading = FALSE;	
 	g_mutex_unlock(viewer->mutex);
 	messageview->updating = FALSE;
+	viewer->preparing = FALSE;
 	return FALSE;
 }
 
@@ -337,6 +347,7 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
 	viewer->to_load = partinfo;
 	viewer->last_search_match = -1;
+	viewer->preparing = TRUE;
 	gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_prepare, viewer);
 }
 
@@ -1009,6 +1020,126 @@ static gboolean htmlview_btn_released(GtkWidget *widget, GdkEventButton *event,
 	return FALSE;
 }
 
+#if GTK_CHECK_VERSION(2,10,0) && USE_PRINTUNIX
+static void
+job_complete_cb (GtkPrintJob *print_job,
+		        GtkHtml2Viewer *viewer,
+		        GError *error)
+{
+	if (error) {
+		alertpanel_error(_("Printing failed:\n %s"), error->message);
+	}
+	viewer->printing = FALSE;
+}
+
+static void gtkhtml2_viewer_print(MimeViewer *mviewer)
+{
+	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *)mviewer;
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	HtmlView *htmlview;
+	gchar *program = NULL, *cmd = NULL;
+	gchar *outfile = NULL;
+	gint result;
+	GError *error = NULL;
+	GtkWidget *dialog;
+	GtkPrintUnixDialog *print_dialog;
+	GtkPrinter *printer;
+	GtkPrintJob *job;
+
+	htmlview = HTML_VIEW(viewer->html_view);
+
+	gtk_widget_realize(viewer->html_view);
+	
+	while (viewer->preparing) {
+		claws_do_idle();
+	}
+	debug_print("Preparing print job...\n");
+
+	program = g_find_program_in_path("html2ps");
+
+	if (program == NULL) {
+		alertpanel_error(_("Printing HTML is only possible if the program 'html2ps' is installed."));
+		return;
+	}
+
+	if (viewer->filename == NULL) {
+		alertpanel_error(_("Filename is null."));
+		return;
+	}
+
+	outfile = get_tmp_file();
+	cmd = g_strdup_printf("%s -o %s %s", program, outfile, viewer->filename);
+
+	g_free(program);
+
+	result = execute_command_line(cmd, FALSE);
+	g_free(cmd);
+
+	if (result != 0) {
+		alertpanel_error(_("Conversion to postscript failed."));
+		g_free(outfile);
+		return;
+	}
+
+	debug_print("Starting print job...\n");
+	
+	dialog = gtk_print_unix_dialog_new (_("Print"),
+		  	   	 mainwin? GTK_WINDOW (mainwin->window):NULL);
+	print_dialog = GTK_PRINT_UNIX_DIALOG (dialog);
+	gtk_print_unix_dialog_set_page_setup (print_dialog, printing_get_page_setup());
+	gtk_print_unix_dialog_set_settings (print_dialog, printing_get_settings());
+
+	gtk_print_unix_dialog_set_manual_capabilities(print_dialog,
+		GTK_PRINT_CAPABILITY_GENERATE_PS);
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_hide (dialog);
+
+	printer = gtk_print_unix_dialog_get_selected_printer (print_dialog);
+
+	if (result != GTK_RESPONSE_OK || !printer) {
+		gtk_widget_destroy (dialog);
+		g_free(outfile);
+		return;
+	}
+
+	if (!gtk_printer_accepts_ps(printer)) {
+		alertpanel_error(_("Printer %s doesn't accept PostScript files."), 
+			gtk_printer_get_name(printer));
+		g_free(outfile);
+		return;
+	}
+	
+	printing_store_settings(gtk_print_unix_dialog_get_settings(print_dialog));
+
+	job = gtk_print_job_new(viewer->filename,
+				printer,
+				printing_get_settings(),
+				printing_get_page_setup());
+
+	gtk_print_job_set_source_file(job, outfile, &error);
+
+	if (error) {
+		alertpanel_error(_("Printing failed:\n%s"), error->message);
+		g_error_free(error);
+		g_free(outfile);
+		return;
+	}
+	viewer->printing = TRUE;
+	
+	gtk_print_job_send (job,
+		(GtkPrintJobCompleteFunc) job_complete_cb,
+		viewer,
+		NULL);	
+
+	while (viewer->printing) {
+		claws_do_idle();
+	}
+
+	g_free(outfile);
+}
+#endif
+
 static MimeViewer *gtkhtml2_viewer_create(void)
 {
 	GtkHtml2Viewer *viewer;
@@ -1033,7 +1164,9 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->mimeviewer.text_search = gtkhtml2_text_search;
 	viewer->mimeviewer.scroll_page = gtkhtml2_scroll_page;
 	viewer->mimeviewer.scroll_one_line = gtkhtml2_scroll_one_line;
-
+#if GTK_CHECK_VERSION(2,10,0) && USE_PRINTUNIX
+	viewer->mimeviewer.print = gtkhtml2_viewer_print;
+#endif
 	viewer->html_doc = html_document_new();
 	viewer->html_view = html_view_new();
 	viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);

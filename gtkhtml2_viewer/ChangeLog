@@ -1,3 +1,11 @@
+2007-11-20 [colin]	0.16.0cvs1
+
+	* configure.ac
+	* src/Makefile.am
+	* src/gtkhtml2_viewer.c
+		Add printing support for GTK+ >= 2.10, only for Unix.
+		Requires html2ps.
+
 2007-11-19 [paul]	0.16.0
 
 	0.16.0 released

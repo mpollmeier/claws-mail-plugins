@@ -11,6 +11,7 @@ gtkhtml2_viewer_la_SOURCES = \
 gtkhtml2_viewer_la_LDFLAGS = \
 	-avoid-version -module \
 	$(GTK_LIBS) \
+	$(GTKPRINTUNIX_LIBS) \
 	$(GTKHTML2_LIBS)
 
 INCLUDES = \
@@ -23,6 +24,7 @@ AM_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
+	$(GTKPRINTUNIX_CFLAGS) \
 	$(OPENSSL_CFLAGS) \
 	$(GTKHTML2_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\"

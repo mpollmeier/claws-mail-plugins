@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=16
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -78,7 +78,16 @@ AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
 dnl Check for GLib
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.6 gmodule-2.0 >= 2.6 gobject-2.0 >= 2.6 gthread-2.0 >= 2.6)
-      
+    
+PKG_CHECK_MODULES(GTKPRINTUNIX, gtk+-unix-print-2.0, ac_cv_enable_gtkprint=yes, ac_cv_enable_gtkprint=no)        
+AC_SUBST(GTKPRINTUNIX_CFLAGS)
+AC_SUBST(GTKPRINTUNIX_LIBS)
+if test x$ac_cv_enable_gtkprint = xyes; then
+        AC_DEFINE(USE_PRINTUNIX, 1, Define if you want gtk+-unix-print support)
+else
+        AC_MSG_RESULT(not found)
+fi
+  
 GLIB_GENMARSHAL=`pkg-config --variable=glib_genmarshal glib-2.0`
 AC_SUBST(GLIB_GENMARSHAL)
 
