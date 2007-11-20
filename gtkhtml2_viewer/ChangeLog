@@ -1,3 +1,10 @@
+2007-11-20 [colin]	0.16.0cvs2
+
+	* src/gtkhtml2_viewer.c
+		Fix a leak
+		Add -T to html2ps call when images shouldn't be
+		loaded.
+
 2007-11-20 [colin]	0.16.0cvs1
 
 	* configure.ac

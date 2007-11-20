@@ -753,6 +753,7 @@ found_local:
 		if (fp == NULL) {
 			html_stream_close(stream);
 			g_unlink(tmpfile);
+			g_free(tmpfile);
 #ifdef HAVE_LIBCURL
 			g_free(ctx);
 #endif
@@ -769,6 +770,7 @@ found_local:
 		}
 		fclose(fp);
 		g_unlink(tmpfile);
+		g_free(tmpfile);
 	}
 #ifdef HAVE_LIBCURL
 	g_free(ctx);
@@ -1068,7 +1070,9 @@ static void gtkhtml2_viewer_print(MimeViewer *mviewer)
 	}
 
 	outfile = get_tmp_file();
-	cmd = g_strdup_printf("%s -o %s %s", program, outfile, viewer->filename);
+	cmd = g_strdup_printf("%s%s -o %s %s", program, 
+			load_images(viewer)?"":" -T", 
+			outfile, viewer->filename);
 
 	g_free(program);
 
