@@ -99,15 +99,15 @@ static void perl_filter_edit(gpointer callback_data, guint callback_action,
   gchar **cmdline;
 
   perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
-  if (prefs_common.ext_editor_cmd &&
-      (pp = strchr(prefs_common.ext_editor_cmd, '%')) &&
+  if (prefs_common_get_ext_editor_cmd() &&
+      (pp = strchr(prefs_common_get_ext_editor_cmd(), '%')) &&
       *(pp + 1) == 's' && !strchr(pp + 2, '%')) {
-    g_snprintf(buf, sizeof(buf), prefs_common.ext_editor_cmd, perlfilter);
+    g_snprintf(buf, sizeof(buf), prefs_common_get_ext_editor_cmd(), perlfilter);
   }
   else {
-    if (prefs_common.ext_editor_cmd)
+    if (prefs_common_get_ext_editor_cmd())
       g_warning("Perl Plugin: External editor command line is invalid: `%s'",
-		prefs_common.ext_editor_cmd);
+		prefs_common_get_ext_editor_cmd());
     g_snprintf(buf, sizeof(buf), "emacs %s", perlfilter);
   }
   g_free(perlfilter);

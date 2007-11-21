@@ -1418,15 +1418,15 @@ static int perl_load_file(void)
     if(val == G_ALERTOTHER) {
       /* Open PERLFILTER in an external editor */
       perlfilter = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PERLFILTER, NULL);
-      if (prefs_common.ext_editor_cmd &&
-	  (pp = strchr(prefs_common.ext_editor_cmd, '%')) &&
+      if (prefs_common_get_ext_editor_cmd() &&
+	  (pp = strchr(prefs_common_get_ext_editor_cmd(), '%')) &&
 	  *(pp + 1) == 's' && !strchr(pp + 2, '%')) {
-	g_snprintf(buf, sizeof(buf), prefs_common.ext_editor_cmd, perlfilter);
+	g_snprintf(buf, sizeof(buf), prefs_common_get_ext_editor_cmd(), perlfilter);
       }
       else {
-	if (prefs_common.ext_editor_cmd)
+	if (prefs_common_get_ext_editor_cmd())
 	  g_warning("Perl Plugin: External editor command line is invalid: `%s'",
-		    prefs_common.ext_editor_cmd);
+		    prefs_common_get_ext_editor_cmd());
 	g_snprintf(buf, sizeof(buf), "emacs %s", perlfilter);
       }
       g_free(perlfilter);
@@ -2035,7 +2035,7 @@ gint plugin_init(gchar **error)
   *env  = NULL;
 
   /* version check */
-	if(!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
+	if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,1,0,14),
 				VERSION_NUMERIC, "Perl", error))
 		return -1;
 
