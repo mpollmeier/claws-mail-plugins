@@ -429,7 +429,7 @@ static void gtkhtml_open_uri_cb (GtkHtml2Viewer *viewer, guint action, void *dat
 	gchar *uri = g_object_get_data(G_OBJECT(viewer->link_popupmenu),
 					   "uri");
 	g_object_set_data(G_OBJECT(viewer->link_popupmenu), "uri", NULL);
-	open_uri(uri, prefs_common.uri_cmd);
+	open_uri(uri, prefs_common_get_uri_cmd());
 	g_free(uri);
 }
 
@@ -467,9 +467,9 @@ void link_clicked(HtmlDocument *doc, const gchar *url, GtkHtml2Viewer *viewer) {
 
 	if (button == 1 || button == 2) {
 		if (real_url)
-			open_uri(real_url, prefs_common.uri_cmd);
+			open_uri(real_url, prefs_common_get_uri_cmd());
 		else
-			open_uri(url, prefs_common.uri_cmd);
+			open_uri(url, prefs_common_get_uri_cmd());
 	} else if (button == 3) {
 		g_object_set_data(G_OBJECT(viewer->link_popupmenu), "uri",
 			  real_url ? g_strdup(real_url):g_strdup(url));
@@ -1283,7 +1283,7 @@ gint plugin_init(gchar **error)
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,1,0,12),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,1,0,14),
 				VERSION_NUMERIC, _("GtkHtml2 HTML Viewer"), error))
 		return -1;
 

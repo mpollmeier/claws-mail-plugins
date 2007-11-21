@@ -80,3 +80,4 @@
 ( cvs diff -u -r 1.1.2.106 -r 1.1.2.107 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/Makefile.am;  cvs diff -u -r 1.1.2.60 -r 1.1.2.61 src/gtkhtml2_viewer.c;  ) > 0.16.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.61 -r 1.1.2.62 src/gtkhtml2_viewer.c;  ) > 0.16.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.108 -r 1.1.2.109 configure.ac;  cvs diff -u -r 1.1.2.62 -r 1.1.2.63 src/gtkhtml2_viewer.c;  ) > 0.16.0cvs3.patchset
+( cvs diff -u -r 1.1.2.63 -r 1.1.2.64 src/gtkhtml2_viewer.c;  ) > 0.16.0cvs4.patchset
