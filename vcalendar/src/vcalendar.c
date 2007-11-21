@@ -1338,7 +1338,7 @@ static gboolean vcalviewer_uribtn_cb(GtkButton *widget, gpointer data)
 	VCalViewer *vcalviewer = (VCalViewer *)data;
 
 	if (vcalviewer->url)
-		open_uri(vcalviewer->url, prefs_common.uri_cmd);
+		open_uri(vcalviewer->url, prefs_common_get_uri_cmd());
 
 	return TRUE;
 }

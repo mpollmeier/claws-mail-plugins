@@ -1,3 +1,9 @@
+2007-11-21 [colin]	1.99.0cvs1
+
+	* src/plugin.c
+	* src/vcalendar.c
+		Use xdg-open if possible
+
 2007-11-19 [paul]	1.99.0
 
 	1.99.0 released
