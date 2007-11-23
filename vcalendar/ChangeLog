@@ -1,3 +1,9 @@
+2007-11-23 [colin]	1.99.0cvs2
+
+	* src/vcal_meeting_gtk.c
+		Fix declaration in middle of block
+		Thanks to wwp
+
 2007-11-21 [colin]	1.99.0cvs1
 
 	* src/plugin.c

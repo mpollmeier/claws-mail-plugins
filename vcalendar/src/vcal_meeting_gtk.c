@@ -1344,6 +1344,8 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	GtkWidget *scrolledwin;
 	GList *times = NULL;
 	GList *accounts;
+	GtkWidget *notebook;
+	GtkWidget *maemo_vbox0;
 	
 	if (!watch_cursor)
 		watch_cursor = gdk_cursor_new(GDK_WATCH);
@@ -1659,7 +1661,6 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox, FALSE, TRUE);
 	TABLE_ADD_LINE("", date_hbox, TRUE, FALSE);
 	
-	GtkWidget *notebook;
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
@@ -1671,7 +1672,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 			gtk_label_new_with_mnemonic(_("Time:")));
 	gtk_widget_show (notebook);
 	
-	GtkWidget *maemo_vbox0 = gtk_vbox_new(FALSE, 3);
+	maemo_vbox0 = gtk_vbox_new(FALSE, 3);
 	gtk_box_pack_start(GTK_BOX(maemo_vbox0), notebook, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(maemo_vbox0), save_hbox, FALSE, FALSE, 0);
 	
