@@ -1,15 +1,15 @@
 # tnef parser translation.
-# Copyright (C) 2007 Mr-Cannot-properly-test-translation
+# Copyright (C) 2007 Colin Leroy
 # This file is distributed under the same license as the Claws Mail package.
-# Colin Leroy <colin@colino.net>, 2007.
 #
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: tnef_parser\n"
+"Project-Id-Version: tnef_parse\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-11-12 06:51+0000\n"
-"PO-Revision-Date: 2007-11-19 18:13+2\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
+"POT-Creation-Date: 2007-11-19 09:48+0000\n"
+"PO-Revision-Date: 2007-11-23 00:00-0200\n"
+"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: CM translators <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,8 +63,4 @@ msgstr ""
 "\n"
 "Esse plugin usa a biblioteca Ytnef, que possui copyright 2002-2007 por "
 "Randall Hand <yerase@yerot.com>"
-
-#: src/tnef_parse.c:429
-msgid "application/ms-tnef"
-msgstr "application/ms-tnef"
 
