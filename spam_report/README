@@ -1,5 +1,5 @@
 This Claws Mail plugin allows you to upload your spams to various spam 
-reporting places, like http://www.signal-spam.fr/. Currently, only Signal-Spam
-is supported.
+reporting places, like http://www.signal-spam.fr/ or http://www.spamcop.net/. 
+Currently, only Signal-Spam and SpamCop are supported.
 
 This is a GTK2 plugin.

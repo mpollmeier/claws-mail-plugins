@@ -19,3 +19,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/.cvsignore;  ) > 0.2.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/spam_report.c;  ) > 0.2.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makevars;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/es.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/it.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.2.0cvs9.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 README;  ) > 0.3.0cvs1.patchset

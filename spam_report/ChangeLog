@@ -1,3 +1,9 @@
+2007-11-26 [mones]	0.3.0cvs1
+
+	* README
+		State the fact that SpamCop is supported
+		(already fixed at Debian package description)
+
 2007-11-19 [paul]	0.3.0
 
 	0.3.0 released
