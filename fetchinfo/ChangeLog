@@ -1,3 +1,8 @@
+2007-11-29 [ticho]	0.4.21cvs1
+
+	* configure.ac
+		Updated claws-mail minimum version.
+
 2007-11-19 [paul]	0.4.21
 
 	0.4.21 released

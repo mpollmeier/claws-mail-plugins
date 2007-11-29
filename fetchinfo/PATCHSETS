@@ -15,3 +15,4 @@
 ( cvs diff -u -r 1.7.2.33 -r 1.7.2.34 configure.ac;  ) > 0.4.19cvs2.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 COPYING;  cvs diff -u -r 1.4.2.15 -r 1.4.2.16 src/fetchinfo_plugin.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/fetchinfo_plugin.h;  cvs diff -u -r 1.3.2.11 -r 1.3.2.12 src/fetchinfo_plugin_gtk.c;  ) > 0.4.19cvs3.patchset
 ( cvs diff -u -r 1.4.2.16 -r 1.4.2.17 src/fetchinfo_plugin.c;  ) > 0.4.20cvs1.patchset
+( cvs diff -u -r 1.7.2.38 -r 1.7.2.39 configure.ac;  ) > 0.4.21cvs1.patchset
