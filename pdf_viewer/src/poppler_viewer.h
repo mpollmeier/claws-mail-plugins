@@ -56,8 +56,8 @@
 
 #define ZOOM_FACTOR 0.25
 #define ROTATION 90 
-#define ALPHA_CHANNEL 75
-#define SELECTION_COLOR 0xff00ff
+#define ALPHA_CHANNEL 60
+#define SELECTION_COLOR 0xFF00FF
 
 static gchar *msg = NULL;
 
@@ -109,12 +109,13 @@ struct _PdfViewer
 	PopplerPage			*pdf_page;
 	PopplerIndexIter	*pdf_index;
 	PopplerRectangle	*last_rect;
+	PopplerAction		*link_action;
 	PageResult			*last_page_result;
-
 	GtkAdjustment		*pdf_view_vadj;
 	GtkAdjustment		*pdf_view_hadj;
 	GtkTreeModel		*index_model;
-	
+
+	GList				*link_map;
 	GList				*page_results;
 	GList				*text_found; /* GList of PageResults */
 	gchar				*last_search;
@@ -129,14 +130,15 @@ struct _PdfViewer
 	gint				res_cnt;
 	gint				rotate;
 	gint				num_pages;
-	double				zoom;
-	double				width;
-	double				height;
-	double				last_x;
-	double				last_y;
-	int					last_dir_x;
-	int					last_dir_y;
+	gdouble				zoom;
+	gdouble				width;
+	gdouble				height;
+	gdouble				last_x;
+	gdouble				last_y;
+	gint				last_dir_x;
+	gint				last_dir_y;
 	gboolean			pdf_view_scroll;
+	gboolean			in_link;
 	MimeInfo			*mimeinfo;
 	MimeInfo			*to_load;
 	

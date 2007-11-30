@@ -1,3 +1,9 @@
+2007-11-30 [iwkse]	0.7.0cvs2
+
+	* src/poppler_viewer.h
+	* src/poppler_viewer.c
+			Add clickable Links, internal and external
+
 2007-11-29 [ticho]	0.7.0cvs1
 
 	* configure.ac
