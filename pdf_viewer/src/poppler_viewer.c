@@ -822,7 +822,7 @@ static void pdf_viewer_move_events_cb(GtkWidget *widget, GdkEventMotion *event, 
 	viewer->pdf_view_vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	viewer->pdf_view_hadj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
 	
-	link_cur = gdk_cursor_new(GDK_HAND2);
+	if (!link_cur) link_cur = gdk_cursor_new(GDK_HAND2);
 
 	ccur = FALSE;
 	viewer->in_link=FALSE;	

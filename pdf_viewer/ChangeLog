@@ -1,3 +1,8 @@
+2007-11-30 [iwkse]	0.7.0cvs3
+
+	* src/poppler_viewer.c
+		Fix a leak with the mouse pointer
+
 2007-11-30 [iwkse]	0.7.0cvs2
 
 	* src/poppler_viewer.h
