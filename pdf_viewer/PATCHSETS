@@ -106,3 +106,4 @@
 ( cvs diff -u -r 1.1.2.110 -r 1.1.2.111 configure.ac;  ) > 0.7.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/poppler_viewer.h;  cvs diff -u -r 1.1.2.77 -r 1.1.2.78 src/poppler_viewer.c;  ) > 0.7.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.78 -r 1.1.2.79 src/poppler_viewer.c;  ) > 0.7.0cvs3.patchset
+( cvs diff -u -r 1.1.2.79 -r 1.1.2.80 src/poppler_viewer.c;  ) > 0.7.0cvs4.patchset

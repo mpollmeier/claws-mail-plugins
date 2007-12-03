@@ -673,7 +673,9 @@ static void pdf_viewer_button_zoom_out_cb(GtkButton *button, PdfViewer *viewer)
 static void pdf_viewer_button_press_events_cb(GtkWidget *widget, GdkEventButton *event, PdfViewer *viewer) 
 {
 	gchar *uri;
+	#ifdef HAVE_POPPLER_DEST_NAMED
 	PopplerDest *dest;
+	#endif
 	static GdkCursor *hand_cur = NULL;
 	
 	if (!hand_cur) hand_cur = gdk_cursor_new(GDK_FLEUR);
@@ -737,14 +739,26 @@ static void pdf_viewer_button_press_events_cb(GtkWidget *widget, GdkEventButton 
 			debug_print("yoyoyo ;-) a movie?\n");
 			break;
 		}
-
-		gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, NULL);
+		if (((MimeViewer *)viewer)->mimeview && 
+			((MimeViewer *)viewer)->mimeview->messageview && 
+			((MimeViewer *)viewer)->mimeview->messageview->window && 
+			((MimeViewer *)viewer)->mimeview->messageview->window->window) 
+			gdk_window_set_cursor (((MimeViewer *)viewer)->mimeview->messageview->window->window, NULL);
+		else
+			gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, NULL);
 	}
 
 	/* Init document to be scrolled with left mouse click */
 	if (event->button == 1 && !viewer->in_link) {
 		viewer->pdf_view_scroll = TRUE;
-		gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, hand_cur);
+		if (((MimeViewer *)viewer)->mimeview && 
+			((MimeViewer *)viewer)->mimeview->messageview && 
+			((MimeViewer *)viewer)->mimeview->messageview->window && 
+			((MimeViewer *)viewer)->mimeview->messageview->window->window) 
+			gdk_window_set_cursor (((MimeViewer *)viewer)->mimeview->messageview->window->window, hand_cur);
+		else
+			gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, hand_cur);
+
 		viewer->last_x = event->x;
 		viewer->last_y = event->y;
 		viewer->last_dir_x = 0;
@@ -757,8 +771,13 @@ static void pdf_viewer_mouse_scroll_destroy_cb(GtkWidget *widget, GdkEventButton
 	
 	if (event->button == 1) {
 		viewer->pdf_view_scroll = FALSE;
-		gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, 
-							  NULL);
+		if (((MimeViewer *)viewer)->mimeview && 
+			((MimeViewer *)viewer)->mimeview->messageview && 
+			((MimeViewer *)viewer)->mimeview->messageview->window && 
+			((MimeViewer *)viewer)->mimeview->messageview->window->window) 
+			gdk_window_set_cursor (((MimeViewer *)viewer)->mimeview->messageview->window->window, NULL);
+		else
+			gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, NULL);
 	}
 }
 
@@ -825,7 +844,7 @@ static void pdf_viewer_move_events_cb(GtkWidget *widget, GdkEventMotion *event, 
 	if (!link_cur) link_cur = gdk_cursor_new(GDK_HAND2);
 
 	ccur = FALSE;
-	viewer->in_link=FALSE;	
+	viewer->in_link = FALSE;	
 	for (l = viewer->link_map; l; l = g_list_next (l)) {
 		PopplerLinkMapping *lmapping;
 		lmapping = (PopplerLinkMapping *)l->data;
@@ -874,11 +893,24 @@ static void pdf_viewer_move_events_cb(GtkWidget *widget, GdkEventMotion *event, 
 
 		if ( (x > x1 && x < x2) && (y > y1 && y < y2) ) {
 				viewer->in_link = TRUE;
-				gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, link_cur);
+			if (((MimeViewer *)viewer)->mimeview && 
+				((MimeViewer *)viewer)->mimeview->messageview && 
+				((MimeViewer *)viewer)->mimeview->messageview->window && 
+				((MimeViewer *)viewer)->mimeview->messageview->window->window) 
+					gdk_window_set_cursor (((MimeViewer *)viewer)->mimeview->messageview->window->window, link_cur);
+				else
+					gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, link_cur);
+				
 				viewer->link_action = lmapping->action; 
 				ccur = TRUE;
 		}
 		if (!ccur) {
+			if (((MimeViewer *)viewer)->mimeview && 
+				((MimeViewer *)viewer)->mimeview->messageview && 
+				((MimeViewer *)viewer)->mimeview->messageview->window && 
+				((MimeViewer *)viewer)->mimeview->messageview->window->window) 
+				gdk_window_set_cursor (((MimeViewer *)viewer)->mimeview->messageview->window->window, NULL);
+			else
 				gdk_window_set_cursor (mainwindow_get_mainwindow()->window->window, NULL);
 		}
 	}
