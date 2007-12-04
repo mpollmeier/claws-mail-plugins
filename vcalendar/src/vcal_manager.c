@@ -310,7 +310,7 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	
 	subst_for_filename(sanitized_uid);
 
-	tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
+	tmpfile = g_strdup_printf("%s%cevt-%d-%s", get_tmp_dir(),
 				      G_DIR_SEPARATOR, getuid(), sanitized_uid);
 	g_free(sanitized_uid);
 
@@ -583,7 +583,7 @@ gchar *vcal_manager_dateevent_dump(const gchar *uid, FolderItem *item)
 	
 	subst_for_filename(sanitized_uid);
 	
-	tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
+	tmpfile = g_strdup_printf("%s%cevt-%d-%s", get_tmp_dir(),
 				   G_DIR_SEPARATOR, getuid(), sanitized_uid);
 	g_free(sanitized_uid);
 
@@ -652,12 +652,12 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 
 		subst_for_filename(sanitized_uid);
 
-		tmpfile = g_strdup_printf("%s%cevt-%d-%s", g_get_tmp_dir(),
+		tmpfile = g_strdup_printf("%s%cevt-%d-%s", get_tmp_dir(),
 					      G_DIR_SEPARATOR, getuid(), sanitized_uid);
 		g_free(sanitized_uid);
 		icalproperty_free(prop);
 	} else {
-		tmpfile = g_strdup_printf("%s%cevt-%d-%p", g_get_tmp_dir(),
+		tmpfile = g_strdup_printf("%s%cevt-%d-%p", get_tmp_dir(),
 				      G_DIR_SEPARATOR, getuid(), ievent);
 	}
 

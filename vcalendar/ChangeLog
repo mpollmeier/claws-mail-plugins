@@ -1,3 +1,8 @@
+2007-12-04 [colin]	1.99.0cvs3
+
+	* src/vcal_manager.c
+		Store things in our private tmp directory.
+
 2007-11-23 [colin]	1.99.0cvs2
 
 	* src/vcal_meeting_gtk.c
