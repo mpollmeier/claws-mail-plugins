@@ -56,7 +56,6 @@ typedef struct {
   gboolean         popup_show;
   gint             popup_timeout;
   gboolean         popup_folder_specific;
-  gboolean         popup_display_folder_name;
 #ifndef HAVE_LIBNOTIFY
   gboolean         popup_sticky;
   gint             popup_root_x;
@@ -65,7 +64,9 @@ typedef struct {
   gboolean         popup_enable_colors;
   gulong           popup_color_bg;
   gulong           popup_color_fg;
-#endif /* !HAVE_LIBNOTIFY */
+#else /* HAVE_LIBNOTIFY */
+  gboolean         popup_display_folder_name;
+#endif /* HAVE_LIBNOTIFY */
 #endif /* Popup */
 #ifdef NOTIFICATION_COMMAND
   gboolean         command_enabled;
@@ -85,8 +86,8 @@ typedef struct {
   gboolean         trayicon_close_to_tray;
   gboolean         trayicon_hide_when_iconified;
   gboolean         trayicon_folder_specific;
-  gboolean         trayicon_display_folder_name;
 #ifdef HAVE_LIBNOTIFY
+  gboolean         trayicon_display_folder_name;
   gboolean         trayicon_popup_enabled;
   gint             trayicon_popup_timeout;
 #endif /* HAVE_LIBNOTIFY */
