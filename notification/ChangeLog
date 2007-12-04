@@ -1,3 +1,13 @@
+2007-12-04 [holger]	0.13cvs1
+
+	* src/notification_popup.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+		Optionally show folder path in bubble.
+		Patch mostly by Salvatore De Paolis.
+		Also change some space indents to tabs.
+
 2007-11-19 [paul]	0.13.0
 
 	0.13.0 released

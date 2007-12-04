@@ -56,6 +56,7 @@ typedef struct {
   gboolean         popup_show;
   gint             popup_timeout;
   gboolean         popup_folder_specific;
+  gboolean         popup_display_folder_name;
 #ifndef HAVE_LIBNOTIFY
   gboolean         popup_sticky;
   gint             popup_root_x;
@@ -84,6 +85,7 @@ typedef struct {
   gboolean         trayicon_close_to_tray;
   gboolean         trayicon_hide_when_iconified;
   gboolean         trayicon_folder_specific;
+  gboolean         trayicon_display_folder_name;
 #ifdef HAVE_LIBNOTIFY
   gboolean         trayicon_popup_enabled;
   gint             trayicon_popup_timeout;

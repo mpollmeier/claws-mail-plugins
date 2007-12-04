@@ -812,6 +812,7 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       gchar *from;
       gchar *subj;
       gchar *text;
+	  gchar *foldname = NULL;
       
       from = notification_libnotify_sanitize_str(msginfo->from ? 
 						 msginfo->from :
@@ -819,7 +820,13 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       subj = notification_libnotify_sanitize_str(msginfo->subject ?
 						 msginfo->subject :
 						 _("(No Subject)"));
-      text = g_strconcat(from,"\n\n",subj,NULL);
+  	if (notify_config.trayicon_display_folder_name) {
+        foldname = notification_libnotify_sanitize_str(msginfo->folder->path); 
+        text = g_strconcat(from,"\n\n", subj, "\n\n", foldname, NULL);
+	}
+    else
+        text = g_strconcat(from, "\n\n",subj, NULL);
+
 
       /* Make sure text is valid UTF8 */
       utf8_str = notification_validate_utf8_str(text);
@@ -827,6 +834,7 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
 
       if(from) g_free(from);
       if(subj) g_free(subj);
+	  if(foldname) g_free(foldname);
     }
     else if(popup.num_calendar) {
       utf8_str = g_strdup(_("A new calendar message arrived"));

@@ -272,6 +272,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   gchar *utf8_str = NULL;
   gchar *subj = NULL;
   gchar *from = NULL;
+  gchar *foldname = NULL;
 
   g_return_val_if_fail(msginfo, FALSE);
 
@@ -293,8 +294,12 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
                                                   msginfo->from : _("(No From)"));
     subj    = notification_libnotify_sanitize_str(msginfo->subject ?
                                                   msginfo->subject : _("(No Subject)"));
-    text    = g_strconcat(from,"\n\n",subj,NULL);
-
+	if (notify_config.popup_display_folder_name) {
+		foldname = notification_libnotify_sanitize_str(msginfo->folder->path);
+    	text = g_strconcat(from,"\n\n", subj, "\n\n", foldname, NULL);
+	}
+	else
+		text = g_strconcat(from, "\n\n",subj, NULL);
 
     /* Make sure text is valid UTF8 */
     utf8_str = notification_validate_utf8_str(text);
@@ -302,6 +307,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 
     if(from) g_free(from);
     if(subj) g_free(subj);
+    if(foldname) g_free(foldname);
     break;
   case F_TYPE_NEWS:
     summary = _("New News post");
