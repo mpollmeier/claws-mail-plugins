@@ -1283,7 +1283,7 @@ gint plugin_init(gchar **error)
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"gtkhtml2_viewer", NULL);
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,1,0,14),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,1,0,62),
 				VERSION_NUMERIC, _("GtkHtml2 HTML Viewer"), error))
 		return -1;
 

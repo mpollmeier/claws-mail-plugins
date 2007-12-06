@@ -1,3 +1,9 @@
+2007-12-06 [colin]	0.16.0cvs5
+
+	* src/gtkhtml2_prefs.c
+	* src/gtkhtml2_viewer.c
+		Fix leak - thanks to Holger
+
 2007-11-21 [colin]	0.16.0cvs4
 
 	* src/gtkhtml2_viewer.c
