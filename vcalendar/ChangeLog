@@ -1,3 +1,8 @@
+2007-12-06 [colin]	1.99.0cvs4
+
+	* libical/libical/icaltime.c
+		Fix timezone after icaltime_as_timet
+
 2007-12-04 [colin]	1.99.0cvs3
 
 	* src/vcal_manager.c

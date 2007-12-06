@@ -3,7 +3,7 @@
   FILE: icaltime.c
   CREATOR: eric 02 June 2000
   
-  $Id: icaltime.c,v 1.1.2.3 2007-05-09 16:46:57 colinler Exp $
+  $Id: icaltime.c,v 1.1.2.4 2007-12-06 07:34:22 colinler Exp $
   $Locker:  $
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -147,6 +147,7 @@ void unset_tz(struct set_tz_save savetz)
     if(savetz.new_env_str != 0){
 	free(savetz.new_env_str);
     }
+    tzset();
 }
 
 
