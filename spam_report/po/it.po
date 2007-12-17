@@ -5,33 +5,33 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.0.0\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:50+0000\n"
-"PO-Revision-Date: 2007-11-18 13:04+0100\n"
+"Project-Id-Version: 3.2.0\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2007-12-13 07:52+0000\n"
+"PO-Revision-Date: 2007-12-16 15:37+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/spam_report.c:213
+#: src/spam_report.c:214
 msgid "Reporting spam..."
 msgstr "Segnalazione spam in corso"
 
-#: src/spam_report.c:247
+#: src/spam_report.c:248
 msgid "/Message/Report spam online"
 msgstr "/Messaggio/Segnala come spam online"
 
-#: src/spam_report.c:255
+#: src/spam_report.c:256
 msgid "/Report spam online"
 msgstr "/Segnala come spam online"
 
-#: src/spam_report.c:272 src/spam_report.c:316 src/spam_report_prefs.c:78
+#: src/spam_report.c:273 src/spam_report.c:317 src/spam_report_prefs.c:78
 msgid "SpamReport"
 msgstr "Segnalazione spam"
 
-#: src/spam_report.c:321
+#: src/spam_report.c:322
 msgid ""
 "This plugin reports spam to various places. Currently only spam-signal.fr is "
 "supported."
@@ -39,7 +39,7 @@ msgstr ""
 "Questo plugin segnala messaggi di spam. Attualmente solo spam-signal.fr è "
 "supportato."
 
-#: src/spam_report.c:343
+#: src/spam_report.c:344
 msgid "Spam reporting"
 msgstr "Segnalazione spam"
 
