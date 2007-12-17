@@ -4,10 +4,10 @@
 # Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2007
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.0.0\n"
+"Project-Id-Version: 3.2.0\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:49+0000\n"
-"PO-Revision-Date: 2007-11-18 13:04+0100\n"
+"POT-Creation-Date: 2007-12-13 07:51+0000\n"
+"PO-Revision-Date: 2007-12-16 15:37+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -479,6 +479,3 @@ msgstr "RSSyl"
 #: src/rssyl.h:14
 msgid "My Feeds"
 msgstr "I miei feed"
-
-#~ msgid "Timeout for downloading feeds in seconds"
-#~ msgstr "Timeout (in secondi) per il download dei feed"
