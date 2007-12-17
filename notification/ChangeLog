@@ -1,3 +1,9 @@
+2007-12-17 [paul]	0.13cvs3
+
+	* po/hu.po
+	* po/it.po
+		updated by Pader Rezso and Andrea Spadaccini
+
 2007-12-04 [holger]	0.13cvs2
 
 	* src/notification_prefs.h
