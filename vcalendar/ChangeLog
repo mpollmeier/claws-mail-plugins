@@ -1,3 +1,9 @@
+2007-12-17 [paul]	1.99.0cvs5
+
+	* po/hu.po
+	* po/it.po
+		updated by Pader Rezso and Andrea Spadaccini
+
 2007-12-06 [colin]	1.99.0cvs4
 
 	* libical/libical/icaltime.c

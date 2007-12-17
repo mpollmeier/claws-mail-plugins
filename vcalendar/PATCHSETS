@@ -136,3 +136,4 @@
 ( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 src/vcal_meeting_gtk.c;  ) > 1.99.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.66 -r 1.1.2.67 src/vcal_manager.c;  ) > 1.99.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 libical/libical/icaltime.c;  ) > 1.99.0cvs4.patchset
+( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/hu.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/it.po;  ) > 1.99.0cvs5.patchset

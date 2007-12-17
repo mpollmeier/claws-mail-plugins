@@ -4,10 +4,10 @@
 # Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2007
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.0.0\n"
+"Project-Id-Version: 3.2.0\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-11-12 06:51+0000\n"
-"PO-Revision-Date: 2007-11-18 13:05+0100\n"
+"POT-Creation-Date: 2007-12-13 07:55+0000\n"
+"PO-Revision-Date: 2007-12-16 15:37+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -192,17 +192,17 @@ msgstr "Invia sito web"
 msgid "You are already busy at this time."
 msgstr "Hai già un impegno in questo orario."
 
-#: src/vcalendar.c:1640 src/vcal_meeting_gtk.c:1667
+#: src/vcalendar.c:1640 src/vcal_meeting_gtk.c:1668
 msgid "Event:"
 msgstr "Evento:"
 
-#: src/vcalendar.c:1641 src/vcal_meeting_gtk.c:1646
-#: src/vcal_meeting_gtk.c:1656
+#: src/vcalendar.c:1641 src/vcal_meeting_gtk.c:1648
+#: src/vcal_meeting_gtk.c:1658
 msgid "Organizer:"
 msgstr "Organizzatore:"
 
-#: src/vcalendar.c:1642 src/vcal_meeting_gtk.c:1647
-#: src/vcal_meeting_gtk.c:1657
+#: src/vcalendar.c:1642 src/vcal_meeting_gtk.c:1649
+#: src/vcal_meeting_gtk.c:1659
 msgid "Summary:"
 msgstr "Sommario:"
 
@@ -214,13 +214,13 @@ msgstr "Inizio:"
 msgid "Ending:"
 msgstr "Fine:"
 
-#: src/vcalendar.c:1645 src/vcal_meeting_gtk.c:1649
-#: src/vcal_meeting_gtk.c:1658
+#: src/vcalendar.c:1645 src/vcal_meeting_gtk.c:1651
+#: src/vcal_meeting_gtk.c:1660
 msgid "Description:"
 msgstr "Descrizione:"
 
-#: src/vcalendar.c:1646 src/vcal_meeting_gtk.c:1650
-#: src/vcal_meeting_gtk.c:1659
+#: src/vcalendar.c:1646 src/vcal_meeting_gtk.c:1652
+#: src/vcal_meeting_gtk.c:1661
 msgid "Attendees:"
 msgstr "Inivitato:"
 
@@ -711,59 +711,59 @@ msgstr ""
 "Impossibile inviare l'invito per l'incontro.\n"
 "Controllare i destinatari."
 
-#: src/vcal_meeting_gtk.c:1411
+#: src/vcal_meeting_gtk.c:1413
 msgid "Save & Send"
 msgstr "Salva ed Invia"
 
-#: src/vcal_meeting_gtk.c:1412
+#: src/vcal_meeting_gtk.c:1414
 msgid "Check availability"
 msgstr "Controlla disponibilità"
 
-#: src/vcal_meeting_gtk.c:1530
+#: src/vcal_meeting_gtk.c:1532
 msgid "<b>Starts at:</b> "
 msgstr "<b>Inizio:</b>"
 
-#: src/vcal_meeting_gtk.c:1535 src/vcal_meeting_gtk.c:1557
+#: src/vcal_meeting_gtk.c:1537 src/vcal_meeting_gtk.c:1559
 msgid "<b> on:</b>"
 msgstr "<b> a:</b>"
 
-#: src/vcal_meeting_gtk.c:1552
+#: src/vcal_meeting_gtk.c:1554
 msgid "<b>Ends at:</b> "
 msgstr "<b>Fine:</b>"
 
-#: src/vcal_meeting_gtk.c:1591
+#: src/vcal_meeting_gtk.c:1593
 msgid "New meeting"
 msgstr "Nuovo incontro"
 
-#: src/vcal_meeting_gtk.c:1593
+#: src/vcal_meeting_gtk.c:1595
 #, c-format
 msgid "%s - Edit meeting"
 msgstr "%s - Modifica incontro"
 
-#: src/vcal_meeting_gtk.c:1648 src/vcal_meeting_gtk.c:1671
+#: src/vcal_meeting_gtk.c:1650 src/vcal_meeting_gtk.c:1672
 msgid "Time:"
 msgstr "Orario:"
 
-#: src/vcal_meeting_gtk.c:1769
+#: src/vcal_meeting_gtk.c:1770
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d ora"
 msgstr[1] "%d ore"
 
-#: src/vcal_meeting_gtk.c:1772
+#: src/vcal_meeting_gtk.c:1773
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuto"
 msgstr[1] "%d minuti"
 
-#: src/vcal_meeting_gtk.c:1783
+#: src/vcal_meeting_gtk.c:1784
 #, c-format
 msgid "Upcoming event: %s"
 msgstr "Prossimo evento: %s"
 
-#: src/vcal_meeting_gtk.c:1784
+#: src/vcal_meeting_gtk.c:1785
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
@@ -778,39 +778,39 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_meeting_gtk.c:1799
+#: src/vcal_meeting_gtk.c:1800
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
 msgstr[0] "Mostra promemoria tra %d minuto"
 msgstr[1] "Mostra promemoria tra %d minuti"
 
-#: src/vcal_meeting_gtk.c:1925
+#: src/vcal_meeting_gtk.c:1926
 msgid "Empty calendar"
 msgstr "Calendario vuoto"
 
-#: src/vcal_meeting_gtk.c:1926
+#: src/vcal_meeting_gtk.c:1927
 msgid "There is nothing to export."
 msgstr "Non c'è nulla da esportare."
 
-#: src/vcal_meeting_gtk.c:1966
+#: src/vcal_meeting_gtk.c:1967
 msgid "Could not export the calendar."
 msgstr "Impossibile esportare il calendario."
 
-#: src/vcal_meeting_gtk.c:1983
+#: src/vcal_meeting_gtk.c:1984
 msgid "Export calendar to ICS"
 msgstr "Esporta calendario verso ICS"
 
-#: src/vcal_meeting_gtk.c:2005
+#: src/vcal_meeting_gtk.c:2006
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
 msgstr "Impossibile esportare il calendario in '%s'\n"
 
-#: src/vcal_meeting_gtk.c:2122
+#: src/vcal_meeting_gtk.c:2123
 msgid "Could not export the freebusy info."
 msgstr "Impossibile esportare le informazioni sullo stato (libero/occupato)."
 
-#: src/vcal_meeting_gtk.c:2154
+#: src/vcal_meeting_gtk.c:2155
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
 msgstr ""
