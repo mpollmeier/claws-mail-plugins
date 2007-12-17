@@ -4,10 +4,10 @@
 # Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2007
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.0.0\n"
+"Project-Id-Version: 3.2.0\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-11-12 06:45+0000\n"
-"PO-Revision-Date: 2007-11-18 13:02+0100\n"
+"POT-Creation-Date: 2007-12-13 07:43+0000\n"
+"PO-Revision-Date: 2007-12-16 15:10+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
