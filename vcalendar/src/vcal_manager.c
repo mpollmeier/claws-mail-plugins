@@ -502,6 +502,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	g_free(attendee);
 	g_free(organizer);
 	
+	tzset();
+
 	return tmpfile;	
 }
 
