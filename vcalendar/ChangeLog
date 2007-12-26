@@ -1,3 +1,10 @@
+2007-12-26 [colin]	1.100.0cvs2
+
+	* libical/libical/icaltime.c
+		Use unsetenv instead of putenv to remove TZ from
+		the environment if needed. Maybe fixes bug 1438
+		too.
+
 2007-12-26 [colin]	1.100.0cvs1
 
 	* src/vcal_manager.c
