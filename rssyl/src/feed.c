@@ -1503,8 +1503,10 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 		g_free(myurl);
 		return FALSE;
 	}
-
+	
+	main_window_cursor_wait(mainwindow_get_mainwindow());
 	doc = rssyl_fetch_feed(myurl, -1, &title, &error);
+	main_window_cursor_normal(mainwindow_get_mainwindow());
 	if( !title ) {
 		if (verbose) {
 			gchar *tmp;
@@ -1635,4 +1637,57 @@ void rssyl_refresh_all_feeds(void)
 	}
 
 	folder_func_to_all_folders((FolderItemFunc)rssyl_refresh_all_func, NULL);
+}
+
+GSList *rssyl_get_opml_list(const gchar *opml_list)
+{
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	xmlAttrPtr n;
+	xmlXPathContextPtr context;
+	xmlXPathObjectPtr result;
+	GSList *subs = NULL;
+	gchar *rootnode = NULL;
+
+	doc = xmlParseFile(opml_list);
+	if (doc == NULL)
+		goto err_out;
+	
+	node = xmlDocGetRootElement(doc);
+	rootnode = g_ascii_strdown(node->name, -1);
+
+	if( !xmlStrcmp(rootnode, "opml") ) {
+		gchar *	xpath = "/opml/body/outline";
+		int i = 0;
+		context = xmlXPathNewContext(doc);
+		if( !(result = xmlXPathEvalExpression(xpath, context))) {
+			goto err_out;
+		}
+		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
+			xmlNodePtr val;
+			node = result->nodesetval->nodeTab[i];
+			n = node->properties;
+			if (!n)
+				continue;
+			do {
+				val = n->children;
+				if( !strcmp(n->name, "type") && strcmp (xmlNodeGetContent(val), "rss"))
+					break; /* not an rss feed */
+				if( !strcmp(n->name, "xmlUrl") ) {
+					subs = g_slist_append(subs, g_strdup(xmlNodeGetContent(val)));
+				} 
+			} while ( (n = n->next) != NULL);
+		}
+		xmlXPathFreeNodeSetList(result);
+		xmlXPathFreeContext(context);
+	} else {
+		goto err_out;
+	}
+	g_free(rootnode);
+	return subs;
+err_out:
+	g_free(rootnode);
+	slist_free_strings(subs);
+	g_slist_free(subs);
+	return NULL;
 }

@@ -16,6 +16,8 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 		GtkWidget *widget);
 void rssyl_prop_cb(FolderView *folderview, guint action,
 		GtkWidget *widget);
+void rssyl_import_feed_list_cb(FolderView *folderview, guint action,
+		GtkWidget *widget);
 void rssyl_refresh_all_cb(FolderView *folderview, guint action,
 		GtkWidget *widget);
 void rssyl_rename_cb(FolderView *folderview, guint action,

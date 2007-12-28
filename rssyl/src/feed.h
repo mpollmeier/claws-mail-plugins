@@ -81,5 +81,6 @@ gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_r
 
 void rssyl_refresh_all_func(FolderItem *item, gpointer data);
 void rssyl_refresh_all_feeds(void);
+GSList *rssyl_get_opml_list(const gchar *opml_list);
 
 #endif /* __FEED_H */
