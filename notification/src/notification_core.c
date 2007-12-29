@@ -53,7 +53,9 @@ static void msg_count_copy(NotificationMsgCount*,NotificationMsgCount*);
 
 void notification_core_global_includes_changed(void)
 {
+#ifdef NOTIFICATION_BANNER
   notification_update_banner();
+#endif
 
   if(msg_count_hash) {
     g_hash_table_destroy(msg_count_hash);

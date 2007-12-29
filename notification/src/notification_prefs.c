@@ -1469,12 +1469,13 @@ static void notify_save_trayicon(PrefsPage *page)
 			(trayicon_page.trayicon_popup_timeout));
 	notify_config.trayicon_popup_timeout = (gint)floor(timeout*1000+0.5);
 
-	notify_config.trayicon_folder_specific =
-	gtk_toggle_button_get_active
-	(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_folder_specific));
 	notify_config.trayicon_display_folder_name =
-	gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_display_folder_name));
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_display_folder_name));
 #endif
+
+	notify_config.trayicon_folder_specific =
+		gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_folder_specific));
 
 	if(notify_config.trayicon_enabled)
 	notification_update_msg_counts(NULL);

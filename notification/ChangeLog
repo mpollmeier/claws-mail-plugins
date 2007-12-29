@@ -1,3 +1,13 @@
+2007-12-29 [holger]	0.14cvs1
+
+	* src/notification_core.c
+	* src/notification_prefs.c
+		Fix loading of plugin with disabled banner.
+		Also, fix remembering folder specific settings
+		for trayicon module when compiled without
+		libnotify.
+		Both problems reported by Dmitry Stegantsov <v@vsu.ru>
+
 2007-12-17 [paul]	0.14.0
 
 	0.14.0 released
