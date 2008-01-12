@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+POTFILES
+*.gmo
+*.po~
+stamp-po
+tnef_parse.pot

@@ -1,0 +1,145 @@
+2008-01-12 [colin]	0.2.1cvs1
+
+	* .cvsignore
+	* AUTHORS
+	* COPYING
+	* COPYING.ytnef
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* PATCHSETS
+	* README
+	* autogen.sh
+	* commitHelper
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/.cvsignore
+	* po/ChangeLog
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/remove-potcdate.sin
+	* po/sk.po
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/gettext.h
+	* src/tnef_dump.c
+	* src/tnef_dump.h
+	* src/tnef_parse.c
+		Move tnef_parser to tnef_parse to fit tarballs and
+		packages names
+
+2007-12-17 [paul]	0.2.1
+
+	0.2.1 released
+
+2007-12-17 [paul]	0.2.0cvs4
+
+	* po/hu.po
+	* po/it.po
+		updated by Pader Rezso and Andrea Spadaccini
+
+2007-11-29 [ticho]	0.2.0cvs3
+
+	* configure.ac
+		Updated claws-mail minimum version.
+
+2007-11-23 [paul]	0.2.0cvs2
+
+	* po/pt_BR.po
+		fixes to the header by Frederico Goncalves Guimaraes
+
+2007-11-19 [colin]	0.2.0cvs1
+
+	* po/pt_BR.po
+		Fix breakage
+
+2007-11-19 [paul]	0.2.0
+
+	0.2.0 released
+
+2007-11-19 [paul]	0.1.1cvs7
+
+	* configure.ac
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* po/pt_BR.po
+	* po/sk.po
+		added by Flammie Pirinen, Pader Reszo, Andrea
+		Spadaccini, Frederico Goncalves Guimaraes, and
+		Andrej Kacian
+						
+
+2007-11-12 [paul]	0.1.1cvs6
+
+	* src/tnef_parse.c
+		don't offer the mime type for translation
+
+2007-10-09 [wwp]	0.1.1cvs5
+
+	* po/.cvsignore
+		Ignore the right .pot file.
+
+2007-09-28 [colin]	0.1.1cvs4
+
+	* src/tnef_parse.c
+		Fix warnings
+
+2007-09-05 [colin]	0.1.1cvs3
+
+	* COPYING
+	* COPYING.ytnef
+		Add an exception to link to the GPL2 libytnef,
+		Thanks to Randall Hand.
+
+2007-09-03 [colin]	0.1.1cvs2
+
+	* po/spam_report.pot
+		Remove file
+
+2007-09-03 [colin]	0.1.1cvs1
+
+	* .cvsignore
+	* AUTHORS
+	* COPYING
+	* COPYING.ytnef
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* PATCHSETS
+	* README
+	* autogen.sh
+	* commitHelper
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/.cvsignore
+	* po/ChangeLog
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/fr.po
+	* po/remove-potcdate.sin
+	* po/spam_report.pot
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/gettext.h
+	* src/tnef_dump.c
+	* src/tnef_dump.h
+	* src/tnef_parse.c
+		Initial release
+
+

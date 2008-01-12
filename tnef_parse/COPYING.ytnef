@@ -1,0 +1,76 @@
+From: "Randall Hand" <randall.hand@gmail.com>
+To: "Colin Leroy" <colin@colino.net>
+Subject: Re: Ytnef's main.c license
+Date: Wed, 29 Aug 2007 09:09:18 -0500
+
+Go for it :)
+
+-- 
+----------------------------------------
+Randall Hand
+Visualization Scientist
+ERDC MSRC-ITL
+
+On 8/29/07, Colin Leroy <colin@colino.net> wrote:
+>
+> On Wed, 29 Aug 2007 08:11:06 -0500, Randall Hand wrote:
+>
+> Hi,
+>  
+> > Sure, no problem.  
+>
+> Thanks! :)
+>  
+> > I hereby grant the Claws-Mail development group permissions to use
+> > the YTnef Library (and it's components) under a GPLv3 License.
+> >
+> > Although, aren't GPL3 & GPL2 compatible?  
+>
+> No, they aren't, for some complicated stuff that I didn't completely
+> understand... "GPL v2 or later" and "GPL 3" are compatible, though,
+> thanks to the "or later" clause; as I didn't see this clause in Ytnef's
+> COPYING, I had to ask you for that... :)
+>
+> Do you also accept that I copy the "dumpers" functions that are in
+> ytnef's core (not library) to my plugin?
+>
+> Thanks again,
+> --
+> Colin
+>  
+
+==========================================================================
+From: "Randall Hand" <randall.hand@gmail.com>
+To: "Colin Leroy" <colin@colino.net>
+Subject: Re: Libytnef's license (again ;-)
+Date: Wed, 5 Sep 2007 10:54:14 -0500
+
+Sure, not a problem...
+
+But, would this all go away if I just relicensed ytnef under GPL3 ?
+
+-- 
+----------------------------------------
+Randall Hand
+Visualization Scientist
+ERDC MSRC-ITL
+
+On 9/5/07, Colin Leroy <colin@colino.net> wrote:
+>
+> Hi Randall,
+>
+> Reading further at
+> http://gplv3.fsf.org/dd3-faq/?searchterm=compatibility*
+>
+> ... It appears I cannot link to a GPLv2-only library (libytnef) from a
+> GPLv3(or later) program...
+>
+> So I suppose that I also need that you give users and distributors
+> of Claws Mail to link to libytnef :-)
+>
+> Can you do that?
+>
+> Thanks a lot,
+> --
+> Colin
+>
