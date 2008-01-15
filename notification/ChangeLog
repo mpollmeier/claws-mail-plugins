@@ -1,3 +1,21 @@
+2008-01-15 [holger]	0.14cvs2
+
+	* configure.ac
+	* src/Makefile.am
+	* src/notification_pixbuf.c
+	* src/notification_plugin.c
+	* src/raw_trayicon_newmail.h
+	* src/raw_trayicon_newmail_offline.h
+	* src/raw_trayicon_newmarkedmail.h
+	* src/raw_trayicon_newmarkedmail_offline.h
+	* src/raw_trayicon_nomail.h
+	* src/raw_trayicon_nomail_offline.h
+	* src/raw_trayicon_unreadmail.h
+	* src/raw_trayicon_unreadmail_offline.h
+	* src/raw_trayicon_unreadmarkedmail.h
+	* src/raw_trayicon_unreadmarkedmail_offline.h
+		Make trayicon themable.
+
 2007-12-29 [holger]	0.14cvs1
 
 	* src/notification_core.c

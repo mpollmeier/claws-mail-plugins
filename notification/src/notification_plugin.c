@@ -170,7 +170,7 @@ gint plugin_init(gchar **error)
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
   
   /* Version check */
-  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,0,2,44),
+  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,2,0,28),
 			   VERSION_NUMERIC, _("Notification"), error))
     return -1;
 
