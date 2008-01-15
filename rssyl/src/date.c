@@ -33,7 +33,7 @@
 #endif
 
 /* this is needed for strptime() */
-#define _XOPEN_SOURCE /* glibc2 needs this */
+#define _XOPEN_SOURCE 600 /* glibc2 needs this */
 
 #include <time.h>
 #include <glib.h>

@@ -1,3 +1,9 @@
+2008-01-15 [colin]	0.17.0cvs2
+
+	* src/date.c
+		Fix bug 1461, 'several components #define 
+		_XOPEN_SOURCE improperly'
+
 2007-12-28 [colin]	0.17.0cvs1
 
 	* src/feed.c
