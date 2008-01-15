@@ -38,7 +38,7 @@ GdkPixbuf* notification_pixbuf_get(NotificationPixbuf wanted)
 																	 FALSE, NULL);
       break;
     case NOTIFICATION_TRAYICON_NEWMAIL:
-			stock_pixbuf_gdk(NULL, STOCK_PIXMAP_TRAY_NOMAIL, &(notification_pixbuf[wanted]));
+			stock_pixbuf_gdk(NULL, STOCK_PIXMAP_TRAY_NEWMAIL, &(notification_pixbuf[wanted]));
       g_object_ref(notification_pixbuf[wanted]);
       break;
     case NOTIFICATION_TRAYICON_NEWMAIL_OFFLINE:
