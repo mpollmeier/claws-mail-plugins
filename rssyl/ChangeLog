@@ -1,3 +1,8 @@
+2008-01-16 [colin]	0.17.0cvs3
+
+	* src/date.c
+		Fix build on FreeBSD
+
 2008-01-15 [colin]	0.17.0cvs2
 
 	* src/date.c
