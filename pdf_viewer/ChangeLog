@@ -1,3 +1,8 @@
+2008-01-16 [iwkse]	0.8.0cvs1
+
+	* src/poppler_viewer.c
+		Consistence of Buttons , thanks to wwp
+
 2007-12-17 [paul]	0.8.0
 
 	0.8.0 released

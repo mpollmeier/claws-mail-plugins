@@ -798,7 +798,7 @@ static void pdf_viewer_move_events_cb(GtkWidget *widget, GdkEventMotion *event, 
 				}
 				viewer->last_dir_x = -1;
 			}
-			else if(event->x > viewer->last_x
+			else if (event->x > viewer->last_x
 					&& viewer->pdf_view_hadj->value > 0.0)  {
 				if (viewer->last_dir_x == +1) {
 					viewer->pdf_view_hadj->value += viewer->last_x - event->x; 
@@ -817,7 +817,7 @@ static void pdf_viewer_move_events_cb(GtkWidget *widget, GdkEventMotion *event, 
 				}
 				viewer->last_dir_y = -1;
 			}
-			else if(event->y > viewer->last_y
+			else if (event->y > viewer->last_y
 					&& viewer->pdf_view_vadj->value > 0.0)  {
 				if (viewer->last_dir_y == +1) {
 					viewer->pdf_view_vadj->value += viewer->last_y - event->y; 
@@ -1206,6 +1206,24 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		pdf_viewer_show_controls(viewer, FALSE);
 		g_error_free(error);
 		return;
+	}
+
+	if (page_num == 1) { 
+		gtk_widget_set_sensitive(viewer->first_page, FALSE);
+		gtk_widget_set_sensitive(viewer->prev_page, FALSE);
+	}
+	else {
+		gtk_widget_set_sensitive(viewer->first_page, TRUE);
+		gtk_widget_set_sensitive(viewer->prev_page, TRUE);
+	}
+
+	if (page_num == viewer->num_pages) { 
+		gtk_widget_set_sensitive(viewer->last_page, FALSE);
+		gtk_widget_set_sensitive(viewer->next_page, FALSE);
+	}
+	else {
+		gtk_widget_set_sensitive(viewer->last_page, TRUE);
+		gtk_widget_set_sensitive(viewer->next_page, TRUE);
 	}
 
 	/* check for the index if exists */
