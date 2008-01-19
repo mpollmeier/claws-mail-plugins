@@ -38,6 +38,7 @@
 
 #include "feed.h"
 #include "feedprops.h"
+#include "opml.h"
 #include "rssyl.h"
 #include "rssyl_gtk.h"
 #include "rssyl_prefs.h"
@@ -112,6 +113,8 @@ void rssyl_init(void)
 
 	if( existing_tree_found == FALSE )
 		rssyl_create_default_mailbox();
+
+	rssyl_opml_export();
 
 	if( rssyl_prefs_get()->refresh_on_startup &&
 			claws_is_starting() )

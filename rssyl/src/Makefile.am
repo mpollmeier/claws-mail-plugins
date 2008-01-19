@@ -18,6 +18,7 @@ rssyl_la_SOURCES = \
 	feed.c feed.h \
 	feedprops.c feedprops.h \
 	gettext.h \
+	opml.c opml.h \
 	parsers.c parsers.h \
 	plugin.c \
 	rssyl.c rssyl.h \

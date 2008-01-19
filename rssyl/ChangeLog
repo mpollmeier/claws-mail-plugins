@@ -1,3 +1,11 @@
+2008-01-19 [ticho]	0.17.0cvs4
+
+	* src/Makefile.am
+	* src/opml.c
+	* src/opml.h
+	* src/rssyl.c
+		Export feeds to OPML on plugin init.
+
 2008-01-16 [colin]	0.17.0cvs3
 
 	* src/date.c
