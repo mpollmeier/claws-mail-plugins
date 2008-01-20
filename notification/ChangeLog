@@ -1,3 +1,9 @@
+2008-01-20 [holger]	0.14cvs4
+
+	* src/notification_trayicon.c
+		Use Stock icon for quit action in
+		trayicon context menu
+
 2008-01-15 [holger]	0.14cvs3
 
 	* src/notification_pixbuf.c

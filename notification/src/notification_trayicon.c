@@ -109,7 +109,7 @@ static GtkItemFactoryEntry trayicon_popup_menu_entries[] = {
 #endif
   {N_("/_Work Offline"),      NULL,trayicon_toggle_offline_cb,0, "<CheckItem>"},
   {"/---",		      NULL,NULL,		      0, "<Separator>"},
-  {N_("/E_xit Claws Mail"),   NULL,trayicon_exit_cb,	      0, NULL}
+  {N_("/E_xit Claws Mail"),   NULL,trayicon_exit_cb,	      0, "<StockItem>", GTK_STOCK_QUIT}
 };
 
 
