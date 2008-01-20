@@ -590,8 +590,11 @@ static gboolean rssyl_subscribe_uri(Folder *folder, const gchar *uri)
 {
 	if (folder->klass != rssyl_folder_get_class())
 		return FALSE;
-	return rssyl_subscribe_new_feed(FOLDER_ITEM(folder->node->data), uri, FALSE);
 	
+	if( rssyl_subscribe_new_feed(
+				FOLDER_ITEM(folder->node->data), uri, FALSE) != NULL )
+		return TRUE;
+	return FALSE;
 }
 
 /************************************************************************/

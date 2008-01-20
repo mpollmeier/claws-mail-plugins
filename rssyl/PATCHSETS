@@ -120,3 +120,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/date.c;  ) > 0.17.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/Makefile.am;  diff -u /dev/null src/opml.c;  diff -u /dev/null src/opml.h;  cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/rssyl.c;  ) > 0.17.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/opml.c;  ) > 0.17.0cvs5.patchset
+( cvs diff -u -r 1.1.2.90 -r 1.1.2.91 src/feed.c;  cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/feed.h;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/opml.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/opml.h;  cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/rssyl.c;  cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/rssyl_cb_menu.c;  cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/rssyl_gtk.c;  ) > 0.17.0cvs6.patchset

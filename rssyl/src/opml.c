@@ -23,14 +23,18 @@
 #  include "config.h"
 #endif
 
-
 #include <errno.h>
 #include <glib.h>
 
+#include <libxml/parser.h>
+#include <libxml/xpath.h>
+
 #include <log.h>
 #include <folder.h>
+#include <folderview.h>
 
 #include "date.h"
+#include "feed.h"
 #include "rssyl.h"
 
 #define RSSYL_OPML_FILE	"rssyl-feedlist.opml"
@@ -43,16 +47,16 @@ static gint _folder_depth(FolderItem *item)
 	return i;
 }
 
-struct _RSSylOpmlCtx {
+struct _RSSylOpmlExportCtx {
 	FILE *f;
 	gint depth;
 };
 
-typedef struct _RSSylOpmlCtx RSSylOpmlCtx;
+typedef struct _RSSylOpmlExportCtx RSSylOpmlExportCtx;
 
 static void rssyl_opml_export_func(FolderItem *item, gpointer data)
 {
-	RSSylOpmlCtx *ctx = (RSSylOpmlCtx *)data;
+	RSSylOpmlExportCtx *ctx = (RSSylOpmlExportCtx *)data;
 	RSSylFolderItem *ritem = (RSSylFolderItem *)item;
 	gboolean isfolder = FALSE, err = FALSE;
 	gboolean haschildren = FALSE;
@@ -112,7 +116,7 @@ void rssyl_opml_export(void)
 	FILE *f;
 	gchar *opmlfile, *tmpdate, *indent;
 	time_t tt = time(NULL);
-	RSSylOpmlCtx *ctx = NULL;
+	RSSylOpmlExportCtx *ctx = NULL;
 	gboolean err = FALSE;
 
 	opmlfile = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
@@ -144,7 +148,7 @@ void rssyl_opml_export(void)
 				tmpdate) < 0);
 	g_free(tmpdate);
 
-	ctx = g_new0(RSSylOpmlCtx, 1);
+	ctx = g_new0(RSSylOpmlExportCtx, 1);
 	ctx->f = f;
 	ctx->depth = 1;
 
@@ -170,4 +174,73 @@ void rssyl_opml_export(void)
 
 	fclose(f);
 	g_free(opmlfile);
+}
+
+static void rssyl_opml_import_node(xmlNodePtr node,
+		FolderItem *parent, gint depth)
+{
+	xmlNodePtr curn;
+	gchar *url = NULL, *title = NULL, *nodename = NULL;
+	FolderItem *item = NULL;
+
+	if( node == NULL )
+		return;
+
+	for( curn = node; curn; curn = curn->next ) {
+		nodename = g_ascii_strdown((gchar *)curn->name, -1);
+		if( curn->type == XML_ELEMENT_NODE &&
+				!strcmp(nodename, "outline") ) {
+
+			url = (gchar *)xmlGetProp(curn, (xmlChar *)"xmlUrl");
+			title = (gchar *)xmlGetProp(curn, (xmlChar *)"title");
+
+			debug_print("Adding '%s' (%s)\n", title, (url ? url : "folder") );
+			if( url != NULL )
+				item = rssyl_subscribe_new_feed(parent, url, FALSE);
+			else
+				item = parent->folder->klass->create_folder(parent->folder, parent, title);
+
+			rssyl_opml_import_node(curn->children, item, depth + 1);
+		}
+		g_free(nodename);
+	}
+}
+
+void rssyl_opml_import(const gchar *opmlfile, FolderItem *parent)
+{
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	xmlXPathContextPtr context;
+	xmlXPathObjectPtr result;
+	gchar *rootnode = NULL;
+
+	doc = xmlParseFile(opmlfile);
+	if( doc == NULL )
+		return;
+
+	node = xmlDocGetRootElement(doc);
+	rootnode = g_ascii_strdown((gchar *)node->name, -1);
+	if( !strcmp(rootnode, "opml") ) {
+		gchar *xpath = "/opml/body";
+		context = xmlXPathNewContext(doc);
+		if( !(result = xmlXPathEval((xmlChar *)xpath, context)) ) {
+			g_free(rootnode);
+			xmlFreeDoc(doc);
+			return;
+		}
+
+		node = result->nodesetval->nodeTab[0];
+
+		debug_print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+		rssyl_opml_import_node(node->children, parent, 2);
+		debug_print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+
+		xmlXPathFreeNodeSetList(result);
+		xmlXPathFreeContext(context);
+		xmlFreeDoc(doc);
+	}
+
+	g_free(rootnode);
+
+	folderview_fast_rescan_tree(parent->folder);
 }

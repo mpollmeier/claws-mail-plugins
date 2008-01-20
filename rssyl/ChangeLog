@@ -1,3 +1,16 @@
+2008-01-20 [ticho]	0.17.0cvs6
+
+	* src/feed.c
+	* src/feed.h
+	* src/opml.c
+	* src/opml.h
+	* src/rssyl.c
+	* src/rssyl_cb_menu.c
+	* src/rssyl_gtk.c
+		Rewrote OPML import routine to allow importing feeds organized
+		in folders and to allow feeds to be imported to a specific folder.
+		Also, removed import preview, we now simply import found feeds.
+
 2008-01-20 [colin]	0.17.0cvs5
 
 	* src/opml.c

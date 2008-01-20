@@ -1475,7 +1475,7 @@ static RSSylFolderItem *rssyl_find_feed_by_url(gchar *url)
 	return ritem;
 }
 
-gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url, 
+FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url, 
 				  gboolean verbose)
 {
 	gchar *title;
@@ -1485,8 +1485,8 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	gchar *myurl = NULL;
 	gchar *error = NULL;
 
-	g_return_val_if_fail(parent != NULL, FALSE);
-	g_return_val_if_fail(url != NULL, FALSE);
+	g_return_val_if_fail(parent != NULL, NULL);
+	g_return_val_if_fail(url != NULL, NULL);
 
 	myurl = g_strdup(url);
 
@@ -1501,7 +1501,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 		if (verbose)
 			alertpanel_error(_("You are already subscribed to this feed."));
 		g_free(myurl);
-		return FALSE;
+		return NULL;
 	}
 	
 	main_window_cursor_wait(mainwindow_get_mainwindow());
@@ -1518,7 +1518,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 			log_error(LOG_PROTOCOL, _("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
 		g_free(myurl);
 		g_free(error);
-		return FALSE;
+		return NULL;
 	}
 	g_free(error);
 
@@ -1531,7 +1531,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 			g_free(tmp);
 		}
 		g_free(myurl);
-		return FALSE;
+		return NULL;
 	}
 
 	ritem = (RSSylFolderItem *)new_item;
@@ -1558,7 +1558,7 @@ gboolean rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	rssyl_start_refresh_timeout(ritem);
 
 	folder_item_scan(new_item);
-	return TRUE;
+	return new_item;
 }
 
 static gint rssyl_expire_sort_func(RSSylFeedItem *a, RSSylFeedItem *b)
@@ -1637,57 +1637,4 @@ void rssyl_refresh_all_feeds(void)
 	}
 
 	folder_func_to_all_folders((FolderItemFunc)rssyl_refresh_all_func, NULL);
-}
-
-GSList *rssyl_get_opml_list(const gchar *opml_list)
-{
-	xmlDocPtr doc;
-	xmlNodePtr node;
-	xmlAttrPtr n;
-	xmlXPathContextPtr context;
-	xmlXPathObjectPtr result;
-	GSList *subs = NULL;
-	gchar *rootnode = NULL;
-
-	doc = xmlParseFile(opml_list);
-	if (doc == NULL)
-		goto err_out;
-	
-	node = xmlDocGetRootElement(doc);
-	rootnode = g_ascii_strdown(node->name, -1);
-
-	if( !xmlStrcmp(rootnode, "opml") ) {
-		gchar *	xpath = "/opml/body/outline";
-		int i = 0;
-		context = xmlXPathNewContext(doc);
-		if( !(result = xmlXPathEvalExpression(xpath, context))) {
-			goto err_out;
-		}
-		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
-			xmlNodePtr val;
-			node = result->nodesetval->nodeTab[i];
-			n = node->properties;
-			if (!n)
-				continue;
-			do {
-				val = n->children;
-				if( !strcmp(n->name, "type") && strcmp (xmlNodeGetContent(val), "rss"))
-					break; /* not an rss feed */
-				if( !strcmp(n->name, "xmlUrl") ) {
-					subs = g_slist_append(subs, g_strdup(xmlNodeGetContent(val)));
-				} 
-			} while ( (n = n->next) != NULL);
-		}
-		xmlXPathFreeNodeSetList(result);
-		xmlXPathFreeContext(context);
-	} else {
-		goto err_out;
-	}
-	g_free(rootnode);
-	return subs;
-err_out:
-	g_free(rootnode);
-	slist_free_strings(subs);
-	g_slist_free(subs);
-	return NULL;
 }

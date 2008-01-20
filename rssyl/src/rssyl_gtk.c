@@ -72,7 +72,7 @@ static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
 	SET_SENS(_("/Refresh feed"), folder_item_parent(item) != NULL && ritem->url);
 	SET_SENS(_("/Refresh all feeds"), folder_item_parent(item) == NULL );
 	SET_SENS(_("/Subscribe new feed..."), TRUE);
-	SET_SENS(_("/Import feed list..."), folder_item_parent(item) == NULL );
+	SET_SENS(_("/Import feed list..."), TRUE );
 	SET_SENS(_("/Unsubscribe feed..."), folder_item_parent(item) != NULL && ritem->url );
 	SET_SENS(_("/Feed properties..."), folder_item_parent(item) != NULL && ritem->url );
 	SET_SENS(_("/Rename..."), folder_item_parent(item) != NULL );

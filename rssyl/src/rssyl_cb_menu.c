@@ -37,6 +37,7 @@
 
 #include "feed.h"
 #include "feedprops.h"
+#include "opml.h"
 #include "rssyl.h"
 #include "rssyl_gtk.h"
 
@@ -362,60 +363,19 @@ void rssyl_import_feed_list_cb(FolderView *folderview, guint action,
 	debug_print("RSSyl: rssyl_import_feed_cb\n");
 
 	FolderItem *item;
-	gchar *msg = NULL;
-	gchar *opml_list = NULL;
-	GSList *subs = NULL, *cur;
+	gchar *opmlfile = NULL;
 
 	item = folderview_get_selected_item(folderview);
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(item->folder != NULL);
-	g_return_if_fail( !folder_item_parent(item) );
 
-	opml_list = filesel_select_file_open_with_filter(
+	opmlfile = filesel_select_file_open_with_filter(
 			_("Select a .opml file"), NULL, "*.opml");
 	
-	if (!is_file_exist(opml_list))
-		goto err_out;
-
-	subs = rssyl_get_opml_list(opml_list);
-	
-	if (subs == NULL) {
-		goto err_out;
-	}
-	
-	if (g_slist_length(subs) < 10) {
-		msg = g_strdup(_("Do you want to subscribe to the following feeds?"));
-		for (cur = subs; cur; cur = cur->next) {
-			gchar *tmp = g_strdup_printf("%s\n%s",
-					msg,
-					(gchar *)cur->data);
-			g_free(msg);
-			msg = tmp;
-		}
-	} else {
-		msg = g_strdup_printf(_("Do you want to subscribe to the %d feeds found?"),
-			g_slist_length(subs));
-	}
-	if (alertpanel("Subscriptions found",
-			msg, GTK_STOCK_YES, GTK_STOCK_NO, NULL) != G_ALERTDEFAULT) {
-		slist_free_strings(subs);
-		g_slist_free(subs);
-		g_free(opml_list);
+	if (!is_file_exist(opmlfile)) {
+		g_free(opmlfile);
 		return;
 	}
-	for (cur = subs; cur; cur = cur->next) {
-		rssyl_subscribe_new_feed(item, (gchar *)cur->data, TRUE);
-	}
-	
-	slist_free_strings(subs);
-	g_slist_free(subs);
-	g_free(opml_list);
-	return;	
-err_out:
-	alertpanel_warning("Nothing to import has been found");
-	g_free(opml_list);
-	slist_free_strings(subs);
-	g_slist_free(subs);
-	return;
 
+	rssyl_opml_import(opmlfile, item);
 }
