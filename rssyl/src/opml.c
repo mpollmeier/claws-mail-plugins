@@ -24,6 +24,7 @@
 #endif
 
 
+#include <errno.h>
 #include <glib.h>
 
 #include <log.h>
