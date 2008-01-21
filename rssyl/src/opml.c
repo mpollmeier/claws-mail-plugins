@@ -198,7 +198,7 @@ static void rssyl_opml_import_node(xmlNodePtr node,
 			if( url != NULL )
 				item = rssyl_subscribe_new_feed(parent, url, FALSE);
 			else
-				item = parent->folder->klass->create_folder(parent->folder, parent, title);
+				item = folder_create_folder(parent, title);
 
 			rssyl_opml_import_node(curn->children, item, depth + 1);
 		}
@@ -241,6 +241,4 @@ void rssyl_opml_import(const gchar *opmlfile, FolderItem *parent)
 	}
 
 	g_free(rootnode);
-
-	folderview_fast_rescan_tree(parent->folder);
 }
