@@ -257,6 +257,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 
 #ifdef USE_PTHREAD
 	pthread_t pt;
+	pthread_attr_t pta;
 #endif
 	gchar *msg = NULL, *tmptitle = NULL;
 	gchar *content;
@@ -280,7 +281,9 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	GTK_EVENTS_FLUSH();
 
 #ifdef USE_PTHREAD
-	if( pthread_create(&pt, PTHREAD_CREATE_JOINABLE, rssyl_fetch_feed_threaded,
+	if (pthread_attr_init(&pta) != 0 ||
+	    pthread_attr_setdetachstate(&pta, PTHREAD_CREATE_JOINABLE) != 0 ||
+	    pthread_create(&pt, &pta, rssyl_fetch_feed_threaded,
 				(void *)ctx) != 0 ) {
 		/* Bummer, couldn't create thread. Continue non-threaded */
 		template = rssyl_fetch_feed_threaded(ctx);
