@@ -1425,6 +1425,7 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	thread_data *td;
 #ifdef USE_PTHREAD
 	pthread_t pt;
+	pthread_attr_t pta;
 #endif
 	gchar *msg;
 	void *res;
@@ -1447,8 +1448,10 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 	
 	g_free(msg);
 
-#if (defined USE_PTHREAD && ((defined __GLIBC__ && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3))) || !defined __GLIBC__))
-	if (pthread_create(&pt, PTHREAD_CREATE_JOINABLE, 
+#ifdef USE_PTHREAD
+	if (pthread_attr_init(&pta) != 0 ||
+	    pthread_attr_setdetachstate(&pta, PTHREAD_CREATE_JOINABLE) != 0 ||
+	    pthread_create(&pt, &pta, 
 			url_read_thread, td) != 0) {
 		url_read_thread(td);	
 	}

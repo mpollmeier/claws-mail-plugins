@@ -1018,6 +1018,7 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 			url = g_strdup(icalproperty_get_url(iprop));
 		icalproperty_free(iprop);
 	} 
+	printf("URL %s\n", url);
 	dtstart = vcalviewer_get_dtstart(vcalviewer);
 	dtend = vcalviewer_get_dtend(vcalviewer);
 	recur = vcalviewer_get_recurrence(vcalviewer);
