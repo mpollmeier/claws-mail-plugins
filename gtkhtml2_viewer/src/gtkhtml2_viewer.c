@@ -593,6 +593,7 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 #ifdef HAVE_LIBCURL
 #ifdef USE_PTHREAD
 	pthread_t pt;
+	pthread_attr_t pta;
 #endif
 	GtkHtmlThreadCtx *ctx = NULL;
 	time_t start_time = time(NULL);
@@ -704,7 +705,9 @@ not_found_local:
 	        ctx->ready = FALSE;
 		debug_print("final URL: %s\n", ctx->url);
 #ifdef USE_PTHREAD
-	        if( pthread_create(&pt, PTHREAD_CREATE_JOINABLE, gtkhtml_fetch_feed_threaded,
+	        if (pthread_attr_init(&pta) != 0 ||
+		    pthread_attr_setdetachstate(&pta, PTHREAD_CREATE_JOINABLE) != 0 ||
+		    pthread_create(&pt, &pta, gtkhtml_fetch_feed_threaded,
 				        (void *)ctx) != 0 ) {
 		        /* Bummer, couldn't create thread. Continue non-threaded */
 		        tmpfile = gtkhtml_fetch_feed_threaded(ctx);
