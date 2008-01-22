@@ -1212,7 +1212,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 
 	organizer	= get_organizer(meet);
 	organizer_name	= get_organizer_name(meet);
-	account		= account_find_from_address(organizer);
+	account		= account_find_from_address(organizer, FALSE);
 
 	if (account && account->set_domain && account->domain) {
 		g_snprintf(buf, sizeof(buf), "%s", account->domain); 

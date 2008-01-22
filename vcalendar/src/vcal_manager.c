@@ -853,9 +853,9 @@ PrefsAccount *vcal_manager_get_account_from_event(VCalEvent *event)
 	/* find an attendee corresponding to one of our accounts */
 	while (cur && cur->data) {
 		gchar *email = (gchar *)cur->data;
-		if (account_find_from_address(email)) {
+		if (account_find_from_address(email, FALSE)) {
 			g_slist_free(list);
-			return account_find_from_address(email);
+			return account_find_from_address(email, FALSE);
 		}
 		cur = cur->next;
 	}

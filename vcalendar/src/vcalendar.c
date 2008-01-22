@@ -544,8 +544,8 @@ static void vcalviewer_get_attendees(VCalViewer *vcalviewer, VCalEvent *event)
 static PrefsAccount *get_account_from_attendee(icalproperty *attendee)
 {
 	gchar *email = get_email_from_attendee_property(attendee);
-	if (email != NULL && account_find_from_address(email) != NULL)
-		return account_find_from_address(email);
+	if (email != NULL && account_find_from_address(email, FALSE) != NULL)
+		return account_find_from_address(email, FALSE);
 
 	return NULL;
 }
@@ -725,7 +725,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 	} else if (event->method == ICAL_METHOD_REQUEST) {
-		if (account_find_from_address(event->organizer)) {
+		if (account_find_from_address(event->organizer, FALSE)) {
 			label = g_strjoin(" ", _("You have created a meeting."),
 					_("Details follow:"), NULL);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
