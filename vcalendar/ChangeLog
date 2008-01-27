@@ -1,3 +1,8 @@
+2008-01-27 [colin]	1.100.0cvs5
+
+	* src/vcal_folder.c
+		Fix crash when no connectivity is available
+
 2008-01-22 [wwp]	1.100.0cvs4
 
 	* src/vcal_manager.c

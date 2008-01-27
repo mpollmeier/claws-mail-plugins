@@ -1371,6 +1371,7 @@ void *url_read_thread(void *data)
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
 	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+	curl_easy_setopt(curl_ctx, CURLOPT_NOSIGNAL, 1);
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYHOST, 0);
@@ -1598,10 +1599,21 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 
 	if (feed == NULL) {
 		if (verbose && manual_update) {
-			alertpanel_error(_("Could not retrieve the Webcal URL:\n%s\n%s"),
-					uri, error ? error:_("Unknown error"));
+			gchar *tmp; 
+			tmp = g_strdup(uri);
+			if (strlen(uri) > 61) {
+				tmp[55]='[';
+				tmp[56]='.';
+				tmp[57]='.';
+				tmp[58]='.';
+				tmp[59]=']';
+				tmp[60]='\0';
+			} 
+			alertpanel_error(_("Could not retrieve the Webcal URL:\n%s:\n\n%s"),
+					tmp, error ? error:_("Unknown error"));
+			g_free(tmp);
 		} else  {
-			log_error(LOG_PROTOCOL, _("Could not retrieve the Webcal URL:\n%s\n%s\n"),
+			log_error(LOG_PROTOCOL, _("Could not retrieve the Webcal URL:\n%s:\n\n%s\n"),
 					uri, error ? error:_("Unknown error"));
 		}
 		main_window_cursor_normal(mainwindow_get_mainwindow());
