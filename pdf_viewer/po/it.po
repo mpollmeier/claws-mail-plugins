@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 3.2.0\n"
-"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
 "POT-Creation-Date: 2007-12-17 08:42+0000\n"
 "PO-Revision-Date: 2007-12-16 15:36+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
@@ -110,15 +110,15 @@ msgstr "Ultima pagina"
 
 #: src/poppler_viewer.c:1767
 msgid "Zoom In"
-msgstr "Zoom In"
+msgstr "Ingrandire"
 
 #: src/poppler_viewer.c:1771
 msgid "Zoom Out"
-msgstr "Zoom Out"
+msgstr "Diminuire"
 
 #: src/poppler_viewer.c:1776
 msgid "Fit Page"
-msgstr "Adatta allo pagina"
+msgstr "Adatta alla pagina"
 
 #: src/poppler_viewer.c:1781
 msgid "Fit Page Width"
@@ -134,7 +134,7 @@ msgstr "Ruota a destra"
 
 #: src/poppler_viewer.c:1796
 msgid "Document Info"
-msgstr "Informazioni documento"
+msgstr "Informazioni sul documento"
 
 #: src/poppler_viewer.c:1805
 msgid "Page Number"
