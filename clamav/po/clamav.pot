@@ -1,0 +1,89 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2008-01-31 09:34+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/clamav_plugin.c:49 src/clamav_plugin_gtk.c:212
+msgid "Clam AntiVirus"
+msgstr ""
+
+#: src/clamav_plugin.c:140
+msgid "ClamAV: scanning message..."
+msgstr ""
+
+#: src/clamav_plugin.c:240
+msgid "Failed to register mail filtering hook"
+msgstr ""
+
+#: src/clamav_plugin.c:306
+msgid ""
+"This plugin uses Clam AntiVirus to scan all messages that are received from "
+"an IMAP, LOCAL or POP account.\n"
+"\n"
+"When a message attachment is found to contain a virus it can be deleted or "
+"saved in a specially designated folder.\n"
+"\n"
+"Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus"
+msgstr ""
+
+#: src/clamav_plugin.c:333
+msgid "Virus detection"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:96
+msgid "Enable virus scanning"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:97
+msgid "Scan archive contents"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:106
+msgid "Maximum attachment size"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:117
+msgid "Message attachments larger than this will not be scanned"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:121
+msgid "MB"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:130
+msgid "Save infected mail in"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:134
+msgid "Save mail that contains viruses"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:142
+msgid ""
+"Folder for storing infected mail. Leave empty to use the default trash folder"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:146
+msgid "_Browse"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:150
+msgid "Click this button to select a folder for storing infected mail"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:211
+msgid "Plugins"
+msgstr ""
