@@ -1145,7 +1145,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 				tmpfile, viewer->filename);
 			result = execute_command_line(cmdline, FALSE);
 			if (result == 0) {
-				tmp = g_strdup_printf("file://%s", tmpfile);
+				tmp = g_filename_to_uri(tmpfile, NULL, NULL);
 				viewer->pdf_doc = poppler_document_new_from_file( tmp, NULL, &error);
 				g_free(tmp);
 			} 
@@ -1298,7 +1298,7 @@ static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 	if (partinfo) {
 		viewer->target_filename = procmime_get_part_file_name(partinfo);
 		viewer->filename = procmime_get_tmp_file_name(partinfo);
-		viewer->fsname = g_strconcat("file://", viewer->filename, NULL);
+		viewer->fsname = g_filename_to_uri(viewer->filename, NULL, NULL);
 	}
 	
 	if (partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
