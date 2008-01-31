@@ -1,0 +1,42 @@
+2008-01-31 [colin]	3.2.0cvs71
+
+	* src/clamav_plugin.c
+		Fix plugin_license
+
+2008-01-31 [colin]	3.2.0cvs70
+
+	* .cvsignore
+	* AUTHORS
+	* COPYING
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* README
+	* aclocal.m4
+	* autogen.sh
+	* commitHelper
+	* config.h.in
+	* configure
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/.cvsignore
+	* po/ChangeLog
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/clamav.pot
+	* po/remove-potcdate.sin
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/clamav_plugin.c
+	* src/clamav_plugin.h
+	* src/clamav_plugin_gtk.c
+		Move Clamav to an external plugin, and relicense it
+		back to GPLv2 or later, to conform with libclamav's
+		license. As the only contributor to the Clamav plugin's
+		code since it's been licensed to GPLv3, I agree to
+		relicense my patches as GPLv2 or later.
+
