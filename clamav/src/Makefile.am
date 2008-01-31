@@ -5,8 +5,7 @@ plugin_LTLIBRARIES = clamav.la
 clamav_la_SOURCES = \
          clamav_plugin.c \
 	 clamav_plugin_gtk.c \
-	 clamav_plugin.h \
-	 gettext.h
+	 clamav_plugin.h
 
 clamav_la_LDFLAGS = \
 	-avoid-version -module \
