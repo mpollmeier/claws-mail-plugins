@@ -1,3 +1,9 @@
+2008-01-31 [colin]	3.2.0cvs72
+
+	* configure ** REMOVED **
+	* src/Makefile.am
+		Fix linking
+
 2008-01-31 [colin]	3.2.0cvs71
 
 	* src/clamav_plugin.c

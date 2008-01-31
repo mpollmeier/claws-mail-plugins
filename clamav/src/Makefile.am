@@ -10,7 +10,8 @@ clamav_la_SOURCES = \
 
 clamav_la_LDFLAGS = \
 	-avoid-version -module \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(CLAMAV_LIBS)
 
 INCLUDES = \
 	-I$(top_srcdir)/src \
@@ -22,5 +23,5 @@ AM_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
-	$(OPENSSL_CFLAGS) \
+	$(CLAMAV_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\"
