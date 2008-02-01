@@ -1,3 +1,11 @@
+2008-02-01 [paul]	3.2.0cvs74
+
+	* configure.ac
+	* po/Makevars
+	* po/clamav.pot **REMOVED**
+	* po/en_GB.po
+		remove clamav.pot, add en_GB.po, fix Makevars
+
 2008-01-31 [colin]	3.2.0cvs73
 
 	* src/Makefile.am
