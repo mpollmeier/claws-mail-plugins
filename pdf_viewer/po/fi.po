@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: lpoppler_viewer-0\n"
-"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
 "POT-Creation-Date: 2007-11-12 06:49+0000\n"
 "PO-Revision-Date: 2007-11-14 02:04+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"

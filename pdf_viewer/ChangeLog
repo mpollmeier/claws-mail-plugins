@@ -1,3 +1,16 @@
+2008-02-03 [iwkse]	0.8.0cvs4
+
+	* po/ca.po
+	* po/de.po
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/pl.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/sr.po
+		address change
+
 2008-01-31 [iwkse]	0.8.0cvs3
 
 	* src/poppler_viewer.c

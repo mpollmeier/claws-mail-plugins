@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pdf_viewer\n"
-"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
 "POT-Creation-Date: 2007-02-24 21:26+0100\n"
 "PO-Revision-Date: 2007-02-24 21:36+0100\n"
 "Last-Translator: Stephan Sachse <white@dev-zero.com>\n"

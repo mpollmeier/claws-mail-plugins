@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pdf_viewer 0.1.0cvs13\n"
-"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
 "POT-Creation-Date: 2007-11-18 18:10+0100\n"
 "PO-Revision-Date: 2007-11-18 23:23+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
