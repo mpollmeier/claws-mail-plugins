@@ -7,9 +7,9 @@ PACKAGE=vcalendar
 
 dnl plugin version
 MAJOR_VERSION=1
-MINOR_VERSION=100
+MINOR_VERSION=101
 MICRO_VERSION=0
-EXTRA_VERSION=6
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
