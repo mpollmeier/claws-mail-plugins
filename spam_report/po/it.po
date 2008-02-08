@@ -1,14 +1,14 @@
 # Italian translation for the Spam report plugin for Claws Mail
-# Copyright (C) 2007 Andrea Spadaccini
+# Copyright (C) 2007 - 2008 Andrea Spadaccini
 # This file is distributed under the same license as the spam_report package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007 - 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.2.0\n"
+"Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-12-13 07:52+0000\n"
-"PO-Revision-Date: 2007-12-16 15:37+0100\n"
+"POT-Creation-Date: 2008-02-01 10:27+0000\n"
+"PO-Revision-Date: 2008-02-07 17:56+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgid ""
 "This plugin reports spam to various places. Currently only spam-signal.fr is "
 "supported."
 msgstr ""
-"Questo plugin segnala messaggi di spam. Attualmente solo spam-signal.fr Ã¨ "
+"Questo plugin segnala messaggi di spam. Attualmente solo spam-signal.fr è "
 "supportato."
 
 #: src/spam_report.c:344
