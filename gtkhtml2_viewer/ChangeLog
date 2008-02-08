@@ -1,3 +1,11 @@
+2008-02-08 [paul]	0.17.0cvs2
+
+	* po/fi.po
+	* po/it.po
+	* po/zh_CN.po
+		updated by Flammie Pirinen, Andrea Spadaccini and
+		Ralph Young
+
 2008-01-21 [colin]	0.17.0cvs1
 
 	* src/gtkhtml2_viewer.c

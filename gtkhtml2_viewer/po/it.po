@@ -1,14 +1,14 @@
 # Italian translation for the gtkhtml2_viewer plugin for Claws Mail
-# Copyright (C) 2006, 2007 Andrea Spadaccini
+# Copyright (C) 2006 - 2008 Andrea Spadaccini
 # This file is distributed under the same license as the gtkhtml2_viewer package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2007
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2008
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.0.0\n"
+"Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-12-13 07:46+0000\n"
-"PO-Revision-Date: 2007-12-16 15:36+0100\n"
+"POT-Creation-Date: 2008-02-01 10:23+0000\n"
+"PO-Revision-Date: 2008-02-07 17:54+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -71,12 +71,12 @@ msgstr "/Zoom _in"
 msgid "/Zoom _out"
 msgstr "/Zoom _out"
 
-#: src/gtkhtml2_viewer.c:717
+#: src/gtkhtml2_viewer.c:720
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Timeout durante la connessione a %s\n"
 
-#: src/gtkhtml2_viewer.c:789
+#: src/gtkhtml2_viewer.c:792
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -84,23 +84,23 @@ msgstr ""
 "Le immagini remote non sono state caricate\n"
 "secondo le impostazioni."
 
-#: src/gtkhtml2_viewer.c:791
+#: src/gtkhtml2_viewer.c:794
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
 msgstr ""
 "Le immagini remote non sono state caricate\n"
-"perch√© √® attiva la modalit√† offline."
+"perchÈ Ë attiva la modalit‡ offline."
 
-#: src/gtkhtml2_viewer.c:793
+#: src/gtkhtml2_viewer.c:796
 msgid "Remote images exist, but loading them failed."
-msgstr "Il caricamento delle immagini remote √® fallito."
+msgstr "Il caricamento delle immagini remote Ë fallito."
 
-#: src/gtkhtml2_viewer.c:797
+#: src/gtkhtml2_viewer.c:800
 msgid "Load images"
 msgstr "Carica immagini"
 
-#: src/gtkhtml2_viewer.c:1032
+#: src/gtkhtml2_viewer.c:1035
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -109,28 +109,30 @@ msgstr ""
 "Errore di stampa:\n"
 " %s"
 
-#: src/gtkhtml2_viewer.c:1063
+#: src/gtkhtml2_viewer.c:1066
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
-msgstr "La stampa di documenti HTML √® possibile solo se il programma html2ps √® installato."
+msgstr ""
+"La stampa di documenti HTML Ë possibile solo se il programma html2ps Ë "
+"installato."
 
-#: src/gtkhtml2_viewer.c:1068
+#: src/gtkhtml2_viewer.c:1071
 msgid "Filename is null."
 msgstr "Nessun nome file specificato."
 
-#: src/gtkhtml2_viewer.c:1083
+#: src/gtkhtml2_viewer.c:1086
 msgid "Conversion to postscript failed."
 msgstr "Conversione in postscript fallita."
 
-#: src/gtkhtml2_viewer.c:1090
+#: src/gtkhtml2_viewer.c:1093
 msgid "Print"
 msgstr "Stampa"
 
-#: src/gtkhtml2_viewer.c:1111
+#: src/gtkhtml2_viewer.c:1114
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "La stampante %s non accetta file PostScript."
 
-#: src/gtkhtml2_viewer.c:1127
+#: src/gtkhtml2_viewer.c:1130
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -139,11 +141,11 @@ msgstr ""
 "Errore di stampa:\n"
 "%s"
 
-#: src/gtkhtml2_viewer.c:1287 src/gtkhtml2_viewer.c:1324
+#: src/gtkhtml2_viewer.c:1290 src/gtkhtml2_viewer.c:1327
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visualizzatore HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:1329
+#: src/gtkhtml2_viewer.c:1332
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Questo plugin visualizza le mail in HTML utilizzando il widget "

@@ -7,76 +7,76 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:47+0000\n"
-"PO-Revision-Date: 2007-11-13 17:40中国标准时间\n"
+"POT-Creation-Date: 2008-02-01 10:23+0000\n"
+"PO-Revision-Date: 2008-02-07 02:22China Standard Time\n"
 "Last-Translator: Ralph Young <bamanzi@gmail.com>\n"
-"Language-Team: Claws Mail claws-mail-translators@dotsrc.org\n"
+"Language-Team: Claws Mail Translators<claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:211 src/gtkhtml2_viewer.c:177
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:213 src/gtkhtml2_viewer.c:186
 msgid "Any"
-msgstr ""
+msgstr "任意"
 
-#: src/gtkhtml2_prefs.c:100
+#: src/gtkhtml2_prefs.c:102
 msgid "Plugins"
 msgstr "插件"
 
-#: src/gtkhtml2_prefs.c:101
+#: src/gtkhtml2_prefs.c:103
 msgid "GtkHtml2 Viewer"
 msgstr "GtkHtml2查看器"
 
-#: src/gtkhtml2_prefs.c:166
+#: src/gtkhtml2_prefs.c:168
 msgid "Cache cleared."
 msgstr "缓存已被清除。"
 
-#: src/gtkhtml2_prefs.c:192
+#: src/gtkhtml2_prefs.c:194
 msgid "Load remote images in mails"
 msgstr "加载邮件中的远程图片"
 
-#: src/gtkhtml2_prefs.c:207
+#: src/gtkhtml2_prefs.c:209
 msgid "Only for senders found in address book/folder"
-msgstr "仅限于在地址簿中列出的人员发出的邮件"
+msgstr "仅限于发件人是地址簿中已有的"
 
-#: src/gtkhtml2_prefs.c:215
+#: src/gtkhtml2_prefs.c:217
 msgid "Select ..."
 msgstr "选择..."
 
-#: src/gtkhtml2_prefs.c:225
+#: src/gtkhtml2_prefs.c:227
 msgid "Cache remote images locally"
 msgstr "在本地缓存远程图片"
 
-#: src/gtkhtml2_prefs.c:232
+#: src/gtkhtml2_prefs.c:234
 msgid "Clear images cache when quitting"
 msgstr "退出时清楚图片缓存"
 
-#: src/gtkhtml2_prefs.c:239
+#: src/gtkhtml2_prefs.c:241
 msgid "Clear image cache now"
 msgstr "现在清除图片缓存"
 
-#: src/gtkhtml2_viewer.c:101
+#: src/gtkhtml2_viewer.c:110
 msgid "/_Open with Web browser"
 msgstr "/在网页浏览器中打开(_O)"
 
-#: src/gtkhtml2_viewer.c:102
+#: src/gtkhtml2_viewer.c:111
 msgid "/Copy this _link"
 msgstr "/拷贝此链接(_l)"
 
-#: src/gtkhtml2_viewer.c:107
+#: src/gtkhtml2_viewer.c:116
 msgid "/Zoom _in"
 msgstr "/放大(_i)"
 
-#: src/gtkhtml2_viewer.c:108
+#: src/gtkhtml2_viewer.c:117
 msgid "/Zoom _out"
 msgstr "/缩小(_o)"
 
-#: src/gtkhtml2_viewer.c:706
+#: src/gtkhtml2_viewer.c:720
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "连接%s超时\n"
 
-#: src/gtkhtml2_viewer.c:776
+#: src/gtkhtml2_viewer.c:792
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -84,7 +84,7 @@ msgstr ""
 "存在远程图片，但根据您的设置不被加载\n"
 " "
 
-#: src/gtkhtml2_viewer.c:778
+#: src/gtkhtml2_viewer.c:794
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -92,18 +92,57 @@ msgstr ""
 "存在远程图片，但因目前工作的离线模式而不加载\n"
 " "
 
-#: src/gtkhtml2_viewer.c:780
+#: src/gtkhtml2_viewer.c:796
 msgid "Remote images exist, but loading them failed."
 msgstr "远程图片存在，但加载失败。"
 
-#: src/gtkhtml2_viewer.c:784
+#: src/gtkhtml2_viewer.c:800
 msgid "Load images"
 msgstr "加载图片"
 
-#: src/gtkhtml2_viewer.c:1150 src/gtkhtml2_viewer.c:1187
+#: src/gtkhtml2_viewer.c:1035
+#, c-format
+msgid ""
+"Printing failed:\n"
+" %s"
+msgstr ""
+"打印失败:\n"
+" %s"
+
+#: src/gtkhtml2_viewer.c:1066
+msgid "Printing HTML is only possible if the program 'html2ps' is installed."
+msgstr "需要安装html2ps才能打印HTML"
+
+#: src/gtkhtml2_viewer.c:1071
+msgid "Filename is null."
+msgstr "文件名为空"
+
+#: src/gtkhtml2_viewer.c:1086
+msgid "Conversion to postscript failed."
+msgstr "转换为PostScript出错。"
+
+#: src/gtkhtml2_viewer.c:1093
+msgid "Print"
+msgstr "打印"
+
+#: src/gtkhtml2_viewer.c:1114
+#, c-format
+msgid "Printer %s doesn't accept PostScript files."
+msgstr "打印机%s不接受PostScript格式。"
+
+#: src/gtkhtml2_viewer.c:1130
+#, c-format
+msgid ""
+"Printing failed:\n"
+"%s"
+msgstr ""
+"打印失败:\n"
+"%s"
+
+#: src/gtkhtml2_viewer.c:1290 src/gtkhtml2_viewer.c:1327
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML查看器"
 
-#: src/gtkhtml2_viewer.c:1192
+#: src/gtkhtml2_viewer.c:1332
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "本插件使用gtkhtml2引擎显示HTML邮件"
