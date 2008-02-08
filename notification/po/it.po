@@ -1,13 +1,13 @@
 # Italian translation for the Notification plugin for Claws Mail
-# Copyright (C) 2007 Andrea Spadaccini
+# Copyright (C) 2007 - 2008 Andrea Spadaccini
 # This file is distributed under the same license as the notification package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007 - 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.2.0\n"
+"Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2007-12-13 07:48+0000\n"
-"PO-Revision-Date: 2007-12-16 15:38+0100\n"
+"POT-Creation-Date: 2008-02-01 10:25+0000\n"
+"PO-Revision-Date: 2008-02-07 17:55+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr ""
 #: src/notification_plugin.c:214
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr ""
-"Impossibile registrare la funzione commutazione a modalit√† offline nel "
+"Impossibile registrare la funzione commutazione a modalit‡ offline nel "
 "plugin Notifica"
 
 #: src/notification_plugin.c:225
@@ -110,7 +110,7 @@ msgstr "Nuovo messaggio news"
 
 #: src/notification_popup.c:314
 msgid "A new message arrived"
-msgstr "√à arrivato un nuovo messaggio"
+msgstr "» arrivato un nuovo messaggio"
 
 #: src/notification_popup.c:317
 msgid "New Calendar message"
@@ -118,7 +118,7 @@ msgstr "Nuovo messaggio nel calendario"
 
 #: src/notification_popup.c:318
 msgid "A new calendar message arrived"
-msgstr "√à arrivato un nuovo messaggio nel calendario"
+msgstr "» arrivato un nuovo messaggio nel calendario"
 
 #: src/notification_popup.c:321
 msgid "New RSS feed article"
@@ -126,7 +126,7 @@ msgstr "Nuovo articolo in feed RSS"
 
 #: src/notification_popup.c:322
 msgid "A new article in a RSS feed arrived"
-msgstr "√à arrivato un nuovo articolo in un feed RSS"
+msgstr "» arrivato un nuovo articolo in un feed RSS"
 
 #: src/notification_popup.c:325
 msgid "New unknown message"
@@ -134,7 +134,7 @@ msgstr "Nuovo messaggio di tipo sconosciuto"
 
 #: src/notification_popup.c:326
 msgid "Unknown message type arrived"
-msgstr "√à arrivato un messaggio di un tipo sconosciuto"
+msgstr "» arrivato un messaggio di un tipo sconosciuto"
 
 #: src/notification_popup.c:444
 msgid "Mail message"
@@ -144,7 +144,7 @@ msgstr "Messaggio di posta elettronica"
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
-msgstr[0] "√à arrivato %d nuovo messaggio di posta elettronica"
+msgstr[0] "» arrivato %d nuovo messaggio di posta elettronica"
 msgstr[1] "Sono arrivati %d nuovi messaggi di posta elettronica"
 
 #: src/notification_popup.c:450
@@ -159,7 +159,7 @@ msgstr "Messaggio nel calendario"
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
-msgstr[0] "√à arrivato %d nuovo messaggio nel calendario"
+msgstr[0] "» arrivato %d nuovo messaggio nel calendario"
 msgstr[1] "Sono arrivati %d nuovi messaggi nel calendario"
 
 #: src/notification_popup.c:462
@@ -170,14 +170,14 @@ msgstr "Feed RSS"
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
-msgstr[0] "√à arrivato %d nuovo messaggio in un feed RSS"
+msgstr[0] "» arrivato %d nuovo messaggio in un feed RSS"
 msgstr[1] "Sono arrivati %d nuovi messaggi in un feed rss"
 
 #: src/notification_popup.c:524
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
-msgstr[0] "√à arrivato %d nuovo messaggio"
+msgstr[0] "» arrivato %d nuovo messaggio"
 msgstr[1] "Sono arrivati %d nuovi messaggi"
 
 #: src/notification_prefs.c:309 src/notification_prefs.c:323
@@ -264,7 +264,7 @@ msgstr "veloce"
 
 #: src/notification_prefs.c:599
 msgid "Banner speed"
-msgstr "Velocit√† banner"
+msgstr "Velocit‡ banner"
 
 #: src/notification_prefs.c:617
 msgid "Maximum number of messages (0 means unlimited)"
@@ -331,7 +331,7 @@ msgstr "Imposta larghezza e posizione finestra popup"
 
 #: src/notification_prefs.c:878
 msgid "(the window manager is free to ignore this)"
-msgstr "(il gestore delle finestre pu√≤ ignorarlo)"
+msgstr "(il gestore delle finestre puÚ ignorarlo)"
 
 #: src/notification_prefs.c:926 src/notification_prefs.c:1407
 msgid "Display folder name"
