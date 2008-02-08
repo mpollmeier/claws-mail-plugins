@@ -1,14 +1,14 @@
 # Italian translation for the PDF Viewer plugin for Claws Mail
-# Copyright (C) 2007 Andrea Spadaccini
+# Copyright (C) 2007 - 2008 Andrea Spadaccini
 # This file is distributed under the same license as the pdf_viewer package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007 - 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.2.0\n"
-"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2007-12-17 08:42+0000\n"
-"PO-Revision-Date: 2007-12-16 15:36+0100\n"
+"Project-Id-Version: 3.3.0\n"
+"Report-Msgid-Bugs-To: iwkse@users.sourceforge.net\n"
+"POT-Creation-Date: 2008-02-01 10:25+0000\n"
+"PO-Revision-Date: 2008-02-07 17:55+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -84,67 +84,67 @@ msgid_plural "%d pages"
 msgstr[0] "%d pagina"
 msgstr[1] "%d pagine"
 
-#: src/poppler_viewer.c:1560 src/poppler_viewer.c:1801
+#: src/poppler_viewer.c:1578 src/poppler_viewer.c:1819
 msgid "Document Index"
 msgstr "Indice del documento"
 
-#: src/poppler_viewer.c:1632
+#: src/poppler_viewer.c:1650
 msgid "Name"
 msgstr "Nome"
 
-#: src/poppler_viewer.c:1747
+#: src/poppler_viewer.c:1765
 msgid "First Page"
 msgstr "Prima pagina"
 
-#: src/poppler_viewer.c:1752
+#: src/poppler_viewer.c:1770
 msgid "Previous Page"
 msgstr "Pagina precedente"
 
-#: src/poppler_viewer.c:1757
+#: src/poppler_viewer.c:1775
 msgid "Next Page"
 msgstr "Pagina seguente"
 
-#: src/poppler_viewer.c:1762
+#: src/poppler_viewer.c:1780
 msgid "Last Page"
 msgstr "Ultima pagina"
 
-#: src/poppler_viewer.c:1767
+#: src/poppler_viewer.c:1785
 msgid "Zoom In"
-msgstr "Ingrandire"
+msgstr "Zoom In"
 
-#: src/poppler_viewer.c:1771
+#: src/poppler_viewer.c:1789
 msgid "Zoom Out"
-msgstr "Diminuire"
+msgstr "Zoom Out"
 
-#: src/poppler_viewer.c:1776
+#: src/poppler_viewer.c:1794
 msgid "Fit Page"
-msgstr "Adatta alla pagina"
+msgstr "Adatta allo pagina"
 
-#: src/poppler_viewer.c:1781
+#: src/poppler_viewer.c:1799
 msgid "Fit Page Width"
 msgstr "Adatta alla larghezza della pagina"
 
-#: src/poppler_viewer.c:1786
+#: src/poppler_viewer.c:1804
 msgid "Rotate Left"
 msgstr "Ruota a sinistra"
 
-#: src/poppler_viewer.c:1791
+#: src/poppler_viewer.c:1809
 msgid "Rotate Right"
 msgstr "Ruota a destra"
 
-#: src/poppler_viewer.c:1796
+#: src/poppler_viewer.c:1814
 msgid "Document Info"
-msgstr "Informazioni sul documento"
+msgstr "Informazioni documento"
 
-#: src/poppler_viewer.c:1805
+#: src/poppler_viewer.c:1823
 msgid "Page Number"
 msgstr "Numero di pagina"
 
-#: src/poppler_viewer.c:1809
+#: src/poppler_viewer.c:1827
 msgid "Zoom Factor"
 msgstr "Fattore di zoom"
 
-#: src/poppler_viewer.c:1913
+#: src/poppler_viewer.c:1931
 #, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
@@ -157,6 +157,6 @@ msgstr ""
 "\n"
 "Si accettano suggerimenti e commenti: iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1922 src/poppler_viewer.c:1937
+#: src/poppler_viewer.c:1940 src/poppler_viewer.c:1955
 msgid "PDF Viewer"
 msgstr "Visualizzatore PDF"
