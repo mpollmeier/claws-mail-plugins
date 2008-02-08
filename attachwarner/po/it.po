@@ -1,14 +1,14 @@
 # Italian translation for the AttachWarner plugin for Claws Mail
-# Copyright (C) 2007 Andrea Spadaccini
+# Copyright (C) 2007, 2008 Andrea Spadaccini
 # This file is distributed under the same license as the attachwarner package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.2.0\n"
+"Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-12-13 07:45+0000\n"
-"PO-Revision-Date: 2007-12-16 15:10+0100\n"
+"POT-Creation-Date: 2008-02-01 10:21+0000\n"
+"PO-Revision-Date: 2008-02-07 17:54+0100\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. %s it anyway?"
 msgstr ""
-"Un allegato Ã¨ menzionato nel messaggio in uscita, ma nessun file Ã¨ stato "
+"Un allegato è menzionato nel messaggio in uscita, ma nessun file è stato "
 "allegato. %s comunque?"
 
 #: src/attachwarner.c:263
@@ -58,7 +58,7 @@ msgid ""
 "no file is attached."
 msgstr ""
 "Avvisa l'utente se nel testo del messaggio sono presenti riferimenti ad "
-"allegati e non Ã¨ allegato alcun file"
+"allegati e non è allegato alcun file"
 
 #: src/attachwarner_prefs.c:45
 msgid "attach"
