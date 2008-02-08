@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=3
 MINOR_VERSION=2
 MICRO_VERSION=0
-EXTRA_VERSION=74
+EXTRA_VERSION=75
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -51,7 +51,7 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
 
-ALL_LINGUAS="en_GB"
+ALL_LINGUAS="en_GB es fi hu it"
 
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 

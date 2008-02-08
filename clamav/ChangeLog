@@ -1,3 +1,13 @@
+2008-02-08 [paul]	3.2.0cvs75
+
+	* configure.ac
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+		submitted by Ricardo Mones Lastra, Flammie Pirinen,
+		Pader Rezso and Andrea Spadaccini
+
 2008-02-01 [paul]	3.2.0cvs74
 
 	* configure.ac
