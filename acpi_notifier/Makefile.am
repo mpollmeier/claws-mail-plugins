@@ -1,4 +1,4 @@
-SUBDIRS = m4 config src po
+SUBDIRS = m4 config po src
 
 EXTRA_DIST = config/config.rpath  \
 	COPYING \
