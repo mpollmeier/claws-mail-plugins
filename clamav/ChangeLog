@@ -1,3 +1,8 @@
+2008-02-09 [paul]	3.3.0cvs1
+
+	* aclocal.m4
+		remove this file, it's in the way!
+
 2008-02-08 [paul]	3.3.0
 
 	3.3.0 released
