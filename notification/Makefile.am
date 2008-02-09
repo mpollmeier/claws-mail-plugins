@@ -1,3 +1,3 @@
-SUBDIRS = m4 config src po
+SUBDIRS = m4 config po src
 
 ACLOCAL_AMFLAGS = -I m4
