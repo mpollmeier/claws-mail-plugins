@@ -5,7 +5,7 @@ Depends: Claws Mail/Sylpheed-Claws 0.9.0claws57 or later
 
 General:
 --------
-The plugin can add following headers to the received mails:
+The plugin can add the following headers to the received mails:
   X-FETCH-UIDL     (UIDL specifying the message on server)
   X-FETCH-ACCOUNT  (Claws Mail's account name from accountrc)
   X-FETCH-SERVER   (POP3 server used)
