@@ -1,4 +1,4 @@
-SUBDIRS = m4 config libical src po
+SUBDIRS = m4 config po libical src
 
 EXTRA_DIST = config/config.rpath   \
 	AUTHORS \
