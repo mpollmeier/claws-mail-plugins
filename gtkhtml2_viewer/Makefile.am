@@ -1,4 +1,4 @@
-SUBDIRS = po src config
+SUBDIRS = po config libgtkhtml src
 
 EXTRA_DIST = \
 	autogen.sh \

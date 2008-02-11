@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=17
 MICRO_VERSION=1
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -97,11 +97,6 @@ AC_SUBST(GLIB_LIBS)
 dnl Check for GTK+
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
-PKG_CHECK_MODULES(GTKHTML2, libgtkhtml-2.0, ,
-		  AC_MSG_ERROR([Can't find libgtkhtml2]))
-AC_SUBST(GTKHTML2_LIBS)
-AC_SUBST(GTKHTML2_CFLAGS)
-
 dnl Find curl-config
 AC_PATH_PROG(CURL_CONFIG, curl-config, no)
 if test x$CURL_CONFIG = xno ; then
@@ -109,7 +104,7 @@ if test x$CURL_CONFIG = xno ; then
 fi
 CURL_CFLAGS="`$CURL_CONFIG --cflags`"
 
-CFLAGS="$CFLAGS $CURL_CFLAGS"
+CFLAGS="$CFLAGS $CURL_CFLAGS -Wall"
 
 CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
 AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
@@ -150,6 +145,33 @@ else
 fi
 AC_SUBST(PTHREAD_LIBS)
 
+PKG_CHECK_MODULES(GTKHTML2, gtk+-2.0 >= 2.4.0 libxml-2.0 >= 2.4.16)
+
+
+AC_ARG_ENABLE(accessibility,
+              [  --enable-accessibility  enable accessibility support (needs gail) [default=yes]], ,
+              enable_accessibility=yes)
+
+if test x$enable_accessibility = xyes; then
+  PKG_CHECK_MODULES(GAILUTIL, gail >= 1.8, ,
+	            AC_MSG_ERROR([
+*** gail is needed for accessibility. Either install gail or turn off 
+*** accessibility support using the --disable-accessibility option.]))
+
+  AC_DEFINE(ENABLE_ACCESSIBILITY, 1,
+	    [Define to 1 to enable accessibility support.])
+else
+  AC_MSG_WARN([*** GtkHtml2 will be built without accessibility support.])
+fi
+
+AM_CONDITIONAL(ENABLE_ACCESSIBILITY, test x$enable_accessibility = xyes)
+
+AC_SUBST(GTKHTML2_CFLAGS)
+AC_SUBST(GTKHTML2_LIBS)
+AC_SUBST(GAILUTIL_CFLAGS)
+AC_SUBST(GAILUTIL_LIBS)
+AC_SUBST(A11Y)
+
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
@@ -161,5 +183,20 @@ AC_OUTPUT([
 Makefile
 config/Makefile
 po/Makefile.in
+libgtkhtml/Makefile
+libgtkhtml/css/Makefile
+libgtkhtml/document/Makefile
+libgtkhtml/dom/Makefile
+libgtkhtml/dom/core/Makefile
+libgtkhtml/dom/html/Makefile
+libgtkhtml/dom/events/Makefile
+libgtkhtml/dom/views/Makefile
+libgtkhtml/dom/traversal/Makefile
+libgtkhtml/graphics/Makefile
+libgtkhtml/layout/Makefile
+libgtkhtml/layout/html/Makefile
+libgtkhtml/util/Makefile
+libgtkhtml/view/Makefile
+libgtkhtml/a11y/Makefile
 src/Makefile
 ])

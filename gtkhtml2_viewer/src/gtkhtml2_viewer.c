@@ -29,10 +29,10 @@
 #include "gettext.h"
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
-#include <libgtkhtml/gtkhtml.h>
-#include <libgtkhtml/view/htmlselection.h>
-#include <libgtkhtml/layout/htmlbox.h>
-#include <libgtkhtml/layout/htmlboxtext.h>
+#include "libgtkhtml/gtkhtml.h"
+#include "libgtkhtml/view/htmlselection.h"
+#include "libgtkhtml/layout/htmlbox.h"
+#include "libgtkhtml/layout/htmlboxtext.h"
 #if USE_PRINTUNIX
 #include <gtk/gtkprintoperation.h>
 #include <gtk/gtkprintjob.h>

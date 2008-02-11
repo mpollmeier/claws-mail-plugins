@@ -17,7 +17,11 @@ gtkhtml2_viewer_la_LDFLAGS = \
 INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/common \
-	-I$(top_srcdir)/src/gtk
+	-I$(top_srcdir)/src/gtk \
+	-I$(top_srcdir)
+
+gtkhtml2_viewer_la_LIBADD = \
+        $(top_srcdir)/libgtkhtml/libgtkhtml-2.la
 
 AM_CPPFLAGS = \
 	-Wall \

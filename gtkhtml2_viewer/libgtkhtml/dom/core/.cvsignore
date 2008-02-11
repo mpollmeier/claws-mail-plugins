@@ -1,0 +1,8 @@
+.libs
+.deps
+*.la
+*.lo
+Makefile
+Makefile.in
+Makefile.intest-core
+

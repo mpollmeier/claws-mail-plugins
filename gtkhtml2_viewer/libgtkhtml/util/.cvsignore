@@ -1,0 +1,9 @@
+.libs
+.deps
+*.la
+*.lo
+Makefile
+Makefile.in
+htmlmarshal.c
+htmlmarshal.h
+test-atoms
