@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/graphics
-
 INCLUDES = -I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
 	$(GTKHTML2_CFLAGS) \
@@ -16,7 +14,7 @@ libhtmlgraphics_la_SOURCES = \
 	htmlstylepainter.c \
 	htmlcolor.c 
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	htmlcolor.h \
 	htmlfontspecification.h \
 	htmlgdkpainter.h \

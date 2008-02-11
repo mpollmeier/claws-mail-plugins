@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/css
-
 INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
@@ -17,7 +15,7 @@ libhtmlcss_la_SOURCES = \
 	html.css.h
 
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	cssmatcher.h \
 	cssparser.h \
 	cssstylesheet.h \

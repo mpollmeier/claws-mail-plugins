@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/document
-
 INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
@@ -17,7 +15,7 @@ libhtmldocument_la_SOURCES = \
 	htmlfocusiterator.h \
 	htmlparser.c 
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	htmldocument.h \
 	htmlparser.h
 

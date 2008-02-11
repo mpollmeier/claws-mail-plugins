@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/layout/html
-
 INCLUDES = \
 	-I$(top_srcdir)/libgtkhtml \
 	-I$(top_srcdir) \
@@ -33,7 +31,7 @@ libhtmllayouthtml_la_SOURCES = 	\
 	htmlboxembedded.h	\
 	htmlboxembedded.c
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	htmlembedded.h		\
 	htmlboxform.h		\
 	htmlboxembedded.h

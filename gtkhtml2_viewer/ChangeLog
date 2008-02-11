@@ -1,3 +1,22 @@
+2008-02-11 [colin]	0.17.1cvs2
+
+	* libgtkhtml/Makefile.am
+	* libgtkhtml/css/Makefile.am
+	* libgtkhtml/document/Makefile.am
+	* libgtkhtml/dom/Makefile.am
+	* libgtkhtml/dom/core/Makefile.am
+	* libgtkhtml/dom/events/Makefile.am
+	* libgtkhtml/dom/html/Makefile.am
+	* libgtkhtml/dom/html/Makefile.in
+	* libgtkhtml/dom/traversal/Makefile.am
+	* libgtkhtml/dom/views/Makefile.am
+	* libgtkhtml/graphics/Makefile.am
+	* libgtkhtml/layout/Makefile.am
+	* libgtkhtml/layout/html/Makefile.am
+	* libgtkhtml/util/Makefile.am
+	* libgtkhtml/view/Makefile.am
+		And don't install includes
+
 2008-02-11 [colin]	0.17.1cvs1
 
 	* AUTHORS

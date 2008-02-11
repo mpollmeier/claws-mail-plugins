@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/dom
-
 SUBDIRS = core html events views traversal
 
 INCLUDES = \
@@ -11,7 +9,7 @@ noinst_LTLIBRARIES = libdom.la
 libdom_la_SOURCES = \
 	dom.h
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	dom-types.h
 
 libdom_la_LIBADD = \

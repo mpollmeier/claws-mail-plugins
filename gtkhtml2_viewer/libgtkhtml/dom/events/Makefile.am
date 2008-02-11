@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/dom/events
-
 INCLUDES = \
 	-I$(top_srcdir) 		\
 	-I$(top_srcdir)/libgtkhtml	\
@@ -27,7 +25,7 @@ libdomevents_la_SOURCES = 	\
 	dom-uievent.c		\
 	dom-uievent.h
 
-libgtkhtmlinclude_HEADERS = 	\
+noinst_HEADERS = 	\
 	dom-event.h		\
 	dom-eventlistener.h	\
 	dom-eventtarget.h

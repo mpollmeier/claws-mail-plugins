@@ -1,7 +1,5 @@
 SUBDIRS = html
 
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/layout
-
 INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
@@ -35,7 +33,7 @@ libhtmllayout_la_SOURCES = 	\
 	htmlstyleinherited.c	\
 	htmlstylesurround.c
 
-libgtkhtmlinclude_HEADERS =	\
+noinst_HEADERS =	\
 	htmlbox.h		\
 	htmlboxtext.h		\
 	htmllinebox.h		\

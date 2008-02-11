@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/dom/core
-
 INCLUDES = \
 	-I$(top_srcdir) 		\
 	-I$(top_srcdir)/libgtkhtml	\
@@ -28,7 +26,7 @@ libdomcore_la_SOURCES = 	\
 	dom-text.c		\
 	dom-text.h
 
-libgtkhtmlinclude_HEADERS = 	\
+noinst_HEADERS = 	\
 	dom-attr.h		\
 	dom-characterdata.h	\
 	dom-comment.h		\

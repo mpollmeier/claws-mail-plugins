@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/dom/html
-
 INCLUDES = \
 	-I$(top_srcdir) 		\
 	-I$(top_srcdir)/libgtkhtml	\
@@ -18,7 +16,7 @@ libdomhtml_la_SOURCES = 	\
 	dom-htmltextareaelement.c	\
 	dom-htmlcollection.c
 
-libgtkhtmlinclude_HEADERS = 	\
+noinst_HEADERS = 	\
 	dom-htmlanchorelement.h	\
 	dom-htmlelement.h	\
 	dom-htmlformelement.h	\

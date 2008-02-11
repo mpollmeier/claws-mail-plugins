@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/util
-
 INCLUDES = \
 	-I$(top_srcdir) \
 	$(GTKHTML2_CFLAGS) \
@@ -14,7 +12,7 @@ libhtmlutil_la_SOURCES = \
 	rfc1738.c \
 	htmlstreambuffer.c
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	htmlatomlist.h \
 	htmlglobalatoms.h \
 	htmlstreambuffer.h \

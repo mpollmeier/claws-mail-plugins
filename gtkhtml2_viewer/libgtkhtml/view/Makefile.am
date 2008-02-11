@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/view
-
 INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
@@ -13,7 +11,7 @@ libhtmlview_la_SOURCES = \
 	htmlview.c \
 	htmlselection.c
 
-libgtkhtmlinclude_HEADERS = \
+noinst_HEADERS = \
 	htmlevent.h \
 	htmlview.h \
 	htmlselection.h

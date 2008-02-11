@@ -1,7 +1,5 @@
 SUBDIRS = util css document dom layout graphics view a11y
 
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml
-
 INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
@@ -17,7 +15,7 @@ libgtkhtml_2_la_SOURCES = \
 	gtkhtmlcontext.c 
 
 
-libgtkhtmlinclude_HEADERS =  \
+noinst_HEADERS =  \
 	gtkhtmlcontext.h \
 	gtkhtml.h
 

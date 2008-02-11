@@ -1,5 +1,3 @@
-libgtkhtmlincludedir = $(includedir)/gtkhtml-2.0/libgtkhtml/dom/traversal
-
 INCLUDES = \
 	-I$(top_srcdir) 		\
 	-I$(top_srcdir)/src/dom		\
@@ -18,7 +16,7 @@ libdomtraversal_la_SOURCES = 	\
 	dom-traversal-utils.c	\
 	dom-traversal-utils.h
 
-libgtkhtmlinclude_HEADERS = 	\
+noinst_HEADERS = 	\
 	dom-documenttraversal.h	\
 	dom-nodefilter.h	\
 	dom-nodeiterator.h	\
