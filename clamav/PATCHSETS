@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/Makevars;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/clamav.pot;  diff -u /dev/null po/en_GB.po;  ) > 3.2.0cvs74.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 configure.ac;  diff -u /dev/null po/es.po;  diff -u /dev/null po/fi.po;  diff -u /dev/null po/hu.po;  diff -u /dev/null po/it.po;  ) > 3.2.0cvs75.patchset
 ( cvs diff -u -r -1.1.2.1 -r -1.1.2.2 aclocal.m4;  ) > 3.3.0cvs1.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/clamav_plugin_gtk.c;  ) > 3.3.0cvs2.patchset
