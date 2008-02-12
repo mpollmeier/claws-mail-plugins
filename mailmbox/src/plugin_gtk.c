@@ -337,7 +337,7 @@ static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widg
 	if (!from_folder || from_folder->folder->klass != claws_mailmbox_get_class())
 		return;
 
-	to_folder = foldersel_folder_sel(from_folder->folder, FOLDER_SEL_MOVE, NULL);
+	to_folder = foldersel_folder_sel(from_folder->folder, FOLDER_SEL_MOVE, NULL, FALSE);
 	if (!to_folder)
 		return;
 

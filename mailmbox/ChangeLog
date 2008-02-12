@@ -1,3 +1,9 @@
+2008-02-12 [wwp]	1.14.0cvs1
+
+	* configure.ac
+	* src/plugin_gtk.c
+		Updated to match folder_sel API changes.
+
 2007-09-03 [paul]	1.14.0
 
 	1.14.0 released
