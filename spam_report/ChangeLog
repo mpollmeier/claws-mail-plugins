@@ -1,3 +1,12 @@
+2008-02-12 [wwp]	0.3.2cvs1
+
+	* config.h.in
+		Remove generated file from repository.
+
+	* configure.ac
+		Updated to match folder_sel API changes.
+
+
 2008-02-08 [paul]	0.3.2
 
 	0.3.2 released
