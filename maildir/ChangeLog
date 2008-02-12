@@ -1,3 +1,9 @@
+2008-02-12 [wwp]	0.24.4cvs5
+
+	* configure.ac
+	* src/maildir_gtk.c
+		Updated to match folder_sel API changes.
+
 2007-08-27 [colin]	0.24.4cvs4
 
 	* src/maildir_gtk.c
