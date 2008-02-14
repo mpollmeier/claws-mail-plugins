@@ -1,7 +1,0 @@
-Makefile
-Makefile.in
-POTFILES
-*.gmo
-*.po~
-stamp-po
-clamav.pot
