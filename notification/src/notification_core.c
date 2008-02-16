@@ -403,11 +403,12 @@ void notification_collected_msgs_free(GSList *collected_msgs)
     for(walk = collected_msgs; walk != NULL; walk = g_slist_next(walk)) {
       CollectedMsg *msg = walk->data;
       if(msg->from)
-	g_free(msg->from);
+				g_free(msg->from);
       if(msg->subject)
-	g_free(msg->subject);
+				g_free(msg->subject);
       if(msg->folderitem_name)
-	g_free(msg->folderitem_name);
+				g_free(msg->folderitem_name);
+			msg->msginfo = NULL;
       g_free(msg);
     }
     g_slist_free(collected_msgs);
@@ -460,16 +461,20 @@ static gboolean notification_traverse_collect(GNode *node, gpointer data)
 	return FALSE;
 
       if(MSG_IS_NEW(msg_info->flags) ||
-	 (MSG_IS_UNREAD(msg_info->flags) && cdata->unread_also)) {
-	cmsg = g_new(CollectedMsg, 1);
-	cmsg->from = g_strdup(msg_info->from ? msg_info->from : "");
-	cmsg->subject = g_strdup(msg_info->subject ? msg_info->subject : "");
-	if(msg_info->folder && msg_info->folder->name)
-	  cmsg->folderitem_name = g_strdup(msg_info->folder->path);
-	else
-	  cmsg->folderitem_name = g_strdup("");
-	cdata->collected_msgs = g_slist_prepend(cdata->collected_msgs, cmsg);
-	cdata->num_msgs++;
+				 (MSG_IS_UNREAD(msg_info->flags) && cdata->unread_also)) {
+
+				cmsg = g_new(CollectedMsg, 1);
+				cmsg->from = g_strdup(msg_info->from ? msg_info->from : "");
+				cmsg->subject = g_strdup(msg_info->subject ? msg_info->subject : "");
+				if(msg_info->folder && msg_info->folder->name)
+					cmsg->folderitem_name = g_strdup(msg_info->folder->path);
+				else
+					cmsg->folderitem_name = g_strdup("");
+
+				cmsg->msginfo = msg_info;
+
+				cdata->collected_msgs = g_slist_prepend(cdata->collected_msgs, cmsg);
+				cdata->num_msgs++;
       }
     }
     procmsg_msg_list_free(msg_list);

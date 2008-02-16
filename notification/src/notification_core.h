@@ -19,12 +19,14 @@
 #define NOTIFICATION_CORE_H NOTIFICATION_CORE_H
 
 #include "folder.h"
+#include "procmsg.h"
 
 typedef struct {
   gchar *from;
   gchar *subject;
   FolderItem *folder_item;
   gchar *folderitem_name;
+	MsgInfo *msginfo;
 } CollectedMsg;
 
 typedef enum {

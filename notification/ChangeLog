@@ -1,3 +1,12 @@
+2008-02-16 [holger]	0.15cvs2
+
+	* src/notification_banner.c
+	* src/notification_core.c
+	* src/notification_core.h
+		Rework banner module widget hierarchy. Invert message
+		box color on mouse-over. Add right-click context menu
+		to reply to message.
+
 2008-02-09 [paul]	0.15cvs1
 
 	* Makefile.am

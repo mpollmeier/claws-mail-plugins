@@ -88,3 +88,4 @@
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/notification_trayicon.c;  ) > 0.14cvs4.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/it.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/zh_CN.po;  ) > 0.14cvs5.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 Makefile.am;  ) > 0.15cvs1.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/notification_banner.c;  cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/notification_core.c;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/notification_core.h;  ) > 0.15cvs2.patchset
