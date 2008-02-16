@@ -383,18 +383,18 @@ void notification_update_banner(void)
   if(notify_config.banner_show != NOTIFY_BANNER_SHOW_NEVER) {
     guint id;
     GSList *folder_list = NULL;
-
+		
     if(notify_config.banner_folder_specific) {
       id = notification_register_folder_specific_list
-	(BANNER_SPECIFIC_FOLDER_ID_STR);
+				(BANNER_SPECIFIC_FOLDER_ID_STR);
       folder_list = notification_foldercheck_get_list(id);
     }
 
     if(!(notify_config.banner_folder_specific && (folder_list == NULL)))
       banner_collected_msgs =
-	notification_collect_msgs(notify_config.banner_include_unread,
-				  notify_config.banner_folder_specific ? 
-				  folder_list : NULL, notify_config.banner_max_msgs);
+				notification_collect_msgs(notify_config.banner_include_unread,
+																	notify_config.banner_folder_specific ? 
+																	folder_list : NULL, notify_config.banner_max_msgs);
   }
   
   notification_banner_show(banner_collected_msgs);

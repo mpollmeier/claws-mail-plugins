@@ -129,13 +129,17 @@ static void notification_banner_create(GSList *msg_list)
 	GtkWidget *entrybox;
 	GdkColor bg;
 	gint n_entries;
+	gint banner_width;
 
   /* Window */
   if(!banner.window) {
 
     banner.window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_banner");
     gtk_window_set_decorated(GTK_WINDOW(banner.window), FALSE);
-    gtk_widget_set_size_request(banner.window, gdk_screen_width(), -1);
+		if(notify_config.banner_width > 0)
+			gtk_widget_set_size_request(banner.window, notify_config.banner_width, -1);
+		else
+			gtk_widget_set_size_request(banner.window, gdk_screen_width(), -1);
     gtk_window_set_keep_above(GTK_WINDOW(banner.window), TRUE);
     gtk_window_set_accept_focus(GTK_WINDOW(banner.window), FALSE);
     gtk_window_set_skip_taskbar_hint(GTK_WINDOW(banner.window), TRUE);
@@ -183,7 +187,11 @@ static void notification_banner_create(GSList *msg_list)
 
   /* Scrolling */
   gtk_widget_size_request(hbox, &requisition);
-  if(requisition.width > gdk_screen_width()) {
+  if(notify_config.banner_width > 0)
+		banner_width = notify_config.banner_width;
+	else
+		banner_width = gdk_screen_width();
+  if(requisition.width > banner_width) {
     /* Line is too big for screen! */
     /* Double the entrybox into hbox */
     GtkWidget *separator, *second_entrybox;

@@ -1,3 +1,12 @@
+2008-02-16 [holger]	0.15cvs3
+
+	* src/notification_banner.c
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Make banner width configurable. This is reasonable
+		on multi-monitor setups.
+
 2008-02-16 [holger]	0.15cvs2
 
 	* src/notification_banner.c

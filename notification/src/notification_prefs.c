@@ -56,6 +56,7 @@ typedef struct {
 	PrefsPage page;
 	GtkWidget *banner_show;
 	GtkWidget *banner_speed;
+	GtkWidget *banner_width;
 	GtkWidget *banner_include_unread;
 	GtkWidget *banner_max_msgs;
 	GtkWidget *banner_sticky;
@@ -151,6 +152,7 @@ PrefParam
 #ifdef NOTIFICATION_BANNER
 				{	"banner_show", "0", &notify_config.banner_show, P_INT, NULL, NULL, NULL},
 				{	"banner_speed", "30", &notify_config.banner_speed, P_INT, NULL, NULL, NULL},
+				{	"banner_width", "0", &notify_config.banner_width, P_INT, NULL, NULL, NULL},
 				{	"banner_include_unread", "FALSE", &notify_config.banner_include_unread,
 					P_BOOL, NULL, NULL, NULL},
 				{	"banner_max_msgs", "100", &notify_config.banner_max_msgs, P_INT,
@@ -626,6 +628,20 @@ static void notify_create_banner_page(PrefsPage *page, GtkWindow *window,
 	gtk_widget_show(hbox);
 	banner_page.banner_max_msgs = spinner;
 
+	/* banner width */
+	hbox = gtk_hbox_new(FALSE, 10);
+	label = gtk_label_new(_("Banner width in pixels (0 means screen size)"));
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show(label);
+	spinner = gtk_spin_button_new_with_range(0.,5000., 50);
+	gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner),0);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner),notify_config.banner_width);
+	gtk_box_pack_start(GTK_BOX(hbox), spinner, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(spinner);
+	gtk_widget_show(hbox);
+	banner_page.banner_width = spinner;
+
 	/* Include unread */
 	checkbox = gtk_check_button_new_with_label(_("Include unread mails in banner"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
@@ -720,9 +736,11 @@ static void notify_save_banner(PrefsPage *page)
 	GdkColor color;
 
 	notify_config.banner_show =
-	gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page.banner_show));
+		gtk_combo_box_get_active(GTK_COMBO_BOX(banner_page.banner_show));
 	notify_config.banner_max_msgs =
-	gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(banner_page.banner_max_msgs));
+		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(banner_page.banner_max_msgs));
+	notify_config.banner_width =
+		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(banner_page.banner_width));
 	notify_config.banner_include_unread =
 	gtk_toggle_button_get_active
 	(GTK_TOGGLE_BUTTON(banner_page.banner_include_unread));
@@ -749,6 +767,7 @@ static void notify_save_banner(PrefsPage *page)
 			&color);
 	notify_config.banner_color_bg = conv_color_to_int(&color);
 
+	notification_banner_destroy();
 	notification_update_banner();
 }
 

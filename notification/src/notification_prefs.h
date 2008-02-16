@@ -51,6 +51,7 @@ typedef struct {
   gboolean         banner_enable_colors;
   gulong           banner_color_bg;
   gulong           banner_color_fg;
+	gint             banner_width;
 #endif
 #ifdef NOTIFICATION_POPUP
   gboolean         popup_show;
