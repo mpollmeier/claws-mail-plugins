@@ -60,10 +60,7 @@ static gboolean   scroller(gpointer data);
 static GtkWidget* create_entrybox(GSList*);
 static gboolean   notification_banner_configure(GtkWidget*, GdkEventConfigure*,
 						gpointer);
-static gboolean notification_banner_enter_notify(GtkWidget*,GdkEventCrossing*,gpointer);
-static gboolean notification_banner_leave_notify(GtkWidget*,GdkEventCrossing*,gpointer);
-static void notification_banner_enter_foreach(GtkWidget*,gpointer);
-static void notification_banner_leave_foreach(GtkWidget*,gpointer);
+static gboolean notification_banner_swap_colors(GtkWidget*,GdkEventCrossing*,gpointer);
 static gboolean notification_banner_button_press(GtkWidget*,GdkEventButton*,gpointer);
 static void notification_banner_show_popup(GtkWidget*,GdkEventButton*);
 static void notification_banner_popup_done(GtkMenuShell*,gpointer);
@@ -315,7 +312,6 @@ static GtkWidget* create_entrybox(GSList *msg_list)
       }
 
 			ebox = gtk_event_box_new();
-			//			gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
 			gtk_box_pack_start(GTK_BOX(entrybox), ebox, FALSE, FALSE, 0);
 			gtk_widget_set_events(ebox,
 														GDK_POINTER_MOTION_MASK |
@@ -327,10 +323,10 @@ static GtkWidget* create_entrybox(GSList *msg_list)
       banner.entries[ii].table = gtk_table_new(3, 2, FALSE);
 			gtk_container_add(GTK_CONTAINER(ebox),banner.entries[ii].table);
 			g_signal_connect(ebox, "enter-notify-event",
-											 G_CALLBACK(notification_banner_enter_notify),
+											 G_CALLBACK(notification_banner_swap_colors),
 											 banner.entries[ii].table);
 			g_signal_connect(ebox, "leave-notify-event",
-											 G_CALLBACK(notification_banner_leave_notify),
+											 G_CALLBACK(notification_banner_swap_colors),
 											 banner.entries[ii].table);
 			g_signal_connect(ebox, "button-press-event",
 											 G_CALLBACK(notification_banner_button_press),
@@ -395,52 +391,27 @@ static GtkWidget* create_entrybox(GSList *msg_list)
   return entrybox;
 }
 
-static gboolean notification_banner_enter_notify(GtkWidget *widget,
-																								 GdkEventCrossing *event,
-																								 gpointer data)
+static gboolean notification_banner_swap_colors(GtkWidget *widget,
+																								GdkEventCrossing *event,
+																								gpointer data)
 {
-  if(notify_config.banner_enable_colors) {
-		GdkColor fg;
-    gtkut_convert_int_to_gdk_color(notify_config.banner_color_fg,&fg);
-		gtk_widget_modify_bg(widget,GTK_STATE_NORMAL,&fg);
-		gtk_container_foreach(GTK_CONTAINER(data),
-													notification_banner_enter_foreach,	NULL);
-  }
+	GList *children;
+	GList *walk;
+	GdkColor *old_bg;
+	
+	children = gtk_container_get_children(GTK_CONTAINER(data));
+
+	old_bg = gdk_color_copy(&(gtk_widget_get_style(widget)->bg[GTK_STATE_NORMAL]));
+	if(children)
+		gtk_widget_modify_bg(widget,GTK_STATE_NORMAL,
+												 &(gtk_widget_get_style(GTK_WIDGET(children->data))->fg[GTK_STATE_NORMAL]));
+	
+	for(walk = children; walk; walk = walk->next)
+		gtk_widget_modify_fg(GTK_WIDGET(walk->data),GTK_STATE_NORMAL,old_bg);
+	
+	g_list_free(children);
+	gdk_color_free(old_bg);
 	return FALSE;
-}
-
-static gboolean notification_banner_leave_notify(GtkWidget *widget,
-																								 GdkEventCrossing *event,
-																								 gpointer data)
-{
-  if(notify_config.banner_enable_colors) {
-		GdkColor bg;
-    gtkut_convert_int_to_gdk_color(notify_config.banner_color_bg,&bg);
-		gtk_widget_modify_bg(widget,GTK_STATE_NORMAL,&bg);
-		gtk_container_foreach(GTK_CONTAINER(data),
-													notification_banner_leave_foreach,	NULL);
-  }
-	return FALSE;
-}
-
-static void  notification_banner_enter_foreach(GtkWidget *widget,
-																							 gpointer data)
-{
-  if(notify_config.banner_enable_colors) {
-		GdkColor bg;
-    gtkut_convert_int_to_gdk_color(notify_config.banner_color_bg,&bg);
-		gtk_widget_modify_fg(widget,GTK_STATE_NORMAL,&bg);
-  }
-}
-
-static void  notification_banner_leave_foreach(GtkWidget *widget,
-																							 gpointer data)
-{
-  if(notify_config.banner_enable_colors) {
-		GdkColor fg;
-    gtkut_convert_int_to_gdk_color(notify_config.banner_color_fg,&fg);
-		gtk_widget_modify_fg(widget,GTK_STATE_NORMAL,&fg);
-  }
 }
 
 static gboolean notification_banner_button_press(GtkWidget *widget,

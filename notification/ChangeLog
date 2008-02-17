@@ -1,3 +1,8 @@
+2008-02-17 [holger]	0.15cvs4
+
+	* src/notification_banner.c
+		Clean up (and fix) color inversion on mouse over
+
 2008-02-16 [holger]	0.15cvs3
 
 	* src/notification_banner.c
