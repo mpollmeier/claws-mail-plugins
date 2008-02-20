@@ -1,3 +1,8 @@
+2008-02-20 [paul]	0.17.1cvs3
+
+	* src/gtkhtml2_viewer.c
+		hide noticeview when clearing viewer
+
 2008-02-11 [colin]	0.17.1cvs2
 
 	* libgtkhtml/Makefile.am

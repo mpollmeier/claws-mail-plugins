@@ -364,7 +364,16 @@ static void gtkhtml2_clear_viewer(MimeViewer *_viewer)
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
 	GtkAdjustment *vadj;
 	
+	MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
+					? ((MimeViewer *)viewer)->mimeview->messageview 
+					: NULL;
+
 	debug_print("gtkhtml2_clear_viewer\n");
+	if (messageview) {
+		NoticeView *noticeview = messageview->noticeview;
+		noticeview_hide(noticeview);
+	}
+
 	viewer->to_load = NULL;
 	if (!viewer->loading)
 		html_document_clear(viewer->html_doc);
