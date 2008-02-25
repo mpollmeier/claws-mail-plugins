@@ -39,6 +39,9 @@ gboolean notification_trayicon_main_window_close(gpointer, gpointer);
 gboolean notification_trayicon_main_window_got_iconified(gpointer, gpointer);
 gboolean notification_trayicon_account_list_changed(gpointer, gpointer);
 
+gboolean notification_trayicon_is_available(void);
+void notification_trayicon_on_activate(GtkStatusIcon*,gpointer);
+
 #endif /* NOTIFICATION_TRAYICON */
 
 #endif /* include guard */

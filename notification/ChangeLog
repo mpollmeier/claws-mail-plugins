@@ -1,3 +1,13 @@
+2008-02-25 [holger]	0.15cvs5
+
+	* src/notification_plugin.c
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+		If the "hide on startup" trayicon option is
+		set, make sure that the trayicon is really
+		visible. Otherwise, the main window may
+		be hidden and inaccessible.  
+
 2008-02-17 [holger]	0.15cvs4
 
 	* src/notification_banner.c

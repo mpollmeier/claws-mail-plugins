@@ -55,6 +55,10 @@ static gboolean my_main_window_close_hook(gpointer, gpointer);
 static gboolean my_main_window_got_iconified_hook(gpointer, gpointer);
 static gboolean my_account_list_changed_hook(gpointer, gpointer);
 
+#ifdef NOTIFICATION_TRAYICON
+static gboolean trayicon_startup_idle(gpointer);
+#endif
+
 static guint hook_f_item;
 static guint hook_f;
 static guint hook_m_info;
@@ -280,9 +284,11 @@ gint plugin_init(gchar **error)
   notification_lcdproc_connect();
 #endif
 #ifdef NOTIFICATION_TRAYICON
-  if(notify_config.trayicon_hide_at_startup && claws_is_starting()) {
+  if(notify_config.trayicon_enabled && 
+		 notify_config.trayicon_hide_at_startup && claws_is_starting()) {
     MainWindow *mainwin = mainwindow_get_mainwindow();
 
+		g_idle_add(trayicon_startup_idle,NULL);
     if(mainwin && GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window)))
       main_window_hide(mainwin);
     main_set_show_at_startup(FALSE);
@@ -398,5 +404,16 @@ void notification_update_banner(void)
   }
   
   notification_banner_show(banner_collected_msgs);
+}
+#endif
+
+#ifdef NOTIFICATION_TRAYICON
+static gboolean trayicon_startup_idle(gpointer data)
+{
+	/* if the trayicon is not available,
+		 simulate click on it to show mainwindow */
+	if(!notification_trayicon_is_available())
+		notification_trayicon_on_activate(NULL,data);
+	return FALSE;
 }
 #endif

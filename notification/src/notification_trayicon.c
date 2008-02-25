@@ -42,7 +42,6 @@
 
 static GdkPixbuf* notification_trayicon_create(void);
 
-static void notification_trayicon_on_activate(GtkStatusIcon*, gpointer);
 static void notification_trayicon_on_popup_menu(GtkStatusIcon*,guint,
 						guint,gpointer);
 static gboolean notification_trayicon_on_size_changed(GtkStatusIcon*,
@@ -384,8 +383,8 @@ static GdkPixbuf* notification_trayicon_create(void)
 }
 
 /* Hide/show main window */
-static void notification_trayicon_on_activate(GtkStatusIcon *status_icon,
-					      gpointer user_data)
+void notification_trayicon_on_activate(GtkStatusIcon *status_icon,
+																			 gpointer user_data)
 {
   MainWindow *mainwin;
   if((mainwin = mainwindow_get_mainwindow()) == NULL)
@@ -898,6 +897,20 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
   } /* Many messages */
 
   return utf8_str;
+}
+
+gboolean notification_trayicon_is_available(void)
+{
+	gboolean is_available;
+	is_available = FALSE;
+
+	if(trayicon) {
+		if(gtk_status_icon_is_embedded(trayicon) &&
+			 gtk_status_icon_get_visible(trayicon))
+			is_available = TRUE;
+	}
+
+	return is_available;
 }
 
 #endif /* HAVE_LIBNOTIFY */
