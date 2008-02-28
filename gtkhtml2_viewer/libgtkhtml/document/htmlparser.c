@@ -189,7 +189,7 @@ static void
 html_parser_finalize (GObject *object)
 {
 	HtmlParser *parser = HTML_PARSER (object);
-printf("finalizing parser\n");
+
 	if (parser->xmlctxt) {
 		xmlDocPtr doc;
 

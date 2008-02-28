@@ -1,3 +1,8 @@
+2008-02-28 [colin]	0.17.1cvs4
+
+	* libgtkhtml/document/htmlparser.c
+		Remove raw printf
+
 2008-02-20 [paul]	0.17.1cvs3
 
 	* src/gtkhtml2_viewer.c
