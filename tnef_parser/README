@@ -1,4 +1,0 @@
-This Claws Mail plugin allows you to read application/ms-tnef attachments.
-
-The plugin uses the Ytnef library, which is is copyright 2002-2007 by 
-Randall Hand <yerase@yerot.com>.
