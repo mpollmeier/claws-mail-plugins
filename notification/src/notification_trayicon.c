@@ -899,6 +899,8 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
   return utf8_str;
 }
 
+#endif /* HAVE_LIBNOTIFY */
+
 gboolean notification_trayicon_is_available(void)
 {
 	gboolean is_available;
@@ -912,7 +914,5 @@ gboolean notification_trayicon_is_available(void)
 
 	return is_available;
 }
-
-#endif /* HAVE_LIBNOTIFY */
 
 #endif /* NOTIFICATION_TRAYICON */

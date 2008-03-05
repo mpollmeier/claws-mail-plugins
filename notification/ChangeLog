@@ -1,3 +1,9 @@
+2008-03-05 [holger]	0.15cvs6
+
+	* src/notification_trayicon.c
+		Fix trayicon when compiled without
+		libnotify.
+
 2008-02-25 [holger]	0.15cvs5
 
 	* src/notification_plugin.c
