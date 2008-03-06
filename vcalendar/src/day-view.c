@@ -195,8 +195,8 @@ void dw_close_window(day_win *dw)
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(summaryview->mainwidget_book),
 		gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
 		summaryview->scrolledwin));
-	printf("set page %d\n", gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
-		summaryview->scrolledwin));
+	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
+	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
     }
     gtk_object_destroy(GTK_OBJECT(dw->Tooltips));
     g_free(dw);
@@ -661,11 +661,11 @@ static void build_day_view_colours(day_win *dw)
     }
     gdk_colormap_alloc_color(pic1_cmap, &dw->line_color, FALSE, TRUE);
 
-    if (!gdk_color_parse("red", &dw->fg_sunday)) {
+    if (!gdk_color_parse("blue", &dw->fg_sunday)) {
         g_warning("color parse failed: red\n");
-        dw->fg_sunday.red = 255 * (65535/255);
+        dw->fg_sunday.red = 10 * (65535/255);
         dw->fg_sunday.green = 10 * (65535/255);
-        dw->fg_sunday.blue = 10 * (65535/255);
+        dw->fg_sunday.blue = 255 * (65535/255);
     }
     gdk_colormap_alloc_color(pic1_cmap, &dw->fg_sunday, FALSE, TRUE);
 
@@ -871,8 +871,8 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(summaryview->mainwidget_book),
 		gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
 		dw->Vbox));
-	printf("set page %d\n", gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
-		dw->Vbox));
+	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
+	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
     }
 
     g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)dw);

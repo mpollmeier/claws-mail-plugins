@@ -26,13 +26,16 @@
 
 #include <glib.h>
 
+#include "mainwindow.h"
 #include "prefs.h"
 #include "prefs_gtk.h"
 #include "prefswindow.h"
 #include "gettext.h"
 #include "common/utils.h"
 
+#include "vcalendar.h"
 #include "vcal_prefs.h"
+#include "vcal_folder.h"
 
 #define PREFS_BLOCK_NAME "VCalendar"
 
@@ -573,6 +576,7 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	struct VcalendarPage *page = (struct VcalendarPage *) _page;
 	PrefFile *pfile;
 	gchar *rcpath;
+	gboolean update = FALSE;
 
 /* alert */
 	vcalprefs.alert_enable =
@@ -633,6 +637,10 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	    gtk_editable_get_chars(GTK_EDITABLE(page->freebusy_get_url_entry), 0, -1);
 
 
+	if (vcalprefs.use_cal_view_for_meetings != 
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+					 (page->use_cal_view_for_meetings_checkbtn)))
+		update = TRUE;
 	vcalprefs.use_cal_view_for_meetings =
 	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
 					 (page->use_cal_view_for_meetings_checkbtn));
@@ -654,6 +662,16 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	} else
 	        prefs_file_close(pfile);
 	
+	if (update) {
+		MainWindow *mainwin = mainwindow_get_mainwindow();
+		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+		if (mainwin && mainwin->summaryview->folder_item == folder->inbox) {
+			if (vcalprefs.use_cal_view_for_meetings)
+				folder->klass->item_opened(folder->inbox);
+			else
+				folder->klass->item_closed(folder->inbox);
+		}
+	}
 	vcal_folder_export(NULL);
 }
 

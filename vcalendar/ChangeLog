@@ -1,3 +1,11 @@
+2008-03-06 [colin]	1.101.0cvs4
+
+	* src/day-view.c
+	* src/plugin.c
+	* src/vcal_prefs.c
+		Little improvements to the new calendar view
+		Require Claws Mail 3.3.1cvs16
+
 2008-03-06 [colin]	1.101.0cvs3
 
 	* src/day-view.c
