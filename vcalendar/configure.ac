@@ -6,6 +6,15 @@ AM_MAINTAINER_MODE
 PACKAGE=vcalendar
 
 dnl plugin version
+
+#####
+#
+# A note to our dear release manager:
+# I'd like the next major release of vCalendar
+# to be 2.0 :)
+#
+####
+
 MAJOR_VERSION=1
 MINOR_VERSION=101
 MICRO_VERSION=0
