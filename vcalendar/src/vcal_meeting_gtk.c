@@ -1315,6 +1315,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	if (folder && redisp) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		summary_show(mainwin->summaryview, folder->inbox);
+		vcal_folder_refresh_cal(folder->inbox);
 	}
 
 	return res;
@@ -1700,6 +1701,28 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 VCalMeeting *vcal_meeting_create(VCalEvent *event)
 {
 	return vcal_meeting_create_real(event, TRUE);
+}
+
+VCalMeeting *vcal_meeting_create_with_start(VCalEvent *event, struct tm *sdate)
+{
+	VCalMeeting *meet = vcal_meeting_create(event);
+	int num = -1;
+	gtk_calendar_select_day(GTK_CALENDAR(meet->start_c),
+				sdate->tm_mday);
+	gtk_calendar_select_day(GTK_CALENDAR(meet->end_c),
+				sdate->tm_mday);
+
+	gtk_calendar_select_month(GTK_CALENDAR(meet->start_c),
+				sdate->tm_mon, sdate->tm_year+1900);
+	gtk_calendar_select_month(GTK_CALENDAR(meet->end_c),
+				sdate->tm_mon, sdate->tm_year+1900);
+
+	if (sdate->tm_hour != 0) {
+		num = get_list_item_num(sdate->tm_hour, 0);
+		if (num > -1)
+			gtk_list_select_item(GTK_LIST(GTK_COMBO(meet->start_time)->list), num);
+	}
+
 }
 
 VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event)

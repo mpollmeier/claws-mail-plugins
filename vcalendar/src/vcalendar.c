@@ -1350,8 +1350,10 @@ static void refresh_folder_contents(VCalViewer *vcalviewer)
 	if (folder) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		folder_item_scan(folder->inbox);
-		if (mainwin->summaryview->folder_item == folder->inbox)
+		if (mainwin->summaryview->folder_item == folder->inbox) {
 			summary_show(mainwin->summaryview, folder->inbox);
+			vcal_folder_refresh_cal(folder->inbox);
+		}
 	}
 }
 static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
@@ -1398,6 +1400,7 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 		if (folder && redisp) {
 			MainWindow *mainwin = mainwindow_get_mainwindow();
 			summary_show(mainwin->summaryview, folder->inbox);
+			vcal_folder_refresh_cal(folder->inbox);
 		}
 		return TRUE;
 	}
@@ -1413,6 +1416,7 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 	if (folder && redisp) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		summary_show(mainwin->summaryview, folder->inbox);
+		vcal_folder_refresh_cal(folder->inbox);
 	}
 
 	return TRUE;
@@ -1766,6 +1770,8 @@ void vcalendar_done(void)
 	    fitem->folder->klass == vcal_folder_get_class()) {
 		folderview_unselect(folderview);
 		summary_clear_all(folderview->summaryview);
+		if (fitem->folder->klass->item_closed)
+			fitem->folder->klass->item_closed(fitem);
 	}
 
 	mimeview_unregister_viewer_factory(&vcal_viewer_factory);

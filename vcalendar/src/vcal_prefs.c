@@ -63,6 +63,8 @@ struct VcalendarPage
 	GtkWidget *export_freebusy_pass_entry;
 
 	GtkWidget *freebusy_get_url_entry;
+	
+	GtkWidget *use_cal_view_for_meetings_checkbtn;
 };
 
 VcalendarPrefs vcalprefs;
@@ -89,6 +91,9 @@ static PrefParam param[] = {
 	 NULL, NULL, NULL},
 
 	{"orage_registered", "FALSE", &vcalprefs.orage_registered, P_BOOL,
+	 NULL, NULL, NULL},
+
+	{"use_cal_view_for_meetings", "TRUE", &vcalprefs.use_cal_view_for_meetings, P_BOOL,
 	 NULL, NULL, NULL},
 
 	{"export_freebusy_enable", "FALSE", &vcalprefs.export_freebusy_enable, P_BOOL,
@@ -218,6 +223,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	GtkWidget *export_command_label;
 	GtkWidget *export_command_entry;
 	GtkWidget *register_orage_checkbtn;
+	GtkWidget *use_cal_view_for_meetings_checkbtn;
 
 	GtkWidget *export_user_label;
 	GtkWidget *export_user_entry;
@@ -520,6 +526,13 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	g_signal_connect(G_OBJECT(export_freebusy_path_entry),
 			 "changed", G_CALLBACK(path_changed), page);
 
+	use_cal_view_for_meetings_checkbtn = gtk_check_button_new_with_label(_("Use calendar mode for viewing Meetings"));
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(use_cal_view_for_meetings_checkbtn), 
+			vcalprefs.use_cal_view_for_meetings);
+	gtk_widget_show(use_cal_view_for_meetings_checkbtn);
+	gtk_box_pack_start(GTK_BOX (vbox2), use_cal_view_for_meetings_checkbtn, TRUE, TRUE, 0);
+
 	page->alert_enable_btn = alert_enable_checkbtn;
 	page->alert_delay_spinbtn = alert_enable_spinbtn;
 
@@ -541,6 +554,8 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	page->export_freebusy_user_entry = export_freebusy_user_entry;
 	page->export_freebusy_pass_label = export_freebusy_pass_label;
 	page->export_freebusy_pass_entry = export_freebusy_pass_entry;
+
+	page->use_cal_view_for_meetings_checkbtn = use_cal_view_for_meetings_checkbtn;
 
 	set_auth_sensitivity(page);
 
@@ -617,6 +632,10 @@ static void vcal_prefs_save_func(PrefsPage * _page)
 	vcalprefs.freebusy_get_url =
 	    gtk_editable_get_chars(GTK_EDITABLE(page->freebusy_get_url_entry), 0, -1);
 
+
+	vcalprefs.use_cal_view_for_meetings =
+	    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+					 (page->use_cal_view_for_meetings_checkbtn));
 
 	rcpath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, COMMON_RC, NULL);
 	pfile = prefs_write_open(rcpath);

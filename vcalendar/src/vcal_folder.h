@@ -25,7 +25,7 @@
 #include "folder.h"
 
 extern gboolean manual_update;
-
+typedef struct _day_win day_win;
 FolderClass *vcal_folder_get_class();
 void vcal_folder_gtk_init(void);
 void vcal_folder_gtk_done(void);
@@ -39,4 +39,10 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 		*error));
 gchar* get_item_event_list_for_date(FolderItem *item, EventTime date);
 void vcal_folder_block_export(gboolean block);
+void vcal_folder_refresh_cal(FolderItem *item);
+GSList *vcal_get_events_list(FolderItem *item);
+
+day_win *create_day_win(FolderItem *item, struct tm tmdate);
+void refresh_day_win(day_win *dw);
+
 #endif

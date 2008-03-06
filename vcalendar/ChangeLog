@@ -1,3 +1,19 @@
+2008-03-06 [colin]	1.101.0cvs2
+
+	* src/Makefile.am
+	* src/day-view.c ** NEW FILE **
+	* src/plugin.c
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_interface.h
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
+	* src/vcalendar.c
+		Add an interface for other plugins to use
+		Add a calendar view, heavily based on Orage's
+		day-view.c.
+
 2008-02-09 [paul]	1.101.0cvs1
 
 	* Makefile.am

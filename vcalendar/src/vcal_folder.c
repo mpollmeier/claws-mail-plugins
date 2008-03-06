@@ -54,6 +54,7 @@
 #include "statusbar.h"
 #include "msgcache.h"
 #include "timing.h"
+#include "messageview.h"
 
 #include <gtk/gtk.h>
 #include <dirent.h>
@@ -140,6 +141,7 @@ struct _VCalFolderItem
 	GSList *evtlist;
 	gboolean batching;
 	gboolean dirty;
+	day_win *dw;
 };
 
 static char *vcal_popup_labels[] =
@@ -268,6 +270,38 @@ static void vcal_get_sort_type(Folder *folder, FolderSortKey *sort_key,
 		*sort_key = SORT_BY_DATE;
 }
 
+static void vcal_item_opened(FolderItem *item)
+{
+	Folder *folder = item->folder;
+	struct tm tmdate;
+	time_t t = time(NULL);
+
+	localtime_r(&t, &tmdate);
+
+	if (!((VCalFolderItem *)(item))->dw 
+	    && item == folder->inbox
+	    && vcalprefs.use_cal_view_for_meetings)
+		((VCalFolderItem *)(item))->dw = create_day_win(item, tmdate);
+}
+
+void vcal_folder_refresh_cal(FolderItem *item)
+{
+	Folder *folder = item->folder;
+
+	if (((VCalFolderItem *)(item))->dw)
+		refresh_day_win(((VCalFolderItem *)(item))->dw);
+}
+
+static void vcal_item_closed(FolderItem *item)
+{
+	Folder *folder = item->folder;
+
+	if (((VCalFolderItem *)(item))->dw) {
+		dw_close_window(((VCalFolderItem *)(item))->dw);
+		((VCalFolderItem *)(item))->dw = NULL;
+	}
+}
+
 FolderClass *vcal_folder_get_class()
 {
 	if (vcal_class.idstr == NULL) {
@@ -308,6 +342,9 @@ FolderClass *vcal_folder_get_class()
 		vcal_class.change_flags = vcal_change_flags;
 		vcal_class.subscribe = vcal_subscribe_uri;
 
+		/* FolderView functions */
+		vcal_class.item_opened = vcal_item_opened;
+		vcal_class.item_closed = vcal_item_closed;
 		debug_print("registered class for real\n");
 	}
 
@@ -577,70 +614,47 @@ add_new:
 #define VCAL_FOLDER_ADD_EVENT(event) \
 { \
  \
-	debug_print("should add %d %s? %d %d\n", n_msg, event->uid, status, status == ICAL_PARTSTAT_ACCEPTED); \
-	if (status == ICAL_PARTSTAT_ACCEPTED \
-	||  status == ICAL_PARTSTAT_TENTATIVE) { \
+	*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
+	debug_print("add %d %s\n", n_msg, event->uid); \
+	n_msg++; \
+	days = event_to_today(event, 0); \
+ \
+	if (days == EVENT_PAST && past_msg == -1) { \
 		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
-		debug_print("add %d %s\n", n_msg, event->uid); \
-		n_msg++; \
-		days = event_to_today(event, 0); \
-	 \
-		if (days == EVENT_PAST && past_msg == -1) { \
-			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
-			past_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, GINT_TO_POINTER(past_msg), g_strdup(EVENT_PAST_ID)); \
-		} else if (days == EVENT_TODAY && today_msg == -1) { \
-			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
-			today_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, GINT_TO_POINTER(today_msg), g_strdup(EVENT_TODAY_ID)); \
-		} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) { \
-			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
-			tomorrow_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, GINT_TO_POINTER(tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
-		} else if (days == EVENT_THISWEEK && thisweek_msg == -1) { \
-			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
-			thisweek_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, GINT_TO_POINTER(thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
-		} else if (days == EVENT_LATER && later_msg == -1) { \
-			*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
-			later_msg = n_msg++; \
-			g_hash_table_insert(hash_uids, GINT_TO_POINTER(later_msg), g_strdup(EVENT_LATER_ID)); \
-		} \
+		past_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(past_msg), g_strdup(EVENT_PAST_ID)); \
+	} else if (days == EVENT_TODAY && today_msg == -1) { \
+		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
+		today_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(today_msg), g_strdup(EVENT_TODAY_ID)); \
+	} else if (days == EVENT_TOMORROW && tomorrow_msg == -1) { \
+		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
+		tomorrow_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(tomorrow_msg), g_strdup(EVENT_TOMORROW_ID)); \
+	} else if (days == EVENT_THISWEEK && thisweek_msg == -1) { \
+		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
+		thisweek_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(thisweek_msg), g_strdup(EVENT_THISWEEK_ID)); \
+	} else if (days == EVENT_LATER && later_msg == -1) { \
+		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); \
+		later_msg = n_msg++; \
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(later_msg), g_strdup(EVENT_LATER_ID)); \
 	} \
 }
 
-static gint vcal_get_num_list(Folder *folder, FolderItem *item,
-				 MsgNumberList ** list, gboolean *old_uids_valid)
+GSList *vcal_get_events_list(FolderItem *item)
 {
 	DIR *dp;
 	struct dirent *d;
-	int n_msg = 1;
-	gint past_msg = -1, today_msg = -1, tomorrow_msg = -1, 
-		thisweek_msg = -1, later_msg = -1;
-	START_TIMING("");
-	g_return_val_if_fail (*list == NULL, 0); /* we expect a NULL list */
+	GSList *events = NULL;
 
-	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
-	
-	*old_uids_valid = FALSE;
-	
-	if (((VCalFolderItem *)item)->uri) 
-		return feed_fetch(item, list, old_uids_valid);
-	
 	dp = opendir(vcal_manager_get_event_path());
 	
-	debug_print("get_num_list\n");
 	if (!dp) {
 		FILE_OP_ERROR(vcal_manager_get_event_path(), "opendir");
 		return 0;
 	}
 
-	if (hash_uids != NULL)
-		g_hash_table_destroy(hash_uids);
-		
-	hash_uids = g_hash_table_new_full(g_direct_hash, g_direct_equal,
-					  NULL, g_free);
-	
 	while ((d = readdir(dp)) != NULL) {
 		VCalEvent *event = NULL;
 		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
@@ -649,8 +663,6 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		||  !strcmp(d->d_name, "multisync")) 
 			continue;
 
-		g_hash_table_insert(hash_uids, GINT_TO_POINTER(n_msg), g_strdup(d->d_name));
-		
 		event = vcal_manager_load_event(d->d_name);
 		if (!event)
 			continue;
@@ -661,11 +673,13 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 		}
 
 		if (event && event->method != ICAL_METHOD_CANCEL) {
-			EventTime days; \
-			PrefsAccount *account = vcal_manager_get_account_from_event(event); \
-			enum icalparameter_partstat status = \
-				account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION; \
-			VCAL_FOLDER_ADD_EVENT(event);
+			PrefsAccount *account = vcal_manager_get_account_from_event(event);
+			enum icalparameter_partstat status =
+				account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
+			if (status == ICAL_PARTSTAT_ACCEPTED
+			||  status == ICAL_PARTSTAT_TENTATIVE) {
+				events = g_slist_prepend(events, event);
+			}
 			if ((status == ICAL_PARTSTAT_ACCEPTED
 			     || status == ICAL_PARTSTAT_TENTATIVE) 
 			    && event->recur && *(event->recur)) {
@@ -708,9 +722,13 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 					vcal_manager_copy_attendees(event, nevent);
 					nevent->rec_occurence = TRUE;
 					vcal_manager_save_event(nevent, FALSE);
-					g_hash_table_insert(hash_uids, GINT_TO_POINTER(n_msg), uid);
-					VCAL_FOLDER_ADD_EVENT(nevent);
-					vcal_manager_free_event(nevent);
+					account = vcal_manager_get_account_from_event(event);
+					status =
+						account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
+					if (status == ICAL_PARTSTAT_ACCEPTED
+					||  status == ICAL_PARTSTAT_TENTATIVE) {
+						events = g_slist_prepend(events, nevent);
+					}
 					next = icalrecur_iterator_next(ritr);
 					debug_print("next time is %snull\n", icaltime_is_null_time(next)?"":"not ");
 					i++;
@@ -718,12 +736,58 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 				icalrecur_iterator_free(ritr);
 			}
 		}
+	}
+	closedir(dp);
+	return g_slist_reverse(events);
+}
+
+static gint vcal_get_num_list(Folder *folder, FolderItem *item,
+				 MsgNumberList ** list, gboolean *old_uids_valid)
+{
+	int n_msg = 1;
+	gint past_msg = -1, today_msg = -1, tomorrow_msg = -1, 
+		thisweek_msg = -1, later_msg = -1;
+	GSList *events = NULL, *cur;
+	START_TIMING("");
+	g_return_val_if_fail (*list == NULL, 0); /* we expect a NULL list */
+
+	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
+	
+	*old_uids_valid = FALSE;
+	
+	if (((VCalFolderItem *)item)->uri) 
+		return feed_fetch(item, list, old_uids_valid);
+	
+	events = vcal_get_events_list(item);
+	
+	debug_print("get_num_list\n");
+
+	if (hash_uids != NULL)
+		g_hash_table_destroy(hash_uids);
+		
+	hash_uids = g_hash_table_new_full(g_direct_hash, g_direct_equal,
+					  NULL, g_free);
+	
+	for (cur = events; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(n_msg), g_strdup(event->uid));
+		
+		if (event->rec_occurence) {
+			vcal_manager_free_event(event);
+			continue;
+		}
+
+		if (event && event->method != ICAL_METHOD_CANCEL) {
+			EventTime days;
+			VCAL_FOLDER_ADD_EVENT(event);
+		}
 		if (event)
 			vcal_manager_free_event(event);
 
 
 	}
-	closedir(dp);
+	g_slist_free(events);
 	vcal_folder_export(folder);
 
 	vcal_set_mtime(folder, item);
@@ -877,11 +941,27 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 
 static gint vcal_add_msg(Folder *folder, FolderItem *_dest, const gchar *file, MsgFlags *flags)
 {
+	gchar *contents = file_read_to_str(file);
+	if (contents) {
+		vcal_add_event(contents);		
+	}
+	g_free(contents);
 	return 0;
 }
 
+static void vcal_remove_event (Folder *folder, MsgInfo *msginfo);
+
 static gint vcal_remove_msg(Folder *folder, FolderItem *_item, gint num)
 {
+	MsgInfo *msginfo = folder_item_get_msginfo(_item, num);
+
+	if (!msginfo)
+		return 0;
+
+	if (_item == folder->inbox)
+		vcal_remove_event(folder, msginfo);
+
+	procmsg_msginfo_free(msginfo);
 	return 0;
 }
 
@@ -1146,46 +1226,8 @@ static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widg
 
 GSList * vcal_folder_get_waiting_events(void)
 {
-	DIR *dp;
-	struct dirent *d;
-	GSList *list = NULL;
-
-	dp = opendir(vcal_manager_get_event_path());
-
-	if (!dp) {
-		FILE_OP_ERROR(vcal_manager_get_event_path(), "opendir");
-		return 0;
-	}
-
-	while ((d = readdir(dp)) != NULL) {
-		VCalEvent *event = NULL;
-		if (d->d_name[0] == '.' || strstr(d->d_name, ".bak")
-		||  !strcmp(d->d_name, "internal.ics") 
-		||  !strcmp(d->d_name, "internal.ifb") 
-		||  !strcmp(d->d_name, "multisync")) 
-			continue;
-
-		event = vcal_manager_load_event(d->d_name);
-
-		if (event && event->method != ICAL_METHOD_CANCEL) {
-			PrefsAccount *account = vcal_manager_get_account_from_event(event);
-			enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
-			status = account ? vcal_manager_get_reply_for_attendee(event, account->address): ICAL_PARTSTAT_NEEDSACTION;
-
-			if (status == ICAL_PARTSTAT_ACCEPTED
-			||  status == ICAL_PARTSTAT_TENTATIVE) {
-				list = g_slist_prepend(list, event);
-			} else {
-				vcal_manager_free_event(event);
-			}
-		} else {
-			vcal_manager_free_event(event);
-		}
-	}
-
-	closedir(dp);
-		
-	return g_slist_reverse(list);
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	return vcal_get_events_list(folder->inbox);
 }
 
 typedef struct _get_webcal_data {
@@ -1757,6 +1799,8 @@ static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *
 	Xstrdup_a(old_path, item->path, return);
 	old_id = folder_item_get_identifier(item);
 
+	vcal_item_closed(item);
+
 	if (folderview->opened == folderview->selected ||
 	    gtk_ctree_is_ancestor(ctree,
 				  folderview->selected,
@@ -1838,4 +1882,74 @@ static void rename_cb(FolderView *folderview, guint action,
 
 	folder_item_prefs_save_config_recursive(item);
 	folder_write_list();
+}
+
+gboolean vcal_event_exists(const gchar *id)
+{
+	MsgInfo *info = NULL;
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	if (!folder)
+		return FALSE;
+
+	info = folder_item_get_msginfo_by_msgid(folder->inbox, id);
+	if (info != NULL) {
+		procmsg_msginfo_free(info);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent))
+{
+	GSList *list = vcal_folder_get_waiting_events();
+	GSList *cur = NULL;
+	icalcomponent *calendar = NULL;
+	if (!cb_func)
+		return;
+
+	for (cur = list; cur; cur = cur->next) {
+		VCalEvent *event = (VCalEvent *)cur->data;
+		const gchar *tmp;
+		calendar = icalcomponent_vanew(
+        	    ICAL_VCALENDAR_COMPONENT,
+	            icalproperty_new_version("2.0"),
+        	    icalproperty_new_prodid(
+                	 "-//Claws Mail//NONSGML Claws Mail Calendar//EN"),
+		    icalproperty_new_calscale("GREGORIAN"),
+        	    0);
+		vcal_manager_event_dump(event, FALSE, FALSE, calendar, FALSE);
+		vcal_manager_free_event(event);
+		tmp = icalcomponent_as_ical_string(calendar);
+		if (tmp) {
+			cb_func(tmp);
+		}
+		icalcomponent_free(calendar);
+	}
+}
+
+gboolean vcal_delete_event(const gchar *id)
+{
+	MsgInfo *info = NULL;
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	if (!folder)
+		return FALSE;
+
+	info = folder_item_get_msginfo_by_msgid(folder->inbox, id);
+	if (info != NULL) {
+		vcal_remove_event(folder, info);
+		procmsg_msginfo_free(info);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+gboolean vcal_add_event(const gchar *vevent)
+{
+	/* icalcomponent *comp = icalcomponent_new_from_string((gchar *)vevent); */
+	return FALSE;
+}
+
+gboolean vcal_update_event(const gchar *vevent)
+{
+	return FALSE;
 }

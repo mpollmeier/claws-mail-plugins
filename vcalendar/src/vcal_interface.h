@@ -18,36 +18,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef VCALPREFS_H
-#define VCALPREFS_H
-
-#include <glib.h>
-
-typedef struct _VcalendarPrefs VcalendarPrefs;
-
-struct _VcalendarPrefs
-{
-	gboolean	 alert_enable;
-	gint		 alert_delay;
-	gboolean	 export_enable;
-	gboolean	 export_freebusy_enable;
-	gboolean	 export_subs;
-	gchar 		*export_path;	
-	gchar 		*export_freebusy_path;	
-	gchar 		*export_command;	
-	gchar		*export_user;
-	gchar		*export_pass;
-	gchar 		*export_freebusy_command;
-	gchar		*freebusy_get_url;	
-	gchar		*export_freebusy_user;
-	gchar		*export_freebusy_pass;
-	gboolean	 orage_registered;
-	gboolean	 use_cal_view_for_meetings;
-};
-
-extern VcalendarPrefs vcalprefs;
-
-void vcal_prefs_init	(void);
-void vcal_prefs_done	(void);
-
-#endif
+gboolean vcal_event_exists(const gchar *id);
+void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent));
+gboolean vcal_delete_event(const gchar *id);
+gboolean vcal_add_event(const gchar *vevent);
+gboolean vcal_update_event(const gchar *vevent);

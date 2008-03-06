@@ -45,7 +45,7 @@ gint plugin_init(gchar **error)
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	vcalendar_init();
-	
+
 	return 0;	
 }
 
