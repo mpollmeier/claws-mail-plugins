@@ -873,8 +873,6 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
 		dw->Vbox));
 	printf("set page %d\n", gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
 		dw->Vbox));
-	GTK_EVENTS_FLUSH();
-	summary_enable_key_events(summaryview, FALSE);
     }
 
     g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)dw);

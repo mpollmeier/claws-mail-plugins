@@ -145,3 +145,4 @@
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/es.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fi.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/hu.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/it.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/zh_CN.po;  ) > 1.100.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 Makefile.am;  ) > 1.101.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/Makefile.am;  diff -u /dev/null src/day-view.c;  cvs diff -u -r 1.1.2.37 -r 1.1.2.38 src/plugin.c;  cvs diff -u -r 1.2.2.77 -r 1.2.2.78 src/vcal_folder.c;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/vcal_folder.h;  diff -u /dev/null src/vcal_interface.h;  cvs diff -u -r 1.1.2.73 -r 1.1.2.74 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/vcal_prefs.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/vcal_prefs.h;  cvs diff -u -r 1.2.2.65 -r 1.2.2.66 src/vcalendar.c;  ) > 1.101.0cvs2.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/day-view.c;  ) > 1.101.0cvs3.patchset
