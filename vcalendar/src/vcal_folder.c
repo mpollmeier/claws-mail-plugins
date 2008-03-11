@@ -112,6 +112,7 @@ static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widge
 static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
+static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
 static void update_subscription(const gchar *uri, gboolean verbose);
 static void rename_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -142,6 +143,8 @@ struct _VCalFolderItem
 	gboolean batching;
 	gboolean dirty;
 	day_win *dw;
+	month_win *mw;
+	time_t last_fetch;
 };
 
 static char *vcal_popup_labels[] =
@@ -156,8 +159,13 @@ static char *vcal_popup_labels[] =
 	"/---",
 	N_("/U_pdate subscriptions"),
 	"/---",
+	N_("/_List view"),
+	N_("/_Week view"),
+	N_("/_Month view"),
+	"/---",
 	NULL
-};			
+};
+	
 static GtkItemFactoryEntry vcal_popup_entries[] =
 {
 	{NULL, NULL, new_meeting_cb,	0, NULL},
@@ -169,6 +177,10 @@ static GtkItemFactoryEntry vcal_popup_entries[] =
 	{NULL, NULL, rename_cb, 0, NULL},
 	{NULL, NULL, NULL,    	0, "<Separator>"},
 	{NULL, NULL, check_subs_cb, 0, NULL},
+	{NULL, NULL, NULL,  	0, "<Separator>"},
+	{NULL, NULL, set_view_cb, 0, "<RadioItem>"},
+	{NULL, NULL, set_view_cb, 1, "/List view"},
+	{NULL, NULL, set_view_cb, 2, "/List view"},
 	{NULL, NULL, NULL,  	0, "<Separator>"}
 };
 
@@ -279,9 +291,11 @@ static void vcal_item_opened(FolderItem *item)
 	localtime_r(&t, &tmdate);
 
 	if (!((VCalFolderItem *)(item))->dw 
-	    && item == folder->inbox
-	    && vcalprefs.use_cal_view_for_meetings)
+	    && vcalprefs.use_cal_view_for_meetings == 1)
 		((VCalFolderItem *)(item))->dw = create_day_win(item, tmdate);
+	if (!((VCalFolderItem *)(item))->mw 
+	    && vcalprefs.use_cal_view_for_meetings == 2)
+		((VCalFolderItem *)(item))->mw = create_month_win(item, tmdate);
 }
 
 void vcal_folder_refresh_cal(FolderItem *item)
@@ -290,6 +304,8 @@ void vcal_folder_refresh_cal(FolderItem *item)
 
 	if (((VCalFolderItem *)(item))->dw)
 		refresh_day_win(((VCalFolderItem *)(item))->dw);
+	if (((VCalFolderItem *)(item))->mw)
+		refresh_month_win(((VCalFolderItem *)(item))->mw);
 }
 
 static void vcal_item_closed(FolderItem *item)
@@ -299,6 +315,10 @@ static void vcal_item_closed(FolderItem *item)
 	if (((VCalFolderItem *)(item))->dw) {
 		dw_close_window(((VCalFolderItem *)(item))->dw);
 		((VCalFolderItem *)(item))->dw = NULL;
+	}
+	if (((VCalFolderItem *)(item))->mw) {
+		mw_close_window(((VCalFolderItem *)(item))->mw);
+		((VCalFolderItem *)(item))->mw = NULL;
 	}
 }
 
@@ -647,6 +667,20 @@ GSList *vcal_get_events_list(FolderItem *item)
 	DIR *dp;
 	struct dirent *d;
 	GSList *events = NULL;
+
+	if (item != item->folder->inbox) {
+		GSList *subs = vcal_folder_get_webcal_events_for_folder(item);
+		GSList *cur = NULL;
+		for (cur = subs; cur; cur = cur->next) {
+			icalcomponent *ical = (icalcomponent *)cur->data;
+			VCalEvent *event = vcal_get_event_from_ical(
+				icalcomponent_as_ical_string(ical), NULL);
+			icalcomponent_free(ical);
+			events = g_slist_prepend(events, event);
+		}
+		g_slist_free(subs);
+		return events;
+	}
 
 	dp = opendir(vcal_manager_get_event_path());
 	
@@ -1201,12 +1235,36 @@ void vcal_folder_gtk_done(void)
 	folderview_unregister_popup(&vcal_popup);
 }
 
+static gboolean setting_sensitivity = FALSE;
+
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 {
 	VCalFolderItem *item = (VCalFolderItem *)fitem;
+	GtkWidget *menuitem = NULL;
 
 #define SET_SENS(name, sens) \
 	menu_set_sensitive(factory, name, sens)
+
+	setting_sensitivity = TRUE;
+	switch(vcalprefs.use_cal_view_for_meetings) {
+	case 0:
+		menuitem = gtk_item_factory_get_item
+			(factory, "/List view");
+		break;
+	case 1:
+		menuitem = gtk_item_factory_get_item
+			(factory, "/Week view");
+		break;
+	case 2:
+		menuitem = gtk_item_factory_get_item
+			(factory, "/Month view");
+		break;
+	default:
+		menuitem = gtk_item_factory_get_item
+			(factory, "/List view");
+		break;
+	}
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), TRUE);
 
 	SET_SENS(_("/New meeting..."), item->uri == NULL);
 	SET_SENS(_("/Export calendar..."), TRUE);
@@ -1214,7 +1272,10 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 	SET_SENS(_("/Unsubscribe..."), item->uri != NULL);
 	SET_SENS(_("/Rename..."), folder_item_parent(fitem) != NULL);
 	SET_SENS(_("/Update subscriptions"), TRUE);
-	
+	SET_SENS(_("/List view"), folder_item_parent(fitem) != NULL);
+	SET_SENS(_("/Week view"), folder_item_parent(fitem) != NULL);
+	SET_SENS(_("/Month view"), folder_item_parent(fitem) != NULL);
+	setting_sensitivity = FALSE;
 #undef SET_SENS
 }
 
@@ -1232,6 +1293,7 @@ GSList * vcal_folder_get_waiting_events(void)
 
 typedef struct _get_webcal_data {
 	GSList *list;
+	FolderItem *item;
 } GetWebcalData;
 
 static gboolean get_webcal_events_func(GNode *node, gpointer user_data)
@@ -1240,6 +1302,9 @@ static gboolean get_webcal_events_func(GNode *node, gpointer user_data)
 	GetWebcalData *data = user_data;
 	gboolean dummy = FALSE;
 	GSList *list = NULL, *cur = NULL;
+
+	if (data->item && data->item != item)
+		return FALSE;
 
 	feed_fetch(item, &list, &dummy);
 
@@ -1257,6 +1322,22 @@ GSList * vcal_folder_get_webcal_events(void)
 	GetWebcalData *data = g_new0(GetWebcalData, 1);
 	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	GSList *list = NULL;
+	data->item = NULL;
+	g_node_traverse(folder->node, G_PRE_ORDER,
+			G_TRAVERSE_ALL, -1, get_webcal_events_func, data);
+
+	list = data->list;
+	g_free(data);
+
+	return g_slist_reverse(list);
+}
+
+GSList * vcal_folder_get_webcal_events_for_folder(FolderItem *item)
+{
+	GetWebcalData *data = g_new0(GetWebcalData, 1);
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	GSList *list = NULL;
+	data->item = item;
 	g_node_traverse(folder->node, G_PRE_ORDER,
 			G_TRAVERSE_ALL, -1, get_webcal_events_func, data);
 
@@ -1715,10 +1796,13 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 	((VCalFolderItem *)item)->cal = cal;
 	
 	main_window_cursor_normal(mainwindow_get_mainwindow());
+	((VCalFolderItem *)item)->last_fetch = time(NULL);
 }
 
 static void update_subscription(const gchar *uri, gboolean verbose)
 {
+	FolderItem *item = get_folder_item_for_uri(uri);
+
 	if (prefs_common.work_offline) {
 		if (!verbose || 
 		!inc_offline_should_override(TRUE,
@@ -1727,6 +1811,9 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 			return;
 	}
 	
+	if (time(NULL) - ((VCalFolderItem *)(item))->last_fetch < 60 && 
+	    ((VCalFolderItem *)(item))->cal)
+		return;
 	main_window_cursor_wait(mainwindow_get_mainwindow());
 	vcal_curl_read(uri, verbose, update_subscription_finish);
 }
@@ -1884,6 +1971,267 @@ static void rename_cb(FolderView *folderview, guint action,
 	folder_write_list();
 }
 
+static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget)
+{
+	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	FolderItem *item = NULL;
+	gchar *message;
+	AlertValue avalue;
+	gchar *old_path;
+	gchar *old_id;
+
+	if (!folderview->selected) return;
+	if (setting_sensitivity) return;
+
+	item = gtk_ctree_node_get_row_data(ctree, folderview->opened);
+
+	if (vcalprefs.use_cal_view_for_meetings == action)
+		return;
+	debug_print("set view %d\n", action);
+	if (item && item->folder->klass == vcal_folder_get_class())
+		item->folder->klass->item_closed(item);
+	vcalprefs.use_cal_view_for_meetings = action;
+	if (vcalprefs.use_cal_view_for_meetings) {
+		if (item && item->folder->klass == vcal_folder_get_class())
+			item->folder->klass->item_opened(item);
+	}
+	vcal_prefs_save();
+}
+
+gchar *vcal_get_event_as_ical_str(VCalEvent *event)
+{
+	gchar *ical;
+	icalcomponent *calendar = icalcomponent_vanew(
+            ICAL_VCALENDAR_COMPONENT,
+	    icalproperty_new_version("2.0"),
+            icalproperty_new_prodid(
+                 "-//Claws Mail//NONSGML Claws Mail Calendar//EN"),
+	    icalproperty_new_calscale("GREGORIAN"),
+            0);
+	vcal_manager_event_dump(event, FALSE, FALSE, calendar, FALSE);
+	vcal_manager_free_event(event);
+	ical = g_strdup(icalcomponent_as_ical_string(calendar));
+	icalcomponent_free(calendar);
+	
+	return ical;
+}
+
+static gchar *get_name_from_property(icalproperty *p)
+{
+	gchar *tmp = NULL;
+	
+	if (p && icalproperty_get_parameter_as_string(p, "CN") != NULL)
+		tmp = g_strdup(icalproperty_get_parameter_as_string(p, "CN"));
+
+	return tmp;
+}
+
+static gchar *get_email_from_property(icalproperty *p)
+{
+	gchar *tmp = NULL;
+	gchar *email = NULL;
+	
+	if (p)
+		tmp = g_strdup(icalproperty_get_organizer(p));
+
+	if (!tmp) 
+		return NULL;
+
+	if (!strncasecmp(tmp, "MAILTO:", strlen("MAILTO:")))
+		email = g_strdup(tmp+strlen("MAILTO:"));
+	else
+		email = g_strdup(tmp);
+	g_free(tmp);
+	
+	return email;
+}
+
+#define GET_PROP(comp,prop,kind) {						\
+	prop = NULL;								\
+	if (!(prop = icalcomponent_get_first_property(comp, kind))) {		\
+		prop = inner							\
+			? icalcomponent_get_first_property(inner, kind)		\
+			: NULL;							\
+	}									\
+}
+
+#define GET_PROP_LIST(comp,list,kind) {						\
+	list = NULL;								\
+	if (!(prop = icalcomponent_get_first_property(comp, kind))) {		\
+		prop = inner							\
+			? icalcomponent_get_first_property(inner, kind)		\
+			: NULL;							\
+		if (prop) do {							\
+			list = g_slist_prepend(list, prop);			\
+		} while ((prop = icalcomponent_get_next_property(inner, kind)));\
+	}else do {								\
+		list = g_slist_prepend(list, prop);				\
+	} while ((prop = icalcomponent_get_next_property(comp, kind)));		\
+}
+
+#define TO_UTF8(string) {							\
+	if (string && !g_utf8_validate(string, -1, NULL)) {			\
+		gchar *tmp = conv_codeset_strdup(string, 			\
+				charset ? charset:conv_get_locale_charset_str(),\
+				CS_UTF_8);					\
+		g_free(string);							\
+		string = tmp;							\
+	}									\
+}
+
+VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset)
+{
+	VCalEvent *event = NULL;
+	gchar *int_ical = g_strdup(ical);
+	icalcomponent *comp = icalcomponent_new_from_string(int_ical);
+	icalcomponent *inner = NULL;
+	icalproperty *prop = NULL;
+	GSList *list = NULL, *cur = NULL;
+	gchar *uid = NULL;
+	gchar *summary = NULL;
+	gchar *dtstart = NULL;
+	gchar *dtend = NULL;
+	gchar *org_email = NULL, *org_name = NULL;
+	gchar *description = NULL;
+	gchar *url = NULL;
+	gchar *tzid = NULL;
+	gchar *recur = NULL;
+	int sequence = 0;
+	enum icalproperty_method method = ICAL_METHOD_REQUEST;
+	enum icalproperty_kind type = ICAL_VEVENT_COMPONENT;
+	GSList *attendees = NULL;
+	
+	if ((inner = icalcomponent_get_inner(comp)) != NULL)
+	    type = icalcomponent_isa(inner);
+
+	GET_PROP(comp, prop, ICAL_UID_PROPERTY);
+	if (prop) {
+		uid = g_strdup(icalproperty_get_uid(prop));
+		TO_UTF8(uid);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_SUMMARY_PROPERTY);
+	if (prop) {
+		summary = g_strdup(icalproperty_get_summary(prop));
+		TO_UTF8(summary);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_DTSTART_PROPERTY);
+	if (prop) {
+		dtstart = g_strdup(icaltime_as_ical_string(icalproperty_get_dtstart(prop)));
+		TO_UTF8(dtstart);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_DTEND_PROPERTY);
+	if (prop) {
+		dtend = g_strdup(icaltime_as_ical_string(icalproperty_get_dtend(prop)));
+		TO_UTF8(dtend);
+		icalproperty_free(prop);
+	} else {
+		GET_PROP(comp, prop, ICAL_DURATION_PROPERTY);
+		if (prop) {
+			struct icaldurationtype duration = icalproperty_get_duration(prop);
+			struct icaltimetype itt;
+			icalproperty_free(prop);
+			GET_PROP(comp, prop, ICAL_DTSTART_PROPERTY);
+			itt = icalproperty_get_dtstart(prop);
+			if (prop) {
+				icalproperty_free(prop);
+				dtend = g_strdup(icaltime_as_ical_string(icaltime_add(itt,duration)));
+				TO_UTF8(dtend);
+			}
+		}
+	}
+	GET_PROP(comp, prop, ICAL_SEQUENCE_PROPERTY);
+	if (prop) {
+		sequence = icalproperty_get_sequence(prop);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_METHOD_PROPERTY);
+	if (prop) {
+		method = icalproperty_get_method(prop);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_ORGANIZER_PROPERTY);
+	if (prop) {
+		org_email = get_email_from_property(prop);
+		TO_UTF8(org_email);
+		org_name = get_name_from_property(prop);
+		TO_UTF8(org_name);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_DESCRIPTION_PROPERTY);
+	if (prop) {
+		description = g_strdup(icalproperty_get_description(prop));
+		TO_UTF8(description);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_URL_PROPERTY);
+	if (prop) {
+		url = g_strdup(icalproperty_get_url(prop));
+		TO_UTF8(url);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_TZID_PROPERTY);
+	if (prop) {
+		tzid = g_strdup(icalproperty_get_tzid(prop));
+		TO_UTF8(tzid);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_RRULE_PROPERTY);
+	if (prop) {
+		struct icalrecurrencetype rrule = icalproperty_get_rrule(prop);
+		recur = g_strdup(icalrecurrencetype_as_string(&rrule));
+		TO_UTF8(recur);
+		icalproperty_free(prop);
+	}
+	GET_PROP_LIST(comp, list, ICAL_ATTENDEE_PROPERTY);
+	for (cur = list; cur; cur = cur->next) {
+		enum icalparameter_partstat partstat = 0;
+		enum icalparameter_cutype cutype = 0;
+		icalparameter *param = NULL;
+		gchar *email = NULL;
+		gchar *name = NULL;
+		Answer *answer = NULL;
+
+		prop = (icalproperty *)(cur->data);
+
+		email = get_email_from_property(prop);
+		TO_UTF8(email);
+		name = get_name_from_property(prop);
+		TO_UTF8(name);
+
+		param = icalproperty_get_first_parameter(prop, ICAL_PARTSTAT_PARAMETER);
+		if (param)
+			partstat = icalparameter_get_partstat(param);
+
+		param = icalproperty_get_first_parameter(prop, ICAL_CUTYPE_PARAMETER);
+		if (param)
+			cutype= icalparameter_get_cutype(param);
+		
+		if (!partstat)
+			partstat = ICAL_PARTSTAT_NEEDSACTION;
+		if (!cutype)
+			cutype = ICAL_CUTYPE_INDIVIDUAL;
+		answer = answer_new(email, name, partstat, cutype);
+		attendees = g_slist_prepend(attendees, answer);
+		g_free(email);
+		g_free(name);
+		icalproperty_free(prop);
+	}
+	g_slist_free(list);
+	
+	event = vcal_manager_new_event	(uid, org_email, org_name,
+					 summary, description,
+					 dtstart, dtend, recur,
+					 tzid, url,
+					 method, sequence, type);
+	event->answers = attendees;
+	
+	g_free(int_ical);
+	return event;
+}
+
 gboolean vcal_event_exists(const gchar *id)
 {
 	MsgInfo *info = NULL;
@@ -1906,24 +2254,15 @@ void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent))
 	icalcomponent *calendar = NULL;
 	if (!cb_func)
 		return;
-
+	debug_print("calling cb_func...\n");
 	for (cur = list; cur; cur = cur->next) {
 		VCalEvent *event = (VCalEvent *)cur->data;
-		const gchar *tmp;
-		calendar = icalcomponent_vanew(
-        	    ICAL_VCALENDAR_COMPONENT,
-	            icalproperty_new_version("2.0"),
-        	    icalproperty_new_prodid(
-                	 "-//Claws Mail//NONSGML Claws Mail Calendar//EN"),
-		    icalproperty_new_calscale("GREGORIAN"),
-        	    0);
-		vcal_manager_event_dump(event, FALSE, FALSE, calendar, FALSE);
-		vcal_manager_free_event(event);
-		tmp = icalcomponent_as_ical_string(calendar);
+		gchar *tmp = vcal_get_event_as_ical_str(event);
 		if (tmp) {
+			debug_print(" ...for event %s\n", event->uid);
 			cb_func(tmp);
 		}
-		icalcomponent_free(calendar);
+		g_free(tmp);
 	}
 }
 
@@ -1936,20 +2275,51 @@ gboolean vcal_delete_event(const gchar *id)
 
 	info = folder_item_get_msginfo_by_msgid(folder->inbox, id);
 	if (info != NULL) {
+		debug_print("removing event %s\n", id);
 		vcal_remove_event(folder, info);
 		procmsg_msginfo_free(info);
 		return TRUE;
 	}
+	debug_print("not removing unexisting event %s\n", id);
 	return FALSE;
 }
 
 gboolean vcal_add_event(const gchar *vevent)
 {
-	/* icalcomponent *comp = icalcomponent_new_from_string((gchar *)vevent); */
+	VCalEvent *event = vcal_get_event_from_ical(vevent, NULL);
+
+	if (event) {
+		if (vcal_event_exists(event->uid)) {
+			debug_print("event %s already exists\n", event->uid);
+			vcal_manager_free_event(event);
+			return FALSE;
+		}
+		debug_print("adding event %s\n", event->uid);
+		if (!account_find_from_address(event->organizer, FALSE) &&
+		    !vcal_manager_get_account_from_event(event)) {
+			PrefsAccount *account = account_get_default();
+			vcal_manager_update_answer(event, account->address, 
+					account->name,
+					ICAL_PARTSTAT_ACCEPTED, 
+					ICAL_CUTYPE_INDIVIDUAL);
+			debug_print("can't find our accounts in event, adding default\n");
+		}
+		vcal_manager_save_event(event, TRUE);
+		vcal_manager_free_event(event);
+	}
+
 	return FALSE;
 }
 
 gboolean vcal_update_event(const gchar *vevent)
 {
+	VCalEvent *event = vcal_get_event_from_ical(vevent, NULL);
+	gboolean r = FALSE;
+	if (event) {
+		r = vcal_delete_event(event->uid);
+		vcal_manager_free_event(event);
+		if (r)
+			return vcal_add_event(vevent);
+	}
 	return FALSE;
 }

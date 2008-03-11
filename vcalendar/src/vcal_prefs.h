@@ -42,12 +42,12 @@ struct _VcalendarPrefs
 	gchar		*export_freebusy_user;
 	gchar		*export_freebusy_pass;
 	gboolean	 orage_registered;
-	gboolean	 use_cal_view_for_meetings;
+	gint		 use_cal_view_for_meetings;
 };
 
 extern VcalendarPrefs vcalprefs;
 
 void vcal_prefs_init	(void);
 void vcal_prefs_done	(void);
-
+void vcal_prefs_save	(void);
 #endif

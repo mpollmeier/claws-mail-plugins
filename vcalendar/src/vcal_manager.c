@@ -43,16 +43,7 @@
 #include "quoted-printable.h"
 #include "utils.h"
 
-typedef struct _Answer Answer;
-
-struct _Answer {
-	gchar *attendee;
-	gchar *name;
-	enum icalparameter_partstat answer;
-	enum icalparameter_cutype cutype;
-};
-
-static Answer *answer_new(const gchar *attendee, 
+Answer *answer_new(const gchar *attendee, 
 			  const gchar *name,
 			  enum icalparameter_partstat ans,
 			  enum icalparameter_cutype cutype)

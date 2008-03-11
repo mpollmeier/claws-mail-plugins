@@ -5,3 +5,5 @@ src/vcal_folder.c
 src/vcal_manager.c
 src/vcal_meeting_gtk.c
 src/vcal_prefs.c
+src/day-view.c
+src/month-view.c

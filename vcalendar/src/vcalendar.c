@@ -63,9 +63,8 @@ struct _VCalViewer
 	gchar	  *file;
 	MimeInfo  *mimeinfo;
 	gchar 	  *tmpfile;
-	icalcomponent *comp;
-	icalcomponent *icomp;
-	
+	VCalEvent *event;
+
 	GtkWidget *scrolledwin;
 	GtkWidget *table;
 	GtkWidget *type;
@@ -275,92 +274,10 @@ static void vcal_viewer_clear_viewer(MimeViewer *_mimeviewer)
 	vcalviewer->mimeinfo = NULL;
 }
 
-static gchar *get_email_from_attendee_property(icalproperty *p)
-{
-	gchar *tmp = NULL;
-	gchar *email = NULL;
-	
-	if (p)
-		tmp = g_strdup(icalproperty_get_attendee(p));
-
-	if (!tmp) 
-		return NULL;
-		
-	if (!strncasecmp(tmp, "MAILTO:", strlen("MAILTO:")))
-		email = g_strdup(tmp+strlen("MAILTO:"));
-	else
-		email = g_strdup(tmp);
-	g_free(tmp);
-	
-	return email;
-}
-
-static gchar *get_name_from_organizer_property(icalproperty *p)
-{
-	gchar *tmp = NULL;
-	
-	if (p && icalproperty_get_parameter_as_string(p, "CN") != NULL)
-		tmp = g_strdup(icalproperty_get_parameter_as_string(p, "CN"));
-
-	return tmp;
-}
-
-static gchar *get_email_from_organizer_property(icalproperty *p)
-{
-	gchar *tmp = NULL;
-	gchar *email = NULL;
-	
-	if (p)
-		tmp = g_strdup(icalproperty_get_organizer(p));
-
-	if (!tmp) 
-		return NULL;
-
-	if (!strncasecmp(tmp, "MAILTO:", strlen("MAILTO:")))
-		email = g_strdup(tmp+strlen("MAILTO:"));
-	else
-		email = g_strdup(tmp);
-	g_free(tmp);
-	
-	return email;
-}
-
-static icalproperty *vcalviewer_get_property(VCalViewer *vcalviewer, icalproperty_kind kind)
-{
-	icalproperty *iprop = NULL;
-	
-	if (!vcalviewer->icomp || !vcalviewer->comp)
-		return NULL;
-
-	iprop = icalcomponent_get_first_property(vcalviewer->icomp, kind);
-	if (!iprop)
-		iprop = icalcomponent_get_first_property(vcalviewer->comp, kind);
-	
-	return iprop;
-}
-
-static GSList *vcalviewer_get_properties(VCalViewer *vcalviewer, icalproperty_kind kind)
-{
-	GSList *list = NULL;
-	icalproperty *iprop = NULL;
-	
-	if (!vcalviewer->icomp || !vcalviewer->comp)
-		return NULL;
-
-	iprop = icalcomponent_get_first_property(vcalviewer->icomp, kind);
-	if (!iprop) {
-		return NULL;
-	} else do {
-		list = g_slist_append(list, iprop);
-	} while ((iprop = icalcomponent_get_next_property(vcalviewer->icomp, kind)) != NULL);
-	
-	return list;
-}
-
-static icalcomponent *vcalviewer_get_component(const gchar *file)
+static VCalEvent *vcalviewer_get_component(const gchar *file, const gchar *charset)
 {
 	gchar *compstr = NULL;
-	icalcomponent *comp = NULL;
+	VCalEvent *event = NULL;
 	FILE *fp;
 	GByteArray *array;
 	gchar buf[BUFSIZ];
@@ -396,11 +313,11 @@ static icalcomponent *vcalviewer_get_component(const gchar *file)
 	fclose(fp);	
 
 	if (compstr) {
-		comp = icalcomponent_new_from_string(compstr);
+		event = vcal_get_event_from_ical(compstr, charset);
 		g_free(compstr);
 	}
 	
-	return comp;
+	return event;
 }
 
 #define GTK_LABEL_SET_TEXT_TRIMMED(label, text) {		\
@@ -424,200 +341,6 @@ static void vcalviewer_reset(VCalViewer *vcalviewer)
 	vcalviewer->url = NULL;
 	gtk_widget_hide(vcalviewer->uribtn);
 	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_CANCEL);
-}
-
-static gchar *get_attendee_replying(VCalViewer *vcalviewer)
-{
-	gchar *attendee = NULL;
-	icalproperty *p = NULL;
-	
-	p = vcalviewer_get_property(vcalviewer, ICAL_ATTENDEE_PROPERTY);
-	if (!p)
-		return NULL;
-
-	attendee = get_email_from_attendee_property(p);
-
-	icalproperty_free(p);
-	
-	return attendee;
-	
-}
-
-static gchar *get_attendee_replying_name(VCalViewer *vcalviewer)
-{
-	gchar *name = NULL;
-	icalproperty *p = NULL;
-	icalparameter *param = NULL;
-	
-	p = vcalviewer_get_property(vcalviewer, ICAL_ATTENDEE_PROPERTY);
-	if (!p)
-		return NULL;
-
-	param = icalproperty_get_first_parameter(p, ICAL_CN_PARAMETER);
-	if (param)
-		name = g_strdup(icalparameter_get_cn(param));
-		
-	icalproperty_free(p);
-	
-	return name;
-	
-}
-
-enum icalparameter_partstat get_attendee_reply(VCalViewer *vcalviewer)
-{
-	icalproperty *p = NULL;
-	icalparameter *param = NULL;
-	enum icalparameter_partstat status = 0;
-	
-	p = vcalviewer_get_property(vcalviewer, ICAL_ATTENDEE_PROPERTY);
-	if (!p)
-		return 0;
-	
-	param = icalproperty_get_first_parameter(p, ICAL_PARTSTAT_PARAMETER);
-	
-	if (param) {
-		status = icalparameter_get_partstat(param);
-		icalproperty_free(p);
-	}
-	
-	return status;
-}
-
-enum icalparameter_partstat get_attendee_replying_cutype(VCalViewer *vcalviewer)
-{
-	icalproperty *p = NULL;
-	icalparameter *param = NULL;
-	enum icalparameter_cutype status = 0;
-	
-	p = vcalviewer_get_property(vcalviewer, ICAL_ATTENDEE_PROPERTY);
-	if (!p)
-		return 0;
-	
-	param = icalproperty_get_first_parameter(p, ICAL_CUTYPE_PARAMETER);
-	
-	if (param) {
-		status = icalparameter_get_cutype(param);
-		icalproperty_free(p);
-	}
-	
-	return status;
-}
-
-/*FIXME*/
-static void vcalviewer_get_attendees(VCalViewer *vcalviewer, VCalEvent *event)
-{
-	GSList *attendees = vcalviewer_get_properties(vcalviewer, ICAL_ATTENDEE_PROPERTY);
-	GSList *cur = attendees;
-	while (cur && cur->data) {
-		icalproperty *iprop = (icalproperty *)cur->data;
-		gchar *email = get_email_from_attendee_property(iprop);
-		const gchar *name  = NULL;
-		icalparameter *param = NULL;
-		icalparameter *cutype = NULL;
-		param = icalproperty_get_first_parameter(iprop, ICAL_CN_PARAMETER);
-		if (param)
-			name = icalparameter_get_cn(param);
-		
-		param = icalproperty_get_first_parameter(iprop, ICAL_PARTSTAT_PARAMETER);
-		cutype= icalproperty_get_first_parameter(iprop, ICAL_CUTYPE_PARAMETER);
-		
-		if (email && param) {
-			debug_print("updating %s: %d\n", email, icalparameter_get_partstat(param));
-			vcal_manager_update_answer(event, email, name,
-				icalparameter_get_partstat(param),
-				cutype?icalparameter_get_cutype(cutype):ICAL_CUTYPE_INDIVIDUAL);
-		} else if (email) {
-			debug_print("updating %s: %d\n", email, ICAL_PARTSTAT_NEEDSACTION);
-			vcal_manager_update_answer(event, email, name,
-				ICAL_PARTSTAT_NEEDSACTION,
-				cutype?icalparameter_get_cutype(cutype):ICAL_CUTYPE_INDIVIDUAL);
-		}
-		g_free(email);
-		icalproperty_free(iprop);
-		
-		cur = cur->next;
-	}
-	g_slist_free(cur);
-}
-
-
-static PrefsAccount *get_account_from_attendee(icalproperty *attendee)
-{
-	gchar *email = get_email_from_attendee_property(attendee);
-	if (email != NULL && account_find_from_address(email, FALSE) != NULL)
-		return account_find_from_address(email, FALSE);
-
-	return NULL;
-}
-
-static PrefsAccount *get_account_from_attendees(VCalViewer *vcalviewer)
-{
-	GSList *attendees = vcalviewer_get_properties(vcalviewer, ICAL_ATTENDEE_PROPERTY);
-	GSList *cur = attendees;
-	PrefsAccount *account = NULL;
-	while (cur && cur->data) {
-		icalproperty *iprop = (icalproperty *)cur->data;
-		
-		if (get_account_from_attendee(iprop)) {
-			account = get_account_from_attendee(iprop);
-			icalproperty_free(iprop);
-			break;
-		}
-
-		icalproperty_free(iprop);
-		cur = cur->next;
-	}
-	g_slist_free(cur);
-	return account;
-}
-
-static gchar *vcalviewer_get_recurrence(VCalViewer *vcalviewer)
-{
-	gchar *rrule = NULL;
-	icalproperty *iprop = vcalviewer_get_property(vcalviewer, ICAL_RRULE_PROPERTY);
-	if (iprop) {
-		struct icalrecurrencetype recur = icalproperty_get_rrule(iprop);
-		rrule = g_strdup(icalrecurrencetype_as_string(&recur));
-		icalproperty_free(iprop);
-	} 
-	return rrule;
-}
-
-static gchar *vcalviewer_get_dtstart(VCalViewer *vcalviewer)
-{
-	gchar *dtstart = NULL;
-	icalproperty *iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
-	if (iprop) {
-		struct icaltimetype itt = icalproperty_get_dtstart(iprop);
-		dtstart = g_strdup(icaltime_as_ical_string(itt));
-		icalproperty_free(iprop);
-	} 
-	return dtstart;
-}
-
-static gchar *vcalviewer_get_dtend(VCalViewer *vcalviewer)
-{
-	gchar *dtend = NULL;
-	icalproperty *iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
-	if (iprop) {
-		struct icaltimetype itt = icalproperty_get_dtend(iprop);
-		dtend = g_strdup(icaltime_as_ical_string(itt));
-		icalproperty_free(iprop);
-	} else {
-		iprop = vcalviewer_get_property(vcalviewer, ICAL_DURATION_PROPERTY);
-		if (iprop) {
-			struct icaldurationtype duration = icalproperty_get_duration(iprop);
-			struct icaltimetype itt;
-			icalproperty_free(iprop);
-			iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
-			itt = icalproperty_get_dtstart(iprop);
-			if (iprop) {
-				icalproperty_free(iprop);
-				dtend = g_strdup(icaltime_as_ical_string(icaltime_add(itt,duration)));
-			}
-		}
-	}
-	return dtend;
 }
 
 static void vcalviewer_show_unavailable(VCalViewer *vcalviewer, gboolean visi)
@@ -646,7 +369,7 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 		PrefsAccount *account = vcal_manager_get_account_from_event(event);
 		
 		if (!account)
-			account = get_account_from_attendees(vcalviewer);
+			account = vcal_manager_get_account_from_event(vcalviewer->event);
 
 		if (!account && event) {
 			account = account_get_default();
@@ -681,8 +404,6 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 					"vcalendar", G_DIR_SEPARATOR_S, 
 					"internal.ifb", NULL);
 		gchar *myfb = file_read_to_str(internal_ifb);
-		gchar *dtstart = vcalviewer_get_dtstart(vcalviewer);
-		gchar *dtend = vcalviewer_get_dtend(vcalviewer);
 		g_free(internal_ifb);
 		if (account) {
 			enum icalparameter_partstat answer = 
@@ -694,16 +415,23 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 				gtk_combo_box_set_active(GTK_COMBO_BOX(vcalviewer->answer), 1);
 			if (answer == ICAL_PARTSTAT_DECLINED)
 				gtk_combo_box_set_active(GTK_COMBO_BOX(vcalviewer->answer), 2);
-			if (dtstart && dtend && myfb && *myfb 
+			if (event->dtstart && event->dtend && myfb && *myfb 
 			&& answer != ICAL_PARTSTAT_ACCEPTED 
 			&& answer != ICAL_PARTSTAT_TENTATIVE) {
-				if (!attendee_available(NULL, dtstart, dtend, myfb))
+				if (!attendee_available(NULL, event->dtstart, event->dtend, myfb))
 					vcalviewer_show_unavailable(vcalviewer, TRUE);
 			}
 		}
-		g_free(dtstart);
-		g_free(dtend);
 		g_free(myfb);
+	}
+
+	g_free(vcalviewer->url);
+	if (event && event->url && *(event->url)) {
+		vcalviewer->url = g_strdup(event->url);
+		gtk_widget_show(vcalviewer->uribtn);
+	} else {
+		vcalviewer->url = NULL;
+		gtk_widget_hide(vcalviewer->uribtn);
 	}
 }
 
@@ -720,11 +448,15 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	if (!vcalviewer)
 		return;
 
+/* general */
 	if (event->type == ICAL_VTODO_COMPONENT) {
+
 		label = g_strjoin(" ", _("You have a Todo item."),
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
+
 	} else if (event->method == ICAL_METHOD_REQUEST) {
+
 		if (account_find_from_address(event->organizer, FALSE)) {
 			label = g_strjoin(" ", _("You have created a meeting."),
 					_("Details follow:"), NULL);
@@ -735,63 +467,55 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 						_("Details follow:"), NULL);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		}
-	}
-	else if (event->method == ICAL_METHOD_REPLY) {
-		enum icalparameter_partstat answer = get_attendee_reply(vcalviewer);
-		enum icalparameter_cutype cutype = get_attendee_replying_cutype(vcalviewer);
-		gchar *attendee = get_attendee_replying(vcalviewer);
-		gchar *name = get_attendee_replying_name(vcalviewer);
-		
-		vcal_manager_update_answer(event, attendee, name, answer, cutype);
-		save_evt = TRUE;
-		if (!attendee) {
-			label = g_strjoin(" ",
-				_("You have received an answer to an unknown meeting proposal."),
-				_("Details follow:"), NULL);
-			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
-		} else {
-			label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
-				"%s has %s the invitation whose details follow:"),
-				attendee, vcal_manager_get_reply_text_for_attendee(event, attendee));
-			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
-			g_free(attendee);
-		}
+
 	} else if (event->method == ICAL_METHOD_CANCEL) {
+
 		label = g_strjoin(" ",
 				_("A meeting to which you had been invited has been cancelled."),
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		save_evt = TRUE;
 		refresh_folder_contents(vcalviewer);
+	} else if (event->method == ICAL_METHOD_REPLY) {
+		/* don't change label */
 	} else {
+
 		label = g_strjoin(" ", _("You have been forwarded an appointment."),
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 	}
+
 	g_free(label);
 
-	if (event->orgname && strlen(event->orgname)
-	&&  event->organizer && strlen(event->organizer)) {
+/* organizer */
+	if (event->orgname && *(event->orgname)
+	&&  event->organizer && *(event->organizer)) {
 		gchar *addr = g_strconcat(event->orgname, " <", event->organizer, ">", NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), addr);
 		g_free(addr);
-	} else if (event->organizer && strlen(event->organizer)) {
+	} else if (event->organizer && *(event->organizer)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), event->organizer);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
 	}
-	if (event->summary && strlen(event->summary)) {
+
+/* summary */
+	if (event->summary && *(event->summary)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), event->summary);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), "-");
 	}
-	if (event->description && strlen(event->description)) {
+
+/* description */
+	if (event->description && *(event->description)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), event->description);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), "-");
 	}
+
+/* url */
 	g_free(vcalviewer->url);
-	if (event->url && strlen(event->url)) {
+	if (event->url && *(event->url)) {
 		vcalviewer->url = g_strdup(event->url);
 		gtk_widget_show(vcalviewer->uribtn);
 	} else {
@@ -799,8 +523,9 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		gtk_widget_hide(vcalviewer->uribtn);
 	}
 	
-	if (event->start && strlen(event->start)) {
-		if (event->recur && strlen(event->recur)) {
+/* start */
+	if (event->start && *(event->start)) {
+		if (event->recur && *(event->recur)) {
 			gchar *tmp = g_strdup_printf(_("%s <span weight=\"bold\">(this event recurs)</span>"),
 					event->start);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), tmp);
@@ -818,11 +543,15 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
 	}
-	if (event->end && strlen(event->end)) {
+
+/* end */
+	if (event->end && *(event->end)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), event->end);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");
 	}
+	
+/* attendees */
 	attendees = g_strdup("");
 	for (list = vcal_manager_get_answers_emails(event); 
 	     list && list->data; list = list->next) {
@@ -837,12 +566,12 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		gint e_len, n_len;
 		tmp = g_strdup_printf(
 				"%s%s&lt;%s&gt; (%s, <span%s>%s</span>)", 
-				(ename && strlen(ename))?ename:"",
-				(ename && strlen(ename))?" ":"",
-				(eatt && strlen(eatt))?eatt:"", 
-				(type && strlen(type))?type:"", 
+				(ename && *(ename))?ename:"",
+				(ename && *(ename))?" ":"",
+				(eatt && *(eatt))?eatt:"", 
+				(type && *(type))?type:"", 
 				(acode != ICAL_PARTSTAT_ACCEPTED ? " foreground=\"red\"":""),
-				(answer && strlen(answer))?answer:"");
+				(answer && *(answer))?answer:"");
 		e_len = strlen(attendees);
 		n_len = strlen(tmp);
 		if (e_len) {
@@ -861,13 +590,15 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		g_free(eatt);
 	}
 	
-	if (attendees && strlen(attendees)) {
+	if (attendees && *(attendees)) {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), attendees);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-");
 	}
 	g_free(attendees);
 	gtk_label_set_use_markup(GTK_LABEL(vcalviewer->attendees), TRUE);
+	
+/* buttons */
 	if (!mine)
 		if (event->type != ICAL_VTODO_COMPONENT)
 			vcalviewer_answer_set_choices(vcalviewer, event, event->method);
@@ -878,6 +609,8 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		gtk_widget_show(vcalviewer->reedit);
 		gtk_widget_show(vcalviewer->cancel);
 	}
+
+/* save if cancelled */
 	if (save_evt)
 		vcal_manager_save_event(event, TRUE);
 }
@@ -885,10 +618,10 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 {
 	gchar *tmpfile = procmime_get_tmp_file_name(mimeinfo);
+	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
 	gchar *compstr = NULL;
-	icalcomponent *comp = NULL, *icomp = NULL;
-	icalproperty *iprop = NULL;
 	gchar *res = NULL;
+	VCalEvent *event = NULL;
 
 	if (procmime_get_part(tmpfile, mimeinfo) < 0) {
 		g_warning("Can't get mimepart file");	
@@ -897,31 +630,13 @@ gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 	}
 	
 	compstr = file_read_to_str(tmpfile);
-	unlink(tmpfile);
-	g_free(tmpfile);
-	comp = icalcomponent_new_from_string(compstr);
-	g_free(compstr);
-	if (!comp) {
-		g_warning("can't get component");
-		return NULL;
-	}
-	icomp = icalcomponent_get_inner(comp);
-	if (!icomp) {
-		g_warning("can't get inner component");
-		icalcomponent_free(comp);
-		return NULL;
-	}
-	iprop = icalcomponent_get_first_property(icomp, ICAL_UID_PROPERTY);
-
-	if (iprop) {
-		res = g_strdup(icalproperty_get_uid(iprop));
-		icalproperty_free(iprop);
-	} else {
-		g_warning("can't get property");
-	}
-
-	icalcomponent_free(comp);
 	
+	event = vcal_get_event_from_ical(compstr, charset);
+	if (event)
+		res = g_strdup(event->uid);
+	
+	vcal_manager_free_event(event);
+
 	debug_print("got uid: %s\n", res);
 	return res;
 
@@ -929,163 +644,60 @@ gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 
 static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mimeinfo, gboolean is_todo) 
 {
-	icalproperty *iprop = NULL;
-	gchar *org = NULL, *summary = NULL, *description = NULL, *url = NULL;
-	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL, *orgname = NULL;
-	gchar *recur = NULL;
-	enum icalproperty_method method = ICAL_METHOD_REQUEST;
-	VCalEvent *event = NULL;
-	gchar *tmp;
+	VCalEvent *saved_event = NULL;
 	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
 	const gchar *saveme =  procmime_mimeinfo_get_parameter(mimeinfo, "vcalsave");
-	gchar * uid = vcalviewer_get_uid_from_mimeinfo(mimeinfo);
-	gint sequence = 0;
 	
+	if (!vcalviewer->event)
+		return;
+
 	if (!charset)
 		charset=CS_ISO_8859_1;
-		
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_SEQUENCE_PROPERTY);
-	if (iprop) {
-		sequence = icalproperty_get_sequence(iprop);
-		icalproperty_free(iprop);
-	}  
-
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_METHOD_PROPERTY);
-	if (iprop) {
-		method = icalproperty_get_method(iprop);
-		icalproperty_free(iprop);
-	}
 	
 	/* see if we have it registered and more recent */
-	event = vcal_manager_load_event(uid);
-	if (event && event->sequence >= sequence) {
+	saved_event = vcal_manager_load_event(vcalviewer->event->uid);
+	if (saved_event && saved_event->sequence >= vcalviewer->event->sequence) {
 		charset = CS_INTERNAL;
-		event->method = method;
-		vcalviewer_display_event(vcalviewer, event);
-		vcal_manager_free_event(event);
-		g_free(uid);
+		saved_event->method = vcalviewer->event->method;
+		vcalviewer_display_event(vcalviewer, saved_event);
+		vcal_manager_free_event(saved_event);
 		return;
-	} else if (event) {
-		vcal_manager_free_event(event);
+	} else if (saved_event) {
+		vcal_manager_free_event(saved_event);
 	}
 
 	/* load it and register it */
 
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);
-	if (iprop) {
-		tmp = get_email_from_organizer_property(iprop);
-		if (tmp && !g_utf8_validate(tmp, -1, NULL))
-			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
-		else if (tmp)
-			org = g_strdup(tmp);
-		else
-			org = NULL;
-		g_free(tmp);
-		icalproperty_free(iprop);
-		tmp = get_name_from_organizer_property(iprop);
-		if (tmp && !g_utf8_validate(tmp, -1, NULL))
-			orgname = conv_codeset_strdup(tmp, charset, CS_UTF_8);
-		else if (tmp)
-			orgname = g_strdup(tmp);
-		else
-			orgname = NULL;
-		g_free(tmp);
-	} 
-	
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
-	if (iprop) {
-		if (!g_utf8_validate(icalproperty_get_summary(iprop), -1, NULL))
-			summary = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
-		else
-			summary = g_strdup(icalproperty_get_summary(iprop));
-		icalproperty_free(iprop);
-	} 
-
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_DESCRIPTION_PROPERTY);
-	if (iprop) {
-		if (!g_utf8_validate(icalproperty_get_description(iprop), -1, NULL))
-			description = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
-		else
-			description = g_strdup(icalproperty_get_description(iprop));
-		icalproperty_free(iprop);
-	} 
-	
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
-	if (iprop) {
-		if (!g_utf8_validate(icalproperty_get_url(iprop), -1, NULL))
-			url = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
-		else
-			url = g_strdup(icalproperty_get_url(iprop));
-		icalproperty_free(iprop);
-	} 
-	printf("URL %s\n", url);
-	dtstart = vcalviewer_get_dtstart(vcalviewer);
-	dtend = vcalviewer_get_dtend(vcalviewer);
-	recur = vcalviewer_get_recurrence(vcalviewer);
-	
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_TZID_PROPERTY);
-	if (iprop) {
-		tzid = g_strdup(icalproperty_get_tzid(iprop));
-		icalproperty_free(iprop);
-	} 
-	
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_METHOD_PROPERTY);
-	if (iprop) {
-		method = icalproperty_get_method(iprop);
-		icalproperty_free(iprop);
-	}
-	
-	event = vcal_manager_new_event( uid,
-					org, orgname, summary, description, 
-					dtstart, dtend, recur, tzid, url, method, sequence, 
-					is_todo?ICAL_VTODO_COMPONENT:ICAL_VEVENT_COMPONENT);
-	vcalviewer_get_attendees(vcalviewer, event);
 	if (!saveme || strcmp(saveme,"no"))
-		vcal_manager_save_event(event, FALSE);
+		vcal_manager_save_event(vcalviewer->event, FALSE);
 
-	g_free(org); 
-	g_free(orgname); 
-	g_free(summary);
-	g_free(description);
-	g_free(url);
-	g_free(uid);
-	g_free(dtstart);
-	g_free(dtend);
-	g_free(recur);
-	g_free(tzid);
-	vcalviewer_display_event(vcalviewer, event);
-	vcal_manager_free_event(event);
+	vcalviewer_display_event(vcalviewer, vcalviewer->event);
 }
 
 static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
 {
-	icalproperty *iprop = NULL;
-	gchar *tmp = NULL;
 	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
-	gchar *label = NULL;
-	enum icalparameter_partstat answer = get_attendee_reply(vcalviewer);
-	enum icalparameter_cutype cutype = get_attendee_replying_cutype(vcalviewer);
-	gchar *attendee = get_attendee_replying(vcalviewer);
-	gchar *name = get_attendee_replying_name(vcalviewer);
+	VCalEvent *saved_event = NULL;
+	gchar *attendee = NULL, *label = NULL;
+	Answer *answer = NULL;
+
+	if (!vcalviewer->event)
+		return;
 
 	if (!charset)
 		charset=CS_ISO_8859_1;
 
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_UID_PROPERTY);
-	if (iprop) {
-		VCalEvent *event = vcal_manager_load_event(icalproperty_get_uid(iprop));
-		if (event) {
-			charset = CS_INTERNAL;
-			event->method = ICAL_METHOD_REPLY;
-			vcalviewer_display_event(vcalviewer, event);
-			vcal_manager_free_event(event);
-			return;
-		} 
+	if (!vcalviewer->event->answers || g_slist_length(vcalviewer->event->answers) > 1) {
+		g_warning("strange, no answers or more than one\n");
 	} 
 	
-	/* unknown answer but get the replier anyway */
+	if (vcalviewer->event->answers) {
+		answer = (Answer *)vcalviewer->event->answers->data;
+		attendee = g_strdup(answer->attendee);
+	}
 		
-	if (!attendee) {
+
+	if (!answer) {
 		label = g_strjoin(" ",
 			_("You have received an answer to an unknown meeting proposal."),
 			_("Details follow:"), NULL);
@@ -1093,124 +705,70 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	} else {
 		label = g_strdup_printf(_("You have received an answer to a meeting proposal.\n"
 			"%s has %s the invitation whose details follow:"),
-			attendee, vcal_manager_answer_get_text(answer));
+			attendee, vcal_manager_answer_get_text(answer->answer));
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		g_free(attendee);
 	}
-
 	g_free(label);
 
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_ORGANIZER_PROPERTY);
-	if (iprop) {
-		gchar *org, *orgname;
-		tmp = get_email_from_organizer_property(iprop);
-		if (tmp && !g_utf8_validate(tmp, -1, NULL))
-			org = conv_codeset_strdup(tmp, charset, CS_UTF_8);
-		else if (tmp)
-			org = g_strdup(tmp);
-		else
-			org = NULL;
-		g_free(tmp);
-		tmp = get_name_from_organizer_property(iprop);
-		if (tmp && !g_utf8_validate(tmp, -1, NULL))
-			orgname = conv_codeset_strdup(tmp, charset, CS_UTF_8);
-		else if (tmp)
-			orgname = g_strdup(tmp);
-		else
-			orgname = NULL;
-		g_free(tmp);
-		if (orgname && org) {
-			gchar *addr = g_strconcat(orgname, " <", org, ">", NULL);
+	saved_event = vcal_manager_load_event(vcalviewer->event->uid);
+	if (saved_event) {
+		vcal_manager_update_answer(saved_event, 
+			answer->attendee, answer->name, answer->answer, answer->cutype);
+		vcal_manager_save_event(saved_event, TRUE);
+		saved_event->method = vcalviewer->event->method;
+		vcalviewer_display_event(vcalviewer, saved_event);
+		vcal_manager_free_event(saved_event);
+		return;
+	}
+
+	if (vcalviewer->event->organizer) {
+		if (vcalviewer->event->orgname) {
+			gchar *addr = g_strconcat(vcalviewer->event->orgname, " <", 
+					vcalviewer->event->organizer, ">", NULL);
 			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), addr);
 			g_free(addr);
-		} else if (org) {
-			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), org);
 		} else {
-			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
+			GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who),
+				vcalviewer->event->organizer);
 		}
-		icalproperty_free(iprop);
-		g_free(org);
-		g_free(orgname);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
 	}
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_SUMMARY_PROPERTY);
-	if (iprop) {
-		if (!g_utf8_validate(icalproperty_get_summary(iprop), -1, NULL))
-			tmp = conv_codeset_strdup(icalproperty_get_summary(iprop), charset, CS_UTF_8);
-		else
-			tmp = g_strdup(icalproperty_get_summary(iprop));
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), tmp);
-		g_free(tmp);
-		icalproperty_free(iprop);
-	} else {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), "-");
-	}
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_DESCRIPTION_PROPERTY);
-	if (iprop) {
-		if (!g_utf8_validate(icalproperty_get_description(iprop), -1, NULL))
-			tmp = conv_codeset_strdup(icalproperty_get_description(iprop), charset, CS_UTF_8);
-		else
-			tmp = g_strdup(icalproperty_get_description(iprop));
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), tmp);
-		g_free(tmp);
-		icalproperty_free(iprop);
-	} else {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), "-");
-	}
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_URL_PROPERTY);
+	
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), 
+		vcalviewer->event->summary?vcalviewer->event->summary:"-");
+
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), 
+		vcalviewer->event->description?vcalviewer->event->description:"-");
+
 	g_free(vcalviewer->url);
-	if (iprop) {
-		if (!g_utf8_validate(icalproperty_get_url(iprop), -1, NULL))
-			tmp = conv_codeset_strdup(icalproperty_get_url(iprop), charset, CS_UTF_8);
-		else
-			tmp = g_strdup(icalproperty_get_url(iprop));
-		vcalviewer->url = g_strdup(tmp);
-		g_free(tmp);
-		icalproperty_free(iprop);
+	if (vcalviewer->event->url) {
+		vcalviewer->url = g_strdup(vcalviewer->event->url);
 		gtk_widget_show(vcalviewer->uribtn);
 	} else {
 		vcalviewer->url = NULL;
 		gtk_widget_hide(vcalviewer->uribtn);
 	}
 
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTSTART_PROPERTY);
-	if (iprop) {
-		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
-		gchar buft[512];
-		time_t tmp = icaltime_as_timet(itt);
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), ctime_r(&tmp, buft));
-		icalproperty_free(iprop);
-	} else {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
-	}
-
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_DTEND_PROPERTY);
-	if (iprop) {
-		struct icaltimetype itt = (icalproperty_get_dtstart(iprop));
-		gchar buft[512];
-		time_t tmp = icaltime_as_timet(itt);
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), ctime_r(&tmp, buft));
-		icalproperty_free(iprop);
-	} else {
-		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), "-");
-	}
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), 
+		vcalviewer->event->start?vcalviewer->event->start:"-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->end), 
+		vcalviewer->event->end?vcalviewer->event->end:"-");
 
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->attendees), "-"); 
 
 	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_REPLY);
 }
 
-static void vcalviewer_get_info(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
+static void vcalviewer_get_event(VCalViewer *vcalviewer, MimeInfo *mimeinfo) 
 {
-	icalproperty *method = NULL;
-	gboolean is_todo = FALSE;
 	gchar *tmpfile = get_tmpfile(vcalviewer);
-	
-	if (vcalviewer->comp) {
-		icalcomponent_free(vcalviewer->comp);
-		vcalviewer->comp = NULL;
-		vcalviewer->icomp = NULL;
+	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
+
+	if (vcalviewer->event) {
+		vcal_manager_free_event(vcalviewer->event);
+		vcalviewer->event = NULL;
 	}
 	
 	if (!tmpfile) {
@@ -1218,32 +776,23 @@ static void vcalviewer_get_info(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 		return;
 	}
 
-	vcalviewer->comp = vcalviewer_get_component(tmpfile);
-	if (vcalviewer->comp)
-		vcalviewer->icomp= icalcomponent_get_inner(vcalviewer->comp);
-	else {
+	vcalviewer->event = vcalviewer_get_component(tmpfile, charset);
+	if (!vcalviewer->event) {
 		vcalviewer_reset(vcalviewer);
 		return;
 	}
 	
-	method = vcalviewer_get_property(vcalviewer, ICAL_METHOD_PROPERTY);
-	
-	if (vcalviewer->icomp && icalcomponent_isa(vcalviewer->icomp) == ICAL_VTODO_COMPONENT)
-		is_todo = TRUE;
-debug_print("is_todo %d\n", is_todo);
-	if (icalcomponent_isa(vcalviewer->comp) == ICAL_VCALENDAR_COMPONENT && method) {
-		if (icalproperty_get_method(method) == ICAL_METHOD_REQUEST
-		||  icalproperty_get_method(method) == ICAL_METHOD_PUBLISH
-		||  icalproperty_get_method(method) == ICAL_METHOD_CANCEL)
-			vcalviewer_get_request_values(vcalviewer, mimeinfo, is_todo);
-		else if (icalproperty_get_method(method) == ICAL_METHOD_REPLY)
-			vcalviewer_get_reply_values(vcalviewer, mimeinfo);
-		else
-			vcalviewer_reset(vcalviewer);
-	} else if (is_todo && !method) {
-		vcalviewer_get_request_values(vcalviewer, mimeinfo, is_todo);
-	} else
+	if (vcalviewer->event->type == ICAL_VTODO_COMPONENT) {
+		vcalviewer_get_request_values(vcalviewer, mimeinfo, TRUE);
+	} else if (vcalviewer->event->method == ICAL_METHOD_REQUEST ||
+		   vcalviewer->event->method == ICAL_METHOD_PUBLISH ||
+		   vcalviewer->event->method == ICAL_METHOD_CANCEL) {
+		vcalviewer_get_request_values(vcalviewer, mimeinfo, FALSE);
+	} else if (vcalviewer->event->method == ICAL_METHOD_REPLY) {
+		vcalviewer_get_reply_values(vcalviewer, mimeinfo);
+	} else {
 		vcalviewer_reset(vcalviewer);
+	}
 }
 
 static VCalViewer *s_vcalviewer = NULL;
@@ -1267,7 +816,7 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	g_free(vcalviewer->file);
 	vcalviewer->file = g_strdup(file);
 	vcalviewer->mimeinfo = mimeinfo;
-	vcalviewer_get_info(vcalviewer, mimeinfo);
+	vcalviewer_get_event(vcalviewer, mimeinfo);
 	GTK_EVENTS_FLUSH();
 	gtk_widget_set_size_request(vcalviewer->description, 
 		vcalviewer->scrolledwin->allocation.width - 200, -1);
@@ -1425,8 +974,6 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 {
         VCalViewer *vcalviewer = (VCalViewer *)data;
-	VCalEvent *event = NULL;
-	icalproperty *iprop = NULL;
 	gint index = gtk_combo_box_get_active(GTK_COMBO_BOX(vcalviewer->answer));
 	enum icalparameter_partstat reply[3] = {ICAL_PARTSTAT_ACCEPTED, ICAL_PARTSTAT_TENTATIVE, ICAL_PARTSTAT_DECLINED};
 	PrefsAccount *account = NULL;
@@ -1438,18 +985,12 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 	}
 	
 	s_vcalviewer = vcalviewer;
-
-	iprop = vcalviewer_get_property(vcalviewer, ICAL_UID_PROPERTY);
-	if (iprop) {
-		event = vcal_manager_load_event(icalproperty_get_uid(iprop));
-		icalproperty_free(iprop);
-	}
 	
-	if (!event) {
+	if (!vcalviewer->event) {
 		g_warning("can't get event\n");
 		return TRUE;
 	}
-	account = get_account_from_attendees(vcalviewer);
+	account = vcal_manager_get_account_from_event(vcalviewer->event);
 	
 	if (!account) {
 		AlertValue val = alertpanel_full(_("No account found"), 
@@ -1459,7 +1000,7 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 				   	NULL, ALERT_QUESTION, G_ALERTDEFAULT);
 		if (val == G_ALERTALTERNATE) {		
 			account = account_get_default();
-			vcal_manager_update_answer(event, account->address, 
+			vcal_manager_update_answer(vcalviewer->event, account->address, 
 					account->name,
 					ICAL_PARTSTAT_NEEDSACTION, 
 					ICAL_CUTYPE_INDIVIDUAL);
@@ -1467,19 +1008,18 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 			return TRUE;
 	}
 	
-	vcal_manager_update_answer(event, account->address, account->name, reply[index], 0);
+	vcal_manager_update_answer(vcalviewer->event, account->address, account->name, reply[index], 0);
 	
-	if (event->organizer && *(event->organizer) && !vcal_manager_reply(account, event)) {
+	if (vcalviewer->event->organizer && *(vcalviewer->event->organizer) && 
+	    !vcal_manager_reply(account, vcalviewer->event)) {
 		g_warning("couldn't send reply\n");
 	} else {
 		debug_print("no organizer, not sending answer\n");
 	}
 	
-	vcal_manager_save_event(event, TRUE);
+	vcal_manager_save_event(vcalviewer->event, TRUE);
 
-	vcalviewer_display_event(vcalviewer, event);
-
-	vcal_manager_free_event(event);
+	vcalviewer_display_event(vcalviewer, vcalviewer->event);
 	
         return TRUE;
 };
@@ -1511,7 +1051,7 @@ static gchar *vcal_viewer_get_selection(MimeViewer *_viewer)
 	if (viewer->summary == NULL)
 		return NULL;
 	if (gtk_label_get_text(GTK_LABEL(viewer->description))
-	&&  strlen(gtk_label_get_text(GTK_LABEL(viewer->description))) > 2) {
+	&&  *(gtk_label_get_text(GTK_LABEL(viewer->description))) > 2) {
 		gint start, end;
 		if (gtk_label_get_selection_bounds(GTK_LABEL(viewer->description), 
 						   &start, &end)) {
@@ -1524,7 +1064,7 @@ static gchar *vcal_viewer_get_selection(MimeViewer *_viewer)
 		}
 	}
 	else if (gtk_label_get_text(GTK_LABEL(viewer->summary))
-	&&  strlen(gtk_label_get_text(GTK_LABEL(viewer->summary))) > 2)
+	&&  *(gtk_label_get_text(GTK_LABEL(viewer->summary))) > 2)
 		return g_strdup(gtk_label_get_text(GTK_LABEL(viewer->summary)));
 	else 
 		return NULL;
@@ -1613,23 +1153,7 @@ MimeViewer *vcal_viewer_create(void)
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->summary), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->description), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->attendees), TRUE);
-	
-/*	gtk_widget_ensure_style(vcalviewer->who);
-	style = gtk_style_copy
-		(gtk_widget_get_style(vcalviewer->who));
-	style->fg[GTK_STATE_NORMAL]   = uri_color;
-	style->fg[GTK_STATE_ACTIVE]   = uri_color;
-	style->fg[GTK_STATE_PRELIGHT] = uri_color;
-	gtk_widget_set_style(vcalviewer->who, style);
 
-	gtk_widget_ensure_style(vcalviewer->attendees);
-	style = gtk_style_copy
-		(gtk_widget_get_style(vcalviewer->attendees));
-	style->fg[GTK_STATE_NORMAL]   = uri_color;
-	style->fg[GTK_STATE_ACTIVE]   = uri_color;
-	style->fg[GTK_STATE_PRELIGHT] = uri_color;
-	gtk_widget_set_style(vcalviewer->attendees, style);
-*/
 	g_signal_connect(G_OBJECT(vcalviewer->button), "clicked",
 			 G_CALLBACK(vcalviewer_action_cb), vcalviewer);
 

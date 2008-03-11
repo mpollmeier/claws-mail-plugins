@@ -54,6 +54,15 @@ struct _VCalEvent
 	gboolean rec_occurence;
 };
 
+typedef struct _Answer Answer;
+
+struct _Answer {
+	gchar *attendee;
+	gchar *name;
+	enum icalparameter_partstat answer;
+	enum icalparameter_cutype cutype;
+};
+
 typedef enum {
 	EVENT_PAST = 0,
 	EVENT_TODAY,
@@ -111,4 +120,8 @@ void vcal_manager_event_print(VCalEvent *event);
 EventTime event_to_today(VCalEvent *event, time_t t);
 const gchar *event_to_today_str(VCalEvent *event, time_t t);
 void vcal_manager_copy_attendees(VCalEvent *src, VCalEvent *dest);
+Answer *answer_new(const gchar *attendee, 
+			  const gchar *name,
+			  enum icalparameter_partstat ans,
+			  enum icalparameter_cutype cutype);
 #endif

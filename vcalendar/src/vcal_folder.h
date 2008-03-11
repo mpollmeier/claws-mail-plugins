@@ -26,11 +26,13 @@
 
 extern gboolean manual_update;
 typedef struct _day_win day_win;
+typedef struct _month_win month_win;
 FolderClass *vcal_folder_get_class();
 void vcal_folder_gtk_init(void);
 void vcal_folder_gtk_done(void);
 GSList *vcal_folder_get_waiting_events(void);
 GSList *vcal_folder_get_webcal_events(void);
+GSList * vcal_folder_get_webcal_events_for_folder(FolderItem *item);
 void vcal_folder_export(Folder *folder);
 
 gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, const gchar *pass);
@@ -44,5 +46,10 @@ GSList *vcal_get_events_list(FolderItem *item);
 
 day_win *create_day_win(FolderItem *item, struct tm tmdate);
 void refresh_day_win(day_win *dw);
+
+month_win *create_month_win(FolderItem *item, struct tm tmdate);
+void refresh_month_win(month_win *dw);
+
+VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset);
 
 #endif

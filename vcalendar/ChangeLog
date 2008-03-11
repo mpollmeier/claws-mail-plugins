@@ -1,3 +1,30 @@
+2008-03-11 [colin]	..cvs1
+
+	* po/POTFILES.in
+		Add new files
+	* src/Makefile.am
+	* src/month-view.c
+		Add month view
+	* src/day-view.c
+		Fix some little things
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
+	* src/vcalendar.c
+		- Add a way to get internal representation of
+		  ical components easily
+		- Use that to implement add and update of 
+		  event for Opensync
+		- Use it to refactor vcalendar.c's spaghetti
+		- Add a way to get internal representation of
+		  subscribed feeds
+		- Use that to allow week/month view on them
+		- Move the view type from preferences to
+		  contextual menu
+
 2008-03-06 [colin]	1.101.0cvs4
 
 	* src/day-view.c

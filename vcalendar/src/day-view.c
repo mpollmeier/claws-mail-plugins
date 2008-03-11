@@ -93,7 +93,7 @@ struct _day_win
     FolderItem *item;
 };
 
-gchar *get_locale_date(struct tm *tmdate)
+static gchar *get_locale_date(struct tm *tmdate)
 {
 	gchar *d = g_malloc(100);
 	strftime(d, 99, "%x", tmdate);
@@ -235,7 +235,7 @@ static void orage_move_day(struct tm *t, int day)
     t->tm_wday %=7;
 }
 
-char *orage_tm_date_to_i18_date(struct tm *tm_date)
+static char *orage_tm_date_to_i18_date(struct tm *tm_date)
 {
     static char i18_date[32];
 
@@ -354,7 +354,7 @@ static void on_button_press_event_cb(GtkWidget *widget
     }
 }
 
-gint orage_days_between(struct tm *t1, struct tm *t2)
+static gint orage_days_between(struct tm *t1, struct tm *t2)
 {
     GDate *g_t1, *g_t2;
     gint dd;
@@ -502,6 +502,7 @@ static void app_rows(day_win *dw, FolderItem *item)
 	add_row(dw, event, days);
 	vcal_manager_free_event(event);
    }
+   g_slist_free(events);
 }
 
 static void app_data(day_win *dw, FolderItem *item)
@@ -625,6 +626,11 @@ static void build_day_view_header(day_win *dw, char *start_date)
 	
 	avail_w = allocation.width - 20 - 2*(dw->hour_req.width);
 	avail_d = avail_w / dw->StartDate_button_req.width;
+    }
+    if (avail_d >= 7) {
+    	avail_d = 7;
+	gtk_widget_set_size_request(dw->StartDate_button, avail_w / avail_d, -1);
+	gtk_widget_size_request(dw->StartDate_button, &dw->StartDate_button_req);
     }
    
     /* initial values */
@@ -834,7 +840,6 @@ static void build_day_view_table(day_win *dw)
 
 void refresh_day_win(day_win *dw)
 {
-printf("refresh\n");
     get_scroll_position(dw);
     gtk_widget_destroy(dw->scroll_win_h);
     build_day_view_table(dw);
@@ -855,6 +860,10 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
     dw->scroll_pos = -1; /* not set */
     dw->Tooltips = gtk_tooltips_new();
     dw->accel_group = gtk_accel_group_new();
+    
+    while (tmdate.tm_wday != 1)
+    	orage_move_day(&tmdate, -1);
+    
     dw->startdate = tmdate;
 
     dw->Vbox = gtk_vbox_new(FALSE, 0);
