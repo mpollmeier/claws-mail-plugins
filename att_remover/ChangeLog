@@ -1,3 +1,8 @@
+2008-03-12 [colin]	1.0.7cvs1
+
+	* configure.ac
+		Enable -Wall
+
 2007-09-03 [paul]	1.0.7
 
 	1.0.7 released
