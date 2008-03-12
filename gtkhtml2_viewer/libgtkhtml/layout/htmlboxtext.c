@@ -145,7 +145,7 @@ html_box_text_finalize (GObject *self)
 
 	master = text->master;
 	if (master) {
-		html_box_text_destroy_slaves (HTML_BOX_TEXT(text));
+		html_box_text_destroy_slaves (HTML_BOX(text));
 		html_box_text_free_master (master);
 		g_free (master);
 		text->master = NULL;
