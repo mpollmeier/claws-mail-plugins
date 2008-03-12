@@ -303,10 +303,12 @@ static void vcal_item_opened(FolderItem *item)
 
 	if (!((VCalFolderItem *)(item))->dw 
 	    && ((VCalFolderItem *)(item))->use_cal_view == 1)
-		((VCalFolderItem *)(item))->dw = create_day_win(item, tmdate);
-	if (!((VCalFolderItem *)(item))->mw 
+		((VCalFolderItem *)(item))->dw = create_day_win(item, tmdate);		
+	else if (!((VCalFolderItem *)(item))->mw 
 	    && ((VCalFolderItem *)(item))->use_cal_view == 2)
 		((VCalFolderItem *)(item))->mw = create_month_win(item, tmdate);
+	else if (((VCalFolderItem *)(item))->use_cal_view != 0)
+		vcal_folder_refresh_cal(item);
 }
 
 void vcal_folder_refresh_cal(FolderItem *item)
