@@ -93,3 +93,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/notification_banner.c;  ) > 0.15cvs4.patchset
 ( cvs diff -u -r 1.1.2.28 -r 1.1.2.29 src/notification_plugin.c;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/notification_trayicon.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/notification_trayicon.h;  ) > 0.15cvs5.patchset
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/notification_trayicon.c;  ) > 0.15cvs6.patchset
+( cvs diff -u -r 1.1.2.123 -r 1.1.2.124 configure.ac;  ) > 0.15cvs7.patchset
