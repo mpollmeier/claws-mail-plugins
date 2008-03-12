@@ -779,7 +779,6 @@ void acpi_prefs_init(void)
 {
 	static gchar *path[3];
 	gchar *rcpath;
-	GError *error;
 
 	path[0] = _("Plugins");
 	path[1] = PLUGIN_NAME;
