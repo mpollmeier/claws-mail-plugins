@@ -32,7 +32,8 @@
 #include "foldersel.h"
 #include "alertpanel.h"
 #include "main.h"
-
+#include "menu.h"
+#include "account.h"
 #include "pluginconfig.h"
 
 static void new_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
@@ -247,8 +248,6 @@ static void new_folder_cb(FolderView *folderview, guint action,
 
 static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
-	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
-	GtkCTreeNode *node;
 	FolderItem *item;
 	gchar *name;
 	gchar *message;

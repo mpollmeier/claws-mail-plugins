@@ -7,7 +7,9 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=14
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
+
+CFLAGS="$CFLAGS -Wall"
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then

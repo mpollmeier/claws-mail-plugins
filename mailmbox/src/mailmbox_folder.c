@@ -475,7 +475,6 @@ static gchar *s_claws_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint 
         free(data);
  free:
         free(file);
- err:
         return NULL;
 }
 
@@ -605,7 +604,6 @@ static GSList *claws_mailmbox_get_msginfos(Folder *folder, FolderItem *item,
 
 	return ret;
 
- unlock:
         claws_mailmbox_read_unlock(mbox);
  err:
         return NULL;
@@ -636,7 +634,6 @@ static gint claws_mailmbox_add_msgs(Folder *folder, FolderItem *dest,
     GSList *file_list, 
     GRelation *relation)
 { 
-	gchar *destfile;
 	GSList *cur;
         gint last_num;
         struct claws_mailmbox_folder * mbox;
@@ -1030,7 +1027,6 @@ static char * quote_mailbox(char * mb)
         p = path;
 
         while (* mb != 0) {
-                char hex[3];
                 
                 if (((* mb >= 'a') && (* mb <= 'z')) ||
                     ((* mb >= 'A') && (* mb <= 'Z')) ||

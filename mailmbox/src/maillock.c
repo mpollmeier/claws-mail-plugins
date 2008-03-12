@@ -233,7 +233,6 @@ static int lock_common(const char * filename, int fd, short locktype)
   if (r < 0) {
     /* WARNING POSIX lock could not be applied */
   }
- err:
   return res;
 }
 

@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox.h,v 1.2.2.1 2007-02-14 08:01:57 colinler Exp $
+ * $Id: mailmbox.h,v 1.2.2.2 2008-03-12 17:41:50 colinler Exp $
  */
 
 #ifndef MAILMBOX_H
@@ -48,48 +48,48 @@ claws_mailmbox_append_message_list(struct claws_mailmbox_folder * folder,
 			     carray * append_tab);
 
 int
-claws_claws_mailmbox_append_message(struct claws_mailmbox_folder * folder,
+claws_mailmbox_append_message(struct claws_mailmbox_folder * folder,
 			const char * data, size_t len);
 
-int claws_claws_mailmbox_fetch_msg(struct claws_mailmbox_folder * folder,
+int claws_mailmbox_fetch_msg(struct claws_mailmbox_folder * folder,
 		       uint32_t num, char ** result,
 		       size_t * result_len);
 
-int claws_claws_mailmbox_fetch_msg_headers(struct claws_mailmbox_folder * folder,
+int claws_mailmbox_fetch_msg_headers(struct claws_mailmbox_folder * folder,
 			       uint32_t num, char ** result,
 			       size_t * result_len);
 
-void claws_claws_mailmbox_fetch_result_free(char * msg);
+void claws_mailmbox_fetch_result_free(char * msg);
 
 int claws_mailmbox_copy_msg_list(struct claws_mailmbox_folder * dest_folder,
 			   struct claws_mailmbox_folder * src_folder,
 			   carray * tab);
 
-int claws_claws_mailmbox_copy_msg(struct claws_mailmbox_folder * dest_folder,
+int claws_mailmbox_copy_msg(struct claws_mailmbox_folder * dest_folder,
 		      struct claws_mailmbox_folder * src_folder,
 		      uint32_t uid);
 
-int claws_claws_mailmbox_expunge(struct claws_mailmbox_folder * folder);
+int claws_mailmbox_expunge(struct claws_mailmbox_folder * folder);
 
-int claws_claws_mailmbox_delete_msg(struct claws_mailmbox_folder * folder, uint32_t uid);
+int claws_mailmbox_delete_msg(struct claws_mailmbox_folder * folder, uint32_t uid);
 
-int claws_claws_mailmbox_init(const char * filename,
+int claws_mailmbox_init(const char * filename,
 		  int force_readonly,
 		  int force_no_uid,
 		  uint32_t default_written_uid,
 		  struct claws_mailmbox_folder ** result_folder);
 
-void claws_claws_mailmbox_done(struct claws_mailmbox_folder * folder);
+void claws_mailmbox_done(struct claws_mailmbox_folder * folder);
 
 /* low-level access primitives */
 
-int claws_claws_mailmbox_write_lock(struct claws_mailmbox_folder * folder);
+int claws_mailmbox_write_lock(struct claws_mailmbox_folder * folder);
 
-int claws_claws_mailmbox_write_unlock(struct claws_mailmbox_folder * folder);
+int claws_mailmbox_write_unlock(struct claws_mailmbox_folder * folder);
 
-int claws_claws_mailmbox_read_lock(struct claws_mailmbox_folder * folder);
+int claws_mailmbox_read_lock(struct claws_mailmbox_folder * folder);
 
-int claws_claws_mailmbox_read_unlock(struct claws_mailmbox_folder * folder);
+int claws_mailmbox_read_unlock(struct claws_mailmbox_folder * folder);
 
 
 /* memory map */

@@ -1,3 +1,13 @@
+2008-03-12 [colin]	1.14.0cvs2
+
+	* configure.ac
+	* src/maillock.c
+	* src/mailmbox.c
+	* src/mailmbox.h
+	* src/mailmbox_folder.c
+	* src/plugin_gtk.c
+		Enable -Wall, fix warnings
+
 2008-02-12 [wwp]	1.14.0cvs1
 
 	* configure.ac

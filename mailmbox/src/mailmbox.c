@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox.c,v 1.3.2.1 2007-02-14 08:01:57 colinler Exp $
+ * $Id: mailmbox.c,v 1.3.2.2 2008-03-12 17:41:50 colinler Exp $
  */
 
 #include "mailmbox.h"
@@ -154,7 +154,7 @@ int claws_mailmbox_map(struct claws_mailmbox_folder * folder)
 			MAP_SHARED, folder->mb_fd, 0);
   if (str == MAP_FAILED) {
     perror("mmap");
-    debug_print("map of %d bytes failed\n", buf.st_size);
+    debug_print("map of %lu bytes failed\n", buf.st_size);
     res = MAILMBOX_ERROR_FILE;
     goto err;
   }
