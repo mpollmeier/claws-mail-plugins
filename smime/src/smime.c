@@ -140,7 +140,6 @@ static gboolean smime_is_signed(MimeInfo *mimeinfo)
 	     g_ascii_strcasecmp(signature->subtype, "x-pkcs7-signature")))
 		return FALSE;
 
-is_signed:
 	if (data == NULL) {
 		data = smime_new_privacydata();
 		mimeinfo->privacy = (PrivacyData *) data;
@@ -248,7 +247,7 @@ static gint smime_check_signature(MimeInfo *mimeinfo)
 	    !g_ascii_strcasecmp(mimeinfo->subtype, "x-pkcs7-mime")) {
 		tmpstr = procmime_mimeinfo_get_parameter(mimeinfo, "smime-type");
 		if (tmpstr && !g_ascii_strcasecmp(tmpstr, "signed-data")) {
-			gpgme_data_t cipher, plain;
+			gpgme_data_t cipher;
 			size_t len;
 			if (oldenc == ENC_BASE64)
 				gpgme_data_set_encoding (textdata, GPGME_DATA_ENCODING_BASE64);
@@ -362,7 +361,6 @@ static gchar *smime_get_sig_info_full(MimeInfo *mimeinfo)
 
 static gboolean smime_is_encrypted(MimeInfo *mimeinfo)
 {
-	MimeInfo *tmpinfo;
 	const gchar *tmpstr;
 	
 	if (mimeinfo->type != MIMETYPE_APPLICATION)

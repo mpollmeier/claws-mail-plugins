@@ -27,6 +27,7 @@
 #include <glib/gi18n.h>
 
 #include "pluginconfig.h"
+#include "plugin.h"
 #include "version.h"
 #include "common/claws.h"
 #include "smime.h"
