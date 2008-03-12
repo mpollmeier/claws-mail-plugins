@@ -702,11 +702,13 @@ static gboolean acpi_update_hook(gpointer source, gpointer data)
 {
 	int action = 0;
 	guint new, unread, unreadmarked, marked, total;
+	guint replied, forwarded, locked, ignored, watched;
 	
 	if (alertpanel_blink_timeout_id)
 		return FALSE;
 
-	folder_count_total_msgs(&new, &unread, &unreadmarked, &marked, &total);
+	folder_count_total_msgs(&new, &unread, &unreadmarked, &marked, &total,
+				&replied, &forwarded, &locked, &ignored, &watched);
 
 	if (my_new != new || my_unread != unread) {
 		my_new = new;
