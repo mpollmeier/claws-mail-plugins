@@ -91,6 +91,7 @@ struct _month_win
     GList    *apptw_list; /* keep track of appointments being updated */
     struct tm startdate;
     FolderItem *item;
+    gulong selsig;
 };
 
 gchar *dayname[7] = {
@@ -122,41 +123,6 @@ static gchar *get_locale_date(struct tm *tmdate)
 	gchar *d = g_malloc(100);
 	strftime(d, 99, "%x", tmdate);
 	return d;
-}
-
-static void do_appt_win(char *mode, char *uid, month_win *mw)
-{
-#if 0
-    appt_win *apptw;
-
-    apptw = create_appt_win(mode, uid);
-    if (apptw) {
-        /* we started this, so keep track of it */
-        mw->apptw_list = g_list_prepend(mw->apptw_list, apptw);
-        /* inform the appointment that we are interested in it */
-        apptw->mw = mw;
-    }
-#endif
-};
-
-static void set_scroll_position(month_win *mw)
-{
-    GtkAdjustment *v_adj;
-    return;
-    v_adj = gtk_scrolled_window_get_vadjustment(
-            GTK_SCROLLED_WINDOW(mw->scroll_win));
-    if (mw->scroll_pos > 0) /* we have old value */
-        gtk_adjustment_set_value(v_adj, mw->scroll_pos);
-    else if (mw->scroll_pos < 0)
-        /* default: let's try to start roughly from line 8 = 8 o'clock */
-        gtk_adjustment_set_value(v_adj, v_adj->upper/3);
-    gtk_adjustment_changed(v_adj);
-}
-
-static gboolean scroll_position_timer(gpointer user_data)
-{
-    set_scroll_position((month_win *)user_data);
-    return(FALSE); /* only once */
 }
 
 static void get_scroll_position(month_win *mw)
@@ -214,6 +180,8 @@ void mw_close_window(month_win *mw)
     SummaryView *summaryview = NULL;
     if (mainwindow_get_mainwindow()) {
 	summaryview = mainwindow_get_mainwindow()->summaryview;
+        if (mw->selsig)
+        	g_signal_handler_disconnect(G_OBJECT(summaryview->ctree), mw->selsig);
 	gtk_container_remove(GTK_CONTAINER(summaryview->mainwidget_book),
 		mw->Vbox);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(summaryview->mainwidget_book),
@@ -222,6 +190,7 @@ void mw_close_window(month_win *mw)
 	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
 	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
     }
+    
     gtk_object_destroy(GTK_OBJECT(mw->Tooltips));
     g_free(mw);
     mw = NULL;
@@ -262,19 +231,14 @@ static void orage_move_day(struct tm *t, int day)
 static char *orage_tm_date_to_i18_date(struct tm *tm_date)
 {
     static char i18_date[32];
-
-    if (strftime(i18_date, 32, "%x", tm_date) == 0)
+    struct tm t;
+    t.tm_mday = tm_date->tm_mday;
+    t.tm_mon = tm_date->tm_mon - 1;
+    t.tm_year = tm_date->tm_year - 1900;
+    if (strftime(i18_date, 32, "%x", &t) == 0)
         g_error("Orage: orage_tm_date_to_i18_date too long string in strftime");
     return(i18_date);
 }
-
-static void on_Today_clicked(GtkButton *b, month_win *mw)
-{
-    time_t t = time(NULL);
-    localtime_r(&t, &(mw->startdate));
-    refresh_month_win(mw);
-}
-
 
 static void changeSelectedDate(month_win *mw, gint month)
 {
@@ -291,22 +255,21 @@ static void changeSelectedDate(month_win *mw, gint month)
       orage_move_day(&(mw->startdate), -1);
      } while (mw->startdate.tm_mday > 1);
     }
-    refresh_month_win(mw);
 }
 
 static gint on_Previous_clicked(GtkWidget *button, GdkEventButton *event,
 				    month_win *mw)
 {
-    int days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(mw->day_spin));
     changeSelectedDate(mw, -1);
+    refresh_month_win(mw);
     return TRUE;
 }
 
 static gint on_Next_clicked(GtkWidget *button, GdkEventButton *event,
 				    month_win *mw)
 {
-    int days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(mw->day_spin));
     changeSelectedDate(mw, +1);
+    refresh_month_win(mw);
     return TRUE;
 }
 
@@ -348,6 +311,9 @@ static void header_button_clicked_cb(GtkWidget *button
     int offset = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "day"));
     struct tm tm_date = mw->startdate;
 
+    if (event->button != 1)
+        return;
+
     while (offset > tm_date.tm_mday) {
 	    orage_move_day(&tm_date, 1);
     }
@@ -358,12 +324,53 @@ static void header_button_clicked_cb(GtkWidget *button
     vcal_meeting_create_with_start(NULL, &tm_date);
 }
 
+static void mw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
+			     gint column, month_win *mw)
+{
+	MsgInfo *msginfo = gtk_ctree_node_get_row_data(ctree, row);
+	
+	if (msginfo && msginfo->msgid) {
+		VCalEvent *event = vcal_manager_load_event(msginfo->msgid);
+		if (event) {
+			struct tm tm_start, tm_end;
+			time_t t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
+			time_t t_end = icaltime_as_timet(icaltime_from_string(event->dtend));
+			gboolean changed = FALSE;
+
+			localtime_r(&t_start, &tm_start);
+			localtime_r(&t_end, &tm_end);
+			while (tm_start.tm_year < mw->startdate.tm_year) {
+				changeSelectedDate(mw, -1);
+				changed = TRUE;
+			}
+			while (tm_start.tm_year > mw->startdate.tm_year) {
+				changeSelectedDate(mw, +1);
+				changed = TRUE;
+			}
+			while (tm_start.tm_mon < mw->startdate.tm_mon) {
+				changeSelectedDate(mw, -1);
+				changed = TRUE;
+			}
+			while (tm_start.tm_mon > mw->startdate.tm_mon) {
+				changeSelectedDate(mw, +1);
+				changed = TRUE;
+			}
+			if (changed)
+				refresh_month_win(mw);
+		}
+		vcal_manager_free_event(event);
+	}
+}
+
 static void on_button_press_event_cb(GtkWidget *widget
         , GdkEventButton *event, gpointer *user_data)
 {
     month_win *mw = (month_win *)user_data;
     gchar *uid;
     uid = g_object_get_data(G_OBJECT(widget), "UID");
+
+    if (event->button != 1)
+        return;
 
     if (event->type==GDK_2BUTTON_PRESS) {
     	VCalEvent *event = NULL;
@@ -379,9 +386,13 @@ static void on_button_press_event_cb(GtkWidget *widget
 	   MsgInfo *info = folder_item_get_msginfo_by_msgid(mw->item, uid);
 	   if (info) {
 		   summaryview = mainwindow_get_mainwindow()->summaryview;
+		   g_signal_handlers_block_by_func(G_OBJECT(summaryview->ctree),
+				       G_CALLBACK(mw_summary_selected), mw);
 		   summary_select_by_msgnum(summaryview, info->msgnum);
 		   summary_display_msg_selected(summaryview, FALSE);
 		   procmsg_msginfo_free(info);
+		   g_signal_handlers_unblock_by_func(G_OBJECT(summaryview->ctree),
+				       G_CALLBACK(mw_summary_selected), mw);
 	   }
 	}
     }
@@ -405,13 +416,19 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
     gint col, start_col, end_col, first_col, last_col;
     gint width, start_width, end_width;
     gchar *text, *tip, *start_date, *end_date;
-    GtkWidget *ev, *lab, *hb;
+    GtkWidget *ev = NULL, *lab = NULL, *hb;
     time_t t_start, t_end;
     struct tm tm_first, tm_start, tm_end;
-    GdkColor *color;
     guint monthdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int weekoffset = -1;
     gboolean pack = TRUE, update_tip = FALSE;
+    time_t now = time(NULL);
+    struct tm tm_today;
+
+    localtime_r(&now, &tm_today);
+
+    tm_today.tm_year += 1900;
+    tm_today.tm_mon++;
 
     /* First clarify timings */
     t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
@@ -437,11 +454,12 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
     start_col = orage_days_between(&tm_first, &tm_start)+1;
     end_col   = orage_days_between(&tm_first, &tm_end)+1;
 
-    if (end_col < 1)
+    if (end_col < 1 || start_col < 1) {
     	return;
-    if (start_col > monthdays[tm_first.tm_mon])
+    }
+    if (start_col > monthdays[tm_first.tm_mon-1]) {
         return;
-
+    }
     else {
         GDate *fdate = g_date_new_dmy(1, tm_start.tm_mon, tm_start.tm_year);
         GDate *sdate = g_date_new_dmy(tm_start.tm_mday, tm_start.tm_mon, tm_start.tm_year);
@@ -452,14 +470,13 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
 	weekoffset = (int)g_date_get_monday_week_of_year(fdate);
 	row = start_row = (int)g_date_get_monday_week_of_year(sdate) - weekoffset;
 	end_row = (int)g_date_get_monday_week_of_year(edate) - weekoffset;
-
 	g_date_free(fdate);
 	g_date_free(sdate);
 	g_date_free(edate);
     }
 
-    if (end_col > 5)
-       end_col = 5;
+    if (end_col > 7)
+       end_col = 7;
 
     /* then add the appointment */
     text = g_strdup(event->summary?event->summary : _("Unknown"));
@@ -495,6 +512,11 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
        ev = GTK_WIDGET(g_list_last(children)->data);
        g_list_free(children);
     }
+
+    if (ev && tm_start.tm_mday == tm_today.tm_mday && tm_start.tm_mon == tm_today.tm_mon 
+        && tm_start.tm_year == tm_today.tm_year)
+	gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &mw->bg_today);
+
     if (orage_days_between(&tm_start, &tm_end) == 0)
         tip = g_strdup_printf("%s\n%02d:%02d-%02d:%02d\n%s"
                 , text, tm_start.tm_hour, tm_start.tm_min
@@ -540,8 +562,8 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
         /*
          * same_date = !strncmp(start_ical_time, end_ical_time, 8);
          * */
-        if (start_row < 1)
-            first_row = 1;
+        if (start_row < 0)
+            first_row = 0;
         else
             first_row = start_row;
         if (end_row > 5)
@@ -831,13 +853,11 @@ static void build_month_view_table(month_win *mw)
     int year, month, day;
     gint i = 0;
     GtkWidget *label, *button;
-    char text[5+1], *date, *today;
     struct tm tm_date, tm_today;
     guint monthdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     GtkWidget *vp;
     time_t t = time(NULL);
     GtkWidget *arrow;
-    gchar *tip;
 
     localtime_r(&t, &tm_today);
     days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(mw->day_spin));
@@ -938,9 +958,6 @@ void refresh_month_win(month_win *mw)
     gtk_widget_destroy(mw->scroll_win_h);
     build_month_view_table(mw);
     gtk_widget_show_all(mw->scroll_win_h);
-    /* I was not able to get this work without the timer. Ugly yes, but
-     * it works and does not hurt - much */
-    g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)mw);
 }
 
 month_win *create_month_win(FolderItem *item, struct tm tmdate)
@@ -976,9 +993,9 @@ month_win *create_month_win(FolderItem *item, struct tm tmdate)
 		mw->Vbox));
 	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
 	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
+	mw->selsig = g_signal_connect(G_OBJECT(summaryview->ctree), "tree_select_row",
+			 G_CALLBACK(mw_summary_selected), mw);
     }
-
-    g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)mw);
 
     return(mw);
 }

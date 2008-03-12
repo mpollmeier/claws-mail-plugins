@@ -36,6 +36,7 @@
 #include "prefs.h"
 #include "prefs_common.h"
 #include "prefs_account.h"
+#include "alertpanel.h"
 #include "account.h"
 #include "codeconv.h"
 #include <time.h>
@@ -288,15 +289,12 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	gchar *organizer = g_strdup_printf("MAILTO:%s", event->organizer);
 	PrefsAccount *account = vcal_manager_get_account_from_event(event);
 	gchar *attendee  = NULL;
-	gchar *body, *headers, *qpbody;
+	gchar *body, *headers;
 	gchar *tmpfile = NULL;
 	icalcomponent *calendar, *ievent, *timezone, *tzc;
-	struct icalperiodtype rtime;
 	icalproperty *attprop;
 	icalproperty *orgprop;
-	icalparameter *param = NULL;
 	enum icalparameter_partstat status = ICAL_PARTSTAT_NEEDSACTION;
-	int i = 0;
 	gchar *sanitized_uid = g_strdup(event->uid);
 	
 	subst_for_filename(sanitized_uid);
@@ -629,12 +627,8 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 	gchar **lines = NULL;
 	gchar *tmpfile = NULL;
 	icalcomponent *calendar;
-	icalproperty *attprop, *prop;
-	icalproperty *orgprop;
-	icalparameter *param = NULL;
+	icalproperty *prop;
 	icalcomponent *ievent = NULL;
-	
-	enum icalparameter_partstat status = ICAL_PARTSTAT_NONE;
 	int i = 0;
 
 	ievent = icalcomponent_new_clone(event);
@@ -767,7 +761,6 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	
 	if (dtstart && *(dtstart)) {
 		time_t tmp = icaltime_as_timet((icaltime_from_string(dtstart)));
-		time_t tmp_utc = icaltime_as_timet((icaltime_from_string(dtstart)));
 		gchar buft[512];
 		tzset();
 		event->start	= g_strdup(ctime_r(&tmp, buft));
@@ -896,7 +889,7 @@ void vcal_manager_save_event (VCalEvent *event, gboolean export_after)
 	xml_tag_add_attr(tag, xml_attr_new("postponed", tmp));
 	g_free(tmp);
 	
-	tmp = g_strdup_printf("%lu", event->rec_occurence);
+	tmp = g_strdup_printf("%d", event->rec_occurence);
 	xml_tag_add_attr(tag, xml_attr_new("rec_occurence", tmp));
 	g_free(tmp);
 	
@@ -1136,7 +1129,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	gchar *attendees = NULL;
 	enum icalparameter_partstat status;
 	gchar *prefix = NULL;
-	gchar enc_subject[512], enc_prefix[512], enc_from[512], *from = NULL;
+	gchar enc_subject[512], enc_from[512], *from = NULL;
 	gchar msgid[128];	
 	gchar *calmsgid = NULL;
 
@@ -1144,9 +1137,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 	
 	if (is_pseudo_display) {
 		struct icaltimetype itt = (icaltime_from_string(event->dtstart));
-		struct icaltimetype itt_utc = (icaltime_from_string(event->dtstart));
 		time_t t = icaltime_as_timet(itt);
-		time_t t_utc = icaltime_as_timet(itt_utc);
 		get_rfc822_date_from_time_t(date, sizeof(date), t);
 	} else {
 		get_rfc822_date(date, sizeof(date));
@@ -1279,7 +1270,6 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 	gchar date[128];
 	gchar *result = NULL;
 	gchar *method_str = NULL;
-	gchar *attendees = NULL;
 	gchar *summary = NULL;
 	gchar *organizer = NULL;
 	gchar *orgname = NULL;
@@ -1464,7 +1454,7 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 			return EVENT_TOMORROW;
 		} else if (days > 1 && days < 7) {
 			return EVENT_THISWEEK;
-		} else if (days >= 7) {
+		} else {
 			return EVENT_LATER;
 		}
 	} else if (today.tm_year > evtstart.tm_year) {

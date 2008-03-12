@@ -46,9 +46,11 @@ GSList *vcal_get_events_list(FolderItem *item);
 
 day_win *create_day_win(FolderItem *item, struct tm tmdate);
 void refresh_day_win(day_win *dw);
+void dw_close_window(day_win *dw);
 
 month_win *create_month_win(FolderItem *item, struct tm tmdate);
 void refresh_month_win(month_win *dw);
+void mw_close_window(month_win *dw);
 
 VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset);
 

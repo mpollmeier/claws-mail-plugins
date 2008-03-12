@@ -91,6 +91,7 @@ struct _day_win
     GList    *apptw_list; /* keep track of appointments being updated */
     struct tm startdate;
     FolderItem *item;
+    gulong selsig;
 };
 
 static gchar *get_locale_date(struct tm *tmdate)
@@ -99,21 +100,6 @@ static gchar *get_locale_date(struct tm *tmdate)
 	strftime(d, 99, "%x", tmdate);
 	return d;
 }
-
-static void do_appt_win(char *mode, char *uid, day_win *dw)
-{
-#if 0
-    appt_win *apptw;
-
-    apptw = create_appt_win(mode, uid);
-    if (apptw) {
-        /* we started this, so keep track of it */
-        dw->apptw_list = g_list_prepend(dw->apptw_list, apptw);
-        /* inform the appointment that we are interested in it */
-        apptw->dw = dw;
-    }
-#endif
-};
 
 static void set_scroll_position(day_win *dw)
 {
@@ -190,6 +176,8 @@ void dw_close_window(day_win *dw)
     SummaryView *summaryview = NULL;
     if (mainwindow_get_mainwindow()) {
 	summaryview = mainwindow_get_mainwindow()->summaryview;
+        if (dw->selsig)
+        	g_signal_handler_disconnect(G_OBJECT(summaryview->ctree), dw->selsig);
 	gtk_container_remove(GTK_CONTAINER(summaryview->mainwidget_book),
 		dw->Vbox);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(summaryview->mainwidget_book),
@@ -244,14 +232,6 @@ static char *orage_tm_date_to_i18_date(struct tm *tm_date)
     return(i18_date);
 }
 
-static void on_Today_clicked(GtkButton *b, day_win *dw)
-{
-    time_t t = time(NULL);
-    localtime_r(&t, &(dw->startdate));
-    refresh_day_win(dw);
-}
-
-
 static void changeSelectedDate(day_win *dw, gint day)
 {
     if (day > 0) {
@@ -263,7 +243,6 @@ static void changeSelectedDate(day_win *dw, gint day)
       orage_move_day(&(dw->startdate), -1);
      } while (++day < 0);
     }
-    refresh_day_win(dw);
 }
 
 static gint on_Previous_clicked(GtkWidget *button, GdkEventButton *event,
@@ -271,6 +250,7 @@ static gint on_Previous_clicked(GtkWidget *button, GdkEventButton *event,
 {
     int days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
     changeSelectedDate(dw, -days);
+    refresh_day_win(dw);
     return TRUE;
 }
 
@@ -279,6 +259,7 @@ static gint on_Next_clicked(GtkWidget *button, GdkEventButton *event,
 {
     int days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
     changeSelectedDate(dw, +days);
+    refresh_day_win(dw);
     return TRUE;
 }
 
@@ -325,6 +306,37 @@ static void header_button_clicked_cb(GtkWidget *button, day_win *dw)
     vcal_meeting_create_with_start(NULL, &tm_date);
 }
 
+static void dw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
+			     gint column, day_win *dw)
+{
+	MsgInfo *msginfo = gtk_ctree_node_get_row_data(ctree, row);
+	int days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
+	
+	if (msginfo && msginfo->msgid) {
+		VCalEvent *event = vcal_manager_load_event(msginfo->msgid);
+		if (event) {
+			time_t t_first = mktime(&dw->startdate);
+			time_t t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
+			gboolean changed = FALSE;
+
+			while (t_start < t_first) {
+				changeSelectedDate(dw, -days);
+				t_first = mktime(&dw->startdate);
+				changed = TRUE;
+			}
+			while (t_start > t_first + (days-1)*24*60*60) {
+				changeSelectedDate(dw, +days);
+				t_first = mktime(&dw->startdate);
+				changed = TRUE;
+			}
+			
+			if (changed)
+				refresh_day_win(dw);
+		}
+		vcal_manager_free_event(event);
+	}
+}
+
 static void on_button_press_event_cb(GtkWidget *widget
         , GdkEventButton *event, gpointer *user_data)
 {
@@ -332,6 +344,9 @@ static void on_button_press_event_cb(GtkWidget *widget
     gchar *uid;
     uid = g_object_get_data(G_OBJECT(widget), "UID");
 
+    if (event->button != 1)
+        return;
+	
     if (event->type==GDK_2BUTTON_PRESS) {
     	VCalEvent *event = NULL;
         uid = g_object_get_data(G_OBJECT(widget), "UID");
@@ -346,9 +361,13 @@ static void on_button_press_event_cb(GtkWidget *widget
 	   MsgInfo *info = folder_item_get_msginfo_by_msgid(dw->item, uid);
 	   if (info) {
 		   summaryview = mainwindow_get_mainwindow()->summaryview;
+		   g_signal_handlers_block_by_func(G_OBJECT(summaryview->ctree),
+				       G_CALLBACK(dw_summary_selected), dw);
 		   summary_select_by_msgnum(summaryview, info->msgnum);
 		   summary_display_msg_selected(summaryview, FALSE);
 		   procmsg_msginfo_free(info);
+		   g_signal_handlers_unblock_by_func(G_OBJECT(summaryview->ctree),
+				       G_CALLBACK(dw_summary_selected), dw);
 	   }
 	}
     }
@@ -375,7 +394,6 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
     GtkWidget *ev, *lab, *hb;
     time_t t_start, t_end;
     struct tm tm_first, tm_start, tm_end;
-    GdkColor *color;
 
     /* First clarify timings */
     t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
@@ -808,7 +826,7 @@ static void build_day_view_table(day_win *dw)
             , G_CALLBACK(on_Next_clicked), dw);
     tip = g_strdup_printf("Forward %d days", days);
     gtk_tooltips_set_tip(dw->Tooltips, dw->Next_toolbutton, tip, NULL);
-
+    g_free(tip);
     g_free(today);
 
     /****** body of day table ******/
@@ -882,6 +900,9 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
 		dw->Vbox));
 	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
 	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
+
+	dw->selsig = g_signal_connect(G_OBJECT(summaryview->ctree), "tree_select_row",
+			 G_CALLBACK(dw_summary_selected), dw);
     }
 
     g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)dw);

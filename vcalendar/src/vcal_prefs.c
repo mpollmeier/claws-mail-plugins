@@ -581,7 +581,6 @@ void vcal_prefs_save(void)
 static void vcal_prefs_save_func(PrefsPage * _page)
 {
 	struct VcalendarPage *page = (struct VcalendarPage *) _page;
-	gboolean update = FALSE;
 
 /* alert */
 	vcalprefs.alert_enable =

@@ -42,6 +42,7 @@
 #include "vcal_prefs.h"
 #include "statusbar.h"
 #include "timing.h"
+#include "inc.h"
 
 MimeViewerFactory vcal_viewer_factory;
 
@@ -107,7 +108,7 @@ static void create_meeting_from_message_cb(gpointer callback_data, guint callbac
 	FolderItem *item = NULL;
 	GSList *cur;
 	gchar *msg;
-	gint curnum=0, total=0;
+	gint total=0;
 
 	if (summary_is_locked(summaryview) || !msglist) {
 		if (msglist)
@@ -282,7 +283,6 @@ static VCalEvent *vcalviewer_get_component(const gchar *file, const gchar *chars
 	GByteArray *array;
 	gchar buf[BUFSIZ];
 	gint n_read;
-	gchar *str;
 
 	g_return_val_if_fail(file != NULL, NULL);
 
@@ -439,7 +439,6 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 {
 	GSList *list = NULL;
 	gchar *attendees = NULL;
-	gboolean firstatt = TRUE;
 	gboolean mine = FALSE;
 	gchar *label = NULL;
 	gboolean save_evt = FALSE;
@@ -1094,7 +1093,6 @@ MimeViewer *vcal_viewer_create(void)
 	VCalViewer *vcalviewer;
 	int i = 0;
 	GtkWidget *hbox = NULL, *vbox = NULL;
-	GtkStyle *style;
 	GtkWidget *warning_img;
 	GtkWidget *warning_label;
 	
@@ -1220,9 +1218,6 @@ void vcalendar_init(void)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 	Folder *folder = NULL;
-	GSList *events = NULL;
-	GSList *cur = NULL;
-	gchar *tmp = NULL;
 	gchar *directory = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"vcalendar", NULL);
 	START_TIMING("");

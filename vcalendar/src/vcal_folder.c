@@ -44,9 +44,13 @@
 #include "vcal_prefs.h"
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
+#include "vcal_interface.h"
 #include "prefs_account.h"
 #include "prefs_common.h"
+#include "claws.h"
+#include "menu.h"
 #include "inputdialog.h"
+#include "inc.h"
 #include "xml.h"
 #include "alertpanel.h"
 #include "log.h"
@@ -257,14 +261,7 @@ static void vcal_item_set_xml(Folder *folder, FolderItem *item, XMLTag *tag)
 
 static XMLTag *vcal_item_get_xml(Folder *folder, FolderItem *item)
 {
-	static gchar *folder_item_stype_str[] = {"normal", "inbox", "outbox",
-						 "draft", "queue", "trash"};
-	static gchar *sort_key_str[] = {"none", "number", "size", "date",
-					"from", "subject", "score", "label",
-					"mark", "unread", "mime", "to", 
-					"locked"};
 	XMLTag *tag;
-	gchar *value;
 
 	tag = folder_item_get_xml(folder, item);
 
@@ -295,7 +292,6 @@ static void vcal_get_sort_type(Folder *folder, FolderSortKey *sort_key,
 
 static void vcal_item_opened(FolderItem *item)
 {
-	Folder *folder = item->folder;
 	struct tm tmdate;
 	time_t t = time(NULL);
 
@@ -313,8 +309,6 @@ static void vcal_item_opened(FolderItem *item)
 
 void vcal_folder_refresh_cal(FolderItem *item)
 {
-	Folder *folder = item->folder;
-
 	if (((VCalFolderItem *)(item))->dw)
 		refresh_day_win(((VCalFolderItem *)(item))->dw);
 	if (((VCalFolderItem *)(item))->mw)
@@ -323,8 +317,6 @@ void vcal_folder_refresh_cal(FolderItem *item)
 
 static void vcal_item_closed(FolderItem *item)
 {
-	Folder *folder = item->folder;
-
 	if (((VCalFolderItem *)(item))->dw) {
 		dw_close_window(((VCalFolderItem *)(item))->dw);
 		((VCalFolderItem *)(item))->dw = NULL;
@@ -473,7 +465,6 @@ gboolean manual_update = TRUE;
 static gint feed_fetch(FolderItem *fitem, MsgNumberList ** list, gboolean *old_uids_valid)
 {
 	VCalFolderItem *item = (VCalFolderItem *)fitem;
-	MsgNumberList *msglist = NULL;
 	icalcomponent *evt = NULL;
 	icalcomponent_kind type = ICAL_VEVENT_COMPONENT;
 	gint num = 1;
@@ -726,6 +717,9 @@ GSList *vcal_get_events_list(FolderItem *item)
 			if (status == ICAL_PARTSTAT_ACCEPTED
 			||  status == ICAL_PARTSTAT_TENTATIVE) {
 				events = g_slist_prepend(events, event);
+			} else {
+				vcal_manager_free_event(event);
+				continue;
 			}
 			if ((status == ICAL_PARTSTAT_ACCEPTED
 			     || status == ICAL_PARTSTAT_TENTATIVE) 
@@ -775,6 +769,8 @@ GSList *vcal_get_events_list(FolderItem *item)
 					if (status == ICAL_PARTSTAT_ACCEPTED
 					||  status == ICAL_PARTSTAT_TENTATIVE) {
 						events = g_slist_prepend(events, nevent);
+					} else {
+						vcal_manager_free_event(nevent);
 					}
 					next = icalrecur_iterator_next(ritr);
 					debug_print("next time is %snull\n", icaltime_is_null_time(next)?"":"not ");
@@ -782,6 +778,8 @@ GSList *vcal_get_events_list(FolderItem *item)
 				}
 				icalrecur_iterator_free(ritr);
 			}
+		} else {
+			vcal_manager_free_event(event);
 		}
 	}
 	closedir(dp);
@@ -898,14 +896,10 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 static gchar *feed_fetch_item(FolderItem * fitem, gint num)
 {
 	gchar *filename = NULL;
-	gchar *snum = NULL;
-	gchar *uid = NULL;
 	VCalFolderItem *item = (VCalFolderItem *)fitem;
 	GSList *ncur, *ecur;
 	int i = 1;
 	IcalFeedData *data = NULL;
-	icalproperty *prop = NULL;
-	gchar *title = NULL;
 
 	if (!item->numlist) {
 		debug_print("numlist null\n");
@@ -1184,7 +1178,6 @@ static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginf
 	EventTime date;
 
 	if (newflags & MSG_DELETED) {
-		MainWindow *mainwin = mainwindow_get_mainwindow();
 		/* delete the stuff */
 		msginfo->flags.perm_flags |= MSG_DELETED;
 		vcal_remove_event(folder, msginfo);
@@ -1205,7 +1198,6 @@ static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginf
 		msginfo->flags.perm_flags |= MSG_COLORLABEL_TO_FLAGS(2); /* Red */
 		break;
 	case EVENT_TOMORROW:
-		/* msginfo->flags.perm_flags |= MSG_COLORLABEL_TO_FLAGS(1); /* Orange */
 		break;
 	case EVENT_THISWEEK:
 		break;
@@ -1370,10 +1362,8 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 	if (((VCalFolderItem *)item)->uri) {
 		for (cur = ((VCalFolderItem *)item)->evtlist; cur; cur = cur->next) {
 			IcalFeedData *fdata = (IcalFeedData *)cur->data;
-			icalcomponent *event;
 			icalproperty *prop;
 			struct icaltimetype itt;
-			gchar *str = NULL;
 			gchar *summary = NULL;
 			EventTime days;
 			if (!fdata->event)
@@ -1529,7 +1519,7 @@ void *url_read_thread(void *data)
 
 	curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
 	if( response_code >= 400 && response_code < 500 ) {
-		debug_print("VCalendar: got %d\n", response_code);
+		debug_print("VCalendar: got %ld\n", response_code);
 		switch(response_code) {
 			case 401: 
 				td->error = g_strdup(_("401 (Authorisation required)"));
@@ -1541,7 +1531,7 @@ void *url_read_thread(void *data)
 				td->error = g_strdup(_("404 (Not found)"));
 				break;
 			default:
-				td->error = g_strdup_printf(_("Error %d"), response_code);
+				td->error = g_strdup_printf(_("Error %ld"), response_code);
 				break;
 		}
 	}
@@ -1566,7 +1556,6 @@ gchar *vcal_curl_read(const char *url, gboolean verbose,
 #endif
 	gchar *msg;
 	void *res;
-	time_t start_time;
 	gboolean killed;
 	gchar *error = NULL;
 	result = NULL;
@@ -1685,7 +1674,6 @@ static gboolean folder_item_find_func(GNode *node, gpointer data)
 
 static FolderItem *get_folder_item_for_uri(const gchar *uri)
 {
-	FolderItem *tmp = NULL;
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	gpointer d[2];
 	
@@ -1988,10 +1976,6 @@ static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item = NULL, *oitem = NULL;
-	gchar *message;
-	AlertValue avalue;
-	gchar *old_path;
-	gchar *old_id;
 
 	if (!folderview->selected) return;
 	if (setting_sensitivity) return;
@@ -2264,7 +2248,6 @@ void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent))
 {
 	GSList *list = vcal_folder_get_waiting_events();
 	GSList *cur = NULL;
-	icalcomponent *calendar = NULL;
 	if (!cb_func)
 		return;
 	debug_print("calling cb_func...\n");

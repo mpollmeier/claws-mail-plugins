@@ -214,26 +214,6 @@ static gboolean avail_btn_can_be_sensitive(void)
 		return TRUE;
 }
 
-static gchar *get_month_name(gint i)
-{
-	struct tm *lt;
-	time_t t;
-	gchar day[4], mon[4];
-	gint dd, hh, mm, ss, yyyy;
-	struct tm buft;
-	
-	tzset();
-	
-	t = time(NULL);
-	lt = localtime_r(&t, &buft);
-	lt->tm_mon = i;
-	
-	sscanf(asctime(lt), "%3s %3s %d %d:%d:%d %d\n",
-	       day, mon, &dd, &hh, &mm, &ss, &yyyy);
-	
-	return g_strdup(mon);
-}
-
 static gint get_dtdate(const gchar *str, gint field)
 {
 	time_t t = icaltime_as_timet((icaltime_from_string(str)));
@@ -961,7 +941,6 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 	gchar *real_url = NULL;
 	gint num_format = 0;
 	gchar *change_user = NULL, *change_dom = NULL;
-	gchar *problems = NULL;
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
 	gboolean find_avail = FALSE;
@@ -1338,15 +1317,17 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 {
 	VCalMeeting *meet = g_new0(VCalMeeting, 1);
 	GtkTextBuffer *buffer = NULL;
-	GtkWidget *date_hbox, *date_vbox, *save_hbox, *label, *vbox, *hbox;
+	GtkWidget *date_hbox, *date_vbox, *save_hbox, *label, *hbox;
 	gchar *s = NULL;
 	GtkObject *start_h_adj, *start_m_adj, *end_h_adj, *end_m_adj;
 	int i = 0, num = 0;
 	GtkWidget *scrolledwin;
 	GList *times = NULL;
 	GList *accounts;
+#ifdef MAEMO
 	GtkWidget *notebook;
 	GtkWidget *maemo_vbox0;
+#endif
 	
 	if (!watch_cursor)
 		watch_cursor = gdk_cursor_new(GDK_WATCH);
@@ -1722,7 +1703,7 @@ VCalMeeting *vcal_meeting_create_with_start(VCalEvent *event, struct tm *sdate)
 		if (num > -1)
 			gtk_list_select_item(GTK_LIST(GTK_COMBO(meet->start_time)->list), num);
 	}
-
+	return meet;
 }
 
 VCalMeeting *vcal_meeting_create_hidden(VCalEvent *event)
@@ -1735,21 +1716,9 @@ gboolean vcal_meeting_send(VCalMeeting *meet)
 	return send_meeting_cb(NULL, meet);
 }
 
-static gboolean g_slist_find_string(GSList *list, const gchar * str)
-{
-	GSList *cur = list;
-	while (cur) {
-		if (!strcmp((gchar *)cur->data, str))
-			return TRUE;
-		cur = cur->next;
-	}
-	return FALSE;
-}
-
 gint vcal_meeting_alert_check(gpointer data)
 {
 	GSList *events = NULL, *cur = NULL;
-	static GSList *alert_done = NULL;
 
 	if (!vcalprefs.alert_enable)
 		return TRUE;
@@ -2063,7 +2032,6 @@ gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
 	time_t whole_start = time(NULL);
 	time_t whole_end = whole_start + (60*60*24*365);
 	gboolean res = TRUE;
-	GSList *busy_spots = NULL;
 	struct icaltimetype itt_start, itt_end;
 	long filesize = 0;
 	
@@ -2155,7 +2123,6 @@ gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
 	icalcomponent_free(calendar);
 	g_slist_free(list);
 	
-putfile:
 	if ((!path || strlen(path) == 0 || !vcalprefs.export_freebusy_enable)) {
 		g_free(tmpfile);
 		return TRUE;

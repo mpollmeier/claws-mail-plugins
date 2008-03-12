@@ -1,3 +1,21 @@
+2008-03-12 [colin]	1.101.0cvs8
+
+	* configure.ac
+		Enable -Wall
+	* src/day-view.c
+	* src/month-view.c
+	* src/vcal_folder.c
+	* src/vcal_folder.h
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_meeting_gtk.h
+	* src/vcal_prefs.c
+	* src/vcalendar.c
+		Fix warnings
+		Fix little bugs in month view
+		Move calendar when moving across meetings
+		with View/Go To/Previous/Next 
+
 2008-03-12 [colin]	1.101.0cvs7
 
 	* src/vcal_folder.c
