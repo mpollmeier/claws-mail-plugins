@@ -36,5 +36,7 @@ struct _FetchinfoConfig
 
 FetchinfoConfig *fetchinfo_get_config		(void);
 void	      fetchinfo_save_config	(void);
+gint fetchinfo_gtk_init(void);
+void fetchinfo_gtk_done(void);
 
 #endif

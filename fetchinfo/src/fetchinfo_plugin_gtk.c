@@ -165,7 +165,7 @@ static void fetchinfo_save_func(PrefsPage *_page)
 
 static struct FetchinfoPage fetchinfo_page;
 
-gint fetchinfo_gtk_init(gchar **error)
+gint fetchinfo_gtk_init(void)
 {
 	static gchar *path[3];
 
