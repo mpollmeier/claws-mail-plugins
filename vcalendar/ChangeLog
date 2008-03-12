@@ -1,4 +1,11 @@
-2008-03-11 [colin]	..cvs1
+2008-03-12 [colin]	1.101.0cvs6
+
+	* src/vcal_folder.c
+	* src/vcal_prefs.c
+	* src/vcal_prefs.h
+		Make the view type a folder-specific property
+
+2008-03-11 [colin]	1.101.0cvs5
 
 	* po/POTFILES.in
 		Add new files

@@ -145,6 +145,7 @@ struct _VCalFolderItem
 	day_win *dw;
 	month_win *mw;
 	time_t last_fetch;
+	int use_cal_view;
 };
 
 static char *vcal_popup_labels[] =
@@ -228,7 +229,8 @@ static void vcal_item_set_xml(Folder *folder, FolderItem *item, XMLTag *tag)
 {
 	GList *cur;
 	folder_item_set_xml(folder, item, tag);
-	
+	gboolean found_cal_view_setting = FALSE;
+
 	for (cur = tag->attr; cur != NULL; cur = g_list_next(cur)) {
 		XMLAttr *attr = (XMLAttr *) cur->data;
 
@@ -238,12 +240,19 @@ static void vcal_item_set_xml(Folder *folder, FolderItem *item, XMLTag *tag)
 				g_free(((VCalFolderItem *)item)->uri);
 			((VCalFolderItem *)item)->uri = g_strdup(attr->value);
 		} 
+		if (!strcmp(attr->name, "use_cal_view")) {
+			found_cal_view_setting = TRUE;
+			((VCalFolderItem *)item)->use_cal_view = atoi(attr->value);
+		} 
 	}
 	if (((VCalFolderItem *)item)->uri == NULL) {
 		/* give a path to inbox */
 		g_free(item->path);
 		item->path = g_strdup(".meetings");
 	}
+	if (!found_cal_view_setting)
+		((VCalFolderItem *)item)->use_cal_view = 1; /*week view */
+	
 }
 
 static XMLTag *vcal_item_get_xml(Folder *folder, FolderItem *item)
@@ -261,6 +270,8 @@ static XMLTag *vcal_item_get_xml(Folder *folder, FolderItem *item)
 
 	if (((VCalFolderItem *)item)->uri)
 		xml_tag_add_attr(tag, xml_attr_new("uri", ((VCalFolderItem *)item)->uri));
+
+	xml_tag_add_attr(tag, xml_attr_new_int("use_cal_view", ((VCalFolderItem *)item)->use_cal_view));
 
 	return tag;
 }
@@ -291,10 +302,10 @@ static void vcal_item_opened(FolderItem *item)
 	localtime_r(&t, &tmdate);
 
 	if (!((VCalFolderItem *)(item))->dw 
-	    && vcalprefs.use_cal_view_for_meetings == 1)
+	    && ((VCalFolderItem *)(item))->use_cal_view == 1)
 		((VCalFolderItem *)(item))->dw = create_day_win(item, tmdate);
 	if (!((VCalFolderItem *)(item))->mw 
-	    && vcalprefs.use_cal_view_for_meetings == 2)
+	    && ((VCalFolderItem *)(item))->use_cal_view == 2)
 		((VCalFolderItem *)(item))->mw = create_month_win(item, tmdate);
 }
 
@@ -1246,7 +1257,7 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 	menu_set_sensitive(factory, name, sens)
 
 	setting_sensitivity = TRUE;
-	switch(vcalprefs.use_cal_view_for_meetings) {
+	switch(item->use_cal_view) {
 	case 0:
 		menuitem = gtk_item_factory_get_item
 			(factory, "/List view");
@@ -1974,7 +1985,7 @@ static void rename_cb(FolderView *folderview, guint action,
 static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget)
 {
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
-	FolderItem *item = NULL;
+	FolderItem *item = NULL, *oitem = NULL;
 	gchar *message;
 	AlertValue avalue;
 	gchar *old_path;
@@ -1983,19 +1994,19 @@ static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget)
 	if (!folderview->selected) return;
 	if (setting_sensitivity) return;
 
-	item = gtk_ctree_node_get_row_data(ctree, folderview->opened);
+	oitem = gtk_ctree_node_get_row_data(ctree, folderview->opened);
+	item = gtk_ctree_node_get_row_data(ctree, folderview->selected);
 
-	if (vcalprefs.use_cal_view_for_meetings == action)
+	if (((VCalFolderItem *)(item))->use_cal_view == action)
 		return;
 	debug_print("set view %d\n", action);
-	if (item && item->folder->klass == vcal_folder_get_class())
-		item->folder->klass->item_closed(item);
-	vcalprefs.use_cal_view_for_meetings = action;
-	if (vcalprefs.use_cal_view_for_meetings) {
-		if (item && item->folder->klass == vcal_folder_get_class())
-			item->folder->klass->item_opened(item);
+	if (oitem && item == oitem && oitem->folder->klass == vcal_folder_get_class())
+		oitem->folder->klass->item_closed(oitem);
+	((VCalFolderItem *)(item))->use_cal_view = action;
+	if (((VCalFolderItem *)(item))->use_cal_view) {
+		if (oitem && item == oitem && oitem->folder->klass == vcal_folder_get_class())
+			oitem->folder->klass->item_opened(oitem);
 	}
-	vcal_prefs_save();
 }
 
 gchar *vcal_get_event_as_ical_str(VCalEvent *event)

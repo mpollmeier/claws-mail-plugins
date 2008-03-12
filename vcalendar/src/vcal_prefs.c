@@ -94,9 +94,6 @@ static PrefParam param[] = {
 	{"orage_registered", "FALSE", &vcalprefs.orage_registered, P_BOOL,
 	 NULL, NULL, NULL},
 
-	{"use_cal_view_for_meetings", "1", &vcalprefs.use_cal_view_for_meetings, P_INT,
-	 NULL, NULL, NULL},
-
 	{"export_freebusy_enable", "FALSE", &vcalprefs.export_freebusy_enable, P_BOOL,
 	 NULL, NULL, NULL},
 	{"export_freebusy_path", "", &vcalprefs.export_freebusy_path, P_STRING,

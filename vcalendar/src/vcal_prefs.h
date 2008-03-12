@@ -42,7 +42,6 @@ struct _VcalendarPrefs
 	gchar		*export_freebusy_user;
 	gchar		*export_freebusy_pass;
 	gboolean	 orage_registered;
-	gint		 use_cal_view_for_meetings;
 };
 
 extern VcalendarPrefs vcalprefs;
