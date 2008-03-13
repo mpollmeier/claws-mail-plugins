@@ -627,6 +627,12 @@ add_new:
 		evt = icalcomponent_get_next_component(
 			item->cal, type);
 	}
+	if (today_msg == -1) {
+		IcalFeedData *data = icalfeeddata_new(NULL, EVENT_TODAY_ID);
+		item->numlist = g_slist_prepend(item->numlist, GINT_TO_POINTER(num));
+		today_msg = num++;
+		item->evtlist = g_slist_prepend(item->evtlist, data);
+	}
 	item->numlist = g_slist_reverse(item->numlist);
 	item->evtlist = g_slist_reverse(item->evtlist);
 	
@@ -832,6 +838,13 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 
 
 	}
+
+	if (today_msg == -1) { 
+		*list = g_slist_prepend(*list, GINT_TO_POINTER(n_msg)); 
+		today_msg = n_msg++; 
+		g_hash_table_insert(hash_uids, GINT_TO_POINTER(today_msg), g_strdup(EVENT_TODAY_ID)); 
+	}
+
 	g_slist_free(events);
 	vcal_folder_export(folder);
 

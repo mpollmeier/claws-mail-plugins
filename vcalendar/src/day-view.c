@@ -317,7 +317,13 @@ static void dw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 		if (event) {
 			time_t t_first = mktime(&dw->startdate);
 			time_t t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
+			struct tm tm_start;
 			gboolean changed = FALSE;
+			GtkAdjustment *v_adj;
+
+			localtime_r(&t_start, &tm_start);
+			tm_start.tm_hour = tm_start.tm_min = tm_start.tm_sec = 0;
+			t_start = mktime(&tm_start);
 
 			while (t_start < t_first) {
 				changeSelectedDate(dw, -days);
@@ -330,8 +336,21 @@ static void dw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 				changed = TRUE;
 			}
 			
-			if (changed)
+			t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
+			localtime_r(&t_start, &tm_start);
+			if (changed) {
+				debug_print("changed from %s\n", event->summary);
+				v_adj = gtk_scrolled_window_get_vadjustment(
+				    GTK_SCROLLED_WINDOW(dw->scroll_win)); 
+				localtime_r(&t_start, &tm_start);
+				if (tm_start.tm_hour > 2)
+					gtk_adjustment_set_value(v_adj, 
+						(v_adj->upper-v_adj->page_size)/(24/(tm_start.tm_hour-2)));
+				else
+					gtk_adjustment_set_value(v_adj, 0);
+				gtk_adjustment_changed(v_adj);
 				refresh_day_win(dw);
+			}
 		}
 		vcal_manager_free_event(event);
 	}
@@ -883,7 +902,9 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
     	orage_move_day(&tmdate, -1);
     
     dw->startdate = tmdate;
-
+    dw->startdate.tm_hour = 0;
+    dw->startdate.tm_min = 0;
+    dw->startdate.tm_sec = 0;
     dw->Vbox = gtk_vbox_new(FALSE, 0);
 
     dw->item = item;
