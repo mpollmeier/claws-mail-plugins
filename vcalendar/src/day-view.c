@@ -416,7 +416,10 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
 
     /* First clarify timings */
     t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
-    t_end = icaltime_as_timet(icaltime_from_string(event->dtend));
+    if (event->dtend && *event->dtend)
+        t_end = icaltime_as_timet(icaltime_from_string(event->dtend));
+    else 
+	t_end = t_start;
 
     localtime_r(&t_start, &tm_start);
     localtime_r(&t_end, &tm_end);

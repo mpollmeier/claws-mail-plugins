@@ -334,11 +334,9 @@ static void mw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 		if (event) {
 			struct tm tm_start, tm_end;
 			time_t t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
-			time_t t_end = icaltime_as_timet(icaltime_from_string(event->dtend));
 			gboolean changed = FALSE;
 
 			localtime_r(&t_start, &tm_start);
-			localtime_r(&t_end, &tm_end);
 			while (tm_start.tm_year < mw->startdate.tm_year) {
 				changeSelectedDate(mw, -1);
 				changed = TRUE;
@@ -432,7 +430,10 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
 
     /* First clarify timings */
     t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
-    t_end = icaltime_as_timet(icaltime_from_string(event->dtend));
+    if (event->dtend && *event->dtend)
+        t_end = icaltime_as_timet(icaltime_from_string(event->dtend));
+    else 
+	t_end = t_start;
 
     localtime_r(&t_start, &tm_start);
     localtime_r(&t_end, &tm_end);
