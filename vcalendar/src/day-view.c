@@ -449,6 +449,8 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
     text = g_strdup(event->summary?event->summary : _("Unknown"));
     ev = gtk_event_box_new();
     lab = gtk_label_new(text);
+    gtk_misc_set_alignment(GTK_MISC(lab), 0.0, 0.5);
+    gtk_label_set_ellipsize(GTK_LABEL(lab), PANGO_ELLIPSIZE_END);
     gtk_container_add(GTK_CONTAINER(ev), lab);
 
     if ((row % 2) == 1)

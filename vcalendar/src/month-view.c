@@ -506,6 +506,7 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
        ev = gtk_event_box_new();
        lab = gtk_label_new(text);
        gtk_misc_set_alignment(GTK_MISC(lab), 0.0, 0.0);
+       gtk_label_set_ellipsize(GTK_LABEL(lab), PANGO_ELLIPSIZE_END);
        if ((row % 2) == 1)
            gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &mw->bg1);
     } else if (!pack && update_tip) {
