@@ -332,7 +332,7 @@ static void mw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 	if (msginfo && msginfo->msgid) {
 		VCalEvent *event = vcal_manager_load_event(msginfo->msgid);
 		if (event) {
-			struct tm tm_start, tm_end;
+			struct tm tm_start;
 			time_t t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
 			gboolean changed = FALSE;
 

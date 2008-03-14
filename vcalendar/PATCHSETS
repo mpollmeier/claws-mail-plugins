@@ -154,3 +154,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/day-view.c;  cvs diff -u -r 1.2.2.82 -r 1.2.2.83 src/vcal_folder.c;  ) > 1.101.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/day-view.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/month-view.c;  ) > 1.101.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/day-view.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/month-view.c;  ) > 1.101.0cvs11.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/month-view.c;  ) > 1.101.0cvs12.patchset
