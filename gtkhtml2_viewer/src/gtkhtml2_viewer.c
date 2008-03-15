@@ -198,6 +198,44 @@ static gboolean load_images(GtkHtml2Viewer *viewer)
 	return FALSE;
 }
 
+static gboolean has_charset(FILE *fp)
+{
+	gchar buf[4096];
+	gint loaded = 0;
+	while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
+		if (strcasestr(buf, "<meta") &&
+		    strcasestr(buf, "http-equiv") &&
+		    strcasestr(buf, "charset")) {
+			rewind(fp);
+			return TRUE;
+		}
+	}
+	rewind(fp);
+	return FALSE;
+}
+
+static gboolean has_header(FILE *fp)
+{
+	gchar buf[4096];
+	gint loaded = 0;
+	gboolean start = FALSE;
+	while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
+		if (strcasestr(buf, "<head>")) {
+			start = TRUE;
+		}
+		if (strcasestr(buf, "</head>")) {
+			rewind(fp);
+			return (start == TRUE);
+		}
+		if (strcasestr(buf, "<body>")) {
+			rewind(fp);
+			return FALSE;
+		}
+	}
+	rewind(fp);
+	return FALSE;
+}
+
 static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
@@ -236,6 +274,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 
 	html_view_zoom_reset(HTML_VIEW(viewer->html_view));
 	if (partinfo && !(procmime_get_part(viewer->filename, partinfo) < 0)) {
+		gboolean insert_in_header = FALSE, insert_all_header = FALSE;
 
 		if (_viewer && _viewer->mimeview &&
 		    _viewer->mimeview->messageview->forced_charset)
@@ -245,7 +284,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 		if (charset == NULL)
 			charset = conv_get_locale_charset_str();
 
-		debug_print("using charset %s\n", charset);
+		debug_print("using charset %s by default\n", charset);
 		
 		if (html_document_open_stream(viewer->html_doc, "text/html")) {
 			gboolean got_charset = FALSE;
@@ -256,31 +295,44 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 				goto out;
 			}
 
+			got_charset = has_charset(fp);
+			if (!got_charset) {
+				if (has_header(fp))
+					insert_in_header = TRUE;
+				else
+					insert_all_header = TRUE;
+			}
+
 			while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
-				if (strcasestr(buf, "<meta") &&
-				    strcasestr(buf, "http-equiv") &&
-				    strcasestr(buf, "charset"))
-					got_charset = TRUE; /* hack */
-				
 				g_mutex_lock(viewer->mutex);
 				if (!viewer->stop_previous && !claws_is_exiting() && got_charset == FALSE) {
-					if (strcasestr(buf, "</head>")) {
+					if (insert_all_header) {
 						gchar *meta_charset = g_strdup_printf(
-							"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
+							"<head><meta http-equiv=Content-Type content=\"text/html; charset=%s\"></head>",
 							charset);
 						html_document_write_stream(
 							viewer->html_doc, meta_charset, strlen(meta_charset));
 						debug_print("injected %s\n", meta_charset);
 						g_free(meta_charset);
 						got_charset = TRUE;
-					} else if (strcasestr(buf, "<body>")) {
+					} else if (insert_in_header && strcasestr(buf, "</head>")) {
+						gchar *start = NULL, *end = NULL;
 						gchar *meta_charset = g_strdup_printf(
-							"<head><meta http-equiv=Content-Type content=\"text/html; charset=%s\"></head>",
+							"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
 							charset);
+						start = g_strdup(buf);
+						*(strcasestr(start, "</head>")) = '\0';
+						end = g_strdup(strcasestr(buf, "</head>"));
+						
+						html_document_write_stream(
+							viewer->html_doc, start, strlen(start));
 						html_document_write_stream(
 							viewer->html_doc, meta_charset, strlen(meta_charset));
-						debug_print("injected %s and head\n", meta_charset);
+						strncpy(buf, end, sizeof(buf));
+						debug_print("injected %s in head\n", meta_charset);
 						g_free(meta_charset);
+						g_free(start);
+						g_free(end);
 						got_charset = TRUE;
 					} 
 				}

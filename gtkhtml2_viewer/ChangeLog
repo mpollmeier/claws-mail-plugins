@@ -1,3 +1,10 @@
+2008-03-15 [colin]	0.17.1cvs6
+
+	* src/gtkhtml2_viewer.c
+		Fix bug 1182, 'charset in incomplete html messages'
+		Figure out better if/where to inject the charset in
+		headers.
+
 2008-03-12 [colin]	0.17.1cvs5
 
 	* libgtkhtml/layout/htmlboxtext.c
