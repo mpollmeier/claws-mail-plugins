@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef __VCALENDAR_H__
+#define __VCALENDAR_H__
 #include <ical.h>
 #include "vcal_manager.h"
 #include "prefs_account.h"
@@ -30,3 +32,4 @@ void vcalendar_done(void);
 void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event);
 gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo);
 void vcalviewer_reload(void);
+#endif

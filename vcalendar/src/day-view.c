@@ -39,6 +39,7 @@
 #include "vcal_folder.h"
 #include "vcal_prefs.h"
 #include "vcal_manager.h"
+#include "common-views.h"
 #include "vcal_meeting_gtk.h"
 
 #define MAX_DAYS 40
@@ -130,97 +131,13 @@ static void get_scroll_position(day_win *dw)
     dw->scroll_pos = gtk_adjustment_get_value(v_adj);
 }
 
-static GtkWidget *build_line(day_win *dw, gint left_x, gint top_y
-        , gint width, gint height, GtkWidget *hour_line)
-{
-    GdkColormap *pic1_cmap;
-    GdkVisual *pic1_vis;
-    GdkPixmap *pic1;
-    GdkGC *pic1_gc;
-    GtkWidget *new_hour_line;
-    gint depth = 16;
-    gboolean first = FALSE;
-
-    /*
-     * GdkPixbuf *scaled;
-    scaled = gdk_pixbuf_scale_simple (pix, w, h, GDK_INTERP_BILINEAR);
-    */
-     
-    pic1_cmap = gdk_colormap_get_system();
-    pic1_vis = gdk_colormap_get_visual(pic1_cmap);
-    depth = pic1_vis->depth;
-    if (hour_line == NULL) {
-        pic1 = gdk_pixmap_new(NULL, width, height, depth);
-        gdk_drawable_set_colormap(pic1, pic1_cmap);
-        first = TRUE;
-    }
-    else
-        gtk_image_get_pixmap(GTK_IMAGE(hour_line), &pic1, NULL);
-    pic1_gc = gdk_gc_new(pic1);
-    if (first) {
-        gdk_gc_set_foreground(pic1_gc, &dw->line_color);
-        gdk_draw_rectangle(pic1, pic1_gc, TRUE, left_x, top_y, width, height);
-    }
-    else {
-        gdk_draw_rectangle(pic1, pic1_gc, TRUE, left_x, top_y, width, height);
-    }
-    
-    new_hour_line = gtk_image_new_from_pixmap(pic1, NULL);
-    g_object_unref(pic1_gc);
-    g_object_unref(pic1);
-    return(new_hour_line);
-}
-
 void dw_close_window(day_win *dw)
 {
-    SummaryView *summaryview = NULL;
-    if (mainwindow_get_mainwindow()) {
-	summaryview = mainwindow_get_mainwindow()->summaryview;
-        if (dw->selsig)
-        	g_signal_handler_disconnect(G_OBJECT(summaryview->ctree), dw->selsig);
-	gtk_container_remove(GTK_CONTAINER(summaryview->mainwidget_book),
-		dw->Vbox);
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(summaryview->mainwidget_book),
-		gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
-		summaryview->scrolledwin));
-	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
-	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
-    }
+    vcal_view_set_summary_page(dw->Vbox, dw->selsig);
+
     gtk_object_destroy(GTK_OBJECT(dw->Tooltips));
     g_free(dw);
     dw = NULL;
-}
-
-/* move one day forward or backward */
-static void orage_move_day(struct tm *t, int day)
-{
-    guint monthdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-    t->tm_year += 1900;
-    if (((t->tm_year%4) == 0) 
-    && (((t->tm_year%100) != 0) || ((t->tm_year%400) == 0)))
-        ++monthdays[1]; /* leap year, february has 29 days */
-
-    t->tm_mday += day; /* may be negative */
-    if (t->tm_mday == 0) { /*  we went to previous month */
-        if (--t->tm_mon == -1) { /* previous year */
-            --t->tm_year;
-            t->tm_mon = 11;
-        }
-        t->tm_mday = monthdays[t->tm_mon];
-    }
-    else if (t->tm_mday > (monthdays[t->tm_mon])) { /* next month */
-        if (++t->tm_mon == 12) {
-            ++t->tm_year;
-            t->tm_mon = 0;
-        }
-        t->tm_mday = 1;
-    }
-    t->tm_year -= 1900;
-    t->tm_wday += day; 
-    if (t->tm_wday < 0)
-        t->tm_wday = 6;
-    t->tm_wday %=7;
 }
 
 static char *orage_tm_date_to_i18_date(struct tm *tm_date)
@@ -278,20 +195,6 @@ static gboolean upd_day_view(day_win *dw)
     }
     dw->upd_timer = 0;
     return(FALSE); /* we do this only once */
-}
-
-static void on_spin_changed(GtkSpinButton *b, gpointer *user_data)
-{
-    day_win *dw = (day_win *)user_data;
-
-    /* refresh_day_win is rather heavy (=slow), so doing it here 
-     * is not a good idea. We can't keep up with repeated quick presses 
-     * if we do the whole thing here. So let's throw it to background 
-     * and do it later. */
-    if (dw->upd_timer) {
-        g_source_remove(dw->upd_timer);       
-    }
-    dw->upd_timer = g_timeout_add(500, (GtkFunction)upd_day_view, dw);
 }
 
 static void header_button_clicked_cb(GtkWidget *button, day_win *dw)
@@ -366,42 +269,8 @@ static void on_button_press_event_cb(GtkWidget *widget
     if (event->button != 1)
         return;
 	
-    if (event->type==GDK_2BUTTON_PRESS) {
-    	VCalEvent *event = NULL;
-        uid = g_object_get_data(G_OBJECT(widget), "UID");
-        event = vcal_manager_load_event(uid);
-	if (event) {
-		vcal_meeting_create(event);
-		vcal_manager_free_event(event);
-        }
-    } else {
-        SummaryView *summaryview = NULL;
-	if (mainwindow_get_mainwindow()) {
-	   MsgInfo *info = folder_item_get_msginfo_by_msgid(dw->item, uid);
-	   if (info) {
-		   summaryview = mainwindow_get_mainwindow()->summaryview;
-		   g_signal_handlers_block_by_func(G_OBJECT(summaryview->ctree),
-				       G_CALLBACK(dw_summary_selected), dw);
-		   summary_select_by_msgnum(summaryview, info->msgnum);
-		   summary_display_msg_selected(summaryview, FALSE);
-		   procmsg_msginfo_free(info);
-		   g_signal_handlers_unblock_by_func(G_OBJECT(summaryview->ctree),
-				       G_CALLBACK(dw_summary_selected), dw);
-	   }
-	}
-    }
-}
-
-static gint orage_days_between(struct tm *t1, struct tm *t2)
-{
-    GDate *g_t1, *g_t2;
-    gint dd;
-    g_t1 = g_date_new_dmy(t1->tm_mday, t1->tm_mon, t1->tm_year);
-    g_t2 = g_date_new_dmy(t2->tm_mday, t2->tm_mon, t2->tm_year);
-    dd = g_date_days_between(g_t1, g_t2);
-    g_date_free(g_t1);
-    g_date_free(g_t2);
-    return(dd);
+    vcal_view_select_event (uid, dw->item, (event->type==GDK_2BUTTON_PRESS),
+		    	    G_CALLBACK(dw_summary_selected), dw);
 }
 
 static void add_row(day_win *dw, VCalEvent *event, gint days)
@@ -528,7 +397,8 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
                 else
                     end_height = height;
                 dw->line[row][col] = build_line(dw, 1, start_height
-                        , 2, end_height-start_height, dw->line[row][col]);
+                        , 2, end_height-start_height, dw->line[row][col]
+			, &dw->line_color);
             }
         }
     }
@@ -567,7 +437,8 @@ static void fill_days(day_win *dw, gint days, FolderItem *item)
         for (row = 0; row < 24; row++) {
             dw->element[row][col] = NULL;
     /* gdk_draw_rectangle(, , , left_x, top_y, width, height); */
-            dw->line[row][col] = build_line(dw, 0, 0, 3, height, NULL);
+            dw->line[row][col] = build_line(dw, 0, 0, 3, height, NULL
+			, &dw->line_color);
         }
     }
 
@@ -679,8 +550,6 @@ static void build_day_view_header(day_win *dw, char *start_date)
     if (avail_d)
         gtk_spin_button_set_value(GTK_SPIN_BUTTON(dw->day_spin), avail_d);
 
-    g_signal_connect((gpointer)dw->day_spin, "value-changed"
-            , G_CALLBACK(on_spin_changed), dw);
 }
 
 static void build_day_view_colours(day_win *dw)
@@ -917,19 +786,8 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
     build_day_view_header(dw, start_date);
     build_day_view_table(dw);
     gtk_widget_show_all(dw->Vbox);
-    if (mainwindow_get_mainwindow()) {
-	summaryview = mainwindow_get_mainwindow()->summaryview;
-	gtk_container_add(GTK_CONTAINER(summaryview->mainwidget_book),
-		dw->Vbox);
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(summaryview->mainwidget_book),
-		gtk_notebook_page_num(GTK_NOTEBOOK(summaryview->mainwidget_book), 
-		dw->Vbox));
-	main_window_set_menu_sensitive(mainwindow_get_mainwindow());
-	toolbar_main_set_sensitive(mainwindow_get_mainwindow());
-
-	dw->selsig = g_signal_connect(G_OBJECT(summaryview->ctree), "tree_select_row",
-			 G_CALLBACK(dw_summary_selected), dw);
-    }
+    dw->selsig = vcal_view_set_calendar_page(dw->Vbox, 
+		    G_CALLBACK(dw_summary_selected), dw);
 
     g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)dw);
 
