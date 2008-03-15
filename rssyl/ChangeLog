@@ -1,3 +1,8 @@
+2008-03-15 [colin]	0.18.0cvs1
+
+	* src/feed.c
+		Put the URL: html after <body>
+
 2008-02-08 [paul]	0.18.0
 
 	0.18 released

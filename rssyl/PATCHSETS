@@ -124,3 +124,4 @@
 ( cvs diff -u -r 1.1.2.91 -r 1.1.2.92 src/feed.c;  ) > 0.17.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/opml.c;  ) > 0.17.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/es.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fi.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/hu.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/it.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/zh_CN.po;  ) > 0.17.0cvs9.patchset
+( cvs diff -u -r 1.1.2.92 -r 1.1.2.93 src/feed.c;  ) > 0.18.0cvs1.patchset

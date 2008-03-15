@@ -1078,7 +1078,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	gint d = -1, fd, dif = 0;
 	FILE *f;
 	RSSylFeedItem *oldfitem = NULL;
-	gchar *meta_charset = NULL;
+	gchar *meta_charset = NULL, *url_html = NULL;
 	gboolean err = FALSE;
 
 	g_return_val_if_fail(ritem != NULL, FALSE);
@@ -1179,23 +1179,26 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	}
 
 	if( tmpurl )
-		err |= (fprintf(f, "<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
-				tmpurl, tmpurl) < 0);
+		url_html = g_strdup_printf("<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
+				tmpurl, tmpurl);
 
 	if( fitem->text )
 		err |= (fprintf(f, "<html><head>"
 				"%s\n"
 				"<base href=\"%s\">\n"
 			        "</head><body>\n"
+				"%s"
 				RSSYL_TEXT_START"\n"
 				"%s%s"
 				RSSYL_TEXT_END"\n\n",
+				
 				meta_charset ? meta_charset:"",
 				fitem->link,
+				url_html?url_html:"",
 				fitem->text, (fitem->text ? "\n" : "") ) < 0);
 
 	g_free(meta_charset);
-
+	g_free(url_html);	
 	if( fitem->media ) {
 		if( fitem->media->size > 0 ) {
 			tmpid = g_strdup_printf(ngettext("%ld byte", "%ld bytes",
