@@ -242,10 +242,7 @@ static void default_action_cb(NotifyNotification *notification,
     NotificationFolderType nftype;
 
     /* Let mainwindow pop up */
-    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
-    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
-    main_window_show(mainwin);
-    gtk_window_present(GTK_WINDOW(mainwin->window));
+    notification_show_mainwindow(mainwin);
     /* If there is only one new mail message, jump to this message */
     nftype = (NotificationFolderType)GPOINTER_TO_INT(user_data);
     if(nftype == F_TYPE_MAIL) {
@@ -615,10 +612,7 @@ static gboolean notification_popup_button(GtkWidget *widget,
       mainwin = mainwindow_get_mainwindow();
       if(!mainwin)
 	return TRUE;
-      gtk_window_deiconify(GTK_WINDOW(mainwin->window));
-      gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
-      main_window_show(mainwin);
-      gtk_window_present(GTK_WINDOW(mainwin->window));
+      notification_show_mainwindow(mainwin);
       /* If there is only one new mail message, jump to this message */
       if(popup.count == 1) {
 	gchar *select_str;

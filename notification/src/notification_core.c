@@ -521,6 +521,27 @@ gboolean notify_include_folder_type(FolderType ftype, gchar *uistr)
   return retval;
 }
 
+static void fix_folderview_scroll(MainWindow *mainwin)
+{
+	static gboolean fix_done = FALSE;
+
+	if (fix_done)
+		return;
+
+	gtk_widget_queue_resize(mainwin->folderview->ctree);
+
+	fix_done = TRUE;
+}
+
+void notification_show_mainwindow(MainWindow *mainwin)
+{
+      gtk_window_deiconify(GTK_WINDOW(mainwin->window));
+      gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
+      main_window_show(mainwin);
+      gtk_window_present(GTK_WINDOW(mainwin->window));
+      fix_folderview_scroll(mainwin);
+}
+
 #ifdef HAVE_LIBNOTIFY
 #define STR_MAX_LEN 511
 /* Returns a newly allocated string which needs to be freed */

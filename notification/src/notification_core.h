@@ -18,6 +18,7 @@
 #ifndef NOTIFICATION_CORE_H
 #define NOTIFICATION_CORE_H NOTIFICATION_CORE_H
 
+#include "mainwindow.h"
 #include "folder.h"
 #include "procmsg.h"
 
@@ -58,6 +59,7 @@ void     notification_new_unnotified_msgs(FolderItemUpdateData*);
 gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);
 void     notification_notified_hash_startup_init(void);
 
+void     notification_show_mainwindow(MainWindow *mainwin);
 /* folder type specific settings */
 gboolean notify_include_folder_type(FolderType, gchar*);
 

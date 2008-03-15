@@ -1,3 +1,12 @@
+2008-03-15 [colin]	0.15cvs8
+
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_popup.c
+	* src/notification_trayicon.c
+		Factorize mainwindow show code, and fix
+		folderview's scroll like in Trayicon
+
 2008-03-12 [colin]	0.15cvs7
 
 	* configure.ac

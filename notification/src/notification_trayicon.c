@@ -393,20 +393,14 @@ void notification_trayicon_on_activate(GtkStatusIcon *status_icon,
   if(GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))) {
     if((gdk_window_get_state(GTK_WIDGET(mainwin->window)->window)&GDK_WINDOW_STATE_ICONIFIED)
        || mainwindow_is_obscured()) {
-      gtk_window_deiconify(GTK_WINDOW(mainwin->window));
-      gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
-      main_window_show(mainwin);
-      gtk_window_present(GTK_WINDOW(mainwin->window));
+      notification_show_mainwindow(mainwin);
     }
     else {
       main_window_hide(mainwin);
     }
   }
   else {
-    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
-    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
-    main_window_show(mainwin);
-    gtk_window_present(GTK_WINDOW(mainwin->window));
+    notification_show_mainwindow(mainwin);
   }
 }
 
@@ -739,10 +733,7 @@ static void notification_trayicon_popup_default_action_cb(NotifyNotification
     NotificationFolderType nftype;
 
     /* Let mainwindow pop up */
-    gtk_window_deiconify(GTK_WINDOW(mainwin->window));
-    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
-    main_window_show(mainwin);
-    gtk_window_present(GTK_WINDOW(mainwin->window));
+    notification_show_mainwindow(mainwin);
     /* If there is only one new mail message, jump to this message */
     nftype = (NotificationFolderType)GPOINTER_TO_INT(user_data);
     if((popup.count == 1) && (nftype == F_TYPE_MAIL)) {
