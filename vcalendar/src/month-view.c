@@ -93,6 +93,10 @@ struct _month_win
     struct tm startdate;
     FolderItem *item;
     gulong selsig;
+    GtkWidget *view_menu;
+    GtkItemFactory *view_fact;
+    GtkWidget *event_menu;
+    GtkItemFactory *event_fact;
 };
 
 gchar *dayname[7] = {
@@ -180,43 +184,6 @@ static gint on_Next_clicked(GtkWidget *button, GdkEventButton *event,
     return TRUE;
 }
 
-static gboolean upd_month_view(month_win *mw)
-{
-    static guint day_cnt=-1;
-    guint day_cnt_n;
-
-    /* we only need to do this if it is really a new day count. We may get
-     * many of these while spin button is changing day count and it is enough
-     * to show only the last one, which is visible */
-    day_cnt_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(mw->day_spin));
-    if (day_cnt != day_cnt_n) { /* need really do it */
-        refresh_month_win(mw);
-        day_cnt = day_cnt_n;
-    }
-    mw->upd_timer = 0;
-    return(FALSE); /* we do this only once */
-}
-
-static void header_button_clicked_cb(GtkWidget *button
-        , GdkEventButton *event, gpointer *user_data)
-{
-    month_win *mw = (month_win *)user_data;
-    int offset = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "day"));
-    struct tm tm_date = mw->startdate;
-
-    if (event->button != 1)
-        return;
-
-    while (offset > tm_date.tm_mday) {
-	    orage_move_day(&tm_date, 1);
-    }
-    while (offset < tm_date.tm_mday) {
-	    orage_move_day(&tm_date, -1);
-    }
-    tm_date.tm_hour = 0;
-    vcal_meeting_create_with_start(NULL, &tm_date);
-}
-
 static void mw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 			     gint column, month_win *mw)
 {
@@ -253,19 +220,99 @@ static void mw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 	}
 }
 
+static void month_view_new_meeting_cb(month_win *mw, gpointer data_i, gpointer data_s)
+{
+    int offset = GPOINTER_TO_INT(data_i);
+    struct tm tm_date = mw->startdate;
+
+    while (offset > tm_date.tm_mday) {
+	    orage_move_day(&tm_date, 1);
+    }
+    while (offset < tm_date.tm_mday) {
+	    orage_move_day(&tm_date, -1);
+    }
+    tm_date.tm_hour = 0;
+    vcal_meeting_create_with_start(NULL, &tm_date);
+}
+
+static void month_view_edit_meeting_cb(month_win *mw, gpointer data_i, gpointer data_s)
+{
+	const gchar *uid = (gchar *)data_s;
+        vcal_view_select_event (uid, mw->item, TRUE,
+		    	    G_CALLBACK(mw_summary_selected), mw);
+}
+
+static void month_view_today_cb(month_win *mw, gpointer data_i, gpointer data_s)
+{
+    time_t now = time(NULL);
+    struct tm tm_today;
+    localtime_r(&now, &tm_today);
+
+    while (tm_today.tm_mday != 1)
+    	orage_move_day(&tm_today, -1);
+    
+    mw->startdate = tm_today;
+    refresh_month_win(mw);
+}
+
+static void header_button_clicked_cb(GtkWidget *button
+        , GdkEventButton *event, gpointer *user_data)
+{
+    month_win *mw = (month_win *)user_data;
+    int offset = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "day"));
+
+    if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+	    month_view_new_meeting_cb(mw, GINT_TO_POINTER(offset), NULL);
+    }
+    if (event->button == 3) {
+		g_object_set_data(G_OBJECT(mw->Vbox), "menu_win",
+			  mw);
+		g_object_set_data(G_OBJECT(mw->Vbox), "menu_data_i",
+			  GINT_TO_POINTER(offset));
+		g_object_set_data(G_OBJECT(mw->Vbox), "menu_data_s",
+			  NULL);
+		g_object_set_data(G_OBJECT(mw->Vbox), "new_meeting_cb",
+			  month_view_new_meeting_cb);
+		g_object_set_data(G_OBJECT(mw->Vbox), "go_today_cb",
+			  month_view_today_cb);
+		gtk_menu_popup(GTK_MENU(mw->view_menu), 
+			       NULL, NULL, NULL, NULL, 
+			       event->button, event->time);
+    }
+}
+
 static void on_button_press_event_cb(GtkWidget *widget
         , GdkEventButton *event, gpointer *user_data)
 {
     month_win *mw = (month_win *)user_data;
-    gchar *uid;
-    uid = g_object_get_data(G_OBJECT(widget), "UID");
+    gchar *uid = g_object_get_data(G_OBJECT(widget), "UID");;
+    gpointer offset = g_object_get_data(G_OBJECT(widget), "offset");
 
-    if (event->button != 1)
-        return;
-
-    vcal_view_select_event (uid, mw->item, (event->type==GDK_2BUTTON_PRESS),
+    if (event->button == 1) {
+	if (uid)
+            vcal_view_select_event (uid, mw->item, (event->type==GDK_2BUTTON_PRESS),
 		    	    G_CALLBACK(mw_summary_selected), mw);
-
+	else if (event->type == GDK_2BUTTON_PRESS) {
+	    month_view_new_meeting_cb(mw, GINT_TO_POINTER(offset), NULL);
+	}
+    }
+    if (event->button == 3) {
+	    g_object_set_data(G_OBJECT(mw->Vbox), "menu_win",
+		      mw);
+	    g_object_set_data(G_OBJECT(mw->Vbox), "menu_data_i",
+		      offset);
+	    g_object_set_data(G_OBJECT(mw->Vbox), "menu_data_s",
+		      uid);
+	    g_object_set_data(G_OBJECT(mw->Vbox), "new_meeting_cb",
+		      month_view_new_meeting_cb);
+	    g_object_set_data(G_OBJECT(mw->Vbox), "edit_meeting_cb",
+		      month_view_edit_meeting_cb);
+	    g_object_set_data(G_OBJECT(mw->Vbox), "go_today_cb",
+		      month_view_today_cb);
+	    gtk_menu_popup(GTK_MENU(mw->event_menu), 
+			   NULL, NULL, NULL, NULL, 
+			   event->button, event->time);    
+    }
 }
 
 static void add_row(month_win *mw, VCalEvent *event, gint days)
@@ -411,6 +458,7 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
 	g_free(new);
     }
     g_object_set_data_full(G_OBJECT(ev), "UID", g_strdup(event->uid), g_free);
+    g_object_set_data(G_OBJECT(ev), "offset", GINT_TO_POINTER(tm_start.tm_mday));
     g_signal_connect((gpointer)ev, "button-press-event"
             , G_CALLBACK(on_button_press_event_cb), mw);
     g_free(tip);
@@ -451,7 +499,7 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
                 else
                     end_width = width;
 
-                mw->line[row][col] = build_line(mw, start_width, 0
+                mw->line[row][col] = build_line(start_width, 0
                         , end_width-start_width, 2, mw->line[row][col]
 			, &mw->line_color);
             }
@@ -521,7 +569,7 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
 		row = row - weekoffset;
 	}
         mw->element[row][dcol] = NULL;
-        mw->line[row][dcol] = build_line(mw, 0, 0, width, 3, NULL
+        mw->line[row][dcol] = build_line(0, 0, width, 3, NULL
 			, &mw->line_color);
 	g_date_free(date);
     }
@@ -846,5 +894,7 @@ month_win *create_month_win(FolderItem *item, struct tm tmdate)
     mw->selsig = vcal_view_set_calendar_page(mw->Vbox, 
 		    G_CALLBACK(mw_summary_selected), mw);
 
+    vcal_view_create_popup_menus(mw->Vbox, &mw->view_menu, &mw->view_fact,
+		    		 &mw->event_menu, &mw->event_fact);
     return(mw);
 }

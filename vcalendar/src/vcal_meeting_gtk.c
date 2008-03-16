@@ -36,6 +36,7 @@
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
 #include "vcal_prefs.h"
+#include "common-views.h"
 #include "mainwindow.h"
 #include "prefs_account.h"
 #include "account.h"
@@ -1702,6 +1703,24 @@ VCalMeeting *vcal_meeting_create_with_start(VCalEvent *event, struct tm *sdate)
 		num = get_list_item_num(sdate->tm_hour, 0);
 		if (num > -1)
 			gtk_list_select_item(GTK_LIST(GTK_COMBO(meet->start_time)->list), num);
+		if (sdate->tm_hour < 23) {
+			num = get_list_item_num(sdate->tm_hour+1, 0);
+			if (num > -1)
+				gtk_list_select_item(GTK_LIST(GTK_COMBO(meet->end_time)->list), num);
+		} else {
+			struct tm tm_tomorrow;
+			tm_tomorrow.tm_mday = sdate->tm_mday;
+			tm_tomorrow.tm_mon = sdate->tm_mon;
+			tm_tomorrow.tm_wday = sdate->tm_wday;
+			tm_tomorrow.tm_year = sdate->tm_year+1900;
+			tm_tomorrow.tm_hour = sdate->tm_hour;
+			orage_move_day(&tm_tomorrow, +1);
+			gtk_calendar_select_day(GTK_CALENDAR(meet->end_c),
+						tm_tomorrow.tm_mday);
+			gtk_calendar_select_month(GTK_CALENDAR(meet->end_c),
+						tm_tomorrow.tm_mon, tm_tomorrow.tm_year);
+			gtk_list_select_item(GTK_LIST(GTK_COMBO(meet->end_time)->list), 0);
+		}
 	}
 	return meet;
 }

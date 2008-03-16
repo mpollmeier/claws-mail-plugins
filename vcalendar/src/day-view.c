@@ -93,6 +93,10 @@ struct _day_win
     struct tm startdate;
     FolderItem *item;
     gulong selsig;
+    GtkWidget *view_menu;
+    GtkItemFactory *view_fact;
+    GtkWidget *event_menu;
+    GtkItemFactory *event_fact;
 };
 
 static gchar *get_locale_date(struct tm *tmdate)
@@ -180,35 +184,6 @@ static gint on_Next_clicked(GtkWidget *button, GdkEventButton *event,
     return TRUE;
 }
 
-static gboolean upd_day_view(day_win *dw)
-{
-    static guint day_cnt=-1;
-    guint day_cnt_n;
-
-    /* we only need to do this if it is really a new day count. We may get
-     * many of these while spin button is changing day count and it is enough
-     * to show only the last one, which is visible */
-    day_cnt_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
-    if (day_cnt != day_cnt_n) { /* need really do it */
-        refresh_day_win(dw);
-        day_cnt = day_cnt_n;
-    }
-    dw->upd_timer = 0;
-    return(FALSE); /* we do this only once */
-}
-
-static void header_button_clicked_cb(GtkWidget *button, day_win *dw)
-{
-    int offset = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "offset"));
-    struct tm tm_date = dw->startdate;
-    while (offset > 0) {
-	    orage_move_day(&tm_date, 1);
-	    offset--;
-    }
-    tm_date.tm_hour = 0;
-    vcal_meeting_create_with_start(NULL, &tm_date);
-}
-
 static void dw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 			     gint column, day_win *dw)
 {
@@ -259,18 +234,83 @@ static void dw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
 	}
 }
 
+static void day_view_new_meeting_cb(day_win *dw, gpointer data_i, gpointer data_s)
+{
+    int offset = GPOINTER_TO_INT(data_i);
+    struct tm tm_date = dw->startdate;
+    int offset_h = offset % 1000;
+    int offset_d = (offset-offset_h) / 1000;
+    while (offset_d > tm_date.tm_mday) {
+	    orage_move_day(&tm_date, 1);
+    }
+    while (offset_d < tm_date.tm_mday) {
+	    orage_move_day(&tm_date, -1);
+    }
+    tm_date.tm_hour = offset_h;
+    vcal_meeting_create_with_start(NULL, &tm_date);
+}
+
+static void day_view_edit_meeting_cb(day_win *dw, gpointer data_i, gpointer data_s)
+{
+	const gchar *uid = (gchar *)data_s;
+        vcal_view_select_event (uid, dw->item, TRUE,
+		    	    G_CALLBACK(dw_summary_selected), dw);
+}
+
+static void day_view_today_cb(day_win *dw, gpointer data_i, gpointer data_s)
+{
+    time_t now = time(NULL);
+    struct tm tm_today;
+    localtime_r(&now, &tm_today);
+
+    while (tm_today.tm_wday != 1)
+    	orage_move_day(&tm_today, -1);
+    
+    dw->startdate = tm_today;
+    refresh_day_win(dw);
+}
+
+static void header_button_clicked_cb(GtkWidget *button, day_win *dw)
+{
+    int offset = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "offset"));
+
+    day_view_new_meeting_cb(dw, GINT_TO_POINTER(offset), NULL);
+}
+
 static void on_button_press_event_cb(GtkWidget *widget
         , GdkEventButton *event, gpointer *user_data)
 {
     day_win *dw = (day_win *)user_data;
-    gchar *uid;
-    uid = g_object_get_data(G_OBJECT(widget), "UID");
-
-    if (event->button != 1)
-        return;
-	
-    vcal_view_select_event (uid, dw->item, (event->type==GDK_2BUTTON_PRESS),
+    gchar *uid = g_object_get_data(G_OBJECT(widget), "UID");
+    gpointer offset = g_object_get_data(G_OBJECT(widget), "offset");
+ 
+    if (event->button == 1) {
+	if (uid)
+            vcal_view_select_event (uid, dw->item, (event->type==GDK_2BUTTON_PRESS),
 		    	    G_CALLBACK(dw_summary_selected), dw);
+    }
+    if (event->button == 3) {
+	    g_object_set_data(G_OBJECT(dw->Vbox), "menu_win",
+		      dw);
+	    g_object_set_data(G_OBJECT(dw->Vbox), "menu_data_i",
+		      offset);
+	    g_object_set_data(G_OBJECT(dw->Vbox), "menu_data_s",
+		      uid);
+	    g_object_set_data(G_OBJECT(dw->Vbox), "new_meeting_cb",
+		      day_view_new_meeting_cb);
+	    g_object_set_data(G_OBJECT(dw->Vbox), "edit_meeting_cb",
+		      day_view_edit_meeting_cb);
+	    g_object_set_data(G_OBJECT(dw->Vbox), "go_today_cb",
+		      day_view_today_cb);
+	    if (uid)
+		    gtk_menu_popup(GTK_MENU(dw->event_menu), 
+			   NULL, NULL, NULL, NULL, 
+			   event->button, event->time);    
+	    else
+		    gtk_menu_popup(GTK_MENU(dw->view_menu), 
+			   NULL, NULL, NULL, NULL, 
+			   event->button, event->time);    
+    }
 }
 
 static void add_row(day_win *dw, VCalEvent *event, gint days)
@@ -357,6 +397,7 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
     */
     gtk_box_pack_start(GTK_BOX(hb), ev, TRUE, TRUE, 0);
     g_object_set_data_full(G_OBJECT(ev), "UID", g_strdup(event->uid), g_free);
+    g_object_set_data(G_OBJECT(ev), "offset", GINT_TO_POINTER(tm_start.tm_mday*1000 + tm_start.tm_hour));
     g_signal_connect((gpointer)ev, "button-press-event"
             , G_CALLBACK(on_button_press_event_cb), dw);
     g_free(tip);
@@ -396,7 +437,7 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
                     end_height = tm_end.tm_min*height/60;
                 else
                     end_height = height;
-                dw->line[row][col] = build_line(dw, 1, start_height
+                dw->line[row][col] = build_line(1, start_height
                         , 2, end_height-start_height, dw->line[row][col]
 			, &dw->line_color);
             }
@@ -423,7 +464,7 @@ static void app_data(day_win *dw, FolderItem *item)
 }
 
 
-static void fill_days(day_win *dw, gint days, FolderItem *item)
+static void fill_days(day_win *dw, gint days, FolderItem *item, gint first_col_day)
 {
     gint row, col, height, width;
     GtkWidget *ev, *hb;
@@ -437,7 +478,7 @@ static void fill_days(day_win *dw, gint days, FolderItem *item)
         for (row = 0; row < 24; row++) {
             dw->element[row][col] = NULL;
     /* gdk_draw_rectangle(, , , left_x, top_y, width, height); */
-            dw->line[row][col] = build_line(dw, 0, 0, 3, height, NULL
+            dw->line[row][col] = build_line(0, 0, 3, height, NULL
 			, &dw->line_color);
         }
     }
@@ -473,6 +514,9 @@ static void fill_days(day_win *dw, gint days, FolderItem *item)
             }
             else {
                 ev = gtk_event_box_new();
+		g_object_set_data(G_OBJECT(ev), "offset", GINT_TO_POINTER(first_col_day*1000 + row));
+		g_signal_connect((gpointer)ev, "button-press-event"
+        		, G_CALLBACK(on_button_press_event_cb), dw);
                 /*
                 name = gtk_label_new(" ");
                 gtk_container_add(GTK_CONTAINER(ev), name);
@@ -486,6 +530,7 @@ static void fill_days(day_win *dw, gint days, FolderItem *item)
             gtk_table_attach(GTK_TABLE(dw->dtable), hb, col, col+1, row, row+1
                      , (GTK_FILL), (0), 0, 0);
         }
+	first_col_day++;
     }
 }
 
@@ -627,6 +672,7 @@ static void build_day_view_table(day_win *dw)
     time_t t = time(NULL);
     GtkWidget *arrow;
     gchar *tip;
+    gint first_col_day = -1;
 
     localtime_r(&t, &tm_today);
     days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
@@ -676,6 +722,8 @@ static void build_day_view_table(day_win *dw)
     for (i = 1; i < days+1; i++) {
         tip = g_malloc(100);
 	strftime(tip, 99, "%A %d %B %Y", &tm_date);
+	if (first_col_day == -1)
+		first_col_day = tm_date.tm_mday;
         date = get_locale_date(&tm_date);
         button = gtk_button_new();
         gtk_button_set_label(GTK_BUTTON(button), date);
@@ -692,7 +740,7 @@ static void build_day_view_table(day_win *dw)
         gtk_widget_set_size_request(button, dw->StartDate_button_req.width, -1);
         g_signal_connect((gpointer)button, "clicked"
                 , G_CALLBACK(header_button_clicked_cb), dw);
-        g_object_set_data(G_OBJECT(button), "offset", GINT_TO_POINTER(i-1));
+        g_object_set_data(G_OBJECT(button), "offset", GINT_TO_POINTER(tm_date.tm_mday*1000));
         gtk_table_attach(GTK_TABLE(dw->dtable_h), button, i, i+1, 0, 1
                 , (GTK_FILL), (0), 0, 0);
 
@@ -746,7 +794,7 @@ static void build_day_view_table(day_win *dw)
         fill_hour(dw, 0, i, text);
         fill_hour(dw, days+1, i, text);
     }
-    fill_days(dw, days, dw->item);
+    fill_days(dw, days, dw->item, first_col_day);
 }
 
 void refresh_day_win(day_win *dw)
@@ -764,7 +812,6 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
 {
     day_win *dw;
     char *start_date = get_locale_date(&tmdate);
-    SummaryView *summaryview = NULL;
     
     /* initialisation + main window + base vbox */
     dw = g_new0(day_win, 1);
@@ -788,6 +835,8 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
     gtk_widget_show_all(dw->Vbox);
     dw->selsig = vcal_view_set_calendar_page(dw->Vbox, 
 		    G_CALLBACK(dw_summary_selected), dw);
+    vcal_view_create_popup_menus(dw->Vbox, &dw->view_menu, &dw->view_fact,
+		    		 &dw->event_menu, &dw->event_fact);
 
     g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)dw);
 

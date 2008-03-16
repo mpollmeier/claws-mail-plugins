@@ -40,8 +40,35 @@
 #include "vcal_prefs.h"
 #include "vcal_manager.h"
 #include "vcal_meeting_gtk.h"
+#include "menu.h"
 
-GtkWidget *build_line(month_win *mw, gint start_x, gint start_y
+
+static void view_new_meeting_cb			(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data);
+static void view_edit_meeting_cb		(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data);
+static void view_go_today_cb			(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data);
+
+static GtkItemFactoryEntry view_popup_entries[] = 
+{
+	{N_("/_Create new meeting"),	NULL, view_new_meeting_cb, 0, NULL},
+	{"/---",				NULL, NULL, 0, "<Separator>"},
+	{N_("/_Go to today"),		NULL, view_go_today_cb, 0, NULL},
+};
+
+static GtkItemFactoryEntry view_event_popup_entries[] = 
+{
+	{N_("/_Edit this meeting"),	NULL, view_edit_meeting_cb, 0, NULL},
+	{N_("/_Create new meeting"),	NULL, view_new_meeting_cb, 0, NULL},
+	{"/---",				NULL, NULL, 0, "<Separator>"},
+	{N_("/_Go to today"),		NULL, view_go_today_cb, 0, NULL},
+};
+
+GtkWidget *build_line(gint start_x, gint start_y
         , gint width, gint height, GtkWidget *hour_line, GdkColor *line_color)
 {
     GdkColormap *pic1_cmap;
@@ -189,4 +216,68 @@ void vcal_view_select_event (const gchar *uid, FolderItem *item, gboolean edit,
 		   }
 		}
 	}
+}
+
+void vcal_view_create_popup_menus(gpointer data, 
+				GtkWidget **view_menu, GtkItemFactory **view_fact,
+				GtkWidget **event_menu, GtkItemFactory **event_fact)
+{
+	gint n_entries;
+	GtkWidget *view_popupmenu;
+	GtkItemFactory *view_popupfactory;
+	GtkWidget *view_event_popupmenu;
+	GtkItemFactory *view_event_popupfactory;
+
+	n_entries = sizeof(view_popup_entries) /
+		sizeof(view_popup_entries[0]);
+	view_popupmenu = menu_create_items(view_popup_entries, n_entries,
+				      "<UriPopupMenu>", &view_popupfactory,
+				      data);
+
+	n_entries = sizeof(view_event_popup_entries) /
+		sizeof(view_event_popup_entries[0]);
+	view_event_popupmenu = menu_create_items(view_event_popup_entries, n_entries,
+				      "<UriPopupMenu>", &view_event_popupfactory,
+				      data);
+	*view_menu = view_popupmenu;
+	*view_fact = view_popupfactory;
+	*event_menu= view_event_popupmenu;
+	*event_fact= view_event_popupfactory;
+}
+
+static void view_new_meeting_cb			(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data)
+{
+	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
+		g_object_get_data(G_OBJECT(widget), "new_meeting_cb");
+	if (cb)
+		cb(win, data_i, data_s);
+}
+static void view_edit_meeting_cb		(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data)
+{
+	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
+		g_object_get_data(G_OBJECT(widget), "edit_meeting_cb");
+	if (cb)
+		cb(win, data_i, data_s);
+}
+static void view_go_today_cb			(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data)
+{
+	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
+		g_object_get_data(G_OBJECT(widget), "go_today_cb");
+	if (cb)
+		cb(win, data_i, data_s);
 }
