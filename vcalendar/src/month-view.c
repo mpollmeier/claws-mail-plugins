@@ -682,8 +682,10 @@ static void build_month_view_header(month_win *mw, char *start_date)
 	summaryview = mainwindow_get_mainwindow()->summaryview;
 	allocation = summaryview->mainwidget_book->allocation;
 	
-	avail_w = allocation.width - 20 - 2*(mw->hour_req.width);
+	avail_w = allocation.width - 25 - 2*(mw->hour_req.width);
 	avail_h = allocation.height - 20;
+	if (avail_h < 250)
+		avail_h = 250;
 	avail_d = avail_w / mw->StartDate_button_req.width;
     }
     avail_d = 7;

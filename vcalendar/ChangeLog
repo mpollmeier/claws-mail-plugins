@@ -1,3 +1,8 @@
+2008-03-16 [colin]	1.101.0cvs15
+
+	* src/month-view.c
+		Require at least 250px vertical
+
 2008-03-16 [colin]	1.101.0cvs14
 
 	* src/common-views.c
