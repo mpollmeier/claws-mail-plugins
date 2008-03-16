@@ -158,3 +158,4 @@
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/Makefile.am;  diff -u /dev/null src/common-views.c;  diff -u /dev/null src/common-views.h;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/day-view.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/month-view.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/vcalendar.h;  ) > 1.101.0cvs13.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/common-views.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/common-views.h;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/day-view.c;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/month-view.c;  cvs diff -u -r 1.1.2.75 -r 1.1.2.76 src/vcal_meeting_gtk.c;  ) > 1.101.0cvs14.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/month-view.c;  ) > 1.101.0cvs15.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/month-view.c;  ) > 1.101.0cvs16.patchset

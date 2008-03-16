@@ -636,9 +636,6 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
 static void build_month_view_header(month_win *mw, char *start_date)
 {
     GtkWidget *hbox, *label, *space_label;
-    SummaryView *summaryview = NULL;
-    int avail_w = 0, avail_d = 0;
-    int avail_h = 0;
 
     hbox = gtk_hbox_new(FALSE, 0);
 
@@ -676,26 +673,6 @@ static void build_month_view_header(month_win *mw, char *start_date)
     mw->StartDate_button_req.width += mw->StartDate_button_req.width/10;
     label = gtk_label_new("00");
     gtk_widget_size_request(label, &mw->hour_req);
-
-    if (mainwindow_get_mainwindow()) {
-        GtkAllocation allocation;
-	summaryview = mainwindow_get_mainwindow()->summaryview;
-	allocation = summaryview->mainwidget_book->allocation;
-	
-	avail_w = allocation.width - 25 - 2*(mw->hour_req.width);
-	avail_h = allocation.height - 20;
-	if (avail_h < 250)
-		avail_h = 250;
-	avail_d = avail_w / mw->StartDate_button_req.width;
-    }
-    avail_d = 7;
-    gtk_widget_set_size_request(mw->StartDate_button, avail_w / avail_d, 
-    			(avail_h - mw->StartDate_button_req.height)/6);
-    gtk_widget_size_request(mw->StartDate_button, &mw->StartDate_button_req);
-   
-    /* initial values */
-    if (avail_d)
-        gtk_spin_button_set_value(GTK_SPIN_BUTTON(mw->day_spin), avail_d);
 }
 
 static void build_month_view_colours(month_win *mw)
@@ -769,6 +746,28 @@ static void build_month_view_table(month_win *mw)
     GtkWidget *vp;
     time_t t = time(NULL);
     GtkWidget *arrow;
+    int avail_w = 0, avail_d = 0;
+    int avail_h = 0;
+    if (mainwindow_get_mainwindow()) {
+        GtkAllocation allocation;
+	SummaryView *summaryview = mainwindow_get_mainwindow()->summaryview;
+	GTK_EVENTS_FLUSH();
+	allocation = summaryview->mainwidget_book->allocation;
+	
+	avail_w = allocation.width - 25 - 2*(mw->hour_req.width);
+	avail_h = allocation.height - 20;
+	if (avail_h < 250)
+		avail_h = 250;
+	avail_d = avail_w / mw->StartDate_button_req.width;
+    }
+    avail_d = 7;
+    gtk_widget_set_size_request(mw->StartDate_button, avail_w / avail_d, 
+    			(avail_h)/6);
+    gtk_widget_size_request(mw->StartDate_button, &mw->StartDate_button_req);
+   
+    /* initial values */
+    if (avail_d)
+        gtk_spin_button_set_value(GTK_SPIN_BUTTON(mw->day_spin), avail_d);
 
     localtime_r(&t, &tm_today);
     days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(mw->day_spin));
