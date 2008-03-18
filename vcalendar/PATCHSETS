@@ -159,3 +159,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/common-views.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/common-views.h;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/day-view.c;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/month-view.c;  cvs diff -u -r 1.1.2.75 -r 1.1.2.76 src/vcal_meeting_gtk.c;  ) > 1.101.0cvs14.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/month-view.c;  ) > 1.101.0cvs15.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/month-view.c;  ) > 1.101.0cvs16.patchset
+( cvs diff -u -r 1.2.2.83 -r 1.2.2.84 src/vcal_folder.c;  ) > 1.101.0cvs17.patchset

@@ -1816,7 +1816,11 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 static void update_subscription(const gchar *uri, gboolean verbose)
 {
 	FolderItem *item = get_folder_item_for_uri(uri);
-
+	if (!item) {
+		g_warning("couldn't find folder for uri %s\n",
+				uri);
+		return;
+	}
 	if (prefs_common.work_offline) {
 		if (!verbose || 
 		!inc_offline_should_override(TRUE,
