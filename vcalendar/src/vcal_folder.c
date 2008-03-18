@@ -1816,11 +1816,7 @@ static void update_subscription_finish(const gchar *uri, gchar *feed, gboolean v
 static void update_subscription(const gchar *uri, gboolean verbose)
 {
 	FolderItem *item = get_folder_item_for_uri(uri);
-	if (!item) {
-		g_warning("couldn't find folder for uri %s\n",
-				uri);
-		return;
-	}
+	
 	if (prefs_common.work_offline) {
 		if (!verbose || 
 		!inc_offline_should_override(TRUE,
@@ -1828,10 +1824,11 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 		     "to update the Webcal feed.")))
 			return;
 	}
-	
-	if (time(NULL) - ((VCalFolderItem *)(item))->last_fetch < 60 && 
-	    ((VCalFolderItem *)(item))->cal)
-		return;
+	if (item) {
+		if (time(NULL) - ((VCalFolderItem *)(item))->last_fetch < 60 && 
+		    ((VCalFolderItem *)(item))->cal)
+			return;
+	}
 	main_window_cursor_wait(mainwindow_get_mainwindow());
 	vcal_curl_read(uri, verbose, update_subscription_finish);
 }
