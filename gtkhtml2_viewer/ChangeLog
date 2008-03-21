@@ -1,3 +1,8 @@
+2008-03-21 [colin]	0.17.2cvs1
+
+	* configure.ac
+		Bump version following stable release 3.3.1 :)
+
 2008-03-15 [colin]	0.17.1cvs6
 
 	* src/gtkhtml2_viewer.c
