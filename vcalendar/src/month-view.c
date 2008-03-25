@@ -593,7 +593,11 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
 	}
         vb = gtk_vbox_new(FALSE, 0);
         gtk_widget_set_size_request(vb, width, height);
-	    label = g_strdup_printf("%d", g_date_get_day(date));
+	    if (g_date_get_day(date) == 1)
+    	        label = g_strdup_printf("%d %s", g_date_get_day(date),
+				_(monthname[g_date_get_month(date)-1]));
+	    else
+	        label = g_strdup_printf("%d", g_date_get_day(date));
 	    tmp = g_strdup_printf("%s %d %s %d",
 	    			_(dayname[col-1]),
 				g_date_get_day(date),
@@ -724,6 +728,8 @@ static void fill_hour(month_win *mw, gint col, gint row, char *text)
 
     ev = gtk_event_box_new();
     name = gtk_label_new(text);
+    gtk_misc_set_alignment(GTK_MISC(name), 0, 0.5);
+    gtk_tooltips_set_tip(mw->Tooltips, ev, _("Week number"), NULL);
     gtk_container_add(GTK_CONTAINER(ev), name);
     gtk_widget_set_size_request(ev, mw->hour_req.width
             , mw->StartDate_button_req.height);
@@ -748,6 +754,10 @@ static void build_month_view_table(month_win *mw)
     GtkWidget *arrow;
     int avail_w = 0, avail_d = 0;
     int avail_h = 0;
+    int weekoffset = -1;
+    GDate *date;
+    int first_week=0;
+
     if (mainwindow_get_mainwindow()) {
         GtkAllocation allocation;
 	SummaryView *summaryview = mainwindow_get_mainwindow()->summaryview;
@@ -846,18 +856,40 @@ static void build_month_view_table(month_win *mw)
     gtk_box_pack_start(GTK_BOX(mw->month_view_vbox), mw->scroll_win
             , TRUE, TRUE, 0);
     vp = gtk_viewport_new(NULL, NULL);
-    gtk_viewport_set_shadow_type(GTK_VIEWPORT(vp), GTK_SHADOW_NONE);
+    gtk_viewport_set_shadow_type(GTK_VIEWPORT(vp), GTK_SHADOW_IN);
     gtk_container_add(GTK_CONTAINER(mw->scroll_win), vp);
     mw->dtable = gtk_table_new(6, days+2, FALSE);
     gtk_container_add(GTK_CONTAINER(vp), mw->dtable);
 
     gtk_widget_show_all(mw->dtable_h);
 
+    date = g_date_new_dmy(1, 1, tm_date.tm_year+1900);
+    first_week = g_date_get_monday_week_of_year(date);
+
+    if (first_week == 0)
+    	first_week = 1;
+    else
+        first_week = 0;
+    g_date_free(date);
+
     /* hours column = hour rows */
-    for (i = 0; i < 6; i++) {
-        /* ev is needed for background colour */
-        fill_hour(mw, 0, i, "");
-        fill_hour(mw, days+1, i, "");
+    for (i = 0; i <= 6; i++) {
+	for (day = 1; day <= monthdays[tm_date.tm_mon]; day++) {
+	    date = g_date_new_dmy(day, tm_date.tm_mon+1, tm_date.tm_year+1900);
+	    int row = (int)g_date_get_monday_week_of_year(date);
+	    if (weekoffset == -1) {
+		weekoffset = row;
+	    }
+	    if (row - weekoffset == i) {
+	        gchar *wn = g_strdup_printf("%d", row+first_week > 53?1:row+first_week);
+                fill_hour(mw, 0, i, wn);
+                fill_hour(mw, days+1, i, "");
+		g_free(wn);
+		g_date_free(date);
+		break;
+	    }
+	    g_date_free(date);
+	}
     }
     fill_days(mw, days, mw->item);
 }
