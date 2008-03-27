@@ -21,5 +21,5 @@
 gboolean vcal_event_exists(const gchar *id);
 void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent));
 gboolean vcal_delete_event(const gchar *id);
-gboolean vcal_add_event(const gchar *vevent);
-gboolean vcal_update_event(const gchar *vevent);
+gchar* vcal_add_event(const gchar *vevent);
+gchar* vcal_update_event(const gchar *vevent);

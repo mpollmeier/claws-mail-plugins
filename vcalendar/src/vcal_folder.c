@@ -2020,7 +2020,6 @@ gchar *vcal_get_event_as_ical_str(VCalEvent *event)
 	    icalproperty_new_calscale("GREGORIAN"),
             0);
 	vcal_manager_event_dump(event, FALSE, FALSE, calendar, FALSE);
-	vcal_manager_free_event(event);
 	ical = g_strdup(icalcomponent_as_ical_string(calendar));
 	icalcomponent_free(calendar);
 	
@@ -2272,6 +2271,7 @@ void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent))
 			debug_print(" ...for event %s\n", event->uid);
 			cb_func(tmp);
 		}
+		vcal_manager_free_event(event);
 		g_free(tmp);
 	}
 }
@@ -2294,15 +2294,16 @@ gboolean vcal_delete_event(const gchar *id)
 	return FALSE;
 }
 
-gboolean vcal_add_event(const gchar *vevent)
+gchar* vcal_add_event(const gchar *vevent)
 {
 	VCalEvent *event = vcal_get_event_from_ical(vevent, NULL);
+	gchar *retVal = NULL;
 
 	if (event) {
 		if (vcal_event_exists(event->uid)) {
 			debug_print("event %s already exists\n", event->uid);
 			vcal_manager_free_event(event);
-			return FALSE;
+			return retVal;
 		}
 		debug_print("adding event %s\n", event->uid);
 		if (!account_find_from_address(event->organizer, FALSE) &&
@@ -2315,13 +2316,14 @@ gboolean vcal_add_event(const gchar *vevent)
 			debug_print("can't find our accounts in event, adding default\n");
 		}
 		vcal_manager_save_event(event, TRUE);
+		retVal = vcal_get_event_as_ical_str(event);
 		vcal_manager_free_event(event);
 	}
 
-	return FALSE;
+	return retVal;
 }
 
-gboolean vcal_update_event(const gchar *vevent)
+gchar* vcal_update_event(const gchar *vevent)
 {
 	VCalEvent *event = vcal_get_event_from_ical(vevent, NULL);
 	gboolean r = FALSE;
@@ -2331,5 +2333,5 @@ gboolean vcal_update_event(const gchar *vevent)
 		if (r)
 			return vcal_add_event(vevent);
 	}
-	return FALSE;
+	return NULL;
 }
