@@ -904,30 +904,40 @@ static void refresh_folder_contents(VCalViewer *vcalviewer)
 		}
 	}
 }
-static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
+
+static void send_cancel_notify_toggled_cb(GtkToggleButton *button, gboolean *data)
 {
-	VCalViewer *vcalviewer = (VCalViewer *)data;
-	gchar * uid = vcalviewer_get_uid_from_mimeinfo(vcalviewer->mimeinfo);
+	*data = gtk_toggle_button_get_active(button);
+}
+
+void vcalendar_cancel_meeting(const gchar *uid)
+{
 	VCalEvent *event = NULL;
 	VCalMeeting *meet = NULL;
 	gchar *file = NULL;
 	gint val = 0;
 	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	gboolean redisp = FALSE;
+	GtkWidget *send_notify_chkbtn = gtk_check_button_new_with_label(_("Send a notification to the attendees"));
+	gboolean send_notify = TRUE;
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(send_notify_chkbtn), TRUE);
+	gtk_widget_show(send_notify_chkbtn);
+	g_signal_connect(G_OBJECT(send_notify_chkbtn), "toggled", 
+			 G_CALLBACK(send_cancel_notify_toggled_cb),
+			 &send_notify);
+
 	val = alertpanel_full(_("Cancel meeting"),
-				   _("Are you sure you want to cancel this meeting?\n"
-			           "A notification will be sent to attendees."),
+				   _("Are you sure you want to cancel this meeting?"),
 				   GTK_STOCK_NO, GTK_STOCK_YES, NULL, FALSE,
-				   NULL, ALERT_WARNING, G_ALERTDEFAULT);
+				   send_notify_chkbtn, ALERT_WARNING, G_ALERTDEFAULT);
 
 	if (val != G_ALERTALTERNATE)
-		return TRUE;
-	
-	s_vcalviewer = vcalviewer;
-	
+		return;
+
 	event = vcal_manager_load_event(uid);
 	if (!event)
-		return TRUE;
+		return;
 	event->method = ICAL_METHOD_CANCEL;
 	
 	if (folder) {
@@ -937,20 +947,23 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 			summary_show(mainwin->summaryview, NULL);
 		}
 	}
-	meet = vcal_meeting_create_hidden(event);
-	if (!vcal_meeting_send(meet)) {
-		event->method = ICAL_METHOD_REQUEST;
-		vcal_manager_save_event(event, TRUE);
-		vcal_manager_free_event(event);
-		if (folder)
-			folder_item_scan(folder->inbox);
+	
+	if (send_notify) {
+		meet = vcal_meeting_create_hidden(event);
+		if (!vcal_meeting_send(meet)) {
+			event->method = ICAL_METHOD_REQUEST;
+			vcal_manager_save_event(event, TRUE);
+			vcal_manager_free_event(event);
+			if (folder)
+				folder_item_scan(folder->inbox);
 
-		if (folder && redisp) {
-			MainWindow *mainwin = mainwindow_get_mainwindow();
-			summary_show(mainwin->summaryview, folder->inbox);
-			vcal_folder_refresh_cal(folder->inbox);
+			if (folder && redisp) {
+				MainWindow *mainwin = mainwindow_get_mainwindow();
+				summary_show(mainwin->summaryview, folder->inbox);
+				vcal_folder_refresh_cal(folder->inbox);
+			}
+			return;
 		}
-		return TRUE;
 	}
 
 	vcal_manager_save_event(event, TRUE);
@@ -967,6 +980,14 @@ static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 		vcal_folder_refresh_cal(folder->inbox);
 	}
 
+	return;
+}
+
+static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
+{
+	VCalViewer *vcalviewer = (VCalViewer *)data;
+	gchar * uid = vcalviewer_get_uid_from_mimeinfo(vcalviewer->mimeinfo);
+	vcalendar_cancel_meeting(uid);
 	return TRUE;
 }
 

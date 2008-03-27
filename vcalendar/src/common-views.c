@@ -49,21 +49,26 @@ static void view_new_meeting_cb			(GtkWidget	*widget,
 static void view_edit_meeting_cb		(GtkWidget	*widget,
 						 guint		 action,
 						 void		*user_data);
+static void view_cancel_meeting_cb		(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data);
 static void view_go_today_cb			(GtkWidget	*widget,
 						 guint		 action,
 						 void		*user_data);
 
 static GtkItemFactoryEntry view_popup_entries[] = 
 {
-	{N_("/_Create new meeting"),	NULL, view_new_meeting_cb, 0, NULL},
+	{N_("/_Create new meeting..."),	NULL, view_new_meeting_cb, 0, NULL},
 	{"/---",				NULL, NULL, 0, "<Separator>"},
 	{N_("/_Go to today"),		NULL, view_go_today_cb, 0, NULL},
 };
 
 static GtkItemFactoryEntry view_event_popup_entries[] = 
 {
-	{N_("/_Edit this meeting"),	NULL, view_edit_meeting_cb, 0, NULL},
-	{N_("/_Create new meeting"),	NULL, view_new_meeting_cb, 0, NULL},
+	{N_("/_Edit this meeting..."),	NULL, view_edit_meeting_cb, 0, NULL},
+	{N_("/_Cancel this meeting..."),NULL, view_cancel_meeting_cb, 0, NULL},
+	{"/---",				NULL, NULL, 0, "<Separator>"},
+	{N_("/C_reate new meeting..."),	NULL, view_new_meeting_cb, 0, NULL},
 	{"/---",				NULL, NULL, 0, "<Separator>"},
 	{N_("/_Go to today"),		NULL, view_go_today_cb, 0, NULL},
 };
@@ -266,6 +271,18 @@ static void view_edit_meeting_cb		(GtkWidget	*widget,
 	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
 	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
 		g_object_get_data(G_OBJECT(widget), "edit_meeting_cb");
+	if (cb)
+		cb(win, data_i, data_s);
+}
+static void view_cancel_meeting_cb		(GtkWidget	*widget,
+						 guint		 action,
+						 void		*user_data)
+{
+	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
+		g_object_get_data(G_OBJECT(widget), "cancel_meeting_cb");
 	if (cb)
 		cb(win, data_i, data_s);
 }

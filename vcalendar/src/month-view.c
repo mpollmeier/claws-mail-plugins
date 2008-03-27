@@ -242,6 +242,12 @@ static void month_view_edit_meeting_cb(month_win *mw, gpointer data_i, gpointer 
 		    	    G_CALLBACK(mw_summary_selected), mw);
 }
 
+static void month_view_cancel_meeting_cb(month_win *mw, gpointer data_i, gpointer data_s)
+{
+	const gchar *uid = (gchar *)data_s;
+	vcalendar_cancel_meeting(uid);
+}
+
 static void month_view_today_cb(month_win *mw, gpointer data_i, gpointer data_s)
 {
     time_t now = time(NULL);
@@ -307,6 +313,8 @@ static void on_button_press_event_cb(GtkWidget *widget
 		      month_view_new_meeting_cb);
 	    g_object_set_data(G_OBJECT(mw->Vbox), "edit_meeting_cb",
 		      month_view_edit_meeting_cb);
+	    g_object_set_data(G_OBJECT(mw->Vbox), "cancel_meeting_cb",
+		      month_view_cancel_meeting_cb);
 	    g_object_set_data(G_OBJECT(mw->Vbox), "go_today_cb",
 		      month_view_today_cb);
 	    gtk_menu_popup(GTK_MENU(mw->event_menu), 

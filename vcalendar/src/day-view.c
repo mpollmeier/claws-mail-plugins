@@ -257,6 +257,12 @@ static void day_view_edit_meeting_cb(day_win *dw, gpointer data_i, gpointer data
 		    	    G_CALLBACK(dw_summary_selected), dw);
 }
 
+static void day_view_cancel_meeting_cb(day_win *dw, gpointer data_i, gpointer data_s)
+{
+	const gchar *uid = (gchar *)data_s;
+	vcalendar_cancel_meeting(uid);
+}
+
 static void day_view_today_cb(day_win *dw, gpointer data_i, gpointer data_s)
 {
     time_t now = time(NULL);
@@ -300,6 +306,8 @@ static void on_button_press_event_cb(GtkWidget *widget
 		      day_view_new_meeting_cb);
 	    g_object_set_data(G_OBJECT(dw->Vbox), "edit_meeting_cb",
 		      day_view_edit_meeting_cb);
+	    g_object_set_data(G_OBJECT(dw->Vbox), "cancel_meeting_cb",
+		      day_view_cancel_meeting_cb);
 	    g_object_set_data(G_OBJECT(dw->Vbox), "go_today_cb",
 		      day_view_today_cb);
 	    if (uid)
