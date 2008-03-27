@@ -1,3 +1,9 @@
+2008-03-27 [colin]	1.101.0cvs21
+
+	* src/vcal_folder.c
+		Probably fix delete_event so that
+		update_event can work.
+
 2008-03-27 [colin]	1.101.0cvs20
 
 	* src/vcal_folder.c

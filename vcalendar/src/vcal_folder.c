@@ -1162,21 +1162,13 @@ void vcal_folder_export(Folder *folder)
 
 static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 {
-	MimeInfo *mime = procmime_scan_message(msginfo);
-	gchar *uid = NULL;
+	const gchar *uid = msginfo->msgid;
 	VCalFolderItem *item = (VCalFolderItem *)msginfo->folder;
-	if (mime)
-		mime = procmime_mimeinfo_next(mime);
-	
-	debug_print("next mime info:%s\n", mime?mime->subtype:"(nil)");
-	if (mime && !strcmp(mime->subtype, "calendar")) {
-		uid = vcalviewer_get_uid_from_mimeinfo(mime);
-		if (uid) {
-			gchar *file = vcal_manager_get_event_file(uid);
-			g_free(uid);
-			unlink(file);
-			g_free(file);
-		}
+
+	if (uid) {
+		gchar *file = vcal_manager_get_event_file(uid);
+		unlink(file);
+		g_free(file);
 	}
 	
 	if (!item || !item->batching)
@@ -2288,6 +2280,7 @@ gboolean vcal_delete_event(const gchar *id)
 		debug_print("removing event %s\n", id);
 		vcal_remove_event(folder, info);
 		procmsg_msginfo_free(info);
+		folder_item_scan(folder->inbox);
 		return TRUE;
 	}
 	debug_print("not removing unexisting event %s\n", id);
