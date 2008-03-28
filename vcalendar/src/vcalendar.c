@@ -32,6 +32,7 @@
 #include "vcal_manager.h"
 #include "vcal_folder.h"
 #include "vcal_meeting_gtk.h"
+#include "vcal_interface.h"
 #include "prefs_account.h"
 #include "prefs_common.h"
 #include "account.h"
@@ -339,6 +340,16 @@ static void vcalviewer_reset(VCalViewer *vcalviewer)
 	vcalviewer->url = NULL;
 	gtk_widget_hide(vcalviewer->uribtn);
 	vcalviewer_answer_set_choices(vcalviewer, NULL, ICAL_METHOD_CANCEL);
+}
+
+static void vcalviewer_show_error(VCalViewer *vcalviewer, const gchar *msg)
+{
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), msg);
+}
+
+static void vcalviewer_hide_error(VCalViewer *vcalviewer)
+{
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), "-");
 }
 
 static void vcalviewer_show_unavailable(VCalViewer *vcalviewer, gboolean visi)
@@ -770,12 +781,14 @@ static void vcalviewer_get_event(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 	
 	if (!tmpfile) {
 		vcalviewer_reset(vcalviewer);
+		vcalviewer_show_error(vcalviewer, _("Error - could not get the calendar MIME part."));
 		return;
 	}
 
 	vcalviewer->event = vcalviewer_get_component(tmpfile, charset);
 	if (!vcalviewer->event) {
 		vcalviewer_reset(vcalviewer);
+		vcalviewer_show_error(vcalviewer, _("Error - no calendar part found."));
 		return;
 	}
 	
@@ -789,6 +802,7 @@ static void vcalviewer_get_event(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 		vcalviewer_get_reply_values(vcalviewer, mimeinfo);
 	} else {
 		vcalviewer_reset(vcalviewer);
+		vcalviewer_show_error(vcalviewer, _("Error - Unknown calendar component type."));
 	}
 }
 
@@ -813,6 +827,7 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	g_free(vcalviewer->file);
 	vcalviewer->file = g_strdup(file);
 	vcalviewer->mimeinfo = mimeinfo;
+	vcalviewer_hide_error(vcalviewer);
 	vcalviewer_get_event(vcalviewer, mimeinfo);
 	GTK_EVENTS_FLUSH();
 	gtk_widget_set_size_request(vcalviewer->description, 

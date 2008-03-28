@@ -2103,6 +2103,11 @@ VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset)
 	enum icalproperty_kind type = ICAL_VEVENT_COMPONENT;
 	GSList *attendees = NULL;
 	
+	if (comp == NULL) {
+		g_free(int_ical);
+		return NULL;
+	}
+
 	if ((inner = icalcomponent_get_inner(comp)) != NULL)
 	    type = icalcomponent_isa(inner);
 
