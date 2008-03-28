@@ -1,3 +1,10 @@
+2008-03-28 [colin]	1.101.0cvs23
+
+	* src/vcal_folder.c
+	* src/vcalendar.c
+	* src/vcalendar.h
+		(Probably) Fix refresh after add/del/update
+
 2008-03-27 [cleroy]	1.101.0cvs22
 
 	* src/common-views.c

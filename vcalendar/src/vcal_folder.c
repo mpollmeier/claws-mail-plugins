@@ -2280,7 +2280,7 @@ gboolean vcal_delete_event(const gchar *id)
 		debug_print("removing event %s\n", id);
 		vcal_remove_event(folder, info);
 		procmsg_msginfo_free(info);
-		folder_item_scan(folder->inbox);
+		vcalendar_refresh_folder_contents();
 		return TRUE;
 	}
 	debug_print("not removing unexisting event %s\n", id);
@@ -2309,6 +2309,7 @@ gchar* vcal_add_event(const gchar *vevent)
 			debug_print("can't find our accounts in event, adding default\n");
 		}
 		vcal_manager_save_event(event, TRUE);
+		vcalendar_refresh_folder_contents();
 		retVal = vcal_get_event_as_ical_str(event);
 		vcal_manager_free_event(event);
 	}

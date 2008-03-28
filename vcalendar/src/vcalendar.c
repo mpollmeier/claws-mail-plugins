@@ -46,8 +46,6 @@
 
 MimeViewerFactory vcal_viewer_factory;
 
-static void refresh_folder_contents(VCalViewer *vcalviewer);
-
 static void create_meeting_from_message_cb(gpointer callback_data, guint callback_action, GtkWidget *widget);
 
 static GdkColor uri_color = {
@@ -474,7 +472,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		save_evt = TRUE;
-		refresh_folder_contents(vcalviewer);
+		vcalendar_refresh_folder_contents();
 	} else if (event->method == ICAL_METHOD_REPLY) {
 		/* don't change label */
 	} else {
@@ -892,7 +890,7 @@ static gboolean vcalviewer_uribtn_cb(GtkButton *widget, gpointer data)
 	return TRUE;
 }
 
-static void refresh_folder_contents(VCalViewer *vcalviewer)
+void vcalendar_refresh_folder_contents(void)
 {
 	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	if (folder) {
