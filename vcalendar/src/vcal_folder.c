@@ -2268,6 +2268,8 @@ void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent))
 	}
 }
 
+/* please call vcalendar_refresh_folder_contents() after one or more 
+ * calls to this function */
 gboolean vcal_delete_event(const gchar *id)
 {
 	MsgInfo *info = NULL;
@@ -2280,17 +2282,22 @@ gboolean vcal_delete_event(const gchar *id)
 		debug_print("removing event %s\n", id);
 		vcal_remove_event(folder, info);
 		procmsg_msginfo_free(info);
-		vcalendar_refresh_folder_contents();
+		folder_item_scan(folder->inbox);
 		return TRUE;
 	}
 	debug_print("not removing unexisting event %s\n", id);
 	return FALSE;
 }
 
+/* please call vcalendar_refresh_folder_contents() after one or more 
+ * calls to this function */
 gchar* vcal_add_event(const gchar *vevent)
 {
 	VCalEvent *event = vcal_get_event_from_ical(vevent, NULL);
 	gchar *retVal = NULL;
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	if (!folder)
+		return NULL;
 
 	if (event) {
 		if (vcal_event_exists(event->uid)) {
@@ -2309,7 +2316,7 @@ gchar* vcal_add_event(const gchar *vevent)
 			debug_print("can't find our accounts in event, adding default\n");
 		}
 		vcal_manager_save_event(event, TRUE);
-		vcalendar_refresh_folder_contents();
+		folder_item_scan(folder->inbox);
 		retVal = vcal_get_event_as_ical_str(event);
 		vcal_manager_free_event(event);
 	}
@@ -2317,6 +2324,8 @@ gchar* vcal_add_event(const gchar *vevent)
 	return retVal;
 }
 
+/* please call vcalendar_refresh_folder_contents() after one or more 
+ * calls to this function */
 gchar* vcal_update_event(const gchar *vevent)
 {
 	VCalEvent *event = vcal_get_event_from_ical(vevent, NULL);

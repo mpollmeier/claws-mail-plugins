@@ -23,3 +23,4 @@ void vcal_foreach_event(gboolean (*cb_func)(const gchar *vevent));
 gboolean vcal_delete_event(const gchar *id);
 gchar* vcal_add_event(const gchar *vevent);
 gchar* vcal_update_event(const gchar *vevent);
+void vcalendar_refresh_folder_contents(void);

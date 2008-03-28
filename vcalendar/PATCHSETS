@@ -166,3 +166,4 @@
 ( cvs diff -u -r 1.2.2.86 -r 1.2.2.87 src/vcal_folder.c;  ) > 1.101.0cvs21.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/common-views.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/day-view.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/month-view.c;  cvs diff -u -r 1.2.2.68 -r 1.2.2.69 src/vcalendar.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/vcalendar.h;  ) > 1.101.0cvs22.patchset
 ( cvs diff -u -r 1.2.2.87 -r 1.2.2.88 src/vcal_folder.c;  cvs diff -u -r 1.2.2.69 -r 1.2.2.70 src/vcalendar.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/vcalendar.h;  ) > 1.101.0cvs23.patchset
+( cvs diff -u -r 1.2.2.88 -r 1.2.2.89 src/vcal_folder.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/vcal_interface.h;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/vcalendar.h;  ) > 1.101.0cvs24.patchset

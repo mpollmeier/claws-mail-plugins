@@ -33,5 +33,4 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event);
 gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo);
 void vcalviewer_reload(void);
 void vcalendar_cancel_meeting(const gchar *uid);
-void vcalendar_refresh_folder_contents(void);
 #endif
