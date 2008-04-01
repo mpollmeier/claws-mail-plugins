@@ -1,3 +1,10 @@
+2008-04-01 [ticho]	0.18.0cvs2
+
+	* src/feed.c
+		Fix for items with zero-sized text.
+	* src/parsers.c
+		Fix handling of "rel" attribute of atom:link element.
+
 2008-03-15 [colin]	0.18.0cvs1
 
 	* src/feed.c
@@ -28,7 +35,7 @@
 
 	* src/feed.c
 		Fix bug 1478, 'Wrong pthread_create calls all
-                over the place'. Thanks to Christian Cornelssen
+		over the place'. Thanks to Christian Cornelssen
 
 2008-01-20 [ticho]	0.17.0cvs6
 

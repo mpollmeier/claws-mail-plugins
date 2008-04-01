@@ -1182,20 +1182,20 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		url_html = g_strdup_printf("<p>URL: <a href=\"%s\">%s</a></p>\n<br>\n",
 				tmpurl, tmpurl);
 
-	if( fitem->text )
-		err |= (fprintf(f, "<html><head>"
-				"%s\n"
-				"<base href=\"%s\">\n"
-			        "</head><body>\n"
-				"%s"
-				RSSYL_TEXT_START"\n"
-				"%s%s"
-				RSSYL_TEXT_END"\n\n",
-				
-				meta_charset ? meta_charset:"",
-				fitem->link,
-				url_html?url_html:"",
-				fitem->text, (fitem->text ? "\n" : "") ) < 0);
+	err |= (fprintf(f, "<html><head>"
+			"%s\n"
+			"<base href=\"%s\">\n"
+			"</head><body>\n"
+			"%s"
+			RSSYL_TEXT_START"\n"
+			"%s%s"
+			RSSYL_TEXT_END"\n\n",
+
+			meta_charset ? meta_charset:"",
+			fitem->link,
+			url_html?url_html:"",
+			(fitem->text ? fitem->text : ""),
+			(fitem->text ? "\n" : "") ) < 0 );
 
 	g_free(meta_charset);
 	g_free(url_html);	

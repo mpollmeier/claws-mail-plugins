@@ -403,7 +403,7 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				link_size = (tmp ? atoi(tmp) : 0);
 				g_free(tmp);
 
-				if( link_rel && !strcmp(link_rel, "alternate") ) {
+				if( !link_rel || (link_rel && !strcmp(link_rel, "alternate")) ) {
 					fitem->link = link_href;
 					debug_print("RSSyl: XML - Atom item link: '%s'\n", fitem->link);
 				} else if( link_rel && !strcmp(link_rel, "enclosure") ) {
