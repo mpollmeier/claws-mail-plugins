@@ -1,3 +1,8 @@
+2008-04-08 [colin]	0.18.0cvs3
+
+	* src/feed.c
+		Fix integer overflow in Curl response code
+
 2008-04-01 [ticho]	0.18.0cvs2
 
 	* src/feed.c

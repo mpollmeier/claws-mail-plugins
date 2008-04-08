@@ -126,3 +126,4 @@
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/es.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fi.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/hu.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/it.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/zh_CN.po;  ) > 0.17.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.92 -r 1.1.2.93 src/feed.c;  ) > 0.18.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.93 -r 1.1.2.94 src/feed.c;  cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/parsers.c;  ) > 0.18.0cvs2.patchset
+( cvs diff -u -r 1.1.2.94 -r 1.1.2.95 src/feed.c;  ) > 0.18.0cvs3.patchset
