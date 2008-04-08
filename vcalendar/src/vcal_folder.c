@@ -1615,7 +1615,7 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, c
 {
 	gboolean res = TRUE;
 	CURL *curl_ctx = curl_easy_init();
-	int response_code = 0;
+	long response_code = 0;
 	gchar *t_url = url;
 	gchar *userpwd = NULL;
 

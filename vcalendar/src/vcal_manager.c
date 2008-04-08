@@ -69,7 +69,7 @@ static GSList *answer_find(VCalEvent *event, Answer *answer)
 	GSList *cur = event->answers;
 	while (cur && cur->data) {
 		Answer *b = (Answer *)cur->data;
-		if (!strcmp(b->attendee, answer->attendee))
+		if (!strcasecmp(b->attendee, answer->attendee))
 			return cur;
 		cur = cur->next;
 	}
@@ -1154,7 +1154,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 			gchar *tmp = NULL;
 			Answer *a = (Answer *)cur->data;
 			
-			if (strcmp(a->attendee, event->organizer)) {
+			if (strcasecmp(a->attendee, event->organizer)) {
 				if (attendees) {
 					tmp = g_strdup_printf("%s>,\n <%s", attendees, a->attendee);
 					g_free(attendees);

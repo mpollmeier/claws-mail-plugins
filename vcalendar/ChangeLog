@@ -1,3 +1,10 @@
+2008-04-08 [colin]	1.101.0cvs26
+
+	* src/vcal_folder.c
+		Fix integer overflow in Curl response code
+	* src/vcal_manager.c
+		Fix case-sensitive search of answers
+
 2008-03-28 [colin]	1.101.0cvs25
 
 	* src/vcal_folder.c
