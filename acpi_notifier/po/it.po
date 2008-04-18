@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2008-02-01 10:20+0000\n"
-"PO-Revision-Date: 2008-02-07 17:53+0100\n"
+"POT-Creation-Date: 2008-04-11 07:50+0100\n"
+"PO-Revision-Date: 2008-04-17 17:05+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -106,15 +106,15 @@ msgstr " - Spento: "
 msgid "Blink when user interaction is required"
 msgstr "Lampeggia quando viene richiesta l'interazione dell'utente"
 
-#: src/acpi_notifier.c:782
+#: src/acpi_notifier.c:783
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/acpi_notifier.c:861
+#: src/acpi_notifier.c:862
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Questo plugin gestisce vari LED ACPI per la posta."
 
-#: src/acpi_notifier.c:882
+#: src/acpi_notifier.c:883
 msgid "Laptop LED"
 msgstr "LED Laptop"
 

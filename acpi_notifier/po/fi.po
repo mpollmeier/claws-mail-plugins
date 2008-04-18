@@ -1,14 +1,14 @@
 # Finnish translations for sylpheed-claws package.
 # Copyright (C) 2005 Colin Leroy
 # This file is distributed under the same license as the sylpheed-claws package.
-# Flammie Pirinen <flammie@iki.fi>, 2005—2007.
+# Flammie Pirinen <flammie@iki.fi>, 2005—2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-11-12 06:45+0000\n"
-"PO-Revision-Date: 2008-02-04 22:50+0200\n"
+"POT-Creation-Date: 2008-04-13 18:18+0300\n"
+"PO-Revision-Date: 2008-04-14 10:40+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -108,15 +108,15 @@ msgstr " — pois päältä: "
 msgid "Blink when user interaction is required"
 msgstr "Välkytä, kun käyttäjän tarvitsee tehdä jotain"
 
-#: src/acpi_notifier.c:782
+#: src/acpi_notifier.c:783
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/acpi_notifier.c:861
+#: src/acpi_notifier.c:862
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Tämä liitännäinen ohjaa ACPI‐postiledejä."
 
-#: src/acpi_notifier.c:882
+#: src/acpi_notifier.c:883
 msgid "Laptop LED"
 msgstr "Kannettavan ledi"
 
