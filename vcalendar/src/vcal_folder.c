@@ -218,6 +218,9 @@ static void vcal_fill_popup_menu_labels(void)
 
 	for( i = 0; vcal_popup_labels[i] != NULL; i++ ) {
 		(vcal_popup_entries[i]).path = _(vcal_popup_labels[i]);
+		if (!strcmp2(vcal_popup_entries[i].item_type, "/List view")) {
+			vcal_popup_entries[i].item_type = _(vcal_popup_entries[i].item_type);
+		}
 	}
 }
 
@@ -712,7 +715,7 @@ GSList *vcal_get_events_list(FolderItem *item)
 			continue;
 		if (event->rec_occurence) {
 			vcal_manager_free_event(event);
-			g_unlink(d->d_name);
+			claws_unlink(d->d_name);
 			continue;
 		}
 
@@ -1259,19 +1262,19 @@ static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
 	switch(item->use_cal_view) {
 	case 0:
 		menuitem = gtk_item_factory_get_item
-			(factory, "/List view");
+			(factory, _("/List view"));
 		break;
 	case 1:
 		menuitem = gtk_item_factory_get_item
-			(factory, "/Week view");
+			(factory, _("/Week view"));
 		break;
 	case 2:
 		menuitem = gtk_item_factory_get_item
-			(factory, "/Month view");
+			(factory, _("/Month view"));
 		break;
 	default:
 		menuitem = gtk_item_factory_get_item
-			(factory, "/List view");
+			(factory, _("/List view"));
 		break;
 	}
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), TRUE);

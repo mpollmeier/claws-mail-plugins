@@ -1,3 +1,10 @@
+2008-04-18 [colin]	1.101.0cvs27
+
+	* po/fr.po
+		Update translation
+	* src/vcal_folder.c
+		Fix translation-related problems
+
 2008-04-08 [colin]	1.101.0cvs26
 
 	* src/vcal_folder.c
