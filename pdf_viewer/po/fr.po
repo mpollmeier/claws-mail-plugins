@@ -65,7 +65,7 @@ msgstr "Optimisé :"
 
 #: src/poppler_viewer.c:1024
 msgid "PDF Viewer Plugin"
-msgstr "Greffon Lecteur PDF"
+msgstr "Module Lecteur PDF"
 
 #: src/poppler_viewer.c:1130
 msgid "Loading..."
@@ -151,7 +151,7 @@ msgid ""
 "\n"
 "Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
-"Ce greffon permet de lire des fichiers joints PDF et PostScript, avec la bibliothèque Poppler %s et l'outil gs.\n"
+"Ce module permet de lire des fichiers joints PDF et PostScript, avec la bibliothèque Poppler %s et l'outil gs.\n"
 "\n"
 "Retours bienvenus: iwkse@claws-mail.org"
 
