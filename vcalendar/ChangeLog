@@ -1,3 +1,8 @@
+2008-04-18 [colin]	1.102.0cvs1
+
+	* src/vcal_folder.c
+		Use claws_unlink instead of g_unlink
+
 2008-04-18 [paul]	1.102.0
 
 	1.102.0 released
