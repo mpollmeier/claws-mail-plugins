@@ -1,14 +1,14 @@
 # Finnish translations for gtkhtml package.
 # Copyright (C) 2006 Andrej Kacian
 # This file is distributed under the same license as the gtkhtml package.
-# Flammie Pirinen <flammie@iki.fi>, 2006—2007.
+# Flammie Pirinen <flammie@iki.fi>, 2006—2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:47+0000\n"
-"PO-Revision-Date: 2008-02-04 22:50+0200\n"
+"POT-Creation-Date: 2008-04-13 20:01+0300\n"
+"PO-Revision-Date: 2008-04-14 10:47+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,68 +16,68 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:211 src/gtkhtml2_viewer.c:177
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:213 src/gtkhtml2_viewer.c:186
 msgid "Any"
 msgstr "Mikä vain"
 
-#: src/gtkhtml2_prefs.c:100
+#: src/gtkhtml2_prefs.c:102
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/gtkhtml2_prefs.c:101
+#: src/gtkhtml2_prefs.c:103
 msgid "GtkHtml2 Viewer"
 msgstr "GtkHtml2‐näytin"
 
-#: src/gtkhtml2_prefs.c:166
+#: src/gtkhtml2_prefs.c:168
 msgid "Cache cleared."
 msgstr "Välimuisti tyhjennetty."
 
-#: src/gtkhtml2_prefs.c:192
+#: src/gtkhtml2_prefs.c:194
 msgid "Load remote images in mails"
 msgstr "Lataa etäkuvat viesteissä"
 
-#: src/gtkhtml2_prefs.c:207
+#: src/gtkhtml2_prefs.c:209
 msgid "Only for senders found in address book/folder"
 msgstr "Vain osoitekirjasta löytyvät lähettäjät"
 
-#: src/gtkhtml2_prefs.c:215
+#: src/gtkhtml2_prefs.c:217
 msgid "Select ..."
 msgstr "Valitse…"
 
-#: src/gtkhtml2_prefs.c:225
+#: src/gtkhtml2_prefs.c:227
 msgid "Cache remote images locally"
 msgstr "Hae etäkuvat paikalliseen välimuistiin"
 
-#: src/gtkhtml2_prefs.c:232
+#: src/gtkhtml2_prefs.c:234
 msgid "Clear images cache when quitting"
 msgstr "Poista kuvat välimuistista lopetettaessa"
 
-#: src/gtkhtml2_prefs.c:239
+#: src/gtkhtml2_prefs.c:241
 msgid "Clear image cache now"
 msgstr "Poista kuvat välimuistista"
 
-#: src/gtkhtml2_viewer.c:101
+#: src/gtkhtml2_viewer.c:110
 msgid "/_Open with Web browser"
 msgstr "_Avaa veppiselaimessa"
 
-#: src/gtkhtml2_viewer.c:102
+#: src/gtkhtml2_viewer.c:111
 msgid "/Copy this _link"
 msgstr "Kopioi _linkki"
 
-#: src/gtkhtml2_viewer.c:107
+#: src/gtkhtml2_viewer.c:116
 msgid "/Zoom _in"
 msgstr "Zoomaa s_isään"
 
-#: src/gtkhtml2_viewer.c:108
+#: src/gtkhtml2_viewer.c:117
 msgid "/Zoom _out"
 msgstr "Zoomaa ul_os"
 
-#: src/gtkhtml2_viewer.c:706
+#: src/gtkhtml2_viewer.c:781
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Aikakatkaisu yhdistettäessä kohteeseen %s\n"
 
-#: src/gtkhtml2_viewer.c:776
+#: src/gtkhtml2_viewer.c:853
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -85,7 +85,7 @@ msgstr ""
 "Etäkuvia ei ladattu\n"
 "asetusten mukaan."
 
-#: src/gtkhtml2_viewer.c:778
+#: src/gtkhtml2_viewer.c:855
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -93,19 +93,58 @@ msgstr ""
 "Etäkuvia ei ladattu\n"
 "yhteydettömässä tilassa."
 
-#: src/gtkhtml2_viewer.c:780
+#: src/gtkhtml2_viewer.c:857
 msgid "Remote images exist, but loading them failed."
 msgstr "Etäkuvia ei onnistuttu lataamaan."
 
-#: src/gtkhtml2_viewer.c:784
+#: src/gtkhtml2_viewer.c:861
 msgid "Load images"
 msgstr "Lataa kuvat"
 
-#: src/gtkhtml2_viewer.c:1150 src/gtkhtml2_viewer.c:1187
+#: src/gtkhtml2_viewer.c:1096
+#, c-format
+msgid ""
+"Printing failed:\n"
+" %s"
+msgstr ""
+"Tulostus epäonnistui:\n"
+" %s"
+
+#: src/gtkhtml2_viewer.c:1127
+msgid "Printing HTML is only possible if the program 'html2ps' is installed."
+msgstr "Tulostamiseen tarvitaan html2ps-ohjelma."
+
+#: src/gtkhtml2_viewer.c:1132
+msgid "Filename is null."
+msgstr "Tiedostonimi on null."
+
+#: src/gtkhtml2_viewer.c:1147
+msgid "Conversion to postscript failed."
+msgstr "Muunnos postscript-muotoon epäonnistui."
+
+#: src/gtkhtml2_viewer.c:1154
+msgid "Print"
+msgstr "Tulosta"
+
+#: src/gtkhtml2_viewer.c:1175
+#, c-format
+msgid "Printer %s doesn't accept PostScript files."
+msgstr "Tulostin %s ei tue PostScript-tiedostoja"
+
+#: src/gtkhtml2_viewer.c:1191
+#, c-format
+msgid ""
+"Printing failed:\n"
+"%s"
+msgstr ""
+"Tulostus epäonnistui:\n"
+"%s"
+
+#: src/gtkhtml2_viewer.c:1351 src/gtkhtml2_viewer.c:1388
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML‐näytin"
 
-#: src/gtkhtml2_viewer.c:1192
+#: src/gtkhtml2_viewer.c:1393
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Tämä liitännäinen piirtää HTML‐viestit käyttäen gtkhtml2rendering‐"
