@@ -1,14 +1,14 @@
 # tnef_parse translation to Finnish.
 # Copyright (C) 2007 Andrej Kacian
 # This file is distributed under the same license as the claws mail package.
-# Flammie Pirinen <flammie@gentoo.org>, 2007.
+# Flammie Pirinen <flammie@gentoo.org>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: tnef_parse\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:51+0000\n"
-"PO-Revision-Date: 2008-02-04 22:52+0200\n"
+"POT-Creation-Date: 2008-04-14 00:23+0300\n"
+"PO-Revision-Date: 2008-04-14 10:41+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/tnef_parse.c:65
-#, c‐format
+#, c-format
 msgid ""
 "\n"
 "Claws Mail TNEF parser:\n"
@@ -60,10 +60,10 @@ msgid ""
 "Randall Hand <yerase@yerot.com>"
 msgstr ""
 "Claws Mail ‐liitännäinen, joka lukee application/ms-tnef-tyypin "
-"liitostiedostoja\n\n"
-"Liitännäinen käyttää Ytnef‐kirjastoa, tekijänoikeudet 2002–2007 Randall "
-"Hand <yerase@yerot.com>"
+"liitostiedostoja\n"
+"\n"
+"Liitännäinen käyttää Ytnef‐kirjastoa, tekijänoikeudet 2002–2007 Randall Hand "
+"<yerase@yerot.com>"
 
-#: src/tnef_parse.c:429
-msgid "application/ms-tnef"
-msgstr "application/ms-tnef"
+#~ msgid "application/ms-tnef"
+#~ msgstr "application/ms-tnef"
