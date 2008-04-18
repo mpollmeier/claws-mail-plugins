@@ -111,7 +111,7 @@ static MimeInfo *tnef_dump_file(const gchar *filename, char *data, size_t size)
 	if (fwrite(data, 1, size, fp) < size) {
 		FILE_OP_ERROR(tmpfilename, "fwrite");
 		fclose(fp);
-		g_unlink(tmpfilename);
+		claws_unlink(tmpfilename);
 		procmime_mimeinfo_free_all(sub_info);
 		return tnef_broken_mimeinfo(_("Failed to write the part data."));
 	}
@@ -153,7 +153,7 @@ MimeInfo *tnef_parse_vcal(TNEFStruct tnef)
 	sub_info->encoding_type = ENC_BINARY;
 	
 	if (!result) {
-		g_unlink(tmpfilename);
+		claws_unlink(tmpfilename);
 		procmime_mimeinfo_free_all(sub_info);
 		return tnef_broken_mimeinfo(_("Failed to parse VCalendar data."));
 	}
@@ -189,7 +189,7 @@ MimeInfo *tnef_parse_vtask(TNEFStruct tnef)
 	sub_info->encoding_type = ENC_BINARY;
 	
 	if (!result) {
-		g_unlink(tmpfilename);
+		claws_unlink(tmpfilename);
 		procmime_mimeinfo_free_all(sub_info);
 		return tnef_broken_mimeinfo(_("Failed to parse VTask data."));
 	}
@@ -199,11 +199,15 @@ MimeInfo *tnef_parse_vtask(TNEFStruct tnef)
 MimeInfo *tnef_parse_rtf(TNEFStruct tnef, variableLength *tmp_var)
 {
 	variableLength buf;
+	MimeInfo *info = NULL;
 	buf.data = DecompressRTF(tmp_var, &(buf.size));
-	if (buf.data)
-		return tnef_dump_file("message.rtf", buf.data, buf.size);
-	else
+	if (buf.data) {
+		info = tnef_dump_file("message.rtf", buf.data, buf.size);
+		free(buf.data);
+		return info;
+	} else {
 		return NULL;
+	}
 }
 
 MimeInfo *tnef_parse_vcard(TNEFStruct tnef)
@@ -235,7 +239,7 @@ MimeInfo *tnef_parse_vcard(TNEFStruct tnef)
 	sub_info->encoding_type = ENC_BINARY;
 	
 	if (!result) {
-		g_unlink(tmpfilename);
+		claws_unlink(tmpfilename);
 		procmime_mimeinfo_free_all(sub_info);
 		return tnef_broken_mimeinfo(_("Failed to parse VCard data."));
 	}
