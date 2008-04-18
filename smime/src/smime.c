@@ -839,13 +839,13 @@ gboolean smime_encrypt(MimeInfo *mimeinfo, const gchar *encrypt_data)
 		if (fwrite(enccontent, 1, len, fp) < len) {
 			FILE_OP_ERROR(tmpfile, "fwrite");
 			fclose(fp);
-			g_unlink(tmpfile);
+			claws_unlink(tmpfile);
 			g_free(tmpfile);
 			return FALSE;
 		}
 		if (fclose(fp) == EOF) {
 			FILE_OP_ERROR(tmpfile, "fclose");
-			g_unlink(tmpfile);
+			claws_unlink(tmpfile);
 			g_free(tmpfile);
 			return FALSE;
 		}
