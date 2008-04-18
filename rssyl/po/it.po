@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-02-01 10:26+0000\n"
-"PO-Revision-Date: 2008-02-07 17:56+0100\n"
+"POT-Creation-Date: 2008-04-11 07:57+0100\n"
+"PO-Revision-Date: 2008-04-17 17:07+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -80,18 +80,18 @@ msgstr "Questo formato di feed non è ancora supportato."
 msgid "N/A"
 msgstr "N/D"
 
-#: src/feed.c:1201
+#: src/feed.c:1204
 #, c-format
 msgid "%ld byte"
 msgid_plural "%ld bytes"
 msgstr[0] "%ld byte"
 msgstr[1] "%ld byte"
 
-#: src/feed.c:1204
+#: src/feed.c:1207
 msgid "size unknown"
 msgstr "dimensione sconosciuta"
 
-#: src/feed.c:1353
+#: src/feed.c:1356
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -100,11 +100,11 @@ msgstr ""
 "RSSyl: Impossibile aggiornare il feed %s:\n"
 "%s\n"
 
-#: src/feed.c:1505
+#: src/feed.c:1508
 msgid "You are already subscribed to this feed."
 msgstr "È già presente una sottoscrizione a questo feed."
 
-#: src/feed.c:1516
+#: src/feed.c:1519
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -113,11 +113,11 @@ msgstr ""
 "Impossibile prelevare dall'URL '%s':\n"
 "%s"
 
-#: src/feed.c:1517 src/feed.c:1521
+#: src/feed.c:1520 src/feed.c:1524
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
-#: src/feed.c:1521
+#: src/feed.c:1524
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -126,12 +126,12 @@ msgstr ""
 "Impossibile prelevare dall'URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1533
+#: src/feed.c:1536
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossibile sottoscrivere il feed '%s'."
 
-#: src/feed.c:1635 src/rssyl_cb_menu.c:280
+#: src/feed.c:1638 src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] ""
