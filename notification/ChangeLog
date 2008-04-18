@@ -1,3 +1,16 @@
+2008-04-18 [paul]	0.16
+
+	0.16 released
+
+	* po/fr.po
+		added by wwp
+
+	* po/fi.po
+	* po/it.po
+	* po/pt_BR.po
+		updated by Flammie Pirinen, Andrea Spadaccini and
+		Frederico Goncalves Guimaraes
+
 2008-03-15 [colin]	0.15cvs8
 
 	* src/notification_core.c

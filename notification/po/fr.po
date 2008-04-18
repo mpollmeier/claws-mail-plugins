@@ -1,0 +1,408 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Holger Berndt
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: claws-mail-notification-plugin\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2008-04-18 08:16+0200\n"
+"PO-Revision-Date: 2008-04-18 11:21+0100\n"
+"Last-Translator: Colin Leroy <colin@colino.net>\n"
+"Language-Team:  <sylpheed-claws-translators@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#: src/notification_banner.c:85
+msgid "/Reply"
+msgstr "/Répondre"
+
+#: src/notification_banner.c:343
+msgid "Folder:"
+msgstr "Dossier :"
+
+#: src/notification_foldercheck.c:473
+msgid "Select folder(s)"
+msgstr "Sélectionnez un ou plusieurs dossiers"
+
+#: src/notification_foldercheck.c:569
+msgid "select recursively"
+msgstr "sélectionner récursivement"
+
+#: src/notification_plugin.c:178
+#: src/notification_plugin.c:350
+#: src/notification_prefs.c:312
+#: src/notification_prefs.c:326
+#: src/notification_prefs.c:343
+#: src/notification_prefs.c:360
+#: src/notification_prefs.c:377
+#: src/notification_prefs.c:394
+msgid "Notification"
+msgstr "Notification"
+
+#: src/notification_plugin.c:183
+msgid "The Notification plugin needs threading support."
+msgstr "Le module Notification nécessite le support des threads."
+
+#: src/notification_plugin.c:190
+msgid "Failed to register folder item update hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook folderitemupdate dans le module Notification"
+
+#: src/notification_plugin.c:198
+msgid "Failed to register folder update hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook folderupdate dans le module Notification"
+
+#: src/notification_plugin.c:208
+msgid "Failed to register msginfo update hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook msginfoupdate dans le module Notification"
+
+#: src/notification_plugin.c:218
+msgid "Failed to register offline switch hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook offlineswitch dans le module Notification"
+
+#: src/notification_plugin.c:229
+msgid "Failed to register main window close hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook mainwindowclose dans le module Notification"
+
+#: src/notification_plugin.c:242
+msgid "Failed to register got iconified hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook goticonified dans le module Notification"
+
+#: src/notification_plugin.c:255
+msgid "Failed to register account list changed hook in the Notification plugin"
+msgstr "Impossible d'enregistrer le hook accountlistchanged dans le module Notification"
+
+#: src/notification_plugin.c:355
+msgid ""
+"This plugin provides various ways to notify the user of new and unread email.\n"
+"Feedback to <berndth@gmx.de> is welcome."
+msgstr ""
+"Ce module fournit divers moyens de notifier l'utilisateur de nouveaux emails.\n"
+"Commentaires bienvenus à <berndth@gmx.de>."
+
+#: src/notification_plugin.c:378
+msgid "Various tools"
+msgstr "Outils variés"
+
+#: src/notification_popup.c:289
+msgid "New Mail message"
+msgstr "Message de nouvel email"
+
+#: src/notification_popup.c:291
+#: src/notification_popup.c:570
+msgid "(No From)"
+msgstr "(Pas d'expéditeur)"
+
+#: src/notification_popup.c:293
+#: src/notification_popup.c:574
+msgid "(No Subject)"
+msgstr "(Pas de sujet)"
+
+#: src/notification_popup.c:310
+msgid "New News post"
+msgstr "Nouveau post Usenet"
+
+#: src/notification_popup.c:311
+msgid "A new message arrived"
+msgstr "Un nouveau message est arrivé"
+
+#: src/notification_popup.c:314
+msgid "New Calendar message"
+msgstr "Nouvel évènement"
+
+#: src/notification_popup.c:315
+msgid "A new calendar message arrived"
+msgstr "Un nouvel évènement est arrivé"
+
+#: src/notification_popup.c:318
+msgid "New RSS feed article"
+msgstr "Nouveau message RSS"
+
+#: src/notification_popup.c:319
+msgid "A new article in a RSS feed arrived"
+msgstr "Un nouvel article est arrivé dans un flux RSS"
+
+#: src/notification_popup.c:322
+msgid "New unknown message"
+msgstr "Nouveau message inconnu"
+
+#: src/notification_popup.c:323
+msgid "Unknown message type arrived"
+msgstr "Un nouveau message de type inconnu est arrivé"
+
+#: src/notification_popup.c:441
+msgid "Mail message"
+msgstr "Message email"
+
+#: src/notification_popup.c:442
+#: src/notification_popup.c:448
+#, c-format
+msgid "%d new message arrived"
+msgid_plural "%d new messages arrived"
+msgstr[0] "%d nouveau message est arrivé"
+msgstr[1] "%d nouveaux messages sont arrivés"
+
+#: src/notification_popup.c:447
+msgid "News message"
+msgstr "Message Usenet"
+
+#: src/notification_popup.c:453
+msgid "Calendar message"
+msgstr "Évènement"
+
+#: src/notification_popup.c:454
+#, c-format
+msgid "%d new calendar message arrived"
+msgid_plural "%d new calendar messages arrived"
+msgstr[0] "%d nouvel évènement est arrivé"
+msgstr[1] "%d nouveaux évènements sont arrivés"
+
+#: src/notification_popup.c:459
+msgid "RSS news feed"
+msgstr "flux RSS"
+
+#: src/notification_popup.c:460
+#, c-format
+msgid "%d new article in a RSS feed arrived"
+msgid_plural "%d new articles in a RSS feed arrived"
+msgstr[0] "%d nouvel article de flux RSS est arrivé"
+msgstr[1] "%d nouveaux articles de flux RSS sont arrivés"
+
+#: src/notification_popup.c:521
+#, c-format
+msgid "%d new message"
+msgid_plural "%d new messages"
+msgstr[0] "%d nouveau message"
+msgstr[1] "%d nouveaux messages"
+
+#: src/notification_prefs.c:311
+#: src/notification_prefs.c:325
+#: src/notification_prefs.c:342
+#: src/notification_prefs.c:359
+#: src/notification_prefs.c:376
+#: src/notification_prefs.c:393
+msgid "Plugins"
+msgstr "Modules"
+
+#: src/notification_prefs.c:327
+msgid "Banner"
+msgstr "Bannière"
+
+#: src/notification_prefs.c:344
+msgid "Popup"
+msgstr "Popup"
+
+#: src/notification_prefs.c:361
+msgid "Command"
+msgstr "Commande"
+
+#: src/notification_prefs.c:378
+msgid "LCD"
+msgstr "LCD"
+
+#: src/notification_prefs.c:395
+msgid "SysTrayicon"
+msgstr "Icône de la barre système"
+
+#: src/notification_prefs.c:444
+msgid ""
+"\n"
+"Notification Plugin: Failed to write plugin configuration to file\n"
+msgstr ""
+"\n"
+"Module Notification: impossible d'écrire le fichier de configuration\n"
+
+#: src/notification_prefs.c:471
+msgid "Include folder types"
+msgstr "Inclure les types de dossiers"
+
+#: src/notification_prefs.c:481
+msgid "Mail folders"
+msgstr "Dossiers emails"
+
+#: src/notification_prefs.c:489
+msgid "News folders"
+msgstr "Dossiers Usenet (News)"
+
+#: src/notification_prefs.c:497
+msgid "RSS folders"
+msgstr "Dossiers RSS"
+
+#: src/notification_prefs.c:505
+msgid "Calendar folders"
+msgstr "Dossiers Calendrier"
+
+#: src/notification_prefs.c:513
+msgid "These settings overwrite folder-specific selections."
+msgstr "Ces réglages ont précédence sur les sélections de dossiers."
+
+#: src/notification_prefs.c:566
+msgid "Show banner"
+msgstr "Montrer la bannière"
+
+#: src/notification_prefs.c:571
+msgid "Never"
+msgstr "Jamais"
+
+#: src/notification_prefs.c:573
+msgid "Always"
+msgstr "Toujours"
+
+#: src/notification_prefs.c:575
+msgid "Only when not empty"
+msgstr "Seulement si non-vide"
+
+#: src/notification_prefs.c:593
+msgid "slow"
+msgstr "lent"
+
+#: src/notification_prefs.c:597
+msgid "fast"
+msgstr "rapide"
+
+#: src/notification_prefs.c:601
+msgid "Banner speed"
+msgstr "Vitesse de la bannière"
+
+#: src/notification_prefs.c:619
+msgid "Maximum number of messages (0 means unlimited)"
+msgstr "Nombre maximum de messages (0 pour illimité)"
+
+#: src/notification_prefs.c:633
+msgid "Banner width in pixels (0 means screen size)"
+msgstr "Largeur de la bannière en pixels (0 pour tout l'écran)"
+
+#: src/notification_prefs.c:646
+msgid "Include unread mails in banner"
+msgstr "Inclure les messages non lus dans la bannière"
+
+#: src/notification_prefs.c:654
+msgid "Make banner sticky"
+msgstr "Rendre la bannière \"collante\""
+
+#: src/notification_prefs.c:664
+#: src/notification_prefs.c:862
+#: src/notification_prefs.c:1134
+#: src/notification_prefs.c:1366
+msgid "Only include selected folders"
+msgstr "N'inclure que les dossiers sélectionnés"
+
+#: src/notification_prefs.c:673
+#: src/notification_prefs.c:871
+#: src/notification_prefs.c:1143
+#: src/notification_prefs.c:1375
+msgid "Select folders..."
+msgstr "Sélectionner des dossiers..."
+
+#: src/notification_prefs.c:683
+#: src/notification_prefs.c:903
+msgid "Use custom colors"
+msgstr "Utiliser des couleurs spécifiques"
+
+#: src/notification_prefs.c:696
+#: src/notification_prefs.c:916
+msgid "Foreground"
+msgstr "Premier plan"
+
+#: src/notification_prefs.c:702
+#: src/notification_prefs.c:922
+msgid "Foreground color"
+msgstr "Couleur de premier plan"
+
+#: src/notification_prefs.c:707
+#: src/notification_prefs.c:927
+msgid "Background"
+msgstr "Arrière-plan"
+
+#: src/notification_prefs.c:713
+#: src/notification_prefs.c:933
+msgid "Background color"
+msgstr "Couleur d'arrière-plan"
+
+#: src/notification_prefs.c:826
+msgid "Enable popup"
+msgstr "Activer la popup"
+
+#: src/notification_prefs.c:843
+#: src/notification_prefs.c:1414
+msgid "Popup timeout:"
+msgstr "Délai de disparition de la popup"
+
+#: src/notification_prefs.c:853
+#: src/notification_prefs.c:1125
+#: src/notification_prefs.c:1423
+msgid "seconds"
+msgstr "secondes"
+
+#: src/notification_prefs.c:882
+msgid "Make popup sticky"
+msgstr "Rendre la popup \"collante\""
+
+#: src/notification_prefs.c:892
+msgid "Set popup window width and position"
+msgstr "Régler la taille et position de la popup"
+
+#: src/notification_prefs.c:897
+msgid "(the window manager is free to ignore this)"
+msgstr "(Le gestionnaire de fenêtres peut ignorer ceci)"
+
+#: src/notification_prefs.c:945
+#: src/notification_prefs.c:1426
+msgid "Display folder name"
+msgstr "Afficher le nom du dossier"
+
+#: src/notification_prefs.c:1010
+msgid "Sample popup window"
+msgstr "Exemple de popup"
+
+#: src/notification_prefs.c:1016
+msgid "Done"
+msgstr "Terminé"
+
+#: src/notification_prefs.c:1085
+msgid "Enable command"
+msgstr "Activer la commande"
+
+#: src/notification_prefs.c:1102
+msgid "Command to execute:"
+msgstr "Commande à exécuter :"
+
+#: src/notification_prefs.c:1115
+msgid "Block command after execution for"
+msgstr "Bloquer la commande après exécution pendant "
+
+#: src/notification_prefs.c:1222
+msgid "Enable LCD"
+msgstr "Activer le LCD"
+
+#: src/notification_prefs.c:1241
+msgid "Hostname:Port of LCDd server:"
+msgstr "Hôte:port du serveur LCDd"
+
+#: src/notification_prefs.c:1323
+msgid "Enable Trayicon"
+msgstr "Activer l'icône de barre système"
+
+#: src/notification_prefs.c:1339
+msgid "Hide at start-up"
+msgstr "Cacher au démarrage"
+
+#: src/notification_prefs.c:1347
+msgid "Close to tray"
+msgstr "Fermer dans la barre système"
+
+#: src/notification_prefs.c:1355
+msgid "Hide when iconified"
+msgstr "Cacher quand minimisé"
+
+#: src/notification_prefs.c:1385
+msgid "Passive toaster popup"
+msgstr "Popup passive"
+
+#: src/notification_prefs.c:1396
+msgid "Enable Popup"
+msgstr "Activer la popup"
+
