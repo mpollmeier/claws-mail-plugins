@@ -1,14 +1,14 @@
 # Translation of spam_report to Finnish.
 # Copyright (c) 2007 Andrej Kacian
 # This file is distributed under the same license as the claws mail package.
-# Flammie Pirinen <flammie@iki.fi>, 2007.
+# Flammie Pirinen <flammie@iki.fi>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: spam_report\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2008-02-04 21:57+0200\n"
-"PO-Revision-Date: 2008-02-04 22:51+0200\n"
+"PO-Revision-Date: 2008-04-14 10:41+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
