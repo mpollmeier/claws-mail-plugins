@@ -1157,7 +1157,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 			}
 			
 			g_free(cmdline);
-			g_unlink(tmpfile);
+			claws_unlink(tmpfile);
 			g_free(tmpfile);
 			if (result != 0) {
 				main_window_cursor_normal(mainwindow_get_mainwindow());
@@ -1288,7 +1288,7 @@ static void pdf_viewer_show_mimepart(MimeViewer *_viewer, const gchar *infile,
 	debug_print("pdf_viewer_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
-		g_unlink(viewer->filename);
+		claws_unlink(viewer->filename);
 		g_free(viewer->filename);
 		viewer->filename = NULL;
 	}
@@ -1364,7 +1364,7 @@ static void pdf_viewer_destroy(MimeViewer *_viewer)
 	gtk_widget_unref(GTK_WIDGET(viewer->doc_index_pane));
 	gtk_widget_unref(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_unref(GTK_WIDGET(viewer->scrollwin_index));
-	g_unlink(viewer->filename);
+	claws_unlink(viewer->filename);
 	g_free(viewer->filename);
 	g_free(viewer);
 }
