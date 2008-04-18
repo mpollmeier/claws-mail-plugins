@@ -101,7 +101,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	if (f == NULL) {
 		perror("fdopen");
 		ctx->error = g_strdup(_("Cannot open temporary file"));
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		ctx->ready = TRUE;
 		return NULL;
@@ -113,7 +113,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		g_warning("can't init curl");
 		ctx->error = g_strdup(_("Cannot init libCURL"));
 		fclose(f);
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		ctx->ready = TRUE;
 		return NULL;
@@ -170,7 +170,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		ctx->ready = TRUE;
 		curl_easy_cleanup(eh);
 		fclose(f);
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		return NULL;
 	}
@@ -214,7 +214,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 				break;
 		}
 		ctx->ready = TRUE;
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		return NULL;
 	}
@@ -223,7 +223,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 		if( response_code == 304 ) {
 			debug_print("RSSyl: don't rely on server response 304, defer modified "
 					"check\n");
-			g_unlink(template);
+			claws_unlink(template);
 			g_free(template);
 			ctx->defer_modified_check = TRUE;
 			template = rssyl_fetch_feed_threaded(ctx);
@@ -322,7 +322,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	doc = xmlParseFile(template);
 
 	if( doc == NULL ) {
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		g_warning("Couldn't fetch feed '%s', aborting.\n", url);
 		log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_FETCH, url);
@@ -354,7 +354,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	g_free(tmptitle);
 #endif	/* RSSYL_DEBUG */
 
-	g_unlink(template);
+	claws_unlink(template);
 	g_free(template);
 
 	debug_print("RSSyl: XML - root node is '%s'\n", node->name);

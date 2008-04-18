@@ -567,13 +567,13 @@ static gint rssyl_remove_msg(Folder *folder, FolderItem *item, gint num)
 	/* are we doing a folder move ? */
 	tmp = g_strdup_printf("%s.tmp", file);
 	if (is_file_exist(tmp)) {
-		g_unlink(tmp);
+		claws_unlink(tmp);
 		g_free(tmp);
 		g_free(file);
 		return 0;
 	}
 	g_free(tmp);
-	if( g_unlink(file) < 0 ) {
+	if( claws_unlink(file) < 0 ) {
 		FILE_OP_ERROR(file, "unlink");
 		g_free(file);
 		return -1;
