@@ -715,7 +715,7 @@ GSList *vcal_get_events_list(FolderItem *item)
 			continue;
 		if (event->rec_occurence) {
 			vcal_manager_free_event(event);
-			claws_unlink(d->d_name);
+			g_unlink(d->d_name);
 			continue;
 		}
 
