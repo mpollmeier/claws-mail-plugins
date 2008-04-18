@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=18
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -71,7 +71,7 @@ else
 fi
 
 dnl Check for claws-mail
-PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 3.1.0.62)
+PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 3.4.0.1)
 AC_SUBST(CLAWS_MAIL_CFLAGS)
 AC_SUBST(CLAWS_MAIL_LIBS)
 AC_SUBST(CLAWS_MAIL_PLUGINDIR)

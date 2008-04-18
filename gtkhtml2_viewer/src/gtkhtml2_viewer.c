@@ -255,7 +255,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
-		g_unlink(viewer->filename);
+		claws_unlink(viewer->filename);
 		g_free(viewer->filename);
 		viewer->filename = NULL;
 	}
@@ -444,7 +444,7 @@ static void gtkhtml2_destroy_viewer(MimeViewer *_viewer)
 
 	gtk_widget_unref(GTK_WIDGET(viewer->html_view));
 	gtk_widget_unref(GTK_WIDGET(viewer->scrollwin));
-	g_unlink(viewer->filename);
+	claws_unlink(viewer->filename);
 	g_free(viewer->filename);
     	g_free(viewer);
 }
@@ -597,7 +597,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	if (f == NULL) {
 		perror("fdopen");
 		ctx->ready = TRUE;
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		return NULL;
 	}
@@ -607,7 +607,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	if (eh == NULL) {
 		g_warning("can't init curl");
 		ctx->ready = TRUE;
-		g_unlink(template);
+		claws_unlink(template);
 		g_free(template);
 		return NULL;
 	}
@@ -816,7 +816,7 @@ found_local:
 		FILE *fp = fopen(tmpfile, "r");
 		if (fp == NULL) {
 			html_stream_close(stream);
-			g_unlink(tmpfile);
+			claws_unlink(tmpfile);
 			g_free(tmpfile);
 #ifdef HAVE_LIBCURL
 			g_free(ctx);
@@ -833,7 +833,7 @@ found_local:
 				gtk_main_iteration();
 		}
 		fclose(fp);
-		g_unlink(tmpfile);
+		claws_unlink(tmpfile);
 		g_free(tmpfile);
 	}
 #ifdef HAVE_LIBCURL
