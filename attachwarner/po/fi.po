@@ -1,14 +1,14 @@
 # Finnish translations for attachwarner package.
 # Copyright (C) 2007 Ricardo Mones
 # This file is distributed under the same license as the attachwarner package.
-# Flammie Pirinen <flammie@iki.fi>, 2007.
+# Flammie Pirinen <flammie@iki.fi>, 2007–2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-11-12 06:46+0000\n"
-"PO-Revision-Date: 2008-02-04 22:50+0200\n"
+"POT-Creation-Date: 2008-02-04 21:53+0200\n"
+"PO-Revision-Date: 2008-04-14 10:41+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
