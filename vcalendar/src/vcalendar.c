@@ -444,6 +444,16 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 	}
 }
 
+static FolderItem *vcalendar_get_current_item(void)
+{
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	if (mainwin) {
+		return mainwin->summaryview->folder_item;
+	} else {
+		return NULL;
+	}
+}
+
 void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 {
 	GSList *list = NULL;
@@ -451,6 +461,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 	gboolean mine = FALSE;
 	gchar *label = NULL;
 	gboolean save_evt = FALSE;
+	FolderItem *item = vcalendar_get_current_item();
 	if (!event)
 		return;
 	if (!vcalviewer)
@@ -483,7 +494,7 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 				_("Details follow:"), NULL);
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), label);
 		save_evt = TRUE;
-		vcalendar_refresh_folder_contents();
+		vcalendar_refresh_folder_contents(item);
 	} else if (event->method == ICAL_METHOD_REPLY) {
 		/* don't change label */
 	} else {
@@ -850,19 +861,19 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	END_TIMING();	
 }
 
-void vcalviewer_reload(void)
+void vcalviewer_reload(FolderItem *item)
 {
 	if (s_vcalviewer) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
-		folder_item_scan(folder->inbox);
+		folder_item_scan(item);
 		if (mainwin && mainwin->summaryview->folder_item) {
 			FolderItem *cur = mainwin->summaryview->folder_item;
 			if (cur->folder == folder)
 				folder_item_scan(cur);
 		}
-		if (mainwin && mainwin->summaryview->folder_item == folder->inbox) {
+		if (mainwin && mainwin->summaryview->folder_item == item) {
 			debug_print("reload: %p, %p\n", (MimeViewer *)s_vcalviewer, s_vcalviewer->mimeinfo);
 			summary_redisplay_msg(mainwin->summaryview);
 		}
@@ -905,15 +916,15 @@ static gboolean vcalviewer_uribtn_cb(GtkButton *widget, gpointer data)
 	return TRUE;
 }
 
-void vcalendar_refresh_folder_contents(void)
+void vcalendar_refresh_folder_contents(FolderItem *item)
 {
 	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 	if (folder) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
-		folder_item_scan(folder->inbox);
-		if (mainwin->summaryview->folder_item == folder->inbox) {
-			summary_show(mainwin->summaryview, folder->inbox);
-			vcal_folder_refresh_cal(folder->inbox);
+		folder_item_scan(item);
+		if (mainwin->summaryview->folder_item == item) {
+			summary_show(mainwin->summaryview, item);
+			vcal_folder_refresh_cal(item);
 		}
 	}
 }
@@ -923,7 +934,7 @@ static void send_cancel_notify_toggled_cb(GtkToggleButton *button, gboolean *dat
 	*data = gtk_toggle_button_get_active(button);
 }
 
-void vcalendar_cancel_meeting(const gchar *uid)
+void vcalendar_cancel_meeting(FolderItem *item, const gchar *uid)
 {
 	VCalEvent *event = NULL;
 	VCalMeeting *meet = NULL;
@@ -955,7 +966,7 @@ void vcalendar_cancel_meeting(const gchar *uid)
 	
 	if (folder) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
-		if (mainwin->summaryview->folder_item == folder->inbox) {
+		if (mainwin->summaryview->folder_item == item) {
 			redisp = TRUE;
 			summary_show(mainwin->summaryview, NULL);
 		}
@@ -968,12 +979,12 @@ void vcalendar_cancel_meeting(const gchar *uid)
 			vcal_manager_save_event(event, TRUE);
 			vcal_manager_free_event(event);
 			if (folder)
-				folder_item_scan(folder->inbox);
+				folder_item_scan(item);
 
 			if (folder && redisp) {
 				MainWindow *mainwin = mainwindow_get_mainwindow();
-				summary_show(mainwin->summaryview, folder->inbox);
-				vcal_folder_refresh_cal(folder->inbox);
+				summary_show(mainwin->summaryview, item);
+				vcal_folder_refresh_cal(item);
 			}
 			return;
 		}
@@ -986,11 +997,11 @@ void vcalendar_cancel_meeting(const gchar *uid)
 	vcal_manager_free_event(event);
 	g_free(file);
 	if (folder)
-		folder_item_scan(folder->inbox);
+		folder_item_scan(item);
 	if (folder && redisp) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
-		summary_show(mainwin->summaryview, folder->inbox);
-		vcal_folder_refresh_cal(folder->inbox);
+		summary_show(mainwin->summaryview, item);
+		vcal_folder_refresh_cal(item);
 	}
 
 	return;
@@ -999,8 +1010,9 @@ void vcalendar_cancel_meeting(const gchar *uid)
 static gboolean vcalviewer_cancel_cb(GtkButton *widget, gpointer data)
 {
 	VCalViewer *vcalviewer = (VCalViewer *)data;
+	FolderItem *item = vcalendar_get_current_item();
 	gchar * uid = vcalviewer_get_uid_from_mimeinfo(vcalviewer->mimeinfo);
-	vcalendar_cancel_meeting(uid);
+	vcalendar_cancel_meeting(item, uid);
 	return TRUE;
 }
 

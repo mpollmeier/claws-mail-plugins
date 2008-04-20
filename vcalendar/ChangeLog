@@ -1,3 +1,14 @@
+2008-04-20 [colin]	1.102.0cvs2
+
+	* src/day-view.c
+	* src/month-view.c
+	* src/vcal_interface.h
+	* src/vcal_manager.c
+	* src/vcalendar.c
+	* src/vcalendar.h
+		Stop depending on folder->inbox in vcalendar.c
+		Generalise a bit
+
 2008-04-18 [colin]	1.102.0cvs1
 
 	* src/vcal_folder.c

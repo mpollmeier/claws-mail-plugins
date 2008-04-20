@@ -245,7 +245,7 @@ static void month_view_edit_meeting_cb(month_win *mw, gpointer data_i, gpointer 
 static void month_view_cancel_meeting_cb(month_win *mw, gpointer data_i, gpointer data_s)
 {
 	const gchar *uid = (gchar *)data_s;
-	vcalendar_cancel_meeting(uid);
+	vcalendar_cancel_meeting(mw->item, uid);
 }
 
 static void month_view_today_cb(month_win *mw, gpointer data_i, gpointer data_s)
