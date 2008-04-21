@@ -424,6 +424,7 @@ static FolderItem *vcal_item_new(Folder *folder)
 {
 	VCalFolderItem *item;
 	item = g_new0(VCalFolderItem, 1);
+	item->use_cal_view = 1;
 	return (FolderItem *) item;
 
 }
