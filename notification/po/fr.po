@@ -89,7 +89,7 @@ msgstr "Outils variés"
 
 #: src/notification_popup.c:289
 msgid "New Mail message"
-msgstr "Message de nouvel email"
+msgstr "Nouvel email"
 
 #: src/notification_popup.c:291
 #: src/notification_popup.c:570
