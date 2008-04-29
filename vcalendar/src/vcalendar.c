@@ -447,8 +447,15 @@ static void vcalviewer_answer_set_choices(VCalViewer *vcalviewer, VCalEvent *eve
 static FolderItem *vcalendar_get_current_item(void)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
+	FolderItem *item = NULL;
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	
 	if (mainwin) {
-		return mainwin->summaryview->folder_item;
+		item = mainwin->summaryview->folder_item;
+		if (item->folder == folder)
+			return item;
+		else 
+			return folder->inbox;
 	} else {
 		return NULL;
 	}
@@ -919,7 +926,7 @@ static gboolean vcalviewer_uribtn_cb(GtkButton *widget, gpointer data)
 void vcalendar_refresh_folder_contents(FolderItem *item)
 {
 	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
-	if (folder) {
+	if (folder && item->folder == folder) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		folder_item_scan(item);
 		if (mainwin->summaryview->folder_item == item) {

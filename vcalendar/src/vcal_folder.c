@@ -312,6 +312,9 @@ static void vcal_item_opened(FolderItem *item)
 
 void vcal_folder_refresh_cal(FolderItem *item)
 {
+	Folder *folder = folder_find_from_name ("vCalendar", vcal_folder_get_class());
+	if (item->folder != folder)
+		return;
 	if (((VCalFolderItem *)(item))->dw)
 		refresh_day_win(((VCalFolderItem *)(item))->dw);
 	if (((VCalFolderItem *)(item))->mw)
