@@ -1,3 +1,8 @@
+2008-04-29 [colin]	0.18.0cvs2
+
+	* libgtkhtml/dom/html/Makefile.in ** REMOVE **
+		This shouldn't be in CVS
+
 2008-04-18 [colin]	0.18.0cvs1
 
 	* src/gtkhtml2_viewer.c
