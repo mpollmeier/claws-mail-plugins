@@ -14,3 +14,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  ) > 0.2.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  ) > 0.2.2cvs1.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/tnef_parse.c;  ) > 0.2.3cvs1.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  diff -u /dev/null src/mapi.h;  diff -u /dev/null src/mapidefs.h;  diff -u /dev/null src/mapitags.h;  diff -u /dev/null src/tnef-errors.h;  diff -u /dev/null src/tnef-types.h;  diff -u /dev/null src/ytnef.c;  diff -u /dev/null src/ytnef.h;  ) > 0.2.3cvs2.patchset

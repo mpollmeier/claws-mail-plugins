@@ -1,3 +1,17 @@
+2008-04-29 [colin]	0.2.3cvs2
+
+	* configure.ac
+	* src/Makefile.am
+	* src/mapi.h
+	* src/mapidefs.h
+	* src/mapitags.h
+	* src/tnef-errors.h
+	* src/tnef-types.h
+	* src/ytnef.c
+	* src/ytnef.h
+		Use an internal libytnef, as the upstream
+		one isn't maintained anymore
+
 2008-04-18 [colin]	0.2.3cvs1
 
 	* src/tnef_parse.c

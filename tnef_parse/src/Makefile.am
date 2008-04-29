@@ -6,11 +6,21 @@ tnef_parse_la_SOURCES = \
          tnef_parse.c \
          tnef_dump.c \
          tnef_dump.h \
+	 ytnef.c \
 	 gettext.h
 
 tnef_parse_la_LDFLAGS = \
 	-avoid-version -module \
 	$(GTK_LIBS)
+
+noinst_HEADERS = \
+	mapidefs.h \
+	mapi.h \
+	mapitags.h \
+	tnef_dump.h \
+	tnef-errors.h \
+	tnef-types.h \
+	ytnef.h
 
 INCLUDES = \
 	-I$(top_srcdir)/src \

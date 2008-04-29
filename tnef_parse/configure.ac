@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=3
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -79,10 +79,6 @@ AM_PATH_GLIB_2_0(2.6.0,,
 
 AM_PATH_GTK_2_0(2.6.0,,
         AC_MSG_ERROR(Test for GTK failed. See the file 'INSTALL' for help.))
-
-AC_CHECK_HEADER(ytnef.h, [], [AC_MSG_ERROR(Ytnef headers are missing)])
-
-LIBS="$LIBS -lytnef"
 
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
