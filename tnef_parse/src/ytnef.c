@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "ytnef.h"
 #include "tnef-errors.h"
 #include "mapi.h"
@@ -14,19 +15,19 @@
             printf("DEBUG(%i/%i): %s\n", curlvl, lvl,  msg);
 #define DEBUG1(lvl, curlvl, msg, var1) \
         if ((lvl) >= (curlvl)) { \
-            printf("DEBUG(%i/%i):", curlvl, lvl,  msg); \
+            printf("DEBUG(%i/%i):", curlvl, lvl); \
             printf(msg, var1); \
             printf("\n"); \
         }
 #define DEBUG2(lvl, curlvl, msg, var1, var2) \
         if ((lvl) >= (curlvl)) { \
-            printf("DEBUG(%i/%i):", curlvl, lvl,  msg); \
+            printf("DEBUG(%i/%i):", curlvl, lvl); \
             printf(msg, var1, var2); \
             printf("\n"); \
         }
 #define DEBUG3(lvl, curlvl, msg, var1, var2, var3) \
         if ((lvl) >= (curlvl)) { \
-            printf("DEBUG(%i/%i):", curlvl, lvl,  msg); \
+            printf("DEBUG(%i/%i):", curlvl, lvl); \
             printf(msg, var1, var2,var3); \
             printf("\n"); \
         }
@@ -277,6 +278,7 @@ int TNEFIcon STD_ARGLIST {
     p->IconData.size = size;
     p->IconData.data = calloc(size, sizeof(BYTE));
     memcpy(p->IconData.data, data, size);
+    return 0;
 }
 
 // -----------------------------------------------------------------------------
@@ -498,7 +500,7 @@ int TNEFSentFor STD_ARGLIST {
             printf("<%s>\n", d);
         d+=addr_length;
     }
-
+    return 0;
 }
 // -----------------------------------------------------------------------------
 int TNEFDateHandler STD_ARGLIST {
@@ -565,7 +567,7 @@ void TNEFPrintDate(dtr Date) {
 int TNEFHexBreakdown STD_ARGLIST {
     int i;
     if (TNEF->Debug == 0) 
-        return;
+        return 0;
 
     printf("%s: [%i bytes] \n", TNEFList[id].name, size);
 
@@ -574,13 +576,14 @@ int TNEFHexBreakdown STD_ARGLIST {
         if ((i+1)%16 == 0) printf("\n");
     }
     printf("\n");
+    return 0;
 }
     
 // -----------------------------------------------------------------------------
 int TNEFDetailedPrint STD_ARGLIST {
     int i;
     if (TNEF->Debug == 0) 
-        return;
+        return 0;
 
     printf("%s: [%i bytes] \n", TNEFList[id].name, size);
 
@@ -588,6 +591,7 @@ int TNEFDetailedPrint STD_ARGLIST {
         printf("%c", data[i]);
     }
     printf("\n");
+    return 0;
 }
 
 // -----------------------------------------------------------------------------
@@ -668,9 +672,6 @@ int TNEFGetKey(TNEFStruct *TNEF, WORD *key) {
 // -----------------------------------------------------------------------------
 int TNEFGetHeader(TNEFStruct *TNEF, DWORD *type, DWORD *size) {
     BYTE component;
-    unsigned char temp[8];
-    int i;
-    WORD wtemp;
 
     DEBUG(TNEF->Debug, 2, "About to read Component");
     if (TNEF->IO.ReadProc(&(TNEF->IO), sizeof(BYTE),1, &component) < 1) {
@@ -920,6 +921,7 @@ int TNEFMemory_Read (TNEFIOStruct *IO, int size, int count, void *dest) {
 
 int TNEFMemory_Close (TNEFIOStruct *IO) {
     // Do nothing, really...
+    return 0;
 }
 
 int TNEFParseMemory(BYTE *memory, long size, TNEFStruct *TNEF) {
@@ -1143,10 +1145,35 @@ int MAPISysTimetoDTR(BYTE *data, dtr *thedate)
     return 0;
 }
 
+int IsCompressedRTF(variableLength *p) {
+    unsigned int in;
+    unsigned char *src;
+    ULONG compressedSize, uncompressedSize, magic, crc32;
+
+    src = p->data;
+    in = 0;
+
+    compressedSize = (ULONG)SwapDWord(src+in);
+    in += 4;
+    uncompressedSize = (ULONG)SwapDWord(src+in);
+    in += 4;
+    magic = SwapDWord(src+in);
+    in += 4;
+    crc32 = SwapDWord(src+in);
+    in += 4;
+
+    if (magic == 0x414c454d) { 
+        return 1;
+    } else if (magic == 0x75465a4c) { 
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 void MAPIPrint(MAPIProps *p)
 {
     int j, i,index, h;
-    DDWORD *ddword_ptr;
     dtr thedate;
     MAPIProperty *mapi;
     variableLength *mapidata;
@@ -1232,7 +1259,7 @@ void MAPIPrint(MAPIProps *p)
                     printf("\n");
                     break;
                 case PT_LONG:
-                    printf("    Value: %li\n", *(mapidata->data));
+                    printf("    Value: %li\n", (long int) *(mapidata->data));
                     break;
                 case PT_I2:
                     printf("    Value: %hi\n", *(mapidata->data));
@@ -1290,39 +1317,11 @@ void MAPIPrint(MAPIProps *p)
     }
 }
 
-
-int IsCompressedRTF(variableLength *p) {
-    unsigned int in;
-    unsigned char *src;
-    ULONG compressedSize, uncompressedSize, magic, crc32;
-
-    src = p->data;
-    in = 0;
-
-    compressedSize = (ULONG)SwapDWord(src+in);
-    in += 4;
-    uncompressedSize = (ULONG)SwapDWord(src+in);
-    in += 4;
-    magic = SwapDWord(src+in);
-    in += 4;
-    crc32 = SwapDWord(src+in);
-    in += 4;
-
-    if (magic == 0x414c454d) { 
-        return 1;
-    } else if (magic == 0x75465a4c) { 
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 unsigned char *DecompressRTF(variableLength *p, int *size) {
     unsigned char *dst; // destination for uncompressed bytes
     unsigned char *src;
     unsigned int in;
     unsigned int out;
-    int i;
     variableLength comp_Prebuf;
     ULONG compressedSize, uncompressedSize, magic, crc32;
 
@@ -1353,6 +1352,7 @@ unsigned char *DecompressRTF(variableLength *p, int *size) {
         // magic number that identifies the stream as a uncompressed stream
         dst = calloc(uncompressedSize,1);
         memcpy(dst, src+4, uncompressedSize);
+	return dst;
     } else if (magic == 0x75465a4c) { 
         // magic number that identifies the stream as a compressed stream
         int flagCount = 0;
