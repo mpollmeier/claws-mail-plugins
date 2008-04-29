@@ -1,3 +1,8 @@
+2008-04-29 [colin]	0.2.3cvs5
+
+	* src/ytnef.c
+		Add license header
+
 2008-04-29 [colin]	0.2.3cvs4
 
 	* src/ytnef.c
