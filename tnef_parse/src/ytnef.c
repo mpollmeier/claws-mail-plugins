@@ -1326,7 +1326,7 @@ unsigned char *DecompressRTF(variableLength *p, int *size) {
     ULONG compressedSize, uncompressedSize, magic, crc32;
 
     comp_Prebuf.size = strlen(RTF_PREBUF);
-    comp_Prebuf.data = calloc(comp_Prebuf.size, 1);
+    comp_Prebuf.data = calloc(comp_Prebuf.size + 1, 1);
     strcpy(comp_Prebuf.data, RTF_PREBUF);
 
     src = p->data;
