@@ -32,7 +32,7 @@ msgstr "Wyczyszczono pamiêæ podrêczn±."
 
 #: src/gtkhtml2_prefs.c:148
 msgid "Load remote images in mails"
-msgstr "Nie ¶ci±gaj zdalnych linków w wiadomo¶ciach"
+msgstr "¦ci±gaj zdalne obrazki osadzone w wiadomo¶ciach"
 
 #: src/gtkhtml2_prefs.c:209
 msgid "Only for senders found in address book/folder"

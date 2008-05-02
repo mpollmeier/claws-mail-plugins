@@ -96,3 +96,4 @@
 ( cvs diff -u -r 1.1.2.69 -r 1.1.2.70 src/gtkhtml2_viewer.c;  ) > 0.18.0cvs1.patchset
 ( cvs diff -u -r -1.1.2.2 -r -1.1.2.3 libgtkhtml/dom/html/Makefile.in;  ) > 0.18.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pl.po;  ) > 0.18.0cvs3.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/pl.po;  ) > 0.18.0cvs4.patchset
