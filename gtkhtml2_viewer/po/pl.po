@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
 "POT-Creation-Date: 2007-02-19 08:22+0000\n"
 "PO-Revision-Date: 2007-02-24 18:00+0100\n"
 "Last-Translator: Pawel Pekala <c0rn@o2.pl>\n"
@@ -34,7 +34,15 @@ msgstr "Wyczyszczono pamiêæ podrêczn±."
 msgid "Load remote images in mails"
 msgstr "Nie ¶ci±gaj zdalnych linków w wiadomo¶ciach"
 
-#: src/gtkhtml2_prefs.c:155
+#: src/gtkhtml2_prefs.c:209
+msgid "Only for senders found in address book/folder"
+msgstr "Tylko od nadawców z tej ksi±¿ki adresowej"
+
+#: src/gtkhtml2_prefs.c:217
+msgid "Select ..."
+msgstr "Wybierz ..."
+
+#: src/gtkhtml2_prefs.c:227
 msgid "Cache remote images locally"
 msgstr "Zapisuj ¶ci±gniête obrazki na dysku."
 

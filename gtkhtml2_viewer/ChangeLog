@@ -1,3 +1,8 @@
+2008-05-02 [paul]	0.18.0cvs3
+
+	* po/pl.po
+		fix bug 1592 'Wrong translation'
+
 2008-04-29 [colin]	0.18.0cvs2
 
 	* libgtkhtml/dom/html/Makefile.in ** REMOVE **
