@@ -53,7 +53,7 @@ struct _VCalMeeting
 	gint       sequence;
 	gint 	   method;
 	GtkWidget *window;
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 	GtkWidget *table;
 #else
 	GtkWidget *table1;
@@ -100,7 +100,7 @@ static GdkCursor *watch_cursor = NULL;
 
 VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar *partstat, gchar *cutype, gboolean first);
 
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 #define TABLE_ADD_LINE(label_text, widget, do_space) {				\
 	gchar *tmpstr = g_strdup_printf("<span weight=\"bold\">%s</span>",	\
 				label_text?label_text:"");			\
@@ -332,7 +332,7 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	gtk_box_pack_start(GTK_BOX(att_hbox), attendee->remove_btn, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(meet->attendees_vbox), att_hbox, FALSE, FALSE, 0);
 	address_completion_register_entry(GTK_ENTRY(attendee->address), FALSE);
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 	gtk_widget_set_size_request(attendee->address, 320, -1);
 #else
 	gtk_widget_set_size_request(attendee->address, 220, -1);
@@ -1325,7 +1325,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	GtkWidget *scrolledwin;
 	GList *times = NULL;
 	GList *accounts;
-#ifdef MAEMO
+#ifdef GENERIC_UMPC
 	GtkWidget *notebook;
 	GtkWidget *maemo_vbox0;
 #endif
@@ -1341,7 +1341,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	end_m_adj   = gtk_adjustment_new (0, 0, 59, 1, 10, 10);
 
 	meet->window 		= gtkut_window_new(GTK_WINDOW_TOPLEVEL, "vcal_meeting_gtk");
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 	meet->table  		= gtk_table_new(7, 2, FALSE);
 #else
 	meet->table1  		= gtk_table_new(4, 2, FALSE);
@@ -1501,7 +1501,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 			 G_CALLBACK(meeting_end_changed),
 			 meet);
 
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 	gtk_widget_set_size_request(meet->start_time, 80, -1);
 	gtk_widget_set_size_request(meet->end_time, 80, -1);
 #else
@@ -1524,7 +1524,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_box_pack_start(GTK_BOX(date_vbox), meet->start_c, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(date_hbox), date_vbox, FALSE, FALSE, 0);
 
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 	label = gtk_label_new(" "); 
 #else
 	label = gtk_label_new(""); 
@@ -1627,7 +1627,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(meet->avail_evtbox), FALSE);
 	gtk_container_add (GTK_CONTAINER(meet->avail_evtbox), meet->avail_img);
 
-#ifndef MAEMO
+#ifndef GENERIC_UMPC
 	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE);
 	TABLE_ADD_LINE(_("Time:"), date_hbox, TRUE);

@@ -175,3 +175,4 @@
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/day-view.c;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/month-view.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/vcal_interface.h;  cvs diff -u -r 1.1.2.72 -r 1.1.2.73 src/vcal_manager.c;  cvs diff -u -r 1.2.2.71 -r 1.2.2.72 src/vcalendar.c;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/vcalendar.h;  ) > 1.102.0cvs2.patchset
 ( cvs diff -u -r 1.2.2.94 -r 1.2.2.95 src/vcal_folder.c;  ) > 1.102.0cvs3.patchset
 ( cvs diff -u -r 1.2.2.95 -r 1.2.2.96 src/vcal_folder.c;  cvs diff -u -r 1.2.2.72 -r 1.2.2.73 src/vcalendar.c;  ) > 1.102.0cvs4.patchset
+( cvs diff -u -r 1.1.2.76 -r 1.1.2.77 src/vcal_meeting_gtk.c;  ) > 1.102.0cvs5.patchset
