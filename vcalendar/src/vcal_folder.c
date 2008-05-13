@@ -922,6 +922,9 @@ static gchar *feed_fetch_item(FolderItem * fitem, gint num)
 	IcalFeedData *data = NULL;
 
 	if (!item->numlist) {
+		folder_item_scan_full(fitem, FALSE);
+	}	
+	if (!item->numlist) {
 		debug_print("numlist null\n");
 		return NULL;
 	}

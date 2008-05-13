@@ -1,3 +1,9 @@
+2008-05-13 [colin]	1.102.0cvs6
+
+	* src/vcal_folder.c
+		Fix lack of scanning if it hasn't been done
+		when requesting one feed item
+
 2008-05-07 [colin]	1.102.0cvs5
 
 	* src/vcal_meeting_gtk.c
