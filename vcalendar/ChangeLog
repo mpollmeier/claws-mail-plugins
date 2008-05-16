@@ -1,3 +1,8 @@
+2008-05-16 [paul]	1.102.0cvs7
+
+	* src/vcal_folder.c
+		fix a compiler warning
+
 2008-05-13 [colin]	1.102.0cvs6
 
 	* src/vcal_folder.c
