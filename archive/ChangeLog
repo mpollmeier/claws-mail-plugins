@@ -1,0 +1,98 @@
+2008-05-23 [import]	0.5.0cvs2
+
+	* .cvsignore
+	* ABOUT-NLS
+	* AUTHORS
+	* COPYING
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* README
+	* TODO
+	* aclocal.m4
+	* autogen.sh
+	* commitHelper
+	* config.h.in
+	* configure
+	* configure.ac
+	* config/.cvsignore
+	* config/Makefile.am
+	* config/config.rpath
+	* config/mkinstalldirs
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/Rules-quot
+	* po/archive.pot
+	* po/boldquot.sed
+	* po/en@boldquot.header
+	* po/en@quot.header
+	* po/insert-header.sin
+	* po/quot.sed
+	* po/remove-potcdate.sin
+	* po/stamp-po
+	* src/.cvsignore
+	* src/Makefile.am
+	* src/archiver.c
+	* src/archiver.h
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+	* src/libarchive_archive.h
+		Initial import of the Archive plugin, written by
+		Michael Rasmussen <mir@datanom.net>
+
+archiver (0.5.0)
+
+  * Added an option for computing MD5 checksums for every file in
+    the folder(s) and storing them in the archive too.
+  * fixed a memory leak. ArchivePage was never freed.
+
+archiver (0.4.1)
+
+  * Fixed two potential memory leaks
+  * Added a new dialog for warning against overwriting an existing
+    file if file name for archive exists. The dialog is not shown in
+	case the user has chosen the name in the file selector dialog.
+  * Change the info text for the plugin dialog to reflect current status.
+
+-- Michael Rasmussen <mir@datanom.net>  Wed, 21 May 2008 23:53:21 +0100
+
+archiver (0.4)
+
+  * Fixing bugs
+  * Added a new progress dialog with cancel button
+  * Added options for choosing archive format and compression type
+    for archive
+  * Added option for doing recursive scan or not
+  * Extended dialog popping up when claws was not able to fetch all
+    mails from server so that user may decide to archive anyway
+  * Change result dialog to use GtkTreeView/GtkListStore to display
+    result of archiving
+
+ -- Michael Rasmussen <mir@datanom.net>  Mon, 19 May 2008 22:21:21 +0100
+    
+archiver (0.3)
+
+  * Added a lot of sanity checks to user input
+  * If errors are found archiver dialog does not close
+  * If folder and names are entered manually into archiver dialog
+    they are not lost
+  * Dialog shown after succeccfully archiving showing some stats.
+  * Added #ifdef for unused code in plugin
+  * Added a TODO file
+
+ -- Michael Rasmussen <mir@datanom.net>  Tue, 14 May 2008 03:31:21 +0100
+
+archiver (0.2)
+
+  * Changed all use of static buffers to use dynamic buffers
+
+ -- Michael Rasmussen <mir@datanom.net>  Tue, 13 May 2008 11:20:21 +0100
+
+archiver (0.1)
+
+  * first public release
+
+ -- Michael Rasmussen <mir@datanom.net>  Tue, 28 Apr 2008 13:20:21 +0100
+

@@ -1,0 +1,14 @@
+Todo in the coming releases:
+
+1) Make the archiver available from a script or via the commandline
+2) Add an option to use more descriptive names in archive
+
+Future improvements:
+
+1) Create folders which (de)compress on the fly
+    - This requires the use of libarchives feature to read/write from
+    memory and be able to make this chunk of memory persistent in the
+    file system.
+2) Restore items from archive
+    - Allow the user to restore from a chosen archive and even, if the
+    user wants that, to have chosen mails re-injected on the server
