@@ -1,3 +1,19 @@
+2008-05-24 [michael]	0.5.0cvs8
+
+	* .cvsignore
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+
+    - Added progress_bar_pulse when scanning folders
+	- Added information about MD5 to the result dialog
+	- Counter use to activate GTK_EVENTS_FLUSH was never incrimented
+	- Reduced debug noise by eliminating some debug_print which is of
+	  little interest
+	- Added more GTK_IS_WIDGET test to prevent errors due to user
+	  canceling action. Progress widget could be destroyed before
+	  the archive_create function was notified.
+	- Fixing small potential memory leaks.
+
 2008-05-24 [paul]	0.5.0cvs7
 
 	* config.h.in

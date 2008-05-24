@@ -79,6 +79,7 @@ static progress_widget* init_progress() {
 static void progress_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 	struct ArchivePage* page = (struct ArchivePage *) data;
 
+	debug_print("Cancel operation\n");
 	stop_archiving();
 	page->cancelled = TRUE;
 	archive_free_file_list(page->md5);
@@ -138,6 +139,7 @@ static void create_progress_dialog(struct ArchivePage* page) {
 	progress->progress = gtk_progress_bar_new();
 	gtk_box_pack_start(GTK_BOX(progress->hbox1), 
 					progress->progress, TRUE, TRUE, 0);
+	gtk_progress_bar_set_pulse_step(GTK_PROGRESS_BAR(progress->progress), 0.25);
 
 	gtk_window_set_default_size(GTK_WINDOW(progress->progress_dialog), 400, 80);
 	gtk_widget_show_all(progress->progress_dialog);
@@ -266,10 +268,10 @@ static void create_md5sum(const gchar* file, const gchar* md5_file) {
 	gchar* text = NULL;
 	gchar* md5sum = malloc(33);
 
-	debug_print("Creating md5sum file: %s\n", md5_file);
+	/*debug_print("Creating md5sum file: %s\n", md5_file);*/
 	if (md5_hex_digest_file(md5sum, (const unsigned char *) file) == -1)
 		return;
-	debug_print("md5sum: %s\n", md5sum);
+	/*debug_print("md5sum: %s\n", md5sum);*/
 	if ((fd = 
 		open(md5_file, O_WRONLY | O_CREAT, S_IRUSR & S_IWUSR)) == -1)
 		return;
@@ -296,6 +298,7 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 	int count;
 	gboolean md5;
 	gchar* md5_file = NULL;
+	gchar* text = NULL;
 
 	if (recursive && ! page->cancelled) {
 		debug_print("Scanning recursive\n");
@@ -319,7 +322,7 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 			msginfo = (MsgInfo *) cur->data;
 			page->total_size += msginfo->size;
 			gchar* file = folder_item_fetch_msg(item, msginfo->msgnum);
-			debug_print("Processing: %s\n", file);
+			/*debug_print("Processing: %s\n", file);*/
 			if (file) {
 				if (md5) {
 					md5_file = g_strdup_printf("%s.md5", file);
@@ -329,8 +332,17 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 				}
 				archive_add_file(file);
 			}
-			if (count % 250 == 0)
+			if (count % 350 == 0) {
+				debug_print("pulse progressbar\n");
+				text = g_strdup_printf(
+							"Scanning %s: %d files", item->name, count);
+				gtk_progress_bar_set_text(
+						GTK_PROGRESS_BAR(progress->progress), text);
+				g_free(text);
+				gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progress->progress));
 				GTK_EVENTS_FLUSH();
+			}
+			count++;
 		}
 		procmsg_msg_list_free(msglist);
 	}
@@ -408,12 +420,13 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 					GTK_TOGGLE_BUTTON(page->recursive));
 	page->md5 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->md5sum));
 	create_progress_dialog(page);
-	GTK_EVENTS_FLUSH();
 	walk_folder(page, item, recursive);
 	if (page->cancelled)
 		return FALSE;
 	list = archive_get_file_list();
 	orig_file = (page->md5) ? page->files * 2 : page->files;
+	debug_print("md5: %d, orig: %d, md5: %d\n", 
+					page->md5, page->files, orig_file);
 	if (orig_file != g_slist_length(list)) {
 		dialog = gtk_message_dialog_new(
 				GTK_WINDOW(mainwin->window),
@@ -424,7 +437,7 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 				  "Files in folder: %d\n"
 				  "Files in list:   %d\n"
 				  "\nContinue anyway?"),
-				page->files, g_slist_length(list));
+				orig_file, g_slist_length(list));
 		response = gtk_dialog_run(GTK_DIALOG (dialog));
 		gtk_widget_destroy(dialog);
 		if (response == GTK_RESPONSE_CANCEL) {
@@ -448,7 +461,6 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 		archive_free_file_list(page->md5);
 		return FALSE;
 	}
-	archive_free_file_list(page->md5);
 	return TRUE;
 }
 
@@ -580,7 +592,7 @@ static void show_result(struct ArchivePage* page) {
 	g_free(method);
 
 	gtk_list_store_append(list, &iter);
-	msg = g_strdup_printf("%d", page->files);
+	msg = g_strdup_printf("%d", (page->md5) ? page->files * 2 : page->files);
 	gtk_list_store_set(
 				list, &iter,
 				STRING1, _("Number of files"),
@@ -612,7 +624,15 @@ static void show_result(struct ArchivePage* page) {
 				STRING2, msg, -1);
 	g_free(msg);
 
-	gtk_window_set_default_size(GTK_WINDOW(dialog), 320, 220);
+	gtk_list_store_append(list, &iter);
+	msg = g_strdup_printf("%s", (page->md5) ? _("Yes") : _("No"));
+	gtk_list_store_set(
+				list, &iter,
+				STRING1, _("MD5 checksum"),
+				STRING2, msg, -1);
+	g_free(msg);
+
+	gtk_window_set_default_size(GTK_WINDOW(dialog), 320, 240);
 
 	gtk_widget_show_all(dialog);
 }
@@ -632,7 +652,9 @@ static void archiver_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 			archiver_gtk_done(page, widget);
 	}
 	debug_print("Settings:\nfolder: %s\nname: %s\naction: %d\n",
-			page->path, page->name, page->response);
+				(page->path) ? page->path : "(null)",
+				(page->name) ? page->name : "(null)",
+				page->response);
 	if (page->response) {
 		result = archiver_save_files(page);
 		debug_print("Result->archiver_save_files: %d\n", result);
@@ -641,11 +663,12 @@ static void archiver_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 			gtk_widget_destroy(progress->progress_dialog);		
 		if (result && ! page->cancelled) {
 			show_result(page);
+			archive_free_file_list(page->md5);
 			archiver_gtk_done(page, widget);
 		}
 		if (page->cancelled) {
-			dispose_archive_page(page);
-			page = init_archive_page();
+			archiver_gtk_done(page, widget);
+			archiver_gtk_show();
 		}
 	}
 }
@@ -706,25 +729,28 @@ static void filesel_cb(GtkWidget *widget, gpointer data)
 }
 
 void set_progress_file_label(const gchar* file) {
-	gtk_label_set_text(GTK_LABEL(progress->file_label), file);
+	if (GTK_IS_WIDGET(progress->file_label))
+		gtk_label_set_text(GTK_LABEL(progress->file_label), file);
 }
 
 void set_progress_print_all(guint fraction, guint total, guint step) {
 	gchar* text_count;
 
-	if ((fraction - progress->position) % step == 0) {
-		debug_print("frac: %d, total: %d, step: %d, prog->pos: %d\n",
-				fraction, total, step, progress->position);
-		gtk_progress_bar_set_fraction(
+	if (GTK_IS_WIDGET(progress->progress)) {
+		if ((fraction - progress->position) % step == 0) {
+			debug_print("frac: %d, total: %d, step: %d, prog->pos: %d\n",
+					fraction, total, step, progress->position);
+			gtk_progress_bar_set_fraction(
 					GTK_PROGRESS_BAR(progress->progress), 
 					(total == 0) ? 0 : (gfloat)fraction / (gfloat)total);
-		text_count = g_strdup_printf(_("%ld of %ld"), 
+			text_count = g_strdup_printf(_("%ld of %ld"), 
 					(long) fraction, (long) total);
-		gtk_progress_bar_set_text(
+			gtk_progress_bar_set_text(
 					GTK_PROGRESS_BAR(progress->progress), text_count);
-		g_free(text_count);
-		progress->position = fraction;
-		GTK_EVENTS_FLUSH();
+			g_free(text_count);
+			progress->position = fraction;
+			GTK_EVENTS_FLUSH();
+		}
 	}
 }
 
