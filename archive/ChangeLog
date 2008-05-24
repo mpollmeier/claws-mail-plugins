@@ -1,3 +1,14 @@
+2008-05-24 [michael]	0.5.0cvs6
+
+	* commitHelper
+	* config.h.in
+	* src/archiver.c
+	* src/archiver_gtk.c
+    fixed a bad pointer reference to uninitialized memory when closing
+	progress dialog. Created init_progress to ensure all references was
+	initialized to NULL. Testing whether progress->progress_dialog is
+	NULL and also testing whether it is a valid GtkWidget.
+
 2008-05-24 [paul]	0.5.0cvs5
 
 	* aclocal.m4

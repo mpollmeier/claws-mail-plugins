@@ -58,8 +58,23 @@ struct _progress_widget {
 	guint		position;
 };
 
-static progress_widget* progress;
+static progress_widget* progress = NULL;
 /*static gboolean cancelled = FALSE;*/
+
+static progress_widget* init_progress() {
+	debug_print("creating progress struct\n");
+	progress_widget* ptr = malloc(sizeof(*ptr));
+	ptr->progress_dialog = NULL;
+	ptr->frame = NULL;
+	ptr->vbox1 = NULL;
+	ptr->hbox1 = NULL;
+	ptr->add_label = NULL;
+	ptr->file_label = NULL;
+	ptr->progress = NULL;
+	ptr->position = 0;
+
+	return ptr;
+}
 
 static void progress_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 	struct ArchivePage* page = (struct ArchivePage *) data;
@@ -620,7 +635,10 @@ static void archiver_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 			page->path, page->name, page->response);
 	if (page->response) {
 		result = archiver_save_files(page);
-		gtk_widget_destroy(progress->progress_dialog);		
+		debug_print("Result->archiver_save_files: %d\n", result);
+		if (progress->progress_dialog && 
+						GTK_IS_WIDGET(progress->progress_dialog))
+			gtk_widget_destroy(progress->progress_dialog);		
 		if (result && ! page->cancelled) {
 			show_result(page);
 			archiver_gtk_done(page, widget);
@@ -730,7 +748,8 @@ void archiver_gtk_show() {
 	GtkTooltips* tooltips;
 	struct ArchivePage* page;
 
-	progress = malloc(sizeof(*progress));
+	/*debug_set_mode(TRUE);*/
+	progress = init_progress();
 	MainWindow* mainwin = mainwindow_get_mainwindow();
 
 	page = init_archive_page();
@@ -914,5 +933,6 @@ void archiver_gtk_done(struct ArchivePage* page, GtkWidget* widget) {
 	dispose_archive_page(page);
 	free(progress);
 	gtk_widget_destroy(widget);
+	/*debug_set_mode(FALSE);*/
 }
 

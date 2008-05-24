@@ -42,7 +42,7 @@ static void create_archive_cb(
 		gpointer callback_data, guint callback_action, GtkWidget *widget) {
 
 	debug_print("Call-back function called\n");
-
+	
 	archiver_gtk_show();
 }
 
