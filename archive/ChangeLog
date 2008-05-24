@@ -1,3 +1,8 @@
+2008-05-24 [paul]	0.5.0cvs7
+
+	* config.h.in
+		remove the (persistant) auto-generated file (again)
+
 2008-05-24 [michael]	0.5.0cvs6
 
 	* commitHelper
