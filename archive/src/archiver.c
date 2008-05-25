@@ -122,13 +122,14 @@ const gchar* plugin_name(void) {
 }
 
 const gchar* plugin_desc(void) {
-	return _("This plugin adds archiving features to claws-mail.\n"
+	return _("This plugin adds archiving features to Claws Mail.\n"
 			 "\n"
 			 "The basic functionality is that you choose a folder "
-			 "in the folder view, decides the name of the archive, "
+			 "in the folder view, decide the name of the archive, "
 			 "and choose a local folder to store the archive.\n"
 			 "\n"
-			 "Supported folders are IMAP, POP, LOCAL and vCalendar.\n"
+			 "Supported folders are IMAP, POP, LOCAL, RSSyl and "
+			 "vCalendar.\n"
 			 "\n"
 			 "The archive can be stored as:\n"
 			 "\t-\tTAR\n\t-\tPAX\n\t-\tSHAR\n\t-\tCPIO\n"
@@ -136,7 +137,7 @@ const gchar* plugin_desc(void) {
 			 "The archive can be compressed using:\n"
 			 "\t-\tGZIP/ZIP\n\t-\tBZIP2\n\t-\tNONE\n"
 			 "\n"
-			 "An option for adding folders recursively is available\n"
+			 "An option for adding folders recursively is available.\n"
 			 "\n"
 			 "The archive can be restored with any standard tool "
 			 "supporting the chosen format and compression.\n"
