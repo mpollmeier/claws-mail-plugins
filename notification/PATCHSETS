@@ -96,3 +96,4 @@
 ( cvs diff -u -r 1.1.2.123 -r 1.1.2.124 configure.ac;  ) > 0.15cvs7.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/notification_core.c;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/notification_core.h;  cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/notification_popup.c;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/notification_trayicon.c;  ) > 0.15cvs8.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  ) > 0.16cvs1.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 .cvsignore;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/notification_foldercheck.c;  ) > 0.16cvs2.patchset

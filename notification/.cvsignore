@@ -16,3 +16,6 @@ missing
 pluginconfig.h
 pluginconfig.h.in
 stamp-h1
+.cdtproject
+.project
+.settings

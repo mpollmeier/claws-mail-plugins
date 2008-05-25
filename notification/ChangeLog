@@ -1,3 +1,10 @@
+2008-05-25 [holger]	0.16cvs2
+
+	* .cvsignore
+		More files to ignore
+	* src/notification_foldercheck.c
+		Close foldercheck dialog on ESC
+
 2008-04-21 [colin]	0.16cvs1
 
 	* po/fr.po

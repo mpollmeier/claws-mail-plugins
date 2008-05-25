@@ -28,6 +28,7 @@
 
 /* System includes */
 #include <string.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
 /* Claws Mail includes */
@@ -113,6 +114,7 @@ static gboolean foldercheck_foreach_update_to_list(GtkTreeModel*, GtkTreePath*,
 						   GtkTreeIter*, gpointer);
 static gchar *foldercheck_get_array_path(void);
 static gboolean my_folder_update_hook(gpointer, gpointer);
+static gboolean key_pressed(GtkWidget*, GdkEventKey*,gpointer);
 
 
 /* Creates an entry in the specific_folder_array, and fills it with a new
@@ -479,6 +481,8 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
     (GTK_WINDOW(entry->window), "folder_selection", "Claws Mail");  
   g_signal_connect(G_OBJECT(entry->window), "delete_event",
 		   G_CALLBACK(delete_event), entry);
+  g_signal_connect(G_OBJECT(entry->window), "key_press_event",
+      G_CALLBACK(key_pressed), entry);
   MANAGE_WINDOW_SIGNALS_CONNECT(entry->window);
 
   /* vbox */
@@ -969,5 +973,14 @@ static gboolean my_folder_update_hook(gpointer source, gpointer data)
     } /* for all entries in the array */
   } /* A FolderItem was deleted */
 
+  return FALSE;
+}
+
+static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+  if(event && (event->keyval == GDK_Escape)) {
+    foldercheck_cancel(NULL, data);
+    return TRUE;
+  }
   return FALSE;
 }
