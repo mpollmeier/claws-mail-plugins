@@ -859,6 +859,8 @@ static void folder_toggle_cb(GtkCellRendererToggle *cell_renderer,
 				 FOLDERCHECK_CHECK,toggle_item);
   }
 
+  while(gtk_events_pending())
+    gtk_main_iteration();
 }
 
 /* Helper function for folder_toggle_cb */

@@ -1,3 +1,9 @@
+2008-05-25 [holger]	0.16cvs3
+
+	* src/notification_foldercheck.c
+		Maybe fix adjustment jumping around in
+		foldercheck window
+
 2008-05-25 [holger]	0.16cvs2
 
 	* .cvsignore
