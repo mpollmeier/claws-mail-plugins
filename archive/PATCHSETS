@@ -9,3 +9,4 @@
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 ChangeLog;  ) > 0.5.0cvs13.patchset
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/.cvsignore;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/POTFILES.in;  diff -u /dev/null po/fr.po;  ) > 0.5.0cvs14.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/archiver_gtk.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/libarchive_archive.c;  ) > 0.5.0cvs15.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/archiver.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/archiver_gtk.c;  ) > 0.5.0cvs16.patchset

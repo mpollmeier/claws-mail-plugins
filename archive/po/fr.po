@@ -7,12 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-05-25 11:14+0200\n"
-"PO-Revision-Date: 2008-05-25 11:27+0100\n"
-"Last-Translator: Tristan Chabredier <"wwp" <subscript@free.fr>>\n"
-"Language-Team: fr <LL@li.org>\n"
+"POT-Creation-Date: 2008-05-25 12:58+0200\n"
+"PO-Revision-Date: 2008-05-25 12:59+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team: fr <subscript@free.fr>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/archiver.c:40
@@ -29,10 +29,11 @@ msgid "/Tools/----"
 msgstr "/Outils/----"
 
 #: src/archiver.c:125
+#, fuzzy
 msgid ""
 "This plugin adds archiving features to Claws Mail.\n"
 "\n"
-"The basic functionality is that you choose a folder in the folder view, decide the name of the archive, and choose a local folder to store the archive.\n"
+"The basic functionality is that you choose a folder in the folder view, decide the name of the archive, choose a local folder to store the archive, and archiving options.\n"
 "\n"
 "Supported folders are IMAP, POP, LOCAL, RSSyl and vCalendar.\n"
 "\n"
@@ -53,8 +54,30 @@ msgid ""
 "\n"
 "To activate the archiving feature either go to Tools->Create Archive or use Alt+A."
 msgstr ""
+"Ce module permet l'archivage de dossiers dans Claws Mail.\n"
+"\n"
+"Le principe de base est de sélectionner un dossier à archiver, déterminer le nom de l'archive, un répertoire de destination et les options d'archivage.\n"
+"\n"
+"Les dossiers Claws Mail de type IMAP, POP, LOCAL, RSSyl et vCalendar peuvent être archivés.\n"
+"\n"
+"Les archives peuvent être créés au format :\n"
+"\t-\tTAR\n"
+"\t-\tPAX\n"
+"\t-\tSHAR\n"
+"\t-\tCPIO\n"
+"\n"
+"Et compressées avec :\n"
+"\t-\tGZIP/ZIP\n"
+"\t-\tBZIP2\n"
+"\t-\tsans compression\n"
+"\n"
+"Une option permet d'archiver un dossier Claws Mail de façon récursive, incluant ses sous-dossiers.\n"
+"\n"
+"L'archive peut être ultérieurement restaurée à l'aide des outils standard de manipulation d'archives en fonction du format choisi.\n"
+"\n"
+"Pour archiver un dossier, utilisez Outils->Archiver... ou Alt+A."
 
-#: src/archiver.c:152
+#: src/archiver.c:153
 msgid "Archiver"
 msgstr "Archivage"
 
@@ -91,9 +114,11 @@ msgstr ""
 #: src/archiver_gtk.c:412
 #, c-format
 msgid ""
-"Not a valid claws-mail folder:\n"
+"Not a valid Claws Mail folder:\n"
 "%s."
 msgstr ""
+"Ce n'est pas un dossier Claws Mail valide:\n"
+"%s."
 
 #: src/archiver_gtk.c:437
 #, c-format
@@ -104,75 +129,83 @@ msgid ""
 "\n"
 "Continue anyway?"
 msgstr ""
+"Adding files in folder failed\n"
+"Files in folder: %d\n"
+"Files in list:   %d\n"
+"\n"
+"Continue anyway?"
 
 #: src/archiver_gtk.c:539
 msgid "Archive result"
-msgstr ""
+msgstr "Rapport d'archivage"
 
 #: src/archiver_gtk.c:565
 msgid "Attributes"
-msgstr ""
+msgstr "Attributs"
 
 #: src/archiver_gtk.c:569
 msgid "Values"
-msgstr ""
+msgstr "Valeurs"
 
 #: src/archiver_gtk.c:578
 msgid "Archive"
-msgstr ""
+msgstr "Archive"
 
 #: src/archiver_gtk.c:584
 msgid "Archive format"
-msgstr ""
+msgstr "Format d'archive"
 
 #: src/archiver_gtk.c:591
 msgid "Compression method"
-msgstr ""
+msgstr "Méthode de compression"
 
 #: src/archiver_gtk.c:599
 msgid "Number of files"
-msgstr ""
+msgstr "Nombre de fichiers"
 
 #: src/archiver_gtk.c:607
 msgid "Archive Size"
-msgstr ""
+msgstr "Taille de l'archive"
 
 #: src/archiver_gtk.c:615
 msgid "Folder Size"
-msgstr ""
+msgstr "Taille du dossier"
 
 #: src/archiver_gtk.c:624
 msgid "Compression level"
-msgstr ""
+msgstr "Taux de compression"
 
 #: src/archiver_gtk.c:629
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: src/archiver_gtk.c:629
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: src/archiver_gtk.c:632
 msgid "MD5 checksum"
-msgstr ""
+msgstr "Somme de contrôle MD5"
 
 #: src/archiver_gtk.c:705
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr ""
+"Nom du fichier archive (il est recommandé d'utiliser\n"
+"un suffixe en rapport avec le format de l'archive, par\n"
+"exemple .tgz)"
 
 #: src/archiver_gtk.c:751
 #, c-format
 msgid "%ld of %ld"
-msgstr ""
+msgstr "%ld sur %ld"
 
 #: src/archiver_gtk.c:791
 msgid "Mail Archiver Dialog"
-msgstr ""
+msgstr "Archivage de messages"
 
 #: src/archiver_gtk.c:806
 msgid "Enter Archiver arguments"
-msgstr ""
+msgstr "Entrez les paramètres d'archivage"
 
 #: src/archiver_gtk.c:819
 msgid "Folder to archive"
@@ -188,7 +221,7 @@ msgstr "_Parcourir"
 
 #: src/archiver_gtk.c:831
 msgid "Click this button to select a folder which is to be root of archive"
-msgstr ""
+msgstr "Cliquer ce bouton pour sélectionner un répertoire de destination pour la création de l'archive"
 
 #: src/archiver_gtk.c:837
 msgid "Name for archive"
@@ -213,15 +246,15 @@ msgstr "Choix de la compression"
 
 #: src/archiver_gtk.c:863
 msgid "Choose this to use ZIP compression for your archive"
-msgstr ""
+msgstr "Archive compressée au format ZIP"
 
 #: src/archiver_gtk.c:870
 msgid "Choose this to use BZIP2 compression for your archive"
-msgstr ""
+msgstr "Archive compressée au format BZIP2"
 
 #: src/archiver_gtk.c:884
 msgid "Choose this to disable compression for your archive"
-msgstr ""
+msgstr "Archive non compressée"
 
 #: src/archiver_gtk.c:901
 msgid "Choose format"
@@ -229,27 +262,27 @@ msgstr "Choix du format"
 
 #: src/archiver_gtk.c:914
 msgid "Choose this to use TAR as format for your archive"
-msgstr ""
+msgstr "Archive au format TAR"
 
 #: src/archiver_gtk.c:921
 msgid "Choose this to use SHAR as format for your archive"
-msgstr ""
+msgstr "Archive au format SHAR"
 
 #: src/archiver_gtk.c:928
 msgid "Choose this to use CPIO as format for your archive"
-msgstr ""
+msgstr "Archive au format CPIO"
 
 #: src/archiver_gtk.c:935
 msgid "Choose this to use PAX as format for your archive"
-msgstr ""
+msgstr "Archive au format PAX"
 
 #: src/archiver_gtk.c:955
 msgid "Miscellaneous options"
-msgstr ""
+msgstr "Options diverses"
 
 #: src/archiver_gtk.c:968
 msgid "Choose this option to add folders recursively"
-msgstr ""
+msgstr "Archivage récursif du dossier et de ses sous-dossiers"
 
 #: src/archiver_gtk.c:974
 msgid ""
@@ -257,10 +290,13 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to finish the backup"
 msgstr ""
+"Activer les sommes de contrôle MD5 (ajoutée à l'archive).\n"
+"Attention, activer cette option risque d'avoir un impact non\n"
+" négligeable sur les performances de l'archivage."
 
 #: src/archiver_prefs.c:84
 msgid "Plugins"
-msgstr "Greffons"
+msgstr "Modules"
 
 #: src/archiver_prefs.c:120
 msgid "Select destination folder"
@@ -323,7 +359,7 @@ msgstr "Récursif"
 msgid "MD5sum"
 msgstr "somme de contrôle MD5"
 
-#: src/libarchive_archive.c:369
+#: src/libarchive_archive.c:373
 #, c-format
 msgid "Archiving %s"
 msgstr "Archivage de %s"

@@ -409,7 +409,7 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_ERROR,
 			GTK_BUTTONS_CLOSE,
-			_("Not a valid claws-mail folder:\n%s."),
+			_("Not a valid Claws Mail folder:\n%s."),
 			page->path);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
