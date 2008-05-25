@@ -1,2 +1,7 @@
+( cvs diff -u -r -1.1.2.1 -r -1.1.2.2 configure;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/archive.pot;  ) > 0.5.0cvs3.patchset
+( cvs diff -u -r -1.1.2.1 -r -1.1.2.2 config.h.in;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/Rules-quot;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/boldquot.sed;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/en@boldquot.header;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/en@quot.header;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/insert-header.sin;  cvs diff -u -r -1.1.2.1 -r -1.1.2.2 po/quot.sed;  ) > 0.5.0cvs4.patchset
+( cvs diff -u -r -1.1.2.1 -r -1.1.2.2 aclocal.m4;  ) > 0.5.0cvs5.patchset
+( cvs diff -u -r -1.1.2.3 -r -1.1.2.4 config.h.in;  ) > 0.5.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 .cvsignore;  diff -u /dev/null po/.cvsignore;  ) > 0.5.0cvs9.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 ChangeLog;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/POTFILES.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/archiver.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/archiver_gtk.c;  diff -u /dev/null src/archiver_prefs.c;  diff -u /dev/null src/archiver_prefs.h;  diff -u /dev/null src/gettext.h;  ) > 0.5.0cvs10.patchset
 ( diff -u /dev/null PATCHSETS;  ) > 0.5.0cvs11.patchset

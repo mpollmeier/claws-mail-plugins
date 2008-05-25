@@ -16,27 +16,12 @@
 		add a Prefs page
 		complete gettextization
 
-<<<<<<< ChangeLog
-2008-05-25 [paul]	0.5.0cvs9
-
-	* po/POTFILES.in
-	* src/Makefile.am
-	* src/archiver.c
-	* src/archiver_gtk.c
-	* src/archiver_prefs.c
-	* src/archiver_prefs.h
-	* src/gettext.h
-		add a Prefs page
-		complete gettextization
-
-=======
 2008-05-25 [wwp]	0.5.0cvs9
 
 	* .cvsignore
 	* po/.cvsignore
 		More generated files to ignore.
 
->>>>>>> 1.1.2.8
 2008-05-24 [michael]	0.5.0cvs8
 
 	* .cvsignore
