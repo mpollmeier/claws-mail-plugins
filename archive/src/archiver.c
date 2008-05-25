@@ -48,8 +48,8 @@ static void create_archive_cb(
 }
 
 static GtkItemFactoryEntry archiver_main_menu = {
-	N_("/Tools/Create Archive..."),
-	"<alt>A",
+	N_("/Tools/Create Archi_ve..."),
+	NULL,
 	create_archive_cb,
 	0,
 	NULL
@@ -143,8 +143,7 @@ const gchar* plugin_desc(void) {
 			 "The archive can be restored with any standard tool "
 			 "supporting the chosen format and compression.\n"
 			 "\n"
-			 "To activate the archiving feature either go to "
-			 "Tools->Create Archive or use Alt+A."
+			 "To activate the archiving feature go to Tools->Create Archive"
 			);
 }
 

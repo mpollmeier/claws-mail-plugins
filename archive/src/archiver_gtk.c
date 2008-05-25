@@ -63,8 +63,9 @@ static progress_widget* progress = NULL;
 /*static gboolean cancelled = FALSE;*/
 
 static progress_widget* init_progress() {
-	debug_print("creating progress struct\n");
 	progress_widget* ptr = malloc(sizeof(*ptr));
+
+	debug_print("creating progress struct\n");
 	ptr->progress_dialog = NULL;
 	ptr->frame = NULL;
 	ptr->vbox1 = NULL;
@@ -88,12 +89,12 @@ static void progress_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 }
 
 static void create_progress_dialog(struct ArchivePage* page) {
-	gchar* titel = g_strdup_printf("%s %s", _("Archiving"), page->path);
+	gchar* title = g_strdup_printf("%s %s", _("Archiving"), page->path);
 	MainWindow* mainwin = mainwindow_get_mainwindow();
 
 	progress->position = 0;
 	progress->progress_dialog = gtk_dialog_new_with_buttons (
-				titel,
+				title,
 				GTK_WINDOW(mainwin->window),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_STOCK_CANCEL,
@@ -300,6 +301,7 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 	gboolean md5;
 	gchar* md5_file = NULL;
 	gchar* text = NULL;
+	gchar* file = NULL;
 
 	if (recursive && ! page->cancelled) {
 		debug_print("Scanning recursive\n");
@@ -322,7 +324,7 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 		for (cur = msglist; cur && ! page->cancelled; cur = cur->next) {
 			msginfo = (MsgInfo *) cur->data;
 			page->total_size += msginfo->size;
-			gchar* file = folder_item_fetch_msg(item, msginfo->msgnum);
+			file = folder_item_fetch_msg(item, msginfo->msgnum);
 			/*debug_print("Processing: %s\n", file);*/
 			if (file) {
 				if (md5) {
@@ -778,17 +780,17 @@ void archiver_gtk_show() {
 	GtkWidget* tar_radio_btn;
 	GtkTooltips* tooltips;
 	struct ArchivePage* page;
+	MainWindow* mainwin = mainwindow_get_mainwindow();
 
 	/*debug_set_mode(TRUE);*/
 	progress = init_progress();
-	MainWindow* mainwin = mainwindow_get_mainwindow();
 
 	page = init_archive_page();
 
 	tooltips = gtk_tooltips_new();
 
 	dialog = gtk_dialog_new_with_buttons (
-				_("Mail Archiver Dialog"),
+				_("Create Archive"),
 				GTK_WINDOW(mainwin->window),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_STOCK_CANCEL,
