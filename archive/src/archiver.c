@@ -35,6 +35,7 @@
 #include "alertpanel.h"
 #include "statusbar.h"
 #include "archiver.h"
+#include "archiver_prefs.h"
 
 #define PLUGIN_NAME (_("Mail Archiver"))
 
@@ -75,6 +76,8 @@ gint plugin_init(gchar** error)
 	gtk_item_factory_create_item(ifactory, &archiver_separator, mainwin, 1);
 	gtk_item_factory_create_item(ifactory, &archiver_main_menu, mainwin, 1);
 
+	archiver_prefs_init();
+
 	debug_print("archive plugin loaded\n");
 
 	return 0;
@@ -96,6 +99,7 @@ gboolean plugin_done(void)
 	gtk_widget_destroy(widget);
 	gtk_item_factory_delete_item(ifactory, archiver_main_menu.path);
 
+	archiver_prefs_done();
 	debug_print("archive plugin unloaded\n");
 
 	return TRUE;

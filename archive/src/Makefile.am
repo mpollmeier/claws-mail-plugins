@@ -10,11 +10,14 @@ archive_la_SOURCES = \
 		  libarchive_archive.h \
 		  archiver.c \
 		  archiver.h \
-		  archiver_gtk.c
+		  archiver_gtk.c \
+		  archiver_prefs.c \
+	 	  gettext.h
 
 archiveincludedir = $(includedir)/claws-mail/plugins/@PACKAGE@
 archiveinclude_HEADERS = \
-	archiver.h
+	archiver.h \
+	archiver_prefs.h
 
 archive_la_LDFLAGS = \
 		-avoid-version -module \

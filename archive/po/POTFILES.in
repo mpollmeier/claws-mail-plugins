@@ -1,2 +1,3 @@
 src/archiver.c
+src/archiver_prefs.c
 src/libarchive_archive.c

@@ -45,6 +45,7 @@
 #include "procmsg.h"
 #include "libarchive_archive.h"
 #include "archiver.h"
+#include "archiver_prefs.h"
 
 typedef struct _progress_widget progress_widget;
 struct _progress_widget {
@@ -711,7 +712,11 @@ static void filesel_cb(GtkWidget *widget, gpointer data)
 	if (!homedir)
 		homedir = g_get_home_dir();
 
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), homedir);
+	if (archiver_prefs.save_folder)
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), 
+						    archiver_prefs.save_folder);
+	else
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), homedir);
 	if (gtk_dialog_run (GTK_DIALOG(dialog)) == GTK_RESPONSE_APPLY) {
 		file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 		if (file) {
@@ -881,6 +886,18 @@ void archiver_gtk_show() {
 	page->compress_methods = 
 			gtk_radio_button_get_group(GTK_RADIO_BUTTON(zip_radio_btn));
 
+	switch (archiver_prefs.compression) {
+	case COMPRESSION_ZIP:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(zip_radio_btn), TRUE);
+		break;
+	case COMPRESSION_BZIP:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(bzip_radio_btn), TRUE);
+		break;
+	case COMPRESSION_NONE:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(no_radio_btn), TRUE);
+		break;
+	}
+
 	frame = gtk_frame_new(_("Choose format"));
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
 	gtk_container_set_border_width(GTK_CONTAINER(frame), 4);
@@ -920,6 +937,21 @@ void archiver_gtk_show() {
 	page->archive_formats = 
 			gtk_radio_button_get_group(GTK_RADIO_BUTTON(tar_radio_btn));
 
+	switch (archiver_prefs.format) {
+	case FORMAT_TAR:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tar_radio_btn), TRUE);
+		break;
+	case FORMAT_SHAR:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(shar_radio_btn), TRUE);
+		break;
+	case FORMAT_CPIO:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cpio_radio_btn), TRUE);
+		break;
+	case FORMAT_PAX:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pax_radio_btn), TRUE);
+		break;
+	}
+
 	frame = gtk_frame_new(_("Miscellaneous options"));
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
 	gtk_container_set_border_width(GTK_CONTAINER(frame), 4);
@@ -930,13 +962,13 @@ void archiver_gtk_show() {
 	gtk_container_add(GTK_CONTAINER(frame), hbox1);
 
 	page->recursive = gtk_check_button_new_with_mnemonic("_Recursive");
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->recursive), TRUE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->recursive), archiver_prefs.recursive);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->recursive, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, page->recursive,
 		_("Choose this option to add folders recursively"), NULL);
 	
 	page->md5sum = gtk_check_button_new_with_mnemonic("_MD5sum");
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->md5sum), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->md5sum), archiver_prefs.md5sum);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->md5sum, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, page->md5sum,
 		_("Choose this option to add md5sums for each file in archive.\n"
