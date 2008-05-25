@@ -5,3 +5,4 @@ POTFILES
 *.po~
 stamp-po
 *.pot
+*.sed

@@ -7,3 +7,4 @@
 ( diff -u /dev/null PATCHSETS;  ) > 0.5.0cvs11.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/archiver.c;  ) > 0.5.0cvs12.patchset
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 ChangeLog;  ) > 0.5.0cvs13.patchset
+( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/.cvsignore;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/POTFILES.in;  diff -u /dev/null po/fr.po;  ) > 0.5.0cvs14.patchset

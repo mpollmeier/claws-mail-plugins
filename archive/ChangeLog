@@ -1,3 +1,12 @@
+2008-05-25 [wwp]	0.5.0cvs14
+
+	* configure.ac
+	* po/.cvsignore
+	* po/POTFILES.in
+	* po/fr.po
+		Added preliminary fr translation, completed POTFILES,
+		more tmp/generated files to ignore.
+
 2008-05-25 [colin]	0.5.0cvs13
 
 	* ChangeLog
