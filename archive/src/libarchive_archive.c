@@ -80,6 +80,7 @@ void archive_free_file_list(gboolean md5) {
 	struct file_info* file = NULL;
 	gchar* path = NULL;
 
+	debug_print("freeing file list\n");
 	if (! file_list)
 		return;
 	while (file_list) {
@@ -91,6 +92,7 @@ void archive_free_file_list(gboolean md5) {
 			g_free(path);
 		}
 		archive_free_file_info(file);
+		file_list->data = NULL;
 		file_list = g_slist_next(file_list);
 	}
 	if (file_list) {
@@ -297,7 +299,7 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 #ifndef _TEST
 	gint num = 0;
 	gint total = g_slist_length (files);
-	MainWindow* mainwin = mainwindow_get_mainwindow();
+/*	MainWindow* mainwin = mainwindow_get_mainwindow();*/
 #endif
 
 	if (! files)
@@ -351,6 +353,8 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 		set_progress_print_all(num++, total, 30);
 #endif
 		file = (struct file_info *) files->data;
+		if (!file)
+			continue;
 		filename = get_full_path(file);
 		/* libarchive will crash if instructed to add archive to it self */
 		if (g_utf8_collate(archive_name, filename) == 0) {

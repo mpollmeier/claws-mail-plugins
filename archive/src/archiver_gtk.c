@@ -652,11 +652,11 @@ static void archiver_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 			page->response = FALSE;
 			archiver_gtk_done(page, widget);
 	}
-	debug_print("Settings:\nfolder: %s\nname: %s\naction: %d\n",
-				(page->path) ? page->path : "(null)",
-				(page->name) ? page->name : "(null)",
-				page->response);
+	debug_print("Settings:\naction: %d\n", page->response);
 	if (page->response) {
+		debug_print("Settings:\nfolder: %s\nname: %s\n",
+				(page->path) ? page->path : "(null)",
+				(page->name) ? page->name : "(null)");
 		result = archiver_save_files(page);
 		debug_print("Result->archiver_save_files: %d\n", result);
 		if (progress->progress_dialog && 

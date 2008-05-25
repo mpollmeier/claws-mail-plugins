@@ -1,3 +1,14 @@
+2008-05-25 [michael]	0.5.0cvs15
+
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+    archiver_gtk.c: prevent UTF-8 blurp by not printing uninitialized
+	strings with debug_print.
+	libarchive_archive.c: Fixed a race condition. Freeing globat GSList
+	while at the same time working on a reference to the list is bad
+	carma. Ensuring elem->data is nullified and testing for this condition
+	solves the problem.
+
 2008-05-25 [wwp]	0.5.0cvs14
 
 	* configure.ac
