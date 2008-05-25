@@ -1,0 +1,2 @@
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 .cvsignore;  diff -u /dev/null po/.cvsignore;  ) > 0.5.0cvs9.patchset
+( diff -u /dev/null PATCHSETS;  ) > 0.5.0cvs11.patchset
