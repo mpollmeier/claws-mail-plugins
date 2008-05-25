@@ -6,3 +6,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 ChangeLog;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/POTFILES.in;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/archiver.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/archiver_gtk.c;  diff -u /dev/null src/archiver_prefs.c;  diff -u /dev/null src/archiver_prefs.h;  diff -u /dev/null src/gettext.h;  ) > 0.5.0cvs10.patchset
 ( diff -u /dev/null PATCHSETS;  ) > 0.5.0cvs11.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/archiver.c;  ) > 0.5.0cvs12.patchset
+( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 ChangeLog;  ) > 0.5.0cvs13.patchset
