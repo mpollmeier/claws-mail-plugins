@@ -1,3 +1,9 @@
+2008-05-26 [paul]	0.19.0cvs2
+
+	* src/opml.c
+		plug a leak in rssyl_opml_export()
+		thanks to Colin
+
 2008-04-18 [colin]	0.19.0cvs1
 
 	* src/feed.c

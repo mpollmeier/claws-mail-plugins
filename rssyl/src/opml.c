@@ -174,6 +174,7 @@ void rssyl_opml_export(void)
 
 	fclose(f);
 	g_free(opmlfile);
+	g_free(ctx);
 }
 
 static void rssyl_opml_import_node(xmlNodePtr node,
