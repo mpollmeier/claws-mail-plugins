@@ -7,7 +7,7 @@
 	* src/libarchive_archive.c
 		fix i18n
 		remove mnemonic from 'Create Archive' as it
-		breaks removes the entry on unloading the plugin
+		breaks removing the entry on unloading the plugin
 		correct the folder types info on the description
 		page
 
