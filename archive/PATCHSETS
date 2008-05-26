@@ -11,3 +11,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/archiver_gtk.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/libarchive_archive.c;  ) > 0.5.0cvs15.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/archiver.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/archiver_gtk.c;  ) > 0.5.0cvs16.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/archiver.c;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/archiver_gtk.c;  ) > 0.5.0cvs17.patchset
+( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/archiver_gtk.c;  ) > 0.5.0cvs18.patchset

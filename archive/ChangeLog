@@ -1,3 +1,8 @@
+2008-05-26 [colin]	0.5.0cvs18
+
+	* src/archiver_gtk.c
+		Return after having destroyed page
+
 2008-05-25 [michael]	0.5.0cvs17
 
 	* src/archiver.c

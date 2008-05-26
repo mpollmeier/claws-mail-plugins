@@ -653,6 +653,7 @@ static void archiver_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 			debug_print("User chose CANCEL\n");
 			page->response = FALSE;
 			archiver_gtk_done(page, widget);
+			return;
 	}
 	debug_print("Settings:\naction: %d\n", page->response);
 	if (page->response) {
