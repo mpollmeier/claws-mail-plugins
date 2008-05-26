@@ -1,3 +1,8 @@
+2008-05-26 [paul]	0.5.0cvs21
+
+	* src/archiver_gtk.c
+		get these 2 labels translated
+
 2008-05-26 [paul]	0.5.0cvs20
 
 	* ChangeLog

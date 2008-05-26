@@ -963,13 +963,13 @@ void archiver_gtk_show() {
 	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
 	gtk_container_add(GTK_CONTAINER(frame), hbox1);
 
-	page->recursive = gtk_check_button_new_with_mnemonic("_Recursive");
+	page->recursive = gtk_check_button_new_with_mnemonic(_("_Recursive"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->recursive), archiver_prefs.recursive);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->recursive, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, page->recursive,
 		_("Choose this option to include subfolders in the archive"), NULL);
 	
-	page->md5sum = gtk_check_button_new_with_mnemonic("_MD5sum");
+	page->md5sum = gtk_check_button_new_with_mnemonic(_("_MD5sum"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->md5sum), archiver_prefs.md5sum);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->md5sum, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, page->md5sum,
