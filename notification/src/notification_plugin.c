@@ -54,6 +54,7 @@ static gboolean my_offline_switch_hook(gpointer, gpointer);
 static gboolean my_main_window_close_hook(gpointer, gpointer);
 static gboolean my_main_window_got_iconified_hook(gpointer, gpointer);
 static gboolean my_account_list_changed_hook(gpointer, gpointer);
+static gboolean my_update_theme_hook(gpointer, gpointer);
 
 #ifdef NOTIFICATION_TRAYICON
 static gboolean trayicon_startup_idle(gpointer);
@@ -66,6 +67,7 @@ static guint hook_offline;
 static guint hook_mw_close;
 static guint hook_got_iconified;
 static guint hook_account;
+static guint hook_theme_changed;
 
 #ifdef NOTIFICATION_BANNER
 static GSList* banner_collected_msgs;
@@ -83,6 +85,14 @@ static gboolean my_account_list_changed_hook(gpointer source,
   return retVal;
 }
 
+static gboolean my_update_theme_hook(gpointer source, gpointer data)
+{
+  notification_pixbuf_free_all();
+#ifdef NOTIFICATION_TRAYICON
+  notification_update_trayicon();
+#endif
+  return FALSE;
+}
 
 static gboolean my_main_window_got_iconified_hook(gpointer source,
 						  gpointer data)
@@ -174,7 +184,7 @@ gint plugin_init(gchar **error)
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
   
   /* Version check */
-  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,2,0,28),
+  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,4,0,70),
 			   VERSION_NUMERIC, _("Notification"), error))
     return -1;
 
@@ -263,6 +273,19 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
+  hook_theme_changed = hooks_register_hook(THEME_CHANGED_HOOKLIST, my_update_theme_hook, NULL);                                                                  
+  if(hook_theme_changed == (guint)-1) {                                                                                                                                 
+    *error = g_strdup(_("Failed to register theme change hook int the "
+      "Notification plugin"));                                                                                            
+    hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
+    hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
+    hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
+    hooks_unregister_hook(OFFLINE_SWITCH_HOOKLIST, hook_offline);
+    hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
+    hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
+    hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
+    return -1;                                                                                                                                 
+  }   
 
   /* Configuration */
   prefs_set_default(notify_param);
@@ -311,7 +334,8 @@ gboolean plugin_done(void)
   hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
   hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
   hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
-
+  hooks_unregister_hook(THEME_CHANGED_HOOKLIST, hook_theme_changed);
+ 
   notify_save_config();
 
   notify_gtk_done();

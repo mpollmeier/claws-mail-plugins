@@ -1,3 +1,11 @@
+2008-05-26 [holger]	0.16cvs4
+
+	* configure.ac
+	* src/notification_plugin.c
+		Update icons dynamically on theme change.
+		Patch heavily inspired by 3.4.0cvs70 of main
+		(on which this plugin now depends)
+
 2008-05-25 [holger]	0.16cvs3
 
 	* src/notification_foldercheck.c
