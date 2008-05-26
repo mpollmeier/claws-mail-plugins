@@ -879,7 +879,7 @@ void archiver_gtk_show() {
 		_("Choose this to use Compress compression for your archive"), NULL);
 */
 	no_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
-					GTK_RADIO_BUTTON(zip_radio_btn), "_None");
+					GTK_RADIO_BUTTON(zip_radio_btn), _("_None"));
 	gtk_widget_set_name(no_radio_btn, "NONE");
 	gtk_box_pack_start(GTK_BOX(hbox1), no_radio_btn, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, no_radio_btn,
