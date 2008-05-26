@@ -23,6 +23,7 @@
 #	include <config.h>
 #endif
 
+#include "gettext.h"
 #include "libarchive_archive.h"
 
 #ifndef _TEST
@@ -44,7 +45,6 @@
 #include <dirent.h>
 #include <glib.h>
 #include <libgen.h>
-#include <glib/gi18n.h>
 
 #define READ_BLOCK_SIZE 10240
 

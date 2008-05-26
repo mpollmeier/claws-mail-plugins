@@ -23,9 +23,8 @@
 #	include <config.h>
 #endif
 
+#include "gettext.h"
 #include <gtk/gtk.h>
-#include <glib.h>
-#include <glib/gi18n.h>
 
 #include "common/claws.h"
 #include "common/version.h"
@@ -48,7 +47,7 @@ static void create_archive_cb(
 }
 
 static GtkItemFactoryEntry archiver_main_menu = {
-	N_("/Tools/Create Archi_ve..."),
+	N_("/Tools/Create Archive..."),
 	NULL,
 	create_archive_cb,
 	0,
@@ -67,6 +66,9 @@ gint plugin_init(gchar** error)
 {
 	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
+
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,4,0,65),
 				VERSION_NUMERIC, PLUGIN_NAME, error))
@@ -139,7 +141,7 @@ const gchar* plugin_desc(void) {
 			"The archives can be restored with any standard tool "
 			"that supports the chosen format and compression.\n"
 			"\n"
-			"The supported folder types are IMAP, POP, LOCAL, RSSyl and "
+			"The supported folder types are MH, IMAP, RSSyl and "
 			"vCalendar.\n"
 			"\n"
 			"To activate the archiving feature go to /Tools/Create Archive\n"

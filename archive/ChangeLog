@@ -1,3 +1,16 @@
+2008-05-26 [paul]	0.5.0cvs20
+
+	* ChangeLog
+		fix formatting
+	* src/archiver.c
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+		fix i18n
+		remove mnemonic from 'Create Archive' as it
+		breaks removes the entry on unloading the plugin
+		correct the folder types info on the description
+		page
+
 2008-05-26 [paul]	0.5.0cvs19
 
 	* COPYING
@@ -18,7 +31,7 @@
 
 	* src/archiver.c
 	* src/archiver_gtk.c
-    Some cleaning up mostly to ensure it compiles on gcc-2.9x.
+   		 Some cleaning up mostly to ensure it compiles on gcc-2.9x.
 
 2008-05-25 [wwp]	0.5.0cvs16
 
@@ -32,13 +45,13 @@
 2008-05-25 [michael]	0.5.0cvs15
 
 	* src/archiver_gtk.c
+		prevent UTF-8 blurp by not printing uninitialized
+		strings with debug_print.
 	* src/libarchive_archive.c
-    archiver_gtk.c: prevent UTF-8 blurp by not printing uninitialized
-	strings with debug_print.
-	libarchive_archive.c: Fixed a race condition. Freeing globat GSList
-	while at the same time working on a reference to the list is bad
-	carma. Ensuring elem->data is nullified and testing for this condition
-	solves the problem.
+    		Fixed a race condition. Freeing globat GSList while
+		at the same time working on a reference to the list is bad
+		karma. Ensuring elem->data is nullified and testing for
+		this condition solves the problem.
 
 2008-05-25 [wwp]	0.5.0cvs14
 
