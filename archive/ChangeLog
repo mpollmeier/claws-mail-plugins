@@ -1,3 +1,14 @@
+2008-05-26 [paul]	0.5.0cvs19
+
+	* COPYING
+		replaced with correct version
+	* src/archiver.c
+	* src/archiver_gtk.c
+	* src/archiver_prefs.c
+		rewrite some of the English
+		add tooltips on the prefs page
+		fix a leak in archiver_prefs.c foldersel_cb()
+
 2008-05-26 [colin]	0.5.0cvs18
 
 	* src/archiver_gtk.c

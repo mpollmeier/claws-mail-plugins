@@ -34,7 +34,6 @@
 #include "alertpanel.h"
 #include "utils.h"
 #include "filesel.h"
-#include "menu.h"
 
 #include "archiver_prefs.h"
 
@@ -49,7 +48,6 @@ struct ArchiverPrefsPage {
 	GtkWidget *zip_radiobtn;
 	GtkWidget *bzip_radiobtn;
 	GtkWidget *none_radiobtn;
-	GtkWidget *format_radiobtn;
 	GtkWidget *tar_radiobtn;
 	GtkWidget *shar_radiobtn;
 	GtkWidget *cpio_radiobtn;
@@ -124,6 +122,7 @@ static void foldersel_cb(GtkWidget *widget, gpointer data)
 	}
 	if (!is_dir_exist(dirname)) {
 		alertpanel_error(_("'%s' is not a directory."),dirname);
+		g_free(dirname);
 		g_free(startdir);
 		return;
 	}
@@ -133,6 +132,8 @@ static void foldersel_cb(GtkWidget *widget, gpointer data)
 
 	tmp =  g_filename_to_utf8(dirname,-1, NULL, NULL, NULL);
 	gtk_entry_set_text(GTK_ENTRY(page->save_folder), tmp);
+
+	g_free(dirname);
 	g_free(tmp);
 }
 
@@ -158,6 +159,9 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	GtkWidget *pax_radiobtn;
 	GtkWidget *recursive_chkbtn;
 	GtkWidget *md5sum_chkbtn;
+	GtkTooltips* tooltips;
+
+	tooltips = gtk_tooltips_new();
 
 	vbox1 = gtk_vbox_new (FALSE, VSPACING);
 	gtk_widget_show (vbox1);
@@ -182,6 +186,8 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	save_folder_select = gtkut_get_browse_directory_btn(_("_Select"));
 	gtk_widget_show (save_folder_select);
   	gtk_box_pack_start (GTK_BOX (hbox1), save_folder_select, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, save_folder_select,
+			     _("Click this button to select the default location for saving archives"), NULL);
 
 	g_signal_connect(G_OBJECT(save_folder_select), "clicked", 
 			 G_CALLBACK(foldersel_cb), page);
@@ -197,20 +203,26 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
 	gtk_container_add(GTK_CONTAINER(frame), hbox1);
 
-	zip_radiobtn = gtk_radio_button_new_with_label(compression_group, _("ZIP"));
+	zip_radiobtn = gtk_radio_button_new_with_label(compression_group, "ZIP");
 	compression_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(zip_radiobtn));
 	gtk_widget_show(zip_radiobtn);
  	gtk_box_pack_start(GTK_BOX (hbox1), zip_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, zip_radiobtn,
+			_("Choose this option to use ZIP compression by default"), NULL);
 
-	bzip_radiobtn = gtk_radio_button_new_with_label(compression_group, _("BZIP2"));
+	bzip_radiobtn = gtk_radio_button_new_with_label(compression_group, "BZIP2");
 	compression_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(bzip_radiobtn));
 	gtk_widget_show(bzip_radiobtn);
 	gtk_box_pack_start(GTK_BOX (hbox1), bzip_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, bzip_radiobtn,
+			_("Choose this option to use BZIP2 compression by default"), NULL);
 
 	none_radiobtn = gtk_radio_button_new_with_label(compression_group, _("None"));
 	compression_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(none_radiobtn));
 	gtk_widget_show(none_radiobtn);
 	gtk_box_pack_start(GTK_BOX (hbox1), none_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, none_radiobtn,
+			_("Choose this option to disable compression by default"), NULL);
 
 	switch (archiver_prefs.compression) {
 	case COMPRESSION_ZIP:
@@ -231,25 +243,33 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
 	gtk_container_add(GTK_CONTAINER(frame), hbox1);
 
-	tar_radiobtn = gtk_radio_button_new_with_label(format_group, _("TAR"));
+	tar_radiobtn = gtk_radio_button_new_with_label(format_group, "TAR");
 	format_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(tar_radiobtn));
 	gtk_widget_show(tar_radiobtn);
  	gtk_box_pack_start(GTK_BOX (hbox1), tar_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, tar_radiobtn,
+			_("Choose this option to use the TAR format by default"), NULL);
 
-	shar_radiobtn = gtk_radio_button_new_with_label(format_group, _("SHAR"));
+	shar_radiobtn = gtk_radio_button_new_with_label(format_group, "SHAR");
 	format_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(shar_radiobtn));
 	gtk_widget_show(shar_radiobtn);
  	gtk_box_pack_start(GTK_BOX (hbox1), shar_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, shar_radiobtn,
+			_("Choose this option to use the SHAR format by default"), NULL);
 
-	cpio_radiobtn = gtk_radio_button_new_with_label(format_group, _("CPIO"));
+	cpio_radiobtn = gtk_radio_button_new_with_label(format_group, "CPIO");
 	format_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(cpio_radiobtn));
 	gtk_widget_show(cpio_radiobtn);
  	gtk_box_pack_start(GTK_BOX (hbox1), cpio_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, cpio_radiobtn,
+			_("Choose this option to use the CPIO format by default"), NULL);
 
-	pax_radiobtn = gtk_radio_button_new_with_label(format_group, _("PAX"));
+	pax_radiobtn = gtk_radio_button_new_with_label(format_group, "PAX");
 	format_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(pax_radiobtn));
 	gtk_widget_show(pax_radiobtn);
  	gtk_box_pack_start(GTK_BOX (hbox1), pax_radiobtn, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, pax_radiobtn,
+			_("Choose this option to use the PAX format by default"), NULL);
 
 	switch (archiver_prefs.format) {
 	case FORMAT_TAR:
@@ -274,7 +294,13 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	gtk_container_add(GTK_CONTAINER(frame), hbox1);
 
 	PACK_CHECK_BUTTON(hbox1, recursive_chkbtn, _("Recursive"));
+	gtk_tooltips_set_tip(tooltips, recursive_chkbtn,
+		_("Choose this option to include subfolders in the archives by default"), NULL);
 	PACK_CHECK_BUTTON(hbox1, md5sum_chkbtn, _("MD5sum"));
+	gtk_tooltips_set_tip(tooltips, md5sum_chkbtn,
+		_("Choose this option to add MD5 checksums for each file in the archives by default.\n"
+		  "Be aware though, that this dramatically increases the time it\n"
+		  "will take to create the archives"), NULL);
 
 	if (archiver_prefs.recursive)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(recursive_chkbtn), TRUE);
