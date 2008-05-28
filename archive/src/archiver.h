@@ -27,7 +27,7 @@
 
 static const char INVALID_UNIX_CHARS[] = {
 		'?', '%', '*', ':', '"', '|', '<', '>',
-		'(', ')', '#', '\0'};
+		'(', ')', '#', ',', '\0'};
 
 struct ArchivePage {
 	gchar*		path;
@@ -35,6 +35,7 @@ struct ArchivePage {
 	gboolean	response;
 	gboolean	force_overwrite;
 	gboolean	md5;
+	gboolean	rename;
 	GtkWidget*	folder;
 	GtkWidget*	file;
 	guint		files;
@@ -43,6 +44,7 @@ struct ArchivePage {
 	GSList*		archive_formats;
 	GtkWidget*	recursive;
 	GtkWidget*	md5sum;
+	GtkWidget*	rename_files;
 	gboolean	cancelled;
 };
 

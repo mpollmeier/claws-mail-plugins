@@ -76,7 +76,7 @@ void stop_archiving() {
 	stop_action = TRUE;
 }
 
-void archive_free_file_list(gboolean md5) {
+void archive_free_file_list(gboolean md5, gboolean rename) {
 	struct file_info* file = NULL;
 	gchar* path = NULL;
 
@@ -85,7 +85,13 @@ void archive_free_file_list(gboolean md5) {
 		return;
 	while (file_list) {
 		file = (struct file_info *) file_list->data;
-		if (md5 && g_str_has_suffix(file->name, ".md5")) {
+		if (!rename && md5 && g_str_has_suffix(file->name, ".md5")) {
+			path = g_strdup_printf("%s/%s", file->path, file->name);
+			debug_print("unlinking %s\n", path);
+			g_unlink(path);
+			g_free(path);
+		}
+		if (rename) {
 			path = g_strdup_printf("%s/%s", file->path, file->name);
 			debug_print("unlinking %s\n", path);
 			g_unlink(path);
@@ -395,13 +401,15 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 					archive_write_header(arch, entry);
 				}
 				else {
-					archive_write_header(arch, entry);
+					if (archive_write_header(arch, entry) != ARCHIVE_OK)
+						g_warning("%s", archive_error_string(arch));
 					buf = NULL;
 					buf = malloc(READ_BLOCK_SIZE);
 					len = read(fd, buf, READ_BLOCK_SIZE);
 					/*debug_print("First read: %d byte(s) read\n", len);*/
 					while (len > 0) {
-						archive_write_data(arch, buf, len);
+						if (archive_write_data(arch, buf, len) == -1)
+							g_warning("%s", archive_error_string(arch));
 						memset(buf, 0, READ_BLOCK_SIZE);
 						len = read(fd, buf, READ_BLOCK_SIZE);
 						/*debug_print("Read: %d byte(s) read\n", len);*/

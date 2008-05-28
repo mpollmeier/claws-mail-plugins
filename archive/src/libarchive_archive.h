@@ -46,7 +46,7 @@ enum FILE_FLAGS { NO_FLAGS, ARCHIVE_EXTRACT_PERM, ARCHIVE_EXTRACT_TIME,
 
 void archive_add_file(gchar* path);
 GSList* archive_get_file_list();
-void archive_free_file_list(gboolean md5);
+void archive_free_file_list(gboolean md5, gboolean rename);
 const gchar* archive_create(const char* archive_name, GSList* files,
 				COMPRESS_METHOD method, ARCHIVE_FORMAT format);
 

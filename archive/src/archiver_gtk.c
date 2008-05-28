@@ -30,6 +30,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include "gtk/gtkutils.h"
 #include "common/claws.h"
@@ -42,6 +43,7 @@
 #include "folder.h"
 #include "foldersel.h"
 #include "procmsg.h"
+#include "procheader.h"
 #include "libarchive_archive.h"
 #include "archiver.h"
 #include "archiver_prefs.h"
@@ -83,7 +85,7 @@ static void progress_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 	debug_print("Cancel operation\n");
 	stop_archiving();
 	page->cancelled = TRUE;
-	archive_free_file_list(page->md5);
+	archive_free_file_list(page->md5, page->rename);
 	gtk_widget_destroy(widget);
 }
 
@@ -269,12 +271,12 @@ static void create_md5sum(const gchar* file, const gchar* md5_file) {
 	gchar* text = NULL;
 	gchar* md5sum = malloc(33);
 
-	/*debug_print("Creating md5sum file: %s\n", md5_file);*/
+	debug_print("Creating md5sum file: %s\n", md5_file);
 	if (md5_hex_digest_file(md5sum, (const unsigned char *) file) == -1)
 		return;
-	/*debug_print("md5sum: %s\n", md5sum);*/
+	debug_print("md5sum: %s\n", md5sum);
 	if ((fd = 
-		open(md5_file, O_WRONLY | O_CREAT, S_IRUSR & S_IWUSR)) == -1)
+		open(md5_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR)) == -1)
 		return;
 	text = g_strrstr_len(file, strlen(file), "/");
 	if (text) {
@@ -284,9 +286,79 @@ static void create_md5sum(const gchar* file, const gchar* md5_file) {
 	else
 		text = g_strdup_printf("%s  %s\n", md5sum, file);
 	g_free(md5sum);
+	debug_print("md5sum: %s\n", text);
 	write(fd, text, strlen(text));
 	close(fd);
 	g_free(text);
+}
+
+static gchar* descriptive_file_name(
+		struct ArchivePage* page, const gchar* file, MsgInfo *msginfo) {
+	gchar* new_file = NULL;
+	gchar *name, *p, *to, *from, *date, *subject;
+
+	debug_print("renaming file\n");
+	p = g_strrstr_len(file, strlen(file), "/");
+	p = g_strndup(file, p - file);
+	if (!p)
+		return NULL;
+	if (msginfo->to) {
+		to = g_strdup(msginfo->to);
+		extract_address(to);
+	}
+	else
+		to = g_strdup("");
+	if (msginfo->from) {
+		from = g_strdup(msginfo->from);
+		extract_address(from);
+	}
+	else
+		from = g_strdup("");
+	if (msginfo->date) {
+		date = g_strdup(msginfo->date);
+		subst_for_shellsafe_filename(date);
+		/* if not on windows we need to subst some more */
+		subst_chars(date, ":", '_');
+	}
+	else
+		date = g_strdup("");
+	if (msginfo->subject) {
+		subject = g_strdup(msginfo->subject);
+		subst_for_shellsafe_filename(subject);
+		/* if not on windows we need to subst some more */
+		subst_chars(subject, ":", '_');
+	}
+	else
+		subject = g_strdup("");
+	name = g_strdup_printf("%s_%s@%s@%s", date, from, to, subject);
+	/* ensure file name is not larger than 96 chars (max file name size
+	 * is 100 chars but reserve for .md5)
+	 */
+	if (strlen(name) > 96) {
+		name = realloc(name, 97);
+		name[96] = 0;
+	}
+	
+	new_file = g_strconcat(p, "/", name, NULL);
+
+	g_free(name);
+	g_free(p);
+	g_free(to);
+	g_free(from);
+	g_free(date);
+	g_free(subject);
+
+	debug_print("New_file: %s\n", new_file);
+	if (link(file, new_file) != 0) {
+		if (errno != EEXIST) {
+			perror("link");
+			g_free(new_file);
+			new_file = g_strdup(file);
+			page->rename = FALSE;
+		}
+	}
+
+	return new_file;
 }
 
 static void walk_folder(struct ArchivePage* page, FolderItem* item,
@@ -297,7 +369,6 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 	MsgInfo *msginfo;
 	GNode* node;
 	int count;
-	gboolean md5;
 	gchar* md5_file = NULL;
 	gchar* text = NULL;
 	gchar* file = NULL;
@@ -318,21 +389,29 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 	if (! page->cancelled) {
 		count = 0;
 		page->files += item->total_msgs;
-		md5 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->md5sum));
 		msglist = folder_item_get_msg_list(item);
 		for (cur = msglist; cur && ! page->cancelled; cur = cur->next) {
 			msginfo = (MsgInfo *) cur->data;
+			debug_print("%s_%s_%s_%s\n",
+				msginfo->date, msginfo->to, msginfo->from, msginfo->subject);
 			page->total_size += msginfo->size;
 			file = folder_item_fetch_msg(item, msginfo->msgnum);
 			/*debug_print("Processing: %s\n", file);*/
 			if (file) {
-				if (md5) {
+				if (page->rename) {
+					file = descriptive_file_name(page, file, msginfo);
+					if (!file)
+						continue;
+				}
+				if (page->md5) {
 					md5_file = g_strdup_printf("%s.md5", file);
 					create_md5sum(file, md5_file);
 					archive_add_file(md5_file);
 					g_free(md5_file);
 				}
 				archive_add_file(file);
+				if (page->rename)
+					g_free(file);
 			}
 			if (count % 350 == 0) {
 				debug_print("pulse progressbar\n");
@@ -418,6 +497,8 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 	}
 	page->files = 0;
 	page->total_size = 0;
+	page->rename = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(page->rename_files));
 	recursive = gtk_toggle_button_get_active(
 					GTK_TOGGLE_BUTTON(page->recursive));
 	page->md5 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->md5sum));
@@ -443,8 +524,7 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 		response = gtk_dialog_run(GTK_DIALOG (dialog));
 		gtk_widget_destroy(dialog);
 		if (response == GTK_RESPONSE_CANCEL) {
-			/*gtk_widget_destroy(progress->progress_dialog);*/
-			archive_free_file_list(page->md5);
+			archive_free_file_list(page->md5, page->rename);
 			return FALSE;
 		}
 	}
@@ -459,8 +539,7 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 			"%s", res);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
-		/*gtk_widget_destroy(progress->progress_dialog);*/
-		archive_free_file_list(page->md5);
+		archive_free_file_list(page->md5, page->rename);
 		return FALSE;
 	}
 	return TRUE;
@@ -634,7 +713,15 @@ static void show_result(struct ArchivePage* page) {
 				STRING2, msg, -1);
 	g_free(msg);
 
-	gtk_window_set_default_size(GTK_WINDOW(dialog), 320, 240);
+	gtk_list_store_append(list, &iter);
+	msg = g_strdup_printf("%s", (page->rename_files) ? _("Yes") : _("No"));
+	gtk_list_store_set(
+				list, &iter,
+				STRING1, _("Descriptive names"),
+				STRING2, msg, -1);
+	g_free(msg);
+
+	gtk_window_set_default_size(GTK_WINDOW(dialog), 320, 260);
 
 	gtk_widget_show_all(dialog);
 }
@@ -666,8 +753,9 @@ static void archiver_dialog_cb(GtkWidget* widget, gint action, gpointer data) {
 			gtk_widget_destroy(progress->progress_dialog);		
 		if (result && ! page->cancelled) {
 			show_result(page);
-			archive_free_file_list(page->md5);
+			archive_free_file_list(page->md5, page->rename);
 			archiver_gtk_done(page, widget);
+			return;
 		}
 		if (page->cancelled) {
 			archiver_gtk_done(page, widget);
@@ -976,6 +1064,14 @@ void archiver_gtk_show() {
 		_("Choose this option to add MD5 checksums for each file in the archive.\n"
 		  "Be aware though, that this dramatically increases the time it\n"
 		  "will take to create the archive"), NULL);
+
+	page->rename_files = gtk_check_button_new_with_mnemonic(_("R_ename"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->rename_files), archiver_prefs.rename);
+	gtk_box_pack_start(GTK_BOX(hbox1), page->rename_files, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, page->rename_files,
+		_("Choose this option to use descriptive names for each file in the archive.\n"
+		  "The naming scheme: date_from@to@subject.\n"
+		  "Names will be truncated to max 96 characters"), NULL);
 
 	g_signal_connect(G_OBJECT(folder_select), "clicked", 
 			 G_CALLBACK(foldersel_cb), page);

@@ -54,6 +54,7 @@ struct ArchiverPrefsPage {
 	GtkWidget *pax_radiobtn;
 	GtkWidget *recursive_chkbtn;
 	GtkWidget *md5sum_chkbtn;
+	GtkWidget *rename_chkbtn;
 };
 
 struct ArchiverPrefsPage archiver_prefs_page;
@@ -70,6 +71,7 @@ static PrefParam param[] = {
 	{"format", "0", &archiver_prefs.format, P_ENUM, NULL, NULL, NULL},
 	{"recursive", "TRUE", &archiver_prefs.recursive, P_BOOL, NULL, NULL, NULL},
 	{"md5sum",  "FALSE", &archiver_prefs.md5sum, P_BOOL, NULL, NULL, NULL},
+	{"rename", "FALSE", &archiver_prefs.rename, P_BOOL, NULL, NULL, NULL},
 
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
@@ -159,6 +161,7 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	GtkWidget *pax_radiobtn;
 	GtkWidget *recursive_chkbtn;
 	GtkWidget *md5sum_chkbtn;
+	GtkWidget *rename_chkbtn;
 	GtkTooltips* tooltips;
 
 	tooltips = gtk_tooltips_new();
@@ -302,10 +305,18 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 		  "Be aware though, that this dramatically increases the time it\n"
 		  "will take to create the archives"), NULL);
 
+	PACK_CHECK_BUTTON(hbox1, rename_chkbtn, _("Rename"));
+	gtk_tooltips_set_tip(tooltips, rename_chkbtn,
+		_("Choose this option to use descriptive names for each file in the archive.\n"
+		  "The naming scheme: date_from@to@subject.\n"
+		  "Names will be truncated to max 96 characters"), NULL);
+
 	if (archiver_prefs.recursive)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(recursive_chkbtn), TRUE);
 	if (archiver_prefs.md5sum)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(md5sum_chkbtn), TRUE);
+	if (archiver_prefs.rename)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rename_chkbtn), TRUE);
 
 	page->save_folder = save_folder;
 	page->zip_radiobtn = zip_radiobtn;
@@ -317,6 +328,7 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	page->pax_radiobtn = pax_radiobtn;
 	page->recursive_chkbtn = recursive_chkbtn;
 	page->md5sum_chkbtn = md5sum_chkbtn;
+	page->rename_chkbtn = rename_chkbtn;
 
 	page->page.widget = vbox1;
 }
@@ -358,6 +370,10 @@ static void save_archiver_prefs(PrefsPage * _page)
 		archiver_prefs.md5sum = TRUE;
 	else
 		archiver_prefs.md5sum = FALSE;
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->rename_chkbtn)))
+		archiver_prefs.rename = TRUE;
+	else
+		archiver_prefs.rename = FALSE;
 
         pref_file = prefs_write_open(rc_file_path);
         g_free(rc_file_path);
