@@ -1,3 +1,10 @@
+2008-05-31 [michael]	0.5.0cvs24
+
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+	Removed a comment out of the update of file_label in progress
+	dialog which should not have been removed.
+
 2008-05-28 [michael]	0.5.0cvs23
 
 	* src/archiver.h

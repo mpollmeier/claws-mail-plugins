@@ -124,7 +124,7 @@ static void create_progress_dialog(struct ArchivePage* page) {
 	gtk_box_pack_start(GTK_BOX(progress->vbox1),
 					progress->hbox1, FALSE, FALSE, 0);
 
-	progress->add_label = gtk_label_new(_("Adding"));
+	progress->add_label = gtk_label_new(_("Archiving:"));
 	gtk_box_pack_start(GTK_BOX(progress->hbox1),
 					progress->add_label, FALSE, FALSE, 0);
 
@@ -824,6 +824,8 @@ static void filesel_cb(GtkWidget *widget, gpointer data)
 }
 
 void set_progress_file_label(const gchar* file) {
+	debug_print("IsLabel: %s, Update label: %s\n", 
+				GTK_IS_WIDGET(progress->file_label)? "Yes" : "No", file);
 	if (GTK_IS_WIDGET(progress->file_label))
 		gtk_label_set_text(GTK_LABEL(progress->file_label), file);
 }
