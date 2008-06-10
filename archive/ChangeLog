@@ -1,3 +1,9 @@
+2008-06-10 [michael]	0.5.0cvs25
+
+	* TODO
+	Remove TODO about being able to use descriptive names in
+	archive since this is implemented in the current release.
+
 2008-05-31 [michael]	0.5.0cvs24
 
 	* src/archiver_gtk.c
