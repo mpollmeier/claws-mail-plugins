@@ -164,6 +164,8 @@ static struct ArchivePage* init_archive_page() {
 	page->cancelled = FALSE;
 	page->md5 = FALSE;
 	page->md5sum = NULL;
+	page->rename = FALSE;
+	page->rename_files = NULL;
 
 	return page;
 }
@@ -714,7 +716,7 @@ static void show_result(struct ArchivePage* page) {
 	g_free(msg);
 
 	gtk_list_store_append(list, &iter);
-	msg = g_strdup_printf("%s", (page->rename_files) ? _("Yes") : _("No"));
+	msg = g_strdup_printf("%s", (page->rename) ? _("Yes") : _("No"));
 	gtk_list_store_set(
 				list, &iter,
 				STRING1, _("Descriptive names"),

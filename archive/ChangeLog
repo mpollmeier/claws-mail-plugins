@@ -1,3 +1,13 @@
+2008-06-11 [michael]	0.5.0cvs26
+
+	* src/archiver_gtk.c
+	rename and rename_files in struct ArchivePage was not proper initialized.
+	The widget displaying the result of archive operation was using
+	rename_files to determine whether renaming was chosen or not. As
+	rename_files holds the reference to the GTK_TOGGLE_BUTTON this ment that
+	the result whould say that files was always renamed even when not done.
+	rename was the variable to test.
+
 2008-06-10 [michael]	0.5.0cvs25
 
 	* TODO
