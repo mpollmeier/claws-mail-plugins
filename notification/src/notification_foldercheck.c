@@ -40,6 +40,7 @@
 #include "common/prefs.h"
 #include "common/xml.h"
 #include "common/hooks.h"
+#include "prefs_common.h"
 
 #include "gettext.h"
 
@@ -520,6 +521,10 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(entry->treeview), FALSE);
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(entry->treeview),
 				  FOLDERCHECK_FOLDERNAME);
+  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(entry->treeview),
+				  prefs_common.use_stripes_everywhere);
+  gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(entry->treeview),
+				  prefs_common.enable_dotted_lines);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(entry->treeview));
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);

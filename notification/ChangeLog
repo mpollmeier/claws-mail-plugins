@@ -1,3 +1,8 @@
+2008-06-12 [holger]	0.16cvs5
+
+	* src/notification_foldercheck.c
+		Obey tree view prefs. Patch by wwp.
+
 2008-05-26 [holger]	0.16cvs4
 
 	* configure.ac
