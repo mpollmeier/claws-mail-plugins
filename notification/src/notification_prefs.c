@@ -1382,6 +1382,13 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 
 #ifdef HAVE_LIBNOTIFY
 	/* Frame for trayicon popup stuff */
+
+	/* TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
+		 A toast is a small passive (non-focus-stealing)
+		 notification bubble. If your language does not have a word
+		 for that, go for something along the lines of "passive popup"
+		 instead.See also
+		 http://en.wikipedia.org/wiki/Toast_(computing) */
 	frame = gtk_frame_new(_("Passive toaster popup"));
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
 	gtk_widget_show(frame);

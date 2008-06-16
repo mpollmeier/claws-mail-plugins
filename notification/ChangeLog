@@ -1,3 +1,8 @@
+2008-06-16 [holger]	0.16cvs6
+
+	* src/notification_prefs.c
+		Add comment to translators about "toast".
+
 2008-06-12 [holger]	0.16cvs5
 
 	* src/notification_foldercheck.c
