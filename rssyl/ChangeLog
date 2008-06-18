@@ -1,3 +1,8 @@
+2008-06-18 [ticho]	0.19.0cvs3
+
+	* src/feed.c
+		Fix some memory leaks.
+
 2008-05-26 [paul]	0.19.0cvs2
 
 	* src/opml.c

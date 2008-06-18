@@ -1513,7 +1513,7 @@ FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	main_window_cursor_wait(mainwindow_get_mainwindow());
 	doc = rssyl_fetch_feed(myurl, -1, &title, &error);
 	main_window_cursor_normal(mainwindow_get_mainwindow());
-	if( !title ) {
+	if( !doc || !title ) {
 		if (verbose) {
 			gchar *tmp;
 			tmp = g_markup_printf_escaped(_("Couldn't fetch URL '%s':\n%s"),
@@ -1524,6 +1524,7 @@ FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 			log_error(LOG_PROTOCOL, _("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
 		g_free(myurl);
 		g_free(error);
+		xmlFreeDoc(doc);
 		return NULL;
 	}
 	g_free(error);
@@ -1537,6 +1538,7 @@ FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 			g_free(tmp);
 		}
 		g_free(myurl);
+		xmlFreeDoc(doc);
 		return NULL;
 	}
 
