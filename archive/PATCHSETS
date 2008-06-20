@@ -20,3 +20,4 @@
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/archiver_gtk.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/libarchive_archive.c;  ) > 0.5.0cvs24.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 TODO;  ) > 0.5.0cvs25.patchset
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/archiver_gtk.c;  ) > 0.5.0cvs26.patchset
+( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 configure.ac;  diff -u /dev/null po/es.po;  ) > 0.5.0cvs27.patchset

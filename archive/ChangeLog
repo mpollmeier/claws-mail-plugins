@@ -1,3 +1,9 @@
+2008-06-20 [mones]	0.5.0cvs27
+
+	* configure.ac
+	* po/es.po
+		Added Spanish translation
+
 2008-06-11 [michael]	0.5.0cvs26
 
 	* src/archiver_gtk.c
