@@ -98,3 +98,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pl.po;  ) > 0.18.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/pl.po;  ) > 0.18.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/gtkhtml2_prefs.c;  ) > 0.18.0cvs5.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/es.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fi.po;  ) > 0.18.0cvs6.patchset

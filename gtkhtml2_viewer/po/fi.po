@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-04-13 20:01+0300\n"
-"PO-Revision-Date: 2008-04-14 10:47+0300\n"
+"POT-Creation-Date: 2008-06-18 14:54+0300\n"
+"PO-Revision-Date: 2008-06-19 11:49+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:213 src/gtkhtml2_viewer.c:186
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:213 src/gtkhtml2_prefs.c:229
+#: src/gtkhtml2_prefs.c:315 src/gtkhtml2_viewer.c:186
 msgid "Any"
 msgstr "Mikä vain"
 
@@ -44,33 +45,33 @@ msgstr "Vain osoitekirjasta löytyvät lähettäjät"
 msgid "Select ..."
 msgstr "Valitse…"
 
-#: src/gtkhtml2_prefs.c:227
+#: src/gtkhtml2_prefs.c:238
 msgid "Cache remote images locally"
 msgstr "Hae etäkuvat paikalliseen välimuistiin"
 
-#: src/gtkhtml2_prefs.c:234
+#: src/gtkhtml2_prefs.c:245
 msgid "Clear images cache when quitting"
 msgstr "Poista kuvat välimuistista lopetettaessa"
 
-#: src/gtkhtml2_prefs.c:241
+#: src/gtkhtml2_prefs.c:252
 msgid "Clear image cache now"
 msgstr "Poista kuvat välimuistista"
 
 #: src/gtkhtml2_viewer.c:110
 msgid "/_Open with Web browser"
-msgstr "_Avaa veppiselaimessa"
+msgstr "/_Avaa veppiselaimessa"
 
 #: src/gtkhtml2_viewer.c:111
 msgid "/Copy this _link"
-msgstr "Kopioi _linkki"
+msgstr "/Kopioi _linkki"
 
 #: src/gtkhtml2_viewer.c:116
 msgid "/Zoom _in"
-msgstr "Zoomaa s_isään"
+msgstr "/Zoomaa s_isään"
 
 #: src/gtkhtml2_viewer.c:117
 msgid "/Zoom _out"
-msgstr "Zoomaa ul_os"
+msgstr "/Zoomaa ul_os"
 
 #: src/gtkhtml2_viewer.c:781
 #, c-format
