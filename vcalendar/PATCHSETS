@@ -178,3 +178,4 @@
 ( cvs diff -u -r 1.1.2.76 -r 1.1.2.77 src/vcal_meeting_gtk.c;  ) > 1.102.0cvs5.patchset
 ( cvs diff -u -r 1.2.2.96 -r 1.2.2.97 src/vcal_folder.c;  ) > 1.102.0cvs6.patchset
 ( cvs diff -u -r 1.2.2.97 -r 1.2.2.98 src/vcal_folder.c;  ) > 1.102.0cvs7.patchset
+( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 po/es.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/fi.po;  ) > 1.102.0cvs8.patchset

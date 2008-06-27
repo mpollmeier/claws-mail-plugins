@@ -1,3 +1,9 @@
+2008-06-27 [paul]	1.102.0cvs8
+
+	* po/es.po
+	* po/fi.po
+		updated by Ricardo Mones and Flammie Pirinen
+
 2008-05-16 [paul]	1.102.0cvs7
 
 	* src/vcal_folder.c
