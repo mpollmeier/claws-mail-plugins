@@ -24,3 +24,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/it.po;  ) > 0.3.1cvs1.patchset
 ( cvs diff -u -r -1.1.2.1 -r -1.1.2.2 config.h.in;  cvs diff -u -r 1.1.2.27 -r 1.1.2.28 configure.ac;  ) > 0.3.2cvs1.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fr.po;  ) > 0.3.2cvs2.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fi.po;  ) > 0.3.3cvs1.patchset

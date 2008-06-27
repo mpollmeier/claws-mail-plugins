@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: spam_report\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2008-02-04 21:57+0200\n"
-"PO-Revision-Date: 2008-04-14 10:41+0300\n"
+"PO-Revision-Date: 2008-06-19 11:52+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr "Roskapostin ilmoitus…"
 
 #: src/spam_report.c:248
 msgid "/Message/Report spam online"
-msgstr "Ilmoita roskapostista verkossa"
+msgstr "/Ilmoita roskapostista verkossa"
 
 #: src/spam_report.c:256
 msgid "/Report spam online"
-msgstr "Ilmoita roskapostista verkossa"
+msgstr "/Ilmoita roskapostista verkossa"
 
 #: src/spam_report.c:273 src/spam_report.c:317 src/spam_report_prefs.c:78
 msgid "SpamReport"
