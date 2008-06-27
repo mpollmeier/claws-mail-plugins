@@ -1,17 +1,17 @@
-# translation of notification plugin to Brazilian Portuguese
+# translation of pt_BR.po to Brazilian Portuguese
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: notification plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-03-15 17:24+0100\n"
-"PO-Revision-Date: 2008-04-13 21:39-0300\n"
+"POT-Creation-Date: 2008-06-20 15:28+0100\n"
+"PO-Revision-Date: 2008-06-22 23:08-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: src/notification_banner.c:85
@@ -22,70 +22,70 @@ msgstr "/Resposta"
 msgid "Folder:"
 msgstr "Pasta:"
 
-#: src/notification_foldercheck.c:473
+#: src/notification_foldercheck.c:476
 msgid "Select folder(s)"
 msgstr "Selecione a(s) pasta(s)"
 
-#: src/notification_foldercheck.c:569
+#: src/notification_foldercheck.c:578
 msgid "select recursively"
 msgstr "seleção recursiva"
 
-#: src/notification_plugin.c:178 src/notification_plugin.c:350
-#: src/notification_prefs.c:312 src/notification_prefs.c:326
-#: src/notification_prefs.c:343 src/notification_prefs.c:360
-#: src/notification_prefs.c:377 src/notification_prefs.c:394
+#: src/notification_plugin.c:188
+#: src/notification_plugin.c:374
+#: src/notification_prefs.c:312
+#: src/notification_prefs.c:326
+#: src/notification_prefs.c:343
+#: src/notification_prefs.c:360
+#: src/notification_prefs.c:377
+#: src/notification_prefs.c:394
 msgid "Notification"
 msgstr "Notificação"
 
-#: src/notification_plugin.c:183
+#: src/notification_plugin.c:193
 msgid "The Notification plugin needs threading support."
 msgstr "O plugin Notificação precisa suporte a agrupamento."
 
-#: src/notification_plugin.c:190
+#: src/notification_plugin.c:200
 msgid "Failed to register folder item update hook in the Notification plugin"
-msgstr ""
-"Erro ao registrar o gancho de atualização de item da pasta no plugin "
-"Notificação"
-
-#: src/notification_plugin.c:198
-msgid "Failed to register folder update hook in the Notification plugin"
-msgstr "Erro ao registrar o gancho de atualização da pasta no plugin Notificação"
+msgstr "Não foi possível registrar o gancho de atualização de item da pasta no plugin Notificação"
 
 #: src/notification_plugin.c:208
-msgid "Failed to register msginfo update hook in the Notification plugin"
-msgstr "Erro ao registrar o gancho de atualização msginfo no plugin Notificação"
+msgid "Failed to register folder update hook in the Notification plugin"
+msgstr "Não foi possível registrar o gancho de atualização da pasta no plugin Notificação"
 
 #: src/notification_plugin.c:218
+msgid "Failed to register msginfo update hook in the Notification plugin"
+msgstr "Não foi possível registrar o gancho de atualização msginfo no plugin Notificação"
+
+#: src/notification_plugin.c:228
 msgid "Failed to register offline switch hook in the Notification plugin"
-msgstr "Erro ao registrar o gancho de desconexão no plugin Notificação"
+msgstr "Não foi possível registrar o gancho de desconexão no plugin Notificação"
 
-#: src/notification_plugin.c:229
+#: src/notification_plugin.c:239
 msgid "Failed to register main window close hook in the Notification plugin"
-msgstr ""
-"Erro ao registrar o gancho de encerramento da janela principal no plugin "
-"Notificação"
+msgstr "Não foi possível registrar o gancho de encerramento da janela principal no plugin Notificação"
 
-#: src/notification_plugin.c:242
+#: src/notification_plugin.c:252
 msgid "Failed to register got iconified hook in the Notification plugin"
-msgstr "Erro ao registrar o gancho de minimização no plugin Notificação"
+msgstr "Não foi possível registrar o gancho de minimização no plugin Notificação"
 
-#: src/notification_plugin.c:255
+#: src/notification_plugin.c:265
 msgid "Failed to register account list changed hook in the Notification plugin"
-msgstr ""
-"Erro ao registrar o gancho de mudança na lista de contas no plugin "
-"Notificação"
+msgstr "Não foi possível registrar o gancho de mudança na lista de contas no plugin Notificação"
 
-#: src/notification_plugin.c:355
+#: src/notification_plugin.c:278
+msgid "Failed to register theme change hook int the Notification plugin"
+msgstr "Não foi possível registrar o gancho de alteração do tema no plugin Notificação"
+
+#: src/notification_plugin.c:379
 msgid ""
-"This plugin provides various ways to notify the user of new and unread "
-"email.\n"
+"This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Esse plugin fornece várias formas de notificar o usuário sobre mensagens "
-"novas e não lidas.\n"
+"Esse plugin fornece várias formas de notificar o usuário sobre mensagens novas e não lidas.\n"
 "Opiniões para <berndth@gmx.de> são bem-vindas."
 
-#: src/notification_plugin.c:378
+#: src/notification_plugin.c:402
 msgid "Various tools"
 msgstr "Várias ferramentas"
 
@@ -93,11 +93,13 @@ msgstr "Várias ferramentas"
 msgid "New Mail message"
 msgstr "Nova mensagem de e-mail"
 
-#: src/notification_popup.c:291 src/notification_popup.c:570
+#: src/notification_popup.c:291
+#: src/notification_popup.c:570
 msgid "(No From)"
 msgstr "(Sem remetente)"
 
-#: src/notification_popup.c:293 src/notification_popup.c:574
+#: src/notification_popup.c:293
+#: src/notification_popup.c:574
 msgid "(No Subject)"
 msgstr "(Sem assunto)"
 
@@ -137,7 +139,8 @@ msgstr "Chegou uma mensagem de tipo desconhecido"
 msgid "Mail message"
 msgstr "Mensagem de e-mail"
 
-#: src/notification_popup.c:442 src/notification_popup.c:448
+#: src/notification_popup.c:442
+#: src/notification_popup.c:448
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
@@ -177,9 +180,12 @@ msgid_plural "%d new messages"
 msgstr[0] "%d nova messagem"
 msgstr[1] "%d novas messagens"
 
-#: src/notification_prefs.c:311 src/notification_prefs.c:325
-#: src/notification_prefs.c:342 src/notification_prefs.c:359
-#: src/notification_prefs.c:376 src/notification_prefs.c:393
+#: src/notification_prefs.c:311
+#: src/notification_prefs.c:325
+#: src/notification_prefs.c:342
+#: src/notification_prefs.c:359
+#: src/notification_prefs.c:376
+#: src/notification_prefs.c:393
 msgid "Plugins"
 msgstr "Plugins"
 
@@ -209,8 +215,7 @@ msgid ""
 "Notification Plugin: Failed to write plugin configuration to file\n"
 msgstr ""
 "\n"
-"Plugin Notificação: Não foi possível salvar a configuração do plugin no "
-"arquivo\n"
+"Plugin Notificação: Não foi possível salvar a configuração do plugin no arquivo\n"
 
 #: src/notification_prefs.c:471
 msgid "Include folder types"
@@ -280,33 +285,42 @@ msgstr "Incluir mensagens não lidas no letreiro"
 msgid "Make banner sticky"
 msgstr "Tornar o letreiro aderente"
 
-#: src/notification_prefs.c:664 src/notification_prefs.c:862
-#: src/notification_prefs.c:1134 src/notification_prefs.c:1366
+#: src/notification_prefs.c:664
+#: src/notification_prefs.c:862
+#: src/notification_prefs.c:1134
+#: src/notification_prefs.c:1366
 msgid "Only include selected folders"
 msgstr "Incluir apenas as pastas selecionadas"
 
-#: src/notification_prefs.c:673 src/notification_prefs.c:871
-#: src/notification_prefs.c:1143 src/notification_prefs.c:1375
+#: src/notification_prefs.c:673
+#: src/notification_prefs.c:871
+#: src/notification_prefs.c:1143
+#: src/notification_prefs.c:1375
 msgid "Select folders..."
 msgstr "Selecione as pastas..."
 
-#: src/notification_prefs.c:683 src/notification_prefs.c:903
+#: src/notification_prefs.c:683
+#: src/notification_prefs.c:903
 msgid "Use custom colors"
 msgstr "Usar cores personalizadas"
 
-#: src/notification_prefs.c:696 src/notification_prefs.c:916
+#: src/notification_prefs.c:696
+#: src/notification_prefs.c:916
 msgid "Foreground"
 msgstr "Frente"
 
-#: src/notification_prefs.c:702 src/notification_prefs.c:922
+#: src/notification_prefs.c:702
+#: src/notification_prefs.c:922
 msgid "Foreground color"
 msgstr "Cor da frente"
 
-#: src/notification_prefs.c:707 src/notification_prefs.c:927
+#: src/notification_prefs.c:707
+#: src/notification_prefs.c:927
 msgid "Background"
 msgstr "Fundo"
 
-#: src/notification_prefs.c:713 src/notification_prefs.c:933
+#: src/notification_prefs.c:713
+#: src/notification_prefs.c:933
 msgid "Background color"
 msgstr "Cor do fundo"
 
@@ -314,12 +328,14 @@ msgstr "Cor do fundo"
 msgid "Enable popup"
 msgstr "Habilitar janela de notificação"
 
-#: src/notification_prefs.c:843 src/notification_prefs.c:1414
+#: src/notification_prefs.c:843
+#: src/notification_prefs.c:1421
 msgid "Popup timeout:"
 msgstr "Limite de tempo da janela de notificação:"
 
-#: src/notification_prefs.c:853 src/notification_prefs.c:1125
-#: src/notification_prefs.c:1423
+#: src/notification_prefs.c:853
+#: src/notification_prefs.c:1125
+#: src/notification_prefs.c:1430
 msgid "seconds"
 msgstr "segundos"
 
@@ -335,7 +351,8 @@ msgstr "Configure a largura e posição da janela de notificação"
 msgid "(the window manager is free to ignore this)"
 msgstr "(o gerenciador de janelas tem liberdade para ignorar isso)"
 
-#: src/notification_prefs.c:945 src/notification_prefs.c:1426
+#: src/notification_prefs.c:945
+#: src/notification_prefs.c:1433
 msgid "Display folder name"
 msgstr "Exibir o nome da pasta"
 
@@ -383,11 +400,17 @@ msgstr "Fechar envia para a área de notificação"
 msgid "Hide when iconified"
 msgstr "Esconder quando iconificado"
 
-#: src/notification_prefs.c:1385
+#. TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
+#. A toast is a small passive (non-focus-stealing)
+#. notification bubble. If your language does not have a word
+#. for that, go for something along the lines of "passive popup"
+#. instead.See also
+#. http://en.wikipedia.org/wiki/Toast_(computing)
+#: src/notification_prefs.c:1392
 msgid "Passive toaster popup"
 msgstr "Janela de notificação passiva"
 
-#: src/notification_prefs.c:1396
+#: src/notification_prefs.c:1403
 msgid "Enable Popup"
 msgstr "Habilitar janela de notificação"
 

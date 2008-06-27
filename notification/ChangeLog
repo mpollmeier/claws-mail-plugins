@@ -1,3 +1,10 @@
+2008-06-27 [paul]	0.16cvs7
+
+	* po/fi.po
+	* po/pt_BR.po
+		updated by Flammie Pirinen and Frederico
+		Goncalves Guimaraes
+
 2008-06-16 [holger]	0.16cvs6
 
 	* src/notification_prefs.c

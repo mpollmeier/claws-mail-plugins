@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: notification\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-04-14 00:22+0300\n"
-"PO-Revision-Date: 2008-04-14 10:48+0300\n"
+"POT-Creation-Date: 2008-06-18 14:54+0300\n"
+"PO-Revision-Date: 2008-06-19 11:50+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@gentoo.org>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,62 +18,66 @@ msgstr ""
 
 #: src/notification_banner.c:85
 msgid "/Reply"
-msgstr "Vastaa"
+msgstr "/Vastaa"
 
 #: src/notification_banner.c:343
 msgid "Folder:"
 msgstr "Kansio:"
 
-#: src/notification_foldercheck.c:473
+#: src/notification_foldercheck.c:476
 msgid "Select folder(s)"
 msgstr "Valitse kansioita"
 
-#: src/notification_foldercheck.c:569
+#: src/notification_foldercheck.c:578
 msgid "select recursively"
 msgstr "valitse rekursiivisesti"
 
-#: src/notification_plugin.c:178 src/notification_plugin.c:350
+#: src/notification_plugin.c:188 src/notification_plugin.c:374
 #: src/notification_prefs.c:312 src/notification_prefs.c:326
 #: src/notification_prefs.c:343 src/notification_prefs.c:360
 #: src/notification_prefs.c:377 src/notification_prefs.c:394
 msgid "Notification"
 msgstr "Ilmoitus"
 
-#: src/notification_plugin.c:183
+#: src/notification_plugin.c:193
 msgid "The Notification plugin needs threading support."
 msgstr "Ilmoitusliitännäinen vaatii säietuen."
 
-#: src/notification_plugin.c:190
+#: src/notification_plugin.c:200
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "Päivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:198
+#: src/notification_plugin.c:208
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr "Kansiopäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:208
+#: src/notification_plugin.c:218
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Viesti-info-koukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:218
+#: src/notification_plugin.c:228
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr "Yhteydettömyyskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:229
+#: src/notification_plugin.c:239
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr ""
 "Ikkunan sulkemsiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:242
+#: src/notification_plugin.c:252
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr "Pienentymiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:255
+#: src/notification_plugin.c:265
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr ""
 "Tililistapäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:355
+#: src/notification_plugin.c:278
+msgid "Failed to register theme change hook int the Notification plugin"
+msgstr "Teemakoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+
+#: src/notification_plugin.c:379
 msgid ""
 "This plugin provides various ways to notify the user of new and unread "
 "email.\n"
@@ -83,7 +87,7 @@ msgstr ""
 "postista.\n"
 "Palaute osoitteeseen <berndth@gmx.de>, suomennoksesta <flammie@iki.fi>"
 
-#: src/notification_plugin.c:378
+#: src/notification_plugin.c:402
 msgid "Various tools"
 msgstr "Työkaluja"
 
@@ -311,12 +315,12 @@ msgstr "Taustaväri"
 msgid "Enable popup"
 msgstr "Salli ponnahdus"
 
-#: src/notification_prefs.c:843 src/notification_prefs.c:1414
+#: src/notification_prefs.c:843 src/notification_prefs.c:1421
 msgid "Popup timeout:"
 msgstr "Ponnahdusaika:"
 
 #: src/notification_prefs.c:853 src/notification_prefs.c:1125
-#: src/notification_prefs.c:1423
+#: src/notification_prefs.c:1430
 msgid "seconds"
 msgstr "sekuntia"
 
@@ -332,7 +336,7 @@ msgstr "Aseta ponnahdusikkunan leveys ja sijainti"
 msgid "(the window manager is free to ignore this)"
 msgstr "(ikkunointiohjelma voi sivuuttaa asetukset)"
 
-#: src/notification_prefs.c:945 src/notification_prefs.c:1426
+#: src/notification_prefs.c:945 src/notification_prefs.c:1433
 msgid "Display folder name"
 msgstr "Näytä kansion nimi"
 
@@ -380,10 +384,16 @@ msgstr "Sulje ilmoitusalueelle"
 msgid "Hide when iconified"
 msgstr "Piilota pienennettynä"
 
-#: src/notification_prefs.c:1385
+#. TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
+#. A toast is a small passive (non-focus-stealing)
+#. notification bubble. If your language does not have a word
+#. for that, go for something along the lines of "passive popup"
+#. instead.See also
+#. http://en.wikipedia.org/wiki/Toast_(computing)
+#: src/notification_prefs.c:1392
 msgid "Passive toaster popup"
 msgstr "Passiivinen leivänpaahdinponnahdus"
 
-#: src/notification_prefs.c:1396
+#: src/notification_prefs.c:1403
 msgid "Enable Popup"
 msgstr "Salli ponnahdus"
