@@ -25,7 +25,6 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <stdint.h>
 
 #include "version.h"
 #include "claws.h"
