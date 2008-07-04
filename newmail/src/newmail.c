@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <stdint.h>
 
 #include "version.h"
 #include "claws.h"
@@ -61,7 +62,7 @@ gboolean newmail_hook (gpointer source, gpointer data)
 	"From:\t%s\n"
 	"To:\t%s\n"
 	"Cc:\t%s\n"
-	"Size:\t%ld\n"
+	"Size:\t%jd\n"
 	"Path:\t%s\n"
 	"Message:\t%d\n"
 	"Folder:\t%s\n",
@@ -70,7 +71,7 @@ gboolean newmail_hook (gpointer source, gpointer data)
 	    defstr (msginfo->from),
 	    defstr (msginfo->to),
 	    defstr (msginfo->cc),
-	    msginfo->size,
+	    (intmax_t) msginfo->size,
 	    defstr (procmsg_get_message_file_path (msginfo)),
 	    msginfo->msgnum,
 	    tof ? defstr (tof->name) : "(null)");

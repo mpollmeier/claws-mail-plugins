@@ -1,3 +1,9 @@
+2008-07-04 [paul]	0.0.12cvs1
+
+	* src/newmail.c
+		fix bug 1654, 'crashes when using newmail plugin'
+		Thanks to Steven M. Bellovin and Holger Berndt
+
 2007-09-03 [paul]	0.0.12
 
 	0.0.12 released
