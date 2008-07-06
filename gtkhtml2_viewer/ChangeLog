@@ -1,3 +1,9 @@
+2008-07-06 [paul]	0.19.0cvs1
+
+	* libgtkhtml/css/cssparser.h
+		fix compilation on FreeBSD 4.8-RELEASE
+		Thanks to Michael Hughes
+
 2008-06-27 [paul]	0.19.0
 
 	0.19 released
