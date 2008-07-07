@@ -255,9 +255,9 @@ static gboolean scroller(gpointer data)
 	if(banner_popup_open)
 		return banner.scrolling;
 
-  G_LOCK(sdata);
 	while(gtk_events_pending())
 		gtk_main_iteration();
+  G_LOCK(sdata);
   if(sdata.adj && GTK_IS_ADJUSTMENT(sdata.adj)) {
     if(sdata.adj->value != sdata.banner_width)
       gtk_adjustment_set_value(sdata.adj, sdata.adj->value + 1);
@@ -265,9 +265,9 @@ static gboolean scroller(gpointer data)
       gtk_adjustment_set_value(sdata.adj, 0);
 		gtk_adjustment_value_changed(sdata.adj);
   }
+  G_UNLOCK(sdata);
 	while(gtk_events_pending())
 		gtk_main_iteration();
-  G_UNLOCK(sdata);
   return banner.scrolling;
 }
 

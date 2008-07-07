@@ -103,3 +103,4 @@
 ( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/notification_prefs.c;  ) > 0.16cvs6.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fi.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/pt_BR.po;  ) > 0.16cvs7.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/notification_foldercheck.c;  ) > 0.17cvs1.patchset
+( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/notification_banner.c;  ) > 0.17cvs2.patchset
