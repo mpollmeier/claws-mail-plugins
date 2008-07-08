@@ -1,3 +1,9 @@
+2008-07-08 [colin]	2.0.0cvs1
+
+	* libical/libical/icalparser.c
+		Lines can be folded with tabs in addition
+		to spaces (RFC 2445, 4.1 Content Lines)
+
 2008-06-27 [paul]	2.0.0
 
 	version 2.0.0 released

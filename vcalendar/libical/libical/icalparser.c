@@ -3,7 +3,7 @@
   FILE: icalparser.c
   CREATOR: eric 04 August 1999
   
-  $Id: icalparser.c,v 1.1.2.2 2005-11-17 19:45:50 colinleroy Exp $
+  $Id: icalparser.c,v 1.1.2.3 2008-07-08 07:58:17 colinler Exp $
   $Locker:  $
     
  The contents of this file are subject to the Mozilla Public License
@@ -490,7 +490,7 @@ char* icalparser_get_line(icalparser *parser,
 	   begins with a ' ', then the buffer holds a continuation
 	   line, so keep reading.  */
 
-	if  ( line_p > line+1 && *(line_p-1) == '\n' && impl->temp[0] == ' ') {
+	if  ( line_p > line+1 && *(line_p-1) == '\n' && (impl->temp[0] == ' ' || impl->temp[0] == '\t')) {
 
             impl->continuation_line = 1;
 
@@ -563,7 +563,6 @@ icalcomponent* icalparser_parse(icalparser *parser,
     char* line; 
     icalcomponent *c=0; 
     icalcomponent *root=0;
-    struct icalparser_impl *impl = (struct icalparser_impl*)parser;
     icalerrorstate es = icalerror_get_error_state(ICAL_MALFORMEDDATA_ERROR);
 
     icalerror_check_arg_rz((parser !=0),"parser");
