@@ -1,3 +1,11 @@
+2008-07-08 [colin]	0.20.0cvs1
+
+	* src/feed.c
+		Fix bug 1665, "RSSyl does not handle well feeds 
+		that have no title".
+		Fixes in turn bug 1666, "Can not rename a feed 
+		that has no title"
+
 2008-06-27 [paul]	0.20
 
 	0.20 released

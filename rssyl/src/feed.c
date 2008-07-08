@@ -486,6 +486,12 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 
 	g_return_val_if_fail(*title != NULL, NULL);
 
+	if (*title[0] == '\0') {
+		g_free(*title);
+		*title = g_strdup(url);
+		subst_for_shellsafe_filename(*title);
+	}
+
 	tmptitle = rssyl_strreplace(*title, "/", "\\");
 	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, tmptitle, NULL);
@@ -1527,6 +1533,7 @@ FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 		xmlFreeDoc(doc);
 		return NULL;
 	}
+
 	g_free(error);
 
 	new_item = folder_create_folder(parent, title);
