@@ -1178,10 +1178,9 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		g_signal_handlers_unblock_by_func(G_OBJECT(viewer->cur_page), pdf_viewer_spin_change_page_cb,(gpointer *)viewer);
 		gtk_spin_button_spin(GTK_SPIN_BUTTON(viewer->cur_page), GTK_SPIN_HOME, 1);
 		tmp = g_strdup_printf(_("%s Document"),pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF ? "PDF":"Postscript");
-		gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips),
+		CLAWS_SET_TIP(
 				GTK_WIDGET(viewer->icon_type_ebox),
-				tmp,
-				NULL);
+				tmp);
 		g_free(tmp);
 
 		tmp = g_strdup_printf(ngettext("%d page", "%d pages", viewer->num_pages),
@@ -1528,7 +1527,7 @@ static MimeViewer *pdf_viewer_create(void)
 	GtkTreeStore *tree_store;
 	GtkWidget *sep;
 	gint col = 0;
-
+	CLAWS_TIP_DECL();
 
 	viewer = g_new0(PdfViewer, 1);
 	debug_print("pdf_viewer_create\n");
@@ -1577,7 +1576,9 @@ static MimeViewer *pdf_viewer_create(void)
 	gtk_widget_set_size_request(viewer->frame_index, 18, -1);
 	gtk_frame_set_label(GTK_FRAME(viewer->frame_index), _("Document Index"));
 
-	viewer->button_bar_tips = gtk_tooltips_new();
+#if !(GTK_CHECK_VERSION(2,12,0))
+	viewer->button_bar_tips = tips;
+#endif
 
 	ADD_SEP_TO_TABLE
 	ADD_BUTTON_TO_TABLE(viewer->first_page, first_arrow_xpm)
@@ -1760,72 +1761,44 @@ static MimeViewer *pdf_viewer_create(void)
 	gtk_widget_ref(GTK_WIDGET(viewer->index_list));
 
 	/* Set Tooltips*/
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->first_page,
-				_("First Page"),
-				NULL);
+	CLAWS_SET_TIP(viewer->first_page,
+				_("First Page"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->prev_page,
-				_("Previous Page"),
-				NULL);
+	CLAWS_SET_TIP(viewer->prev_page,
+				_("Previous Page"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->next_page,
-				_("Next Page"),
-				NULL);
+	CLAWS_SET_TIP(viewer->next_page,
+				_("Next Page"));
 	
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->last_page,
-				_("Last Page"),
-				NULL);
+	CLAWS_SET_TIP(viewer->last_page,
+				_("Last Page"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->zoom_in,
-				_("Zoom In"),
-				NULL);
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->zoom_out,
-				_("Zoom Out"),
-				NULL);
+	CLAWS_SET_TIP(viewer->zoom_in,
+				_("Zoom In"));
+	CLAWS_SET_TIP(viewer->zoom_out,
+				_("Zoom Out"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->zoom_fit,
-				_("Fit Page"),
-				NULL);
+	CLAWS_SET_TIP(viewer->zoom_fit,
+				_("Fit Page"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->zoom_width,
-				_("Fit Page Width"),
-				NULL);
+	CLAWS_SET_TIP(viewer->zoom_width,
+				_("Fit Page Width"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->rotate_left,
-				_("Rotate Left"),
-				NULL);
+	CLAWS_SET_TIP(viewer->rotate_left,
+				_("Rotate Left"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->rotate_right,
-				_("Rotate Right"),
-				NULL);
+	CLAWS_SET_TIP(viewer->rotate_right,
+				_("Rotate Right"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->doc_info,
-				_("Document Info"),
-				NULL);
+	CLAWS_SET_TIP(viewer->doc_info,
+				_("Document Info"));
 
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips), 
-				viewer->doc_index,
-				_("Document Index"),
-				NULL);
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips),
-				viewer->cur_page,
-				_("Page Number"),
-				NULL);
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(viewer->button_bar_tips),
-				viewer->zoom_scroll,
-				_("Zoom Factor"),
-				NULL);
+	CLAWS_SET_TIP(viewer->doc_index,
+				_("Document Index"));
+	CLAWS_SET_TIP(viewer->cur_page,
+				_("Page Number"));
+	CLAWS_SET_TIP(viewer->zoom_scroll,
+				_("Zoom Factor"));
 	/* Connect Signals */
 	g_signal_connect(G_OBJECT(viewer->cur_page), 
 				    "value-changed", 

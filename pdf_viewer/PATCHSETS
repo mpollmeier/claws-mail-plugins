@@ -117,3 +117,4 @@
 ( cvs diff -u -r 1.1.2.123 -r 1.1.2.124 configure.ac;  ) > 0.9.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fr.po;  ) > 0.9.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.82 -r 1.1.2.83 src/poppler_viewer.c;  ) > 0.9.1cvs1.patchset
+( cvs diff -u -r 1.1.2.83 -r 1.1.2.84 src/poppler_viewer.c;  ) > 0.9.1cvs2.patchset
