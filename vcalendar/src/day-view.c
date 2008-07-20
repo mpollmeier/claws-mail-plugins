@@ -139,7 +139,9 @@ void dw_close_window(day_win *dw)
 {
     vcal_view_set_summary_page(dw->Vbox, dw->selsig);
 
+#if !(GTK_CHECK_VERSION(2,12,0))
     gtk_object_destroy(GTK_OBJECT(dw->Tooltips));
+#endif
     g_free(dw);
     dw = NULL;
 }
@@ -330,6 +332,9 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
     GtkWidget *ev, *lab, *hb;
     time_t t_start, t_end;
     struct tm tm_first, tm_start, tm_end;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = dw->Tooltips;
+#endif
 
     /* First clarify timings */
     t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
@@ -398,7 +403,7 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
         g_free(start_date);
         g_free(end_date);
     }
-    gtk_tooltips_set_tip(dw->Tooltips, ev, tip, NULL);
+    CLAWS_SET_TIP(ev, tip);
     /*
     gtk_box_pack_start(GTK_BOX(hb2), ev, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(hb), hb2, TRUE, TRUE, 0);
@@ -681,6 +686,9 @@ static void build_day_view_table(day_win *dw)
     GtkWidget *arrow;
     gchar *tip;
     gint first_col_day = -1;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = dw->Tooltips;
+#endif
 
     localtime_r(&t, &tm_today);
     days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
@@ -725,7 +733,7 @@ static void build_day_view_table(day_win *dw)
     g_signal_connect((gpointer)dw->Previous_toolbutton, "button_release_event"
             , G_CALLBACK(on_Previous_clicked), dw);
     tip = g_strdup_printf("Back %d days", days);
-    gtk_tooltips_set_tip(dw->Tooltips, dw->Previous_toolbutton, tip, NULL);
+    CLAWS_SET_TIP(dw->Previous_toolbutton, tip);
     g_free(tip);
     for (i = 1; i < days+1; i++) {
         tip = g_malloc(100);
@@ -743,7 +751,7 @@ static void build_day_view_table(day_win *dw)
             label = gtk_bin_get_child(GTK_BIN(button));
             gtk_widget_modify_fg(label, GTK_STATE_NORMAL, &dw->fg_sunday);
         }
-        gtk_tooltips_set_tip(dw->Tooltips, button, tip, NULL);
+        CLAWS_SET_TIP(button, tip);
 	g_free(tip);
         gtk_widget_set_size_request(button, dw->StartDate_button_req.width, -1);
         g_signal_connect((gpointer)button, "clicked"
@@ -774,7 +782,7 @@ static void build_day_view_table(day_win *dw)
     g_signal_connect((gpointer)dw->Next_toolbutton, "button_release_event"
             , G_CALLBACK(on_Next_clicked), dw);
     tip = g_strdup_printf("Forward %d days", days);
-    gtk_tooltips_set_tip(dw->Tooltips, dw->Next_toolbutton, tip, NULL);
+    CLAWS_SET_TIP(dw->Next_toolbutton, tip);
     g_free(tip);
     g_free(today);
 
@@ -820,11 +828,14 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
 {
     day_win *dw;
     char *start_date = get_locale_date(&tmdate);
-    
+    CLAWS_TIP_DECL();
+
     /* initialisation + main window + base vbox */
     dw = g_new0(day_win, 1);
     dw->scroll_pos = -1; /* not set */
-    dw->Tooltips = gtk_tooltips_new();
+#if !(GTK_CHECK_VERSION(2,12,0))
+    dw->Tooltips = tips;
+#endif
     dw->accel_group = gtk_accel_group_new();
     
     while (tmdate.tm_wday != 1)

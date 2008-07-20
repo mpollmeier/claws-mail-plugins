@@ -263,6 +263,10 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 {
 	GtkWidget *att_hbox = gtk_hbox_new(FALSE, 6);
 	VCalAttendee *attendee 	= g_new0(VCalAttendee, 1);
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = meet->tips;
+#endif
+
 	attendee->address	= gtk_entry_new();
 	attendee->cutype	= gtk_combo_box_new_text();
 	attendee->avail_evtbox  = gtk_event_box_new();
@@ -273,8 +277,7 @@ VCalAttendee *attendee_add(VCalMeeting *meet, gchar *address, gchar *name, gchar
 	gtk_widget_show(attendee->cutype);
 	gtk_widget_show(attendee->avail_evtbox);
 
-	gtk_tooltips_set_tip(meet->tips, attendee->address, 
-				_("Use <tab> to autocomplete from addressbook"), NULL);
+	CLAWS_SET_TIP(attendee->address, _("Use <tab> to autocomplete from addressbook"));
 	gtk_widget_set_usize(attendee->avail_evtbox, 18, 16);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(attendee->avail_evtbox), FALSE);
 	gtk_container_add (GTK_CONTAINER(attendee->avail_evtbox), attendee->avail_img);
@@ -658,6 +661,9 @@ static void meeting_end_changed(GtkWidget *widget, gpointer data)
 static void att_update_icon(VCalMeeting *meet, VCalAttendee *attendee, gint avail, gchar *text)
 {
 	const gchar *icon = GTK_STOCK_DIALOG_INFO;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = meet->tips;
+#endif
 
 	switch (avail) {
 		case 0:  icon = GTK_STOCK_DIALOG_WARNING;	break;
@@ -669,14 +675,14 @@ static void att_update_icon(VCalMeeting *meet, VCalAttendee *attendee, gint avai
 		if (attendee->avail_img) {
 			gtk_widget_hide(attendee->avail_img);
 		}
-		gtk_tooltips_set_tip(meet->tips, attendee->avail_evtbox, NULL, NULL);
+		CLAWS_SET_TIP(attendee->avail_evtbox, NULL);
 	} else if (attendee->avail_img) {
 		gtk_image_set_from_stock
 		        (GTK_IMAGE(attendee->avail_img), 
 			icon, 
 			GTK_ICON_SIZE_SMALL_TOOLBAR);
 		gtk_widget_show(attendee->avail_img);
-		gtk_tooltips_set_tip(meet->tips, attendee->avail_evtbox, text, NULL);
+		CLAWS_SET_TIP(attendee->avail_evtbox, text);
 	}
 }
 
@@ -808,6 +814,9 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	GHashTable *avail_table_avail = g_hash_table_new(NULL, g_direct_equal);
 	GHashTable *avail_table_before = g_hash_table_new(NULL, g_direct_equal);
 	GHashTable *avail_table_after = g_hash_table_new(NULL, g_direct_equal);
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = meet->tips;
+#endif
 	
 	for (cur = attendees; cur; cur = cur->next) {
 		VCalAttendee *attendee = (VCalAttendee *)cur->data;
@@ -930,7 +939,7 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	gtk_widget_show(meet->total_avail_img);
 	gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Not everyone is available. "
 				"See tooltips for more info..."));
-	gtk_tooltips_set_tip(meet->tips, meet->total_avail_evtbox, msg, NULL);
+	CLAWS_SET_TIP(meet->total_avail_evtbox, msg);
 	g_free(msg);
 	return (val == G_ALERTALTERNATE);
 }
@@ -953,6 +962,9 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 				"internal.ifb", NULL);
 	gboolean local_only = FALSE;
 	GSList *attlist;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = meet->tips;
+#endif
 
 	if (vcalprefs.freebusy_get_url == NULL
 	||  *vcalprefs.freebusy_get_url == '\0') {
@@ -1107,7 +1119,7 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 					GTK_ICON_SIZE_SMALL_TOOLBAR);
 				gtk_widget_show(meet->total_avail_img);
 				gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Everyone is available."));
-				gtk_tooltips_set_tip(meet->tips, meet->total_avail_evtbox, NULL, NULL);
+				CLAWS_SET_TIP(meet->total_avail_evtbox, NULL);
 			} else {
 				gtk_image_set_from_stock
 		        		(GTK_IMAGE(meet->total_avail_img), 
@@ -1115,8 +1127,7 @@ static gboolean check_attendees_availability(VCalMeeting *meet, gboolean tell_if
 					GTK_ICON_SIZE_SMALL_TOOLBAR);
 				gtk_widget_show(meet->total_avail_img);
 				gtk_label_set_text(GTK_LABEL(meet->total_avail_msg), _("Everyone is available."));
-				gtk_tooltips_set_tip(meet->tips, meet->total_avail_evtbox, 
-					_("Everyone seems available, but some free/busy information failed to be retrieved."), NULL);
+				CLAWS_SET_TIP(meet->total_avail_evtbox, _("Everyone seems available, but some free/busy information failed to be retrieved."));
 			}
 		}
 	}
@@ -1329,11 +1340,14 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	GtkWidget *notebook;
 	GtkWidget *maemo_vbox0;
 #endif
-	
+	CLAWS_TIP_DECL();
+
 	if (!watch_cursor)
 		watch_cursor = gdk_cursor_new(GDK_WATCH);
 
-	meet->tips = gtk_tooltips_new();
+#if !(GTK_CHECK_VERSION(2,12,0))
+    	meet->tips = tips;
+#endif
 	meet->visible = visible;
 	start_h_adj = gtk_adjustment_new (0, 0, 23, 1, 10, 10);
 	start_m_adj = gtk_adjustment_new (0, 0, 59, 1, 10, 10);

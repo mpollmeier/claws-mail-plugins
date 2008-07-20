@@ -134,7 +134,9 @@ void mw_close_window(month_win *mw)
 {
     vcal_view_set_summary_page(mw->Vbox, mw->selsig);
     
+#if !(GTK_CHECK_VERSION(2,12,0))
     gtk_object_destroy(GTK_OBJECT(mw->Tooltips));
+#endif
     g_free(mw);
     mw = NULL;
 }
@@ -337,6 +339,9 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
     gboolean pack = TRUE, update_tip = FALSE;
     time_t now = time(NULL);
     struct tm tm_today;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = mw->Tooltips;
+#endif
 
     localtime_r(&now, &tm_today);
 
@@ -452,17 +457,17 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
     }
     if (pack) {
         gtk_container_add(GTK_CONTAINER(ev), lab);
-	gtk_tooltips_set_tip(mw->Tooltips, ev, tip, NULL);
+	CLAWS_SET_TIP(ev, tip);
         gtk_box_pack_start(GTK_BOX(hb), ev, TRUE, TRUE, 0);
     } else if (!update_tip) {
         gtk_label_set_label(GTK_LABEL(lab), "...");
         gtk_container_add(GTK_CONTAINER(ev), lab);
-	gtk_tooltips_set_tip(mw->Tooltips, ev, tip, NULL);
+	CLAWS_SET_TIP(ev, tip);
         gtk_box_pack_start(GTK_BOX(hb), ev, TRUE, TRUE, 0);
     } else {
         GtkTooltipsData *tdata = gtk_tooltips_data_get(ev);
 	gchar *new = g_strdup_printf("%s\n\n%s", tdata?tdata->tip_text:"", tip);
-	gtk_tooltips_set_tip(mw->Tooltips, ev, new, NULL);
+	CLAWS_SET_TIP(ev, new);
 	g_free(new);
     }
     g_object_set_data_full(G_OBJECT(ev), "UID", g_strdup(event->uid), g_free);
@@ -543,7 +548,10 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
     int weekoffset = -1;
     time_t now = time(NULL);
     struct tm tm_today;
-    
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = mw->Tooltips;
+#endif
+
     
     localtime_r(&now, &tm_today);
 
@@ -618,7 +626,7 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
         	    , G_CALLBACK(header_button_clicked_cb), mw);
             name = gtk_label_new(label);
 	    gtk_misc_set_alignment(GTK_MISC(name), 0.0, 0.0);
-	    gtk_tooltips_set_tip(mw->Tooltips, ev, tmp, NULL);
+	    CLAWS_SET_TIP(ev, tmp);
             gtk_container_add(GTK_CONTAINER(ev), name);
 	    g_free(tmp);
             g_free(label);
@@ -733,11 +741,14 @@ static void build_month_view_colours(month_win *mw)
 static void fill_hour(month_win *mw, gint col, gint row, char *text)
 {
     GtkWidget *name, *ev;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = mw->Tooltips;
+#endif
 
     ev = gtk_event_box_new();
     name = gtk_label_new(text);
     gtk_misc_set_alignment(GTK_MISC(name), 0, 0.5);
-    gtk_tooltips_set_tip(mw->Tooltips, ev, _("Week number"), NULL);
+    CLAWS_SET_TIP(ev, _("Week number"));
     gtk_container_add(GTK_CONTAINER(ev), name);
     gtk_widget_set_size_request(ev, mw->hour_req.width
             , mw->StartDate_button_req.height);
@@ -765,6 +776,9 @@ static void build_month_view_table(month_win *mw)
     int weekoffset = -1;
     GDate *date;
     int first_week=0;
+#if !(GTK_CHECK_VERSION(2,12,0))
+	GtkTooltips *tips = mw->Tooltips;
+#endif
 
     if (mainwindow_get_mainwindow()) {
         GtkAllocation allocation;
@@ -828,7 +842,7 @@ static void build_month_view_table(month_win *mw)
     gtk_widget_show_all(mw->Previous_toolbutton);
     g_signal_connect((gpointer)mw->Previous_toolbutton, "button_release_event"
             , G_CALLBACK(on_Previous_clicked), mw);
-    gtk_tooltips_set_tip(mw->Tooltips, mw->Previous_toolbutton, _("Previous month"), NULL);
+    CLAWS_SET_TIP(mw->Previous_toolbutton, _("Previous month"));
     for (i = 1; i < days+1; i++) {
         button = gtk_label_new(_(dayname[i-1]));
 
@@ -851,7 +865,7 @@ static void build_month_view_table(month_win *mw)
     gtk_widget_show_all(mw->Next_toolbutton);
     g_signal_connect((gpointer)mw->Next_toolbutton, "button_release_event"
             , G_CALLBACK(on_Next_clicked), mw);
-    gtk_tooltips_set_tip(mw->Tooltips, mw->Next_toolbutton, _("Next month"), NULL);
+    CLAWS_SET_TIP(mw->Next_toolbutton, _("Next month"));
 
     /****** body of day table ******/
     mw->scroll_win = gtk_scrolled_window_new(NULL, NULL);
@@ -913,11 +927,14 @@ month_win *create_month_win(FolderItem *item, struct tm tmdate)
 {
     month_win *mw;
     char *start_date = get_locale_date(&tmdate);
-    
+    CLAWS_TIP_DECL();
+
     /* initialisation + main window + base vbox */
     mw = g_new0(month_win, 1);
     mw->scroll_pos = -1; /* not set */
-    mw->Tooltips = gtk_tooltips_new();
+#if !(GTK_CHECK_VERSION(2,12,0))
+    mw->Tooltips = tips;
+#endif
     mw->accel_group = gtk_accel_group_new();
 
     while (tmdate.tm_mday != 1)

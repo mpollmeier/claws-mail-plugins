@@ -240,10 +240,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 
 	GtkWidget *freebusy_get_url_label;
 	GtkWidget *freebusy_get_url_entry;
-
-	GtkTooltips *tooltips;
-
-	tooltips = gtk_tooltips_new();
+	CLAWS_TIP_DECL();
 
 	vbox1 = gtk_vbox_new (FALSE, VSPACING);
 	gtk_widget_show (vbox1);
@@ -307,13 +304,11 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show(export_path_entry);
 	gtk_box_pack_start(GTK_BOX(hbox2), export_path_entry, TRUE, TRUE, 0);
 	SET_TOGGLE_SENSITIVITY(export_enable_checkbtn, export_path_entry);
-	gtk_tooltips_set_tip(tooltips, export_enable_checkbtn, 
-			    _("You can export to a local file or URL"),
-			     NULL);
-	gtk_tooltips_set_tip(tooltips, export_path_entry, 
+	CLAWS_SET_TIP(export_enable_checkbtn, 
+			    _("You can export to a local file or URL"));
+	CLAWS_SET_TIP(export_path_entry, 
 			    _("Specify a local file or URL "
-			      "(http://server/path/file.ics)"),
-			     NULL);
+			      "(http://server/path/file.ics)"));
 
 /* export auth */
 	hbox2 = gtk_hbox_new (FALSE, 8);
@@ -382,9 +377,8 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (hbox3);
 	gtk_box_pack_start(GTK_BOX (vbox3), hbox3, TRUE, TRUE, 0);
 	register_orage_checkbtn = gtk_check_button_new_with_label(_("Register Claws' calendar in XFCE's Orage clock"));
-	gtk_tooltips_set_tip(tooltips, register_orage_checkbtn, 
-			    _("Allows Orage (version greater than 4.4) to see Claws Mail's calendar"),
-			     NULL);
+	CLAWS_SET_TIP(register_orage_checkbtn, 
+			    _("Allows Orage (version greater than 4.4) to see Claws Mail's calendar"));
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(register_orage_checkbtn), 
 			vcalprefs.orage_registered);
@@ -416,13 +410,11 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show(export_freebusy_path_entry);
 	gtk_box_pack_start(GTK_BOX(hbox2), export_freebusy_path_entry, TRUE, TRUE, 0);
 	SET_TOGGLE_SENSITIVITY(export_freebusy_enable_checkbtn, export_freebusy_path_entry);
-	gtk_tooltips_set_tip(tooltips, export_freebusy_enable_checkbtn, 
-			    _("You can export to a local file or URL"),
-			     NULL);
-	gtk_tooltips_set_tip(tooltips, export_freebusy_path_entry, 
+	CLAWS_SET_TIP(export_freebusy_enable_checkbtn, 
+			    _("You can export to a local file or URL"));
+	CLAWS_SET_TIP(export_freebusy_path_entry, 
 			    _("Specify a local file or URL "
-			      "(http://server/path/file.ifb)"),
-			     NULL);
+			      "(http://server/path/file.ifb)"));
 
 /* auth */
 	hbox2 = gtk_hbox_new (FALSE, 8);
@@ -485,12 +477,11 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	freebusy_get_url_entry = gtk_entry_new();
 	gtk_widget_show(freebusy_get_url_entry);
 	gtk_box_pack_start(GTK_BOX(hbox2), freebusy_get_url_entry, TRUE, TRUE, 0);
-	gtk_tooltips_set_tip(tooltips, freebusy_get_url_entry, 
+	CLAWS_SET_TIP(freebusy_get_url_entry, 
 			    _("Specify a local file or URL "
 			      "(http://server/path/file.ifb). Use %u "
 			      "for the left part of the email address, %d for "
-			      "the domain"),
-			     NULL);
+			      "the domain"));
 
 	gtk_entry_set_text(GTK_ENTRY(export_freebusy_path_entry), 
 			vcalprefs.export_freebusy_path);

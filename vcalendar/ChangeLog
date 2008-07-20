@@ -1,3 +1,11 @@
+2008-07-20 [colin]	2.0.0cvs2
+
+	* src/day-view.c
+	* src/month-view.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_prefs.c
+		Undeprecate tooltips
+
 2008-07-08 [colin]	2.0.0cvs1
 
 	* libical/libical/icalparser.c
