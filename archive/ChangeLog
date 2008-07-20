@@ -1,3 +1,9 @@
+2008-07-20 [colin]	0.6.0cvs1
+
+	* src/archiver_gtk.c
+	* src/archiver_prefs.c
+		Undeprecate tooltips
+
 2008-06-27 [paul]	0.6.0
 
 	0.6 released (initial release)

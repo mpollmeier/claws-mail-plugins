@@ -870,7 +870,7 @@ void archiver_gtk_show() {
 	GtkWidget* pax_radio_btn;
 	GtkWidget* cpio_radio_btn;
 	GtkWidget* tar_radio_btn;
-	GtkTooltips* tooltips;
+	CLAWS_TIP_DECL();
 	struct ArchivePage* page;
 	MainWindow* mainwin = mainwindow_get_mainwindow();
 
@@ -878,8 +878,6 @@ void archiver_gtk_show() {
 	progress = init_progress();
 
 	page = init_archive_page();
-
-	tooltips = gtk_tooltips_new();
 
 	dialog = gtk_dialog_new_with_buttons (
 				_("Create Archive"),
@@ -916,13 +914,13 @@ void archiver_gtk_show() {
 	page->folder = gtk_entry_new();
 	gtk_widget_set_name(page->folder, "folder");
 	gtk_box_pack_start(GTK_BOX(hbox1), page->folder, TRUE, TRUE, 0);
-	gtk_tooltips_set_tip(tooltips, page->folder,
-			_("Folder which is the root of the archive"), NULL);
+	CLAWS_SET_TIP(page->folder,
+			_("Folder which is the root of the archive"));
 
 	folder_select = gtkut_get_browse_directory_btn(_("_Browse"));
 	gtk_box_pack_start(GTK_BOX(hbox1), folder_select, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, folder_select,
-			_("Click this button to select a folder which is to be root of the archive"), NULL);
+	CLAWS_SET_TIP(folder_select,
+			_("Click this button to select a folder which is to be root of the archive"));
 
 	hbox1 = gtk_hbox_new(FALSE, 4);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
@@ -934,12 +932,12 @@ void archiver_gtk_show() {
 	page->file = gtk_entry_new();
 	gtk_widget_set_name(page->file, "file");
 	gtk_box_pack_start(GTK_BOX(hbox1), page->file, TRUE, TRUE, 0);
-	gtk_tooltips_set_tip(tooltips, page->file, _("Archive location and name"), NULL);
+	CLAWS_SET_TIP(page->file, _("Archive location and name"));
 
 	file_select = gtkut_get_browse_directory_btn(_("_Select"));
 	gtk_box_pack_start(GTK_BOX(hbox1), file_select, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, file_select,
-			_("Click this button to select a name and location for the archive"), NULL);
+	CLAWS_SET_TIP(file_select,
+			_("Click this button to select a name and location for the archive"));
 
 	frame = gtk_frame_new(_("Choose compression"));
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
@@ -953,29 +951,29 @@ void archiver_gtk_show() {
 	zip_radio_btn = gtk_radio_button_new_with_mnemonic(NULL, "_ZIP");
 	gtk_widget_set_name(zip_radio_btn, "ZIP");
 	gtk_box_pack_start(GTK_BOX(hbox1), zip_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, zip_radio_btn,
-			_("Choose this option to use ZIP compression for the archive"), NULL);
+	CLAWS_SET_TIP(zip_radio_btn,
+			_("Choose this option to use ZIP compression for the archive"));
 
 	bzip_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
 					GTK_RADIO_BUTTON(zip_radio_btn), "BZIP_2");
 	gtk_widget_set_name(bzip_radio_btn, "BZIP");
 	gtk_box_pack_start(GTK_BOX(hbox1), bzip_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, bzip_radio_btn,
-			_("Choose this option to use BZIP2 compression for the archive"), NULL);
+	CLAWS_SET_TIP(bzip_radio_btn,
+			_("Choose this option to use BZIP2 compression for the archive"));
 /*
 	compress_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
 					GTK_RADIO_BUTTON(zip_radio_btn), "C_ompress");
 	gtk_widget_set_name(compress_radio_btn, "COMPRESS");
 	gtk_box_pack_start(GTK_BOX(hbox1), compress_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, compress_radio_btn,
-		_("Choose this to use Compress compression for your archive"), NULL);
+	CLAWS_SET_TIP(compress_radio_btn,
+		_("Choose this to use Compress compression for your archive"));
 */
 	no_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
 					GTK_RADIO_BUTTON(zip_radio_btn), _("_None"));
 	gtk_widget_set_name(no_radio_btn, "NONE");
 	gtk_box_pack_start(GTK_BOX(hbox1), no_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, no_radio_btn,
-		_("Choose this option to disable compression for the archive"), NULL);
+	CLAWS_SET_TIP(no_radio_btn,
+		_("Choose this option to disable compression for the archive"));
 
 	page->compress_methods = 
 			gtk_radio_button_get_group(GTK_RADIO_BUTTON(zip_radio_btn));
@@ -1004,29 +1002,29 @@ void archiver_gtk_show() {
 	tar_radio_btn = gtk_radio_button_new_with_mnemonic(NULL, "_TAR");
 	gtk_widget_set_name(tar_radio_btn, "TAR");
 	gtk_box_pack_start(GTK_BOX(hbox1), tar_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, tar_radio_btn,
-			_("Choose this option to use TAR as format for the archive"), NULL);
+	CLAWS_SET_TIP(tar_radio_btn,
+			_("Choose this option to use TAR as format for the archive"));
 
 	shar_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
 					GTK_RADIO_BUTTON(tar_radio_btn), "S_HAR");
 	gtk_widget_set_name(shar_radio_btn, "SHAR");
 	gtk_box_pack_start(GTK_BOX(hbox1), shar_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, shar_radio_btn,
-			_("Choose this to use SHAR as format for the archive"), NULL);
+	CLAWS_SET_TIP(shar_radio_btn,
+			_("Choose this to use SHAR as format for the archive"));
 
 	cpio_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
 					GTK_RADIO_BUTTON(tar_radio_btn), "CP_IO");
 	gtk_widget_set_name(cpio_radio_btn, "CPIO");
 	gtk_box_pack_start(GTK_BOX(hbox1), cpio_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, cpio_radio_btn,
-		_("Choose this option to use CPIO as format for the archive"), NULL);
+	CLAWS_SET_TIP(cpio_radio_btn,
+		_("Choose this option to use CPIO as format for the archive"));
 
 	pax_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
 					GTK_RADIO_BUTTON(tar_radio_btn), "PA_X");
 	gtk_widget_set_name(pax_radio_btn, "PAX");
 	gtk_box_pack_start(GTK_BOX(hbox1), pax_radio_btn, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, pax_radio_btn,
-		_("Choose this option to use PAX as format for the archive"), NULL);
+	CLAWS_SET_TIP(pax_radio_btn,
+		_("Choose this option to use PAX as format for the archive"));
 
 	page->archive_formats = 
 			gtk_radio_button_get_group(GTK_RADIO_BUTTON(tar_radio_btn));
@@ -1058,24 +1056,24 @@ void archiver_gtk_show() {
 	page->recursive = gtk_check_button_new_with_mnemonic(_("_Recursive"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->recursive), archiver_prefs.recursive);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->recursive, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, page->recursive,
-		_("Choose this option to include subfolders in the archive"), NULL);
+	CLAWS_SET_TIP(page->recursive,
+		_("Choose this option to include subfolders in the archive"));
 	
 	page->md5sum = gtk_check_button_new_with_mnemonic(_("_MD5sum"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->md5sum), archiver_prefs.md5sum);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->md5sum, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, page->md5sum,
+	CLAWS_SET_TIP(page->md5sum,
 		_("Choose this option to add MD5 checksums for each file in the archive.\n"
 		  "Be aware though, that this dramatically increases the time it\n"
-		  "will take to create the archive"), NULL);
+		  "will take to create the archive"));
 
 	page->rename_files = gtk_check_button_new_with_mnemonic(_("R_ename"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->rename_files), archiver_prefs.rename);
 	gtk_box_pack_start(GTK_BOX(hbox1), page->rename_files, FALSE, FALSE, 0);
-	gtk_tooltips_set_tip(tooltips, page->rename_files,
+	CLAWS_SET_TIP(page->rename_files,
 		_("Choose this option to use descriptive names for each file in the archive.\n"
 		  "The naming scheme: date_from@to@subject.\n"
-		  "Names will be truncated to max 96 characters"), NULL);
+		  "Names will be truncated to max 96 characters"));
 
 	g_signal_connect(G_OBJECT(folder_select), "clicked", 
 			 G_CALLBACK(foldersel_cb), page);
