@@ -91,10 +91,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	GtkWidget *cookies_path;
 	GtkWidget *label;
 	GtkObject *refresh_adj, *expired_adj;
-	GtkTooltips *tooltips;
-
-	tooltips = gtk_tooltips_new();
-	gtk_tooltips_enable(tooltips);
+	CLAWS_TIP_DECL();
 
 	table = gtk_table_new(RSSYL_NUM_PREFS, 2, FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(table), 5);
@@ -111,8 +108,8 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	refresh = gtk_spin_button_new(GTK_ADJUSTMENT(refresh_adj), 1, 0);
 	gtk_table_attach(GTK_TABLE(table), refresh, 1, 2, 0, 1,
 			GTK_FILL, 0, 0, 0);
-	gtk_tooltips_set_tip(tooltips, refresh,
-			_("Set to 0 to disable automatic refreshing"), NULL);
+	CLAWS_SET_TIP(refresh,
+			_("Set to 0 to disable automatic refreshing"));
 
 	label = gtk_label_new(_("Default number of expired items to keep"));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0.5);
@@ -124,8 +121,8 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	expired = gtk_spin_button_new(GTK_ADJUSTMENT(expired_adj), 1, 0);
 	gtk_table_attach(GTK_TABLE(table), expired, 1, 2, 1, 2,
 			GTK_FILL, 0, 0, 0);
-	gtk_tooltips_set_tip(tooltips, expired,
-			_("Set to -1 to keep expired items"), NULL);
+	CLAWS_SET_TIP(expired,
+			_("Set to -1 to keep expired items"));
 
 	refresh_on_startup = gtk_check_button_new_with_label(
 			_("Refresh all feeds on application start"));
@@ -143,8 +140,8 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_entry_set_text(GTK_ENTRY(cookies_path), rssyl_prefs.cookies_path);
 	gtk_table_attach(GTK_TABLE(table), cookies_path, 1, 2, 4, 5,
 			GTK_FILL, 0, 0, 0);
-	gtk_tooltips_set_tip(tooltips, cookies_path,
-			_("Path to Netscape-style cookies.txt file containing your cookies"), NULL);
+	CLAWS_SET_TIP(cookies_path,
+			_("Path to Netscape-style cookies.txt file containing your cookies"));
 
 	gtk_widget_show_all(table);
 
