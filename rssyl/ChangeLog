@@ -1,3 +1,8 @@
+2008-07-21 [colin]	0.20.0cvs3
+
+	* src/rssyl_prefs.c
+		Fix include
+
 2008-07-20 [colin]	0.20.0cvs2
 
 	* src/rssyl_prefs.c

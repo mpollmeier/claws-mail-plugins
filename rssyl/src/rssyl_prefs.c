@@ -27,6 +27,7 @@
 #include <glib.h>
 
 #include "common/defs.h"
+#include "gtk/gtkutils.h"
 #include "prefs_gtk.h"
 
 #include "gettext.h"
