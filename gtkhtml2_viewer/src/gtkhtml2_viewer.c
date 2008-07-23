@@ -316,20 +316,28 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 						g_free(meta_charset);
 						got_charset = TRUE;
 					} else if (insert_in_header && strcasestr(buf, "</head>")) {
+						gchar *tmp_buf = g_malloc(loaded+1);
 						gchar *start = NULL, *end = NULL;
+						size_t start_len, rem_len;
 						gchar *meta_charset = g_strdup_printf(
 							"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
 							charset);
-						start = g_strdup(buf);
+
+						strncpy(tmp_buf, buf, loaded);
+						tmp_buf[loaded+1] = '\0';
+
+						start = g_strdup(tmp_buf);
 						*(strcasestr(start, "</head>")) = '\0';
-						end = g_strdup(strcasestr(buf, "</head>"));
+						end = g_strdup(strcasestr(tmp_buf, "</head>"));
 						
 						html_document_write_stream(
 							viewer->html_doc, start, strlen(start));
 						html_document_write_stream(
 							viewer->html_doc, meta_charset, strlen(meta_charset));
-						strncpy(buf, end, sizeof(buf));
+						strncpy(buf, end, strlen(end));
+						loaded = strlen(end);
 						debug_print("injected %s in head\n", meta_charset);
+						g_free(tmp_buf);
 						g_free(meta_charset);
 						g_free(start);
 						g_free(end);

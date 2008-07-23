@@ -100,3 +100,4 @@
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/gtkhtml2_prefs.c;  ) > 0.18.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/es.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fi.po;  ) > 0.18.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/css/cssparser.h;  ) > 0.19.0cvs1.patchset
+( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 src/gtkhtml2_viewer.c;  ) > 0.19.0cvs2.patchset

@@ -1,3 +1,10 @@
+2008-07-23 [colin]	0.19.0cvs2
+
+	* src/gtkhtml2_viewer.c
+		Fix bug 1677, 'Doesn't render HTML from match.com 
+		correctly'. Fix offsets when injecting the Charset
+		header.
+
 2008-07-06 [paul]	0.19.0cvs1
 
 	* libgtkhtml/css/cssparser.h
