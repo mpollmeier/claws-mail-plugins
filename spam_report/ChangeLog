@@ -1,3 +1,9 @@
+2008-07-25 [colin]	0.3.4cvs1
+
+	* src/spam_report.c
+		Switch to GtkUIManager for the summaryview
+		menu item
+
 2008-06-27 [paul]	0.3.4
 
 	0.3.4 released

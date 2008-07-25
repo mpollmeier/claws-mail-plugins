@@ -194,7 +194,7 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 	g_free(reqbody);
 }
 
-static void report_spam_cb(gpointer callback_data, guint callback_action, GtkWidget *widget)
+static void report_spam_cb_ui(GtkAction *action, gpointer data)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
@@ -243,6 +243,10 @@ static void report_spam_cb(gpointer callback_data, guint callback_action, GtkWid
 	main_window_cursor_normal(summaryview->mainwin);
 	g_slist_free(msglist);
 }
+static void report_spam_cb(gpointer callback_data, guint callback_action, GtkWidget *widget)
+{
+	report_spam_cb_ui(NULL,NULL);
+}
 
 static GtkItemFactoryEntry spamreport_menu = {
 	N_("/Message/Report spam online"),
@@ -252,13 +256,12 @@ static GtkItemFactoryEntry spamreport_menu = {
 	NULL
 };
 
-static GtkItemFactoryEntry spamreport_context_menu = {
-	N_("/Report spam online"),
-	NULL,
-	report_spam_cb,
-	0,
-	NULL
-};
+static GtkActionEntry spamreport_context_menu[] = {{
+	"SummaryViewPopup/ReportSpam",
+	NULL, N_("Report spam online..."), NULL, NULL, G_CALLBACK(report_spam_cb_ui)
+}};
+
+static gint context_menu_id = 0;
 
 gint plugin_init(gchar **error)
 {
@@ -279,11 +282,14 @@ gint plugin_init(gchar **error)
 #endif
 
 	spamreport_menu.path = _(spamreport_menu.path);
-	spamreport_context_menu.path = _(spamreport_context_menu.path);
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifactory, &spamreport_menu, mainwin, 1);
-	gtk_item_factory_create_item(summaryview->popupfactory, &spamreport_context_menu, summaryview, 1);
 
+	gtk_action_group_add_actions(summaryview->action_group, spamreport_context_menu,
+			1, (gpointer)summaryview);
+	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "ReportSpam", 
+			  "SummaryViewPopup/ReportSpam", GTK_UI_MANAGER_MENUITEM,
+			  context_menu_id)
 	return 0;
 }
 
@@ -303,9 +309,8 @@ gboolean plugin_done(void)
 	gtk_widget_destroy(widget);
 	gtk_item_factory_delete_item(ifactory, spamreport_menu.path);
 
-	widget = gtk_item_factory_get_widget(summaryview->popupfactory, spamreport_context_menu.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(summaryview->popupfactory, spamreport_context_menu.path);
+	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/ReportSpam", context_menu_id);
+	context_menu_id = 0;
 #ifdef HAVE_LIBCURL
 	spamreport_prefs_done();
 #endif
