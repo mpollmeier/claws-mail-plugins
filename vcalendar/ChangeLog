@@ -1,3 +1,9 @@
+2008-07-25 [colin]	2.0.0cvs3
+
+	* src/vcalendar.c
+		Switch the context menu in the summaryview to
+		GtkUIManager
+
 2008-07-20 [colin]	2.0.0cvs2
 
 	* src/day-view.c

@@ -181,3 +181,4 @@
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 po/es.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/fi.po;  ) > 1.102.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libical/libical/icalparser.c;  ) > 2.0.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/day-view.c;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/month-view.c;  cvs diff -u -r 1.1.2.77 -r 1.1.2.78 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/vcal_prefs.c;  ) > 2.0.0cvs2.patchset
+( cvs diff -u -r 1.2.2.73 -r 1.2.2.74 src/vcalendar.c;  ) > 2.0.0cvs3.patchset
