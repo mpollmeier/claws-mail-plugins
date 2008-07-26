@@ -39,6 +39,7 @@
 #include "procmime.h"
 #include "alertpanel.h"
 #include "inc.h"
+#include "menu.h"
 #include "claws.h"
 #include "plugin.h"
 
@@ -147,6 +148,11 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 	}
 }
 
+static void remove_attachments_ui(GtkAction *action, gpointer data)
+{
+	remove_attachments(NULL, 0, NULL);
+}
+
 static GtkItemFactoryEntry remove_att_menu = {
 	N_("/Message/Remove attachments"),
 	NULL,
@@ -155,13 +161,12 @@ static GtkItemFactoryEntry remove_att_menu = {
 	NULL
 };
 
-static GtkItemFactoryEntry remove_att_context_menu = {
-	N_("/Remove attachments"),
-	NULL,
-	remove_attachments,
-	0,
-	NULL
-};
+static GtkActionEntry remove_att_context_menu[] = {{
+	"SummaryViewPopup/RemoveAtt",
+	NULL, N_("Remove attachments"), NULL, NULL, G_CALLBACK(remove_attachments_ui)
+}};
+
+gint context_menu_id = 0;
 
 gint plugin_init(gchar **error)
 {
@@ -175,7 +180,12 @@ gint plugin_init(gchar **error)
 
 	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
 	gtk_item_factory_create_item(ifactory, &remove_att_menu, mainwin, 1);
-	gtk_item_factory_create_item(summaryview->popupfactory, &remove_att_context_menu, summaryview, 1);
+
+	gtk_action_group_add_actions(summaryview->action_group, remove_att_context_menu,
+			1, (gpointer)summaryview);
+	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "RemoveAtt", 
+			  "SummaryViewPopup/RemoveAtt", GTK_UI_MANAGER_MENUITEM,
+			  context_menu_id)
 
 	return 0;
 }
@@ -196,9 +206,8 @@ gboolean plugin_done(void)
 	gtk_widget_destroy(widget);
 	gtk_item_factory_delete_item(ifactory, remove_att_menu.path);
 
-	widget = gtk_item_factory_get_widget(summaryview->popupfactory, remove_att_context_menu.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(summaryview->popupfactory, remove_att_context_menu.path);
+	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/ReportSpam", context_menu_id);
+	context_menu_id = 0;
 	return TRUE;
 }
 

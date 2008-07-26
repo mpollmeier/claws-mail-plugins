@@ -1,3 +1,8 @@
+2008-07-26 [colin]	1.0.8cvs1
+
+	* src/att_remover.c
+		Switch to GtkUIManager for the context menu
+
 2008-04-18 [paul]	1.0.8
 
 	1.0.8 released
