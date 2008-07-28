@@ -1,3 +1,11 @@
+2008-07-28 [holger]	0.17cvs3
+
+	* .cvsignore
+		More files to ignore
+	* src/notification_trayicon.c
+		Port trayicon popup menu to GtkUIManager
+		Heavily inspired by the trayicon plugin port (3.5.0cvs34)
+
 2008-07-07 [holger]	0.17cvs2
 
 	* src/notification_banner.c

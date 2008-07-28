@@ -47,14 +47,14 @@ static void notification_trayicon_on_popup_menu(GtkStatusIcon*,guint,
 static gboolean notification_trayicon_on_size_changed(GtkStatusIcon*,
 						      gint, gpointer);
 
-static void trayicon_get_all_cb(gpointer, guint, GtkWidget*);
-static void trayicon_compose_cb(gpointer, guint, GtkWidget*);
+static void trayicon_get_all_cb(GtkAction*, gpointer);
+static void trayicon_compose_cb(GtkAction*, gpointer);
 static void trayicon_compose_acc_cb(GtkMenuItem*, gpointer);
-static void trayicon_addressbook_cb(gpointer, guint, GtkWidget*);
-static void trayicon_exit_cb(gpointer, guint, GtkWidget*);
-static void trayicon_toggle_offline_cb(gpointer, guint, GtkWidget*);
+static void trayicon_addressbook_cb(GtkAction*, gpointer);
+static void trayicon_exit_cb(GtkAction*,gpointer);
+static void trayicon_toggle_offline_cb(GtkAction*,gpointer);
 #ifdef HAVE_LIBNOTIFY
-static void trayicon_toggle_notify_cb(gpointer, guint, GtkWidget*);
+static void trayicon_toggle_notify_cb(GtkAction*,gpointer);
 #endif
 
 #ifdef HAVE_LIBNOTIFY
@@ -93,22 +93,23 @@ G_LOCK_DEFINE_STATIC(trayicon_popup);
 static GtkStatusIcon *trayicon;
 static gboolean updating_menu = FALSE;
 static GtkWidget *traymenu_popup;
-static GtkItemFactory *traymenu_factory;
 
-static GtkItemFactoryEntry trayicon_popup_menu_entries[] = {
-  {N_("/_Get Mail"),	      NULL,trayicon_get_all_cb,	      0, NULL},
-  {"/---",		      NULL,NULL,		      0, "<Separator>"},
-  {N_("/_Email"),	      NULL,trayicon_compose_cb,	      0, NULL},
-  {N_("/_Email from account"),NULL,NULL,		      0, "<Branch>"},
-  {"/---",		      NULL,NULL,		      0, "<Separator>"},
-  {N_("/Open A_ddressbook"),  NULL,trayicon_addressbook_cb,   0, NULL},
-  {"/---",		      NULL,NULL,		      0, "<Separator>"},
+static GtkActionEntry trayicon_popup_menu_entries[] = {
+	{"SysTrayiconPopup", NULL, "SysTrayiconPopup" },
+	{"SysTrayiconPopup/GetMail", NULL, N_("_Get Mail"), NULL, NULL, G_CALLBACK(trayicon_get_all_cb) },
+	{"SysTrayiconPopup/---", NULL, "---" },
+	{"SysTrayiconPopup/Email", NULL, N_("_Email"), NULL, NULL, G_CALLBACK(trayicon_compose_cb) },
+	{"SysTrayiconPopup/EmailAcc", NULL, N_("E_mail from account"), NULL, NULL, NULL },
+	{"SysTrayiconPopup/OpenAB", NULL, N_("Open A_ddressbook"), NULL, NULL, G_CALLBACK(trayicon_addressbook_cb) },
+	{"SysTrayiconPopup/Exit", NULL, N_("E_xit Claws Mail"), NULL, NULL, G_CALLBACK(trayicon_exit_cb) },
+};
+
+static GtkToggleActionEntry trayicon_popup_toggle_menu_entries[] =
+{
+	{"SysTrayiconPopup/ToggleOffline",		NULL, N_("_Work Offline"), NULL, NULL, G_CALLBACK(trayicon_toggle_offline_cb) },
 #ifdef HAVE_LIBNOTIFY
-  {N_("/Show Trayicon Notifications"), NULL,trayicon_toggle_notify_cb, 0, "<CheckItem>"},
+	{"SysTrayiconPopup/ShowBubbles", NULL, N_("Show Trayicon Notifications"), NULL, NULL, G_CALLBACK(trayicon_toggle_notify_cb) },
 #endif
-  {N_("/_Work Offline"),      NULL,trayicon_toggle_offline_cb,0, "<CheckItem>"},
-  {"/---",		      NULL,NULL,		      0, "<Separator>"},
-  {N_("/E_xit Claws Mail"),   NULL,trayicon_exit_cb,	      0, "<StockItem>", GTK_STOCK_QUIT}
 };
 
 
@@ -318,8 +319,8 @@ gboolean notification_trayicon_main_window_got_iconified(gpointer source,
 gboolean notification_trayicon_account_list_changed(gpointer source,
 						    gpointer data)
 {
-  GList *cur_ac, *cur_item = NULL;
-  GtkWidget *menu;
+  GList *cur_ac;
+	GtkWidget *menu, *submenu;
   GtkWidget *menuitem;
   PrefsAccount *ac_prefs;
   
@@ -328,16 +329,11 @@ gboolean notification_trayicon_account_list_changed(gpointer source,
   if(!notify_config.trayicon_enabled)
     return FALSE;
 
-  menu = gtk_item_factory_get_widget(traymenu_factory,
-				     "/Email from account");
-
-  /* destroy all previous menu item */
-  cur_item = GTK_MENU_SHELL(menu)->children;
-  while(cur_item != NULL) {
-    GList *next = cur_item->next;
-    gtk_widget_destroy(GTK_WIDGET(cur_item->data));
-    cur_item = next;
-  }
+	menu = gtk_ui_manager_get_widget(gtkut_ui_manager(), "/Menus/SysTrayiconPopup/EmailAcc");
+	gtk_widget_show(menu);
+ 
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), NULL);
+	submenu = gtk_menu_new();
 
   for(cur_ac = account_list; cur_ac != NULL; cur_ac = cur_ac->next) {
     ac_prefs = (PrefsAccount *)cur_ac->data;
@@ -346,18 +342,20 @@ gboolean notification_trayicon_account_list_changed(gpointer source,
       (ac_prefs->account_name ? ac_prefs->account_name
        : _("Untitled"));
     gtk_widget_show(menuitem);
-    gtk_menu_append(GTK_MENU(menu), menuitem);
+		gtk_menu_shell_append(GTK_MENU_SHELL(submenu), menuitem);
     g_signal_connect(G_OBJECT(menuitem), "activate",
 		     G_CALLBACK(trayicon_compose_acc_cb),
 		     ac_prefs);
   }
+	gtk_widget_show(submenu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), submenu);
   return FALSE;
 }
 
 static GdkPixbuf* notification_trayicon_create(void)
 {
   GdkPixbuf *trayicon_nomail;
-  gint n_entries = 0;
+	GtkActionGroup *action_group;
 
   trayicon_nomail = notification_pixbuf_get(NOTIFICATION_TRAYICON_NOMAIL);
 
@@ -373,11 +371,28 @@ static GdkPixbuf* notification_trayicon_create(void)
 		   G_CALLBACK(notification_trayicon_on_size_changed), NULL);
 
   /* Popup-Menu */
-  n_entries = sizeof(trayicon_popup_menu_entries) /
-    sizeof(trayicon_popup_menu_entries[0]);
-  traymenu_popup = menu_create_items(trayicon_popup_menu_entries,
-				     n_entries, "<TrayiconMenu>", &traymenu_factory,
-				     NULL);
+	action_group = cm_menu_create_action_group("SysTrayiconPopup", trayicon_popup_menu_entries,
+																						 G_N_ELEMENTS(trayicon_popup_menu_entries), NULL);
+	gtk_action_group_add_toggle_actions(action_group, trayicon_popup_toggle_menu_entries,
+																			G_N_ELEMENTS(trayicon_popup_toggle_menu_entries), NULL);
+	
+	MENUITEM_ADDUI("/Menus", "SysTrayiconPopup", "SysTrayiconPopup", GTK_UI_MANAGER_MENU)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "GetMail", "SysTrayiconPopup/GetMail", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Separator1", "SysTrayiconPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Email", "SysTrayiconPopup/Email", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "EmailAcc", "SysTrayiconPopup/EmailAcc", GTK_UI_MANAGER_MENU)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Separator2", "SysTrayiconPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "OpenAB", "SysTrayiconPopup/OpenAB", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Separator3", "SysTrayiconPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "ToggleOffline", "SysTrayiconPopup/ToggleOffline", GTK_UI_MANAGER_MENUITEM)
+#ifdef HAVE_LIBNOTIFY
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "ShowBubbles", "SysTrayiconPopup/ShowBubbles", GTK_UI_MANAGER_MENUITEM)
+#endif
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Separator4", "SysTrayiconPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Exit", "SysTrayiconPopup/Exit", GTK_UI_MANAGER_MENUITEM)
+
+	traymenu_popup = gtk_menu_item_get_submenu(GTK_MENU_ITEM(
+				gtk_ui_manager_get_widget(gtkut_ui_manager(), "/Menus/SysTrayiconPopup")));
 
   return trayicon_nomail;
 }
@@ -416,21 +431,12 @@ static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,
   /* tell callbacks to skip any event */
   updating_menu = TRUE;
   /* initialize checkitems according to current states */
-  gtk_check_menu_item_set_active
-    (GTK_CHECK_MENU_ITEM(gtk_item_factory_get_item
-			 (traymenu_factory, "/Work Offline")),
-     prefs_common.work_offline);
-
+	cm_toggle_menu_set_active("SysTrayiconPopup/ToggleOffline", prefs_common.work_offline);
 #ifdef HAVE_LIBNOTIFY
-  gtk_check_menu_item_set_active
-    (GTK_CHECK_MENU_ITEM(gtk_item_factory_get_item
-			 (traymenu_factory, "/Show Trayicon Notifications")),
-     notify_config.trayicon_popup_enabled);
+	cm_toggle_menu_set_active("SysTrayiconPopup/ShowBubbles", notify_config.trayicon_popup_enabled);	
 #endif
+	cm_menu_set_sensitive("SysTrayiconPopup/GetMail", mainwin->lock_count == 0);
 
-  gtk_widget_set_sensitive(GTK_WIDGET(gtk_item_factory_get_item(traymenu_factory,
-								"/Get Mail")),
-			   mainwin->lock_count == 0);
   updating_menu = FALSE;
 
   gtk_menu_popup(GTK_MENU(traymenu_popup), NULL, NULL, NULL, NULL,
@@ -446,31 +452,29 @@ static gboolean notification_trayicon_on_size_changed(GtkStatusIcon *icon,
 }
 
 /* popup menu callbacks */
-static void trayicon_get_all_cb( gpointer data, guint action, GtkWidget *widget )
+static void trayicon_get_all_cb(GtkAction *action, gpointer data)
 {
   MainWindow *mainwin = mainwindow_get_mainwindow();
   inc_all_account_mail_cb(mainwin, 0, NULL);
 }
 
-static void trayicon_compose_cb( gpointer data, guint action, GtkWidget *widget )
+static void trayicon_compose_cb(GtkAction *action, gpointer data)
 {
   MainWindow *mainwin = mainwindow_get_mainwindow();
   compose_mail_cb(mainwin, 0, NULL);
 }
 
-static void trayicon_compose_acc_cb( GtkMenuItem *menuitem, gpointer data )
+static void trayicon_compose_acc_cb(GtkMenuItem *menuitem, gpointer data)
 {
   compose_new((PrefsAccount *)data, NULL, NULL);
 }
 
-static void trayicon_addressbook_cb(gpointer data, guint action,
-				    GtkWidget *widget)
+static void trayicon_addressbook_cb(GtkAction *action, gpointer data)
 {
   addressbook_open(NULL);
 }
 
-static void trayicon_toggle_offline_cb(gpointer data, guint action,
-				       GtkWidget *widget)
+static void trayicon_toggle_offline_cb(GtkAction *action, gpointer data)
 {
   /* toggle offline mode if menu checkitem has been clicked */
   if(!updating_menu) {
@@ -480,8 +484,7 @@ static void trayicon_toggle_offline_cb(gpointer data, guint action,
 }
 
 #ifdef HAVE_LIBNOTIFY
-static void trayicon_toggle_notify_cb(gpointer data, guint action,
-				      GtkWidget *widget)
+static void trayicon_toggle_notify_cb(GtkAction *action, gpointer data)
 {
   if(!updating_menu) {
     notify_config.trayicon_popup_enabled = !notify_config.trayicon_popup_enabled;
@@ -503,7 +506,7 @@ static void app_exit_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
   app_will_exit(NULL, mainwin);
 }
 
-static void trayicon_exit_cb( gpointer data, guint action, GtkWidget *widget )
+static void trayicon_exit_cb(GtkAction *action, gpointer data)
 {
   MainWindow *mainwin = mainwindow_get_mainwindow();
   
