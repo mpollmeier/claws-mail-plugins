@@ -518,7 +518,7 @@ static MsgInfo *claws_mailmbox_parse_msg(guint uid,
 
 	msginfo->msgnum = uid;
 	msginfo->folder = _item;
-        msginfo->size = info->msg_size - info->msg_start_len;
+        msginfo->size = (goffset)(info->msg_size - info->msg_start_len);
 
 	return msginfo;
 }

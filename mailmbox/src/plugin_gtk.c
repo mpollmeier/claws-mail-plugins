@@ -42,7 +42,7 @@ static void rename_folder_cb(FolderView *folderview, guint action, GtkWidget *wi
 static void move_folder_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void update_tree_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void remove_mailbox_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void add_mailbox(gpointer callback_data, guint callback_action, GtkWidget *widget);
+static void add_mailbox(GtkAction *action, gpointer callback_data);
 
 static GtkItemFactoryEntry claws_mailmbox_popup_entries[] =
 {
@@ -72,18 +72,16 @@ static FolderViewPopup claws_mailmbox_popup =
 	set_sensitivity
 };
 
-static GtkItemFactoryEntry mainwindow_add_mailbox = {
-	N_("/File/Add mailbox/mbox (etPan!)..."),
-	NULL, 
-	add_mailbox, 
-	0, 
-	NULL
-};
+static GtkActionEntry mainwindow_add_mailbox[] = {{
+	"File/AddMailbox/Mbox",
+	NULL, N_("mbox (etPan!)..."), NULL, NULL, G_CALLBACK(add_mailbox)
+}};
+
+static guint main_menu_id = 0;
 
 gint plugin_gtk_init(gchar **error)
 {
 	guint i, n_entries;
-	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 
 	n_entries = sizeof(claws_mailmbox_popup_entries) /
@@ -93,27 +91,26 @@ gint plugin_gtk_init(gchar **error)
 
 	folderview_register_popup(&claws_mailmbox_popup);
 
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	gtk_item_factory_create_item(ifactory, &mainwindow_add_mailbox, mainwin, 1);
+	gtk_action_group_add_actions(mainwin->action_group, mainwindow_add_mailbox,
+			1, (gpointer)mainwin);
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/File/AddMailbox", "Mbox", 
+			  "File/AddMailbox/Mbox", GTK_UI_MANAGER_MENUITEM,
+			  main_menu_id)
 
 	return 0;
 }
 
 void plugin_gtk_done(void)
 {
-	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	GtkWidget *widget;
 	
 	if (mainwin == NULL || claws_is_exiting())
 		return;
 
 	folderview_unregister_popup(&claws_mailmbox_popup);
 
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	widget = gtk_item_factory_get_widget(ifactory, mainwindow_add_mailbox.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(ifactory, mainwindow_add_mailbox.path);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "File/AddMailbox/RSSyl", main_menu_id);
+	main_menu_id = 0;
 }
 
 static void set_sensitivity(GtkItemFactory *factory, FolderItem *item)
@@ -153,8 +150,7 @@ static void update_tree_cb(FolderView *folderview, guint action,
 		folderview_rescan_tree(item->folder, TRUE);
 }
 
-static void add_mailbox(gpointer callback_data, guint callback_action,
-                        GtkWidget *widget)
+static void add_mailbox(GtkAction *action, gpointer callback_data)
 {
 	MainWindow *mainwin = (MainWindow *) callback_data;
 	gchar *path, *basename;
