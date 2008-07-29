@@ -1,3 +1,8 @@
+2008-07-29 [colin]	0.3.4cvs2
+
+	* src/spam_report.c
+		Switch the main menu to GtkUIManager
+
 2008-07-25 [colin]	0.3.4cvs1
 
 	* src/spam_report.c
