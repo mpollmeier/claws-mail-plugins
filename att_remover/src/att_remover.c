@@ -153,24 +153,21 @@ static void remove_attachments_ui(GtkAction *action, gpointer data)
 	remove_attachments(NULL, 0, NULL);
 }
 
-static GtkItemFactoryEntry remove_att_menu = {
-	N_("/Message/Remove attachments"),
-	NULL,
-	remove_attachments,
-	0,
-	NULL
-};
+static GtkActionEntry remove_att_main_menu[] = {{
+	"Message/RemoveAtt",
+	NULL, N_("Remove attachments"), NULL, NULL, G_CALLBACK(remove_attachments_ui)
+}};
 
 static GtkActionEntry remove_att_context_menu[] = {{
 	"SummaryViewPopup/RemoveAtt",
 	NULL, N_("Remove attachments"), NULL, NULL, G_CALLBACK(remove_attachments_ui)
 }};
 
-gint context_menu_id = 0;
+static guint context_menu_id = 0;
+static guint main_menu_id = 0;
 
 gint plugin_init(gchar **error)
 {
-	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 
@@ -178,9 +175,11 @@ gint plugin_init(gchar **error)
 				VERSION_NUMERIC, _("AttRemover"), error) )
 		return -1;
 
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	gtk_item_factory_create_item(ifactory, &remove_att_menu, mainwin, 1);
-
+	gtk_action_group_add_actions(mainwin->action_group, remove_att_main_menu,
+			1, (gpointer)mainwin);
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Message", "RemoveAtt", 
+			  "Message/RemoveAtt", GTK_UI_MANAGER_MENUITEM,
+			  main_menu_id)
 	gtk_action_group_add_actions(summaryview->action_group, remove_att_context_menu,
 			1, (gpointer)summaryview);
 	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "RemoveAtt", 
@@ -192,19 +191,16 @@ gint plugin_init(gchar **error)
 
 gboolean plugin_done(void)
 {
-	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = NULL;
-	GtkWidget *widget;
 
 	if (mainwin == NULL)
 		return TRUE;
 
 	summaryview = mainwin->summaryview;
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	widget = gtk_item_factory_get_widget(ifactory, remove_att_menu.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(ifactory, remove_att_menu.path);
+
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/RemoveAtt", main_menu_id);
+	main_menu_id = 0;
 
 	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/ReportSpam", context_menu_id);
 	context_menu_id = 0;
