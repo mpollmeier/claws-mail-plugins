@@ -35,36 +35,26 @@
 #include "statusbar.h"
 #include "archiver.h"
 #include "archiver_prefs.h"
+#include "menu.h"
 
 #define PLUGIN_NAME (_("Mail Archiver"))
 
-static void create_archive_cb(
-		gpointer callback_data, guint callback_action, GtkWidget *widget) {
+static void create_archive_cb(GtkAction *action, gpointer data) {
 
 	debug_print("Call-back function called\n");
 	
 	archiver_gtk_show();
 }
 
-static GtkItemFactoryEntry archiver_main_menu = {
-	N_("/Tools/Create Archive..."),
-	NULL,
-	create_archive_cb,
-	0,
-	NULL
-};
+static GtkActionEntry archiver_main_menu[] = {{
+	"Tools/CreateArchive",
+	NULL, N_("Create Archive..."), NULL, NULL, G_CALLBACK(create_archive_cb)
+}};
 
-static GtkItemFactoryEntry archiver_separator = {
-	N_("/Tools/----"),
-	NULL,
-	NULL,
-	0,
-	"<Separator>"
-};
+static gint main_menu_id = 0;
 
 gint plugin_init(gchar** error)
 {
-	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
@@ -74,9 +64,11 @@ gint plugin_init(gchar** error)
 				VERSION_NUMERIC, PLUGIN_NAME, error))
 		return -1;
 
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	gtk_item_factory_create_item(ifactory, &archiver_separator, mainwin, 1);
-	gtk_item_factory_create_item(ifactory, &archiver_main_menu, mainwin, 1);
+	gtk_action_group_add_actions(mainwin->action_group, archiver_main_menu,
+			1, (gpointer)mainwin);
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Tools", "CreateArchive", 
+			  "Tools/CreateArchive", GTK_UI_MANAGER_MENUITEM,
+			  main_menu_id)
 
 	archiver_prefs_init();
 
@@ -88,18 +80,12 @@ gint plugin_init(gchar** error)
 gboolean plugin_done(void)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	GtkItemFactory *ifactory;
-	GtkWidget *widget;
 
 	if (mainwin == NULL)
 		return FALSE;
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	widget = gtk_item_factory_get_widget(ifactory, archiver_separator.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(ifactory, archiver_separator.path);
-	widget = gtk_item_factory_get_widget(ifactory, archiver_main_menu.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(ifactory, archiver_main_menu.path);
+
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Tools/CreateArchive", main_menu_id);
+	main_menu_id = 0;
 
 	archiver_prefs_done();
 	debug_print("archive plugin unloaded\n");
