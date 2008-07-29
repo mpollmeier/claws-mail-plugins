@@ -1091,6 +1091,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	GError *error;
 	gchar *tmpfile = NULL;
 	gchar *tmp;
+	CLAWS_DECL_TIP();
 
 	debug_print("pdf_viewer_update\n");
 
