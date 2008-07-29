@@ -638,7 +638,7 @@ static MsgInfo *maildir_parse_msg(const gchar *file, FolderItem *item)
 		msginfo->size = 0;
 		msginfo->mtime = 0;
 	} else {
-		msginfo->size = s.st_size;
+		msginfo->size = (goffset)s.st_size;
 		msginfo->mtime = s.st_mtime;
 	}
 #endif
