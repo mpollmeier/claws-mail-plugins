@@ -26,28 +26,19 @@
 
 #include "main.h"
 #include "mainwindow.h"
+#include "menu.h"
 
 #include "synce_comp.h"
 
-static void synce_sync(gpointer callback_data,
-		       guint callback_action, GtkWidget *widget);
+static void synce_sync(GtkAction *action, gpointer data);
 
 
-static GtkItemFactoryEntry mainwindow_tools_synce = {
-	N_("/Tools/SynCE"),
-	NULL,
-	synce_sync,
-	0,
-	NULL
-};
+static GtkActionEntry mainwindow_tools_synce[] = {{
+	"Tools/SynCE",
+	NULL, N_("SynCE"), NULL, NULL, G_CALLBACK(synce_sync)
+}};
 
-static GtkItemFactoryEntry mainwindow_tools_sep = {
-	N_("/Tools/---"),
-	NULL,
-	NULL,
-	0,
-	"<Separator>"
-};
+static gint main_menu_id = 0;
 
 void synce_gtk_init(void)
 {
@@ -56,34 +47,27 @@ void synce_gtk_init(void)
 
   mainwin =  mainwindow_get_mainwindow();
 
-  ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-  gtk_item_factory_create_item(ifactory, &mainwindow_tools_sep, mainwin, 1);
-  gtk_item_factory_create_item(ifactory, &mainwindow_tools_synce, mainwin, 1);
+	gtk_action_group_add_actions(mainwin->action_group, mainwindow_tools_synce,
+			1, (gpointer)mainwin);
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Tools", "SynCE", 
+			  "Tools/SynCE", GTK_UI_MANAGER_MENUITEM,
+			  main_menu_id)
 }
 
 void synce_gtk_done(void)
 {
-  GtkItemFactory *ifactory;
   MainWindow *mainwin;
-  GtkWidget *widget;
-  GtkWidget *sep;
 
   mainwin = mainwindow_get_mainwindow();
 
   if (mainwin == NULL || claws_is_exiting())
 	  return;
  
-  ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-  sep = gtk_item_factory_get_widget(ifactory, mainwindow_tools_sep.path);
-  gtk_widget_destroy(sep);
-  gtk_item_factory_delete_item(ifactory, mainwindow_tools_sep.path);
-  widget = gtk_item_factory_get_widget(ifactory, mainwindow_tools_synce.path);
-  gtk_widget_destroy(widget);
-  gtk_item_factory_delete_item(ifactory, mainwindow_tools_synce.path);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Tools/SynCE", main_menu_id);
+	main_menu_id = 0;
 }
 
-static void synce_sync(gpointer callback_data, guint callback_action,
-                        GtkWidget *widget)
+static void synce_sync(GtkAction *action, gpointer data)
 {
   synce_comp();
 }
