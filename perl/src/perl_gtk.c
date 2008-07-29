@@ -33,65 +33,48 @@
 #include "mainwindow.h"
 #include "prefs_common.h"
 #include "main.h"
+#include "menu.h"
 
 #include "perl_plugin.h"
 #include "perl_gtk.h"
 
-static void perl_filter_edit(gpointer, guint, GtkWidget*);
+static void perl_filter_edit(GtkAction *,gpointer);
 
 
-static GtkItemFactoryEntry mainwindow_tools_perl_edit = {
-	N_("/Tools/Edit perl filter rules (ext)"),
-	NULL,
-	perl_filter_edit,
-	0,
-	NULL
-};
+static GtkActionEntry mainwindow_tools_perl_edit[] = {{
+	"Tools/EditPerlRules",
+	NULL, N_("Edit perl filter rules (ext)..."), NULL, NULL, G_CALLBACK(perl_filter_edit)
+}};
 
-static GtkItemFactoryEntry mainwindow_tools_sep = {
-	N_("/Tools/---"),
-	NULL,
-	NULL,
-	0,
-	"<Separator>"
-};
+static gint main_menu_id = 0;
 
 
 void perl_gtk_init(void)
 {
-  GtkItemFactory *ifactory;
   MainWindow *mainwin;
 
   mainwin =  mainwindow_get_mainwindow();
 
-  ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-  gtk_item_factory_create_item(ifactory, &mainwindow_tools_sep, mainwin, 1);
-  gtk_item_factory_create_item(ifactory, &mainwindow_tools_perl_edit, mainwin, 1);
+  gtk_action_group_add_actions(mainwin->action_group, mainwindow_tools_perl_edit,
+		  1, (gpointer)mainwin);
+  MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Tools", "EditPerlRules", 
+		    "Tools/EditPerlRules", GTK_UI_MANAGER_MENUITEM,
+		    main_menu_id)
 }
 
 void perl_gtk_done(void)
 {
-  GtkItemFactory *ifactory;
   MainWindow *mainwin;
-  GtkWidget *widget;
-  GtkWidget *sep;
 
   mainwin = mainwindow_get_mainwindow();
 
   if(mainwin && !claws_is_exiting()) {
-    ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-    sep = gtk_item_factory_get_widget(ifactory, mainwindow_tools_sep.path);
-    gtk_widget_destroy(sep);
-    gtk_item_factory_delete_item(ifactory, mainwindow_tools_sep.path);
-    widget = gtk_item_factory_get_widget(ifactory,
-					 mainwindow_tools_perl_edit.path);
-    gtk_widget_destroy(widget);
-    gtk_item_factory_delete_item(ifactory, mainwindow_tools_perl_edit.path);
+    MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Tools/EditPerlRules", main_menu_id);
+    main_menu_id = 0;
   }
 }
 
-static void perl_filter_edit(gpointer callback_data, guint callback_action,
-                        GtkWidget *widget)
+static void perl_filter_edit(GtkAction *action, gpointer callback_data)
 {
   gchar *perlfilter;
   gchar *pp;
