@@ -119,8 +119,7 @@ static void rssyl_fill_popup_menu_labels(void)
 	}
 }
 
-static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
-		GtkWidget *widget)
+static void rssyl_add_mailbox(GtkAction *action, gpointer callback_data)
 {
 	MainWindow *mainwin = (MainWindow *) callback_data;
 	gchar *path;
@@ -154,22 +153,24 @@ static void rssyl_add_mailbox(gpointer callback_data, guint callback_action,
 	folderview_set(mainwin->folderview);
 }
 
-static GtkItemFactoryEntry mainwindow_add_mailbox = {
-	N_("/File/Add mailbox/RSSyl..."),
-	NULL,
-	rssyl_add_mailbox,
-	0,
-	NULL
-};
+static GtkActionEntry mainwindow_add_mailbox[] = {{
+	"File/AddMailbox/RSSyl",
+	NULL, N_("RSSyl..."), NULL, NULL, G_CALLBACK(rssyl_add_mailbox)
+}};
+
+static guint main_menu_id = 0;
 
 void rssyl_gtk_init(void)
 {
-	GtkItemFactory *ifac;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	guint i, n;
 
-	ifac = gtk_item_factory_from_widget(mainwin->menubar);
-	gtk_item_factory_create_item(ifac, &mainwindow_add_mailbox, mainwin, 1);
+	gtk_action_group_add_actions(mainwin->action_group, mainwindow_add_mailbox,
+			1, (gpointer)mainwin);
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/File/AddMailbox", "RSSyl", 
+			  "File/AddMailbox/RSSyl", GTK_UI_MANAGER_MENUITEM,
+			  main_menu_id)
+
 
 	rssyl_fill_popup_menu_labels();
 
@@ -185,9 +186,7 @@ void rssyl_gtk_init(void)
 
 void rssyl_gtk_done(void)
 {
-	GtkItemFactory *ifac;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	GtkWidget *widget;
 	FolderView *folderview = NULL;
 	FolderItem *fitem = NULL;
 
@@ -204,10 +203,8 @@ void rssyl_gtk_done(void)
 
 	folderview_unregister_popup(&rssyl_popup);
 
-	ifac = gtk_item_factory_from_widget(mainwin->menubar);
-	widget = gtk_item_factory_get_widget(ifac, mainwindow_add_mailbox.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(ifac, mainwindow_add_mailbox.path);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "File/AddMailbox/RSSyl", main_menu_id);
+	main_menu_id = 0;
 }
 
 /***********************************************/

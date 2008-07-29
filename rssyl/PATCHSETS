@@ -134,3 +134,4 @@
 ( cvs diff -u -r 1.1.2.97 -r 1.1.2.98 src/feed.c;  ) > 0.20.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/rssyl_prefs.c;  ) > 0.20.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/rssyl_prefs.c;  ) > 0.20.0cvs3.patchset
+( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/rssyl_gtk.c;  ) > 0.20.0cvs4.patchset
