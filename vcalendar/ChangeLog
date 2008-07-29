@@ -1,3 +1,8 @@
+2008-07-29 [colin]	2.0.0cvs4
+
+	* src/vcalendar.c
+		Switch the main menu to GtkUIManager
+
 2008-07-25 [colin]	2.0.0cvs3
 
 	* src/vcalendar.c

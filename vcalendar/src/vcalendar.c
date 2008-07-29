@@ -85,13 +85,10 @@ struct _VCalViewer
 	GtkWidget *unavail_box;
 };
 
-static GtkItemFactoryEntry vcalendar_main_menu = {
-	N_("/Message/Create meeting from message..."),
-	NULL,
-	create_meeting_from_message_cb,
-	0,
-	NULL
-};
+static GtkActionEntry vcalendar_main_menu[] = {{
+	"Message/CreateMeeting",
+	NULL, N_("Create meeting from message..."), NULL, NULL, G_CALLBACK(create_meeting_from_message_cb_ui)
+}};
 
 static GtkActionEntry vcalendar_context_menu[] = {{
 	"SummaryViewPopup/CreateMeeting",
@@ -1269,10 +1266,10 @@ static gint vcal_webcal_check(gpointer data)
 }
 
 static guint context_menu_id = 0;
+static guint main_menu_id = 0;
 
 void vcalendar_init(void)
 {
-	GtkItemFactory *ifactory;
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 	Folder *folder = NULL;
@@ -1318,11 +1315,11 @@ void vcalendar_init(void)
 				       &uri_color);
 	}
 
-	vcalendar_main_menu.path = _(vcalendar_main_menu.path);
-
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	gtk_item_factory_create_item(ifactory, &vcalendar_main_menu, mainwin, 1);
-
+	gtk_action_group_add_actions(mainwin->action_group, vcalendar_main_menu,
+			1, (gpointer)mainwin);
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Message", "CreateMeeting", 
+			  "Message/CreateMeeting", GTK_UI_MANAGER_MENUITEM,
+			  main_menu_id)
 	gtk_action_group_add_actions(summaryview->action_group, vcalendar_context_menu,
 			1, (gpointer)summaryview);
 	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "CreateMeeting", 
@@ -1336,9 +1333,7 @@ void vcalendar_done(void)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	FolderView *folderview = NULL;
 	FolderItem *fitem = NULL;
-	GtkItemFactory *ifactory;
 	SummaryView *summaryview = NULL;
-	GtkWidget *widget;
 
 	icalmemory_free_ring();
 
@@ -1365,11 +1360,8 @@ void vcalendar_done(void)
 	gtk_timeout_remove(scan_timeout_tag);
 	scan_timeout_tag = 0;
 
-	ifactory = gtk_item_factory_from_widget(mainwin->menubar);
-	widget = gtk_item_factory_get_widget(ifactory, vcalendar_main_menu.path);
-	gtk_widget_destroy(widget);
-	gtk_item_factory_delete_item(ifactory, vcalendar_main_menu.path);
-
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/CreateMeeting", main_menu_id);
+	main_menu_id = 0;
 	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/CreateMeeting", context_menu_id);
 	context_menu_id = 0;
 }
