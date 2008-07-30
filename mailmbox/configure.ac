@@ -7,7 +7,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=14
 MICRO_VERSION=1
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 CFLAGS="$CFLAGS -Wall"
 
@@ -48,7 +48,7 @@ fi
 #
 # Check for claws-mail
 #
-PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 3.3.0.7)
+PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 3.5.0.39)
 if test -z $prefix || test "${prefix}" = "NONE" ; then
   prefix=$( $PKG_CONFIG --variable=prefix claws-mail )
   CLAWS_MAIL_PLUGINDIR=$( $PKG_CONFIG --variable=plugindir claws-mail )

@@ -1,3 +1,9 @@
+2008-07-30 [colin]	1.14.1cvs2
+
+	* src/plugin.c
+	* src/plugin_gtk.c
+		Move the folderview popup menu to GtkUIManager
+
 2008-07-29 [colin]	1.14.1cvs1
 
 	* src/mailmbox_folder.c
