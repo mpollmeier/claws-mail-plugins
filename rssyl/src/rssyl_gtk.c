@@ -46,67 +46,86 @@
 
 static char *rssyl_popup_menu_labels[] =
 {
-	N_("/_Refresh feed"),
-	N_("/Refresh _all feeds"),
-	"/---",
-	N_("/Subscribe _new feed..."),
-	N_("/_Unsubscribe feed..."),
-	N_("/Feed pr_operties..."),
-	N_("/Import feed list..."),
-	"/---",
-	N_("/Rena_me..."),
-	"/---",
-	N_("/_Create new folder..."),
-	N_("/_Delete folder..."),
-	"/---",
-	N_("/Remove folder _tree..."),
-	"/---",
+	N_("_Refresh feed"),
+	N_("Refresh _all feeds"),
+	N_("Subscribe _new feed..."),
+	N_("_Unsubscribe feed..."),
+	N_("Feed pr_operties..."),
+	N_("Import feed list..."),
+	N_("Rena_me..."),
+	N_("_Create new folder..."),
+	N_("_Delete folder..."),
+	N_("Remove folder _tree..."),
 	NULL
 };
 
-static void rssyl_set_sensitivity(GtkItemFactory *ifac, FolderItem *item)
+static GtkActionEntry rssyl_popup_entries[] = 
+{
+	{"FolderViewPopup/RefreshFeed",		NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_refresh_cb) },
+	{"FolderViewPopup/RefreshAllFeeds",	NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_refresh_all_cb) },
+
+	{"FolderViewPopup/NewFeed",		NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_new_feed_cb) },
+	{"FolderViewPopup/RemoveFeed",		NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_remove_feed_cb) },
+	{"FolderViewPopup/FeedProperties",	NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_prop_cb) },
+	{"FolderViewPopup/ImportFeedlist",	NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_import_feed_list_cb) },
+
+	{"FolderViewPopup/RenameFolder",	NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_rename_cb) },
+
+	{"FolderViewPopup/NewFolder",		NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_new_folder_cb) },
+	{"FolderViewPopup/RemoveFolder",	NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_remove_folder_cb) },
+
+	{"FolderViewPopup/RemoveMailbox",	NULL, NULL, NULL, NULL, G_CALLBACK(rssyl_remove_rss_cb) },
+
+};
+
+static void rssyl_add_menuitems(GtkUIManager *ui_manager, FolderItem *item)
+{
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RefreshFeed", "FolderViewPopup/RefreshFeed", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RefreshAllFeeds", "FolderViewPopup/RefreshAllFeeds", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorRSS1", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "NewFeed", "FolderViewPopup/NewFeed", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RemoveFeed", "FolderViewPopup/RemoveFeed", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "FeedProperties", "FolderViewPopup/FeedProperties", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "ImportFeedlist", "FolderViewPopup/ImportFeedlist", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorRSS2", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RenameFolder", "FolderViewPopup/RenameFolder", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorRSS3", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "NewFolder", "FolderViewPopup/NewFolder", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RemoveFolder", "FolderViewPopup/RemoveFolder", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorRSS4", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RemoveMailbox", "FolderViewPopup/RemoveMailbox", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorRSS5", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+}
+
+static void rssyl_set_sensitivity(GtkUIManager *ui_manager, FolderItem *item)
 {
 #define SET_SENS(name, sens) \
-	menu_set_sensitive(ifac, name, sens)
+	cm_menu_set_sensitive_full(ui_manager, "Popup/"name, sens)
+
 	RSSylFolderItem *ritem = (RSSylFolderItem *)item;
-	SET_SENS(_("/Refresh feed"), folder_item_parent(item) != NULL && ritem->url);
-	SET_SENS(_("/Refresh all feeds"), folder_item_parent(item) == NULL );
-	SET_SENS(_("/Subscribe new feed..."), TRUE);
-	SET_SENS(_("/Import feed list..."), TRUE );
-	SET_SENS(_("/Unsubscribe feed..."), folder_item_parent(item) != NULL && ritem->url );
-	SET_SENS(_("/Feed properties..."), folder_item_parent(item) != NULL && ritem->url );
-	SET_SENS(_("/Rename..."), folder_item_parent(item) != NULL );
-	SET_SENS(_("/Create new folder..."), TRUE );
-	SET_SENS(_("/Delete folder..."), folder_item_parent(item) != NULL && !ritem->url );
-	SET_SENS(_("/Remove folder tree..."), folder_item_parent(item) == NULL );
+	SET_SENS("FolderViewPopup/RefreshFeed", folder_item_parent(item) != NULL && ritem->url);
+	SET_SENS("FolderViewPopup/RefreshAllFeeds", folder_item_parent(item) == NULL );
+	SET_SENS("FolderViewPopup/NewFeed", TRUE);
+	SET_SENS("FolderViewPopup/ImportFeedlist", TRUE );
+	SET_SENS("FolderViewPopup/RemoveFeed", folder_item_parent(item) != NULL && ritem->url );
+	SET_SENS("FolderViewPopup/FeedProperties", folder_item_parent(item) != NULL && ritem->url );
+	SET_SENS("FolderViewPopup/RenameFolder", folder_item_parent(item) != NULL );
+	SET_SENS("FolderViewPopup/NewFolder", TRUE );
+	SET_SENS("FolderViewPopup/RemoveFolder", folder_item_parent(item) != NULL && !ritem->url );
+	SET_SENS("FolderViewPopup/RemoveMailbox", folder_item_parent(item) == NULL );
 
 #undef SET_SENS
 }
-
-static GtkItemFactoryEntry rssyl_popup_entries[] =
-{
-	{ NULL, NULL, rssyl_refresh_cb, 0, NULL },
-	{ NULL, NULL, rssyl_refresh_all_cb, 0, NULL },
-	{ NULL, NULL, NULL, 0, "<Separator>" },
-	{ NULL, NULL, rssyl_new_feed_cb, 0, NULL },
-	{ NULL, NULL, rssyl_remove_feed_cb, 0, NULL },
-	{ NULL, NULL, rssyl_prop_cb, 0, NULL },
-	{ NULL, NULL, rssyl_import_feed_list_cb, 0, NULL },
-	{ NULL, NULL, NULL, 0, "<Separator>" },
-	{ NULL, NULL, rssyl_rename_cb, 0, NULL },
-	{ NULL, NULL, NULL, 0, "<Separator>" },
-	{ NULL, NULL, rssyl_new_folder_cb, 0, NULL },
-	{ NULL, NULL, rssyl_remove_folder_cb, 0, NULL },
-	{ NULL, NULL, NULL, 0, "<Separator>" },
-	{ NULL, NULL, rssyl_remove_rss_cb, 0, NULL },
-	{ NULL, NULL, NULL, 0, "<Separator>" }
-};
 
 static FolderViewPopup rssyl_popup =
 {
 	"rssyl",
 	"<rssyl>",
-	NULL,
+	rssyl_popup_entries,
+	G_N_ELEMENTS(rssyl_popup_entries),
+	NULL, 0,
+	NULL, 0, 0, NULL,
+	rssyl_add_menuitems,
 	rssyl_set_sensitivity
 };
 
@@ -115,7 +134,7 @@ static void rssyl_fill_popup_menu_labels(void)
 	gint i;
 
 	for( i = 0; rssyl_popup_menu_labels[i] != NULL; i++ ) {
-		(rssyl_popup_entries[i]).path = _(rssyl_popup_menu_labels[i]);
+		(rssyl_popup_entries[i]).label = _(rssyl_popup_menu_labels[i]);
 	}
 }
 
@@ -163,7 +182,6 @@ static guint main_menu_id = 0;
 void rssyl_gtk_init(void)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	guint i, n;
 
 	gtk_action_group_add_actions(mainwin->action_group, mainwindow_add_mailbox,
 			1, (gpointer)mainwin);
@@ -173,14 +191,6 @@ void rssyl_gtk_init(void)
 
 
 	rssyl_fill_popup_menu_labels();
-
-	n = sizeof(rssyl_popup_entries) /
-		sizeof(rssyl_popup_entries[0]);
-
-	for( i = 0; i < n; i++ )
-		rssyl_popup.entries = g_slist_append(rssyl_popup.entries,
-				&rssyl_popup_entries[i]);
-
 	folderview_register_popup(&rssyl_popup);
 }
 

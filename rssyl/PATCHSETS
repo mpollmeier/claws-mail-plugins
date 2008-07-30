@@ -135,3 +135,4 @@
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/rssyl_prefs.c;  ) > 0.20.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/rssyl_prefs.c;  ) > 0.20.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/rssyl_gtk.c;  ) > 0.20.0cvs4.patchset
+( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/plugin.c;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/rssyl_cb_menu.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/rssyl_cb_menu.h;  cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/rssyl_gtk.c;  ) > 0.20.0cvs5.patchset

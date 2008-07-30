@@ -41,9 +41,9 @@
 #include "rssyl.h"
 #include "rssyl_gtk.h"
 
-void rssyl_new_feed_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_new_feed_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item;
 	gchar *new_feed;
@@ -66,9 +66,9 @@ void rssyl_new_feed_cb(FolderView *folderview, guint action,
 	g_free(new_feed);
 }
 
-void rssyl_new_folder_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_new_folder_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item;
 	FolderItem *new_item;
@@ -117,9 +117,9 @@ void rssyl_new_folder_cb(FolderView *folderview, guint action,
 	folder_write_list();
 }
 
-void rssyl_remove_rss_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_remove_rss_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	FolderItem *item;
 	gchar *name, *message;
 	AlertValue aval;
@@ -148,9 +148,9 @@ void rssyl_remove_rss_cb(FolderView *folderview, guint action,
 	folder_destroy(item->folder);
 }
 
-void rssyl_remove_feed_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_remove_feed_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item;
 	gint response;
@@ -210,9 +210,9 @@ void rssyl_remove_feed_cb(FolderView *folderview, guint action,
 	folder_write_list();
 }
 
-void rssyl_remove_folder_cb(FolderView *folderview, guint action,
-			     GtkWidget *widget)
+void rssyl_remove_folder_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item;
 	gchar *message, *name;
@@ -262,9 +262,9 @@ void rssyl_remove_folder_cb(FolderView *folderview, guint action,
 
 }
 
-void rssyl_refresh_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_refresh_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	FolderItem *item;
 	RSSylFolderItem *ritem;
 
@@ -289,16 +289,16 @@ void rssyl_refresh_cb(FolderView *folderview, guint action,
 	main_window_cursor_normal(mainwindow_get_mainwindow());
 }
 
-void rssyl_refresh_all_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_refresh_all_cb(GtkAction *action, gpointer data)
 {
 	main_window_cursor_wait(mainwindow_get_mainwindow());
 	rssyl_refresh_all_feeds();
 	main_window_cursor_normal(mainwindow_get_mainwindow());
 }
 
-void rssyl_prop_cb(FolderView *folderview, guint action, GtkWidget *widget)
+void rssyl_prop_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	FolderItem *item;
 	RSSylFolderItem *ritem;
 
@@ -313,9 +313,9 @@ void rssyl_prop_cb(FolderView *folderview, guint action, GtkWidget *widget)
 	rssyl_gtk_prop(ritem);
 }
 
-void rssyl_rename_cb(FolderView *folderview, guint action,
-			     GtkWidget *widget)
+void rssyl_rename_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	FolderItem *item;
 	gchar *new_folder;
 	gchar *name;
@@ -357,9 +357,9 @@ void rssyl_rename_cb(FolderView *folderview, guint action,
 	folder_write_list();
 }
 
-void rssyl_import_feed_list_cb(FolderView *folderview, guint action,
-		GtkWidget *widget)
+void rssyl_import_feed_list_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	debug_print("RSSyl: rssyl_import_feed_cb\n");
 
 	FolderItem *item;
