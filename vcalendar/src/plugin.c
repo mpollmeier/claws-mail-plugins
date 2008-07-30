@@ -37,7 +37,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset (TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,3,1,16),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,39),
 				VERSION_NUMERIC, _("vCalendar"), error))
 		return -1;
 

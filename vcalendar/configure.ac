@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=2
 MINOR_VERSION=0
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 #####
 #
@@ -68,7 +68,7 @@ fi
 #
 # Check for claws-mail
 #
-PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 3.3.1.16)
+PKG_CHECK_MODULES(CLAWS_MAIL, claws-mail >= 3.5.0.39)
 AC_SUBST(CLAWS_MAIL_CFLAGS)
 AC_SUBST(CLAWS_MAIL_LIBS)
 if test -z $prefix || test "${prefix}" = "NONE" ; then

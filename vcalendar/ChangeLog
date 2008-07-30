@@ -1,3 +1,9 @@
+2008-07-30 [colin]	2.0.0cvs5
+
+	* src/plugin.c
+	* src/vcal_folder.c
+		Move the folderview popup menu to GtkUIManager
+
 2008-07-29 [colin]	2.0.0cvs4
 
 	* src/vcalendar.c

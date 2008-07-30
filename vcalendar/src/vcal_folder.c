@@ -111,15 +111,19 @@ static gint vcal_remove_folder(Folder *folder, FolderItem *item);
 static gboolean vcal_scan_required(Folder *folder, FolderItem *item);
 static void vcal_set_mtime(Folder *folder, FolderItem *item);
 static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginfo, MsgPermFlags newflags);
-static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget);
-static void set_sensitivity(GtkItemFactory *factory, FolderItem *item);
+
+static void new_meeting_cb(GtkAction *action, gpointer data);
+static void export_cal_cb(GtkAction *action, gpointer data);
+static void subscribe_cal_cb(GtkAction *action, gpointer data);
+static void check_subs_cb(GtkAction *action, gpointer data);
+static void unsubscribe_cal_cb(GtkAction *action, gpointer data);
+static void rename_cb(GtkAction *action, gpointer data);
+static void set_view_cb(GtkAction *action, GtkRadioAction *current, gpointer data);
+
+static void add_menuitems(GtkUIManager *ui_manager, FolderItem *item);
+static void set_sensitivity(GtkUIManager *ui_manager, FolderItem *item);
+
 static void update_subscription(const gchar *uri, gboolean verbose);
-static void rename_cb(FolderView *folderview, guint action, GtkWidget *widget);
 static void vcal_folder_set_batch	(Folder		*folder,
 					 FolderItem	*item,
 					 gboolean	 batch);
@@ -154,41 +158,38 @@ struct _VCalFolderItem
 
 static char *vcal_popup_labels[] =
 {
-	N_("/_New meeting..."),
-	N_("/_Export calendar..."),
-	"/---",
-	N_("/_Subscribe to webCal..."),
-	N_("/_Unsubscribe..."),
-	"/---",
-	N_("/_Rename..."),
-	"/---",
-	N_("/U_pdate subscriptions"),
-	"/---",
-	N_("/_List view"),
-	N_("/_Week view"),
-	N_("/_Month view"),
-	"/---",
+	N_("_New meeting..."),
+	N_("_Export calendar..."),
+	N_("_Subscribe to webCal..."),
+	N_("_Unsubscribe..."),
+	N_("_Rename..."),
+	N_("U_pdate subscriptions"),
+	N_("_List view"),
+	N_("_Week view"),
+	N_("_Month view"),
 	NULL
 };
-	
-static GtkItemFactoryEntry vcal_popup_entries[] =
-{
-	{NULL, NULL, new_meeting_cb,	0, NULL},
-	{NULL, NULL, export_cal_cb,	0, NULL},
-	{NULL, NULL, NULL,    	0, "<Separator>"},
-	{NULL, NULL, subscribe_cal_cb,	0, NULL},
-	{NULL, NULL, unsubscribe_cal_cb,	0, NULL},
-	{NULL, NULL, NULL,    	0, "<Separator>"},
-	{NULL, NULL, rename_cb, 0, NULL},
-	{NULL, NULL, NULL,    	0, "<Separator>"},
-	{NULL, NULL, check_subs_cb, 0, NULL},
-	{NULL, NULL, NULL,  	0, "<Separator>"},
-	{NULL, NULL, set_view_cb, 0, "<RadioItem>"},
-	{NULL, NULL, set_view_cb, 1, "/List view"},
-	{NULL, NULL, set_view_cb, 2, "/List view"},
-	{NULL, NULL, NULL,  	0, "<Separator>"}
-};
 
+static GtkActionEntry vcal_popup_entries[] = 
+{
+	{"FolderViewPopup/NewMeeting",		NULL, NULL, NULL, NULL, G_CALLBACK(new_meeting_cb) },
+	{"FolderViewPopup/ExportCal",		NULL, NULL, NULL, NULL, G_CALLBACK(export_cal_cb) },
+
+	{"FolderViewPopup/SubscribeCal",	NULL, NULL, NULL, NULL, G_CALLBACK(subscribe_cal_cb) },
+	{"FolderViewPopup/UnsubscribeCal",	NULL, NULL, NULL, NULL, G_CALLBACK(unsubscribe_cal_cb) },
+
+	{"FolderViewPopup/RenameFolder",	NULL, NULL, NULL, NULL, G_CALLBACK(rename_cb) },
+
+	{"FolderViewPopup/CheckSubs",		NULL, NULL, NULL, NULL, G_CALLBACK(check_subs_cb) },
+
+};			
+
+static GtkRadioActionEntry vcal_popup_radio_entries[] = { /* set_view_cb */
+	{"FolderViewPopup/ListView",		NULL, NULL, NULL, NULL, 0 }, 
+	{"FolderViewPopup/WeekView",		NULL, NULL, NULL, NULL, 1 }, 
+	{"FolderViewPopup/MonthView",		NULL, NULL, NULL, NULL, 2 }, 
+};
+		
 static IcalFeedData *icalfeeddata_new(icalcomponent *evt, gchar *str)
 {
 	IcalFeedData *data = g_new0(IcalFeedData, 1);
@@ -214,21 +215,27 @@ static void slist_free_icalfeeddata(GSList *list)
 
 static void vcal_fill_popup_menu_labels(void)
 {
-	gint i;
-
-	for( i = 0; vcal_popup_labels[i] != NULL; i++ ) {
-		(vcal_popup_entries[i]).path = _(vcal_popup_labels[i]);
-		if (!strcmp2(vcal_popup_entries[i].item_type, "/List view")) {
-			vcal_popup_entries[i].item_type = _(vcal_popup_entries[i].item_type);
-		}
-	}
+	vcal_popup_entries[0].label = _(vcal_popup_labels[0]);
+	vcal_popup_entries[1].label = _(vcal_popup_labels[1]);
+	vcal_popup_entries[2].label = _(vcal_popup_labels[2]);
+	vcal_popup_entries[3].label = _(vcal_popup_labels[3]);
+	vcal_popup_entries[4].label = _(vcal_popup_labels[4]);
+	vcal_popup_entries[5].label = _(vcal_popup_labels[5]);
+	vcal_popup_radio_entries[0].label = _(vcal_popup_labels[6]);
+	vcal_popup_radio_entries[1].label = _(vcal_popup_labels[7]);
+	vcal_popup_radio_entries[2].label = _(vcal_popup_labels[8]);
 }
 
 static FolderViewPopup vcal_popup =
 {
 	"vCalendar",
 	"<vCalendar>",
-	NULL,
+	vcal_popup_entries,
+	G_N_ELEMENTS(vcal_popup_entries),
+	NULL, 0,
+	vcal_popup_radio_entries, 
+	G_N_ELEMENTS(vcal_popup_radio_entries), 1, set_view_cb,
+	add_menuitems,
 	set_sensitivity
 };
 
@@ -1228,13 +1235,7 @@ static void vcal_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msginf
 
 void vcal_folder_gtk_init(void)
 {
-	guint i, n_entries;
-
 	vcal_fill_popup_menu_labels();
-	n_entries = sizeof(vcal_popup_entries) /
-		sizeof(vcal_popup_entries[0]);
-	for (i = 0; i < n_entries; i++)
-		vcal_popup.entries = g_slist_append(vcal_popup.entries, &vcal_popup_entries[i]);
 
 	folderview_register_popup(&vcal_popup);
 }
@@ -1255,51 +1256,51 @@ void vcal_folder_gtk_done(void)
 	folderview_unregister_popup(&vcal_popup);
 }
 
-static gboolean setting_sensitivity = FALSE;
+static void add_menuitems(GtkUIManager *ui_manager, FolderItem *item)
+{
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "NewMeeting", "FolderViewPopup/NewMeeting", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "ExportCal", "FolderViewPopup/ExportCal", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorVcal1", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SubscribeCal", "FolderViewPopup/SubscribeCal", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "UnsubscribeCal", "FolderViewPopup/UnsubscribeCal", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorVcal2", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "RenameFolder", "FolderViewPopup/RenameFolder", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorVcal3", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "CheckSubs", "FolderViewPopup/CheckSubs", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorVcal4", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "ListView", "FolderViewPopup/ListView", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "WeekView", "FolderViewPopup/WeekView", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "MonthView", "FolderViewPopup/MonthView", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Popup/FolderViewPopup", "SeparatorVcal5", "FolderViewPopup/---", GTK_UI_MANAGER_SEPARATOR)
+}
 
-static void set_sensitivity(GtkItemFactory *factory, FolderItem *fitem)
+static gboolean setting_sensitivity = FALSE;
+static void set_sensitivity(GtkUIManager *ui_manager, FolderItem *fitem)
 {
 	VCalFolderItem *item = (VCalFolderItem *)fitem;
-	GtkWidget *menuitem = NULL;
 
 #define SET_SENS(name, sens) \
-	menu_set_sensitive(factory, name, sens)
+	cm_menu_set_sensitive_full(ui_manager, "Popup/"name, sens)
 
 	setting_sensitivity = TRUE;
-	switch(item->use_cal_view) {
-	case 0:
-		menuitem = gtk_item_factory_get_item
-			(factory, _("/List view"));
-		break;
-	case 1:
-		menuitem = gtk_item_factory_get_item
-			(factory, _("/Week view"));
-		break;
-	case 2:
-		menuitem = gtk_item_factory_get_item
-			(factory, _("/Month view"));
-		break;
-	default:
-		menuitem = gtk_item_factory_get_item
-			(factory, _("/List view"));
-		break;
-	}
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), TRUE);
 
-	SET_SENS(_("/New meeting..."), item->uri == NULL);
-	SET_SENS(_("/Export calendar..."), TRUE);
-	SET_SENS(_("/Subscribe to webCal..."), item->uri == NULL);
-	SET_SENS(_("/Unsubscribe..."), item->uri != NULL);
-	SET_SENS(_("/Rename..."), folder_item_parent(fitem) != NULL);
-	SET_SENS(_("/Update subscriptions"), TRUE);
-	SET_SENS(_("/List view"), folder_item_parent(fitem) != NULL);
-	SET_SENS(_("/Week view"), folder_item_parent(fitem) != NULL);
-	SET_SENS(_("/Month view"), folder_item_parent(fitem) != NULL);
+	cm_toggle_menu_set_active_full(ui_manager, "Popup/FolderViewPopup/ListView", (item->use_cal_view == 0));
+	cm_toggle_menu_set_active_full(ui_manager, "Popup/FolderViewPopup/WeekView", (item->use_cal_view == 1));
+	cm_toggle_menu_set_active_full(ui_manager, "Popup/FolderViewPopup/MonthView", (item->use_cal_view == 2));
+	SET_SENS("FolderViewPopup/NewMeeting",   item->uri == NULL);
+	SET_SENS("FolderViewPopup/ExportCal", TRUE);
+	SET_SENS("FolderViewPopup/SubscribeCal", item->uri == NULL);
+	SET_SENS("FolderViewPopup/UnsubscribeCal", item->uri != NULL);
+	SET_SENS("FolderViewPopup/RenameFolder", folder_item_parent(fitem) != NULL);
+	SET_SENS("FolderViewPopup/CheckSubs", TRUE);
+	SET_SENS("FolderViewPopup/ListView", folder_item_parent(fitem) != NULL);
+	SET_SENS("FolderViewPopup/WeekView", folder_item_parent(fitem) != NULL);
+	SET_SENS("FolderViewPopup/MonthView", folder_item_parent(fitem) != NULL);
 	setting_sensitivity = FALSE;
 #undef SET_SENS
 }
 
-static void new_meeting_cb(FolderView *folderview, guint action, GtkWidget *widget)
+static void new_meeting_cb(GtkAction *action, gpointer data)
 {
 	debug_print("new_meeting_cb\n");
 	vcal_meeting_create(NULL);
@@ -1458,7 +1459,7 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 	return result;
 }
 
-static void export_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
+static void export_cal_cb(GtkAction *action, gpointer data)
 {
 	vcal_meeting_export_calendar(NULL, NULL, NULL, FALSE);
 }
@@ -1835,7 +1836,7 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 	vcal_curl_read(uri, verbose, update_subscription_finish);
 }
 
-static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widget)
+static void check_subs_cb(GtkAction *action, gpointer data)
 {
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
@@ -1848,7 +1849,7 @@ static void check_subs_cb(FolderView *folderview, guint action, GtkWidget *widge
 	folderview_check_new(root);
 }
 
-static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
+static void subscribe_cal_cb(GtkAction *action, gpointer data)
 {
 	gchar *uri = NULL;
 	gchar *tmp = NULL;
@@ -1876,8 +1877,9 @@ static void subscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *wi
 	g_free(uri);
 }
 
-static void unsubscribe_cal_cb(FolderView *folderview, guint action, GtkWidget *widget)
+static void unsubscribe_cal_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item;
 	gchar *message;
@@ -1944,9 +1946,9 @@ gboolean vcal_subscribe_uri(Folder *folder, const gchar *uri)
 	return TRUE;
 }
 
-static void rename_cb(FolderView *folderview, guint action,
-			     GtkWidget *widget)
+static void rename_cb(GtkAction *action, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
 	FolderItem *item;
 	gchar *new_folder;
 	gchar *name;
@@ -1988,8 +1990,10 @@ static void rename_cb(FolderView *folderview, guint action,
 	folder_write_list();
 }
 
-static void set_view_cb(FolderView *folderview, guint action, GtkWidget *widget)
+static void set_view_cb(GtkAction *gaction, GtkRadioAction *current, gpointer data)
 {
+	FolderView *folderview = (FolderView *)data;
+	gint action = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (current));
 	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
 	FolderItem *item = NULL, *oitem = NULL;
 
