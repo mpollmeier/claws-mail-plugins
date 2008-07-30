@@ -1,3 +1,9 @@
+2008-07-30 [colin]	0.24.4cvs7
+
+	* src/maildir_gtk.c
+	* src/plugin.c
+		Move the folderview popup menu to GtkUIManager
+
 2008-07-29 [colin]	0.24.4cvs6
 
 	* src/maildir.c

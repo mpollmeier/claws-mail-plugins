@@ -32,7 +32,7 @@
 
 gint plugin_init(gchar **error)
 {
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,39),
 				VERSION_NUMERIC, "Maildir++", error))
 		return -1;
 
