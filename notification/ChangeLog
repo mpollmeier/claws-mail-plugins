@@ -1,3 +1,8 @@
+2008-07-31 [colin]	0.17cvs4
+
+	* src/notification_banner.c
+		Get rid of the last (?) GtkItemFactory
+
 2008-07-28 [holger]	0.17cvs3
 
 	* .cvsignore

@@ -30,6 +30,7 @@
 #include "messageview.h"
 #include "compose.h"
 #include "gettext.h"
+#include "menu.h"
 
 #include "notification_core.h"
 #include "notification_prefs.h"
@@ -65,14 +66,16 @@ static gboolean notification_banner_button_press(GtkWidget*,GdkEventButton*,gpoi
 static void notification_banner_show_popup(GtkWidget*,GdkEventButton*);
 static void notification_banner_popup_done(GtkMenuShell*,gpointer);
 
-static void banner_menu_reply_cb(gpointer, guint, GtkWidget*);
+static void banner_menu_reply_cb(GtkAction *,gpointer);
 
 
 static NotificationBanner banner;
 static ScrollingData      sdata;
 
 static GtkWidget *banner_popup;
-static GtkItemFactory *bannermenu_factory;
+static GtkUIManager *banner_ui_manager;
+static GtkActionGroup *banner_action_group;
+
 static gboolean banner_popup_open = FALSE;
 
 static MsgInfo *current_msginfo = NULL;
@@ -81,8 +84,10 @@ static MsgInfo *current_msginfo = NULL;
 G_LOCK_DEFINE_STATIC(banner);
 G_LOCK_DEFINE_STATIC(sdata);
 
-static GtkItemFactoryEntry banner_menu_entries[] = {
-  {N_("/Reply"), NULL, banner_menu_reply_cb, 0, NULL},
+static GtkActionEntry banner_popup_entries[] = 
+{
+	{"BannerPopup",		NULL, "BannerPopup" },
+	{"BannerPopup/Reply",	NULL, N_("_Reply"), NULL, NULL, G_CALLBACK(banner_menu_reply_cb) },
 };
 
 
@@ -125,7 +130,6 @@ static void notification_banner_create(GSList *msg_list)
 	GtkWidget *hbox;
 	GtkWidget *entrybox;
 	GdkColor bg;
-	gint n_entries;
 	gint banner_width;
 
   /* Window */
@@ -230,11 +234,15 @@ static void notification_banner_create(GSList *msg_list)
   }
 
 	/* menu */
-  n_entries = sizeof(banner_menu_entries) /
-    sizeof(banner_menu_entries[0]);
-  banner_popup = menu_create_items(banner_menu_entries,
-																	 n_entries, "<BannerMenu>", &bannermenu_factory,
-																	 NULL);
+  banner_ui_manager = gtk_ui_manager_new();
+  banner_action_group = cm_menu_create_action_group_full(banner_ui_manager,"BannerPopup", banner_popup_entries,
+			G_N_ELEMENTS(banner_popup_entries), (gpointer)NULL);
+  MENUITEM_ADDUI_MANAGER(banner_ui_manager, "/", "Menus", "Menus", GTK_UI_MANAGER_MENUBAR)
+  MENUITEM_ADDUI_MANAGER(banner_ui_manager, "/Menus", "BannerPopup", "BannerPopup", GTK_UI_MANAGER_MENU)
+  MENUITEM_ADDUI_MANAGER(banner_ui_manager, "/Menus/BannerPopup", "Reply", "BannerPopup/Reply", GTK_UI_MANAGER_MENUITEM)
+
+  banner_popup = gtk_menu_item_get_submenu(GTK_MENU_ITEM(
+				gtk_ui_manager_get_widget(banner_ui_manager, "/Menus/BannerPopup")) );
 	g_signal_connect(banner_popup,"selection-done",
 									 G_CALLBACK(notification_banner_popup_done), NULL);
 }
@@ -472,9 +480,7 @@ static void notification_banner_popup_done(GtkMenuShell *menushell,
 	banner_popup_open = FALSE;
 }
 
-static void banner_menu_reply_cb(gpointer data,
-																 guint action,
-																 GtkWidget *widget)
+static void banner_menu_reply_cb(GtkAction *action, gpointer data)
 {
 	MainWindow *mainwin;
 	MessageView *messageview;
@@ -490,9 +496,9 @@ static void banner_menu_reply_cb(gpointer data,
 
 	msginfo_list = g_slist_prepend(msginfo_list, current_msginfo);
 	compose_reply_from_messageview(messageview, msginfo_list,
-																 prefs_common.reply_with_quote ?
-																 COMPOSE_REPLY_WITH_QUOTE : COMPOSE_REPLY_WITHOUT_QUOTE);
-  g_slist_free(msginfo_list);
+				       prefs_common.reply_with_quote ?
+				       COMPOSE_REPLY_WITH_QUOTE : COMPOSE_REPLY_WITHOUT_QUOTE);
+	g_slist_free(msginfo_list);
 }
 
 #endif /* NOTIFICATION_BANNER */
