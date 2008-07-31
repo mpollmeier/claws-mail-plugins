@@ -42,7 +42,6 @@ static gint main_menu_id = 0;
 
 void synce_gtk_init(void)
 {
-  GtkItemFactory *ifactory;
   MainWindow *mainwin;
 
   mainwin =  mainwindow_get_mainwindow();

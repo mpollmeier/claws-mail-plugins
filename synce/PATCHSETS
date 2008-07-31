@@ -22,3 +22,4 @@
 ( cvs diff -u -r 1.2.2.6 -r 1.2.2.7 src/synce_comp.c;  ) > 0.7.2cvs1.patchset
 ( cvs diff -u -r 1.2.2.42 -r 1.2.2.43 configure.ac;  cvs diff -u -r 1.2.2.7 -r 1.2.2.8 src/synce_comp.c;  cvs diff -u -r 1.2.2.2 -r 1.2.2.3 src/.cvsignore;  ) > 0.7.2cvs2.patchset
 ( cvs diff -u -r 1.2.2.9 -r 1.2.2.10 src/synce_gtk.c;  ) > 0.7.3cvs1.patchset
+( cvs diff -u -r 1.2.2.10 -r 1.2.2.11 src/synce_gtk.c;  ) > 0.7.3cvs2.patchset
