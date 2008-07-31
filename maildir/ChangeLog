@@ -1,3 +1,8 @@
+2008-07-31 [colin]	0.24.4cvs8
+
+	* src/maildir_gtk.c
+		Fix warning
+
 2008-07-30 [colin]	0.24.4cvs7
 
 	* src/maildir_gtk.c

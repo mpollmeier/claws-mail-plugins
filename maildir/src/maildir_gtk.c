@@ -360,7 +360,23 @@ static void move_folder_cb(GtkAction *action, gpointer data)
 	if (!to_folder)
 		return;
 
-	folderview_move_folder(folderview, from_folder, to_folder, action);
+	folderview_move_folder(folderview, from_folder, to_folder, 0);
+}
+
+static void copy_folder_cb(GtkAction *action, gpointer data)
+{
+	FolderView *folderview = (FolderView *)data;
+	FolderItem *from_folder = NULL, *to_folder = NULL;
+
+	from_folder = folderview_get_selected_item(folderview);
+	if (!from_folder || from_folder->folder->klass != maildir_get_class())
+		return;
+
+	to_folder = foldersel_folder_sel(from_folder->folder, FOLDER_SEL_MOVE, NULL, FALSE);
+	if (!to_folder)
+		return;
+
+	folderview_move_folder(folderview, from_folder, to_folder, 1);
 }
 
 static void rename_folder_cb(GtkAction *action, gpointer data)
