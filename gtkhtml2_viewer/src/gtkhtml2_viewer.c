@@ -83,9 +83,7 @@ struct _GtkHtml2Viewer
 	gint		 stop_previous;
 	GMutex		*mutex;
 	GtkWidget 	*link_popupmenu;
-	GtkItemFactory 	*link_popupfactory;
 	GtkWidget	*context_popupmenu;
-	GtkItemFactory 	*context_popupfactory;
 	gboolean	 is_on_url;
 	gint		 last_search_match;
 	gboolean	 preparing;
@@ -95,26 +93,22 @@ struct _GtkHtml2Viewer
 static MimeViewerFactory gtkhtml2_viewer_factory;
 static gchar *gtkhtml2_viewer_tmpdir = NULL;
 
-static void gtkhtml_open_uri_cb			(GtkHtml2Viewer *viewer,
-						 guint		 action,
-						 void		*data);
-static void gtkhtml_copy_uri_cb			(GtkHtml2Viewer *viewer,
-						 guint		 action,
-						 void		*data);
-static void gtkhtml_zoom_cb			(GtkHtml2Viewer *viewer,
-						 guint		 action,
-						 void		*data);
+static void gtkhtml_open_uri_cb			(GtkAction	*action,
+						 GtkHtml2Viewer *viewer);
+static void gtkhtml_copy_uri_cb			(GtkAction	*action,
+						 GtkHtml2Viewer *viewer);
+static void gtkhtml_zoomin_cb			(GtkAction	*action,
+						 GtkHtml2Viewer *viewer);
+static void gtkhtml_zoomout_cb			(GtkAction	*action,
+						 GtkHtml2Viewer *viewer);
 
-static GtkItemFactoryEntry gtkhtml_link_popup_entries[] = 
+static GtkActionEntry gtkhtml_popup_entries[] = 
 {
-	{N_("/_Open with Web browser"),	NULL, gtkhtml_open_uri_cb, 0, NULL},
-	{N_("/Copy this _link"),	NULL, gtkhtml_copy_uri_cb, 0, NULL},
-};
-
-static GtkItemFactoryEntry gtkhtml_context_popup_entries[] = 
-{
-	{N_("/Zoom _in"),	NULL, gtkhtml_zoom_cb, 1, NULL},
-	{N_("/Zoom _out"),	NULL, gtkhtml_zoom_cb, 0, NULL},
+	{"GtkHtmlPopup",		NULL, "GtkHtmlPopup" },
+	{"GtkHtmlPopup/OpenBrowser",	NULL, N_("_Open with Web browser"), NULL, NULL, G_CALLBACK(gtkhtml_open_uri_cb) },
+	{"GtkHtmlPopup/CopyLink",	NULL, N_("Copy this _link"), NULL, NULL, G_CALLBACK(gtkhtml_copy_uri_cb) },
+	{"GtkHtmlPopup/ZoomIn",		NULL, N_("Zoom _in"), NULL, NULL, G_CALLBACK(gtkhtml_zoomin_cb) },
+	{"GtkHtmlPopup/ZoomOut",		NULL, N_("Zoom _out"), NULL, NULL, G_CALLBACK(gtkhtml_zoomout_cb) },
 };
 
 static void scrolled_cb (GtkAdjustment *adj, GtkHtml2Viewer *viewer)
@@ -493,7 +487,7 @@ static gchar *make_url(const gchar *url, const gchar *base)
 	}
 }
 
-static void gtkhtml_open_uri_cb (GtkHtml2Viewer *viewer, guint action, void *data)
+static void gtkhtml_open_uri_cb (GtkAction *action, GtkHtml2Viewer *viewer)
 {
 	gchar *uri = g_object_get_data(G_OBJECT(viewer->link_popupmenu),
 					   "uri");
@@ -502,7 +496,7 @@ static void gtkhtml_open_uri_cb (GtkHtml2Viewer *viewer, guint action, void *dat
 	g_free(uri);
 }
 
-static void gtkhtml_copy_uri_cb (GtkHtml2Viewer *viewer, guint action, void *data)
+static void gtkhtml_copy_uri_cb (GtkAction *action, GtkHtml2Viewer *viewer)
 {
 	gchar *uri = g_object_get_data(G_OBJECT(viewer->link_popupmenu),
 					   "uri");
@@ -1075,13 +1069,14 @@ static gboolean htmlview_scrolled(GtkWidget *widget, GdkEventScroll *event,
 	return FALSE;
 }
 
-static void gtkhtml_zoom_cb (GtkHtml2Viewer *viewer, guint action, void *data)
+static void gtkhtml_zoomin_cb (GtkAction *action, GtkHtml2Viewer *viewer)
 {
-	if (action == 1) {
-		html_view_zoom_in(HTML_VIEW(viewer->html_view));
-	} else {
-		html_view_zoom_out(HTML_VIEW(viewer->html_view));
-	}
+	html_view_zoom_in(HTML_VIEW(viewer->html_view));
+}
+
+static void gtkhtml_zoomout_cb (GtkAction *action, GtkHtml2Viewer *viewer)
+{
+	html_view_zoom_out(HTML_VIEW(viewer->html_view));
 }
 
 static gboolean htmlview_btn_released(GtkWidget *widget, GdkEventButton *event,
@@ -1222,11 +1217,8 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	GtkAdjustment *adj;
 	gfloat min_size = 0.0, min_size_new;
 	PangoFontDescription *font_desc = NULL;
-	gint n_entries;
-	GtkWidget *link_popupmenu;
-	GtkItemFactory *link_popupfactory;
-	GtkWidget *context_popupmenu;
-	GtkItemFactory *context_popupfactory;
+	GtkUIManager *ui_manager;
+	GtkActionGroup *action_group;
 
 	debug_print("gtkhtml2_viewer_create\n");
 
@@ -1303,22 +1295,22 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	gtk_widget_show(GTK_WIDGET(viewer->html_view));
 	gtk_widget_ref(GTK_WIDGET(viewer->html_view));
 
-	n_entries = sizeof(gtkhtml_link_popup_entries) /
-		sizeof(gtkhtml_link_popup_entries[0]);
-	link_popupmenu = menu_create_items(gtkhtml_link_popup_entries, n_entries,
-				      "<UriPopupMenu>", &link_popupfactory,
-				      viewer);
-	viewer->link_popupmenu = link_popupmenu;
-	viewer->link_popupfactory = link_popupfactory;
+	ui_manager = gtk_ui_manager_new();
+	action_group = cm_menu_create_action_group_full(ui_manager,"GtkHtmlPopup", gtkhtml_popup_entries,
+			G_N_ELEMENTS(gtkhtml_popup_entries), (gpointer)viewer);
 
-	n_entries = sizeof(gtkhtml_context_popup_entries) /
-		sizeof(gtkhtml_context_popup_entries[0]);
-	context_popupmenu = menu_create_items(gtkhtml_context_popup_entries, n_entries,
-				      "<UriPopupMenu>", &context_popupfactory,
-				      viewer);
-	viewer->context_popupmenu = context_popupmenu;
-	viewer->context_popupfactory = context_popupfactory;
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/", "Menus", "Menus", GTK_UI_MANAGER_MENUBAR)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Menus", "GtkHtmlLink", "GtkHtmlPopup", GTK_UI_MANAGER_MENU)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Menus/GtkHtmlLink", "OpenBrowser", "GtkHtmlPopup/OpenBrowser", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Menus/GtkHtmlLink", "CopyLink", "GtkHtmlPopup/CopyLink", GTK_UI_MANAGER_MENUITEM)
+	viewer->link_popupmenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(
+				gtk_ui_manager_get_widget(ui_manager, "/Menus/GtkHtmlLink")) );
 
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Menus", "GtkHtmlZoom", "GtkHtmlPopup", GTK_UI_MANAGER_MENU)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Menus/GtkHtmlZoom", "ZoomIn", "GtkHtmlPopup/ZoomIn", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(ui_manager, "/Menus/GtkHtmlZoom", "ZoomOut", "GtkHtmlPopup/ZoomOut", GTK_UI_MANAGER_MENUITEM)
+	viewer->context_popupmenu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(
+				gtk_ui_manager_get_widget(ui_manager, "/Menus/GtkHtmlZoom")) );
 	viewer->filename = NULL;
 
 	return (MimeViewer *) viewer;
