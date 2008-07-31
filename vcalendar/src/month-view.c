@@ -94,9 +94,9 @@ struct _month_win
     FolderItem *item;
     gulong selsig;
     GtkWidget *view_menu;
-    GtkItemFactory *view_fact;
     GtkWidget *event_menu;
-    GtkItemFactory *event_fact;
+    GtkActionGroup *event_group;
+    GtkUIManager *ui_manager;
 };
 
 gchar *dayname[7] = {
@@ -952,7 +952,8 @@ month_win *create_month_win(FolderItem *item, struct tm tmdate)
     mw->selsig = vcal_view_set_calendar_page(mw->Vbox, 
 		    G_CALLBACK(mw_summary_selected), mw);
 
-    vcal_view_create_popup_menus(mw->Vbox, &mw->view_menu, &mw->view_fact,
-		    		 &mw->event_menu, &mw->event_fact);
+    vcal_view_create_popup_menus(mw->Vbox, &mw->view_menu,
+		    		 &mw->event_menu, &mw->event_group,
+		    		 &mw->ui_manager);
     return(mw);
 }

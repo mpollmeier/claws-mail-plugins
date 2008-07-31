@@ -44,7 +44,8 @@ void vcal_view_set_summary_page(GtkWidget *to_remove, guint selsig);
 void vcal_view_select_event (const gchar *uid, FolderItem *item, gboolean edit,
 		    	    GCallback block_cb, gpointer block_data);
 void vcal_view_create_popup_menus(gpointer data, 
-				GtkWidget **view_menu, GtkItemFactory **view_fact,
-				GtkWidget **event_menu, GtkItemFactory **event_fact);
+				GtkWidget **view_menu,
+				GtkWidget **event_menu, GtkActionGroup **event_group,
+				GtkUIManager **ui_manager);
 
 #endif

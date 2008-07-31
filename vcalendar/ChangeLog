@@ -1,3 +1,11 @@
+2008-07-31 [colin]	2.0.0cvs6
+
+	* src/common-views.c
+	* src/common-views.h
+	* src/day-view.c
+	* src/month-view.c
+		Get rid of the GtkItemFactory
+
 2008-07-30 [colin]	2.0.0cvs5
 
 	* src/plugin.c

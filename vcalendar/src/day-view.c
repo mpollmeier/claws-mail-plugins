@@ -94,9 +94,9 @@ struct _day_win
     FolderItem *item;
     gulong selsig;
     GtkWidget *view_menu;
-    GtkItemFactory *view_fact;
     GtkWidget *event_menu;
-    GtkItemFactory *event_fact;
+    GtkActionGroup *event_group;
+    GtkUIManager *ui_manager;
 };
 
 static gchar *get_locale_date(struct tm *tmdate)
@@ -854,8 +854,9 @@ day_win *create_day_win(FolderItem *item, struct tm tmdate)
     gtk_widget_show_all(dw->Vbox);
     dw->selsig = vcal_view_set_calendar_page(dw->Vbox, 
 		    G_CALLBACK(dw_summary_selected), dw);
-    vcal_view_create_popup_menus(dw->Vbox, &dw->view_menu, &dw->view_fact,
-		    		 &dw->event_menu, &dw->event_fact);
+    vcal_view_create_popup_menus(dw->Vbox, &dw->view_menu, 
+		    		 &dw->event_menu, &dw->event_group,
+		    		 &dw->ui_manager);
 
     g_timeout_add(100, (GtkFunction)scroll_position_timer, (gpointer)dw);
 

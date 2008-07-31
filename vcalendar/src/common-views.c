@@ -43,34 +43,24 @@
 #include "menu.h"
 
 
-static void view_new_meeting_cb			(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data);
-static void view_edit_meeting_cb		(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data);
-static void view_cancel_meeting_cb		(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data);
-static void view_go_today_cb			(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data);
+static void view_new_meeting_cb			(GtkAction	*action,
+						 gpointer	 user_data);
+static void view_edit_meeting_cb		(GtkAction	*action,
+						 gpointer	 user_data);
+static void view_cancel_meeting_cb		(GtkAction	*action,
+						 gpointer	 user_data);
+static void view_go_today_cb			(GtkAction	*action,
+						 gpointer	 user_data);
 
-static GtkItemFactoryEntry view_popup_entries[] = 
+static GtkActionEntry view_event_popup_entries[] = 
 {
-	{N_("/_Create new meeting..."),	NULL, view_new_meeting_cb, 0, NULL},
-	{"/---",				NULL, NULL, 0, "<Separator>"},
-	{N_("/_Go to today"),		NULL, view_go_today_cb, 0, NULL},
-};
+	{"VcalViewEvent",		NULL, "VcalViewEvent" },
+	{"VcalViewEvent/EditMeeting",	NULL, N_("_Edit this meeting..."), NULL, NULL, G_CALLBACK(view_edit_meeting_cb) },
+	{"VcalViewEvent/CancelMeeting",	NULL, N_("_Cancel this meeting..."), NULL, NULL, G_CALLBACK(view_cancel_meeting_cb) },
+	{"VcalViewEvent/---",		NULL, "---", NULL, NULL, NULL },
+	{"VcalViewEvent/CreateMeeting",	NULL, N_("_Create new meeting..."), NULL, NULL, G_CALLBACK(view_new_meeting_cb) },
 
-static GtkItemFactoryEntry view_event_popup_entries[] = 
-{
-	{N_("/_Edit this meeting..."),	NULL, view_edit_meeting_cb, 0, NULL},
-	{N_("/_Cancel this meeting..."),NULL, view_cancel_meeting_cb, 0, NULL},
-	{"/---",				NULL, NULL, 0, "<Separator>"},
-	{N_("/C_reate new meeting..."),	NULL, view_new_meeting_cb, 0, NULL},
-	{"/---",				NULL, NULL, 0, "<Separator>"},
-	{N_("/_Go to today"),		NULL, view_go_today_cb, 0, NULL},
+	{"VcalViewEvent/GoToday",		NULL, N_("_Go to today"), NULL, NULL, G_CALLBACK(view_go_today_cb) },
 };
 
 GtkWidget *build_line(gint start_x, gint start_y
@@ -224,77 +214,75 @@ void vcal_view_select_event (const gchar *uid, FolderItem *item, gboolean edit,
 }
 
 void vcal_view_create_popup_menus(gpointer data, 
-				GtkWidget **view_menu, GtkItemFactory **view_fact,
-				GtkWidget **event_menu, GtkItemFactory **event_fact)
+				GtkWidget **view_menu,
+				GtkWidget **event_menu, GtkActionGroup **event_group,
+				GtkUIManager **ui_manager)
 {
-	gint n_entries;
-	GtkWidget *view_popupmenu;
-	GtkItemFactory *view_popupfactory;
-	GtkWidget *view_event_popupmenu;
-	GtkItemFactory *view_event_popupfactory;
+	*ui_manager = gtk_ui_manager_new();
+	*event_group = cm_menu_create_action_group_full(*ui_manager,"VcalViewEvent", view_event_popup_entries,
+			G_N_ELEMENTS(view_event_popup_entries), (gpointer)data);
 
-	n_entries = sizeof(view_popup_entries) /
-		sizeof(view_popup_entries[0]);
-	view_popupmenu = menu_create_items(view_popup_entries, n_entries,
-				      "<UriPopupMenu>", &view_popupfactory,
-				      data);
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/", "Menus", "Menus", GTK_UI_MANAGER_MENUBAR)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus", "VcalView", "VcalViewEvent", GTK_UI_MANAGER_MENU)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalView", "CreateMeeting", "VcalViewEvent/CreateMeeting", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalView", "Separator1", "VcalViewEvent/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalView", "GoToday", "VcalViewEvent/GoToday", GTK_UI_MANAGER_MENUITEM)
 
-	n_entries = sizeof(view_event_popup_entries) /
-		sizeof(view_event_popup_entries[0]);
-	view_event_popupmenu = menu_create_items(view_event_popup_entries, n_entries,
-				      "<UriPopupMenu>", &view_event_popupfactory,
-				      data);
-	*view_menu = view_popupmenu;
-	*view_fact = view_popupfactory;
-	*event_menu= view_event_popupmenu;
-	*event_fact= view_event_popupfactory;
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus", "VcalViewEvent", "VcalViewEvent", GTK_UI_MANAGER_MENU)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalViewEvent", "EditMeeting", "VcalViewEvent/EditMeeting", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalViewEvent", "CancelMeeting", "VcalViewEvent/CancelMeeting", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalViewEvent", "Separator1", "VcalViewEvent/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalViewEvent", "CreateMeeting", "VcalViewEvent/CreateMeeting", GTK_UI_MANAGER_MENUITEM)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalViewEvent", "Separator2", "VcalViewEvent/---", GTK_UI_MANAGER_SEPARATOR)
+	MENUITEM_ADDUI_MANAGER(*ui_manager, "/Menus/VcalViewEvent", "GoToday", "VcalViewEvent/GoToday", GTK_UI_MANAGER_MENUITEM)
+
+	*view_menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(
+				gtk_ui_manager_get_widget(*ui_manager, "/Menus/VcalView")) );
+	*event_menu= gtk_menu_item_get_submenu(GTK_MENU_ITEM(
+				gtk_ui_manager_get_widget(*ui_manager, "/Menus/VcalViewEvent")) );
 }
 
-static void view_new_meeting_cb			(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data)
+static void view_new_meeting_cb			(GtkAction	*action,
+						 gpointer	 user_data)
 {
-	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
-	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
-	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	gpointer data_i = g_object_get_data(G_OBJECT(user_data), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(user_data), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(user_data), "menu_win");
 	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
-		g_object_get_data(G_OBJECT(widget), "new_meeting_cb");
+		g_object_get_data(G_OBJECT(user_data), "new_meeting_cb");
 	if (cb)
 		cb(win, data_i, data_s);
 }
-static void view_edit_meeting_cb		(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data)
+static void view_edit_meeting_cb		(GtkAction	*action,
+						 gpointer	 user_data)
 {
-	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
-	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
-	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	gpointer data_i = g_object_get_data(G_OBJECT(user_data), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(user_data), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(user_data), "menu_win");
 	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
-		g_object_get_data(G_OBJECT(widget), "edit_meeting_cb");
+		g_object_get_data(G_OBJECT(user_data), "edit_meeting_cb");
 	if (cb)
 		cb(win, data_i, data_s);
 }
-static void view_cancel_meeting_cb		(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data)
+static void view_cancel_meeting_cb		(GtkAction	*action,
+						 gpointer	 user_data)
 {
-	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
-	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
-	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	gpointer data_i = g_object_get_data(G_OBJECT(user_data), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(user_data), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(user_data), "menu_win");
 	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
-		g_object_get_data(G_OBJECT(widget), "cancel_meeting_cb");
+		g_object_get_data(G_OBJECT(user_data), "cancel_meeting_cb");
 	if (cb)
 		cb(win, data_i, data_s);
 }
-static void view_go_today_cb			(GtkWidget	*widget,
-						 guint		 action,
-						 void		*user_data)
+static void view_go_today_cb			(GtkAction	*action,
+						 gpointer	 user_data)
 {
-	gpointer data_i = g_object_get_data(G_OBJECT(widget), "menu_data_i");
-	gpointer data_s = g_object_get_data(G_OBJECT(widget), "menu_data_s");
-	gpointer win = g_object_get_data(G_OBJECT(widget), "menu_win");
+	gpointer data_i = g_object_get_data(G_OBJECT(user_data), "menu_data_i");
+	gpointer data_s = g_object_get_data(G_OBJECT(user_data), "menu_data_s");
+	gpointer win = g_object_get_data(G_OBJECT(user_data), "menu_win");
 	void (*cb)(gpointer win, gpointer data_i, gpointer data_s) = 
-		g_object_get_data(G_OBJECT(widget), "go_today_cb");
+		g_object_get_data(G_OBJECT(user_data), "go_today_cb");
 	if (cb)
 		cb(win, data_i, data_s);
 }
