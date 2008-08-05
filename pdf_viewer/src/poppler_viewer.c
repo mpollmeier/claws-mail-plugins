@@ -1091,7 +1091,7 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	GError *error;
 	gchar *tmpfile = NULL;
 	gchar *tmp;
-	CLAWS_DECL_TIP();
+	CLAWS_TIP_DECL();
 
 	debug_print("pdf_viewer_update\n");
 
@@ -1910,7 +1910,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
 		    VERSION_NUMERIC, _("PDF Viewer"), error)) return -1;
 	
 	mimeview_register_viewer_factory(&pdf_viewer_factory);

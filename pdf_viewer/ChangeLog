@@ -1,3 +1,8 @@
+2008-08-05 [colin]	0.9.1cvs4
+
+	* src/poppler_viewer.c
+		Fix build
+
 2008-07-29 [colin]	0.9.1cvs3
 
 	* src/poppler_viewer.c
