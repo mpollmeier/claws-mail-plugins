@@ -1,3 +1,9 @@
+2008-08-05 [colin]	0.24.4cvs9
+
+	* src/maildir_gtk.c
+	* src/plugin.c
+		Undeprecate GtkCTree
+
 2008-07-31 [colin]	0.24.4cvs8
 
 	* src/maildir_gtk.c
