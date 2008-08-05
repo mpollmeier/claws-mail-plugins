@@ -75,7 +75,7 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 	}
 
 	main_window_cursor_wait(summaryview->mainwin);
-	gtk_clist_freeze(GTK_CLIST(summaryview->ctree));
+	gtk_cmclist_freeze(GTK_CMCLIST(summaryview->ctree));
 	folder_item_update_freeze();
 	inc_lock();
 
@@ -140,7 +140,7 @@ static void remove_attachments(gpointer callback_data, guint callback_action, Gt
 	}
 	inc_unlock();
 	folder_item_update_thaw();
-	gtk_clist_thaw(GTK_CLIST(summaryview->ctree));
+	gtk_cmclist_thaw(GTK_CMCLIST(summaryview->ctree));
 	main_window_cursor_normal(summaryview->mainwin);
 	g_slist_free(msglist);
 	if (msgnum > 0) {
@@ -171,7 +171,7 @@ gint plugin_init(gchar **error)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
 				VERSION_NUMERIC, _("AttRemover"), error) )
 		return -1;
 
