@@ -186,10 +186,10 @@ static gint on_Next_clicked(GtkWidget *button, GdkEventButton *event,
     return TRUE;
 }
 
-static void dw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
+static void dw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			     gint column, day_win *dw)
 {
-	MsgInfo *msginfo = gtk_ctree_node_get_row_data(ctree, row);
+	MsgInfo *msginfo = gtk_cmctree_node_get_row_data(ctree, row);
 	int days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
 	
 	if (msginfo && msginfo->msgid) {

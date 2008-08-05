@@ -1880,7 +1880,7 @@ static void subscribe_cal_cb(GtkAction *action, gpointer data)
 static void unsubscribe_cal_cb(GtkAction *action, gpointer data)
 {
 	FolderView *folderview = (FolderView *)data;
-	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	GtkCMCTree *ctree = GTK_CMCTREE(folderview->ctree);
 	FolderItem *item;
 	gchar *message;
 	AlertValue avalue;
@@ -1889,7 +1889,7 @@ static void unsubscribe_cal_cb(GtkAction *action, gpointer data)
 
 	if (!folderview->selected) return;
 
-	item = gtk_ctree_node_get_row_data(ctree, folderview->selected);
+	item = gtk_cmctree_node_get_row_data(ctree, folderview->selected);
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(item->path != NULL);
 	g_return_if_fail(item->folder != NULL);
@@ -1908,7 +1908,7 @@ static void unsubscribe_cal_cb(GtkAction *action, gpointer data)
 	vcal_item_closed(item);
 
 	if (folderview->opened == folderview->selected ||
-	    gtk_ctree_is_ancestor(ctree,
+	    gtk_cmctree_is_ancestor(ctree,
 				  folderview->selected,
 				  folderview->opened)) {
 		summary_clear_all(folderview->summaryview);
@@ -1994,14 +1994,14 @@ static void set_view_cb(GtkAction *gaction, GtkRadioAction *current, gpointer da
 {
 	FolderView *folderview = (FolderView *)data;
 	gint action = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (current));
-	GtkCTree *ctree = GTK_CTREE(folderview->ctree);
+	GtkCMCTree *ctree = GTK_CMCTREE(folderview->ctree);
 	FolderItem *item = NULL, *oitem = NULL;
 
 	if (!folderview->selected) return;
 	if (setting_sensitivity) return;
 
-	oitem = gtk_ctree_node_get_row_data(ctree, folderview->opened);
-	item = gtk_ctree_node_get_row_data(ctree, folderview->selected);
+	oitem = gtk_cmctree_node_get_row_data(ctree, folderview->opened);
+	item = gtk_cmctree_node_get_row_data(ctree, folderview->selected);
 
 	if (((VCalFolderItem *)(item))->use_cal_view == action)
 		return;

@@ -125,7 +125,7 @@ static void create_meeting_from_message_cb_ui(GtkAction *action, gpointer data)
 	g_free(msg);
 
 	main_window_cursor_wait(summaryview->mainwin);
-	gtk_clist_freeze(GTK_CLIST(summaryview->ctree));
+	gtk_cmclist_freeze(GTK_CMCLIST(summaryview->ctree));
 	folder_item_update_freeze();
 	inc_lock();
 
@@ -219,7 +219,7 @@ bail:
 	STATUSBAR_POP(mainwin);
 	inc_unlock();
 	folder_item_update_thaw();
-	gtk_clist_thaw(GTK_CLIST(summaryview->ctree));
+	gtk_cmclist_thaw(GTK_CMCLIST(summaryview->ctree));
 	main_window_cursor_normal(summaryview->mainwin);
 	g_slist_free(msglist);
 }

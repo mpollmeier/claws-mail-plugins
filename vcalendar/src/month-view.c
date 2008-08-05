@@ -186,10 +186,10 @@ static gint on_Next_clicked(GtkWidget *button, GdkEventButton *event,
     return TRUE;
 }
 
-static void mw_summary_selected(GtkCTree *ctree, GtkCTreeNode *row,
+static void mw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			     gint column, month_win *mw)
 {
-	MsgInfo *msginfo = gtk_ctree_node_get_row_data(ctree, row);
+	MsgInfo *msginfo = gtk_cmctree_node_get_row_data(ctree, row);
 	
 	if (msginfo && msginfo->msgid) {
 		VCalEvent *event = vcal_manager_load_event(msginfo->msgid);
