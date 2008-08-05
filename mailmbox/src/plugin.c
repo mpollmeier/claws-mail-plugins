@@ -31,7 +31,7 @@
 
 gint plugin_init(gchar **error)
 {
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,39),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
 				VERSION_NUMERIC, "Mailmbox", error))
 		return -1;
 

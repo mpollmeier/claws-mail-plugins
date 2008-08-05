@@ -1,3 +1,9 @@
+2008-08-05 [colin]	1.14.1cvs3
+
+	* src/plugin.c
+	* src/plugin_gtk.c
+		Undeprecate GtkCTree
+
 2008-07-30 [colin]	1.14.1cvs2
 
 	* src/plugin.c
