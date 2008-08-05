@@ -27,3 +27,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fi.po;  ) > 0.3.3cvs1.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/spam_report.c;  ) > 0.3.4cvs1.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/spam_report.c;  ) > 0.3.4cvs2.patchset
+( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/spam_report.c;  ) > 0.3.4cvs3.patchset

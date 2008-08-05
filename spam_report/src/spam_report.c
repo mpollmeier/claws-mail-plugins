@@ -207,7 +207,7 @@ static void report_spam_cb_ui(GtkAction *action, gpointer data)
 		return;
 	}
 	main_window_cursor_wait(summaryview->mainwin);
-	gtk_clist_freeze(GTK_CLIST(summaryview->ctree));
+	gtk_cmclist_freeze(GTK_CMCLIST(summaryview->ctree));
 	folder_item_update_freeze();
 	inc_lock();
 
@@ -239,7 +239,7 @@ static void report_spam_cb_ui(GtkAction *action, gpointer data)
 	STATUSBAR_POP(mainwin);
 	inc_unlock();
 	folder_item_update_thaw();
-	gtk_clist_thaw(GTK_CLIST(summaryview->ctree));
+	gtk_cmclist_thaw(GTK_CMCLIST(summaryview->ctree));
 	main_window_cursor_normal(summaryview->mainwin);
 	g_slist_free(msglist);
 }
@@ -265,7 +265,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
 				VERSION_NUMERIC, _("SpamReport"), error))
 		return -1;
 
