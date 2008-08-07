@@ -1359,11 +1359,11 @@ static void pdf_viewer_destroy(MimeViewer *_viewer)
 	if (viewer->pdf_index) poppler_index_iter_free(viewer->pdf_index);
 
 	poppler_page_free_link_mapping (viewer->link_map);
-	gtk_widget_unref(GTK_WIDGET(viewer->vbox));
-	gtk_widget_unref(GTK_WIDGET(viewer->pdf_view));
-	gtk_widget_unref(GTK_WIDGET(viewer->doc_index_pane));
-	gtk_widget_unref(GTK_WIDGET(viewer->scrollwin));
-	gtk_widget_unref(GTK_WIDGET(viewer->scrollwin_index));
+	g_object_unref(GTK_WIDGET(viewer->vbox));
+	g_object_unref(GTK_WIDGET(viewer->pdf_view));
+	g_object_unref(GTK_WIDGET(viewer->doc_index_pane));
+	g_object_unref(GTK_WIDGET(viewer->scrollwin));
+	g_object_unref(GTK_WIDGET(viewer->scrollwin_index));
 	claws_unlink(viewer->filename);
 	g_free(viewer->filename);
 	g_free(viewer);
@@ -1699,67 +1699,67 @@ static MimeViewer *pdf_viewer_create(void)
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->doc_index_pane, TRUE, TRUE, 0);
 	/* show widgets */
 	gtk_widget_show(GTK_WIDGET(viewer->doc_index_pane));
-	gtk_widget_ref(GTK_WIDGET(viewer->doc_index_pane));
+	g_object_ref(GTK_WIDGET(viewer->doc_index_pane));
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
-	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
+	g_object_ref(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_show(GTK_WIDGET(viewer->icon_type_ebox));
-	gtk_widget_ref(GTK_WIDGET(viewer->icon_type_ebox));
+	g_object_ref(GTK_WIDGET(viewer->icon_type_ebox));
 	gtk_widget_show(GTK_WIDGET(viewer->pdf_view_ebox));
-	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view_ebox));
+	g_object_ref(GTK_WIDGET(viewer->pdf_view_ebox));
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin_index));
-	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin_index));
+	g_object_ref(GTK_WIDGET(viewer->scrollwin_index));
 	gtk_widget_show(GTK_WIDGET(viewer->hbox));
-	gtk_widget_ref(GTK_WIDGET(viewer->hbox));	
+	g_object_ref(GTK_WIDGET(viewer->hbox));	
 	gtk_widget_show(GTK_WIDGET(viewer->vbox));
-	gtk_widget_ref(GTK_WIDGET(viewer->vbox));
+	g_object_ref(GTK_WIDGET(viewer->vbox));
 
 	gtk_widget_show(GTK_WIDGET(viewer->buttons_table));
-	gtk_widget_ref(GTK_WIDGET(viewer->buttons_table));
+	g_object_ref(GTK_WIDGET(viewer->buttons_table));
 
 	gtk_widget_show(GTK_WIDGET(viewer->cur_page));
-	gtk_widget_ref(GTK_WIDGET(viewer->cur_page));
+	g_object_ref(GTK_WIDGET(viewer->cur_page));
 
 	gtk_widget_show(GTK_WIDGET(viewer->first_page));
-	gtk_widget_ref(GTK_WIDGET(viewer->first_page));
+	g_object_ref(GTK_WIDGET(viewer->first_page));
 
 	gtk_widget_show(GTK_WIDGET(viewer->last_page));
-	gtk_widget_ref(GTK_WIDGET(viewer->last_page));
+	g_object_ref(GTK_WIDGET(viewer->last_page));
 
 	gtk_widget_show(GTK_WIDGET(viewer->prev_page));
-	gtk_widget_ref(GTK_WIDGET(viewer->prev_page));
+	g_object_ref(GTK_WIDGET(viewer->prev_page));
 
 	gtk_widget_show(GTK_WIDGET(viewer->next_page));
-	gtk_widget_ref(GTK_WIDGET(viewer->next_page));
+	g_object_ref(GTK_WIDGET(viewer->next_page));
 
 	gtk_widget_show(GTK_WIDGET(viewer->zoom_in));
-	gtk_widget_ref(GTK_WIDGET(viewer->zoom_in));
+	g_object_ref(GTK_WIDGET(viewer->zoom_in));
 	gtk_widget_show(GTK_WIDGET(viewer->zoom_out));
-	gtk_widget_ref(GTK_WIDGET(viewer->zoom_out));
+	g_object_ref(GTK_WIDGET(viewer->zoom_out));
 	gtk_widget_show(GTK_WIDGET(viewer->zoom_fit));
-	gtk_widget_ref(GTK_WIDGET(viewer->zoom_fit));
+	g_object_ref(GTK_WIDGET(viewer->zoom_fit));
 	gtk_widget_show(GTK_WIDGET(viewer->zoom_width));
-	gtk_widget_ref(GTK_WIDGET(viewer->zoom_width));
+	g_object_ref(GTK_WIDGET(viewer->zoom_width));
 
 	gtk_widget_show(GTK_WIDGET(viewer->rotate_right));
-	gtk_widget_ref(GTK_WIDGET(viewer->rotate_right));
+	g_object_ref(GTK_WIDGET(viewer->rotate_right));
 	gtk_widget_show(GTK_WIDGET(viewer->rotate_left));
-	gtk_widget_ref(GTK_WIDGET(viewer->rotate_left));
+	g_object_ref(GTK_WIDGET(viewer->rotate_left));
 	gtk_widget_show(GTK_WIDGET(viewer->doc_info));
-	gtk_widget_ref(GTK_WIDGET(viewer->doc_info));
+	g_object_ref(GTK_WIDGET(viewer->doc_info));
 	gtk_widget_show(GTK_WIDGET(viewer->doc_index));
-	gtk_widget_ref(GTK_WIDGET(viewer->doc_index));
+	g_object_ref(GTK_WIDGET(viewer->doc_index));
 
 	gtk_widget_show(GTK_WIDGET(viewer->doc_label));
-	gtk_widget_ref(GTK_WIDGET(viewer->doc_label));
+	g_object_ref(GTK_WIDGET(viewer->doc_label));
 	gtk_widget_show(GTK_WIDGET(viewer->icon_type));
-	gtk_widget_ref(GTK_WIDGET(viewer->icon_type));	
+	g_object_ref(GTK_WIDGET(viewer->icon_type));	
 	gtk_widget_show(GTK_WIDGET(viewer->pdf_view));
-	gtk_widget_ref(GTK_WIDGET(viewer->pdf_view));
+	g_object_ref(GTK_WIDGET(viewer->pdf_view));
 	gtk_widget_show(GTK_WIDGET(viewer->zoom_scroll));
-	gtk_widget_ref(GTK_WIDGET(viewer->zoom_scroll));
+	g_object_ref(GTK_WIDGET(viewer->zoom_scroll));
 
 	gtk_widget_show(GTK_WIDGET(viewer->index_list));
-	gtk_widget_ref(GTK_WIDGET(viewer->index_list));
+	g_object_ref(GTK_WIDGET(viewer->index_list));
 
 	/* Set Tooltips*/
 	CLAWS_SET_TIP(viewer->first_page,
