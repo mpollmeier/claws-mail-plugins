@@ -1,3 +1,8 @@
+2008-08-07 [colin]	0.17cvs5
+
+	* src/notification_foldercheck.c
+		Undeprecate
+
 2008-07-31 [colin]	0.17cvs4
 
 	* src/notification_banner.c
