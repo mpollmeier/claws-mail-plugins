@@ -311,8 +311,7 @@ static void insert_email_key(gchar *address, SynCERecord *record)
   gchar *message;
   SynCEPerson *person;
 
-  addr = g_strdup(address);
-  g_strdown(addr);
+  addr = g_utf8_strdown(address, -1);
 
   if((person = g_hash_table_lookup(email_in_wince_hash, addr)) != NULL) {
     gpointer origkey;
@@ -355,8 +354,7 @@ static gint collect_claws_email(ItemPerson *itemperson, const gchar *bookname)
   while(nodeM) {
     ItemEMail *email = nodeM->data;
 
-    addr = g_strdup(email->address);
-    g_strdown(addr);
+    addr = g_utf8_strdown(email->address, -1);
     value = g_hash_table_lookup(email_not_in_wince_hash, addr);
     if(value == NULL)
       g_hash_table_insert(email_not_in_wince_hash, addr, GINT_TO_POINTER(1));

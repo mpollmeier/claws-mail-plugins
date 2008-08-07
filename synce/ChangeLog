@@ -1,3 +1,8 @@
+2008-08-07 [colin]	0.7.3cvs3
+
+	* src/synce_comp.c
+		Undeprecate
+
 2008-07-31 [colin]	0.7.3cvs2
 
 	* src/synce_gtk.c
