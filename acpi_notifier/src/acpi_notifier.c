@@ -219,8 +219,8 @@ static void type_activated(GtkMenuItem *menuitem, gpointer data)
 	if (page->file_entry == NULL)
 		return;
 		
-	menu = gtk_option_menu_get_menu(
-		GTK_OPTION_MENU(page->default_implementations_optmenu));
+	menu = gtk_cmoption_menu_get_menu(
+		GTK_CMOPTION_MENU(page->default_implementations_optmenu));
 	item = gtk_menu_get_active(GTK_MENU(menu));
 	selected = GPOINTER_TO_INT
 		(g_object_get_data(G_OBJECT(item), MENU_VAL_ID));
@@ -323,10 +323,10 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_set_size_request(on_value_entry, 40, -1);
 	gtk_widget_set_size_request(off_value_entry, 40, -1);
 
-	default_implementations_optmenu = gtk_option_menu_new ();
+	default_implementations_optmenu = gtk_cmoption_menu_new ();
 	default_implementations_menu = gtk_menu_new();
-        gtk_option_menu_set_menu (
-			GTK_OPTION_MENU(default_implementations_optmenu), 
+        gtk_cmoption_menu_set_menu (
+			GTK_CMOPTION_MENU(default_implementations_optmenu), 
 			default_implementations_menu);
 	for (i = 0; known_implementations[i].name != NULL; i++) {
 		MENUITEM_ADD (default_implementations_menu, 
@@ -479,8 +479,8 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 		for (i = 0; known_implementations[i].name != NULL; i++) {
 			if (!strcmp(acpiprefs.file_path, 
 				    known_implementations[i].file_path)) {
-				gtk_option_menu_set_history(
-					GTK_OPTION_MENU(
+				gtk_cmoption_menu_set_history(
+					GTK_CMOPTION_MENU(
 					default_implementations_optmenu), i);
 				found = i;
 			}
@@ -489,8 +489,8 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 	if (found == 0) {
 		for (i = 0; known_implementations[i].name != NULL; i++) {
 			if (check_impl(known_implementations[i].file_path)) {
-				gtk_option_menu_set_history(
-					GTK_OPTION_MENU(
+				gtk_cmoption_menu_set_history(
+					GTK_CMOPTION_MENU(
 					default_implementations_optmenu), i);
 				found = i;
 			}
@@ -530,8 +530,8 @@ static void acpi_prefs_create_widget_func(PrefsPage * _page,
 		if (!check_impl(known_implementations[found].file_path))
 			show_error(page, known_implementations[found].file_path);
 	} else {
-		gtk_option_menu_set_history(
-			GTK_OPTION_MENU(default_implementations_optmenu), 0);
+		gtk_cmoption_menu_set_history(
+			GTK_CMOPTION_MENU(default_implementations_optmenu), 0);
 		gtk_widget_show_all(hbox_acpi_file);
 		gtk_widget_show_all(hbox_acpi_values);
 		if (acpiprefs.file_path != NULL)
@@ -604,8 +604,8 @@ static void acpi_prefs_save_func(PrefsPage * _page)
 	acpiprefs.blink_on_err = gtk_toggle_button_get_active(
 		GTK_TOGGLE_BUTTON(page->blink_on_err_chkbtn));
 
-	menu = gtk_option_menu_get_menu(
-		GTK_OPTION_MENU(page->default_implementations_optmenu));
+	menu = gtk_cmoption_menu_get_menu(
+		GTK_CMOPTION_MENU(page->default_implementations_optmenu));
 	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	selected = GPOINTER_TO_INT
 		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
