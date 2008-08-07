@@ -39,9 +39,11 @@ AC_CONFIG_HEADERS([config.h])
 
 if test $USE_MAINTAINER_MODE = yes; then
 		CFLAGS="-g -Wall"
+		CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
 else
 		CFLAGS="$CFLAGS -O2 -Wall"
 fi
+
 
 # Checks for programs.
 AC_PROG_CC
