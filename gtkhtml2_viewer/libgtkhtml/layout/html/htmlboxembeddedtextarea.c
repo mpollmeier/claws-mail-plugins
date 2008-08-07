@@ -62,7 +62,7 @@ html_box_embedded_textarea_handle_html_properties (HtmlBox *self, xmlNode *n)
 
 	if (rows != -1 && cols != -1) {
 		
-		gtk_widget_set_usize (embedded->widget, 
+		gtk_widget_set_size_request (embedded->widget, 
 				      cols * style->inherited->font_spec->size,
 				      rows * style->inherited->font_spec->size + 6);
 	}

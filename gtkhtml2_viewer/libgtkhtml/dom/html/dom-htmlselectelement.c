@@ -170,7 +170,7 @@ dom_html_select_element_update_option_data (DomHTMLSelectElement *select, DomHTM
 				if (value == NULL) {
 					value = g_strdup (label);
 				}
-				 gtk_tree_model_get_iter_root (GTK_TREE_MODEL (select->list_store), &iter);
+				 gtk_tree_model_get_iter_first (GTK_TREE_MODEL (select->list_store), &iter);
 
 				while (position--) 
 					gtk_tree_model_iter_next (GTK_TREE_MODEL (select->list_store), &iter);

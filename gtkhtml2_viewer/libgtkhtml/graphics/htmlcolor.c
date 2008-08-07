@@ -348,7 +348,7 @@ html_color_new_from_name (const gchar *color_name)
 	else {
 		/* FIXME: Use this */
 		for (i = 0; i < sizeof (standard_colors) / sizeof (standard_colors [0]); i++) {
-			if (g_strcasecmp (color_name, standard_colors [i].name) == 0) {
+			if (g_ascii_strcasecmp (color_name, standard_colors [i].name) == 0) {
 				red = standard_colors [i].red;
 				green = standard_colors [i].green;
 				blue = standard_colors [i].blue;
@@ -359,7 +359,7 @@ html_color_new_from_name (const gchar *color_name)
 
 	if (red == -1 || green == -1 || blue == -1) {
 		for (i = 0; i < sizeof (other_colors) / sizeof (other_colors [0]); i++) {
-			if (g_strcasecmp (color_name, other_colors [i].name) == 0) {
+			if (g_ascii_strcasecmp (color_name, other_colors [i].name) == 0) {
 				red = other_colors [i].red;
 				green = other_colors [i].green;
 				blue = other_colors [i].blue;
@@ -460,7 +460,7 @@ html_color_set_linkblue (gushort red, gushort green)
 {
   	gint i;
 	for (i = 0; i < sizeof (other_colors) / sizeof (other_colors [0]); i++) {
-		if (g_strcasecmp ("linkblue", other_colors [i].name) == 0) {
+		if (g_ascii_strcasecmp ("linkblue", other_colors [i].name) == 0) {
 			other_colors [i].red = red;
 			other_colors [i].green = green;
 			if (linkblue) {

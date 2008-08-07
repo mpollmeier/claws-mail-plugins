@@ -28,8 +28,6 @@
 #include "htmlboxroot.h"
 #include "htmlrelayout.h"
 
-static GMemChunk *html_line_box_mem_chunk;
-
 static GSList *
 reorder_items_recurse (GSList *items, int n_items)
 {
@@ -474,12 +472,7 @@ html_line_box_new (HtmlLineBoxType type)
 {
 	HtmlLineBox *line;
 
-	if (html_line_box_mem_chunk == NULL) {
-
-		html_line_box_mem_chunk = g_mem_chunk_new ("html_line_box", sizeof (HtmlLineBox), sizeof (HtmlLineBox) * 1000, G_ALLOC_AND_FREE);
-		g_return_val_if_fail (html_line_box_mem_chunk, NULL);
-	}
-	line = g_mem_chunk_alloc0 (html_line_box_mem_chunk);
+	line = g_new0 (HtmlLineBox, 1);
 
 	line->type = type;
 
@@ -491,7 +484,7 @@ html_line_box_destroy (HtmlLineBox *line)
 {
 	g_slist_free (line->item_list);
 
-	g_mem_chunk_free (html_line_box_mem_chunk, line);
+	g_free (line);
 }
 
 

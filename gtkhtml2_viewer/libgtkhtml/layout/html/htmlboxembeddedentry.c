@@ -73,13 +73,13 @@ html_box_embedded_entry_handle_html_properties (HtmlBox *self, xmlNode *n)
 
 	if ((size_str = dom_HTMLInputElement__get_size (DOM_HTML_INPUT_ELEMENT (HTML_BOX (embedded)->dom_node)))) {
 
-		gtk_widget_set_usize (embedded->widget, style->inherited->font_spec->size * atoi (size_str) * 0.66, -1);
+		gtk_widget_set_size_request (embedded->widget, style->inherited->font_spec->size * atoi (size_str) * 0.66, -1);
 
 		xmlFree (size_str);
 	}
 
 	if (dom_HTMLInputElement__get_readOnly (DOM_HTML_INPUT_ELEMENT (self->dom_node)))
-		gtk_entry_set_editable (GTK_ENTRY (embedded->widget), FALSE);
+		gtk_editable_set_editable (GTK_EDITABLE (embedded->widget), FALSE);
 
 	if (value)
 		gtk_entry_set_text (GTK_ENTRY (embedded->widget), value);

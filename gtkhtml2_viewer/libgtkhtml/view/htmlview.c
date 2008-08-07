@@ -2776,16 +2776,16 @@ html_view_add_move_binding (GtkBindingSet *binding_set, guint keyval, guint modm
 {
 	gtk_binding_entry_add_signal (binding_set, keyval, modmask,
 				      "move_cursor", 3,
-				      GTK_TYPE_ENUM, step,
-				      GTK_TYPE_INT, count,
-				      GTK_TYPE_BOOL, FALSE);
+				      G_TYPE_ENUM, step,
+				      G_TYPE_INT, count,
+				      G_TYPE_BOOLEAN, FALSE);
 
 	/* Selection-extending version */
 	gtk_binding_entry_add_signal (binding_set, keyval, modmask | GDK_SHIFT_MASK,
 				      "move_cursor", 3,
-				      GTK_TYPE_ENUM, step,
-				      GTK_TYPE_INT, count,
-				      GTK_TYPE_BOOL, TRUE);
+				      G_TYPE_ENUM, step,
+				      G_TYPE_INT, count,
+				      G_TYPE_BOOLEAN, TRUE);
 }
 
 static void

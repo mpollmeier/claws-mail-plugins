@@ -1,3 +1,17 @@
+2008-08-07 [colin]	0.19.0cvs4
+
+	* src/gtkhtml2_viewer.c
+	* libgtkhtml/dom/html/dom-htmlselectelement.c
+	* libgtkhtml/graphics/htmlcolor.c
+	* libgtkhtml/graphics/htmlgdkpainter.c
+	* libgtkhtml/layout/htmllinebox.c
+	* libgtkhtml/layout/html/htmlboxembeddedentry.c
+	* libgtkhtml/layout/html/htmlboxembeddedradio.c
+	* libgtkhtml/layout/html/htmlboxembeddedselect.c
+	* libgtkhtml/layout/html/htmlboxembeddedtextarea.c
+	* libgtkhtml/view/htmlview.c
+		Undeprecate
+
 2008-07-31 [colin]	0.19.0cvs3
 
 	* src/gtkhtml2_viewer.c

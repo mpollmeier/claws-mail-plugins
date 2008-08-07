@@ -40,7 +40,7 @@ html_box_embedded_radio_set_group (HtmlBoxEmbeddedRadio *radio)
 	gtk_radio_button_set_group (GTK_RADIO_BUTTON (embedded->widget), 
 				    html_box_form_get_radio_group (embedded->form, name));
 	html_box_form_set_radio_group (embedded->form, name, 
-				       gtk_radio_button_group (GTK_RADIO_BUTTON (embedded->widget)));
+				       gtk_radio_button_get_group (GTK_RADIO_BUTTON (embedded->widget)));
 	
 	/*Ok, this is ugly but you can't unselect a single radiobutton with gtk_toggle_button_set_active */
 	GTK_TOGGLE_BUTTON (embedded->widget)->active = dom_HTMLInputElement__get_checked (DOM_HTML_INPUT_ELEMENT (HTML_BOX (embedded)->dom_node));

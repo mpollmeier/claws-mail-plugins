@@ -141,13 +141,8 @@ draw_pixbuf (HtmlPainter *painter, GdkRectangle *area, GdkPixbuf *pixbuf, gint s
 		dest_y = dest.y;
 	}
 
-	gdk_pixbuf_render_to_drawable_alpha (pixbuf, gdk_painter->window, src_x, src_y,
-					     dest_x, dest_y,
-					     width, height,
-					     GDK_PIXBUF_ALPHA_FULL,
-					     0,
-					     GDK_RGB_DITHER_NORMAL,
-					     0, 0);
+	gdk_draw_pixbuf(gdk_painter->window, NULL, pixbuf, src_x, src_y, dest_x, dest_y,
+			width, height, GDK_RGB_DITHER_NORMAL, 0, 0);
 }
 
 void
@@ -156,7 +151,7 @@ html_gdk_painter_set_window (HtmlGdkPainter *painter, GdkWindow *window)
 	g_return_if_fail (window != NULL);
 	
 	if (painter->gc)
-		gdk_gc_destroy (painter->gc);
+		g_object_unref (painter->gc);
 	
 	painter->gc = gdk_gc_new (window);
 	painter->window = window;

@@ -378,7 +378,7 @@ static gint gtkhtml2_show_mimepart_prepare(MimeViewer *_viewer)
 	}
 
 	if (viewer->tag > 0) {
-		gtk_timeout_remove(viewer->tag);
+		g_source_remove(viewer->tag);
 		viewer->tag = -1;
 		if (viewer->loading) {
 			viewer->stop_previous = TRUE;
@@ -389,7 +389,7 @@ static gint gtkhtml2_show_mimepart_prepare(MimeViewer *_viewer)
 		g_mutex_unlock(viewer->mutex);
 		return TRUE;
 	}
-	viewer->tag = gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_real, viewer);
+	viewer->tag = g_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_real, viewer);
 	g_mutex_unlock(viewer->mutex);
 	return FALSE;
 }
@@ -402,7 +402,7 @@ static void gtkhtml2_show_mimepart(MimeViewer *_viewer,
 	viewer->to_load = partinfo;
 	viewer->last_search_match = -1;
 	viewer->preparing = TRUE;
-	gtk_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_prepare, viewer);
+	g_timeout_add(5, (GtkFunction)gtkhtml2_show_mimepart_prepare, viewer);
 }
 
 #ifdef HAVE_LIBCURL
@@ -444,8 +444,8 @@ static void gtkhtml2_destroy_viewer(MimeViewer *_viewer)
 
 	debug_print("gtkhtml2_destroy_viewer\n");
 
-	gtk_widget_unref(GTK_WIDGET(viewer->html_view));
-	gtk_widget_unref(GTK_WIDGET(viewer->scrollwin));
+	g_object_unref(GTK_WIDGET(viewer->html_view));
+	g_object_unref(GTK_WIDGET(viewer->scrollwin));
 	claws_unlink(viewer->filename);
 	g_free(viewer->filename);
     	g_free(viewer);
@@ -1291,9 +1291,9 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 			 G_CALLBACK(htmlview_btn_released), viewer);
 
 	gtk_widget_show(GTK_WIDGET(viewer->scrollwin));
-	gtk_widget_ref(GTK_WIDGET(viewer->scrollwin));
+	g_object_ref(GTK_WIDGET(viewer->scrollwin));
 	gtk_widget_show(GTK_WIDGET(viewer->html_view));
-	gtk_widget_ref(GTK_WIDGET(viewer->html_view));
+	g_object_ref(GTK_WIDGET(viewer->html_view));
 
 	ui_manager = gtk_ui_manager_new();
 	action_group = cm_menu_create_action_group_full(ui_manager,"GtkHtmlPopup", gtkhtml_popup_entries,

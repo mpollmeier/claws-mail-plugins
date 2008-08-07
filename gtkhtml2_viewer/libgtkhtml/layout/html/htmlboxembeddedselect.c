@@ -41,7 +41,7 @@ html_box_embedded_select_relayout (HtmlBox *box, HtmlRelayout *relayout)
 	}
 	else {
 		/* FIXME: This is not correct... */
-		gtk_widget_set_usize (widget, -1, (1 + style->inherited->font_spec->size) * 
+		gtk_widget_set_size_request (widget, -1, (1 + style->inherited->font_spec->size) * 
 				      dom_HTMLSelectElement__get_size (select_node) + 5);
 	}
 }
