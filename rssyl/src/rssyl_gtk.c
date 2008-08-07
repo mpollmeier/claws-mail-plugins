@@ -142,6 +142,7 @@ static void rssyl_add_mailbox(GtkAction *action, gpointer callback_data)
 {
 	MainWindow *mainwin = (MainWindow *) callback_data;
 	gchar *path;
+	gchar *base = NULL;
 	Folder *folder;
 
 	path = input_dialog(_("Add RSS folder tree"),
@@ -155,8 +156,10 @@ static void rssyl_add_mailbox(GtkAction *action, gpointer callback_data)
 		return;
 	}
 
+	base = g_path_get_basename(path);
 	folder = folder_new(folder_get_class_from_string("rssyl"),
-			g_basename(path), path);
+			base, path);
+	g_free(base);
 
 	if( folder->klass->create_tree(folder) < 0 ) {
 		alertpanel_error(_("Creation of folder tree failed.\n"
