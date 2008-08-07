@@ -1,3 +1,9 @@
+2008-08-07 [colin]	0.24.4cvs10
+
+	* src/maildir.c
+	* src/maildir_gtk.c
+		Undeprecate
+
 2008-08-05 [colin]	0.24.4cvs9
 
 	* src/maildir_gtk.c

@@ -241,34 +241,42 @@ static void build_tree(GNode *node, glob_t *globbuf)
         for (i = 0; i < globbuf->gl_pathc; i++) {
 		FolderItem *newitem;
 		GNode *newnode;
-		const gchar *dirname, *foldername;
+		gchar *dirname;
+		gchar *foldername;
 		gchar *tmpstr, *dirname_utf8, *foldername_utf8;
 		gboolean res;
 
-		dirname = g_basename(globbuf->gl_pathv[i]);
+		dirname = g_path_get_basename(globbuf->gl_pathv[i]);
 		foldername = &(dirname[strlen(prefix) + 1]);
 
-                if (dirname[0] == '.' && dirname[1] == '\0')
+                if (dirname[0] == '.' && dirname[1] == '\0') {
+			g_free(dirname);
                         continue;
-
-                if (strncmp(dirname, prefix, strlen(prefix)))
+		}
+                if (strncmp(dirname, prefix, strlen(prefix))) {
+			g_free(dirname);
                         continue;
-
-                if (dirname[strlen(prefix)] != '.')
+		}
+                if (dirname[strlen(prefix)] != '.') {
+			g_free(dirname);
                         continue;
-
-                if (strchr(foldername, '.') != NULL)
+		}
+                if (strchr(foldername, '.') != NULL) {
+			g_free(dirname);
                         continue;
+		}
 
-                if (!is_dir_exist(globbuf->gl_pathv[i]))
+                if (!is_dir_exist(globbuf->gl_pathv[i])) {
+			g_free(dirname);
                         continue;
-
+		}
 		tmpstr = g_strconcat(globbuf->gl_pathv[i], "/cur", NULL);
                 res = is_dir_exist(tmpstr);
 		g_free(tmpstr);
-		if (!res)
-			continue;
-
+		if (!res) {
+			g_free(dirname);
+                        continue;
+		}
 		dirname_utf8 = filename_to_utf8(dirname);
 		foldername_utf8 = filename_to_utf8(foldername);
 
@@ -303,7 +311,7 @@ static void build_tree(GNode *node, glob_t *globbuf)
 				folder->trash = newitem;
 			}
 		}
-
+		g_free(dirname);
                 build_tree(newitem->node, globbuf);
         }
 

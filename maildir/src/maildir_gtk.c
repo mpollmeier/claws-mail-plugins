@@ -176,6 +176,7 @@ static void add_mailbox(GtkAction *action, gpointer callback_data)
 {
 	MainWindow *mainwin = (MainWindow *) callback_data;
 	gchar *path;
+	gchar *base = NULL;
 	Folder *folder;
 
 	path = input_dialog(_("Add mailbox"),
@@ -189,10 +190,12 @@ static void add_mailbox(GtkAction *action, gpointer callback_data)
 		g_free(path);
 		return;
 	}
+	base = g_path_get_basename(path);
 	folder = folder_new(folder_get_class_from_string("maildir"), 
-			    !strcmp(path, "Mail") ? _("Mailbox") : g_basename(path),
+			    !strcmp(path, "Mail") ? _("Mailbox") : base,
 			    path);
 	g_free(path);
+	g_free(base);
 
 
 	if (folder->klass->create_tree(folder) < 0) {
