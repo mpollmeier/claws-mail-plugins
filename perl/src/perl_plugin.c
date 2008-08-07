@@ -298,9 +298,16 @@ static gboolean addr_in_addressbook(gchar *addr, gchar *bookname)
   walk = email_slist->g_slist;
   for(; walk != NULL; walk = g_slist_next(walk)) {
     PerlPluginEmailEntry *ee = (PerlPluginEmailEntry *) walk->data;
-    if((!g_strcasecmp(ee->address,addr)) &&
-       ((bookname == NULL) || (!strcmp(ee->bookname,bookname))))
+    gchar *a = g_utf8_casefold(ee->address, -1);
+    gchar *b = g_utf8_casefold(addr, -1);
+    if((!g_utf8_collate(a,b)) &&
+       ((bookname == NULL) || (!strcmp(ee->bookname,bookname)))) {
+      g_free(a);
+      g_free(b);
       return TRUE;
+    }
+    g_free(a);
+    g_free(b);
   }
   return FALSE;
 }
@@ -465,11 +472,17 @@ static gchar* get_attribute_value(gchar *email, gchar *attr, gchar *bookname)
   walk = tl->g_slist;
   for(; walk != NULL; walk = g_slist_next(walk)) {
     PerlPluginAttributeEntry *ae = (PerlPluginAttributeEntry *) walk->data;
-    if(!g_strcasecmp(ae->address,email)) {
+    gchar *a, *b;
+    a = g_utf8_strdown(ae->address, -1);
+    b = g_utf8_strdown(email, -1);
+    if(!g_utf8_collate(a, b)) {
       if((bookname == NULL) ||
-	 ((ae->bookname != NULL) && !strcmp(bookname,ae->bookname)))
+	 ((ae->bookname != NULL) && !strcmp(bookname,ae->bookname))) {
+        g_free(a); g_free(b);
 	return ae->value;
+      }
     }
+    g_free(a); g_free(b);
   }
   return NULL;
 }
