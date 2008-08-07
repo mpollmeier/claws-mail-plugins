@@ -46,8 +46,9 @@
 struct _month_win
 {
     GtkAccelGroup *accel_group;
+#if !GTK_CHECK_VERSION(2,12,0)
     GtkTooltips   *Tooltips;
-
+#endif
     GtkWidget *Window;
     GtkWidget *Vbox;
 
@@ -465,8 +466,14 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
 	CLAWS_SET_TIP(ev, tip);
         gtk_box_pack_start(GTK_BOX(hb), ev, TRUE, TRUE, 0);
     } else {
+#if !GTK_CHECK_VERSION(2,12,0)
         GtkTooltipsData *tdata = gtk_tooltips_data_get(ev);
 	gchar *new = g_strdup_printf("%s\n\n%s", tdata?tdata->tip_text:"", tip);
+#else
+	gchar *old = gtk_widget_get_tooltip_text(ev);
+	gchar *new = g_strdup_printf("%s\n\n%s", old?old:"", tip);
+	g_free(old);
+#endif
 	CLAWS_SET_TIP(ev, new);
 	g_free(new);
     }

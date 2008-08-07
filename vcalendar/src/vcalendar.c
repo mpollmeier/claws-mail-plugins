@@ -1304,10 +1304,10 @@ void vcalendar_init(void)
 	
 	vcal_folder_gtk_init();
 
-	alert_timeout_tag = gtk_timeout_add(60*1000, 
+	alert_timeout_tag = g_timeout_add(60*1000, 
 				(GtkFunction)vcal_meeting_alert_check, 
 				(gpointer)NULL);
-	scan_timeout_tag = gtk_timeout_add(3600*1000, 
+	scan_timeout_tag = g_timeout_add(3600*1000, 
 				(GtkFunction)vcal_webcal_check, 
 				(gpointer)NULL);
 	if (prefs_common.enable_color) {
@@ -1355,9 +1355,9 @@ void vcalendar_done(void)
 	folder_unregister_class(vcal_folder_get_class());
 	vcal_folder_gtk_done();
 	vcal_prefs_done();
-	gtk_timeout_remove(alert_timeout_tag);
+	g_source_remove(alert_timeout_tag);
 	alert_timeout_tag = 0;
-	gtk_timeout_remove(scan_timeout_tag);
+	g_source_remove(scan_timeout_tag);
 	scan_timeout_tag = 0;
 
 	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/CreateMeeting", main_menu_id);

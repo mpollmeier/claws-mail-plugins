@@ -46,8 +46,9 @@
 struct _day_win
 {
     GtkAccelGroup *accel_group;
+#if !GTK_CHECK_VERSION(2,12,0)
     GtkTooltips   *Tooltips;
-
+#endif
     GtkWidget *Window;
     GtkWidget *Vbox;
 
