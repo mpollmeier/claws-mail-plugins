@@ -55,14 +55,14 @@ gint plugin_init(gchar **error)
 		return -1;
 
 	if (tag == 0)
-		tag = gtk_timeout_add(60*1000, save_caches, NULL);
+		tag = g_timeout_add(60*1000, save_caches, NULL);
 	return 0;
 }
 
 gboolean plugin_done()
 {
 	if (tag != 0) {
-		gtk_timeout_remove(tag);
+		g_source_remove(tag);
 		tag = 0;
 	}
 	return TRUE;
