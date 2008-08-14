@@ -194,14 +194,18 @@ static void rssyl_opml_import_node(xmlNodePtr node,
 
 			url = (gchar *)xmlGetProp(curn, (xmlChar *)"xmlUrl");
 			title = (gchar *)xmlGetProp(curn, (xmlChar *)"title");
-
+			if (!title)
+				title = (gchar *)xmlGetProp(curn, (xmlChar *)"text");
+			
 			debug_print("Adding '%s' (%s)\n", title, (url ? url : "folder") );
 			if( url != NULL )
 				item = rssyl_subscribe_new_feed(parent, url, FALSE);
-			else
+			else if (title != NULL)
 				item = folder_create_folder(parent, title);
-
-			rssyl_opml_import_node(curn->children, item, depth + 1);
+			else
+				item = NULL;
+			if (item)
+				rssyl_opml_import_node(curn->children, item, depth + 1);
 		}
 		g_free(nodename);
 	}
