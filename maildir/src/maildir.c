@@ -617,7 +617,6 @@ static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 
 static MsgInfo *maildir_parse_msg(const gchar *file, FolderItem *item)
 {
-	struct stat s;
 	MsgInfo *msginfo;
 	MsgFlags flags;
 
@@ -1148,8 +1147,6 @@ static gboolean remove_folder_func(GNode *node, gpointer data)
 
 static gint maildir_remove_folder(Folder *folder, FolderItem *item)
 {
-	gchar *folder_path, *path, *globpat;
-	glob_t	globbuf;
 	gint res=0;
 
 	g_return_val_if_fail(folder != NULL, -1);

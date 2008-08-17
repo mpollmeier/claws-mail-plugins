@@ -268,8 +268,6 @@ static void new_folder_cb(GtkAction *action, gpointer data)
 static void remove_mailbox_cb(GtkAction *action, gpointer data)
 {
 	FolderView *folderview = (FolderView *)data;
-	GtkCMCTree *ctree = GTK_CMCTREE(folderview->ctree);
-	GtkCMCTreeNode *node;
 	FolderItem *item;
 	gchar *name;
 	gchar *message;
