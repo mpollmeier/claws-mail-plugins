@@ -1,3 +1,8 @@
+2008-08-17 [colin]	0.19.0cvs5
+
+	* src/gtkhtml2_viewer.c
+		Warning fix
+
 2008-08-07 [colin]	0.19.0cvs4
 
 	* src/gtkhtml2_viewer.c

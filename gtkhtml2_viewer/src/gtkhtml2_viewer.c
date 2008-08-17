@@ -312,7 +312,6 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 					} else if (insert_in_header && strcasestr(buf, "</head>")) {
 						gchar *tmp_buf = g_malloc(loaded+1);
 						gchar *start = NULL, *end = NULL;
-						size_t start_len, rem_len;
 						gchar *meta_charset = g_strdup_printf(
 							"<meta http-equiv=Content-Type content=\"text/html; charset=%s\">",
 							charset);
