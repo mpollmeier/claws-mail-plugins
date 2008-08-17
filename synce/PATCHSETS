@@ -24,3 +24,4 @@
 ( cvs diff -u -r 1.2.2.9 -r 1.2.2.10 src/synce_gtk.c;  ) > 0.7.3cvs1.patchset
 ( cvs diff -u -r 1.2.2.10 -r 1.2.2.11 src/synce_gtk.c;  ) > 0.7.3cvs2.patchset
 ( cvs diff -u -r 1.2.2.8 -r 1.2.2.9 src/synce_comp.c;  ) > 0.7.3cvs3.patchset
+( cvs diff -u -r 1.2.2.9 -r 1.2.2.10 src/synce_comp.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/synce_rapi.c;  ) > 0.7.3cvs4.patchset

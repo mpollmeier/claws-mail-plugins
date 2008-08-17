@@ -26,7 +26,6 @@
 #include "synce_rapi.h"
 
 
-static void     free_email_in_wince_hash(void);
 static void     insert_email_key(gchar*, SynCERecord*);
 static gint     collect_claws_email(ItemPerson*, const gchar*);
 static void     add_to_claws_addressbook(gpointer, gpointer, gpointer);
@@ -62,7 +61,6 @@ static PrefParam param[] = {
 
 gboolean synce_comp(void)
 {
-  GSList *walk;
   AlertValue val;
   gchar *message;
   gchar **email_addresses;
@@ -123,7 +121,7 @@ gboolean synce_comp(void)
       while(*eap != NULL) {
 	number = GPOINTER_TO_INT(g_hash_table_lookup(repeated_wince_hash, *eap));
 	*eap = g_strdup_printf("%s (%d times)", *eap, number);
-	*eap++;
+	eap++;
       }
 
       email_list = g_strjoinv("\n", email_addresses);
@@ -131,7 +129,7 @@ gboolean synce_comp(void)
       eap = email_addresses;
       while(*eap != NULL) {
 	g_free(*eap);
-	*eap++;
+	eap++;
       }
 
       message = g_strconcat("The following email address(es) were found "
@@ -163,7 +161,7 @@ gboolean synce_comp(void)
       while(*eap != NULL) {
 	number = GPOINTER_TO_INT(g_hash_table_lookup(repeated_local_hash, *eap));
 	*eap = g_strdup_printf("%s (%d times)", *eap, number);
-	*eap++;
+	eap++;
       }
 
       email_list = g_strjoinv("\n", email_addresses);
@@ -171,7 +169,7 @@ gboolean synce_comp(void)
       eap = email_addresses;
       while(*eap != NULL) {
 	g_free(*eap);
-	*eap++;
+	eap++;
       }
 
       message = g_strconcat("The following email address(es) were found "
@@ -306,9 +304,7 @@ static gboolean free_email_not_in_wince_hash_key(gpointer key, gpointer value,
 
 static void insert_email_key(gchar *address, SynCERecord *record)
 {
-  AlertValue val;
   gchar *addr;
-  gchar *message;
   SynCEPerson *person;
 
   addr = g_utf8_strdown(address, -1);
@@ -346,7 +342,6 @@ static gint collect_claws_email(ItemPerson *itemperson, const gchar *bookname)
 {
   gchar *addr;
   GList *nodeM;
-  gpointer origkey;
   gpointer value;
 
   /* Process each E-Mail address */

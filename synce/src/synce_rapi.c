@@ -18,6 +18,7 @@
 
 #include <rapi.h>
 #include <synce_log.h>
+#include <stdlib.h>
 
 #include "contact_ids.h"
 #include "synce_rapi.h"
