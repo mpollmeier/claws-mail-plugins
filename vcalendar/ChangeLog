@@ -1,3 +1,9 @@
+2008-08-17 [colin]	2.0.0cvs9
+
+	* src/vcalendar.c
+	* libical/libical/icalerror.c
+		Warning fix
+
 2008-08-07 [colin]	2.0.0cvs8
 
 	* src/day-view.c

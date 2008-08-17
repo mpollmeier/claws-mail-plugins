@@ -48,7 +48,6 @@
 
 MimeViewerFactory vcal_viewer_factory;
 
-static void create_meeting_from_message_cb(gpointer callback_data, guint callback_action, GtkWidget *widget);
 static void create_meeting_from_message_cb_ui(GtkAction *action, gpointer data);
 
 static GdkColor uri_color = {
@@ -222,11 +221,6 @@ bail:
 	gtk_cmclist_thaw(GTK_CMCLIST(summaryview->ctree));
 	main_window_cursor_normal(summaryview->mainwin);
 	g_slist_free(msglist);
-}
-
-static void create_meeting_from_message_cb(gpointer callback_data, guint callback_action, GtkWidget *widget)
-{
-	create_meeting_from_message_cb_ui(NULL, NULL);
 }
 
 static gchar *get_tmpfile(VCalViewer *vcalviewer)
