@@ -140,3 +140,4 @@
 ( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/rssyl_gtk.c;  ) > 0.20.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/opml.c;  ) > 0.20.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/opml.c;  ) > 0.20.0cvs9.patchset
+( cvs diff -u -r 1.1.2.98 -r 1.1.2.99 src/feed.c;  ) > 0.20.0cvs10.patchset

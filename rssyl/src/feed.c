@@ -1,7 +1,7 @@
 /*
- * Sylpheed -- a GTK+ based, lightweight, and fast e-mail client
+ * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
  * Copyright (C) 1999-2004 Hiroyuki Yamamoto
- * This file (C) 2005 Andrej Kacian <andrej@kacian.sk>
+ * This file (C) 2005-2008 Andrej Kacian <andrej@kacian.sk> and the Claws Mail team
  *
  * - various feed parsing functions
  * - this file could use some sorting and/or splitting
@@ -183,13 +183,13 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 			if( last_modified != -1 ) {
 				time_str = createRFC822Date(&last_modified);
 			}
-			debug_print("RSSyl: got status %d, last mod %ld (%s)\n",
+			debug_print("RSSyl: got status %ld, last mod %ld (%s)\n",
 					response_code, (long int) last_modified, 
 					(last_modified != -1 ? time_str : "unknown") );
 			g_free(time_str);
 			time_str = NULL;
 		} else {
-			debug_print("RSSyl: got status %d\n", response_code);
+			debug_print("RSSyl: got status %ld\n", response_code);
 		}
 	}
 
@@ -198,7 +198,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	fclose(f);
 
 	if( response_code >= 400 && response_code < 500 ) {
-		debug_print("RSSyl: got %d\n", response_code);
+		debug_print("RSSyl: got %ld\n", response_code);
 		switch(response_code) {
 			case 401: 
 				ctx->error = g_strdup(_("401 (Authorisation required)"));
@@ -210,7 +210,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 				ctx->error = g_strdup(_("404 (Not found)"));
 				break;
 			default:
-				ctx->error = g_strdup_printf(_("Error %d"), response_code);
+				ctx->error = g_strdup_printf(_("Error %ld"), response_code);
 				break;
 		}
 		ctx->ready = TRUE;
