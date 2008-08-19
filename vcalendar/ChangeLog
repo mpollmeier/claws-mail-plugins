@@ -1,3 +1,8 @@
+2008-08-19 [colin]	2.0.0cvs10
+
+	* src/vcalendar.c
+		Fix crash on missing answer in a reply
+
 2008-08-17 [colin]	2.0.0cvs9
 
 	* src/vcalendar.c

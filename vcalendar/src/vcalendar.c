@@ -732,7 +732,7 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 	g_free(label);
 
 	saved_event = vcal_manager_load_event(vcalviewer->event->uid);
-	if (saved_event) {
+	if (saved_event && answer) {
 		vcal_manager_update_answer(saved_event, 
 			answer->attendee, answer->name, answer->answer, answer->cutype);
 		vcal_manager_save_event(saved_event, TRUE);
