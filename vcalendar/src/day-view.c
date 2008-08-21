@@ -378,6 +378,8 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
 
     if ((row % 2) == 1)
         gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &dw->bg1);
+    else
+        gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &dw->bg2);
     if (dw->element[row][col] == NULL) {
         hb = gtk_hbox_new(TRUE, 3);
         dw->element[row][col] = hb;
@@ -537,6 +539,8 @@ static void fill_days(day_win *dw, gint days, FolderItem *item, gint first_col_d
                 */
                 if ((row % 2) == 1)
                     gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &dw->bg1);
+                else
+                    gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &dw->bg2);
                 gtk_box_pack_start(GTK_BOX(hb), dw->line[row][col]
                         , FALSE, FALSE, 0);
                 gtk_box_pack_start(GTK_BOX(hb), ev, TRUE, TRUE, 0);
@@ -615,19 +619,28 @@ static void build_day_view_colours(day_win *dw)
 {
     GtkStyle *def_style;
     GdkColormap *pic1_cmap;
-
+    GtkWidget *ctree = NULL;
     def_style = gtk_widget_get_default_style();
     pic1_cmap = gdk_colormap_get_system();
-    dw->bg1 = def_style->bg[GTK_STATE_NORMAL];
-    dw->bg1.red +=  (dw->bg1.red < 64000 ? 1000 : -1000);
-    dw->bg1.green += (dw->bg1.green < 64000 ? 1000 : -1000);
-    dw->bg1.blue += (dw->bg1.blue < 64000 ? 1000 : -1000);
+    
+    if (mainwindow_get_mainwindow()) {
+        ctree = mainwindow_get_mainwindow()->summaryview->ctree;
+    }
+    if (ctree) {
+        dw->bg1 = ctree->style->bg[GTK_STATE_NORMAL];
+        dw->bg2 = ctree->style->bg[GTK_STATE_NORMAL];
+    } else {
+        dw->bg1 = def_style->bg[GTK_STATE_NORMAL];
+        dw->bg2 = def_style->bg[GTK_STATE_NORMAL];
+    }
+    dw->bg1.red +=  (dw->bg1.red < 63000 ? 2000 : -2000);
+    dw->bg1.green += (dw->bg1.green < 63000 ? 2000 : -2000);
+    dw->bg1.blue += (dw->bg1.blue < 63000 ? 2000 : -2000);
     gdk_colormap_alloc_color(pic1_cmap, &dw->bg1, FALSE, TRUE);
 
-    dw->bg2 = def_style->bg[GTK_STATE_NORMAL];
     dw->bg2.red +=  (dw->bg2.red > 1000 ? -1000 : 1000);
     dw->bg2.green += (dw->bg2.green > 1000 ? -1000 : 1000);
-    dw->bg2.blue += (dw->bg2.blue > 2000 ? -2000 : 2000);
+    dw->bg2.blue += (dw->bg2.blue > 1000 ? -1000 : 1000);
     gdk_colormap_alloc_color(pic1_cmap, &dw->bg2, FALSE, TRUE);
 
     if (!gdk_color_parse("white", &dw->line_color)) {
@@ -635,7 +648,6 @@ static void build_day_view_colours(day_win *dw)
         dw->line_color.green = 235 * (65535/255);
         dw->line_color.blue = 230 * (65535/255);
     }
-    gdk_colormap_alloc_color(pic1_cmap, &dw->line_color, FALSE, TRUE);
 
     if (!gdk_color_parse("blue", &dw->fg_sunday)) {
         g_warning("color parse failed: red\n");
@@ -643,7 +655,6 @@ static void build_day_view_colours(day_win *dw)
         dw->fg_sunday.green = 10 * (65535/255);
         dw->fg_sunday.blue = 255 * (65535/255);
     }
-    gdk_colormap_alloc_color(pic1_cmap, &dw->fg_sunday, FALSE, TRUE);
 
     if (!gdk_color_parse("gold", &dw->bg_today)) {
         g_warning("color parse failed: gold\n");
@@ -651,6 +662,18 @@ static void build_day_view_colours(day_win *dw)
         dw->bg_today.green = 215 * (65535/255);
         dw->bg_today.blue = 115 * (65535/255);
     }
+
+    if (ctree) {
+        dw->fg_sunday.red = (dw->fg_sunday.red + ctree->style->fg[GTK_STATE_SELECTED].red)/2;
+        dw->fg_sunday.green = (dw->fg_sunday.green + ctree->style->fg[GTK_STATE_SELECTED].red)/2;
+        dw->fg_sunday.blue = (3*dw->fg_sunday.blue + ctree->style->fg[GTK_STATE_SELECTED].red)/4;
+        dw->bg_today.red = (3*dw->bg_today.red + ctree->style->bg[GTK_STATE_NORMAL].red)/4;
+        dw->bg_today.green = (3*dw->bg_today.green + ctree->style->bg[GTK_STATE_NORMAL].red)/4;
+        dw->bg_today.blue = (3*dw->bg_today.blue + ctree->style->bg[GTK_STATE_NORMAL].red)/4;
+    }
+
+    gdk_colormap_alloc_color(pic1_cmap, &dw->line_color, FALSE, TRUE);
+    gdk_colormap_alloc_color(pic1_cmap, &dw->fg_sunday, FALSE, TRUE);
     gdk_colormap_alloc_color(pic1_cmap, &dw->bg_today, FALSE, TRUE);
 }
 
@@ -663,6 +686,8 @@ static void fill_hour(day_win *dw, gint col, gint row, char *text)
     gtk_container_add(GTK_CONTAINER(ev), name);
     if ((row % 2) == 1)
         gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &dw->bg1);
+    else
+        gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &dw->bg2);
     gtk_widget_set_size_request(ev, dw->hour_req.width
             , dw->StartDate_button_req.height);
     if (text)

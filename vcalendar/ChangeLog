@@ -1,3 +1,9 @@
+2008-08-21 [colin]	2.0.0cvs11
+
+	* src/day-view.c
+	* src/month-view.c
+		Make the calendar nicer on dark themes
+
 2008-08-19 [colin]	2.0.0cvs10
 
 	* src/vcalendar.c

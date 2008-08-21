@@ -430,6 +430,8 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
        gtk_label_set_ellipsize(GTK_LABEL(lab), PANGO_ELLIPSIZE_END);
        if ((row % 2) == 1)
            gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &mw->bg1);
+       else
+           gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &mw->bg2);
     } else if (!pack && update_tip) {
        GList *children = gtk_container_get_children(GTK_CONTAINER(hb));
        ev = GTK_WIDGET(g_list_last(children)->data);
@@ -633,6 +635,7 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
         	    , G_CALLBACK(header_button_clicked_cb), mw);
             name = gtk_label_new(label);
 	    gtk_misc_set_alignment(GTK_MISC(name), 0.0, 0.0);
+
 	    CLAWS_SET_TIP(ev, tmp);
             gtk_container_add(GTK_CONTAINER(ev), name);
 	    g_free(tmp);
@@ -640,6 +643,8 @@ static void fill_days(month_win *mw, gint days, FolderItem *item)
 
             if ((row % 2) == 1)
                 gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &mw->bg1);
+            else
+                gtk_widget_modify_bg(ev, GTK_STATE_NORMAL, &mw->bg2);
 	    if (col == 7)
 	    	gtk_widget_modify_fg(name, GTK_STATE_NORMAL, &mw->fg_sunday);
 	    if (day == tm_today.tm_mday && t.tm_mon == tm_today.tm_mon && t.tm_year == tm_today.tm_year)
@@ -706,19 +711,29 @@ static void build_month_view_colours(month_win *mw)
 {
     GtkStyle *def_style;
     GdkColormap *pic1_cmap;
-
+    GtkWidget *ctree = NULL;
     def_style = gtk_widget_get_default_style();
     pic1_cmap = gdk_colormap_get_system();
-    mw->bg1 = def_style->bg[GTK_STATE_NORMAL];
-    mw->bg1.red +=  (mw->bg1.red < 64000 ? 1000 : -1000);
-    mw->bg1.green += (mw->bg1.green < 64000 ? 1000 : -1000);
-    mw->bg1.blue += (mw->bg1.blue < 64000 ? 1000 : -1000);
+    
+    if (mainwindow_get_mainwindow()) {
+        ctree = mainwindow_get_mainwindow()->summaryview->ctree;
+    }
+    if (ctree) {
+        mw->bg1 = ctree->style->bg[GTK_STATE_NORMAL];
+        mw->bg2 = ctree->style->bg[GTK_STATE_NORMAL];
+    } else {
+        mw->bg1 = def_style->bg[GTK_STATE_NORMAL];
+        mw->bg2 = def_style->bg[GTK_STATE_NORMAL];
+    }
+
+    mw->bg1.red +=  (mw->bg1.red < 63000 ? 2000 : -2000);
+    mw->bg1.green += (mw->bg1.green < 63000 ? 2000 : -2000);
+    mw->bg1.blue += (mw->bg1.blue < 63000 ? 2000 : -2000);
     gdk_colormap_alloc_color(pic1_cmap, &mw->bg1, FALSE, TRUE);
 
-    mw->bg2 = def_style->bg[GTK_STATE_NORMAL];
     mw->bg2.red +=  (mw->bg2.red > 1000 ? -1000 : 1000);
     mw->bg2.green += (mw->bg2.green > 1000 ? -1000 : 1000);
-    mw->bg2.blue += (mw->bg2.blue > 2000 ? -2000 : 2000);
+    mw->bg2.blue += (mw->bg2.blue > 1000 ? -1000 : 1000);
     gdk_colormap_alloc_color(pic1_cmap, &mw->bg2, FALSE, TRUE);
 
     if (!gdk_color_parse("white", &mw->line_color)) {
@@ -726,7 +741,6 @@ static void build_month_view_colours(month_win *mw)
         mw->line_color.green = 235 * (65535/255);
         mw->line_color.blue = 230 * (65535/255);
     }
-    gdk_colormap_alloc_color(pic1_cmap, &mw->line_color, FALSE, TRUE);
 
     if (!gdk_color_parse("blue", &mw->fg_sunday)) {
         g_warning("color parse failed: red\n");
@@ -734,7 +748,6 @@ static void build_month_view_colours(month_win *mw)
         mw->fg_sunday.green = 10 * (65535/255);
         mw->fg_sunday.blue = 255 * (65535/255);
     }
-    gdk_colormap_alloc_color(pic1_cmap, &mw->fg_sunday, FALSE, TRUE);
 
     if (!gdk_color_parse("gold", &mw->bg_today)) {
         g_warning("color parse failed: gold\n");
@@ -742,6 +755,17 @@ static void build_month_view_colours(month_win *mw)
         mw->bg_today.green = 215 * (65535/255);
         mw->bg_today.blue = 115 * (65535/255);
     }
+
+    if (ctree) {
+        mw->fg_sunday.red = (mw->fg_sunday.red + ctree->style->fg[GTK_STATE_SELECTED].red)/2;
+        mw->fg_sunday.green = (mw->fg_sunday.green + ctree->style->fg[GTK_STATE_SELECTED].red)/2;
+        mw->fg_sunday.blue = (3*mw->fg_sunday.blue + ctree->style->fg[GTK_STATE_SELECTED].red)/4;
+        mw->bg_today.red = (3*mw->bg_today.red + ctree->style->bg[GTK_STATE_NORMAL].red)/4;
+        mw->bg_today.green = (3*mw->bg_today.green + ctree->style->bg[GTK_STATE_NORMAL].red)/4;
+        mw->bg_today.blue = (3*mw->bg_today.blue + ctree->style->bg[GTK_STATE_NORMAL].red)/4;
+    }
+    gdk_colormap_alloc_color(pic1_cmap, &mw->line_color, FALSE, TRUE);
+    gdk_colormap_alloc_color(pic1_cmap, &mw->fg_sunday, FALSE, TRUE);
     gdk_colormap_alloc_color(pic1_cmap, &mw->bg_today, FALSE, TRUE);
 }
 
