@@ -587,10 +587,10 @@ handle_background_image (HtmlDocument *document, HtmlStyle *style, CssValue *val
 		HtmlImage *image = NULL;
 		gchar *str = css_value_to_string (val->v.function->args);
 
-		if (str) {
+		if (str && val->v.function->args->value_type == CSS_STRING) {
 			image = html_image_factory_get_image (document->image_factory, val->v.function->args->v.s);
-			g_free (str);
 		}
+		g_free (str);
 		if (image) {
 			html_style_set_background_image (style, image);
 			g_object_unref (G_OBJECT(image));

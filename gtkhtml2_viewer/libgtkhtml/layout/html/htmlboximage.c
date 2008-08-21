@@ -58,6 +58,11 @@ html_box_image_paint_border (HtmlBox *box, HtmlPainter *painter, GdkRectangle *a
 	if (loading_image == NULL)
 		loading_image = gtk_icon_theme_load_icon (icon_theme, "gnome-fs-loading-icon", 16, 0, NULL);
 
+	if (error_image)
+		g_object_ref(G_OBJECT(error_image));
+	if (loading_image)
+		g_object_ref(G_OBJECT(loading_image));
+
 	if (!dark_grey) {
 		dark_grey = html_color_new_from_rgb (127, 127, 127);
 		light_grey = html_color_new_from_rgb (191, 191, 191);
@@ -81,13 +86,13 @@ html_box_image_paint_border (HtmlBox *box, HtmlPainter *painter, GdkRectangle *a
 	if (width  >= gdk_pixbuf_get_width (error_image) + 4 &&
 	    height >= gdk_pixbuf_get_height (error_image) + 4) {
 		
-		if (image->image->broken) {
+		if (image->image->broken && error_image) {
 			html_painter_draw_pixbuf (painter, area, error_image, 0, 0,
 						  x + 2, y + 2,
 						  gdk_pixbuf_get_width (error_image),
 						  gdk_pixbuf_get_height (error_image));
 		}
-		else if (image->image->loading) {
+		else if (image->image->loading && loading_image) {
 			html_painter_draw_pixbuf (painter, area, loading_image, 0, 0,
 						  x + 2, y + 2,
 						  gdk_pixbuf_get_width (loading_image),
