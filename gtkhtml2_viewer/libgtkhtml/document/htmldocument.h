@@ -38,9 +38,9 @@ typedef struct _HtmlDocumentStreamData HtmlDocumentStreamData;
 G_BEGIN_DECLS
 
 #define HTML_TYPE_DOCUMENT         (html_document_get_type ())
-#define HTML_DOCUMENT(obj)         (GTK_CHECK_CAST ((obj), HTML_TYPE_DOCUMENT, HtmlDocument))
-#define HTML_DOCUMENT_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), HTML_TYPE_DOCUMENT, HtmlDocumentClass))
-#define HTML_IS_DOCUMENT(obj)      (GTK_CHECK_TYPE ((obj), HTML_TYPE_DOCUMENT))
+#define HTML_DOCUMENT(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), HTML_TYPE_DOCUMENT, HtmlDocument))
+#define HTML_DOCUMENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), HTML_TYPE_DOCUMENT, HtmlDocumentClass))
+#define HTML_IS_DOCUMENT(obj)      (G_TYPE_CHECK_INSTANCE_TYPE ((obj), HTML_TYPE_DOCUMENT))
 
 typedef enum {
 	HTML_DOCUMENT_STATE_DONE,

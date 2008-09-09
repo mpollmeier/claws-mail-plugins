@@ -21,7 +21,7 @@
 #define HTML_VIEW_ACCESSIBLE_H__
 
 #include <libgtkhtml/gtkhtml.h>
-#include <gtk/gtkaccessible.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

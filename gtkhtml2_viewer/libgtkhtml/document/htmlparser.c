@@ -251,7 +251,7 @@ html_parser_init (HtmlParser *parser)
 {
 }
 
-GtkType
+GType
 html_parser_get_type (void)
 {
 	static GType type = 0;

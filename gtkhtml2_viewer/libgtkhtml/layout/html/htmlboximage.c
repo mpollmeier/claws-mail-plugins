@@ -20,7 +20,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 #include <math.h>
 #include "dom/events/dom-event-utils.h"
 #include "layout/html/htmlboximage.h"

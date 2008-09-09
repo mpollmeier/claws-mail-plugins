@@ -28,16 +28,14 @@
 #include <glib.h>
 #include "gettext.h"
 #include <gtk/gtk.h>
+#if USE_PRINTUNIX
+#include <gtk/gtkunixprint.h>
+#endif
 #include <gdk/gdkx.h>
 #include "libgtkhtml/gtkhtml.h"
 #include "libgtkhtml/view/htmlselection.h"
 #include "libgtkhtml/layout/htmlbox.h"
 #include "libgtkhtml/layout/htmlboxtext.h"
-#if USE_PRINTUNIX
-#include <gtk/gtkprintoperation.h>
-#include <gtk/gtkprintjob.h>
-#include <gtk/gtkprintunixdialog.h>
-#endif
 #include "common/claws.h"
 #include "common/version.h"
 #include "main.h"

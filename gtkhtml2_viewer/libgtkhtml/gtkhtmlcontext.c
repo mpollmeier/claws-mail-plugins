@@ -94,7 +94,7 @@ gtk_html_context_init (GtkHtmlContext *html)
 GType
 gtk_html_context_get_type (void)
 {
-	static GtkType html_type = 0;
+	static GType html_type = 0;
 
 	if (!html_type) {
 		static const GTypeInfo html_info = {

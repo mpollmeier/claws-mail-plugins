@@ -21,7 +21,7 @@
 #define __HTML_BOX_ACCESSIBLE_H__
 
 #include <atk/atk.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <layout/htmlbox.h>
 
 #ifdef __cplusplus

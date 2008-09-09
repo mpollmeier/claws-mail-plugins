@@ -21,7 +21,7 @@
 */
 
 #include <string.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 #include <graphics/htmlpainter.h>
 
 static GObjectClass *parent_class = NULL;

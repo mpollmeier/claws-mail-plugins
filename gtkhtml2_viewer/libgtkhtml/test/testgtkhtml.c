@@ -296,7 +296,7 @@ main (gint argc, gchar **argv)
 			    TRUE, TRUE, 0);
 
 	gtk_signal_connect (GTK_OBJECT (app), "delete_event",
-			    GTK_SIGNAL_FUNC (cb_delete), NULL);
+			    G_CALLBACK (cb_delete), NULL);
 	
 	gtk_widget_show_all (app);
 	html_view_relayout (view);

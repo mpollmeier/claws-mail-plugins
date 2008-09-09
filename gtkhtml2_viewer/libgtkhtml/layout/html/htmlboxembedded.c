@@ -128,7 +128,7 @@ html_box_embedded_set_widget (HtmlBoxEmbedded *embedded, GtkWidget *widget)
 	g_object_set_data (G_OBJECT (widget), "box", embedded);
 			   
 	g_signal_connect (G_OBJECT (widget), "size_allocate",
-			  GTK_SIGNAL_FUNC (allocate), embedded);
+			  G_CALLBACK (allocate), embedded);
 	
 	if (embedded->view)
 		gtk_layout_put (GTK_LAYOUT (embedded->view), embedded->widget,

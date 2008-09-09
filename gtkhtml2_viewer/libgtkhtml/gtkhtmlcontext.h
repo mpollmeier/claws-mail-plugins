@@ -32,10 +32,10 @@ typedef struct _GtkHtmlContextClass GtkHtmlContextClass;
 G_BEGIN_DECLS
 
 #define GTK_HTML_CONTEXT_TYPE            (gtk_html_context_get_type ())
-#define GTK_HTML_CONTEXT(obj)            (GTK_CHECK_CAST ((obj), GTK_HTML_CONTEXT_TYPE, GtkHtmlContext))
-#define GTK_HTML_CONTEXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GTK_HTML_CONTEXT_TYPE, GtkHtmlContextClass))
-#define GTK_HTML_IS_CONTEXT(obj)         (GTK_CHECK_TYPE ((obj), GTK_HTML_CONTEXT_TYPE))
-#define GTK_HTML_IS_CONTEXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_HTML_CONTEXT_TYPE))
+#define GTK_HTML_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_HTML_CONTEXT_TYPE, GtkHtmlContext))
+#define GTK_HTML_CONTEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_HTML_CONTEXT_TYPE, GtkHtmlContextClass))
+#define GTK_HTML_IS_CONTEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_HTML_CONTEXT_TYPE))
+#define GTK_HTML_IS_CONTEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_HTML_CONTEXT_TYPE))
 
 struct _GtkHtmlContext {
 	GObject parent;

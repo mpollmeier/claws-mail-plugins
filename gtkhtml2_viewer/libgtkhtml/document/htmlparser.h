@@ -37,9 +37,9 @@
 G_BEGIN_DECLS
 
 #define HTML_PARSER_TYPE         (html_parser_get_type ())
-#define HTML_PARSER(obj)         (GTK_CHECK_CAST ((obj), HTML_PARSER_TYPE, HtmlParser))
-#define HTML_PARSER_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), HTML_PARSER_TYPE, HtmlParserClass))
-#define HTML_IS_PARSER(obj)      (GTK_CHECK_TYPE ((obj), HTML_PARSER_TYPE))
+#define HTML_PARSER(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), HTML_PARSER_TYPE, HtmlParser))
+#define HTML_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), HTML_PARSER_TYPE, HtmlParserClass))
+#define HTML_IS_PARSER(obj)      (G_TYPE_CHECK_INSTANCE_TYPE ((obj), HTML_PARSER_TYPE))
 
 enum _HtmlParserType {
 	HTML_PARSER_TYPE_HTML,

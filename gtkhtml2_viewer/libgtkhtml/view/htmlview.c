@@ -2936,7 +2936,7 @@ html_view_class_init (HtmlViewClass *klass)
 	GtkBindingSet *binding_set;
 
 	binding_set = gtk_binding_set_by_class (klass);
-	parent_class = gtk_type_class (GTK_TYPE_LAYOUT);
+	parent_class = g_type_class_peek (GTK_TYPE_LAYOUT);
 
 	object_class->finalize = html_view_finalize;
 

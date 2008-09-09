@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=19
 MICRO_VERSION=0
-EXTRA_VERSION=6
+EXTRA_VERSION=7
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -152,8 +152,8 @@ PKG_CHECK_MODULES(GTKHTML2, gtk+-2.0 >= 2.4.0 libxml-2.0 >= 2.4.16)
 
 
 AC_ARG_ENABLE(accessibility,
-              [  --enable-accessibility  enable accessibility support (needs gail) [default=yes]], ,
-              enable_accessibility=yes)
+              [  --enable-accessibility  enable accessibility support (needs gail) [default=no]], ,
+              enable_accessibility=no)
 
 if test x$enable_accessibility = xyes; then
   PKG_CHECK_MODULES(GAILUTIL, gail >= 1.8, ,

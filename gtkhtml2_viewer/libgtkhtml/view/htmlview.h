@@ -37,9 +37,9 @@ typedef struct _HtmlViewClass HtmlViewClass;
 G_BEGIN_DECLS
 
 #define HTML_TYPE_VIEW         (html_view_get_type ())
-#define HTML_VIEW(obj)         (GTK_CHECK_CAST ((obj), HTML_TYPE_VIEW, HtmlView))
-#define HTML_VIEW_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), HTML_TYPE_VIEW, HtmlViewClass))
-#define HTML_IS_VIEW(obj)      (GTK_CHECK_TYPE ((obj), HTML_TYPE_VIEW))
+#define HTML_VIEW(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), HTML_TYPE_VIEW, HtmlView))
+#define HTML_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), HTML_TYPE_VIEW, HtmlViewClass))
+#define HTML_IS_VIEW(obj)      (G_TYPE_CHECK_INSTANCE_TYPE ((obj), HTML_TYPE_VIEW))
 
 typedef enum {
 	HTML_VIEW_SCROLL_TO_TOP,
