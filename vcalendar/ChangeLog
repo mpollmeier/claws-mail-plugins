@@ -1,3 +1,9 @@
+2008-09-09 [colin]	2.0.0cvs12
+
+	* src/day-view.c
+	* src/month-view.c
+		Undeprecate for GTK+ 2.14
+
 2008-08-21 [colin]	2.0.0cvs11
 
 	* src/day-view.c

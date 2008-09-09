@@ -141,7 +141,7 @@ void dw_close_window(day_win *dw)
     vcal_view_set_summary_page(dw->Vbox, dw->selsig);
 
 #if !(GTK_CHECK_VERSION(2,12,0))
-    gtk_object_destroy(GTK_OBJECT(dw->Tooltips));
+    gtk_object_destroy(G_OBJECT(dw->Tooltips));
 #endif
     g_free(dw);
     dw = NULL;
