@@ -29,7 +29,13 @@
 #include "gettext.h"
 #include <gtk/gtk.h>
 #if USE_PRINTUNIX
+#if GTK_CHECK_VERSION(2,13,1)
 #include <gtk/gtkunixprint.h>
+#else
+#include <gtk/gtkprintoperation.h>
+#include <gtk/gtkprintjob.h>
+#include <gtk/gtkprintunixdialog.h>
+#endif
 #endif
 #include <gdk/gdkx.h>
 #include "libgtkhtml/gtkhtml.h"
