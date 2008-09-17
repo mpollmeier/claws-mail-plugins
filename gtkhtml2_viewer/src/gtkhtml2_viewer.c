@@ -321,7 +321,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 							charset);
 
 						strncpy(tmp_buf, buf, loaded);
-						tmp_buf[loaded+1] = '\0';
+						tmp_buf[loaded] = '\0';
 
 						start = g_strdup(tmp_buf);
 						*(strcasestr(start, "</head>")) = '\0';

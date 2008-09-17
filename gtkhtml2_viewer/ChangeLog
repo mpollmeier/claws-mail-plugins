@@ -1,3 +1,9 @@
+2008-09-17 [colin]	0.19.0cvs9
+
+	* src/gtkhtml2_viewer.c
+		Fix off-by-one; maybe fixes bug 1719, 'cm crashes 
+		on touching html message'
+
 2008-09-09 [paul]	0.19.0cvs8
 
 	* src/gtkhtml2_viewer.c
