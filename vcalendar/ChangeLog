@@ -1,3 +1,8 @@
+2008-09-18 [colin]	2.0.0cvs13
+
+	* src/vcalendar.c
+		Decode ISO-8859-1 as Windows-1252
+
 2008-09-09 [colin]	2.0.0cvs12
 
 	* src/day-view.c

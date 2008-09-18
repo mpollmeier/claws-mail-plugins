@@ -643,6 +643,12 @@ gchar *vcalviewer_get_uid_from_mimeinfo(MimeInfo *mimeinfo)
 	gchar *res = NULL;
 	VCalEvent *event = NULL;
 
+	if (!charset)
+		charset = CS_WINDOWS_1252;
+	
+	if (!strcasecmp(charset, CS_ISO_8859_1))
+		charset = CS_WINDOWS_1252;
+
 	if (procmime_get_part(tmpfile, mimeinfo) < 0) {
 		g_warning("Can't get mimepart file");	
 		g_free(tmpfile);
@@ -672,8 +678,11 @@ static void vcalviewer_get_request_values(VCalViewer *vcalviewer, MimeInfo *mime
 		return;
 
 	if (!charset)
-		charset=CS_ISO_8859_1;
+		charset = CS_WINDOWS_1252;
 	
+	if (!strcasecmp(charset, CS_ISO_8859_1))
+		charset = CS_WINDOWS_1252;
+
 	/* see if we have it registered and more recent */
 	saved_event = vcal_manager_load_event(vcalviewer->event->uid);
 	if (saved_event && saved_event->sequence >= vcalviewer->event->sequence) {
@@ -705,7 +714,10 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		return;
 
 	if (!charset)
-		charset=CS_ISO_8859_1;
+		charset = CS_WINDOWS_1252;
+	
+	if (!strcasecmp(charset, CS_ISO_8859_1))
+		charset = CS_WINDOWS_1252;
 
 	if (!vcalviewer->event->answers || g_slist_length(vcalviewer->event->answers) > 1) {
 		g_warning("strange, no answers or more than one\n");
@@ -786,6 +798,12 @@ static void vcalviewer_get_event(VCalViewer *vcalviewer, MimeInfo *mimeinfo)
 	gchar *tmpfile = get_tmpfile(vcalviewer);
 	const gchar *charset = procmime_mimeinfo_get_parameter(mimeinfo, "charset");
 
+	if (!charset)
+		charset = CS_WINDOWS_1252;
+	
+	if (!strcasecmp(charset, CS_ISO_8859_1))
+		charset = CS_WINDOWS_1252;
+	
 	if (vcalviewer->event) {
 		vcal_manager_free_event(vcalviewer->event);
 		vcalviewer->event = NULL;
