@@ -1,3 +1,9 @@
+2008-09-20 [colin]	0.7.6cvs1
+
+	* configure.ac
+		Error out to reflect the new location of
+		the plugin
+
 2008-06-27 [paul]	0.7.6
 
 	0.7.6 released
