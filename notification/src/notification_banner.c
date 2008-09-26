@@ -496,7 +496,7 @@ static void banner_menu_reply_cb(GtkAction *action, gpointer data)
 
 	msginfo_list = g_slist_prepend(msginfo_list, current_msginfo);
 	compose_reply_from_messageview(messageview, msginfo_list,
-				       prefs_common.reply_with_quote ?
+				       prefs_common_get_prefs()->reply_with_quote ?
 				       COMPOSE_REPLY_WITH_QUOTE : COMPOSE_REPLY_WITHOUT_QUOTE);
 	g_slist_free(msginfo_list);
 }

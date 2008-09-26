@@ -257,7 +257,7 @@ void notification_update_trayicon()
   g_free(buf);
 
   /* Pixmap */
-  (prefs_common.work_offline) ? (offset = 1) : (offset = 0);
+  (prefs_common_get_prefs()->work_offline) ? (offset = 1) : (offset = 0);
 
   if((count.new_msgs > 0) && (count.unreadmarked_msgs > 0))
     new_icon =
@@ -431,7 +431,7 @@ static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,
   /* tell callbacks to skip any event */
   updating_menu = TRUE;
   /* initialize checkitems according to current states */
-	cm_toggle_menu_set_active("SysTrayiconPopup/ToggleOffline", prefs_common.work_offline);
+	cm_toggle_menu_set_active("SysTrayiconPopup/ToggleOffline", prefs_common_get_prefs()->work_offline);
 #ifdef HAVE_LIBNOTIFY
 	cm_toggle_menu_set_active("SysTrayiconPopup/ShowBubbles", notify_config.trayicon_popup_enabled);	
 #endif
@@ -479,7 +479,7 @@ static void trayicon_toggle_offline_cb(GtkAction *action, gpointer data)
   /* toggle offline mode if menu checkitem has been clicked */
   if(!updating_menu) {
     MainWindow *mainwin = mainwindow_get_mainwindow();
-    main_window_toggle_work_offline(mainwin, !prefs_common.work_offline, TRUE);
+    main_window_toggle_work_offline(mainwin, !prefs_common_get_prefs()->work_offline, TRUE);
   }
 }
 
@@ -494,7 +494,7 @@ static void trayicon_toggle_notify_cb(GtkAction *action, gpointer data)
 
 static void app_exit_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 {
-  if(prefs_common.confirm_on_exit) {
+  if(prefs_common_get_prefs()->confirm_on_exit) {
     if(alertpanel(_("Exit"), _("Exit Claws Mail?"),
 		  GTK_STOCK_CANCEL, GTK_STOCK_OK,
 		  NULL) != G_ALERTALTERNATE) {

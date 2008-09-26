@@ -221,8 +221,13 @@ PrefParam
 #endif
 
 #ifdef NOTIFICATION_TRAYICON
+#ifndef G_OS_WIN32
 				{	"trayicon_enabled", "FALSE", &notify_config.trayicon_enabled, P_BOOL,
 					NULL, NULL, NULL},
+#else
+				{	"trayicon_enabled", "TRUE", &notify_config.trayicon_enabled, P_BOOL,
+					NULL, NULL, NULL},
+#endif
 				{	"trayicon_hide_at_startup", "FALSE",
 					&notify_config.trayicon_hide_at_startup, P_BOOL, NULL, NULL, NULL},
 				{	"trayicon_close_to_tray", "FALSE",
