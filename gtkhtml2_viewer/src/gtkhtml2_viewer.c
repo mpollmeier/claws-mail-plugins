@@ -28,6 +28,7 @@
 #include <glib.h>
 #include "gettext.h"
 #include <gtk/gtk.h>
+#ifndef G_OS_WIN32
 #if USE_PRINTUNIX
 #if GTK_CHECK_VERSION(2,13,1)
 #include <gtk/gtkunixprint.h>
@@ -38,6 +39,7 @@
 #endif
 #endif
 #include <gdk/gdkx.h>
+#endif
 #include "libgtkhtml/gtkhtml.h"
 #include "libgtkhtml/view/htmlselection.h"
 #include "libgtkhtml/layout/htmlbox.h"
@@ -623,7 +625,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
 #ifndef USE_PTHREAD
-	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common_get_prefs()->io_timeout_secs);
 #endif
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0);
@@ -754,14 +756,18 @@ not_found_local:
 			if (is_file_exist(cache_file)) {
 				debug_print("cache file found (%s)\n", cache_file);
 				tmpfile = get_tmp_file();
+#ifdef G_OS_UNIX
 				if (link(cache_file, tmpfile) == 0) {
-					g_free(cache_file);
-					g_free(real_url);
-					goto found_local;
+#else
+				if (copy_file(cache_file, tmpfile, TRUE) == 0) {
+#endif
+						g_free(cache_file);
+						g_free(real_url);
+						goto found_local;
 				}
 			} 
 			debug_print("cache file not found (%s)\n", cache_file);
-			if (!viewer->force_image_loading && prefs_common.work_offline) {
+			if (!viewer->force_image_loading && prefs_common_get_prefs()->work_offline) {
 				remote_not_loaded = TRUE;
 				goto fail;
 			}
@@ -782,7 +788,7 @@ not_found_local:
 		        debug_print("gtkhtml: waiting for thread to finish\n");
 		        while( !ctx->ready ) {
 			        claws_do_idle();
-				if (time(NULL) - start_time > prefs_common.io_timeout_secs) {
+				if (time(NULL) - start_time > prefs_common_get_prefs()->io_timeout_secs) {
 					log_error(LOG_PROTOCOL, _("Timeout connecting to %s\n"), url);
 					pthread_cancel(pt);
 					ctx->ready = TRUE;
@@ -806,8 +812,10 @@ not_found_local:
 	        (gchar *)tmpfile = gtkhtml_fetch_feed_threaded(ctx);
 #endif
 		if (gtkhtml_prefs.cache_images && tmpfile) {
+#ifdef G_OS_UNIX
 			link(tmpfile, cache_file);
 			debug_print("cache file created (%s)\n", cache_file);
+#endif
 			g_free(cache_file);
 		}
 #else
@@ -816,7 +824,7 @@ not_found_local:
         }
 
 found_local:
-	debug_print("file %s\n", (char *)tmpfile);
+	debug_print("file %s\n", (char *)(tmpfile?tmpfile:""));
 	if (tmpfile) {
 		FILE *fp = fopen(tmpfile, "r");
 		if (fp == NULL) {
@@ -856,7 +864,7 @@ fail:
 			NoticeView *noticeview = messageview->noticeview;
 			if (!load_images(viewer)) {
 				text = _("Remote images exist, but weren't loaded\naccording to your preferences.");
-			} else if (prefs_common.work_offline) {
+			} else if (prefs_common_get_prefs()->work_offline) {
 				text = _("Remote images exist, but weren't loaded\nbecause you are offline.");
 			} else {
 				text = _("Remote images exist, but loading them failed.");
@@ -1092,7 +1100,7 @@ static gboolean htmlview_btn_released(GtkWidget *widget, GdkEventButton *event,
 	return FALSE;
 }
 
-#if GTK_CHECK_VERSION(2,10,0) && USE_PRINTUNIX
+#if GTK_CHECK_VERSION(2,10,0) && USE_PRINTUNIX && !defined(G_OS_WIN32)
 static void
 job_complete_cb (GtkPrintJob *print_job,
 		        GtkHtml2Viewer *viewer,
@@ -1235,7 +1243,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->mimeviewer.text_search = gtkhtml2_text_search;
 	viewer->mimeviewer.scroll_page = gtkhtml2_scroll_page;
 	viewer->mimeviewer.scroll_one_line = gtkhtml2_scroll_one_line;
-#if GTK_CHECK_VERSION(2,10,0) && USE_PRINTUNIX
+#if GTK_CHECK_VERSION(2,10,0) && USE_PRINTUNIX && !defined(G_OS_WIN32)
 	viewer->mimeviewer.print = gtkhtml2_viewer_print;
 #endif
 	viewer->html_doc = html_document_new();
@@ -1248,7 +1256,7 @@ static MimeViewer *gtkhtml2_viewer_create(void)
 	viewer->mutex     = g_mutex_new();
 
 	font_desc = pango_font_description_from_string
-			(prefs_common.textfont);
+			(prefs_common_get_prefs()->textfont);
 	min_size_new = (gfloat)(pango_font_description_get_size(font_desc)/PANGO_SCALE);
 	pango_font_description_free(font_desc);
 
