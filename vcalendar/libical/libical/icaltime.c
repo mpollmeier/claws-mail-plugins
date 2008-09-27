@@ -3,7 +3,7 @@
   FILE: icaltime.c
   CREATOR: eric 02 June 2000
   
-  $Id: icaltime.c,v 1.1.2.5 2007-12-26 08:10:56 colinler Exp $
+  $Id: icaltime.c,v 1.1.2.6 2008-09-27 10:38:55 colinler Exp $
   $Locker:  $
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -28,6 +28,11 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+
+#if USE_PTHREAD
+#include <pthread.h>
+#endif
+#include <glib.h>
 
 #include "icaltime.h"
 #include <assert.h>
@@ -141,7 +146,7 @@ void unset_tz(struct set_tz_save savetz)
 
 	free(orig_tzid);
     } else {
-	unsetenv("TZ"); /* Delete from environment */
+	g_unsetenv("TZ"); /* Delete from environment */
     } 
 
     if(savetz.new_env_str != 0){
