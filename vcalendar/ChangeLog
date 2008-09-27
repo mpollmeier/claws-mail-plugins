@@ -1,3 +1,13 @@
+2008-09-27 [colin]	2.0.0cvs16
+
+	* src/day-view.c
+	* src/icaltime_as_local.c
+	* src/month-view.c
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+		More time check for wintendo
+
 2008-09-27 [colin]	2.0.0cvs15
 
 	* libical/libical/icaltime.c

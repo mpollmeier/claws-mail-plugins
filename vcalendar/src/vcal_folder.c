@@ -306,6 +306,8 @@ static void vcal_item_opened(FolderItem *item)
 #ifndef G_OS_WIN32
 	localtime_r(&t, &tmdate);
 #else
+	if (t == -1)
+		t = 1;
 	tmdate = *localtime(&t);
 #endif
 	if (!((VCalFolderItem *)(item))->dw 

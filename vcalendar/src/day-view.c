@@ -202,6 +202,10 @@ static void dw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			gboolean changed = FALSE;
 			GtkAdjustment *v_adj;
 
+#ifdef G_OS_WIN32
+			if (t_start == -1)
+				t_start = 1;
+#endif
 			localtime_r(&t_start, &tm_start);
 			tm_start.tm_hour = tm_start.tm_min = tm_start.tm_sec = 0;
 			t_start = mktime(&tm_start);
@@ -218,11 +222,19 @@ static void dw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			}
 			
 			t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
+#ifdef G_OS_WIN32
+			if (t_start == -1)
+				t_start = 1;
+#endif
 			localtime_r(&t_start, &tm_start);
 			if (changed) {
 				debug_print("changed from %s\n", event->summary);
 				v_adj = gtk_scrolled_window_get_vadjustment(
 				    GTK_SCROLLED_WINDOW(dw->scroll_win)); 
+#ifdef G_OS_WIN32
+				if (t_start == -1)
+					t_start = 1;
+#endif
 				localtime_r(&t_start, &tm_start);
 				if (tm_start.tm_hour > 2)
 					gtk_adjustment_set_value(v_adj, 
@@ -344,6 +356,12 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
     else 
 	t_end = t_start;
 
+#ifdef G_OS_WIN32
+	if (t_start == -1)
+		t_start = 1;
+	if (t_end == -1)
+		t_end = 1;
+#endif
     localtime_r(&t_start, &tm_start);
     localtime_r(&t_end, &tm_end);
     tm_first = dw->startdate;
@@ -716,6 +734,10 @@ static void build_day_view_table(day_win *dw)
 	GtkTooltips *tips = dw->Tooltips;
 #endif
 
+#ifdef G_OS_WIN32
+	if (t == -1)
+		t = 1;
+#endif
     localtime_r(&t, &tm_today);
     days = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dw->day_spin));
     today = get_locale_date(&tm_today);

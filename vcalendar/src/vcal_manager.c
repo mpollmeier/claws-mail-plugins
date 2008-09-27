@@ -1457,6 +1457,8 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 #else
 	if (today_t == -1)
 		today_t = 1;
+	if (evtstart_t == -1)
+		evtstart_t = 1;
 	today = *localtime(&today_t);
 	evtstart = *localtime(&evtstart_t);
 #endif

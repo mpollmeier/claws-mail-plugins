@@ -67,7 +67,7 @@ directed to site-policy@w3.org.
  *
  * Author: Bert Bos <bert@w3.org>
  * Created: 18 Dec 2002
- * Version: $Id: icaltime_as_local.c,v 1.1.2.2 2008-09-27 10:38:23 colinler Exp $
+ * Version: $Id: icaltime_as_local.c,v 1.1.2.3 2008-09-27 10:49:35 colinler Exp $
  */
 
 #ifdef HAVE_CONFIG_H
@@ -90,6 +90,10 @@ struct icaltimetype icaltime_as_local(struct icaltimetype tt)
   struct tm buft;
 
   t = icaltime_as_timet(tt);                    /* Convert to epoch */
+#ifdef G_OS_WIN32
+  if (t == -1)
+	  t = 1;
+#endif
   tm = localtime_r(&t, &buft);                  /* Convert to local time */
   h.year = tm->tm_year + 1900;                  /* Make an icaltimetype */
   h.month = tm->tm_mon + 1;
