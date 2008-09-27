@@ -109,3 +109,4 @@
 ( cvs diff -u -r 1.1.2.75 -r 1.1.2.76 src/gtkhtml2_viewer.c;  ) > 0.19.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.76 -r 1.1.2.77 src/gtkhtml2_viewer.c;  ) > 0.19.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.142 -r 1.1.2.143 configure.ac;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/Makefile.am;  diff -u /dev/null src/claws.def;  cvs diff -u -r 1.1.2.77 -r 1.1.2.78 src/gtkhtml2_viewer.c;  diff -u /dev/null src/plugin.def;  diff -u /dev/null src/version.rc;  ) > 0.19.0cvs10.patchset
+( cvs diff -u -r 1.1.2.78 -r 1.1.2.79 src/gtkhtml2_viewer.c;  ) > 0.19.0cvs11.patchset

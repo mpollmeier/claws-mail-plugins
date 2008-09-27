@@ -288,7 +288,7 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 		
 		if (html_document_open_stream(viewer->html_doc, "text/html")) {
 			gboolean got_charset = FALSE;
-			fp = fopen(viewer->filename, "r");
+			fp = g_fopen(viewer->filename, "rb");
 
 			if (fp == NULL) {
 				html_document_close_stream(viewer->html_doc);
@@ -600,7 +600,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 #endif
 
 	if (template != NULL)
-		f = fopen(template, "wb");
+		f = g_fopen(template, "wb");
 	if (f == NULL) {
 		perror("fdopen");
 		ctx->ready = TRUE;
@@ -621,6 +621,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 
 	curl_easy_setopt(eh, CURLOPT_URL, ctx->url);
 	curl_easy_setopt(eh, CURLOPT_NOPROGRESS, 1);
+	curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
@@ -637,6 +638,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 
 	res = curl_easy_perform(eh);
 
+	debug_print("res %d\n", res);
 	curl_easy_cleanup(eh);
 
 	fclose(f);
@@ -785,7 +787,7 @@ not_found_local:
 		        tmpfile = gtkhtml_fetch_feed_threaded(ctx);
 	        } else {
 		        /* Thread created, let's wait until it finishes */
-		        debug_print("gtkhtml: waiting for thread to finish\n");
+		        debug_print("gtkhtml: waiting %d secs for thread to finish \n", prefs_common_get_prefs()->io_timeout_secs);
 		        while( !ctx->ready ) {
 			        claws_do_idle();
 				if (time(NULL) - start_time > prefs_common_get_prefs()->io_timeout_secs) {
@@ -826,7 +828,7 @@ not_found_local:
 found_local:
 	debug_print("file %s\n", (char *)(tmpfile?tmpfile:""));
 	if (tmpfile) {
-		FILE *fp = fopen(tmpfile, "r");
+		FILE *fp = g_fopen(tmpfile, "rb");
 		if (fp == NULL) {
 			html_stream_close(stream);
 			claws_unlink(tmpfile);
@@ -839,8 +841,9 @@ found_local:
 		}
 
 		while ((loaded = fread(buffer, 1, sizeof(buffer), fp)) > 0) {
-			if (viewer->stop_previous || claws_is_exiting())
+			if (viewer->stop_previous || claws_is_exiting()) {
 				break;
+			}
 			html_stream_write(stream, buffer, loaded);
 			while (gtk_events_pending())
 				gtk_main_iteration();
