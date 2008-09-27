@@ -1655,7 +1655,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		if (ac->protocol == A_NNTP) {
 			continue;
 		}
-		if (!event && ac == cur_account) {
+		if (!event && ac == account_get_cur_account()) {
 			num = i;
 		}
 		else if (event && !strcmp(ac->address, event->organizer))

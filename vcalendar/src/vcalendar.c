@@ -170,7 +170,7 @@ static void create_meeting_from_message_cb_ui(GtkAction *action, gpointer data)
 				account = account_find_from_id(item->prefs->default_account);
 
 		 	if (!account) 
-				account = cur_account;
+				account = account_get_cur_account();
 			
 			if (!account)
 				goto bail;

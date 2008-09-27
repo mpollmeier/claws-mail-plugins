@@ -1,3 +1,11 @@
+2008-09-27 [colin]	2.0.0cvs17
+
+	* src/claws.def
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Use account_get_cur_account
+
 2008-09-27 [colin]	2.0.0cvs16
 
 	* src/day-view.c

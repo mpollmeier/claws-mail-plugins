@@ -26,7 +26,7 @@ conv_encode_header
 conv_encode_header_full
 conv_get_locale_charset_str
 conv_get_outgoing_charset_str
-cur_account
+account_get_cur_account
 debug_print_real
 debug_srcname
 execute_command_line
@@ -91,12 +91,6 @@ gtkutils_scroll_page
 gtkut_ui_manager
 gtkut_widget_draw_now
 gtkut_window_new
-_imp__pthread_attr_init
-_imp__pthread_attr_setdetachstate
-_imp__pthread_create
-_imp__pthread_join
-_imp__pthread_setcancelstate
-_imp__pthread_setcanceltype
 inc_lock_count
 inc_lock_real
 inc_offline_should_override
@@ -104,7 +98,6 @@ inc_unlock_real
 input_dialog
 is_dir_exist
 list_free_strings
-localtime_r
 log_error
 main_window_cursor_normal
 main_window_cursor_wait

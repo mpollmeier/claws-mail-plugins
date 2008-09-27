@@ -632,7 +632,7 @@ static gchar *write_headers_ical(PrefsAccount 	*account,
 
 gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcomponent *use_calendar)
 {
-	PrefsAccount *account = cur_account;
+	PrefsAccount *account = account_get_cur_account();
 	gchar *body, *headers, *qpbody;
 	gchar **lines = NULL;
 	gchar *tmpfile = NULL;
