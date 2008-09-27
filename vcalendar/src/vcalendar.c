@@ -26,6 +26,10 @@
 #include "gettext.h"
 #include <gtk/gtk.h>
 
+#if USE_PTHREAD
+#include "pthread.h"
+#endif
+
 #include "mimeview.h"
 #include "utils.h"
 #include "vcalendar.h"
@@ -279,8 +283,8 @@ static VCalEvent *vcalviewer_get_component(const gchar *file, const gchar *chars
 
 	g_return_val_if_fail(file != NULL, NULL);
 
-	if ((fp = fopen(file, "rb")) == NULL) {
-		FILE_OP_ERROR(file, "fopen");
+	if ((fp = g_fopen(file, "rb")) == NULL) {
+		FILE_OP_ERROR(file, "g_fopen");
 		return NULL;
 	}
 

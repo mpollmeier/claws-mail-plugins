@@ -504,7 +504,13 @@ static void get_rfc822_date_from_time_t(gchar *buf, gint len, time_t t)
 	gchar buft1[512];
 	struct tm buft2;
 
+#ifndef G_OS_WIN32
 	lt = localtime_r(&t, &buft2);
+#else
+	if (t == -1)
+		t = 1;
+	lt = localtime(&t);
+#endif
 
 	sscanf(asctime_r(lt, buft1), "%3s %3s %d %d:%d:%d %d\n",
 	       day, mon, &dd, &hh, &mm, &ss, &yyyy);
@@ -544,12 +550,16 @@ static gchar *write_headers_date(const gchar *uid)
 		return NULL;
 	} 
 	
+#ifndef G_OS_WIN32
 	lt = *localtime_r(&t, &buft);
+#else
+	if (t == -1)
+		t = 1;
+	lt = *localtime(&t);
+#endif
 	lt.tm_hour = lt.tm_min = lt.tm_sec = 0;
 	t = mktime(&lt);
-
 	get_rfc822_date_from_time_t(date, sizeof(date), t);
-
 	conv_encode_header(subject, 511, t_subject, strlen("Subject: "), FALSE);
 				
 	return g_strdup_printf("From: -\n"
@@ -567,11 +577,11 @@ static gchar *write_headers_date(const gchar *uid)
 
 gchar *vcal_manager_dateevent_dump(const gchar *uid, FolderItem *item)
 {
-	gchar *sanitized_uid = g_strdup(uid);
+	gchar *sanitized_uid = NULL;
 	gchar *headers = NULL;
 	gchar *lines, *body, *tmpfile;
 	EventTime date;
-	
+	sanitized_uid = g_strdup(uid);
 	subst_for_filename(sanitized_uid);
 	
 	tmpfile = g_strdup_printf("%s%cevt-%d-%s", get_tmp_dir(),
@@ -1441,8 +1451,15 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 		evtstart_t = t;
 	}
 	
+#ifndef G_OS_WIN32
 	today = *localtime_r(&today_t, &buft);
 	localtime_r(&evtstart_t, &evtstart);
+#else
+	if (today_t == -1)
+		today_t = 1;
+	today = *localtime(&today_t);
+	evtstart = *localtime(&evtstart_t);
+#endif
 	
 	if (today.tm_year == evtstart.tm_year) {
 		int days = evtstart.tm_yday - today.tm_yday;

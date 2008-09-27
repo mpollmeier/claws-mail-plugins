@@ -1928,7 +1928,7 @@ void multisync_export(void)
 	g_slist_free(list);
 	
 	file = g_strconcat(path, G_DIR_SEPARATOR_S, "backup_entries", NULL);
-	fp = fopen(file, "wb");
+	fp = g_fopen(file, "wb");
 	g_free(file);
 	if (fp) {
 		for (cur = files; cur; cur = cur->next) {
@@ -2059,7 +2059,7 @@ putfile:
 		g_free(afile);
 		g_free(file);
 	} else if (file) {
-		FILE *fp = fopen(tmpfile, "rb");
+		FILE *fp = g_fopen(tmpfile, "rb");
 		if (!strncmp(file, "webcal://", 9)) {
 			gchar *tmp = g_strdup_printf("http://%s", file+9);
 			g_free(file);
@@ -2206,7 +2206,7 @@ gboolean vcal_meeting_export_freebusy(const gchar *path, const gchar *user,
 		g_free(afile);
 		g_free(file);
 	} else if (file) {
-		FILE *fp = fopen(tmpfile, "rb");
+		FILE *fp = g_fopen(tmpfile, "rb");
 		if (!strncmp(file, "webcal://", 9)) {
 			gchar *tmp = g_strdup_printf("http://%s", file+9);
 			g_free(file);

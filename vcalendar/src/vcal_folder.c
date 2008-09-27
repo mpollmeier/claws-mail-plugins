@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <glob.h>
 #include <unistd.h>
 #include "gettext.h"
 #include <curl/curl.h>
@@ -304,9 +303,11 @@ static void vcal_item_opened(FolderItem *item)
 {
 	struct tm tmdate;
 	time_t t = time(NULL);
-
+#ifndef G_OS_WIN32
 	localtime_r(&t, &tmdate);
-
+#else
+	tmdate = *localtime(&t);
+#endif
 	if (!((VCalFolderItem *)(item))->dw 
 	    && ((VCalFolderItem *)(item))->use_cal_view == 1)
 		((VCalFolderItem *)(item))->dw = create_day_win(item, tmdate);		
@@ -816,7 +817,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	START_TIMING("");
 	g_return_val_if_fail (*list == NULL, 0); /* we expect a NULL list */
 
-	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri);
+	debug_print(" num for %s\n", ((VCalFolderItem *)item)->uri ? ((VCalFolderItem *)item)->uri:"(null)");
 	
 	*old_uids_valid = FALSE;
 	
@@ -975,14 +976,13 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 	gchar *filename = NULL;
 	const gchar *uid = NULL;
 
-	debug_print(" fetch for %s %d\n", ((VCalFolderItem *)item)->uri, num);
+	debug_print(" fetch for %s %d\n", (((VCalFolderItem *)item)->uri ? ((VCalFolderItem *)item)->uri:"(null)"), num);
 	if (((VCalFolderItem *)item)->uri) 
 		return feed_fetch_item(item, num);
 
 	if (!uid) {
 		if (!hash_uids)
 			folder_item_scan_full(item, FALSE);
-
 		uid = g_hash_table_lookup(hash_uids, GINT_TO_POINTER(num));
 	}
 	if (uid && 
@@ -993,12 +993,10 @@ static gchar *vcal_fetch_msg(Folder * folder, FolderItem * item,
 	     !strcmp(uid, EVENT_LATER_ID))) {
 		filename = vcal_manager_dateevent_dump(uid, item);
 	} else if (uid) {
-		VCalEvent *event = vcal_manager_load_event(uid);
-		debug_print("getting %s\n", uid);
-		debug_print("got event %p\n", event);
+		VCalEvent *event = NULL;
+		event = vcal_manager_load_event(uid);
 		if (event)
 			filename = vcal_manager_event_dump(event, FALSE, TRUE, NULL, FALSE);
-		debug_print("dumped to %s\n", filename);
 
 		if (filename) {
 			created_files = g_slist_prepend(created_files, g_strdup(filename));
@@ -1438,7 +1436,7 @@ gchar* get_item_event_list_for_date(FolderItem *item, EventTime date)
 	}
 	
 	result = g_strdup_printf(_("\nThese are the events planned %s:\n"),
-			datestr);
+			datestr?datestr:"never");
 	
 	for (cur = g_slist_reverse(strs); cur; cur = cur->next) {
 		int e_len = strlen(result);
@@ -1644,6 +1642,7 @@ gboolean vcal_curl_put(gchar *url, FILE *fp, gint filesize, const gchar *user, c
 	}
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_UPLOAD, 1);
+	curl_easy_setopt(curl_ctx, CURLOPT_READFUNCTION, NULL);
 	curl_easy_setopt(curl_ctx, CURLOPT_READDATA, fp);
 	curl_easy_setopt(curl_ctx, CURLOPT_HTTPHEADER, headers);
 #if LIBCURL_VERSION_NUM >= 0x070a00

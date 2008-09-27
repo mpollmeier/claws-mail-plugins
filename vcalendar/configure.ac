@@ -10,15 +10,7 @@ dnl plugin version
 MAJOR_VERSION=2
 MINOR_VERSION=0
 MICRO_VERSION=0
-EXTRA_VERSION=13
-
-#####
-#
-# A note to our dear release manager:
-# I'd like the next major release of vCalendar
-# to be 2.0 :)
-#
-####
+EXTRA_VERSION=14
 
 CFLAGS="$CFLAGS -Wall"
 
@@ -43,6 +35,8 @@ fi
 AC_DEFINE_UNQUOTED(CALVERSION, "$PLUGINVERSION", [plugin version])
 AC_DEFINE_UNQUOTED(CALPACKAGE, "Claws Mail vCalendar", [package])
 
+AC_CANONICAL_SYSTEM
+
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
@@ -51,16 +45,78 @@ AC_ISC_POSIX
 AM_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_CPP
-AC_PROG_LIBTOOL
 AM_PROG_LEX
 AC_PROG_YACC
+AC_PROG_MAKE_SET
+AC_LIBTOOL_WIN32_DLL
+AC_LIBTOOL_RC
+AC_LIB_PREFIX
+AC_PROG_LIBTOOL
 
 case "$host" in
   *-*-solaris*)
     CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
     CFLAGS="$CFLAGS -DSOLARIS"
+    platform_win32=no
+    ;;
+  *-*-mingw*|*-*-cygwin*)
+    platform_win32=yes
+    LDFLAGS="$LDFLAGS -mwindows"
+    ;;
+  *)
+    platform_win32=no
     ;;
 esac
+
+AC_MSG_RESULT([$platform_win32])
+AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = x"yes")
+
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    os_win32=yes
+    ;;
+  *)
+    os_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$os_win32])
+AM_CONDITIONAL(OS_WIN32, test x"$os_win32" = x"yes")
+
+AC_MSG_CHECKING([for Cygwin])
+case "$host" in
+  *-*-cygwin*)
+    env_cygwin=yes
+    ;;
+  *)
+    env_cygwin=no
+    ;;
+esac
+AC_MSG_RESULT([$env_cygwin])
+AM_CONDITIONAL(CYGWIN, test x"$env_cygwin" = x"yes")
+
+case "$target" in
+*-darwin*)
+        CFLAGS="$CFLAGS -no-cpp-precomp -fno-common"
+        ;;
+*-*-mingw*)
+        # Note that we need to link to pthreadGC2 in all cases. This
+        # is because some locking is used even when pthread support is
+        # disabled.
+        pthread_name=pthreadGC2
+        CFLAGS="$CFLAGS -mms-bitfields"
+        LIBS="$LIBS -l${pthread_name} -lws2_32 -lregex"
+        ;;
+*-*-solaris*)
+        CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
+        CFLAGS="$CFLAGS -DSOLARIS"
+        ;;
+esac
+
+
+dnl Checks for iconv
+AM_ICONV
+
 #
 # Find pkg-config
 #
@@ -102,61 +158,25 @@ AC_SUBST(GLIB_LIBS)
 dnl Check for GTK+
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 	
-dnl MY_CURL
-dnl -------
-dnl set my_cv_curl_vers to the version of libcurl or NONE
-dnl if libcurl is not found or is too old
-
-AC_DEFUN([MY_CURL],[
- AC_CACHE_VAL(my_cv_curl_vers,[
- my_cv_curl_vers=NONE
- check="7.9.7"
- check_hex="070907"
-
- AC_MSG_CHECKING([for curl >= $check])
-
- if eval curl-config --version 2>/dev/null >/dev/null; then
-   ver=`curl-config --version | sed -e "s/libcurl //g"`
-   hex_ver=`curl-config --vernum | tr 'a-f' 'A-F'`
-   bc_exists=`which bc`
-   if test x$bc_exists != x; then
-    ok=`echo "ibase=16; if($hex_ver>=$check_hex) $hex_ver else 0" | bc`
-   else
-    ok=1
-   fi
-   if test x$ok != x0; then
-     my_cv_curl_vers="$ver"
-     AC_MSG_RESULT([$my_cv_curl_vers])
-   else
-     AC_MSG_RESULT(FAILED)
-     AC_MSG_WARN([$ver is too old. Need version $check or higher.])
-   fi
- else
-   AC_MSG_RESULT(FAILED)
-   AC_MSG_WARN([curl-config was not found])
- fi
- ])
-])
-MY_CURL
-if test $my_cv_curl_vers != NONE; then
-  CURL_CFLAGS=`curl-config --cflags`
-  CURL_LIBS=`curl-config --libs`
-  if test "x$build_vendor" = "xapple" ; then
-    if test -f /usr/bin/libcurl.a ; then
-      # prefer to link static
-      CURL_LIBS=/usr/bin/libcurl.a
-    else
-      # mac os x curl-config outputs erroneous -arch i386 in libs
-      CURL_LIBS="`echo $CURL_LIBS | sed 's/-arch i386//'`"
-    fi
-  fi
-else
-  AC_MSG_ERROR([libcurl is required. You must install it. \
-See http://curl.haxx.se/])
+dnl Find curl-config
+AC_PATH_PROG(CURL_CONFIG, curl-config, no)
+if test x$CURL_CONFIG = xno ; then
+	AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
 fi
-AC_SUBST(CURL_CFLAGS)
+CURL_CFLAGS="`$CURL_CONFIG --cflags`"
 
-LIBS="$CURL_LIBS $LIBS"
+CFLAGS="$CFLAGS $CURL_CFLAGS -Wall"
+if test $USE_MAINTAINER_MODE = yes; then
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+fi
+
+CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
+AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
+
+CURL_LIBS="`$CURL_CONFIG --libs`"
+
+LIBS="$LIBS $CURL_LIBS"
+AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
 
 dnl check for pthread support
 AC_ARG_ENABLE(pthread,

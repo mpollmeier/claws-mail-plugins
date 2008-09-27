@@ -1,3 +1,16 @@
+2008-09-27 [colin]	2.0.0cvs14
+
+	* src/Makefile.am
+	* src/claws.def
+	* src/icaltime_as_local.c
+	* src/plugin.def
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+	* src/version.rc
+		Windows port (ical feeds are crashy)
+
 2008-09-18 [colin]	2.0.0cvs13
 
 	* src/vcalendar.c

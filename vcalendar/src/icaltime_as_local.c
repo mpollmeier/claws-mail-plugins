@@ -67,8 +67,16 @@ directed to site-policy@w3.org.
  *
  * Author: Bert Bos <bert@w3.org>
  * Created: 18 Dec 2002
- * Version: $Id: icaltime_as_local.c,v 1.1.2.1 2007-05-09 16:46:54 colinler Exp $
+ * Version: $Id: icaltime_as_local.c,v 1.1.2.2 2008-09-27 10:38:23 colinler Exp $
  */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#ifdef USE_PTHREAD
+#include "pthread.h"
+#endif
 
 #include "icaltime_as_local.h"
 
