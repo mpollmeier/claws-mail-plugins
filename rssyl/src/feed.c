@@ -126,6 +126,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 #if LIBCURL_VERSION_NUM < 0x071000
 	curl_easy_setopt(eh, CURLOPT_MUTE, 1);
 #endif
+	curl_easy_setopt(eh, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);

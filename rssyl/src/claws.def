@@ -1,0 +1,3 @@
+LIBRARY CLAWS-MAIL.EXE
+EXPORTS
+check_plugin_version

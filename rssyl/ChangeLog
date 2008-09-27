@@ -1,3 +1,14 @@
+2008-09-27 [colin]	0.20.0cvs11
+
+	* configure.ac
+	* src/Makefile.am
+	* src/claws.def
+	* src/date.c
+	* src/feed.c
+	* src/plugin.def
+	* src/version.rc
+		Prepare windows port
+
 2008-08-17 [colin]	0.20.0cvs10
 
 	* src/feed.c
