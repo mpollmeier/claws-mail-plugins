@@ -274,7 +274,7 @@ void rssyl_refresh_cb(GtkAction *action, gpointer data)
 
 	ritem = (RSSylFolderItem *)item;
 
-	if (prefs_common.work_offline && 
+	if (prefs_common_get_prefs()->work_offline && 
 	   !inc_offline_should_override(TRUE,
 			ngettext(
 			   "Claws Mail needs network access in order "

@@ -130,7 +130,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt(eh, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
-	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common_get_prefs()->io_timeout_secs);
 	curl_easy_setopt(eh, CURLOPT_NOSIGNAL, 1);
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0);
@@ -1642,7 +1642,7 @@ void rssyl_refresh_all_func(FolderItem *item, gpointer data)
 
 void rssyl_refresh_all_feeds(void)
 {
-	if (prefs_common.work_offline && 
+	if (prefs_common_get_prefs()->work_offline && 
 	    !inc_offline_should_override(TRUE,
 			ngettext(
 			    "Claws Mail needs network access in order "

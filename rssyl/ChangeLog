@@ -1,3 +1,13 @@
+2008-09-28 [colin]	0.20.0cvs13
+
+	* src/claws.def
+	* src/date.c
+	* src/feed.c
+	* src/rssyl_cb_gtk.c
+	* src/rssyl_cb_menu.c
+		Win32 fixes - still misses a reimplementation
+		of strptime using sscanf or equivalent
+
 2008-09-28 [colin]	0.20.0cvs12
 
 	* src/date.c
