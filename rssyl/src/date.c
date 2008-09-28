@@ -122,10 +122,13 @@ gchar *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 gchar *createRFC822Date(const time_t *time) {
 	struct tm *tm;
 	struct tm buft;
+#ifdef G_OS_WIN32
 	if (*time == -1) {
 		time_t t = 1;
-		tm = gmtime_r(t, &buft);
-	} else {
+		tm = gmtime_r(&t, &buft);
+	} else 
+#endif
+	{
 		tm = gmtime_r(time, &buft); /* No need to free because it is statically allocated */
 	}
 	return g_strdup_printf("%s, %2d %s %4d %02d:%02d:%02d GMT", dayofweek[tm->tm_wday], tm->tm_mday,

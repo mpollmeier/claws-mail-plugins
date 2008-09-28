@@ -1,3 +1,8 @@
+2008-09-28 [colin]	0.20.0cvs12
+
+	* src/date.c
+		Fix warning
+
 2008-09-27 [colin]	0.20.0cvs11
 
 	* configure.ac

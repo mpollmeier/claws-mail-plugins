@@ -142,3 +142,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/opml.c;  ) > 0.20.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.98 -r 1.1.2.99 src/feed.c;  ) > 0.20.0cvs10.patchset
 ( cvs diff -u -r 1.1.2.205 -r 1.1.2.206 configure.ac;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/Makefile.am;  diff -u /dev/null src/claws.def;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/date.c;  cvs diff -u -r 1.1.2.99 -r 1.1.2.100 src/feed.c;  diff -u /dev/null src/plugin.def;  diff -u /dev/null src/version.rc;  ) > 0.20.0cvs11.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/date.c;  ) > 0.20.0cvs12.patchset
