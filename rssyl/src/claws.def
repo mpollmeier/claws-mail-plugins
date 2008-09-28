@@ -71,7 +71,7 @@ mainwindow_get_mainwindow
 make_dir
 make_dir_hier
 mkstemp
-prefs_common
+prefs_common_get_prefs
 prefs_file_close
 prefs_file_close_revert
 prefs_filtering_delete_path
