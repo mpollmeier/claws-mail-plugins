@@ -34,6 +34,9 @@
 #include <libxml/xpath.h>
 #include <pthread.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "common/claws.h"
 #include "codeconv.h"
@@ -80,9 +83,14 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	gchar *time_str = NULL;
 	long response_code;
 
+#ifndef G_OS_WIN32
 	gchar *template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, RSSYL_TMP_TEMPLATE, NULL);
 	int fd = mkstemp(template);
+#else
+	gchar *template = get_tmp_file();
+	int fd = open(template, (O_CREAT|O_RDWR|O_BINARY), (S_IRUSR|S_IWUSR));
+#endif
 	FILE *f;
 
 #ifdef USE_PTHREAD
@@ -262,6 +270,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 #endif
 	gchar *msg = NULL, *tmptitle = NULL;
 	gchar *content;
+	xmlErrorPtr xml_err;
 
 	ctx->url = url;
 	ctx->ready = FALSE;
@@ -318,13 +327,19 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	}
 		
 	/* Strip ugly \r\n endlines */
+#ifndef G_OS_WIN32
 	file_strip_crs((gchar *)template);
-
+#endif
+	debug_print("parsing %s\n", template);
 	doc = xmlParseFile(template);
-
+	
 	if( doc == NULL ) {
 		claws_unlink(template);
 		g_free(template);
+		xml_err = xmlGetLastError();
+		if (xml_err)
+			debug_print("error %s\n", xml_err->message);
+		
 		g_warning("Couldn't fetch feed '%s', aborting.\n", url);
 		log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_FETCH, url);
 		if (error && !(*error)) {
@@ -1118,9 +1133,14 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 	ritem->contents = g_slist_append(ritem->contents, fitem);
 
 	flags = g_new(MsgFlags, 1);
+#ifndef G_OS_WIN32
 	template = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, RSSYL_TMP_TEMPLATE, NULL);
 	fd = mkstemp(template);
+#else
+	template = get_tmp_file();
+	fd = open(template, (O_CREAT|O_RDWR|O_BINARY), (S_IRUSR|S_IWUSR));
+#endif
 
 	f = fdopen(fd, "w");
 	g_return_val_if_fail(f != NULL, FALSE);

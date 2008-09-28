@@ -52,6 +52,7 @@ folderview_unregister_popup
 folderview_unselect
 folder_write_list
 get_rc_dir
+get_tmp_file
 gtk_cmctree_get_type
 gtk_cmctree_is_ancestor
 gtk_cmctree_node_get_row_data

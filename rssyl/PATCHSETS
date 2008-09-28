@@ -147,3 +147,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/date.c;  ) > 0.20.0cvs14.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/date.c;  ) > 0.20.0cvs15.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/claws.def;  ) > 0.20.0cvs16.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/claws.def;  cvs diff -u -r 1.1.2.101 -r 1.1.2.102 src/feed.c;  ) > 0.20.0cvs17.patchset
