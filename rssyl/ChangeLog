@@ -1,3 +1,9 @@
+2008-09-28 [colin]	0.20.0cvs14
+
+	* src/date.c
+		Define _XOPEN_SOURCE prior to inclusion
+		of pthread.h (fixes warning)
+
 2008-09-28 [colin]	0.20.0cvs13
 
 	* src/claws.def

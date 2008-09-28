@@ -32,14 +32,15 @@
 #  include <config.h>
 #endif
 
-#ifdef USE_PTHREAD
-#include <pthread.h>
-#endif
 /* this is needed for strptime() */
 #if !defined (__FreeBSD__)
 #define _XOPEN_SOURCE 600 /* glibc2 needs this */
 #else
 #define _XOPEN_SOURCE
+#endif
+
+#ifdef USE_PTHREAD
+#include <pthread.h>
 #endif
 
 #include <time.h>
