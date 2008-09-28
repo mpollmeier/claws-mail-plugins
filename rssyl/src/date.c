@@ -57,12 +57,39 @@ time_t parseISO8601Date(gchar *date) {
 	struct tm	tm;
 	time_t		t, t2, offset = 0;
 	gboolean	success = FALSE;
+#ifdef G_OS_WIN32
+	gchar *tmp = g_strdup(date);
+	gint result, year, month, day, hour, minute, second;
+#else
 	gchar *pos;
-	
+#endif	
 	g_assert(date != NULL);
 	
 	memset(&tm, 0, sizeof(struct tm));
 	
+#ifdef G_OS_WIN32
+	g_strstrip(tmp);
+	result = sscanf((const char *)date, "%d-%d-%dT%d:%d:%d", 
+			&year, &month, &day, &hour, &minute, &second);
+	if (result < 6)
+		second = 0;
+	if (result < 5)
+		minute = 0;
+	if (result < 4)
+		hour = 0;
+	if (result >= 3) {
+		tm.tm_sec = second;
+		tm.tm_min = minute;
+		tm.tm_hour = hour;
+		tm.tm_mday = day;
+		tm.tm_mon = month - 1;
+		tm.tm_year = year - 1900;
+		tm.tm_wday = 0;
+		tm.tm_yday = 0;
+		tm.tm_isdst = -1;
+		success = TRUE;
+	}
+#else
 	/* we expect at least something like "2003-08-07T15:28:19" and
 	   don't require the second fractions and the timezone info
 
@@ -100,7 +127,7 @@ time_t parseISO8601Date(gchar *date) {
 	} else if(NULL != strptime((const char *)date, "%t%Y-%m-%d", &tm))
 		success = TRUE;
 	/* there were others combinations too... */
-
+#endif
 	if(TRUE == success) {
 		if((time_t)(-1) != (t = mktime(&tm))) {
 			struct tm buft;
