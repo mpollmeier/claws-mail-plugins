@@ -625,6 +625,7 @@ add_new:
 					prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
 					uid = g_strdup_printf("%s-%d", orig_uid, i);
 					icalproperty_set_uid(prop, uid);
+					g_free(uid);
 					data = icalfeeddata_new(evt, NULL);
 					i++;
 					goto add_new;
@@ -783,6 +784,7 @@ GSList *vcal_get_events_list(FolderItem *item)
 								new_start, new_end, NULL, 
 								event->tzid, event->url, event->method, 
 								event->sequence, event->type);
+					g_free(uid);
 					vcal_manager_copy_attendees(event, nevent);
 					nevent->rec_occurence = TRUE;
 					vcal_manager_save_event(nevent, FALSE);
