@@ -227,7 +227,7 @@ static gint get_dtdate(const gchar *str, gint field)
 	tzset();
 
 #ifdef G_OS_WIN32
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 #endif
 	lt = localtime_r(&t, &buft);
@@ -409,7 +409,7 @@ static int get_current_gmt_offset(void)
 	tzset();
 
 #ifdef G_OS_WIN32
-	if (now == -1)
+	if (now < 0)
 		now = 1;
 #endif
 	gmtime_r(& now, & gmt);
@@ -427,7 +427,7 @@ static int get_gmt_offset_at_time(time_t then)
 	tzset();
 
 #ifdef G_OS_WIN32
-	if (then == -1)
+	if (then < 0)
 		then = 1;
 #endif
 	gmtime_r(& then, & gmt);
@@ -449,7 +449,7 @@ static gchar *get_date(VCalMeeting *meet, int start)
 
 	t = time(NULL);
 #ifdef G_OS_WIN32
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 #endif
 	lt = localtime_r(&t, &buft);
@@ -554,9 +554,9 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 	start_t = time(NULL);
 	end_t = time(NULL);
 #ifdef G_OS_WIN32
-	if (start_t == -1)
+	if (start_t < 0)
 		start_t = 1;
-	if (end_t == -1)
+	if (end_t < 0)
 		end_t = 1;
 #endif
 	localtime_r(&start_t, &start_lt);
@@ -584,7 +584,7 @@ static void meeting_start_changed(GtkWidget *widget, gpointer data)
 	end_t = start_t + 3600;
 
 #ifdef G_OS_WIN32
-	if (end_t == -1)
+	if (end_t < 0)
 		end_t = 1;
 #endif
 	localtime_r(&end_t, &end_lt);
@@ -633,9 +633,9 @@ static void meeting_end_changed(GtkWidget *widget, gpointer data)
 	tzset();
 
 #ifdef G_OS_WIN32
-	if (start_t == -1)
+	if (start_t < 0)
 		start_t = 1;
-	if (end_t == -1)
+	if (end_t < 0)
 		end_t = 1;
 #endif
 	localtime_r(&start_t, &start_lt);
@@ -665,7 +665,7 @@ static void meeting_end_changed(GtkWidget *widget, gpointer data)
 	tzset();
 
 #ifdef G_OS_WIN32
-	if (start_t == -1)
+	if (start_t < 0)
 		start_t = 1;
 #endif
 	localtime_r(&start_t, &start_lt);

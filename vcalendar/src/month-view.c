@@ -200,7 +200,7 @@ static void mw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			gboolean changed = FALSE;
 
 #ifdef G_OS_WIN32
-			if (t_start == -1)
+			if (t_start < 0)
 				t_start = 1;
 #endif
 			localtime_r(&t_start, &tm_start);
@@ -361,9 +361,9 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
 	t_end = t_start;
 
 #ifdef G_OS_WIN32
-	if (t_start == -1)
+	if (t_start < 0)
 		t_start = 1;
-	if (t_end == -1)
+	if (t_end < 0)
 		t_end = 1;
 #endif
     localtime_r(&t_start, &tm_start);
@@ -843,7 +843,7 @@ static void build_month_view_table(month_win *mw)
         gtk_spin_button_set_value(GTK_SPIN_BUTTON(mw->day_spin), avail_d);
 
 #ifdef G_OS_WIN32
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 #endif
     localtime_r(&t, &tm_today);

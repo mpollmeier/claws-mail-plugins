@@ -1,3 +1,13 @@
+2008-09-30 [colin]	2.0.0cvs19
+
+	* src/day-view.c
+	* src/icaltime_as_local.c
+	* src/month-view.c
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_meeting_gtk.c
+		Win32: fix time usage; use g_stat
+
 2008-09-29 [colin]	2.0.0cvs18
 
 	* src/vcal_folder.c

@@ -306,7 +306,7 @@ static void vcal_item_opened(FolderItem *item)
 #ifndef G_OS_WIN32
 	localtime_r(&t, &tmdate);
 #else
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 	tmdate = *localtime(&t);
 #endif
@@ -1112,7 +1112,7 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 
 	if (vitem->uri) {
 		return TRUE;
-	} else if (stat(vcal_manager_get_event_path(), &s) < 0) {
+	} else if (g_stat(vcal_manager_get_event_path(), &s) < 0) {
 		return TRUE;
 	} else if ((s.st_mtime > item->mtime) &&
 		(s.st_mtime - 3600 != item->mtime)) {
@@ -1133,7 +1133,7 @@ static void vcal_set_mtime(Folder *folder, FolderItem *item)
 
 	g_return_if_fail(path != NULL);
 
-	if (stat(path, &s) < 0) {
+	if (g_stat(path, &s) < 0) {
 		FILE_OP_ERROR(path, "stat");
 		g_free(path);
 		return;

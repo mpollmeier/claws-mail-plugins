@@ -203,7 +203,7 @@ static void dw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			GtkAdjustment *v_adj;
 
 #ifdef G_OS_WIN32
-			if (t_start == -1)
+			if (t_start < 0)
 				t_start = 1;
 #endif
 			localtime_r(&t_start, &tm_start);
@@ -223,7 +223,7 @@ static void dw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 			
 			t_start = icaltime_as_timet(icaltime_from_string(event->dtstart));
 #ifdef G_OS_WIN32
-			if (t_start == -1)
+			if (t_start < 0)
 				t_start = 1;
 #endif
 			localtime_r(&t_start, &tm_start);
@@ -232,7 +232,7 @@ static void dw_summary_selected(GtkCMCTree *ctree, GtkCMCTreeNode *row,
 				v_adj = gtk_scrolled_window_get_vadjustment(
 				    GTK_SCROLLED_WINDOW(dw->scroll_win)); 
 #ifdef G_OS_WIN32
-				if (t_start == -1)
+				if (t_start < 0)
 					t_start = 1;
 #endif
 				localtime_r(&t_start, &tm_start);
@@ -357,9 +357,9 @@ static void add_row(day_win *dw, VCalEvent *event, gint days)
 	t_end = t_start;
 
 #ifdef G_OS_WIN32
-	if (t_start == -1)
+	if (t_start < 0)
 		t_start = 1;
-	if (t_end == -1)
+	if (t_end < 0)
 		t_end = 1;
 #endif
     localtime_r(&t_start, &tm_start);
@@ -735,7 +735,7 @@ static void build_day_view_table(day_win *dw)
 #endif
 
 #ifdef G_OS_WIN32
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 #endif
     localtime_r(&t, &tm_today);

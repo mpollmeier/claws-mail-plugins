@@ -507,7 +507,7 @@ static void get_rfc822_date_from_time_t(gchar *buf, gint len, time_t t)
 #ifndef G_OS_WIN32
 	lt = localtime_r(&t, &buft2);
 #else
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 	lt = localtime(&t);
 #endif
@@ -553,7 +553,7 @@ static gchar *write_headers_date(const gchar *uid)
 #ifndef G_OS_WIN32
 	lt = *localtime_r(&t, &buft);
 #else
-	if (t == -1)
+	if (t < 0)
 		t = 1;
 	lt = *localtime(&t);
 #endif
@@ -1455,9 +1455,9 @@ EventTime event_to_today(VCalEvent *event, time_t t)
 	today = *localtime_r(&today_t, &buft);
 	localtime_r(&evtstart_t, &evtstart);
 #else
-	if (today_t == -1)
+	if (today_t < 0)
 		today_t = 1;
-	if (evtstart_t == -1)
+	if (evtstart_t < 0)
 		evtstart_t = 1;
 	today = *localtime(&today_t);
 	evtstart = *localtime(&evtstart_t);
