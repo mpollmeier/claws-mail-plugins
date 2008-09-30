@@ -67,7 +67,7 @@ static MimeInfo *tnef_broken_mimeinfo(const gchar *reason)
 			"%s\n"), reason?reason:_("Unknown error"));
 	
 	fclose(fp);
-	stat(tmpfilename, &statbuf);
+	g_stat(tmpfilename, &statbuf);
 	sub_info->tmp = TRUE;
 	sub_info->length = statbuf.st_size;
 	sub_info->encoding_type = ENC_BINARY;
@@ -116,7 +116,7 @@ static MimeInfo *tnef_dump_file(const gchar *filename, char *data, size_t size)
 		return tnef_broken_mimeinfo(_("Failed to write the part data."));
 	}
 	fclose(fp);
-	stat(tmpfilename, &statbuf);
+	g_stat(tmpfilename, &statbuf);
 	sub_info->tmp = TRUE;
 	sub_info->length = statbuf.st_size;
 	sub_info->encoding_type = ENC_BINARY;
@@ -147,7 +147,7 @@ MimeInfo *tnef_parse_vcal(TNEFStruct tnef)
 	result = SaveVCalendar(fp, tnef);
 	
 	fclose(fp);
-	stat(tmpfilename, &statbuf);
+	g_stat(tmpfilename, &statbuf);
 	sub_info->tmp = TRUE;
 	sub_info->length = statbuf.st_size;
 	sub_info->encoding_type = ENC_BINARY;
@@ -183,7 +183,7 @@ MimeInfo *tnef_parse_vtask(TNEFStruct tnef)
 	result = SaveVTask(fp, tnef);
 	
 	fclose(fp);
-	stat(tmpfilename, &statbuf);
+	g_stat(tmpfilename, &statbuf);
 	sub_info->tmp = TRUE;
 	sub_info->length = statbuf.st_size;
 	sub_info->encoding_type = ENC_BINARY;
@@ -233,7 +233,7 @@ MimeInfo *tnef_parse_vcard(TNEFStruct tnef)
 	result = SaveVCard(fp, tnef);
 	
 	fclose(fp);
-	stat(tmpfilename, &statbuf);
+	g_stat(tmpfilename, &statbuf);
 	sub_info->tmp = TRUE;
 	sub_info->length = statbuf.st_size;
 	sub_info->encoding_type = ENC_BINARY;
