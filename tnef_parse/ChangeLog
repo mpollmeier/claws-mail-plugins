@@ -1,3 +1,13 @@
+2008-09-30 [colin]	0.3.0cvs2
+
+	* configure.ac
+	* src/Makefile.am
+	* src/claws.def
+	* src/plugin.def
+	* src/version.rc
+	* src/ytnef.c
+		Prepare Windows port
+
 2008-09-30 [colin]	0.3.0cvs1
 
 	* src/tnef_parse.c

@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=3
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 CFLAGS="$CFLAGS -Wall"
 if test $USE_MAINTAINER_MODE = yes; then
@@ -30,6 +30,8 @@ else
     fi
 fi
 
+AC_CANONICAL_SYSTEM
+
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AC_CONFIG_HEADERS(config.h)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
@@ -42,7 +44,75 @@ AC_ISC_POSIX
 AM_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_CPP
+AC_PROG_MAKE_SET
+AC_LIBTOOL_WIN32_DLL
+AC_LIBTOOL_RC
+AC_LIB_PREFIX
 AC_PROG_LIBTOOL
+
+case "$host" in
+  *-*-solaris*)
+    CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
+    CFLAGS="$CFLAGS -DSOLARIS"
+    platform_win32=no
+    ;;
+  *-*-mingw*|*-*-cygwin*)
+    platform_win32=yes
+    LDFLAGS="$LDFLAGS -mwindows"
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+
+AC_MSG_RESULT([$platform_win32])
+AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = x"yes")
+
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    os_win32=yes
+    ;;
+  *)
+    os_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$os_win32])
+AM_CONDITIONAL(OS_WIN32, test x"$os_win32" = x"yes")
+
+AC_MSG_CHECKING([for Cygwin])
+case "$host" in
+  *-*-cygwin*)
+    env_cygwin=yes
+    ;;
+  *)
+    env_cygwin=no
+    ;;
+esac
+AC_MSG_RESULT([$env_cygwin])
+AM_CONDITIONAL(CYGWIN, test x"$env_cygwin" = x"yes")
+
+case "$target" in
+*-darwin*)
+        CFLAGS="$CFLAGS -no-cpp-precomp -fno-common"
+        ;;
+*-*-mingw*)
+        # Note that we need to link to pthreadGC2 in all cases. This
+        # is because some locking is used even when pthread support is
+        # disabled.
+        pthread_name=pthreadGC2
+        CFLAGS="$CFLAGS -mms-bitfields"
+        LIBS="$LIBS -l${pthread_name} -lws2_32 -lregex"
+        ;;
+*-*-solaris*)
+        CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
+        CFLAGS="$CFLAGS -DSOLARIS"
+        ;;
+esac
+
+
+dnl Checks for iconv
+AM_ICONV
 
 dnl Checks for header files.
 AC_HEADER_DIRENT

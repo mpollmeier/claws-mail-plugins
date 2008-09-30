@@ -21,6 +21,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
  
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -31,6 +35,9 @@
 #include "mapidefs.h"
 #include "mapitags.h"
 #include "config.h"
+
+#include <glib.h>
+#include <glib/gstdio.h>
 
 #define RTF_PREBUF "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx"
 #define DEBUG(lvl, curlvl, msg) \
@@ -55,7 +62,10 @@
             printf("\n"); \
         }
 
+#ifndef MIN
 #define MIN(x,y) (((x)<(y))?(x):(y))
+#endif
+
 void TNEFFillMapi(TNEFStruct *TNEF, BYTE *data, DWORD size, MAPIProps *p);
 void SetFlip(void);
 
@@ -866,7 +876,7 @@ int TNEFFile_Open (TNEFIOStruct *IO) {
     finfo = (TNEFFileInfo*)IO->data;
 
     DEBUG1(finfo->Debug, 3, "Opening %s", finfo->filename);
-    if ((finfo->fptr = fopen(finfo->filename, "rb")) == NULL) {
+    if ((finfo->fptr = g_fopen(finfo->filename, "rb")) == NULL) {
         return -1;
     } else {
         return 0;

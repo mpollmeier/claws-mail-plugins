@@ -19,3 +19,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/ytnef.c;  ) > 0.2.3cvs4.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/ytnef.c;  ) > 0.2.3cvs5.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/tnef_parse.c;  ) > 0.3.0cvs1.patchset
+( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  diff -u /dev/null src/claws.def;  diff -u /dev/null src/plugin.def;  diff -u /dev/null src/version.rc;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/ytnef.c;  ) > 0.3.0cvs2.patchset
