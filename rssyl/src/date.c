@@ -154,7 +154,7 @@ gchar *createRFC822Date(const time_t *time) {
 	struct tm *tm;
 	struct tm buft;
 #ifdef G_OS_WIN32
-	if (*time == -1) {
+	if (*time < 0) {
 		time_t t = 1;
 		tm = gmtime_r(&t, &buft);
 	} else 

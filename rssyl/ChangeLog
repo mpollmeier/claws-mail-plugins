@@ -1,3 +1,8 @@
+2008-09-30 [colin]	0.20.0cvs18
+
+	* src/date.c
+		Fix time usage
+
 2008-09-28 [colin]	0.20.0cvs17
 
 	* src/claws.def
