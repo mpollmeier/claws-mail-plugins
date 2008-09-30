@@ -1,3 +1,9 @@
+2008-09-30 [colin]	0.3.0cvs3
+
+	* src/tnef_dump.c
+	* src/tnef_parse.c
+		remove useless includes
+
 2008-09-30 [colin]	0.3.0cvs2
 
 	* configure.ac

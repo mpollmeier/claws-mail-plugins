@@ -32,7 +32,6 @@
 #include <glib.h>
 #include "gettext.h"
 #include <gtk/gtk.h>
-#include <gdk/gdkx.h>
 #include "common/claws.h"
 #include "common/version.h"
 #include "main.h"
