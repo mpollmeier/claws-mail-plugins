@@ -255,6 +255,19 @@ static void day_view_new_meeting_cb(day_win *dw, gpointer data_i, gpointer data_
     struct tm tm_date = dw->startdate;
     int offset_h = offset % 1000;
     int offset_d = (offset-offset_h) / 1000;
+    guint monthdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};    
+    int mon = tm_date.tm_mon;
+    
+    if (((tm_date.tm_year%4) == 0) && (((tm_date.tm_year%100) != 0) 
+            || ((tm_date.tm_year%400) == 0)))
+        monthdays[1] = 29;
+
+    if (offset_d > monthdays[mon]) {
+    	while (tm_date.tm_mday > 1)
+		orage_move_day(&tm_date, 1);
+	offset_d -= monthdays[mon];
+    }
+
     while (offset_d > tm_date.tm_mday) {
 	    orage_move_day(&tm_date, 1);
     }
@@ -766,7 +779,7 @@ static void build_day_view_table(day_win *dw)
     day = tm_date.tm_mday;
     if (((tm_date.tm_year%4) == 0) && (((tm_date.tm_year%100) != 0) 
             || ((tm_date.tm_year%400) == 0)))
-        ++monthdays[1];
+        monthdays[1] = 29;
 
 
     i=0;

@@ -1,3 +1,10 @@
+2008-10-01 [colin]	2.0.0cvs20
+
+	* src/day-view.c
+		Fix infinite loop when trying to add a
+		meeting at the start of a month in
+		week view
+
 2008-09-30 [colin]	2.0.0cvs19
 
 	* src/day-view.c
