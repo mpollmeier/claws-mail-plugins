@@ -1,3 +1,9 @@
+2008-10-02 [colin]	2.0.0cvs21
+
+	* src/vcal_meeting_gtk.c
+		Fix double updating of the view after 
+		meeting creation or update
+
 2008-10-01 [colin]	2.0.0cvs20
 
 	* src/day-view.c

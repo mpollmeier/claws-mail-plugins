@@ -1346,7 +1346,6 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	if (folder && redisp) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		summary_show(mainwin->summaryview, folder->inbox);
-		vcal_folder_refresh_cal(folder->inbox);
 	}
 
 	return res;
