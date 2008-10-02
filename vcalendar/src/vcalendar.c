@@ -947,7 +947,6 @@ void vcalendar_refresh_folder_contents(FolderItem *item)
 		folder_item_scan(item);
 		if (mainwin->summaryview->folder_item == item) {
 			summary_show(mainwin->summaryview, item);
-			vcal_folder_refresh_cal(item);
 		}
 	}
 }
@@ -1007,7 +1006,6 @@ void vcalendar_cancel_meeting(FolderItem *item, const gchar *uid)
 			if (folder && redisp) {
 				MainWindow *mainwin = mainwindow_get_mainwindow();
 				summary_show(mainwin->summaryview, item);
-				vcal_folder_refresh_cal(item);
 			}
 			return;
 		}
@@ -1024,7 +1022,6 @@ void vcalendar_cancel_meeting(FolderItem *item, const gchar *uid)
 	if (folder && redisp) {
 		MainWindow *mainwin = mainwindow_get_mainwindow();
 		summary_show(mainwin->summaryview, item);
-		vcal_folder_refresh_cal(item);
 	}
 
 	return;

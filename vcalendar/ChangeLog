@@ -1,3 +1,8 @@
+2008-10-02 [colin]	2.0.0cvs22
+
+	* src/vcalendar.c
+		Remove more double-refreshes
+
 2008-10-02 [colin]	2.0.0cvs21
 
 	* src/vcal_meeting_gtk.c
