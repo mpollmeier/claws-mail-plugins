@@ -2,13 +2,12 @@
 # Copyright (C) YEAR Andrej Kacian
 # Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: rssyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-09-03 10:24+0100\n"
-"PO-Revision-Date: 2007-09-01 18:17+00001\n"
+"POT-Creation-Date: 2008-09-26 08:59+0100\n"
+"PO-Revision-Date: 2008-02-22 19:09+0100\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
@@ -37,25 +36,24 @@ msgid "404 (Not found)"
 msgstr "404 (No trobat)"
 
 #: src/feed.c:213
-#, c-format
-msgid "Error %d"
-msgstr "Error %d"
+msgid "Error %ld"
+msgstr "Error %ld"
 
-#: src/feed.c:276
+#: src/feed.c:277
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Obtenint '%s'..."
 
-#: src/feed.c:327
+#: src/feed.c:330
 msgid "Malformed feed"
 msgstr "Feed malformat"
 
-#: src/feed.c:1028
+#: src/feed.c:1035
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Refrescant feed '%s'..."
 
-#: src/feed.c:1043
+#: src/feed.c:1050
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -64,7 +62,7 @@ msgstr ""
 "RSSyl: No es poden obtenir els comentaris amb feeds RDF. No es podem obtenir "
 "els comentaris de '%s'"
 
-#: src/feed.c:1051
+#: src/feed.c:1058
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
@@ -73,15 +71,26 @@ msgstr ""
 "RSSyl: No es poden obtenir els comentaris amb feeds Atom. No es podem "
 "obtenir els comentaris de '%s'"
 
-#: src/feed.c:1057
+#: src/feed.c:1064
 msgid "This feed format is not supported yet."
 msgstr "Aquest format de feed no està suportat encara."
 
-#: src/feed.c:1086
+#: src/feed.c:1095
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1325
+#: src/feed.c:1210
+#, c-format
+msgid "%ld byte"
+msgid_plural "%ld bytes"
+msgstr[0] "%ld byte"
+msgstr[1] "%ld bytes"
+
+#: src/feed.c:1213
+msgid "size unknown"
+msgstr "tamany desconegut"
+
+#: src/feed.c:1362
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -90,11 +99,11 @@ msgstr ""
 "RSSyl: No es pot actualitzar el feed %s:\n"
 "%s\n"
 
-#: src/feed.c:1477
+#: src/feed.c:1514
 msgid "You are already subscribed to this feed."
 msgstr "Ja esteu subscrit a aquest feed."
 
-#: src/feed.c:1486
+#: src/feed.c:1525
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -103,11 +112,11 @@ msgstr ""
 "No es pot arrivar a la URL '%s':\n"
 "%s"
 
-#: src/feed.c:1487 src/feed.c:1491
+#: src/feed.c:1526 src/feed.c:1530
 msgid "Unknown error"
 msgstr "Error desconegut"
 
-#: src/feed.c:1491
+#: src/feed.c:1530
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -116,12 +125,12 @@ msgstr ""
 "No es pot arrivar a la URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1503
+#: src/feed.c:1544
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "No es pot subscriure al feed '%s'."
 
-#: src/feed.c:1605 src/rssyl_cb_menu.c:278
+#: src/feed.c:1647 src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "Claws Mail necessita accés a la xarxa per actualitzar el feed."
@@ -176,60 +185,60 @@ msgstr ""
 msgid "RSS feed"
 msgstr "Feed RSS"
 
-#: src/rssyl_cb_menu.c:57
+#: src/rssyl_cb_menu.c:59
 msgid "Subscribe feed"
 msgstr "Subscriviu-vos al feed"
 
-#: src/rssyl_cb_menu.c:58
+#: src/rssyl_cb_menu.c:60
 msgid "Input the URL of the news feed you wish to subscribe:"
 msgstr "Introduiu la URL dels nous feeds als que us volgueu subscriure:"
 
-#: src/rssyl_cb_menu.c:84
+#: src/rssyl_cb_menu.c:86
 msgid "New folder"
 msgstr "Nova carpeta"
 
-#: src/rssyl_cb_menu.c:85
+#: src/rssyl_cb_menu.c:87
 msgid "Input the name of new folder:"
 msgstr "Introduiu el nom de la nova carpeta:"
 
-#: src/rssyl_cb_menu.c:86
+#: src/rssyl_cb_menu.c:88
 msgid "NewFolder"
 msgstr "NovaCarpeta"
 
-#: src/rssyl_cb_menu.c:92 src/rssyl_cb_menu.c:332
+#: src/rssyl_cb_menu.c:94 src/rssyl_cb_menu.c:338
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "'%c' no pot ser inclòs al nom de la carpeta"
 
-#: src/rssyl_cb_menu.c:102 src/rssyl_cb_menu.c:339
+#: src/rssyl_cb_menu.c:104 src/rssyl_cb_menu.c:345
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "La carpeta '%s' ja existeix."
 
-#: src/rssyl_cb_menu.c:108
+#: src/rssyl_cb_menu.c:110
 #, c-format
 msgid "Can't create the folder '%s'."
 msgstr "No s'ha pogut crear la carpeta '%s'."
 
-#: src/rssyl_cb_menu.c:133
+#: src/rssyl_cb_menu.c:135
 #, c-format
 msgid "Really remove the folder tree '%s' ?\n"
 msgstr "Realment voleu esborrar l'arbre de la carpeta '%s' ?\n"
 
-#: src/rssyl_cb_menu.c:134
+#: src/rssyl_cb_menu.c:136
 msgid "Remove folder tree"
 msgstr "Esborrar arbre de la carpeta"
 
-#: src/rssyl_cb_menu.c:135
+#: src/rssyl_cb_menu.c:137
 msgid "_Remove"
 msgstr "Esbo_rrar"
 
-#: src/rssyl_cb_menu.c:199
+#: src/rssyl_cb_menu.c:201
 #, c-format
 msgid "Can't remove feed '%s'."
 msgstr "No es pot esborrar el feed '%s'."
 
-#: src/rssyl_cb_menu.c:229
+#: src/rssyl_cb_menu.c:231
 #, c-format
 msgid ""
 "All folders and messages under '%s' will be permanently deleted. Recovery "
@@ -242,25 +251,25 @@ msgstr ""
 "\n"
 "Voleu realment esborrar-la?"
 
-#: src/rssyl_cb_menu.c:232
+#: src/rssyl_cb_menu.c:234
 msgid "Delete folder"
 msgstr "Esborrar carpeta"
 
-#: src/rssyl_cb_menu.c:251
+#: src/rssyl_cb_menu.c:253
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "No s'ha pogut esborrar la carpeta '%s'."
 
-#: src/rssyl_cb_menu.c:324
+#: src/rssyl_cb_menu.c:330
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Introduiu un nom nou per '%s':"
 
-#: src/rssyl_cb_menu.c:325
+#: src/rssyl_cb_menu.c:331
 msgid "Rename folder"
 msgstr "Renombrar carpeta"
 
-#: src/rssyl_cb_menu.c:345
+#: src/rssyl_cb_menu.c:351
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
@@ -268,92 +277,64 @@ msgstr ""
 "La carpeta no pot ser renombrada.\n"
 "El nou nom per a la carpeta no és permès."
 
+#: src/rssyl_cb_menu.c:373
+msgid "Select a .opml file"
+msgstr "Selecciona un arxiu .opml"
+
 #: src/rssyl_gtk.c:49
-msgid "/_Refresh feed"
-msgstr "/_Refrescar el feed"
+msgid "_Refresh feed"
+msgstr "_Refrescar el feed"
 
 #: src/rssyl_gtk.c:50
-msgid "/Refresh _all feeds"
-msgstr "/Refresc_ar tots els feeds"
+msgid "Refresh _all feeds"
+msgstr "Refresc_ar tots els feeds"
+
+#: src/rssyl_gtk.c:51
+msgid "Subscribe _new feed..."
+msgstr "Subscriure's al _nou feed..."
 
 #: src/rssyl_gtk.c:52
-msgid "/Subscribe _new feed..."
-msgstr "/Subscriure's al _nou feed..."
+msgid "_Unsubscribe feed..."
+msgstr "Des_ubscriure's al feed..."
 
 #: src/rssyl_gtk.c:53
-msgid "/_Unsubscribe feed..."
-msgstr "/Des_ubscriure's al feed..."
+msgid "Feed pr_operties..."
+msgstr "Pr_opietats del feed..."
 
 #: src/rssyl_gtk.c:54
-msgid "/Feed pr_operties..."
-msgstr "/Pr_opietats del feed..."
+msgid "Import feed list..."
+msgstr "Importar una llista de feeds..."
+
+#: src/rssyl_gtk.c:55
+msgid "Rena_me..."
+msgstr "Reno_mbrar..."
 
 #: src/rssyl_gtk.c:56
-msgid "/Rena_me..."
-msgstr "/Reno_mbrar..."
+msgid "_Create new folder..."
+msgstr "_Crear nova carpeta..."
+
+#: src/rssyl_gtk.c:57
+msgid "_Delete folder..."
+msgstr "_Esborrar la carpeta..."
 
 #: src/rssyl_gtk.c:58
-msgid "/_Create new folder..."
-msgstr "/_Crear nova carpeta..."
+msgid "Remove folder _tree..."
+msgstr "Esborrar arbre de carpe_tes..."
 
-#: src/rssyl_gtk.c:59
-msgid "/_Delete folder..."
-msgstr "/_Esborrar la carpeta..."
-
-#: src/rssyl_gtk.c:61
-msgid "/Remove folder _tree..."
-msgstr "/Esborrar arbre de carpe_tes..."
-
-#: src/rssyl_gtk.c:71
-msgid "/Refresh feed"
-msgstr "/Refrescar el feed"
-
-#: src/rssyl_gtk.c:72
-msgid "/Refresh all feeds"
-msgstr "/Refrescar tots els feeds"
-
-#: src/rssyl_gtk.c:73
-msgid "/Subscribe new feed..."
-msgstr "/Subscriure's a un nou feed..."
-
-#: src/rssyl_gtk.c:74
-msgid "/Unsubscribe feed..."
-msgstr "/Desubscriure's a un feed..."
-
-#: src/rssyl_gtk.c:75
-msgid "/Feed properties..."
-msgstr "/Propietats del feed..."
-
-#: src/rssyl_gtk.c:76
-msgid "/Rename..."
-msgstr "/Renombrar..."
-
-#: src/rssyl_gtk.c:77
-msgid "/Create new folder..."
-msgstr "/Crear nova carpeta..."
-
-#: src/rssyl_gtk.c:78
-msgid "/Delete folder..."
-msgstr "/Esborrar carpeta..."
-
-#: src/rssyl_gtk.c:79
-msgid "/Remove folder tree..."
-msgstr "/Renombrar arbre de carpetes..."
-
-#: src/rssyl_gtk.c:126
+#: src/rssyl_gtk.c:148
 msgid "Add RSS folder tree"
 msgstr "Afegir arbre de carpetes per RSS"
 
-#: src/rssyl_gtk.c:127
+#: src/rssyl_gtk.c:149
 msgid "Enter name for a new RSS folder tree."
 msgstr "Introduïu un nom per a un nou arbre de carpetes per RSS."
 
-#: src/rssyl_gtk.c:132
+#: src/rssyl_gtk.c:154
 #, c-format
 msgid "The mailbox '%s' already exists."
 msgstr "La bústia '%s' ja existeix."
 
-#: src/rssyl_gtk.c:141
+#: src/rssyl_gtk.c:165
 msgid ""
 "Creation of folder tree failed.\n"
 "Maybe some files already exist, or you don't have the permission to write "
@@ -363,27 +344,27 @@ msgstr ""
 "Potser alguns arxius ja existeixen, o potser es perquè no teniu permisos "
 "d'escriptura?"
 
-#: src/rssyl_gtk.c:155
-msgid "/File/Add mailbox/RSSyl..."
-msgstr "/Arxiu/Afegir bústia/RSSyl..."
+#: src/rssyl_gtk.c:180
+msgid "RSSyl..."
+msgstr "RSSyl..."
 
-#: src/rssyl_gtk.c:239
+#: src/rssyl_gtk.c:252
 msgid "Use default refresh interval"
 msgstr "Usar l'interval de refresc per defecte"
 
-#: src/rssyl_gtk.c:251
+#: src/rssyl_gtk.c:264
 msgid "Keep default number of expired entries"
 msgstr "Mantenir el número d'entrades caducades per defecte"
 
-#: src/rssyl_gtk.c:257
+#: src/rssyl_gtk.c:270
 msgid "Fetch comments if possible"
 msgstr "Obtenir els comentaris si es possible"
 
-#: src/rssyl_gtk.c:289
+#: src/rssyl_gtk.c:302
 msgid "<b>Source URL:</b>"
 msgstr "<b>URL d'origen:</b>"
 
-#: src/rssyl_gtk.c:329
+#: src/rssyl_gtk.c:342
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
@@ -392,7 +373,7 @@ msgstr ""
 "<small>(Poseu a 0 per desactivar el refresc automàtic per aquest feed)</"
 "small>"
 
-#: src/rssyl_gtk.c:362
+#: src/rssyl_gtk.c:375
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
@@ -400,63 +381,63 @@ msgstr ""
 "<b>Número d'entrades caducades a mantenir:</b>\n"
 "<small>(Poseu a -1 si voleu mantenir les entrades caducades)</small>"
 
-#: src/rssyl_gtk.c:404
+#: src/rssyl_gtk.c:417
 msgid "_Cancel"
 msgstr "_Cancel·lar"
 
-#: src/rssyl_gtk.c:425
+#: src/rssyl_gtk.c:438
 msgid "_OK"
 msgstr "_OK"
 
-#: src/rssyl_gtk.c:433
+#: src/rssyl_gtk.c:446
 msgid "Set feed properties"
 msgstr "Informar les propietat del feed"
 
-#: src/rssyl_gtk.c:546 src/rssyl_gtk.c:571
+#: src/rssyl_gtk.c:559 src/rssyl_gtk.c:584
 msgid "Unsubscribe feed"
 msgstr "Desubsciure's del feed"
 
-#: src/rssyl_gtk.c:572
+#: src/rssyl_gtk.c:585
 msgid "Do you really want to remove feed"
 msgstr "Voleu realment esborrar el feed"
 
-#: src/rssyl_gtk.c:578
+#: src/rssyl_gtk.c:591
 msgid "Remove cached entries"
 msgstr "Esborrar entrades guardades"
 
-#: src/rssyl_gtk.c:591
+#: src/rssyl_gtk.c:604
 msgid "_Unsubscribe"
 msgstr "Des_ubscriure's"
 
-#: src/rssyl_prefs.c:60
+#: src/rssyl_prefs.c:61
 msgid "Plugins"
 msgstr "Mòduls"
 
-#: src/rssyl_prefs.c:104
+#: src/rssyl_prefs.c:102
 msgid "Default refresh interval in minutes"
 msgstr "Interval de refresc per defecte en minuts"
 
-#: src/rssyl_prefs.c:115
+#: src/rssyl_prefs.c:113
 msgid "Set to 0 to disable automatic refreshing"
 msgstr "Poseu a 0 per desactivar el refresc automàtic"
 
-#: src/rssyl_prefs.c:117
+#: src/rssyl_prefs.c:115
 msgid "Default number of expired items to keep"
 msgstr "Número d'ocurrències caducades a mantenir per defecte"
 
-#: src/rssyl_prefs.c:128
+#: src/rssyl_prefs.c:126
 msgid "Set to -1 to keep expired items"
 msgstr "Poseu a -1 per mantenir ocurrències caducades"
 
-#: src/rssyl_prefs.c:131
+#: src/rssyl_prefs.c:129
 msgid "Refresh all feeds on application start"
 msgstr "Refrescar tots els feed a l'iniciar l'aplicació"
 
-#: src/rssyl_prefs.c:137
+#: src/rssyl_prefs.c:135
 msgid "Path to cookies file"
 msgstr "Ruta a l'arxiu de les cookies"
 
-#: src/rssyl_prefs.c:147
+#: src/rssyl_prefs.c:145
 msgid "Path to Netscape-style cookies.txt file containing your cookies"
 msgstr ""
 "Ruta a l'arxiu d'estil Netscape cookies.txt que conté les vostres cookies"
@@ -468,6 +449,36 @@ msgstr "RSSyl"
 #: src/rssyl.h:14
 msgid "My Feeds"
 msgstr "Els meus feeds"
+
+#~ msgid "/Refresh feed"
+#~ msgstr "/Refrescar el feed"
+
+#~ msgid "/Refresh all feeds"
+#~ msgstr "/Refrescar tots els feeds"
+
+#~ msgid "/Subscribe new feed..."
+#~ msgstr "/Subscriure's a un nou feed..."
+
+#~ msgid "/Unsubscribe feed..."
+#~ msgstr "/Desubscriure's a un feed..."
+
+#~ msgid "/Feed properties..."
+#~ msgstr "/Propietats del feed..."
+
+#~ msgid "/Rename..."
+#~ msgstr "/Renombrar..."
+
+#~ msgid "/Create new folder..."
+#~ msgstr "/Crear nova carpeta..."
+
+#~ msgid "/Delete folder..."
+#~ msgstr "/Esborrar carpeta..."
+
+#~ msgid "/Remove folder tree..."
+#~ msgstr "/Renombrar arbre de carpetes..."
+
+#~ msgid "/File/Add mailbox/RSSyl..."
+#~ msgstr "/Arxiu/Afegir bústia/RSSyl..."
 
 #~ msgid "Timeout for downloading feeds in seconds"
 #~ msgstr "Temps d'espera esgotat per descarregar els feeds en segons"
