@@ -35,3 +35,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fi.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/it.po;  ) > 0.2.10cvs1.patchset
 ( cvs diff -u -r 1.1.2.49 -r 1.1.2.50 configure.ac;  ) > 0.2.11cvs1.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/attachwarner_prefs.c;  ) > 0.2.12cvs1.patchset
+( cvs diff -u -r 1.1.2.53 -r 1.1.2.54 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/ca.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fr.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/hu.po;  diff -u /dev/null po/ru.po;  ) > 0.2.12cvs2.patchset

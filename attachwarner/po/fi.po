@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2008-02-04 21:53+0200\n"
-"PO-Revision-Date: 2008-04-14 10:41+0300\n"
+"POT-Creation-Date: 2008-09-26 14:05+0300\n"
+"PO-Revision-Date: 2008-09-26 18:28+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "attach"
 msgstr "liite"
 
-#: src/attachwarner_prefs.c:71
+#: src/attachwarner_prefs.c:70
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -73,30 +73,30 @@ msgstr ""
 "Varoita seuraavista säännöllisistä täsmäyksistä:\n"
 "(yksi riviä kohti)"
 
-#: src/attachwarner_prefs.c:90
+#: src/attachwarner_prefs.c:89
 msgid "Skip quoted lines"
 msgstr "Ohita lainaukset"
 
-#: src/attachwarner_prefs.c:97
+#: src/attachwarner_prefs.c:96
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr "Älä tarkasta lainattuja rivejä säännöllisillä ilmauksilla"
 
-#: src/attachwarner_prefs.c:100
+#: src/attachwarner_prefs.c:99
 msgid "Skip forwards and redirections"
 msgstr "Ohita edelleenlähetykset ja uudelleenohjaukset"
 
-#: src/attachwarner_prefs.c:107
+#: src/attachwarner_prefs.c:106
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr ""
 "Älä tarkasta puuttuvia liitetiedostoja kun edelleenlähetetään tai "
 "uudelleenohjataan"
 
-#: src/attachwarner_prefs.c:180
+#: src/attachwarner_prefs.c:179
 msgid "Plugins"
 msgstr "Liitännäiset"
 
-#: src/attachwarner_prefs.c:181
+#: src/attachwarner_prefs.c:180
 msgid "Attach Warner"
 msgstr "Liitä varoitin"
 

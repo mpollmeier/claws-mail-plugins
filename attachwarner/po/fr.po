@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AttachWarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2008-02-08 17:11+0100\n"
+"POT-Creation-Date: 2008-08-19 08:19+0200\n"
 "PO-Revision-Date: 2008-04-18 09:39+0100\n"
 "Last-Translator: Tristan Chabredier wwp subscript@free.fr\n"
 "Language-Team: fr <colin@colino.net>\n"
@@ -24,8 +24,12 @@ msgstr "Envoyer plus tard"
 
 #: src/attachwarner.c:262
 #, c-format
-msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
-msgstr "Une pièce jointe est mentionnée dans l'email que vous envoyez, mais aucun fichier n'est joint. %s tout de même ?"
+msgid ""
+"An attachment is mentioned in the mail you're sending, but no file was "
+"attached. %s it anyway?"
+msgstr ""
+"Une pièce jointe est mentionnée dans l'email que vous envoyez, mais aucun "
+"fichier n'est joint. %s tout de même ?"
 
 #: src/attachwarner.c:263
 msgid "Send"
@@ -39,9 +43,7 @@ msgstr "Envoyer plus tard"
 msgid "Attachment warning"
 msgstr "Pièces jointes - avertissement"
 
-#: src/attachwarner.c:287
-#: src/attachwarner.c:324
-#: src/attachwarner.c:376
+#: src/attachwarner.c:287 src/attachwarner.c:324 src/attachwarner.c:376
 msgid "Attach warner"
 msgstr "Attach warner"
 
@@ -50,14 +52,18 @@ msgid "Failed to register check before send hook"
 msgstr "Impossible d'enregistrer le hook \"check before send\""
 
 #: src/attachwarner.c:334
-msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
-msgstr "Vérifie la présence de fichiers joints lorsqu'ils sont mentionnés dans le texte."
+msgid ""
+"Warns user if some reference to attachments is found in the message text and "
+"no file is attached."
+msgstr ""
+"Vérifie la présence de fichiers joints lorsqu'ils sont mentionnés dans le "
+"texte."
 
 #: src/attachwarner_prefs.c:45
 msgid "attach"
 msgstr "attach"
 
-#: src/attachwarner_prefs.c:71
+#: src/attachwarner_prefs.c:70
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -65,27 +71,32 @@ msgstr ""
 "Prévenir lorsque les expressions régulières suivantes sont présentes:\n"
 "(une par ligne)"
 
-#: src/attachwarner_prefs.c:90
+#: src/attachwarner_prefs.c:89
 msgid "Skip quoted lines"
 msgstr "Ne pas vérifier les citations"
 
-#: src/attachwarner_prefs.c:97
+#: src/attachwarner_prefs.c:96
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "Les expressions régulières ci-dessus ne seront pas vérifiées dans les citations"
+msgstr ""
+"Les expressions régulières ci-dessus ne seront pas vérifiées dans les "
+"citations"
 
-#: src/attachwarner_prefs.c:100
+#: src/attachwarner_prefs.c:99
 msgid "Skip forwards and redirections"
 msgstr "Ne pas vérifier les messages transférés ou redirigés"
 
-#: src/attachwarner_prefs.c:107
-msgid "Don't check for missing attachments when forwarding or redirecting messages"
-msgstr "Les expressions régulières ci-dessus ne seront pas vérifiées dans les messages transférés ainsi que dans les redirections"
+#: src/attachwarner_prefs.c:106
+msgid ""
+"Don't check for missing attachments when forwarding or redirecting messages"
+msgstr ""
+"Les expressions régulières ci-dessus ne seront pas vérifiées dans les "
+"messages transférés ainsi que dans les redirections"
 
-#: src/attachwarner_prefs.c:180
+#: src/attachwarner_prefs.c:179
 msgid "Plugins"
 msgstr "Modules"
 
-#: src/attachwarner_prefs.c:181
+#: src/attachwarner_prefs.c:180
 msgid "Attach Warner"
 msgstr "Attach Warner"
 
@@ -95,8 +106,9 @@ msgstr "Attach Warner"
 #~ msgstr ""
 #~ "Votre version de Claws Mail est plus récente que celle utilisée pour "
 #~ "compiler le plugin"
+
 #~ msgid "Your Claws-Mail version is too old"
 #~ msgstr "Votre version de Claws Mail est trop ancienne"
+
 #~ msgid "Failed to get memory for matcher"
 #~ msgstr "Impossible d'allouer la mémoire pour le matcheur"
-
