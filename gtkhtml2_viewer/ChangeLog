@@ -1,3 +1,15 @@
+2008-10-03 [paul]	0.19.0cvs12
+
+	* configure.ac
+	* po/ru.po
+		added by Aleksei Miheev
+	* po/ca.po
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+		updated by Miquel Oliete, Flammie Pirinen,
+		Colin Leroy, Pader Rezo
+
 2008-09-27 [colin]	0.19.0cvs11
 
 	* src/gtkhtml2_viewer.c
