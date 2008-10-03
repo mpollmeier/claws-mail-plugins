@@ -1,0 +1,418 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Andrej Kacian
+# This file is distributed under the same license as the PACKAGE package.
+# Páder Rezső (rezso) <rezso@rezso.net>, 2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Archive plugin for Claws Mail\n"
+"Report-Msgid-Bugs-To: mir@datanom.net\n"
+"POT-Creation-Date: 2008-09-26 08:49+0100\n"
+"PO-Revision-Date: 2008-09-29 12:16+0100\n"
+"Last-Translator: Páder Rezső <rezso@rezso.net>\n"
+"Language-Team:  <NONE>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: src/archiver.c:40
+#: src/archiver_prefs.c:85
+msgid "Mail Archiver"
+msgstr "E-mail archiváló"
+
+#: src/archiver.c:51
+msgid "Create Archive..."
+msgstr "Archívum készítése..."
+
+#: src/archiver.c:113
+msgid ""
+"This plugin adds archiving features to Claws Mail.\n"
+"\n"
+"It enables you to select a mail folder that you want to be archived, and then choose a name, format and location for the archive. Subfolders can be included and MD5 checksums can be added for each file in the archive. Several archiving options are also available.\n"
+"\n"
+"The archive can be stored as:\n"
+"\tTAR\n"
+"\tPAX\n"
+"\tSHAR\n"
+"\tCPIO\n"
+"\n"
+"The archive can be compressed using:\n"
+"\tGZIP/ZIP\n"
+"\tBZIP2\n"
+"\n"
+"The archives can be restored with any standard tool that supports the chosen format and compression.\n"
+"\n"
+"The supported folder types are MH, IMAP, RSSyl and vCalendar.\n"
+"\n"
+"To activate the archiving feature go to /Tools/Create Archive\n"
+"\n"
+"Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
+msgstr ""
+"A plugin archiválási lehetőséget ad a Claws Mail-hez.\n"
+"\n"
+"Kiválasztható az archiválni kívánt e-mail könyvtár, megadható az archívum neve, formátuma és helye. Alkönyvtárak is hozzáadhatók, és az archívum minden fájljára MD5 ellenőrző összeg számítható. Néhány további archiválási opció is elérhető.\n"
+"\n"
+"The archive can be stored as:\n"
+"\tTAR\n"
+"\tPAX\n"
+"\tSHAR\n"
+"\tCPIO\n"
+"\n"
+"Az archívum ezek használatával tömöríthető:\n"
+"\tGZIP/ZIP\n"
+"\tBZIP2\n"
+"\n"
+"Az archívumok bármely standard eszközzel visszaállítható, amely a választott formátumot és tömörítést támogatja.\n"
+"\n"
+"A támogatott mappatípusok: MH, IMAP, RSSyl és vCalendar.\n"
+"\n"
+"Az archiválás aktiválása: /Eszközök/Archívum készítése\n"
+"\n"
+"A beállítások a /Beállítások/Közös beállítások/Pluginek/E-mail archiváló menüpontban találhatók."
+
+#: src/archiver.c:142
+msgid "Archiver"
+msgstr "Archiváló"
+
+#: src/archiver_gtk.c:93
+msgid "Archiving"
+msgstr "Archiválás"
+
+#: src/archiver_gtk.c:111
+msgid "Press Cancel button to stop archiving"
+msgstr "Kattints a Mégsem gombra az archiválás leállításához"
+
+#: src/archiver_gtk.c:127
+msgid "Archiving:"
+msgstr "Archiválás:"
+
+#: src/archiver_gtk.c:454
+msgid "Folder and archive must be selected"
+msgstr "A mappát és az archívumot ki kell jelölni"
+
+#: src/archiver_gtk.c:467
+#, c-format
+msgid "%s: Exists. Continue anyway?"
+msgstr "%s már létezik. Mégis folytatod?"
+
+#: src/archiver_gtk.c:481
+#, c-format
+msgid ""
+"Not a valid file name:\n"
+"%s."
+msgstr ""
+"Nem érvényes fájlnév:\n"
+"%s."
+
+#: src/archiver_gtk.c:494
+#, c-format
+msgid ""
+"Not a valid Claws Mail folder:\n"
+"%s."
+msgstr ""
+"Érvénytelen Claws Mail mappa:\n"
+"%s."
+
+#: src/archiver_gtk.c:521
+#, c-format
+msgid ""
+"Adding files in folder failed\n"
+"Files in folder: %d\n"
+"Files in list:   %d\n"
+"\n"
+"Continue anyway?"
+msgstr ""
+"A mappában lévő fájlok hozzáadása nem sikerült\n"
+"A mappában lévő fájlok száma: %d\n"
+"A listában lévő fájlok száma:   %d\n"
+"\n"
+"Mindenképpen folytatod?"
+
+#: src/archiver_gtk.c:621
+msgid "Archive result"
+msgstr "Archívum találat"
+
+#: src/archiver_gtk.c:647
+msgid "Attributes"
+msgstr "Attribútumok"
+
+#: src/archiver_gtk.c:651
+msgid "Values"
+msgstr "Értékek"
+
+#: src/archiver_gtk.c:660
+msgid "Archive"
+msgstr "Archívum"
+
+#: src/archiver_gtk.c:666
+msgid "Archive format"
+msgstr "Archívum formátuma"
+
+#: src/archiver_gtk.c:673
+msgid "Compression method"
+msgstr "Tömörítési eljárás"
+
+#: src/archiver_gtk.c:681
+msgid "Number of files"
+msgstr "Fájlok száma"
+
+#: src/archiver_gtk.c:689
+msgid "Archive Size"
+msgstr "Archívum mérete"
+
+#: src/archiver_gtk.c:697
+msgid "Folder Size"
+msgstr "Mappa mérete"
+
+#: src/archiver_gtk.c:706
+msgid "Compression level"
+msgstr "Tömörítési szint"
+
+#: src/archiver_gtk.c:711
+#: src/archiver_gtk.c:719
+msgid "Yes"
+msgstr "Igen"
+
+#: src/archiver_gtk.c:711
+#: src/archiver_gtk.c:719
+msgid "No"
+msgstr "Nem"
+
+#: src/archiver_gtk.c:714
+msgid "MD5 checksum"
+msgstr "MD5 ellenőrzőösszeg"
+
+#: src/archiver_gtk.c:722
+msgid "Descriptive names"
+msgstr "Leíró nevek"
+
+#: src/archiver_gtk.c:797
+msgid "Select file name for archive [suffix should reflect archive like .tgz]"
+msgstr "Adj nevet az archívumnak [az utótag a típusát fogja jelezni, pl.  .tgz]"
+
+#: src/archiver_gtk.c:845
+#, c-format
+msgid "%ld of %ld"
+msgstr "%ld / %ld"
+
+#: src/archiver_gtk.c:883
+msgid "Create Archive"
+msgstr "Archívum készítése"
+
+#: src/archiver_gtk.c:898
+msgid "Enter Archiver arguments"
+msgstr "Az Archiváló argumentumainak megadása"
+
+#: src/archiver_gtk.c:911
+msgid "Folder to archive"
+msgstr "Az archiválandó mappa"
+
+#: src/archiver_gtk.c:918
+msgid "Folder which is the root of the archive"
+msgstr "Az archívum gyökérkönyvtára"
+
+#: src/archiver_gtk.c:920
+msgid "_Browse"
+msgstr "_Böngészés"
+
+#: src/archiver_gtk.c:923
+msgid "Click this button to select a folder which is to be root of the archive"
+msgstr "Kattints a gombra az archívum gyökérkönyvtárának kiválasztásához"
+
+#: src/archiver_gtk.c:929
+msgid "Name for archive"
+msgstr "Az archívum neve"
+
+#: src/archiver_gtk.c:935
+msgid "Archive location and name"
+msgstr "Az archívum helye és neve"
+
+#: src/archiver_gtk.c:937
+#: src/archiver_prefs.c:187
+msgid "_Select"
+msgstr "_Kiválasztá"
+
+#: src/archiver_gtk.c:940
+msgid "Click this button to select a name and location for the archive"
+msgstr "Kattints a gombra az archívum nevének és helyének kiválasztásához"
+
+#: src/archiver_gtk.c:942
+msgid "Choose compression"
+msgstr "Tömörítés kiválasztása"
+
+#: src/archiver_gtk.c:955
+msgid "Choose this option to use ZIP compression for the archive"
+msgstr "ZIP formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:962
+msgid "Choose this option to use BZIP2 compression for the archive"
+msgstr "BZIP formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:972
+msgid "_None"
+msgstr "_Nincs"
+
+#: src/archiver_gtk.c:976
+msgid "Choose this option to disable compression for the archive"
+msgstr "Tömörítés tiltása az archívum készítésénél"
+
+#: src/archiver_gtk.c:993
+msgid "Choose format"
+msgstr "Formátum kiválasztása"
+
+#: src/archiver_gtk.c:1006
+msgid "Choose this option to use TAR as format for the archive"
+msgstr "TAR formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:1013
+msgid "Choose this to use SHAR as format for the archive"
+msgstr "SHAR formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:1020
+msgid "Choose this option to use CPIO as format for the archive"
+msgstr "CPIO formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:1027
+msgid "Choose this option to use PAX as format for the archive"
+msgstr "PAX formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:1047
+msgid "Miscellaneous options"
+msgstr "Egyéb opciók"
+
+#: src/archiver_gtk.c:1056
+msgid "_Recursive"
+msgstr "_Rekurzív"
+
+#: src/archiver_gtk.c:1060
+msgid "Choose this option to include subfolders in the archive"
+msgstr "Almappák hozzáadása az archívumhoz"
+
+#: src/archiver_gtk.c:1062
+msgid "_MD5sum"
+msgstr "_MD5 ellenőrző összeg"
+
+#: src/archiver_gtk.c:1066
+msgid ""
+"Choose this option to add MD5 checksums for each file in the archive.\n"
+"Be aware though, that this dramatically increases the time it\n"
+"will take to create the archive"
+msgstr ""
+"MD5 ellenőrzőösszeg hozzáadása minden fájlhoz az archívumban.\n"
+"Légy óvatos, ez jelentősen megnöveli az arhívum elkészítésének idejét.\n"
+" "
+
+#: src/archiver_gtk.c:1070
+msgid "R_ename"
+msgstr "Á_tnevezés"
+
+#: src/archiver_gtk.c:1074
+#: src/archiver_prefs.c:308
+msgid ""
+"Choose this option to use descriptive names for each file in the archive.\n"
+"The naming scheme: date_from@to@subject.\n"
+"Names will be truncated to max 96 characters"
+msgstr ""
+"Leíró nevek használata az archívum minden fájljához.\n"
+"A fájlnév formája date_from@to@subject lesz.\n"
+"A fájlnevek max. 96 karakter hosszúak lesznek"
+
+#: src/archiver_prefs.c:84
+msgid "Plugins"
+msgstr "Pluginek"
+
+#: src/archiver_prefs.c:120
+msgid "Select destination folder"
+msgstr "Célmappa kiválasztása"
+
+#: src/archiver_prefs.c:126
+#, c-format
+msgid "'%s' is not a directory."
+msgstr "'%s' nem könyvtár."
+
+#: src/archiver_prefs.c:179
+msgid "Default save folder"
+msgstr "Mentés alapértelmezett könyvtára"
+
+#: src/archiver_prefs.c:191
+msgid "Click this button to select the default location for saving archives"
+msgstr "Kattints a gombra az archívumok alapértelmezett mentési helyének kiválasztásához"
+
+#: src/archiver_prefs.c:200
+msgid "Default compression"
+msgstr "Alapértelmezett tömörítés"
+
+#: src/archiver_prefs.c:212
+msgid "Choose this option to use ZIP compression by default"
+msgstr "ZIP formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:219
+msgid "Choose this option to use BZIP2 compression by default"
+msgstr "BZIP2 formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:221
+msgid "None"
+msgstr "Nincs"
+
+#: src/archiver_prefs.c:226
+msgid "Choose this option to disable compression by default"
+msgstr "Tömörítés tiltása alapértelmezésben"
+
+#: src/archiver_prefs.c:240
+msgid "Default format"
+msgstr "Alapértelmezett formátum"
+
+#: src/archiver_prefs.c:252
+msgid "Choose this option to use the TAR format by default"
+msgstr "TAR formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:259
+msgid "Choose this option to use the SHAR format by default"
+msgstr "SHAR formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:266
+msgid "Choose this option to use the CPIO format by default"
+msgstr "CPIO formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:273
+msgid "Choose this option to use the PAX format by default"
+msgstr "PAX formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:290
+msgid "Default miscellaneous options"
+msgstr "Egyéb opciók alapértelmezései"
+
+#: src/archiver_prefs.c:297
+msgid "Recursive"
+msgstr "Rekurzív"
+
+#: src/archiver_prefs.c:299
+msgid "Choose this option to include subfolders in the archives by default"
+msgstr "Almappák hozzáadása az archívumhoz alapértelmezésben"
+
+#: src/archiver_prefs.c:300
+msgid "MD5sum"
+msgstr "MD5 ellenőrző összeg"
+
+#: src/archiver_prefs.c:302
+msgid ""
+"Choose this option to add MD5 checksums for each file in the archives by default.\n"
+"Be aware though, that this dramatically increases the time it\n"
+"will take to create the archives"
+msgstr ""
+"MD5 ellenőrzőösszeg hozzáadása minden fájlhoz az archívumban alapértelmezésben.\n"
+"Légy óvatos, ez jelentősen megnövelheti az archívumok létrehozásához szükséges időt\n"
+" "
+
+#: src/archiver_prefs.c:306
+msgid "Rename"
+msgstr "Átnevezés"
+
+#~ msgid "/Tools/Create Archive..."
+#~ msgstr "/Eszközök/Archívum létrehozása..."
+#~ msgid "/Tools/----"
+#~ msgstr "/Eszközök/----"
+
