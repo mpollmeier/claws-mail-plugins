@@ -1,3 +1,14 @@
+2008-10-03 [paul]	0.3.4cvs4
+
+	* configure.ac
+	* po/ru.po
+		added by Aleksei Miheev
+	* po/ca.po
+	* po/fi.po
+	* po/hu.po
+		updated by Miquel Oliete, Flammie Pirinen,
+		Pader Rezo
+
 2008-08-05 [colin]	0.3.4cvs3
 
 	* src/spam_report.c

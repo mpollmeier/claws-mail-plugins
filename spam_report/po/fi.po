@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: spam_report\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-02-04 21:57+0200\n"
-"PO-Revision-Date: 2008-06-19 11:52+0300\n"
+"POT-Creation-Date: 2008-09-26 14:06+0300\n"
+"PO-Revision-Date: 2008-09-26 18:30+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +19,15 @@ msgstr ""
 msgid "Reporting spam..."
 msgstr "Roskapostin ilmoitus…"
 
-#: src/spam_report.c:248
-msgid "/Message/Report spam online"
-msgstr "/Ilmoita roskapostista verkossa"
+#: src/spam_report.c:249 src/spam_report.c:254
+msgid "Report spam online..."
+msgstr "Ilmoita roskapostista verkossa..."
 
-#: src/spam_report.c:256
-msgid "/Report spam online"
-msgstr "/Ilmoita roskapostista verkossa"
-
-#: src/spam_report.c:273 src/spam_report.c:317 src/spam_report_prefs.c:78
+#: src/spam_report.c:269 src/spam_report.c:312 src/spam_report_prefs.c:78
 msgid "SpamReport"
 msgstr "SpamReport"
 
-#: src/spam_report.c:322
+#: src/spam_report.c:317
 msgid ""
 "This plugin reports spam to various places. Currently only spam-signal.fr is "
 "supported."
@@ -39,7 +35,7 @@ msgstr ""
 "Tämä liitännäinen ilmoittaa roskapostin paikkoihin. Tällä hetkellä vain spam‐"
 "signal.fr on käytössä."
 
-#: src/spam_report.c:344
+#: src/spam_report.c:339
 msgid "Spam reporting"
 msgstr "Roskaposti‐ilmoitus"
 
@@ -62,3 +58,6 @@ msgstr "Käyttäjänimi:"
 #: src/spam_report_prefs.c:161
 msgid "Password:"
 msgstr "Salasana:"
+
+#~ msgid "/Message/Report spam online"
+#~ msgstr "/Ilmoita roskapostista verkossa"

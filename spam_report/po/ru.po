@@ -1,0 +1,61 @@
+# translation of ru.po to Russian
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Aleksei Miheev <aleksei@miheev.info>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail SPAM report plugin\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2008-10-03 16:46+0400\n"
+"PO-Revision-Date: 2008-10-03 16:48+0400\n"
+"Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/spam_report.c:214
+msgid "Reporting spam..."
+msgstr "Отправить отчёт..."
+
+#: src/spam_report.c:249 src/spam_report.c:254
+msgid "Report spam online..."
+msgstr "Отправить отчёт он-лайн"
+
+#: src/spam_report.c:269 src/spam_report.c:312 src/spam_report_prefs.c:78
+msgid "SpamReport"
+msgstr "SpamReport"
+
+#: src/spam_report.c:317
+msgid ""
+"This plugin reports spam to various places. Currently only spam-signal.fr is "
+"supported."
+msgstr "Этот модуль позволяет отправлять отчёты о спаме. Пока поддерживается только spam-signal.fr."
+
+#: src/spam_report.c:339
+msgid "Spam reporting"
+msgstr "Отчёт о спаме"
+
+#: src/spam_report_prefs.c:77
+msgid "Plugins"
+msgstr "Модули"
+
+#: src/spam_report_prefs.c:120
+msgid "Enabled"
+msgstr "Включён"
+
+#: src/spam_report_prefs.c:147
+msgid "Forward to:"
+msgstr "Перенаправлять на:"
+
+#: src/spam_report_prefs.c:150
+msgid "Username:"
+msgstr "Имя пользователя:"
+
+#: src/spam_report_prefs.c:161
+msgid "Password:"
+msgstr "Пароль:"
+

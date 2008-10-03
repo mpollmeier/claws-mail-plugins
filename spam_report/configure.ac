@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=3
 MICRO_VERSION=4
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 CFLAGS="$CFLAGS -Wall"
 if test $USE_MAINTAINER_MODE = yes; then
@@ -56,7 +56,7 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
 
-ALL_LINGUAS="ca es fi fr hu it pt_BR sk"
+ALL_LINGUAS="ca es fi fr hu it pt_BR ru sk"
 
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
