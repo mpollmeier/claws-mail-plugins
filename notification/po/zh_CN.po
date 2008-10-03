@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: notification_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-02-01 10:25+0000\n"
-"PO-Revision-Date: 2008-02-07 02:13China Standard Time\n"
+"POT-Creation-Date: 2008-09-26 08:57+0100\n"
+"PO-Revision-Date: 2008-10-02 21:00China Standard Time\n"
 "Last-Translator: Ralgh Young <bamanzi@gmail.com>\n"
 "Language-Team: Simplified Chinese \n"
 "MIME-Version: 1.0\n"
@@ -16,64 +16,73 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/notification_banner.c:301
+#: src/notification_banner.c:90
+msgid "_Reply"
+msgstr "回复(_R)"
+
+#: src/notification_banner.c:351
 msgid "Folder:"
 msgstr "目录:"
 
-#: src/notification_foldercheck.c:473
+#: src/notification_foldercheck.c:476
 msgid "Select folder(s)"
 msgstr "选择目录"
 
-#: src/notification_foldercheck.c:569
+#: src/notification_foldercheck.c:580
 msgid "select recursively"
 msgstr "递归选择"
 
-#: src/notification_plugin.c:174 src/notification_plugin.c:344
-#: src/notification_prefs.c:310 src/notification_prefs.c:324
-#: src/notification_prefs.c:341 src/notification_prefs.c:358
-#: src/notification_prefs.c:375 src/notification_prefs.c:392
+#: src/notification_plugin.c:188 src/notification_plugin.c:374
+#: src/notification_prefs.c:312 src/notification_prefs.c:326
+#: src/notification_prefs.c:343 src/notification_prefs.c:360
+#: src/notification_prefs.c:377 src/notification_prefs.c:394
 msgid "Notification"
 msgstr "通知"
 
-#: src/notification_plugin.c:179
+#: src/notification_plugin.c:193
 msgid "The Notification plugin needs threading support."
 msgstr "邮件通知插件需要线程支持。"
 
-#: src/notification_plugin.c:186
+#: src/notification_plugin.c:200
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "注册邮件目录更新钩子失败"
 
-#: src/notification_plugin.c:194
+#: src/notification_plugin.c:208
 #, fuzzy
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr "注册邮件目录更新钩子失败"
 
-#: src/notification_plugin.c:204
+#: src/notification_plugin.c:218
 #, fuzzy
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "注册邮件内容更新钩子失败"
 
-#: src/notification_plugin.c:214
+#: src/notification_plugin.c:228
 #, fuzzy
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr "注册邮件目录更新钩子失败"
 
-#: src/notification_plugin.c:225
+#: src/notification_plugin.c:239
 #, fuzzy
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr "注册邮件内容更新钩子失败"
 
-#: src/notification_plugin.c:238
+#: src/notification_plugin.c:252
 #, fuzzy
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr "注册邮件内容更新钩子失败"
 
-#: src/notification_plugin.c:251
+#: src/notification_plugin.c:265
 #, fuzzy
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr "注册邮件目录更新钩子失败"
 
-#: src/notification_plugin.c:349
+#: src/notification_plugin.c:278
+#, fuzzy
+msgid "Failed to register theme change hook int the Notification plugin"
+msgstr "注册邮件内容更新钩子失败"
+
+#: src/notification_plugin.c:379
 msgid ""
 "This plugin provides various ways to notify the user of new and unread "
 "email.\n"
@@ -82,121 +91,121 @@ msgstr ""
 "本插件提供各种方式告知用户有新邮件和未读邮件。\n"
 "欢迎反馈意见和建议到 <berndth@gmx.de> "
 
-#: src/notification_plugin.c:372
+#: src/notification_plugin.c:402
 msgid "Various tools"
 msgstr "各种工具"
 
-#: src/notification_popup.c:292
+#: src/notification_popup.c:289
 msgid "New Mail message"
 msgstr "新邮件通知"
 
-#: src/notification_popup.c:294 src/notification_popup.c:573
+#: src/notification_popup.c:291 src/notification_popup.c:570
 msgid "(No From)"
 msgstr "(无发件人)"
 
-#: src/notification_popup.c:296 src/notification_popup.c:577
+#: src/notification_popup.c:293 src/notification_popup.c:574
 msgid "(No Subject)"
 msgstr "(无主题)"
 
-#: src/notification_popup.c:313
+#: src/notification_popup.c:310
 msgid "New News post"
 msgstr "新的新闻组消息"
 
-#: src/notification_popup.c:314
+#: src/notification_popup.c:311
 msgid "A new message arrived"
 msgstr "收到一个新邮件"
 
-#: src/notification_popup.c:317
+#: src/notification_popup.c:314
 msgid "New Calendar message"
 msgstr "新的日程安排"
 
-#: src/notification_popup.c:318
+#: src/notification_popup.c:315
 msgid "A new calendar message arrived"
 msgstr "收到一个新的日程信息"
 
-#: src/notification_popup.c:321
+#: src/notification_popup.c:318
 msgid "New RSS feed article"
 msgstr "新的RSS文章"
 
-#: src/notification_popup.c:322
+#: src/notification_popup.c:319
 msgid "A new article in a RSS feed arrived"
 msgstr "收到一个新的RSS供稿文章"
 
-#: src/notification_popup.c:325
+#: src/notification_popup.c:322
 msgid "New unknown message"
 msgstr "新的其它消息"
 
-#: src/notification_popup.c:326
+#: src/notification_popup.c:323
 msgid "Unknown message type arrived"
 msgstr "收到新的未知类型信息"
 
-#: src/notification_popup.c:444
+#: src/notification_popup.c:441
 msgid "Mail message"
 msgstr "邮件信息"
 
-#: src/notification_popup.c:445 src/notification_popup.c:451
+#: src/notification_popup.c:442 src/notification_popup.c:448
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "收到%d个新邮件"
 
-#: src/notification_popup.c:450
+#: src/notification_popup.c:447
 msgid "News message"
 msgstr "新闻组信息"
 
-#: src/notification_popup.c:456
+#: src/notification_popup.c:453
 msgid "Calendar message"
 msgstr "日程安排"
 
-#: src/notification_popup.c:457
+#: src/notification_popup.c:454
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "收到%d个日程安排"
 
-#: src/notification_popup.c:462
+#: src/notification_popup.c:459
 msgid "RSS news feed"
 msgstr "RSS供稿项"
 
-#: src/notification_popup.c:463
+#: src/notification_popup.c:460
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] ""
 
-#: src/notification_popup.c:524
+#: src/notification_popup.c:521
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
 msgstr[0] "%d个新邮件"
 
-#: src/notification_prefs.c:309 src/notification_prefs.c:323
-#: src/notification_prefs.c:340 src/notification_prefs.c:357
-#: src/notification_prefs.c:374 src/notification_prefs.c:391
+#: src/notification_prefs.c:311 src/notification_prefs.c:325
+#: src/notification_prefs.c:342 src/notification_prefs.c:359
+#: src/notification_prefs.c:376 src/notification_prefs.c:393
 msgid "Plugins"
 msgstr "插件"
 
-#: src/notification_prefs.c:325
+#: src/notification_prefs.c:327
 msgid "Banner"
 msgstr "横幅"
 
-#: src/notification_prefs.c:342
+#: src/notification_prefs.c:344
 msgid "Popup"
 msgstr "弹出窗口"
 
-#: src/notification_prefs.c:359
+#: src/notification_prefs.c:361
 msgid "Command"
 msgstr "命令"
 
-#: src/notification_prefs.c:376
+#: src/notification_prefs.c:378
 msgid "LCD"
 msgstr ""
 
-#: src/notification_prefs.c:393
+#: src/notification_prefs.c:395
 msgid "SysTrayicon"
 msgstr "通知栏图标"
 
-#: src/notification_prefs.c:442
+#: src/notification_prefs.c:444
 msgid ""
 "\n"
 "Notification Plugin: Failed to write plugin configuration to file\n"
@@ -204,178 +213,188 @@ msgstr ""
 "\n"
 "邮件通知插件: 写配置到文件失败\n"
 
-#: src/notification_prefs.c:469
+#: src/notification_prefs.c:471
 msgid "Include folder types"
 msgstr "检查以下类型的目录"
 
-#: src/notification_prefs.c:479
+#: src/notification_prefs.c:481
 msgid "Mail folders"
 msgstr "邮件目录"
 
-#: src/notification_prefs.c:487
+#: src/notification_prefs.c:489
 msgid "News folders"
 msgstr "新闻组目录"
 
-#: src/notification_prefs.c:495
+#: src/notification_prefs.c:497
 msgid "RSS folders"
 msgstr "RSS目录"
 
-#: src/notification_prefs.c:503
+#: src/notification_prefs.c:505
 msgid "Calendar folders"
 msgstr "日程安排目录"
 
-#: src/notification_prefs.c:511
+#: src/notification_prefs.c:513
 msgid "These settings overwrite folder-specific selections."
 msgstr "此设置优先于各种通知方式中的目录设置"
 
-#: src/notification_prefs.c:564
+#: src/notification_prefs.c:566
 msgid "Show banner"
 msgstr "显示横幅"
 
-#: src/notification_prefs.c:569
+#: src/notification_prefs.c:571
 msgid "Never"
 msgstr "从不"
 
-#: src/notification_prefs.c:571
+#: src/notification_prefs.c:573
 msgid "Always"
 msgstr "总显示"
 
-#: src/notification_prefs.c:573
+#: src/notification_prefs.c:575
 msgid "Only when not empty"
 msgstr "仅仅非空时"
 
-#: src/notification_prefs.c:591
+#: src/notification_prefs.c:593
 msgid "slow"
 msgstr "慢速"
 
-#: src/notification_prefs.c:595
+#: src/notification_prefs.c:597
 msgid "fast"
 msgstr "快速"
 
-#: src/notification_prefs.c:599
+#: src/notification_prefs.c:601
 msgid "Banner speed"
 msgstr "横幅速度"
 
-#: src/notification_prefs.c:617
+#: src/notification_prefs.c:619
 msgid "Maximum number of messages (0 means unlimited)"
 msgstr "消息的最大数量(0表示不限制)"
 
-#: src/notification_prefs.c:630
+#: src/notification_prefs.c:633
+msgid "Banner width in pixels (0 means screen size)"
+msgstr ""
+
+#: src/notification_prefs.c:646
 msgid "Include unread mails in banner"
 msgstr "横幅中包含未读邮件信息"
 
-#: src/notification_prefs.c:638
+#: src/notification_prefs.c:654
 msgid "Make banner sticky"
 msgstr "紧贴屏幕上方"
 
-#: src/notification_prefs.c:648 src/notification_prefs.c:843
-#: src/notification_prefs.c:1115 src/notification_prefs.c:1347
+#: src/notification_prefs.c:664 src/notification_prefs.c:862
+#: src/notification_prefs.c:1134 src/notification_prefs.c:1366
 msgid "Only include selected folders"
 msgstr "只显示选定目录的信息"
 
-#: src/notification_prefs.c:657 src/notification_prefs.c:852
-#: src/notification_prefs.c:1124 src/notification_prefs.c:1356
+#: src/notification_prefs.c:673 src/notification_prefs.c:871
+#: src/notification_prefs.c:1143 src/notification_prefs.c:1375
 msgid "Select folders..."
 msgstr "选择目录..."
 
-#: src/notification_prefs.c:667 src/notification_prefs.c:884
+#: src/notification_prefs.c:683 src/notification_prefs.c:903
 msgid "Use custom colors"
 msgstr "自定义颜色"
 
-#: src/notification_prefs.c:680 src/notification_prefs.c:897
+#: src/notification_prefs.c:696 src/notification_prefs.c:916
 msgid "Foreground"
 msgstr "前景色"
 
-#: src/notification_prefs.c:686 src/notification_prefs.c:903
+#: src/notification_prefs.c:702 src/notification_prefs.c:922
 msgid "Foreground color"
 msgstr "前景色"
 
-#: src/notification_prefs.c:691 src/notification_prefs.c:908
+#: src/notification_prefs.c:707 src/notification_prefs.c:927
 msgid "Background"
 msgstr "背景色"
 
-#: src/notification_prefs.c:697 src/notification_prefs.c:914
+#: src/notification_prefs.c:713 src/notification_prefs.c:933
 msgid "Background color"
 msgstr "背景色"
 
-#: src/notification_prefs.c:807
+#: src/notification_prefs.c:826
 msgid "Enable popup"
 msgstr "启动弹出对话框"
 
-#: src/notification_prefs.c:824 src/notification_prefs.c:1395
+#: src/notification_prefs.c:843 src/notification_prefs.c:1421
 msgid "Popup timeout:"
 msgstr "超时时间:"
 
-#: src/notification_prefs.c:834 src/notification_prefs.c:1106
-#: src/notification_prefs.c:1404
+#: src/notification_prefs.c:853 src/notification_prefs.c:1125
+#: src/notification_prefs.c:1430
 msgid "seconds"
 msgstr "秒"
 
-#: src/notification_prefs.c:863
+#: src/notification_prefs.c:882
 msgid "Make popup sticky"
 msgstr "紧贴窗口上方"
 
-#: src/notification_prefs.c:873
+#: src/notification_prefs.c:892
 msgid "Set popup window width and position"
 msgstr "设置弹出窗口的宽度与位置"
 
-#: src/notification_prefs.c:878
+#: src/notification_prefs.c:897
 msgid "(the window manager is free to ignore this)"
 msgstr "(窗口管理器可能会忽略此设置)"
 
-#: src/notification_prefs.c:926 src/notification_prefs.c:1407
+#: src/notification_prefs.c:945 src/notification_prefs.c:1433
 msgid "Display folder name"
 msgstr "显示邮件夹名称"
 
-#: src/notification_prefs.c:991
+#: src/notification_prefs.c:1010
 msgid "Sample popup window"
 msgstr "(示例窗口)"
 
-#: src/notification_prefs.c:997
+#: src/notification_prefs.c:1016
 msgid "Done"
 msgstr "确定"
 
-#: src/notification_prefs.c:1066
+#: src/notification_prefs.c:1085
 msgid "Enable command"
 msgstr "启用命令通知"
 
-#: src/notification_prefs.c:1083
+#: src/notification_prefs.c:1102
 msgid "Command to execute:"
 msgstr "执行命令:"
 
-#: src/notification_prefs.c:1096
+#: src/notification_prefs.c:1115
 msgid "Block command after execution for"
 msgstr "命令执行后一段时间不重复执行"
 
-#: src/notification_prefs.c:1203
+#: src/notification_prefs.c:1222
 msgid "Enable LCD"
 msgstr "启用键盘LCD灯"
 
-#: src/notification_prefs.c:1222
+#: src/notification_prefs.c:1241
 msgid "Hostname:Port of LCDd server:"
 msgstr "LCDd服务器的服务器:端口"
 
-#: src/notification_prefs.c:1304
+#: src/notification_prefs.c:1323
 msgid "Enable Trayicon"
 msgstr "启用状态栏图标"
 
-#: src/notification_prefs.c:1320
+#: src/notification_prefs.c:1339
 msgid "Hide at start-up"
 msgstr "启动时隐藏"
 
-#: src/notification_prefs.c:1328
+#: src/notification_prefs.c:1347
 msgid "Close to tray"
 msgstr "关闭到状态栏"
 
-#: src/notification_prefs.c:1336
+#: src/notification_prefs.c:1355
 msgid "Hide when iconified"
 msgstr "最小化时隐藏主窗口"
 
-#: src/notification_prefs.c:1366
+#. TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
+#. A toast is a small passive (non-focus-stealing)
+#. notification bubble. If your language does not have a word
+#. for that, go for something along the lines of "passive popup"
+#. instead.See also
+#. http://en.wikipedia.org/wiki/Toast_(computing)
+#: src/notification_prefs.c:1392
 msgid "Passive toaster popup"
 msgstr ""
 
-#: src/notification_prefs.c:1377
+#: src/notification_prefs.c:1403
 msgid "Enable Popup"
 msgstr "启动弹出对话框"
 
