@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail TNEF Parser\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-04-18 08:16+0200\n"
+"POT-Creation-Date: 2008-10-03 10:30+0200\n"
 "PO-Revision-Date: 2008-04-18 08:44+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: FR <colin@colino.net>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/tnef_parse.c:65
+#: src/tnef_parse.c:64
 #, c-format
 msgid ""
 "\n"
@@ -28,61 +28,70 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/tnef_parse.c:67
+#: src/tnef_parse.c:66
 msgid "Unknown error"
 msgstr "Erreur non spécifiée"
 
-#: src/tnef_parse.c:116
+#: src/tnef_parse.c:115
 msgid "Failed to write the part data."
 msgstr "Impossible d'écrire les données de la pièce."
 
-#: src/tnef_parse.c:158
+#: src/tnef_parse.c:157
 msgid "Failed to parse VCalendar data."
 msgstr "Impossible de décoder les données VCalendar."
 
-#: src/tnef_parse.c:194
+#: src/tnef_parse.c:193
 msgid "Failed to parse VTask data."
 msgstr "Impossible de décoder les données VTask."
 
-#: src/tnef_parse.c:244
+#: src/tnef_parse.c:243
 msgid "Failed to parse VCard data."
 msgstr "Impossible de décoder les données VCard."
 
-#: src/tnef_parse.c:381
-#: src/tnef_parse.c:405
+#: src/tnef_parse.c:380 src/tnef_parse.c:404
 msgid "TNEF Parser"
 msgstr "Parseur TNEF"
 
-#: src/tnef_parse.c:410
+#: src/tnef_parse.c:409
 msgid ""
 "This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
 "\n"
-"The plugin uses the Ytnef library, which is is copyright 2002-2007 by Randall Hand <yerase@yerot.com>"
+"The plugin uses the Ytnef library, which is is copyright 2002-2007 by "
+"Randall Hand <yerase@yerot.com>"
 msgstr ""
-"Ce module de Claws Mail permet de décoder les pièces jointes de type application/ms-tnef.\n"
+"Ce module de Claws Mail permet de décoder les pièces jointes de type "
+"application/ms-tnef.\n"
 "\n"
-"Ce module utilise la bibliothèque Ytnef, qui est copyright 2002-2008 Randall Hand <yerase@yerot.com>"
+"Ce module utilise la bibliothèque Ytnef, qui est copyright 2002-2008 Randall "
+"Hand <yerase@yerot.com>"
 
 #~ msgid "Reporting spam..."
 #~ msgstr "Soumission du pourriel..."
+
 #~ msgid "/Message/Report spam online"
 #~ msgstr "/Message/Soumettre le(s) pourriel(s) en ligne"
+
 #~ msgid "/Report spam online"
 #~ msgstr "/Soumettre le(s) pourriel(s) en ligne"
+
 #~ msgid "SpamReport"
 #~ msgstr "SpamReport"
+
 #~ msgid ""
 #~ "This plugin reports spam to various places. Currently only spam-signal.fr "
 #~ "is supported."
 #~ msgstr ""
 #~ "Ce module soumet les pourriels à divers services anti-pourriel en ligne. "
 #~ "Pour l'instant, seul signal-spam.fr est supporté."
+
 #~ msgid "Spam reporting"
 #~ msgstr "Soumission de pourriel"
+
 #~ msgid "Plugins"
 #~ msgstr "Modules"
+
 #~ msgid "Username:"
 #~ msgstr "Nom d'utilisateur :"
+
 #~ msgid "Password:"
 #~ msgstr "Mot de passe :"
-

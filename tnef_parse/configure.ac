@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=3
 MICRO_VERSION=0
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 CFLAGS="$CFLAGS -Wall"
 if test $USE_MAINTAINER_MODE = yes; then
@@ -122,7 +122,7 @@ AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
 		 sys/param.h sys/utsname.h sys/select.h \
 		 wchar.h wctype.h locale.h netdb.h)
 
-ALL_LINGUAS="fi fr hu it pt_BR sk"
+ALL_LINGUAS="ca fi fr hu it pt_BR ru sk"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])

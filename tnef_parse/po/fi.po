@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tnef_parse\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-04-14 00:23+0300\n"
-"PO-Revision-Date: 2008-04-14 10:41+0300\n"
+"POT-Creation-Date: 2008-09-26 14:06+0300\n"
+"PO-Revision-Date: 2008-09-26 18:30+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,15 +44,15 @@ msgstr "VCalendar‐datan jäsennys epäonnistui."
 msgid "Failed to parse VTask data."
 msgstr "VTask‐datan jäsennys epäonnistui."
 
-#: src/tnef_parse.c:240
+#: src/tnef_parse.c:244
 msgid "Failed to parse VCard data."
 msgstr "VCard‐datan jäsennys epäonnistui"
 
-#: src/tnef_parse.c:377 src/tnef_parse.c:401
+#: src/tnef_parse.c:381 src/tnef_parse.c:405
 msgid "TNEF Parser"
 msgstr "TNEF‐jäsennin"
 
-#: src/tnef_parse.c:406
+#: src/tnef_parse.c:410
 msgid ""
 "This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
 "\n"

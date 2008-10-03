@@ -1,3 +1,15 @@
+2008-10-03 [paul]	0.3.0cvs4
+
+	* configure.ac
+	* po/ca.po
+	* po/ru.po
+		added by Miquel Oliete, Aleksei Miheev
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+		updated by Flammie Pirinen, Colin Leroy,
+		Pader Rezo
+
 2008-09-30 [colin]	0.3.0cvs3
 
 	* src/tnef_dump.c
