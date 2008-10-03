@@ -1,3 +1,8 @@
+2008-10-03 [colin]	0.3.1cvs1
+
+	* configure.ac
+		Use same GTK test as the rest of plugins
+
 2008-10-03 [paul]	0.3.1
 
 	0.3.1 released
