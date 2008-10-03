@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=0
 MICRO_VERSION=16
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 CFLAGS="$CFLAGS -Wall"
 if test $USE_MAINTAINER_MODE = yes; then
@@ -41,7 +41,7 @@ AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
 
-ALL_LINGUAS="ca cs de es fi fr hu it pl pt_BR sk sr sv zh_CN"
+ALL_LINGUAS="ca cs de es fi fr hu it pl pt_BR ru sk sr sv zh_CN"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT([external])

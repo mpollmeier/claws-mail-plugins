@@ -1,3 +1,14 @@
+2008-10-03 [paul]	1.0.16cvs2
+
+	* configure.ac
+	* po/ru.po
+		added by Aleksei Miheev
+	* po/ca.po
+	* po/fi.po
+	* po/hu.po
+		updated by Miquel Oliete, Flammie Pirinen,
+		Pader Rezo
+
 2008-08-07 [colin]	1.0.16cvs1
 
 	* src/acpi_notifier.c

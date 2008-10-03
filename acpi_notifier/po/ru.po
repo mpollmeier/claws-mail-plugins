@@ -1,0 +1,123 @@
+# translation of ru.po to Russian
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Aleksei Miheev <aleksei@miheev.info>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail ACPI notifier plugin\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2008-10-03 12:57+0400\n"
+"PO-Revision-Date: 2008-10-03 13:16+0400\n"
+"Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/acpi_notifier.c:46
+msgid "Acpi Notifier"
+msgstr "Уведомления через ACPI"
+
+#: src/acpi_notifier.c:62
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.cakey.de/acerhk/"
+msgstr ""
+"Убедитесь, что модуль ядра 'acerhk' загружен.\n"
+"Он доступен по адресу http://www.cakey.de/acerhk/"
+
+#: src/acpi_notifier.c:64
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://code.google.com/p/aceracpi/"
+msgstr ""
+"Убедитесь, что модуль ядра 'acer_acpi' загружен.\n"
+"Он доступен по адресу http://code.google.com/p/aceracpi/"
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'asus_laptop' is loaded."
+msgstr "Убедитесь, что модуль ядра 'asus_laptop' загружен."
+
+#: src/acpi_notifier.c:67
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Убедитесь, что модуль ядра 'asus_acpi' загружен."
+
+#: src/acpi_notifier.c:68
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Убедитесь, что модуль ядра 'ibm_acpi' загружен."
+
+#: src/acpi_notifier.c:69
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"Убедитесь, что apanelc установлен.\n"
+"Он доступен по адресу http://apanel.sourceforge.net/"
+
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
+msgid "Control file doesn't exist."
+msgstr ""
+
+#: src/acpi_notifier.c:298
+msgid " : no new or unread mail"
+msgstr " : нет новых или непрочтённых сообщений"
+
+#: src/acpi_notifier.c:299
+msgid " : unread mail"
+msgstr " : непрочтённые сообщения"
+
+#: src/acpi_notifier.c:300
+msgid " : new mail"
+msgstr " : новые сообщения"
+
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
+msgid "off"
+msgstr "выкл"
+
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
+msgid "blinking"
+msgstr "мигает"
+
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
+msgid "on"
+msgstr "вкл"
+
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
+msgid "LED "
+msgstr "Светодиод"
+
+#: src/acpi_notifier.c:379
+msgid "ACPI type: "
+msgstr "Тип ACPI"
+
+#: src/acpi_notifier.c:388
+msgid "ACPI file: "
+msgstr "Файл ACPI"
+
+#: src/acpi_notifier.c:399
+msgid "values - On: "
+msgstr "значения - Вкл: "
+
+#: src/acpi_notifier.c:404
+msgid " - Off: "
+msgstr " - Выкл: "
+
+#: src/acpi_notifier.c:426
+msgid "Blink when user interaction is required"
+msgstr "Мигать, когда требуется вмешательство пользователя"
+
+#: src/acpi_notifier.c:783
+msgid "Plugins"
+msgstr "Модули"
+
+#: src/acpi_notifier.c:862
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "Этот модуль управляет различным индикаторам ACPI, уведомляющими о новой почте."
+
+#: src/acpi_notifier.c:883
+msgid "Laptop LED"
+msgstr "Светодиоды ноутбуков"
+
