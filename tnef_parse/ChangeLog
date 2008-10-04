@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.3.1cvs3
+
+	* src/claws.def
+		Fix symbols
+
 2008-10-04 [colin]	0.3.1cvs2
 
 	* src/tnef_parse.c
