@@ -1,3 +1,9 @@
+2008-10-04 [colin]	0.6.1cvs1
+
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+		Use g_stat instead of stat
+
 2008-10-03 [paul]	0.6.1
 
 	0.6.1 released

@@ -443,7 +443,7 @@ void archive_scan_folder(const char* dir) {
 	
 	getcwd(cwd, PATH_MAX);
 
-	if (stat(dir, &st) == -1)
+	if (g_stat(dir, &st) == -1)
 		return;
 	if (! S_ISDIR(st.st_mode))
 		return;
@@ -455,7 +455,7 @@ void archive_scan_folder(const char* dir) {
 		/*fprintf(stdout, "%s\n", ent->d_name);*/
 		if (strcmp(".", ent->d_name) == 0 || strcmp("..", ent->d_name) == 0)
 			continue;
-		stat(ent->d_name, &st);
+		g_stat(ent->d_name, &st);
 		sprintf(path, "%s/%s", dir, ent->d_name);
 		if (S_ISREG(st.st_mode) || S_ISLNK(st.st_mode)) {
 			/*struct file_info* file = archive_new_file_info();

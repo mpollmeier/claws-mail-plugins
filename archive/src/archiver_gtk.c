@@ -616,7 +616,7 @@ static void show_result(struct ArchivePage* page) {
 			format = g_strdup("NO FORMAT");
 	}
 
-	stat(page->name, &st);
+	g_stat(page->name, &st);
 	dialog = gtk_dialog_new_with_buttons(
 			_("Archive result"),
 			GTK_WINDOW(mainwin->window),
