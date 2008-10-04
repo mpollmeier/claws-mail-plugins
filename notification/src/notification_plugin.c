@@ -180,7 +180,11 @@ gint plugin_init(gchar **error)
 {
   gchar *rcpath;
 
-  bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+#ifdef G_OS_UNIX
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+#else
+	bindtextdomain(TEXTDOMAIN, get_locale_dir());
+#endif
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
   
   /* Version check */
