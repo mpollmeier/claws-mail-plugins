@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.9.1cvs6
+
+	* src/poppler_viewer.c
+		Win32: set translation dir
+
 2008-08-07 [colin]	0.9.1cvs5
 
 	* src/poppler_viewer.c

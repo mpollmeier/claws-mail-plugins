@@ -1902,12 +1902,16 @@ static MimeViewerFactory pdf_viewer_factory =
 
 gint plugin_init(gchar **error)
 {
+#ifdef G_OS_UNIX
+	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+#else
+	bindtextdomain(TEXTDOMAIN, get_locale_dir());
+#endif
 	msg = g_strdup_printf(_("This plugin enables the viewing of PDF and PostScript "
 				"attachments using the Poppler %s Lib and the gs tool.\n\n"
 				"Any feedback is welcome: iwkse@claws-mail.org"
 				),poppler_get_version());
 
-	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
