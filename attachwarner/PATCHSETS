@@ -37,3 +37,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/attachwarner_prefs.c;  ) > 0.2.12cvs1.patchset
 ( cvs diff -u -r 1.1.2.53 -r 1.1.2.54 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/ca.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fr.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/hu.po;  diff -u /dev/null po/ru.po;  ) > 0.2.12cvs2.patchset
 ( cvs diff -u -r 1.1.2.55 -r 1.1.2.56 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  diff -u /dev/null src/claws.def;  diff -u /dev/null src/plugin.def;  diff -u /dev/null src/version.rc;  ) > 0.2.13cvs1.patchset
+( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/attachwarner.c;  ) > 0.2.13cvs2.patchset
