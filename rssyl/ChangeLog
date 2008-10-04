@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.21.0cvs2
+
+	* src/claws.def
+		Fix symbols
+
 2008-10-04 [colin]	0.21.0cvs1
 
 	* src/plugin.c

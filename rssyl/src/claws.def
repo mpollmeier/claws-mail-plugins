@@ -1,5 +1,6 @@
 LIBRARY CLAWS-MAIL.EXE
 EXPORTS
+get_locale_dir
 check_plugin_version
 alertpanel_error
 alertpanel_full
