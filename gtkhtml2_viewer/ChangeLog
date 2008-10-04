@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.20.0cvs1
+
+	* src/gtkhtml2_viewer.c
+		Win32: set translation dir
+
 2008-10-03 [paul]	0.20.0
 
 	0.20 released

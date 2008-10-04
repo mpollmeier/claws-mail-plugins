@@ -1355,7 +1355,11 @@ gint plugin_init(gchar **error)
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b"));
 	printf("%s\n", make_url("rel_url", "ftp://base/a/b/"));
 */
+#ifdef G_OS_UNIX
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
+#else
+	bindtextdomain(TEXTDOMAIN, get_locale_dir());
+#endif
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
 	gtkhtml2_viewer_tmpdir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
