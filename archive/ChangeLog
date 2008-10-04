@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.6.1cvs2
+
+	* src/archiver.c
+		Win32: set translation dir
+
 2008-10-04 [colin]	0.6.1cvs1
 
 	* src/archiver_gtk.c
