@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.2.13cvs4
+
+	* src/attachwarner_prefs.c
+		Fix translation of the preferences page
+
 2008-10-04 [colin]	0.2.13cvs3
 
 	* src/claws.def
