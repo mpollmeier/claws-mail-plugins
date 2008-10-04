@@ -1,3 +1,8 @@
+2008-10-04 [colin]	0.3.5cvs1
+
+	* src/spam_report.c
+		Win32: set translation dir
+
 2008-10-03 [paul]	0.3.5
 
 	0.3.5 released
