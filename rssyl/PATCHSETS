@@ -150,3 +150,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/claws.def;  cvs diff -u -r 1.1.2.101 -r 1.1.2.102 src/feed.c;  ) > 0.20.0cvs17.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/date.c;  ) > 0.20.0cvs18.patchset
 ( cvs diff -u -r 1.1.2.213 -r 1.1.2.214 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/ca.po;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 po/fi.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fr.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/hu.po;  diff -u /dev/null po/ru.po;  ) > 0.20.0cvs19.patchset
+( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/plugin.c;  ) > 0.21.0cvs1.patchset
