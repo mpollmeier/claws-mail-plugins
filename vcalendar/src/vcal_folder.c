@@ -625,7 +625,7 @@ add_new:
 					prop = icalcomponent_get_first_property(evt, ICAL_UID_PROPERTY);
 					uid = g_strdup_printf("%s-%d", orig_uid, i);
 					icalproperty_set_uid(prop, uid);
-					g_free(uid);
+					/* dont free uid, used after (add_new) */
 					data = icalfeeddata_new(evt, NULL);
 					i++;
 					goto add_new;
