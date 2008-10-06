@@ -33,6 +33,10 @@
 #include "hooks.h"
 #include "procmsg.h"
 
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__netBSD__) || defined(__DragonFlyBSD__)
+#include <inttypes.h>
+#endif
+
 #include "pluginconfig.h"
 #include "plugin.h"
 

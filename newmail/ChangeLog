@@ -1,3 +1,8 @@
+2008-10-06 [colin]	0.0.13cvs1
+
+	* src/newmail.c
+		Fix build on BSD
+
 2008-10-03 [paul]	0.0.13
 
 	0.0.13 released
