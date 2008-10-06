@@ -205,3 +205,4 @@
 ( cvs diff -u -r 1.1.2.41 -r 1.1.2.42 src/plugin.c;  ) > 2.0.1cvs1.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/claws.def;  ) > 2.0.1cvs2.patchset
 ( cvs diff -u -r 1.2.2.104 -r 1.2.2.105 src/vcal_folder.c;  ) > 2.0.1cvs3.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 libical/libical/icaltime.c;  ) > 2.0.1cvs4.patchset

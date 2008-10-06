@@ -1,3 +1,9 @@
+2008-10-06 [colin]	2.0.1cvs4
+
+	* libical/libical/icaltime.c
+		Add missing tzset call when getting UTC times
+		Fixes wrong dates on WIN32
+
 2008-10-05 [colin]	2.0.1cvs3
 
 	* src/vcal_folder.c

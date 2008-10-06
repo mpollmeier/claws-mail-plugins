@@ -3,7 +3,7 @@
   FILE: icaltime.c
   CREATOR: eric 02 June 2000
   
-  $Id: icaltime.c,v 1.1.2.6 2008-09-27 10:38:55 colinler Exp $
+  $Id: icaltime.c,v 1.1.2.7 2008-10-06 15:50:55 colinler Exp $
   $Locker:  $
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -120,6 +120,8 @@ struct set_tz_save set_tz(const char* tzid)
     /* Old value of TZ and the string we will have to free later */
     savetz.orig_tzid = orig_tzid;
     savetz.new_env_str = new_env_str;
+
+    tzset();
 
     return savetz;
 }
