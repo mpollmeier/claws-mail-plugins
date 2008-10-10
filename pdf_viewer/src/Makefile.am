@@ -22,7 +22,6 @@ AM_CPPFLAGS = \
 	$(CLAWS_MAIL_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
-	$(OPENSSL_CFLAGS) \
 	$(POPPLER_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\"
 
