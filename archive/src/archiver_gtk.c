@@ -1,4 +1,4 @@
-/* vim: set textwidth=80 tabstop=4: */
+/* vim: set textwidth=80 tabstop=4 */
 
 /*
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
@@ -166,6 +166,9 @@ static struct ArchivePage* init_archive_page() {
 	page->md5sum = NULL;
 	page->rename = FALSE;
 	page->rename_files = NULL;
+        page->isoDate = NULL;
+        page->unlink_files = NULL;
+        page->unlink = FALSE;
 
 	return page;
 }
@@ -374,6 +377,8 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 	gchar* md5_file = NULL;
 	gchar* text = NULL;
 	gchar* file = NULL;
+        MsgTrash* msg_trash = NULL;
+        const gchar* date = NULL;
 
 	if (recursive && ! page->cancelled) {
 		debug_print("Scanning recursive\n");
@@ -389,21 +394,34 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 		}
 	}
 	if (! page->cancelled) {
+                date = gtk_entry_get_text(GTK_ENTRY(page->isoDate));
+                debug_print("cut-off date: %s\n", date);
 		count = 0;
 		page->files += item->total_msgs;
 		msglist = folder_item_get_msg_list(item);
+                msg_trash = new_msg_trash(folder_item_get_path(item));
 		for (cur = msglist; cur && ! page->cancelled; cur = cur->next) {
 			msginfo = (MsgInfo *) cur->data;
 			debug_print("%s_%s_%s_%s\n",
 				msginfo->date, msginfo->to, msginfo->from, msginfo->subject);
-			page->total_size += msginfo->size;
 			file = folder_item_fetch_msg(item, msginfo->msgnum);
+                        if (date && strlen(date) > 0 && !before_date(msginfo->date_t, date)) {
+                            page->files--;
+                            continue;
+                        }
+			page->total_size += msginfo->size;
 			/*debug_print("Processing: %s\n", file);*/
 			if (file) {
+                                if (page->unlink) {
+                                    archive_add_msg_mark(
+                                        msg_trash, (gint) msginfo->msgnum);
+                                }
 				if (page->rename) {
 					file = descriptive_file_name(page, file, msginfo);
-					if (!file)
-						continue;
+					if (!file) {
+                                                /* Could not create a descriptive name */
+                                            file = folder_item_fetch_msg(item, msginfo->msgnum);
+                                        }
 				}
 				if (page->md5) {
 					md5_file = g_strdup_printf("%s.md5", file);
@@ -504,6 +522,8 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 	recursive = gtk_toggle_button_get_active(
 					GTK_TOGGLE_BUTTON(page->recursive));
 	page->md5 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->md5sum));
+	page->unlink = gtk_toggle_button_get_active(
+			GTK_TOGGLE_BUTTON(page->unlink_files));
 	create_progress_dialog(page);
 	walk_folder(page, item, recursive);
 	if (page->cancelled)
@@ -544,6 +564,8 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 		archive_free_file_list(page->md5, page->rename);
 		return FALSE;
 	}
+        if (page->unlink)
+            archive_free_archived_files();
 	return TRUE;
 }
 
@@ -723,7 +745,25 @@ static void show_result(struct ArchivePage* page) {
 				STRING2, msg, -1);
 	g_free(msg);
 
-	gtk_window_set_default_size(GTK_WINDOW(dialog), 320, 260);
+	gtk_list_store_append(list, &iter);
+	msg = g_strdup_printf("%s", (page->unlink) ? _("Yes") : _("No"));
+	gtk_list_store_set(
+				list, &iter,
+				STRING1, _("Delete selected files"),
+				STRING2, msg, -1);
+	g_free(msg);
+        
+        msg = g_strdup(gtk_entry_get_text(GTK_ENTRY(page->isoDate)));
+        if (msg) {
+	    gtk_list_store_append(list, &iter);
+	    gtk_list_store_set(
+				list, &iter,
+				STRING1, _("Select mails before"),
+				STRING2, msg, -1);
+        }
+	g_free(msg);
+
+        gtk_window_set_default_size(GTK_WINDOW(dialog), 320, 260);
 
 	gtk_widget_show_all(dialog);
 }
@@ -1075,7 +1115,38 @@ void archiver_gtk_show() {
 		  "The naming scheme: date_from@to@subject.\n"
 		  "Names will be truncated to max 96 characters"));
 
-	g_signal_connect(G_OBJECT(folder_select), "clicked", 
+        page->unlink_files = gtk_check_button_new_with_mnemonic(_("_Delete"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->unlink_files), archiver_prefs.unlink);
+	gtk_box_pack_start(GTK_BOX(hbox1), page->unlink_files, FALSE, FALSE, 0);
+	CLAWS_SET_TIP(page->unlink_files,
+		_("Choose this option to delete mails after archiving\n"
+                  "At this point only handles IMAP4, Local mbox and POP3"));
+
+
+	frame = gtk_frame_new(_("Selection options"));
+	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 4);
+	gtk_box_pack_start(GTK_BOX(vbox1), frame, FALSE, FALSE, 0);
+
+	hbox1 = gtk_hbox_new(FALSE, 4);
+	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
+	gtk_container_add(GTK_CONTAINER(frame), hbox1);
+
+/*	hbox1 = gtk_hbox_new(FALSE, 4);
+	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
+	gtk_box_pack_start(GTK_BOX(vbox1), hbox1, FALSE, FALSE, 0);*/
+
+	file_label = gtk_label_new(_("Select mails before"));
+	gtk_box_pack_start(GTK_BOX(hbox1), file_label, FALSE, FALSE, 0);
+	
+	page->isoDate = gtk_entry_new();
+	gtk_widget_set_name(page->isoDate, "isoDate");
+	gtk_box_pack_start(GTK_BOX(hbox1), page->isoDate, TRUE, TRUE, 0);
+	CLAWS_SET_TIP(page->isoDate, 
+                _("Select emails before a certain date\n"
+                  "Date must comply to ISO-8601 [YYYY-MM-DD]"));
+
+        g_signal_connect(G_OBJECT(folder_select), "clicked", 
 			 G_CALLBACK(foldersel_cb), page);
 	g_signal_connect(G_OBJECT(file_select), "clicked",
 			 G_CALLBACK(filesel_cb), page);

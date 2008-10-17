@@ -13,19 +13,19 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=2
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
         VERSION=${MAJOR_VERSION}.${MINOR_VERSION} 
     else
-		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
     fi
 else
     if test \( $MICRO_VERSION -eq 0 \); then
         VERSION=${MAJOR_VERSION}.${MINOR_VERSION}cvs${EXTRA_VERSION}
     else
-		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
 
@@ -38,12 +38,11 @@ AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 AC_CONFIG_HEADERS([config.h])
 
 if test $USE_MAINTAINER_MODE = yes; then
-		CFLAGS="-g -Wall"
-		CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+    CFLAGS="-g -Werror -Wall"
+    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
 else
-		CFLAGS="$CFLAGS -O2 -Wall"
+    CFLAGS="$CFLAGS -O2 -Wall"
 fi
-
 
 # Checks for programs.
 AC_PROG_CC
@@ -96,11 +95,11 @@ AC_SUBST(GLIB_LIBS)
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
 AC_SEARCH_LIBS([archive_read_new], [archive],
-	ARCHIVE_LIBS=-larchive
-    AC_SUBST(ARCHIVE_LIBS),
-    echo "You need to install libarchive"
-    exit 1
-    )
+               ARCHIVE_LIBS=-larchive
+               AC_SUBST(ARCHIVE_LIBS),
+               echo "You need to install libarchive"
+               exit 1
+               )
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -123,16 +122,20 @@ AC_SUBST(MICRO_VERSION)
 AC_SUBST(EXTRA_VERSION)
 
 AC_CONFIG_COMMANDS(
-    summary,
-    [echo ""
+    [summary],
+    [[echo ""
     echo "archive will be compiled with these settings:"
     echo ""
-    echo -e "Now run make to build archive"
+    echo -e "CFLAGS: ${CFLAGS}"
+    echo ""
+    echo -e "Now run make to build archive plugin"
     echo ""
     echo -e "Please send bugs or feature requests to the maintainer(s)."
     echo -e "Email addresses can be found in the AUTHORS file."
-    echo ""],
-    []
+    echo ""]],
+    [
+     CFLAGS="$CFLAGS"
+    ]
 )
 
 AC_OUTPUT([
@@ -141,3 +144,4 @@ AC_OUTPUT([
     po/Makefile.in
     src/Makefile
 ])
+

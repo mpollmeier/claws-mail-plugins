@@ -23,6 +23,7 @@
 #define __LIBARCHIVE_ARCHIVE_H__
 
 #include <glib.h>
+#include "folder.h"
 
 typedef enum _COMPRESS_METHOD COMPRESS_METHOD;
 enum _COMPRESS_METHOD {
@@ -44,11 +45,23 @@ enum _ARCHIVE_FORMAT {
 enum FILE_FLAGS { NO_FLAGS, ARCHIVE_EXTRACT_PERM, ARCHIVE_EXTRACT_TIME,
 				ARCHIVE_EXTRACT_ACL, ARCHIVE_EXTRACT_FFLAGS };
 
+typedef struct _MsgTrash MsgTrash;
+struct _MsgTrash {
+    gchar* folder_path;
+    /* List of gint* */
+    GSList* msgs;
+};
+
+
+MsgTrash* new_msg_trash(gchar* path);
+void archive_free_archived_files();
+void archive_add_msg_mark(MsgTrash* trash, gint msgnum);
 void archive_add_file(gchar* path);
 GSList* archive_get_file_list();
 void archive_free_file_list(gboolean md5, gboolean rename);
 const gchar* archive_create(const char* archive_name, GSList* files,
 				COMPRESS_METHOD method, ARCHIVE_FORMAT format);
+gboolean before_date(time_t msg_mtime, const gchar* before);
 
 #ifdef _TEST
 void archive_set_permissions(int perm);

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-09-26 08:49+0100\n"
+"POT-Creation-Date: 2008-10-08 00:32+0200\n"
 "PO-Revision-Date: 2008-10-02 12:00+0100\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
@@ -22,7 +22,7 @@ msgstr "Arxivador de correu"
 msgid "Create Archive..."
 msgstr "Crear Arxiu..."
 
-#: src/archiver.c:113
+#: src/archiver.c:117
 msgid ""
 "This plugin adds archiving features to Claws Mail.\n"
 "\n"
@@ -54,9 +54,9 @@ msgstr ""
 "Aquest mòdul afegeix característiques d'arxivar a Claws Mail.\n"
 "\n"
 "Et permet seleccionar una carpeta de correu que voleu que sigui arxivada i "
-"després seleccionar un nom, format i localització de l'arxiu. Les subcarpetes seran "
-"incloses i checksums MD5 poden ser afegits per cada arxiu dins l'arxiu. "
-"Varies opcions per arxivar estan també disponibles.\n"
+"després seleccionar un nom, format i localització de l'arxiu. Les "
+"subcarpetes seran incloses i checksums MD5 poden ser afegits per cada arxiu "
+"dins l'arxiu. Varies opcions per arxivar estan també disponibles.\n"
 "\n"
 "Els arxius poden ser guardar com a:\n"
 "\tTAR\n"
@@ -68,17 +68,17 @@ msgstr ""
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\n"
-"Els arxius poden ser restauratsamb qualsevol eina estandard que suporti el format "
-"i la compressió escollida.\n"
+"Els arxius poden ser restauratsamb qualsevol eina estandard que suporti el "
+"format i la compressió escollida.\n"
 "\n"
 "Els tipus de carpeta soportats són MH, IMAP, RSSyl i vCalendar.\n"
 "\n"
 "Per activar les característiques d'arxivar aneu a /Eines/Crear Arxiu\n"
 "\n"
-"Les opcions per defecte poden ser activades a /Configuració/Preferències/Mòduls/Correu "
-"Arxivador"
+"Les opcions per defecte poden ser activades a /Configuració/Preferències/"
+"Mòduls/Correu Arxivador"
 
-#: src/archiver.c:142
+#: src/archiver.c:146
 msgid "Archiver"
 msgstr "Arxivador"
 
@@ -194,7 +194,9 @@ msgstr "Noms descriptius"
 
 #: src/archiver_gtk.c:797
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
-msgstr "Seleccionar nom d'arxiu per arxivar [el sufixe hauria de reflectir l'arxiu com per exemple .tgz]"
+msgstr ""
+"Seleccionar nom d'arxiu per arxivar [el sufixe hauria de reflectir l'arxiu "
+"com per exemple .tgz]"
 
 #: src/archiver_gtk.c:845
 #, c-format
@@ -223,7 +225,8 @@ msgstr "_Veure"
 
 #: src/archiver_gtk.c:923
 msgid "Click this button to select a folder which is to be root of the archive"
-msgstr "Premeu aquest botó per seleccionar la carpeta la qual serà arrel de l'arxiu"
+msgstr ""
+"Premeu aquest botó per seleccionar la carpeta la qual serà arrel de l'arxiu"
 
 #: src/archiver_gtk.c:929
 msgid "Name for archive"
@@ -339,7 +342,9 @@ msgstr "Carpeta on guardar per defecte"
 
 #: src/archiver_prefs.c:191
 msgid "Click this button to select the default location for saving archives"
-msgstr "Premeu aquest botó per seleccionar la localització per defecte per guardar arxius"
+msgstr ""
+"Premeu aquest botó per seleccionar la localització per defecte per guardar "
+"arxius"
 
 #: src/archiver_prefs.c:200
 msgid "Default compression"
@@ -404,7 +409,8 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Escolliu aquesta opció per afegir checksums MD5 per cada arxiu als arxius per defecte.\n"
+"Escolliu aquesta opció per afegir checksums MD5 per cada arxiu als arxius "
+"per defecte.\n"
 "Tot i aixó aneu amb compte, això incrementarà substancialment el temps usat\n"
 "per crear els arxius"
 

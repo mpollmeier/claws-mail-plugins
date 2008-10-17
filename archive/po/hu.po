@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Archive plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-09-26 08:49+0100\n"
+"POT-Creation-Date: 2008-10-08 00:32+0200\n"
 "PO-Revision-Date: 2008-09-29 12:16+0100\n"
 "Last-Translator: Páder Rezső <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
@@ -18,8 +18,7 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/archiver.c:40
-#: src/archiver_prefs.c:85
+#: src/archiver.c:40 src/archiver_prefs.c:85
 msgid "Mail Archiver"
 msgstr "E-mail archiváló"
 
@@ -27,11 +26,14 @@ msgstr "E-mail archiváló"
 msgid "Create Archive..."
 msgstr "Archívum készítése..."
 
-#: src/archiver.c:113
+#: src/archiver.c:117
 msgid ""
 "This plugin adds archiving features to Claws Mail.\n"
 "\n"
-"It enables you to select a mail folder that you want to be archived, and then choose a name, format and location for the archive. Subfolders can be included and MD5 checksums can be added for each file in the archive. Several archiving options are also available.\n"
+"It enables you to select a mail folder that you want to be archived, and "
+"then choose a name, format and location for the archive. Subfolders can be "
+"included and MD5 checksums can be added for each file in the archive. "
+"Several archiving options are also available.\n"
 "\n"
 "The archive can be stored as:\n"
 "\tTAR\n"
@@ -43,17 +45,22 @@ msgid ""
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\n"
-"The archives can be restored with any standard tool that supports the chosen format and compression.\n"
+"The archives can be restored with any standard tool that supports the chosen "
+"format and compression.\n"
 "\n"
 "The supported folder types are MH, IMAP, RSSyl and vCalendar.\n"
 "\n"
 "To activate the archiving feature go to /Tools/Create Archive\n"
 "\n"
-"Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
+"Default options can be set in /Configuration/Preferences/Plugins/Mail "
+"Archiver"
 msgstr ""
 "A plugin archiválási lehetőséget ad a Claws Mail-hez.\n"
 "\n"
-"Kiválasztható az archiválni kívánt e-mail könyvtár, megadható az archívum neve, formátuma és helye. Alkönyvtárak is hozzáadhatók, és az archívum minden fájljára MD5 ellenőrző összeg számítható. Néhány további archiválási opció is elérhető.\n"
+"Kiválasztható az archiválni kívánt e-mail könyvtár, megadható az archívum "
+"neve, formátuma és helye. Alkönyvtárak is hozzáadhatók, és az archívum "
+"minden fájljára MD5 ellenőrző összeg számítható. Néhány további archiválási "
+"opció is elérhető.\n"
 "\n"
 "The archive can be stored as:\n"
 "\tTAR\n"
@@ -65,15 +72,17 @@ msgstr ""
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\n"
-"Az archívumok bármely standard eszközzel visszaállítható, amely a választott formátumot és tömörítést támogatja.\n"
+"Az archívumok bármely standard eszközzel visszaállítható, amely a választott "
+"formátumot és tömörítést támogatja.\n"
 "\n"
 "A támogatott mappatípusok: MH, IMAP, RSSyl és vCalendar.\n"
 "\n"
 "Az archiválás aktiválása: /Eszközök/Archívum készítése\n"
 "\n"
-"A beállítások a /Beállítások/Közös beállítások/Pluginek/E-mail archiváló menüpontban találhatók."
+"A beállítások a /Beállítások/Közös beállítások/Pluginek/E-mail archiváló "
+"menüpontban találhatók."
 
-#: src/archiver.c:142
+#: src/archiver.c:146
 msgid "Archiver"
 msgstr "Archiváló"
 
@@ -171,13 +180,11 @@ msgstr "Mappa mérete"
 msgid "Compression level"
 msgstr "Tömörítési szint"
 
-#: src/archiver_gtk.c:711
-#: src/archiver_gtk.c:719
+#: src/archiver_gtk.c:711 src/archiver_gtk.c:719
 msgid "Yes"
 msgstr "Igen"
 
-#: src/archiver_gtk.c:711
-#: src/archiver_gtk.c:719
+#: src/archiver_gtk.c:711 src/archiver_gtk.c:719
 msgid "No"
 msgstr "Nem"
 
@@ -191,7 +198,8 @@ msgstr "Leíró nevek"
 
 #: src/archiver_gtk.c:797
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
-msgstr "Adj nevet az archívumnak [az utótag a típusát fogja jelezni, pl.  .tgz]"
+msgstr ""
+"Adj nevet az archívumnak [az utótag a típusát fogja jelezni, pl.  .tgz]"
 
 #: src/archiver_gtk.c:845
 #, c-format
@@ -230,8 +238,7 @@ msgstr "Az archívum neve"
 msgid "Archive location and name"
 msgstr "Az archívum helye és neve"
 
-#: src/archiver_gtk.c:937
-#: src/archiver_prefs.c:187
+#: src/archiver_gtk.c:937 src/archiver_prefs.c:187
 msgid "_Select"
 msgstr "_Kiválasztá"
 
@@ -309,8 +316,7 @@ msgstr ""
 msgid "R_ename"
 msgstr "Á_tnevezés"
 
-#: src/archiver_gtk.c:1074
-#: src/archiver_prefs.c:308
+#: src/archiver_gtk.c:1074 src/archiver_prefs.c:308
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
@@ -339,7 +345,9 @@ msgstr "Mentés alapértelmezett könyvtára"
 
 #: src/archiver_prefs.c:191
 msgid "Click this button to select the default location for saving archives"
-msgstr "Kattints a gombra az archívumok alapértelmezett mentési helyének kiválasztásához"
+msgstr ""
+"Kattints a gombra az archívumok alapértelmezett mentési helyének "
+"kiválasztásához"
 
 #: src/archiver_prefs.c:200
 msgid "Default compression"
@@ -399,12 +407,15 @@ msgstr "MD5 ellenőrző összeg"
 
 #: src/archiver_prefs.c:302
 msgid ""
-"Choose this option to add MD5 checksums for each file in the archives by default.\n"
+"Choose this option to add MD5 checksums for each file in the archives by "
+"default.\n"
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"MD5 ellenőrzőösszeg hozzáadása minden fájlhoz az archívumban alapértelmezésben.\n"
-"Légy óvatos, ez jelentősen megnövelheti az archívumok létrehozásához szükséges időt\n"
+"MD5 ellenőrzőösszeg hozzáadása minden fájlhoz az archívumban "
+"alapértelmezésben.\n"
+"Légy óvatos, ez jelentősen megnövelheti az archívumok létrehozásához "
+"szükséges időt\n"
 " "
 
 #: src/archiver_prefs.c:306
@@ -413,6 +424,6 @@ msgstr "Átnevezés"
 
 #~ msgid "/Tools/Create Archive..."
 #~ msgstr "/Eszközök/Archívum létrehozása..."
+
 #~ msgid "/Tools/----"
 #~ msgstr "/Eszközök/----"
-

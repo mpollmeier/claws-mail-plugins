@@ -30,6 +30,7 @@
 #	include "archiver.h"
 #	include "utils.h"
 #	include "mainwindow.h"
+#       include "folder.h"
 #endif
 
 #include <sys/types.h>
@@ -53,6 +54,9 @@ struct file_info {
 	char* name;
 };
 
+/*static MsgTrash*  msg_trash = NULL;*/
+
+static GSList* msg_trash_list = NULL;
 static GSList* file_list = NULL;
 static gboolean stop_action = FALSE;
 
@@ -60,6 +64,177 @@ static gboolean stop_action = FALSE;
 static int permissions = 0;
 #endif
 
+static void free_msg_trash(MsgTrash* trash) {
+    if (trash) {
+        debug_print("Freeing msg_trash->%s\n", trash->folder_path);
+        if (trash->folder_path) {
+            g_free(trash->folder_path);
+        }
+        if (trash->msgs) {
+            g_slist_free(trash->msgs);
+        }
+        g_free(trash);
+    }
+}
+
+MsgTrash* new_msg_trash(gchar* path) {
+    MsgTrash* msg_trash;
+    FolderItem* item;
+    FolderType  type;
+
+    g_return_val_if_fail(path != NULL, NULL);
+
+    /* FolderType must be F_MH, F_MBOX, F_MAILDIR or F_IMAP */
+    item = folder_find_item_from_real_path(path);
+    if (!item)
+        return NULL;
+    type = item->folder->klass->type;
+    if (!(type == F_MH || type == F_MBOX || 
+            type == F_MAILDIR || type == F_IMAP))
+       return NULL; 
+    msg_trash = g_new0(MsgTrash, 1);
+    msg_trash->folder_path = g_strdup(path);
+    msg_trash->msgs = NULL;
+    msg_trash_list = g_slist_prepend(msg_trash_list, msg_trash);
+    
+    return msg_trash;
+}
+
+void archive_free_archived_files() {
+    MsgTrash* mt = NULL;
+    gint*   msgnum;
+    FolderItem* item;
+    gint    res;
+    GSList* l = NULL;
+    GSList* m = NULL;
+   
+    g_return_if_fail(item != NULL);
+
+    for (l = msg_trash_list; l; l = g_slist_next(l)) {
+        mt = (MsgTrash *) l->data;
+        debug_set_mode(TRUE);
+        debug_print("Trashing messages in folder: %s\n", mt->folder_path);
+        debug_set_mode(FALSE);
+        for (m = mt->msgs; m; m = g_slist_next(m)) {
+            msgnum = (gint *) m->data;
+            debug_set_mode(TRUE);
+            debug_print("Removing message #%d\n", *msgnum);
+            debug_set_mode(FALSE);
+            item = folder_find_item_from_real_path(mt->folder_path);
+            if (! item)
+                continue;
+            res = folder_item_remove_msg(item, *msgnum);
+            debug_set_mode(TRUE);
+            debug_print("Result was %d\n", res);
+            debug_set_mode(FALSE);            
+        }
+        free_msg_trash(mt);
+    }
+    g_slist_free(msg_trash_list);
+    msg_trash_list = NULL;
+}
+
+void archive_add_msg_mark(MsgTrash* trash, gint msgnum) {
+    gint* num = NULL;
+    
+    if (! trash)
+        return;
+    debug_set_mode(TRUE);
+    num = g_new0(gint, 1);
+    *num = msgnum;
+    debug_print("Marking msg #%d for removal\n", *num);
+    trash->msgs = g_slist_prepend(trash->msgs, num);
+    debug_set_mode(FALSE);
+}
+
+static void free_all(GDate* date, gchar** parts) {
+    if (date)
+        g_date_free(date);
+    if (parts)
+        g_strfreev(parts);
+}
+
+static GDate* iso2GDate(const gchar* date) {
+    GDate*  gdate;
+    gchar** parts = NULL;
+    int     i;
+
+    g_return_val_if_fail(date != NULL, NULL);
+
+    gdate = g_date_new();
+    parts = g_strsplit(date, "-", 0);
+    if (!parts)
+        return NULL;
+    for (i = 0; i < 3; i++) {
+        int t = atoi(parts[i]);
+        switch (i) {
+            case 0: 
+                if (t < 1 || t > 9999) {
+                    free_all(gdate, parts);
+                    return NULL;
+                }
+                g_date_set_year(gdate, t);
+                break;
+            case 1:
+                if (t < 1 || t > 12) {
+                    free_all(gdate, parts);
+                    return NULL;
+                }
+                g_date_set_month(gdate, t);
+                break;
+            case 2:
+                if (t < 1 || t > 31) {
+                    free_all(gdate, parts);
+                    return NULL;
+                }
+                g_date_set_day(gdate, t);
+                break;
+        }
+    }
+    g_strfreev(parts);
+    return gdate;
+}
+
+gboolean before_date(time_t msg_mtime, const gchar* before) {
+    gchar*      pos = NULL;
+    GDate*      date;
+    GDate*      file_t;
+    gboolean    res;
+#if !GLIB_CHECK_VERSION(2,10,0)
+    GTime       gtime;
+#endif
+
+    debug_print("Cut-off date: %s\n", before);
+    if ((date = iso2GDate(before)) == NULL) {
+        g_warning("Bad date format: %s\n", before);
+        return FALSE;
+    }
+
+    file_t = g_date_new();
+#if GLIB_CHECK_VERSION(2,10,0)
+    g_date_set_time_t(file_t, msg_mtime);
+#else
+    gtime = (GTime) msg_mtime;
+    g_date_set_time(file_t, gtime);
+#endif
+
+    if (debug_get_mode()) {
+        pos = g_new0(char, 100);
+        g_date_strftime(pos, 100, "%F", file_t);
+        fprintf(stderr, "File date: %s\n", pos);
+        g_free(pos);
+    }
+
+    if (! g_date_valid(file_t)) {
+        g_warning("Invalid msg date\n");
+        return FALSE;
+    }
+
+    res = (g_date_compare(file_t, date) >= 0) ? FALSE : TRUE;
+    g_date_free(file_t);
+    return res;
+}
+   
 static void archive_free_file_info(struct file_info* file) {
 	if (! file)
 		return;
@@ -127,8 +302,8 @@ static gchar* strip_leading_dot_slash(gchar* path) {
 
 	if (stripped && stripped[0] == '.') {
 		++stripped;
-		if (stripped && stripped[0] == '/')
-			++stripped;
+	if (stripped && stripped[0] == '/')
+		++stripped;
 		result = g_strdup(stripped);
 	}
 	else
@@ -308,8 +483,8 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 /*	MainWindow* mainwin = mainwindow_get_mainwindow();*/
 #endif
 
-	if (! files)
-		g_return_val_if_fail(files != NULL, "No files for archiving");
+/*	if (! files)*/
+	g_return_val_if_fail(files != NULL, "No files for archiving");
 
 	debug_print("File: %s\n", archive_name);
 	arch = archive_write_new();

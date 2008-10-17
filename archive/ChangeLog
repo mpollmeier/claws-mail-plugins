@@ -1,3 +1,32 @@
+2008-10-17 [michael]	0.6.2cvs1
+
+	* configure.ac
+	* po/ca.po
+	* po/es.po
+	* po/fr.po
+	* po/hu.po
+	* po/pt_BR.po
+	* src/archiver.h
+	* src/archiver_gtk.c
+	* src/archiver_prefs.c
+	* src/archiver_prefs.h
+	* src/libarchive_archive.c
+	* src/libarchive_archive.h
+
+        Fix a bug which was causing files not to be included in archive.
+        The reason was if the user had chosen to use descriptive names
+        for files in archive and if a descriptive name was not able to be
+        constructed then the file was silently dropped from archive.
+        Add a fall-back to simply use the mail number instead which will
+        then reinstate the message in archive again.
+
+        Added to new features:
+        1) Instruct archiver to only include messages before a certain date.
+           Date is compared against the files creation time (mtime)
+        2) An option to instruct the archiver to delete messages after
+           successfully adding them to archiver (1 run to create archive
+           and a second run to delete messages)
+
 2008-10-10 [paul]	0.6.2
 
 	0.6.2 released

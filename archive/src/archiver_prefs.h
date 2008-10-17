@@ -45,6 +45,7 @@ struct _ArchiverPrefs
 	gint		recursive;
 	gint		md5sum;
 	gint		rename;
+        gint            unlink;
 };
 
 extern ArchiverPrefs archiver_prefs;

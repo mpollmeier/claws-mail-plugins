@@ -55,6 +55,7 @@ struct ArchiverPrefsPage {
 	GtkWidget *recursive_chkbtn;
 	GtkWidget *md5sum_chkbtn;
 	GtkWidget *rename_chkbtn;
+        GtkWidget *unlink_chkbtn;
 };
 
 struct ArchiverPrefsPage archiver_prefs_page;
@@ -72,6 +73,7 @@ static PrefParam param[] = {
 	{"recursive", "TRUE", &archiver_prefs.recursive, P_BOOL, NULL, NULL, NULL},
 	{"md5sum",  "FALSE", &archiver_prefs.md5sum, P_BOOL, NULL, NULL, NULL},
 	{"rename", "FALSE", &archiver_prefs.rename, P_BOOL, NULL, NULL, NULL},
+	{"unlink", "FALSE", &archiver_prefs.unlink, P_BOOL, NULL, NULL, NULL},
 
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
 };
@@ -162,6 +164,7 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	GtkWidget *recursive_chkbtn;
 	GtkWidget *md5sum_chkbtn;
 	GtkWidget *rename_chkbtn;
+        GtkWidget *unlink_chkbtn;
 	CLAWS_TIP_DECL();
 
 	vbox1 = gtk_vbox_new (FALSE, VSPACING);
@@ -309,12 +312,19 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 		  "The naming scheme: date_from@to@subject.\n"
 		  "Names will be truncated to max 96 characters"));
 
+	PACK_CHECK_BUTTON(hbox1, unlink_chkbtn, _("Delete"));
+	CLAWS_SET_TIP(unlink_chkbtn,
+		_("Choose this option to delete mails after archiving"));
+
 	if (archiver_prefs.recursive)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(recursive_chkbtn), TRUE);
 	if (archiver_prefs.md5sum)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(md5sum_chkbtn), TRUE);
 	if (archiver_prefs.rename)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rename_chkbtn), TRUE);
+	if (archiver_prefs.unlink)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(unlink_chkbtn), TRUE);
+
 
 	page->save_folder = save_folder;
 	page->zip_radiobtn = zip_radiobtn;
@@ -327,6 +337,7 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	page->recursive_chkbtn = recursive_chkbtn;
 	page->md5sum_chkbtn = md5sum_chkbtn;
 	page->rename_chkbtn = rename_chkbtn;
+        page->unlink_chkbtn = unlink_chkbtn;
 
 	page->page.widget = vbox1;
 }
@@ -372,6 +383,11 @@ static void save_archiver_prefs(PrefsPage * _page)
 		archiver_prefs.rename = TRUE;
 	else
 		archiver_prefs.rename = FALSE;
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->unlink_chkbtn)))
+		archiver_prefs.unlink = TRUE;
+	else
+		archiver_prefs.unlink = FALSE;
+
 
         pref_file = prefs_write_open(rc_file_path);
         g_free(rc_file_path);
