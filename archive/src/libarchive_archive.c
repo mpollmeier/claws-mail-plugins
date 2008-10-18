@@ -126,7 +126,8 @@ void archive_free_archived_files() {
             res = folder_item_remove_msg(item, *msgnum);
             debug_set_mode(TRUE);
             debug_print("Result was %d\n", res);
-            debug_set_mode(FALSE);            
+            debug_set_mode(FALSE);
+            g_free(msgnum);            
         }
         free_msg_trash(mt);
     }

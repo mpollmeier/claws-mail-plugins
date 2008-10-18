@@ -1,3 +1,8 @@
+2008-10-18 [michael]	0.6.2cvs2
+
+	* src/libarchive_archive.c
+        Fixing a possible memory leak.
+
 2008-10-17 [michael]	0.6.2cvs1
 
 	* configure.ac
