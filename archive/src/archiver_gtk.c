@@ -60,6 +60,15 @@ struct _progress_widget {
 	guint		position;
 };
 
+typedef enum {
+    A_FILE_OK           = 1 << 0,
+    A_FILE_EXISTS       = 1 << 1,
+    A_FILE_IS_LINK      = 1 << 2,
+    A_FILE_IS_DIR       = 1 << 3,
+    A_FILE_NO_WRITE     = 1 << 4,
+    A_FILE_UNKNOWN      = 1 << 5
+} AFileTest;
+
 static progress_widget* progress = NULL;
 /*static gboolean cancelled = FALSE;*/
 
@@ -449,6 +458,30 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 	}
 }
 
+static AFileTest file_is_writeable(struct ArchivePage* page) {
+    int fd;
+
+    if (g_file_test(page->name, G_FILE_TEST_EXISTS) &&
+				! page->force_overwrite)
+        return A_FILE_EXISTS;
+    if (g_file_test(page->name, G_FILE_TEST_IS_SYMLINK))
+        return A_FILE_IS_LINK;
+    if (g_file_test(page->name, G_FILE_TEST_IS_DIR))
+        return A_FILE_IS_DIR;
+    if ((fd = open(page->name, O_WRONLY | O_CREAT)) == -1) {
+        switch (errno) {
+            case EACCES: return A_FILE_NO_WRITE;
+            case EEXIST: return A_FILE_OK;
+            default:     return A_FILE_UNKNOWN;
+        }
+    }
+    else {
+        close(fd);
+        claws_unlink(page->name);
+    }
+    return A_FILE_OK;
+}
+
 static gboolean archiver_save_files(struct ArchivePage* page) {
 	GtkWidget* dialog;
 	MainWindow* mainwin = mainwindow_get_mainwindow();
@@ -460,6 +493,8 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 	guint orig_file;
 	GSList* list = NULL;
 	const gchar* res = NULL;
+        AFileTest perm;
+        gchar* msg;
 
 	if (page->path == NULL || page->name == NULL) {
 		/* Test if page->file and page->folder has uncommitted information */
@@ -475,20 +510,51 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 			return FALSE;
 		}
 	}
-	if (g_file_test(page->name, G_FILE_TEST_EXISTS) &&
-				! page->force_overwrite) {
-		dialog = gtk_message_dialog_new(
+	if ((perm = file_is_writeable(page)) != A_FILE_OK) {
+            switch (perm) {
+                case A_FILE_EXISTS:
+                    msg = g_strdup_printf(_("%s: Exists. Continue anyway?"), page->name);
+                    break;
+                case A_FILE_IS_LINK:
+                    msg = g_strdup_printf(_("%s: Is a link. Cannot continue"), page->name);
+                    break;
+                 case A_FILE_IS_DIR:
+                     msg = g_strdup_printf(_("%s: Is a directory. Cannot continue"), page->name);
+                    break;
+                case A_FILE_NO_WRITE:
+                     msg = g_strdup_printf(_("%s: Missing permissions. Cannot continue"), page->name);
+                    break;
+                case A_FILE_UNKNOWN:
+                    msg = g_strdup_printf(_("%s: Unknown error. Cannot continue"), page->name);
+                    break;
+                default: break;
+            }
+            if (perm == A_FILE_EXISTS) {
+ 		dialog = gtk_message_dialog_new(
 			GTK_WINDOW(mainwin->window),
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_WARNING,
 			GTK_BUTTONS_OK_CANCEL,
-			_("%s: Exists. Continue anyway?"),
-			page->name);
+			msg);
 		response = gtk_dialog_run(GTK_DIALOG (dialog));
 		gtk_widget_destroy(dialog);
+                g_free(msg);
 		if (response == GTK_RESPONSE_CANCEL) {
 			return FALSE;
 		}
+            }
+            else {
+ 		dialog = gtk_message_dialog_new(
+			GTK_WINDOW(mainwin->window),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_OK,
+			msg);
+		response = gtk_dialog_run(GTK_DIALOG (dialog));
+		gtk_widget_destroy(dialog);
+                g_free(msg);
+		return FALSE;
+            }
 	}
 	if (! valid_file_name(page->name)) {
 		dialog = gtk_message_dialog_new(
