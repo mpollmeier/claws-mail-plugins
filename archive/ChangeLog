@@ -1,3 +1,9 @@
+2008-10-20 [michael]	0.6.2cvs5
+
+	* src/archiver_gtk.c
+        Adding required mode_t variable to the open
+        command in function file_is_writeable
+
 2008-10-20 [michael]	0.6.2cvs4
 
 	* src/libarchive_archive.c

@@ -32,3 +32,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/libarchive_archive.c;  ) > 0.6.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/archiver_gtk.c;  ) > 0.6.2cvs3.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/libarchive_archive.c;  ) > 0.6.2cvs4.patchset
+( cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/archiver_gtk.c;  ) > 0.6.2cvs5.patchset

@@ -468,7 +468,7 @@ static AFileTest file_is_writeable(struct ArchivePage* page) {
         return A_FILE_IS_LINK;
     if (g_file_test(page->name, G_FILE_TEST_IS_DIR))
         return A_FILE_IS_DIR;
-    if ((fd = open(page->name, O_WRONLY | O_CREAT)) == -1) {
+    if ((fd = open(page->name, O_WRONLY | O_CREAT), S_IRUSR | S_IWUSR) == -1) {
         switch (errno) {
             case EACCES: return A_FILE_NO_WRITE;
             case EEXIST: return A_FILE_OK;
