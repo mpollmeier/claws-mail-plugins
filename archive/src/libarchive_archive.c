@@ -108,8 +108,6 @@ void archive_free_archived_files() {
     GSList* l = NULL;
     GSList* m = NULL;
    
-    g_return_if_fail(item != NULL);
-
     for (l = msg_trash_list; l; l = g_slist_next(l)) {
         mt = (MsgTrash *) l->data;
         debug_print("Trashing messages in folder: %s\n", mt->folder_path);

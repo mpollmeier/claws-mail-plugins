@@ -1,3 +1,8 @@
+2008-10-20 [michael]	0.6.2cvs6
+
+	* src/libarchive_archive.c
+        removed an unused assert which could cause a potential bug
+
 2008-10-20 [michael]	0.6.2cvs5
 
 	* src/archiver_gtk.c
