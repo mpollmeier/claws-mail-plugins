@@ -31,3 +31,4 @@
 ( cvs diff -u -r 1.1.2.37 -r 1.1.2.38 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ca.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/es.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/pt_BR.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/archiver.h;  cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/archiver_gtk.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/archiver_prefs.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/archiver_prefs.h;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/libarchive_archive.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/libarchive_archive.h;  ) > 0.6.2cvs1.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/libarchive_archive.c;  ) > 0.6.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/archiver_gtk.c;  ) > 0.6.2cvs3.patchset
+( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/libarchive_archive.c;  ) > 0.6.2cvs4.patchset

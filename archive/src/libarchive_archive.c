@@ -112,21 +112,15 @@ void archive_free_archived_files() {
 
     for (l = msg_trash_list; l; l = g_slist_next(l)) {
         mt = (MsgTrash *) l->data;
-        debug_set_mode(TRUE);
         debug_print("Trashing messages in folder: %s\n", mt->folder_path);
-        debug_set_mode(FALSE);
         for (m = mt->msgs; m; m = g_slist_next(m)) {
             msgnum = (gint *) m->data;
-            debug_set_mode(TRUE);
             debug_print("Removing message #%d\n", *msgnum);
-            debug_set_mode(FALSE);
             item = folder_find_item_from_real_path(mt->folder_path);
             if (! item)
                 continue;
             res = folder_item_remove_msg(item, *msgnum);
-            debug_set_mode(TRUE);
             debug_print("Result was %d\n", res);
-            debug_set_mode(FALSE);
             g_free(msgnum);            
         }
         free_msg_trash(mt);
@@ -140,12 +134,10 @@ void archive_add_msg_mark(MsgTrash* trash, gint msgnum) {
     
     if (! trash)
         return;
-    debug_set_mode(TRUE);
     num = g_new0(gint, 1);
     *num = msgnum;
     debug_print("Marking msg #%d for removal\n", *num);
     trash->msgs = g_slist_prepend(trash->msgs, num);
-    debug_set_mode(FALSE);
 }
 
 static void free_all(GDate* date, gchar** parts) {
@@ -153,6 +145,32 @@ static void free_all(GDate* date, gchar** parts) {
         g_date_free(date);
     if (parts)
         g_strfreev(parts);
+}
+
+static gboolean is_iso_string(gchar** items) {
+    int i = -1;
+    gchar* item;
+
+    while (*items) {
+        i++;
+        item = *items++;
+        debug_print("Date part %d: %s\n", i, item);
+        switch(i) {
+            case 0:
+                if (strlen(item) != 4)
+                    return FALSE;
+                break;
+            case 1:
+            case 2:
+                if (strlen(item) != 2)
+                    return FALSE;
+                break;
+            default:
+                return FALSE;
+        }
+    }
+    debug_print("Leaving\n");
+    return (i == 2);
 }
 
 static GDate* iso2GDate(const gchar* date) {
@@ -163,7 +181,9 @@ static GDate* iso2GDate(const gchar* date) {
     g_return_val_if_fail(date != NULL, NULL);
 
     gdate = g_date_new();
-    parts = g_strsplit(date, "-", 0);
+    parts = g_strsplit(date, "-", 3);
+    if (! is_iso_string(parts))
+        return NULL;
     if (!parts)
         return NULL;
     for (i = 0; i < 3; i++) {
