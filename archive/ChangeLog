@@ -1,3 +1,9 @@
+2008-10-21 [michael]	0.6.2cvs7
+
+	* src/archiver_gtk.c
+        Freezing summaryview while deleting messages. Improves the
+        speed of the process considerably.
+
 2008-10-20 [michael]	0.6.2cvs6
 
 	* src/libarchive_archive.c

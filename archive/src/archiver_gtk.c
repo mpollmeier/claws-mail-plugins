@@ -630,8 +630,11 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 		archive_free_file_list(page->md5, page->rename);
 		return FALSE;
 	}
-        if (page->unlink)
+        if (page->unlink) {
+            summary_freeze(mainwin->summaryview);
             archive_free_archived_files();
+            summary_thaw(mainwin->summaryview);
+        }
 	return TRUE;
 }
 
