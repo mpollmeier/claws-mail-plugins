@@ -1,3 +1,15 @@
+2008-10-22 [michael]	0.6.2cvs8
+
+	* src/archiver_gtk.c
+	* src/libarchive_archive.c
+	* src/libarchive_archive.h
+        fixed a bug concerning the open function with option O_CREAT.
+        Found by Brian Morrison.
+        Using folder_item_remove_msgs to increase the speed for deleting
+        messages considerably. Thanks to Colin Leroy for adding my
+        attention to this trick.
+        Removed some old uncommentted code.
+
 2008-10-21 [michael]	0.6.2cvs7
 
 	* src/archiver_gtk.c

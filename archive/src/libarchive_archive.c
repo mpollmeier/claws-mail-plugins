@@ -54,8 +54,6 @@ struct file_info {
 	char* name;
 };
 
-/*static MsgTrash*  msg_trash = NULL;*/
-
 static GSList* msg_trash_list = NULL;
 static GSList* file_list = NULL;
 static gboolean stop_action = FALSE;
@@ -66,10 +64,10 @@ static int permissions = 0;
 
 static void free_msg_trash(MsgTrash* trash) {
     if (trash) {
-        debug_print("Freeing msg_trash->%s\n", trash->folder_path);
-        if (trash->folder_path) {
-            g_free(trash->folder_path);
-        }
+        debug_print("Freeing files in %s\n", folder_item_get_name(trash->item));
+/*        if (trash->item) {
+            g_free(trash->item);
+        }*/
         if (trash->msgs) {
             g_slist_free(trash->msgs);
         }
@@ -77,65 +75,52 @@ static void free_msg_trash(MsgTrash* trash) {
     }
 }
 
-MsgTrash* new_msg_trash(gchar* path) {
+MsgTrash* new_msg_trash(FolderItem* item) {
     MsgTrash* msg_trash;
-    FolderItem* item;
     FolderType  type;
 
-    g_return_val_if_fail(path != NULL, NULL);
+    g_return_val_if_fail(item != NULL, NULL);
 
     /* FolderType must be F_MH, F_MBOX, F_MAILDIR or F_IMAP */
-    item = folder_find_item_from_real_path(path);
-    if (!item)
-        return NULL;
     type = item->folder->klass->type;
     if (!(type == F_MH || type == F_MBOX || 
             type == F_MAILDIR || type == F_IMAP))
        return NULL; 
     msg_trash = g_new0(MsgTrash, 1);
-    msg_trash->folder_path = g_strdup(path);
+    msg_trash->item = item;
     msg_trash->msgs = NULL;
     msg_trash_list = g_slist_prepend(msg_trash_list, msg_trash);
     
     return msg_trash;
-}
+    }
 
 void archive_free_archived_files() {
     MsgTrash* mt = NULL;
-    gint*   msgnum;
-    FolderItem* item;
     gint    res;
     GSList* l = NULL;
-    GSList* m = NULL;
    
     for (l = msg_trash_list; l; l = g_slist_next(l)) {
+        debug_set_mode(TRUE);
         mt = (MsgTrash *) l->data;
-        debug_print("Trashing messages in folder: %s\n", mt->folder_path);
-        for (m = mt->msgs; m; m = g_slist_next(m)) {
-            msgnum = (gint *) m->data;
-            debug_print("Removing message #%d\n", *msgnum);
-            item = folder_find_item_from_real_path(mt->folder_path);
-            if (! item)
-                continue;
-            res = folder_item_remove_msg(item, *msgnum);
-            debug_print("Result was %d\n", res);
-            g_free(msgnum);            
-        }
+        debug_print("Trashing messages in folder: %s\n", 
+                folder_item_get_name(mt->item));
+        debug_set_mode(FALSE);
+        res = folder_item_remove_msgs(mt->item, mt->msgs);
+        debug_set_mode(TRUE);
+        debug_print("Result was %d\n", res);
+        debug_set_mode(FALSE);
         free_msg_trash(mt);
     }
     g_slist_free(msg_trash_list);
     msg_trash_list = NULL;
 }
 
-void archive_add_msg_mark(MsgTrash* trash, gint msgnum) {
-    gint* num = NULL;
-    
-    if (! trash)
-        return;
-    num = g_new0(gint, 1);
-    *num = msgnum;
-    debug_print("Marking msg #%d for removal\n", *num);
-    trash->msgs = g_slist_prepend(trash->msgs, num);
+void archive_add_msg_mark(MsgTrash* trash, MsgInfo* msg) {
+    g_return_if_fail(trash != NULL || msg != NULL);
+    debug_set_mode(TRUE);
+    debug_print("Marking msg #%d for removal\n", msg->msgnum);
+    trash->msgs = g_slist_prepend(trash->msgs, msg);
+    debug_set_mode(FALSE);
 }
 
 static void free_all(GDate* date, gchar** parts) {
@@ -499,10 +484,8 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 #ifndef _TEST
 	gint num = 0;
 	gint total = g_slist_length (files);
-/*	MainWindow* mainwin = mainwindow_get_mainwindow();*/
 #endif
 
-/*	if (! files)*/
 	g_return_val_if_fail(files != NULL, "No files for archiving");
 
 	debug_print("File: %s\n", archive_name);
@@ -652,11 +635,6 @@ void archive_scan_folder(const char* dir) {
 		g_stat(ent->d_name, &st);
 		sprintf(path, "%s/%s", dir, ent->d_name);
 		if (S_ISREG(st.st_mode) || S_ISLNK(st.st_mode)) {
-			/*struct file_info* file = archive_new_file_info();
-			file->path = strip_leading_dot_slash((char *) dir);
-			file->name = g_strdup(ent->d_name);
-			archive_add_to_list(file);*/
-			/*archive_free_file_info(file);*/
 			archive_add_file(path);
 		}
 		else if (S_ISDIR(st.st_mode)) {
@@ -726,13 +704,6 @@ int main(int argc, char** argv) {
 	else
 		sprintf(buf, "%s", archive);
 	archive_extract(buf, perm);
-/*		while (file_list) {
-			long i = 0;
-			struct file_info* file = (struct file_info *) file_list->data;
-			fprintf(stdout, "[%ld] Path: %s -> Name: %s\n",
-					i++, file->path, file->name);
-			file_list = g_slist_next(file_list);
-		}*/
 	chdir(cwd);
 	if (remove) {
 		sprintf(buf, "rm -rf /tmp/%d", pid);

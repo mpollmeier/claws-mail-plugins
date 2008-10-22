@@ -70,7 +70,6 @@ typedef enum {
 } AFileTest;
 
 static progress_widget* progress = NULL;
-/*static gboolean cancelled = FALSE;*/
 
 static progress_widget* init_progress() {
 	progress_widget* ptr = malloc(sizeof(*ptr));
@@ -190,10 +189,6 @@ static void dispose_archive_page(struct ArchivePage* page) {
 	if (page->name)
 		g_free(page->name);
 	page->name = NULL;
-/*	if (page->compress_methods)
-		g_slist_free(page->compress_methods);
-	if (page->archive_formats)
-		g_slist_free(page->archive_formats);*/
 	g_free(page);
 }
 
@@ -408,7 +403,7 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 		count = 0;
 		page->files += item->total_msgs;
 		msglist = folder_item_get_msg_list(item);
-                msg_trash = new_msg_trash(folder_item_get_path(item));
+                msg_trash = new_msg_trash(item);
 		for (cur = msglist; cur && ! page->cancelled; cur = cur->next) {
 			msginfo = (MsgInfo *) cur->data;
 			debug_print("%s_%s_%s_%s\n",
@@ -422,8 +417,7 @@ static void walk_folder(struct ArchivePage* page, FolderItem* item,
 			/*debug_print("Processing: %s\n", file);*/
 			if (file) {
                                 if (page->unlink) {
-                                    archive_add_msg_mark(
-                                        msg_trash, (gint) msginfo->msgnum);
+                                    archive_add_msg_mark(msg_trash, msginfo);
                                 }
 				if (page->rename) {
 					file = descriptive_file_name(page, file, msginfo);
@@ -468,7 +462,7 @@ static AFileTest file_is_writeable(struct ArchivePage* page) {
         return A_FILE_IS_LINK;
     if (g_file_test(page->name, G_FILE_TEST_IS_DIR))
         return A_FILE_IS_DIR;
-    if ((fd = open(page->name, O_WRONLY | O_CREAT), S_IRUSR | S_IWUSR) == -1) {
+    if ((fd = open(page->name, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) == -1) {
         switch (errno) {
             case EACCES: return A_FILE_NO_WRITE;
             case EEXIST: return A_FILE_OK;
@@ -631,9 +625,7 @@ static gboolean archiver_save_files(struct ArchivePage* page) {
 		return FALSE;
 	}
         if (page->unlink) {
-            summary_freeze(mainwin->summaryview);
             archive_free_archived_files();
-            summary_thaw(mainwin->summaryview);
         }
 	return TRUE;
 }
@@ -1200,10 +1192,6 @@ void archiver_gtk_show() {
 	hbox1 = gtk_hbox_new(FALSE, 4);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
 	gtk_container_add(GTK_CONTAINER(frame), hbox1);
-
-/*	hbox1 = gtk_hbox_new(FALSE, 4);
-	gtk_container_set_border_width(GTK_CONTAINER(hbox1), 4);
-	gtk_box_pack_start(GTK_BOX(vbox1), hbox1, FALSE, FALSE, 0);*/
 
 	file_label = gtk_label_new(_("Select mails before"));
 	gtk_box_pack_start(GTK_BOX(hbox1), file_label, FALSE, FALSE, 0);

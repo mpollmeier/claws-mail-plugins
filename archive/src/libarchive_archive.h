@@ -47,15 +47,15 @@ enum FILE_FLAGS { NO_FLAGS, ARCHIVE_EXTRACT_PERM, ARCHIVE_EXTRACT_TIME,
 
 typedef struct _MsgTrash MsgTrash;
 struct _MsgTrash {
-    gchar* folder_path;
-    /* List of gint* */
+    FolderItem* item;
+    /* List of MsgInfos* */
     GSList* msgs;
 };
 
 
-MsgTrash* new_msg_trash(gchar* path);
+MsgTrash* new_msg_trash(FolderItem* item);
 void archive_free_archived_files();
-void archive_add_msg_mark(MsgTrash* trash, gint msgnum);
+void archive_add_msg_mark(MsgTrash* trash, MsgInfo* msg);
 void archive_add_file(gchar* path);
 GSList* archive_get_file_list();
 void archive_free_file_list(gboolean md5, gboolean rename);
