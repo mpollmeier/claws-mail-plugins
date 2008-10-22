@@ -100,15 +100,15 @@ void archive_free_archived_files() {
     GSList* l = NULL;
    
     for (l = msg_trash_list; l; l = g_slist_next(l)) {
-        debug_set_mode(TRUE);
+/*        debug_set_mode(TRUE);*/
         mt = (MsgTrash *) l->data;
         debug_print("Trashing messages in folder: %s\n", 
                 folder_item_get_name(mt->item));
-        debug_set_mode(FALSE);
+/*        debug_set_mode(FALSE);*/
         res = folder_item_remove_msgs(mt->item, mt->msgs);
-        debug_set_mode(TRUE);
+/*        debug_set_mode(TRUE);*/
         debug_print("Result was %d\n", res);
-        debug_set_mode(FALSE);
+/*        debug_set_mode(FALSE);*/
         free_msg_trash(mt);
     }
     g_slist_free(msg_trash_list);
@@ -117,10 +117,10 @@ void archive_free_archived_files() {
 
 void archive_add_msg_mark(MsgTrash* trash, MsgInfo* msg) {
     g_return_if_fail(trash != NULL || msg != NULL);
-    debug_set_mode(TRUE);
+/*    debug_set_mode(TRUE);*/
     debug_print("Marking msg #%d for removal\n", msg->msgnum);
     trash->msgs = g_slist_prepend(trash->msgs, msg);
-    debug_set_mode(FALSE);
+/*    debug_set_mode(FALSE);*/
 }
 
 static void free_all(GDate* date, gchar** parts) {

@@ -1,3 +1,8 @@
+2008-10-22 [michael]	0.6.2cvs9
+
+	* src/libarchive_archive.c
+        Forgot to uncomment some forced debug output
+
 2008-10-22 [michael]	0.6.2cvs8
 
 	* src/archiver_gtk.c
