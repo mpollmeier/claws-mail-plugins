@@ -249,11 +249,6 @@ static GtkActionEntry spamreport_main_menu[] = {{
 	NULL, N_("Report spam online..."), NULL, NULL, G_CALLBACK(report_spam_cb_ui)
 }};
 
-static GtkActionEntry spamreport_context_menu[] = {{
-	"SummaryViewPopup/ReportSpam",
-	NULL, N_("Report spam online..."), NULL, NULL, G_CALLBACK(report_spam_cb_ui)
-}};
-
 static guint context_menu_id = 0;
 static guint main_menu_id = 0;
 
@@ -269,7 +264,7 @@ gint plugin_init(gchar **error)
 #endif
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,6,1,27),
 				VERSION_NUMERIC, _("SpamReport"), error))
 		return -1;
 
@@ -283,10 +278,8 @@ gint plugin_init(gchar **error)
 	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Message", "ReportSpam", 
 			  "Message/ReportSpam", GTK_UI_MANAGER_MENUITEM,
 			  main_menu_id)
-	gtk_action_group_add_actions(summaryview->action_group, spamreport_context_menu,
-			1, (gpointer)summaryview);
-	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "ReportSpam", 
-			  "SummaryViewPopup/ReportSpam", GTK_UI_MANAGER_MENUITEM,
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menus/SummaryViewPopup", "ReportSpam", 
+			  "Message/ReportSpam", GTK_UI_MANAGER_MENUITEM,
 			  context_menu_id)
 	return 0;
 }
@@ -303,7 +296,7 @@ gboolean plugin_done(void)
 	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/ReportSpam", main_menu_id);
 	main_menu_id = 0;
 
-	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/ReportSpam", context_menu_id);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/ReportSpam", context_menu_id);
 	context_menu_id = 0;
 #ifdef HAVE_LIBCURL
 	spamreport_prefs_done();
