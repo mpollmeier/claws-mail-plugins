@@ -93,11 +93,6 @@ static GtkActionEntry vcalendar_main_menu[] = {{
 	NULL, N_("Create meeting from message..."), NULL, NULL, G_CALLBACK(create_meeting_from_message_cb_ui)
 }};
 
-static GtkActionEntry vcalendar_context_menu[] = {{
-	"SummaryViewPopup/CreateMeeting",
-	NULL, N_("Create meeting from message..."), NULL, NULL, G_CALLBACK(create_meeting_from_message_cb_ui)
-}};
-
 static void create_meeting_from_message_cb_ui(GtkAction *action, gpointer data)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
@@ -1284,7 +1279,6 @@ static guint main_menu_id = 0;
 void vcalendar_init(void)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	SummaryView *summaryview = mainwin->summaryview;
 	Folder *folder = NULL;
 	gchar *directory = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
 				"vcalendar", NULL);
@@ -1333,10 +1327,8 @@ void vcalendar_init(void)
 	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Message", "CreateMeeting", 
 			  "Message/CreateMeeting", GTK_UI_MANAGER_MENUITEM,
 			  main_menu_id)
-	gtk_action_group_add_actions(summaryview->action_group, vcalendar_context_menu,
-			1, (gpointer)summaryview);
-	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "CreateMeeting", 
-			  "SummaryViewPopup/CreateMeeting", GTK_UI_MANAGER_MENUITEM,
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menus/SummaryViewPopup", "CreateMeeting", 
+			  "Message/CreateMeeting", GTK_UI_MANAGER_MENUITEM,
 			  context_menu_id)
 	END_TIMING();
 }
@@ -1375,6 +1367,6 @@ void vcalendar_done(void)
 
 	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/CreateMeeting", main_menu_id);
 	main_menu_id = 0;
-	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/CreateMeeting", context_menu_id);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/CreateMeeting", context_menu_id);
 	context_menu_id = 0;
 }

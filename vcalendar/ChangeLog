@@ -1,3 +1,9 @@
+2008-11-14 [colin]	2.0.2cvs1
+
+	* src/plugin.c
+	* src/vcalendar.c
+		Sync with core
+
 2008-10-10 [paul]	2.0.2
 
 	2.0.2 released
