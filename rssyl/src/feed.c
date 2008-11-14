@@ -1350,7 +1350,7 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 				if (fitem->comments_link) {
 					debug_print("RSSyl: fetching comments '%s'\n", fitem->comments_link);
 					doc = rssyl_fetch_feed(fitem->comments_link, ritem->item.mtime, &title, NULL);
-					rssyl_parse_feed(doc, ritem, fitem->link);
+					rssyl_parse_feed(doc, ritem, fitem->id);
 					xmlFreeDoc(doc);
 					g_free(title);
 				}
