@@ -158,11 +158,6 @@ static GtkActionEntry remove_att_main_menu[] = {{
 	NULL, N_("Remove attachments"), NULL, NULL, G_CALLBACK(remove_attachments_ui)
 }};
 
-static GtkActionEntry remove_att_context_menu[] = {{
-	"SummaryViewPopup/RemoveAtt",
-	NULL, N_("Remove attachments"), NULL, NULL, G_CALLBACK(remove_attachments_ui)
-}};
-
 static guint context_menu_id = 0;
 static guint main_menu_id = 0;
 
@@ -171,7 +166,7 @@ gint plugin_init(gchar **error)
 	MainWindow *mainwin = mainwindow_get_mainwindow();
 	SummaryView *summaryview = mainwin->summaryview;
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(3,6,1,27),
 				VERSION_NUMERIC, _("AttRemover"), error) )
 		return -1;
 
@@ -180,10 +175,8 @@ gint plugin_init(gchar **error)
 	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Message", "RemoveAtt", 
 			  "Message/RemoveAtt", GTK_UI_MANAGER_MENUITEM,
 			  main_menu_id)
-	gtk_action_group_add_actions(summaryview->action_group, remove_att_context_menu,
-			1, (gpointer)summaryview);
-	MENUITEM_ADDUI_ID("/Menus/SummaryViewPopup", "RemoveAtt", 
-			  "SummaryViewPopup/RemoveAtt", GTK_UI_MANAGER_MENUITEM,
+	MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menus/SummaryViewPopup", "RemoveAtt", 
+			  "Message/RemoveAtt", GTK_UI_MANAGER_MENUITEM,
 			  context_menu_id)
 
 	return 0;
@@ -202,7 +195,7 @@ gboolean plugin_done(void)
 	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/RemoveAtt", main_menu_id);
 	main_menu_id = 0;
 
-	MENUITEM_REMUI(summaryview->action_group, "SummaryViewPopup/ReportSpam", context_menu_id);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "Message/RemoveAtt", context_menu_id);
 	context_menu_id = 0;
 	return TRUE;
 }
