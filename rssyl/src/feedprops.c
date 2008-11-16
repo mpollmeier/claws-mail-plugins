@@ -88,7 +88,7 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 		xmlXPathFreeContext(context);
 	} else {
 		for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
-			gchar *tmp;
+			gchar *tmp, *t_prop = NULL;
 			node = result->nodesetval->nodeTab[i];
 			tmp = xmlGetProp(node, RSSYL_PROP_NAME);
 			if( !strcmp(tmp, item->name) ) {
@@ -98,14 +98,24 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 						ritem->official_name?ritem->official_name:item->name);
 				xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
 				xmlSetProp(node, RSSYL_PROP_DEF_REFRESH, (def_ri ? "1" : "0") );
-				if( !def_ri )
+				if( !def_ri ) {
+					t_prop = g_strdup_printf("%d", ritem->refresh_interval);
 					xmlSetProp(node, RSSYL_PROP_REFRESH,
-							g_strdup_printf("%d", ritem->refresh_interval) );
+							t_prop );
+					g_free(t_prop);
+				}
 				xmlSetProp(node, RSSYL_PROP_DEF_EXPIRED, (def_ex ? "1" : "0") );
-				if( !def_ex )
+				if( !def_ex ) {
+					t_prop = g_strdup_printf("%d", ritem->expired_num);
 					xmlSetProp(node, RSSYL_PROP_EXPIRED,
-							g_strdup_printf("%d", ritem->expired_num) );
+							t_prop );
+					g_free(t_prop);
+				}
 				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS, ritem->fetch_comments?"1":"0");
+				t_prop = g_strdup_printf("%d", ritem->fetch_comments_for);
+				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS_FOR,
+						t_prop );
+				g_free(t_prop);
 				found = TRUE;
 			}
 			xmlFree(tmp);
@@ -229,12 +239,22 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				xmlFree(tmp);
 				tmp = NULL;
 
-				/* expired_num */
+				/* fetch_comments */
 				tmp = xmlGetProp(node, RSSYL_PROP_FETCH_COMMENTS);
 				tmpi = 0;
 				if( tmp ) {
 					tmpi = atoi(tmp);
 					ritem->fetch_comments = tmpi;
+				}
+				xmlFree(tmp);
+				tmp = NULL;
+
+				/* fetch_comments_for */
+				tmp = xmlGetProp(node, RSSYL_PROP_FETCH_COMMENTS_FOR);
+				tmpi = 0;
+				if( tmp ) {
+					tmpi = atoi(tmp);
+					ritem->fetch_comments_for = tmpi;
 				}
 				xmlFree(tmp);
 				tmp = NULL;

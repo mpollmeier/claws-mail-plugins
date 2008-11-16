@@ -32,6 +32,7 @@ struct _RSSylFolderItem {
 
 	guint refresh_id;	
 	gboolean fetch_comments;
+	gint fetch_comments_for;
 
 	struct _RSSylFeedProp *feedprop;
 };

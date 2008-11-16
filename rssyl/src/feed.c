@@ -1347,7 +1347,9 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
 				xmlDocPtr doc;
 				gchar *title;
-				if (fitem->comments_link) {
+				if (fitem->comments_link &&
+				    (ritem->fetch_comments_for == -1 ||
+				     time(NULL) - fitem->date <= ritem->fetch_comments_for*86400)) {
 					debug_print("RSSyl: fetching comments '%s'\n", fitem->comments_link);
 					doc = rssyl_fetch_feed(fitem->comments_link, ritem->item.mtime, &title, NULL);
 					rssyl_parse_feed(doc, ritem, fitem->id);

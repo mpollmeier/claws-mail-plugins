@@ -1,3 +1,15 @@
+2008-11-16 [colin]	0.22.0cvs2
+
+	* src/feed.c
+	* src/feedprops.c
+	* src/feedprops.h
+	* src/rssyl.c
+	* src/rssyl.h
+	* src/rssyl_gtk.c
+	* src/rssyl_gtk.h
+		Add a feed property to be able to fetch only comments
+		on posts aged less than X days
+
 2008-11-14 [colin]	0.22.0cvs1
 
 	* src/feed.c

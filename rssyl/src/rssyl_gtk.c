@@ -230,7 +230,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 						*expired_label, *hsep, *sep, *bbox, *cancel_button, *cancel_align,
 						*cancel_hbox, *cancel_image, *cancel_label, *ok_button, *ok_align,
 						*ok_hbox, *ok_image, *ok_label;
-	GtkObject *refresh_adj, *expired_adj;
+	GtkObject *refresh_adj, *expired_adj, *fetch_comments_for_adj;
 	gint refresh, expired;
 	gint row = 0;
 
@@ -271,6 +271,12 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_toggle_button_set_active(
 			GTK_TOGGLE_BUTTON(feedprop->fetch_comments),
 			ritem->fetch_comments);
+
+	/* Refresh interval spinbutton */
+	fetch_comments_for_adj = gtk_adjustment_new(ritem->fetch_comments_for,
+			-1, 100000, 1, 10, 10);
+	feedprop->fetch_comments_for = gtk_spin_button_new(GTK_ADJUSTMENT(fetch_comments_for_adj),
+			1, 0);
 
 	if( ritem->default_expired_num )
 		expired = rssyl_prefs_get()->expired;
@@ -322,6 +328,23 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 0);
 	row++;
+
+	/* Fetch comments for - label */
+	refresh_label = gtk_label_new(_("<b>Fetch comments on posts aged less than:</b>\n"
+			"<small>(In days; set to -1 to fetch all comments)"
+			"</small>"));
+	gtk_label_set_use_markup(GTK_LABEL(refresh_label), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(refresh_label), 0, 0.5);
+	gtk_table_attach(GTK_TABLE(table), refresh_label, 0, 1, row, row+1,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	/* Fetch comments for - spinbutton */
+	gtk_table_attach(GTK_TABLE(table), feedprop->fetch_comments_for, 1, 2, row, row+1,
+			(GtkAttachOptions) (0),
+			(GtkAttachOptions) (0), 10, 5);
+	row++;
+
 	hsep = gtk_hseparator_new();
 	gtk_widget_set_size_request(hsep, -1, 10);
 	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, row, row+1,
@@ -512,6 +535,9 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 	old_fetch_comments = ritem->fetch_comments;
 	ritem->fetch_comments = gtk_toggle_button_get_active(
 			GTK_TOGGLE_BUTTON(ritem->feedprop->fetch_comments));
+
+	ritem->fetch_comments_for = gtk_spin_button_get_value_as_int(
+				GTK_SPIN_BUTTON(ritem->feedprop->fetch_comments_for));
 
 	if (!old_fetch_comments && ritem->fetch_comments) {
 		/* reset the RSSylFolderItem's mtime to be sure we get all 

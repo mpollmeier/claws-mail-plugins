@@ -15,6 +15,7 @@ struct _RSSylFeedProp {
 	GtkWidget *default_expired_num;
 	GtkWidget *expired_num;
 	GtkWidget *fetch_comments;
+	GtkWidget *fetch_comments_for;
 };
 
 typedef struct _RSSylFeedProp RSSylFeedProp;
