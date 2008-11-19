@@ -1,3 +1,9 @@
+2008-11-19 [wwp]	0.9.14cvs1
+
+	* src/perl_gtk.c
+	* src/perl_plugin.c
+		Replace occurrences of "command line" with "command-line" everywhere.
+
 2008-10-03 [paul]	0.9.14
 
 	0.9.14 released
