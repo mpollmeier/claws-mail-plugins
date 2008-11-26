@@ -1,3 +1,9 @@
+2008-11-26 [colin]	0.22.0cvs3
+
+	* src/feed.c
+		Don't fetch comments on feed items that
+		have no id.
+
 2008-11-16 [colin]	0.22.0cvs2
 
 	* src/feed.c
