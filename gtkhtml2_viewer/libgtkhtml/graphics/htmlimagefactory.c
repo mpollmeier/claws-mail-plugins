@@ -145,6 +145,7 @@ html_image_factory_get_image (HtmlImageFactory *image_factory, const gchar *uri)
 		HtmlStream *stream;
 		
 		image = HTML_IMAGE (g_object_new (HTML_IMAGE_TYPE, NULL));
+		g_object_ref(image);
 
 		g_signal_connect_swapped (G_OBJECT (image), "last_unref", G_CALLBACK (html_image_shutdown), image_factory);
 		

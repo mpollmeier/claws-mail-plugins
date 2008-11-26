@@ -1,3 +1,14 @@
+2008-11-26 [colin]	0.21.0cvs1
+
+	* src/gtkhtml2_viewer.c
+		Silence valgrind (uninitialized
+		reads)
+	* libgtkhtml/graphics/htmlimagefactory.c
+		Fix dangling pointer on image
+		handling - probably fixes bug 1767,
+		'claws-mail segfaults quite often 
+		when selecting items in rssyl'
+
 2008-10-10 [paul]	0.21.0
 
 	0.21 released

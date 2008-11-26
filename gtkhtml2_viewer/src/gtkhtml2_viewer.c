@@ -202,6 +202,8 @@ static gboolean has_charset(FILE *fp)
 {
 	gchar buf[4096];
 	gint loaded = 0;
+
+	memset(buf, 0, sizeof(buf));
 	while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
 		if (strcasestr(buf, "<meta") &&
 		    strcasestr(buf, "http-equiv") &&
@@ -219,6 +221,8 @@ static gboolean has_header(FILE *fp)
 	gchar buf[4096];
 	gint loaded = 0;
 	gboolean start = FALSE;
+	memset(buf, 0, sizeof(buf));
+
 	while ((loaded = fread(buf, 1, 4096, fp)) > 0) {
 		if (strcasestr(buf, "<head>")) {
 			start = TRUE;
