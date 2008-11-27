@@ -1,3 +1,9 @@
+2008-11-27 [colin]	0.3.6cvs3
+
+	* src/spam_report.c
+		Don't use prefs_common struct directly
+		(will avoid crashes on Windows)
+
 2008-11-14 [colin]	0.3.6cvs2
 
 	* src/spam_report.c
