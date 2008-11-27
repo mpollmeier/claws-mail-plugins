@@ -28,6 +28,7 @@
 /** Identifier for the hook. */
 static guint hook_id;
 
+#ifdef G_OS_UNIX
 /**
  * Builds a single regular expresion from an array of srings.
  *
@@ -74,67 +75,79 @@ static gchar *build_complete_regexp(gchar **strings)
 	}
 	return expr;
 }
-
+#endif
 /**
  * Creates the matcher.
  *
  * @return A newly allocated regexp matcher or null if no memory is available.
  */
-MatcherProp * new_matcherprop(void)
+MatcherList * new_matcherlist(void)
 {
 	MatcherProp *m = NULL;
+	GSList *matchers = NULL;
 	gchar **strings = g_strsplit(attwarnerprefs.match_strings, "\n", -1);
-	gchar *expr = NULL;
-	
-	expr = build_complete_regexp(strings);
 
-	g_strfreev(strings);
+#ifdef G_OS_UNIX
+	gchar *expr = NULL;
+	expr = build_complete_regexp(strings);
+	debug_print("building matcherprop for expr '%s'\n", expr?expr:"NULL");
 	
-	debug_print("building matcherprop for expr '%s'\n", expr);
 	m = matcherprop_new(MATCHCRITERIA_SUBJECT, NULL, MATCHTYPE_REGEXP, 
 			    expr, 0);
 	if (m == NULL) {
 		/* print error message */
 		debug_print("failed to allocate memory for matcherprop\n");
+	} else {
+		matchers = g_slist_append(matchers, m);
 	}
 
 	g_free(expr);
+#else
+	int i = 0;
+	while (strings && strings[i] && *strings[i]) {
+		m = matcherprop_new(MATCHCRITERIA_SUBJECT, NULL, MATCHTYPE_MATCHCASE, 
+			    strings[i], 0);
+		if (m == NULL) {
+			/* print error message */
+			debug_print("failed to allocate memory for matcherprop\n");
+		} else {
+			matchers = g_slist_append(matchers, m);
+		}
+		i++;
+	}
+#endif
+	g_strfreev(strings);
 
-	return m;
+	return matcherlist_new(matchers, FALSE);
 }
 
-/**
- * Searches the str for matches.
- *
- * @param mp The matcher to use for searching.
- * @param str The string to search for matches.
- *
- * @return TRUE if the string given matches, FALSE otherwise.
- */
-static gboolean aw_matcherprop_string_match(MatcherProp *mp, gchar *str)
+static gboolean aw_matcherlist_string_match(MatcherList *matchers, gchar *str)
 {
 	MsgInfo info;
 	gboolean ret = FALSE;
 
 	if (attwarnerprefs.skip_quotes
 		&& *str != '\0'
-		&& *prefs_common.quote_chars != '\0') {
+		&& *prefs_common_get_prefs()->quote_chars != '\0') {
 
 		gchar **lines = g_strsplit(str, "\n", -1);
 		int i;
-
+		debug_print("checking without quotes\n");
 		for (i = 0; lines[i] != NULL && ret == FALSE; i++) {
 			if (line_has_quote_char(lines[i], 
-				prefs_common.quote_chars) == NULL) {
-
+				prefs_common_get_prefs()->quote_chars) == NULL) {
+				debug_print("testing line %d\n", i);
 				info.subject = lines[i];
-				ret = matcherprop_match(mp, &info);
+				ret = matcherlist_match(matchers, &info);
+				debug_print("line %d: %d\n", i, ret);
 			}
 		}
 		g_strfreev(lines);
 	} else {
 		info.subject = str;
-		ret = matcherprop_match(mp, &info);
+		debug_print("checking with quotes\n");
+		ret = matcherlist_match(matchers, &info);
+		debug_print("ret %d\n", ret);
 	}
 
 	return ret;
@@ -154,10 +167,11 @@ gboolean are_attachments_mentioned(Compose *compose)
 	GtkTextIter start, end;
 	gchar *text = NULL;
 	gboolean mentioned = FALSE;
+	MatcherList *matchers = NULL;
 
-	MatcherProp *matcher = new_matcherprop();
+	matchers = new_matcherlist();
 
-	if (matcher == NULL) {
+	if (matchers == NULL) {
 		g_warning("couldn't allocate matcher");
 		return FALSE;
 	}
@@ -170,14 +184,14 @@ gboolean are_attachments_mentioned(Compose *compose)
 
 	debug_print("checking text for attachment mentions\n");
 	if (text != NULL) {
-		mentioned = aw_matcherprop_string_match(matcher, text);
-		
+		mentioned = aw_matcherlist_string_match(matchers, text);
+		debug_print("check done, result %d\n", mentioned);
 		g_free(text);
 	}	
 
-	if (matcher != NULL)
-		matcherprop_free(matcher);
-
+	if (matchers != NULL)
+		matcherlist_free(matchers);
+	debug_print("done\n");
 	return mentioned;
 }
 
@@ -248,6 +262,7 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 
 	askuser = (does_not_have_attachments(compose)
 		   && are_attachments_mentioned(compose));
+	debug_print("we should ask user\n");
 	if (askuser) { 
 		AlertValue aval;
 		gchar *button_label;

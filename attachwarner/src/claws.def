@@ -11,8 +11,9 @@ get_rc_dir
 hooks_register_hook
 hooks_unregister_hook
 line_has_quote_char
-matcherprop_free
-matcherprop_match
+matcherlist_free
+matcherlist_match
+matcherlist_new
 matcherprop_new
 pref_get_escaped_pref
 pref_get_unescaped_pref
@@ -26,3 +27,4 @@ prefs_set_block_label
 prefs_set_default
 prefs_write_open
 prefs_write_param
+prefs_common_get_prefs

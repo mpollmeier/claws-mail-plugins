@@ -1,3 +1,15 @@
+2008-11-27 [colin]	0.2.14cvs1
+
+	* src/attachwarner.c
+	* src/claws.def
+		Don't use prefs_common struct directly
+		(will avoid crashes on Windows)
+		Also, fix detection of text mentioning
+		attachments on Windows (as regexps are
+		disabled on this platform due to huge 
+		leaks), by using a MatcherList with
+		OR condition
+
 2008-10-10 [paul]	0.2.14
 
 	0.2.14 released
