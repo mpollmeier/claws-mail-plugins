@@ -1397,7 +1397,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 
 	msgpath = folder_item_fetch_msg(folderitem, msgnum);
 	
-	if (!prefs_common.work_offline) {
+	if (!prefs_common_get_prefs()->work_offline) {
 		gchar *err = NULL;
 		gboolean queued_removed = FALSE;
 		gint val = procmsg_send_message_queue(msgpath, &err, folderitem, msgnum, &queued_removed);

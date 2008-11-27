@@ -1,3 +1,12 @@
+2008-11-27 [colin]	2.0.2cvs2
+
+	* src/claws.def
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcalendar.c
+		Don't use prefs_common struct directly
+		(will avoid crashes on Windows)
+
 2008-11-14 [colin]	2.0.2cvs1
 
 	* src/plugin.c

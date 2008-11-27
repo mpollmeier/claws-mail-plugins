@@ -1514,7 +1514,7 @@ void *url_read_thread(void *data)
 	curl_easy_setopt(curl_ctx, CURLOPT_URL, t_url);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEFUNCTION, curl_recv);
 	curl_easy_setopt(curl_ctx, CURLOPT_WRITEDATA, &buffer);
-	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, prefs_common.io_timeout_secs);
+	curl_easy_setopt(curl_ctx, CURLOPT_TIMEOUT, prefs_common_get_prefs()->io_timeout_secs);
 	curl_easy_setopt(curl_ctx, CURLOPT_NOSIGNAL, 1);
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(curl_ctx, CURLOPT_SSL_VERIFYPEER, 0);
@@ -1532,7 +1532,7 @@ void *url_read_thread(void *data)
 		
 		if(res == CURLE_OPERATION_TIMEOUTED)
 			log_error(LOG_PROTOCOL, _("Timeout (%d seconds) connecting to %s\n"),
-				prefs_common.io_timeout_secs, t_url);
+				prefs_common_get_prefs()->io_timeout_secs, t_url);
 	}
 
 	curl_easy_getinfo(curl_ctx, CURLINFO_RESPONSE_CODE, &response_code);
@@ -1823,7 +1823,7 @@ static void update_subscription(const gchar *uri, gboolean verbose)
 {
 	FolderItem *item = get_folder_item_for_uri(uri);
 	
-	if (prefs_common.work_offline) {
+	if (prefs_common_get_prefs()->work_offline) {
 		if (!verbose || 
 		!inc_offline_should_override(TRUE,
 		   _("Claws Mail needs network access in order "
@@ -1843,7 +1843,7 @@ static void check_subs_cb(GtkAction *action, gpointer data)
 {
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
-	if (prefs_common.work_offline && 
+	if (prefs_common_get_prefs()->work_offline && 
 	    !inc_offline_should_override(TRUE,
 		     _("Claws Mail needs network access in order "
 		     "to update the subscription.")))

@@ -865,11 +865,11 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->description), TRUE);
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->attendees), FALSE);
 	
-	if (prefs_common.textfont) {
+	if (prefs_common_get_prefs()->textfont) {
 		PangoFontDescription *font_desc;
 
 		font_desc = pango_font_description_from_string
-						(prefs_common.textfont);
+						(prefs_common_get_prefs()->textfont);
 		if (font_desc) {
 			gtk_widget_modify_font(
 				vcalviewer->description, font_desc);
@@ -1264,7 +1264,7 @@ static gint vcal_webcal_check(gpointer data)
 {
 	Folder *root = folder_find_from_name ("vCalendar", vcal_folder_get_class());
 
-	if (prefs_common.work_offline)
+	if (prefs_common_get_prefs()->work_offline)
 		return TRUE;
 	
 	manual_update = FALSE;
@@ -1317,8 +1317,8 @@ void vcalendar_init(void)
 	scan_timeout_tag = g_timeout_add(3600*1000, 
 				(GtkFunction)vcal_webcal_check, 
 				(gpointer)NULL);
-	if (prefs_common.enable_color) {
-		gtkut_convert_int_to_gdk_color(prefs_common.uri_col,
+	if (prefs_common_get_prefs()->enable_color) {
+		gtkut_convert_int_to_gdk_color(prefs_common_get_prefs()->uri_col,
 				       &uri_color);
 	}
 
