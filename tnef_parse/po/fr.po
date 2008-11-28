@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail TNEF Parser\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-10-03 10:30+0200\n"
+"POT-Creation-Date: 2008-11-28 10:10+0100\n"
 "PO-Revision-Date: 2008-04-18 08:44+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: FR <colin@colino.net>\n"
@@ -48,11 +48,11 @@ msgstr "Impossible de décoder les données VTask."
 msgid "Failed to parse VCard data."
 msgstr "Impossible de décoder les données VCard."
 
-#: src/tnef_parse.c:380 src/tnef_parse.c:404
+#: src/tnef_parse.c:384 src/tnef_parse.c:408
 msgid "TNEF Parser"
 msgstr "Parseur TNEF"
 
-#: src/tnef_parse.c:409
+#: src/tnef_parse.c:413
 msgid ""
 "This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
 "\n"
@@ -64,34 +64,3 @@ msgstr ""
 "\n"
 "Ce module utilise la bibliothèque Ytnef, qui est copyright 2002-2008 Randall "
 "Hand <yerase@yerot.com>"
-
-#~ msgid "Reporting spam..."
-#~ msgstr "Soumission du pourriel..."
-
-#~ msgid "/Message/Report spam online"
-#~ msgstr "/Message/Soumettre le(s) pourriel(s) en ligne"
-
-#~ msgid "/Report spam online"
-#~ msgstr "/Soumettre le(s) pourriel(s) en ligne"
-
-#~ msgid "SpamReport"
-#~ msgstr "SpamReport"
-
-#~ msgid ""
-#~ "This plugin reports spam to various places. Currently only spam-signal.fr "
-#~ "is supported."
-#~ msgstr ""
-#~ "Ce module soumet les pourriels à divers services anti-pourriel en ligne. "
-#~ "Pour l'instant, seul signal-spam.fr est supporté."
-
-#~ msgid "Spam reporting"
-#~ msgstr "Soumission de pourriel"
-
-#~ msgid "Plugins"
-#~ msgstr "Modules"
-
-#~ msgid "Username:"
-#~ msgstr "Nom d'utilisateur :"
-
-#~ msgid "Password:"
-#~ msgstr "Mot de passe :"
