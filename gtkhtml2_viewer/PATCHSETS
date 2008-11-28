@@ -114,3 +114,4 @@
 ( cvs diff -u -r 1.1.2.79 -r 1.1.2.80 src/gtkhtml2_viewer.c;  ) > 0.20.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/claws.def;  ) > 0.20.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.80 -r 1.1.2.81 src/gtkhtml2_viewer.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/graphics/htmlimagefactory.c;  ) > 0.21.0cvs1.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fr.po;  ) > 0.21.0cvs2.patchset

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws-gtkhtml2_viewer-plugin-0.11cvs2\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-10-03 10:30+0200\n"
+"POT-Creation-Date: 2008-11-28 10:10+0100\n"
 "PO-Revision-Date: 2008-10-03 10:31+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team:  <sylpheed-claws-translators@lists.sourceforge.net>\n"
@@ -14,11 +14,8 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gtkhtml2_prefs.c:70
-#: src/gtkhtml2_prefs.c:213
-#: src/gtkhtml2_prefs.c:229
-#: src/gtkhtml2_prefs.c:315
-#: src/gtkhtml2_viewer.c:186
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:213 src/gtkhtml2_prefs.c:229
+#: src/gtkhtml2_prefs.c:315 src/gtkhtml2_viewer.c:186
 msgid "Any"
 msgstr "Quelconque"
 
@@ -74,32 +71,33 @@ msgstr "Zoomer"
 msgid "Zoom _out"
 msgstr "Dézoomer"
 
-#: src/gtkhtml2_viewer.c:794
+#: src/gtkhtml2_viewer.c:798
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Délai dépassé sur la connexion à %s\n"
 
-#: src/gtkhtml2_viewer.c:869
+#: src/gtkhtml2_viewer.c:873
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
 msgstr "Des images distantes n'ont pas été chargées suivant vos préférences."
 
-#: src/gtkhtml2_viewer.c:871
+#: src/gtkhtml2_viewer.c:875
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
-msgstr "Des images distantes n'ont pas été chargées car vous travaillez hors-ligne."
+msgstr ""
+"Des images distantes n'ont pas été chargées car vous travaillez hors-ligne."
 
-#: src/gtkhtml2_viewer.c:873
+#: src/gtkhtml2_viewer.c:877
 msgid "Remote images exist, but loading them failed."
 msgstr "Des images distantes n'ont pu être chargées."
 
-#: src/gtkhtml2_viewer.c:877
+#: src/gtkhtml2_viewer.c:881
 msgid "Load images"
 msgstr "Charger les images"
 
-#: src/gtkhtml2_viewer.c:1113
+#: src/gtkhtml2_viewer.c:1117
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -108,28 +106,30 @@ msgstr ""
 "Échec à l'impression :\n"
 " %s"
 
-#: src/gtkhtml2_viewer.c:1144
+#: src/gtkhtml2_viewer.c:1148
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
-msgstr "L'impression de HTML n'est possible que si le programme 'html2ps' est installé."
+msgstr ""
+"L'impression de HTML n'est possible que si le programme 'html2ps' est "
+"installé."
 
-#: src/gtkhtml2_viewer.c:1149
+#: src/gtkhtml2_viewer.c:1153
 msgid "Filename is null."
 msgstr "Nom de fichier non défini (NULL)."
 
-#: src/gtkhtml2_viewer.c:1164
+#: src/gtkhtml2_viewer.c:1168
 msgid "Conversion to postscript failed."
 msgstr "Échec lors de la conversion au format postcript."
 
-#: src/gtkhtml2_viewer.c:1171
+#: src/gtkhtml2_viewer.c:1175
 msgid "Print"
 msgstr "Imprimer"
 
-#: src/gtkhtml2_viewer.c:1192
+#: src/gtkhtml2_viewer.c:1196
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "L'imprimante %s n'accepte pas les fichiers PostScript."
 
-#: src/gtkhtml2_viewer.c:1208
+#: src/gtkhtml2_viewer.c:1212
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -138,26 +138,10 @@ msgstr ""
 "Échec à l'impression :\n"
 "%s"
 
-#: src/gtkhtml2_viewer.c:1365
-#: src/gtkhtml2_viewer.c:1402
+#: src/gtkhtml2_viewer.c:1373 src/gtkhtml2_viewer.c:1410
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visualiseur HTML GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:1407
+#: src/gtkhtml2_viewer.c:1415
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Ce module affiche les messages HTML avec GtkHtml2."
-
-#~ msgid ""
-#~ "Your version of Sylpheed-Claws is newer than the version the "
-#~ "Gtkhtml2Viewer plugin was built with"
-#~ msgstr ""
-#~ "La version de Sylpheed-Claws actuellement installée est plus récente que "
-#~ "celle avec laquelle le module Gtkhtml2Viewer a été compilé."
-#~ msgid ""
-#~ "Your version of Sylpheed-Claws is too old for the Gtkhtml2Viewer plugin"
-#~ msgstr ""
-#~ "La version de Sylpheed-Claws actuellement installée est trop ancienne "
-#~ "pour le module Gtkhtml2Viewer."
-#~ msgid "text/html"
-#~ msgstr "text/html"
-
