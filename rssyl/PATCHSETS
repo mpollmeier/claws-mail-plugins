@@ -155,3 +155,4 @@
 ( cvs diff -u -r 1.1.2.102 -r 1.1.2.103 src/feed.c;  ) > 0.22.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.103 -r 1.1.2.104 src/feed.c;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/feedprops.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/feedprops.h;  cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/rssyl.c;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/rssyl.h;  cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/rssyl_gtk.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_gtk.h;  ) > 0.22.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.104 -r 1.1.2.105 src/feed.c;  ) > 0.22.0cvs3.patchset
+( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fr.po;  ) > 0.22.0cvs4.patchset
