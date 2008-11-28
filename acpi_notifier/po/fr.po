@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2008-04-18 09:08+0200\n"
+"POT-Creation-Date: 2008-11-28 10:16+0100\n"
 "PO-Revision-Date: 2008-04-18 09:30+0100\n"
 "Last-Translator: Tristan Chabredier <wwp subscript@free.fr>\n"
 "Language-Team: English <en@translate.freefriends.org>\n"
@@ -59,9 +59,7 @@ msgstr ""
 "Vous pouvez le trouver à l'adresse suivante :\n"
 " http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:200
-#: src/acpi_notifier.c:206
-#: src/acpi_notifier.c:418
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "Le fichier de contrôle n'existe pas."
 
@@ -77,27 +75,19 @@ msgstr " : messages non lus"
 msgid " : new mail"
 msgstr " : nouveaux messages"
 
-#: src/acpi_notifier.c:302
-#: src/acpi_notifier.c:308
-#: src/acpi_notifier.c:314
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
 msgstr "éteinte"
 
-#: src/acpi_notifier.c:304
-#: src/acpi_notifier.c:310
-#: src/acpi_notifier.c:316
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "clignotante"
 
-#: src/acpi_notifier.c:306
-#: src/acpi_notifier.c:312
-#: src/acpi_notifier.c:318
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
 msgstr "allumée"
 
-#: src/acpi_notifier.c:340
-#: src/acpi_notifier.c:349
-#: src/acpi_notifier.c:364
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
 msgstr "DEL "
 
@@ -125,11 +115,12 @@ msgstr "Faire clignoter lorsque l'interaction de l'utilisateur est requise"
 msgid "Plugins"
 msgstr "Modules"
 
-#: src/acpi_notifier.c:862
+#: src/acpi_notifier.c:866
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "Ce module gère différentes DELs de notification de messages sur certains portables avec ACPI."
+msgstr ""
+"Ce module gère différentes DELs de notification de messages sur certains "
+"portables avec ACPI."
 
-#: src/acpi_notifier.c:883
+#: src/acpi_notifier.c:887
 msgid "Laptop LED"
 msgstr "DEL portable"
-
