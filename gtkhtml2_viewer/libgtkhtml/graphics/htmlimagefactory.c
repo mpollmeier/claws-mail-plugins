@@ -117,7 +117,6 @@ close_pixbuf (HtmlStream *stream, HtmlImage *image)
 		image->broken = TRUE;
 		g_signal_emit_by_name (G_OBJECT (image), "repaint_image", 0, 0,
 				       html_image_get_width (image), html_image_get_height (image));
-
 	}
 	
 	gdk_pixbuf_loader_close (image->loader, NULL);
@@ -138,6 +137,12 @@ html_image_factory_get_image (HtmlImageFactory *image_factory, const gchar *uri)
 	HtmlImage *image;
 
 	image = g_hash_table_lookup (image_factory->image_hash, uri);
+	
+	if (image && image->broken) {
+		/* force reloading if image is broken */
+		g_hash_table_remove (image_factory->image_hash, image->uri);
+		image = NULL;
+	}
 	
 	if (image)
 		image = (HtmlImage *)g_object_ref (G_OBJECT (image));
