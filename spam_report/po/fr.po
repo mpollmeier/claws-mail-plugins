@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail SpamReport\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-10-10 16:56+0200\n"
+"POT-Creation-Date: 2008-11-28 10:10+0100\n"
 "PO-Revision-Date: 2008-10-13 14:54+0100\n"
 "Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
 "Language-Team: FR <colin@colino.net>\n"
@@ -20,21 +20,22 @@ msgid "Reporting spam..."
 msgstr "Soumission du pourriel..."
 
 #: src/spam_report.c:249
-#: src/spam_report.c:254
 msgid "Report spam online..."
 msgstr "Soumettre le(s) pourriel(s) en ligne"
 
-#: src/spam_report.c:273
-#: src/spam_report.c:316
-#: src/spam_report_prefs.c:78
+#: src/spam_report.c:268 src/spam_report.c:309 src/spam_report_prefs.c:78
 msgid "SpamReport"
 msgstr "SpamReport"
 
-#: src/spam_report.c:321
-msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
-msgstr "Ce module soumet les pourriels à divers services anti-pourriel en ligne. Pour l'instant, seul signal-spam.fr est supporté."
+#: src/spam_report.c:314
+msgid ""
+"This plugin reports spam to various places. Currently only spam-signal.fr is "
+"supported."
+msgstr ""
+"Ce module soumet les pourriels à divers services anti-pourriel en ligne. "
+"Pour l'instant, seul signal-spam.fr est supporté."
 
-#: src/spam_report.c:343
+#: src/spam_report.c:336
 msgid "Spam reporting"
 msgstr "Soumission de pourriel"
 
@@ -57,7 +58,3 @@ msgstr "Nom d'utilisateur :"
 #: src/spam_report_prefs.c:161
 msgid "Password:"
 msgstr "Mot de passe :"
-
-#~ msgid "/Message/Report spam online"
-#~ msgstr "/Message/Soumettre le(s) pourriel(s) en ligne"
-
