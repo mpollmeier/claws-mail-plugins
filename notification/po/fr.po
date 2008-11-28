@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: claws-mail-notification-plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-10-03 10:30+0200\n"
+"POT-Creation-Date: 2008-11-28 10:10+0100\n"
 "PO-Revision-Date: 2008-10-03 10:30+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team:  <sylpheed-claws-translators@lists.sourceforge.net>\n"
@@ -32,62 +32,68 @@ msgstr "Sélectionnez un ou plusieurs dossiers"
 msgid "select recursively"
 msgstr "sélectionner récursivement"
 
-#: src/notification_plugin.c:188
-#: src/notification_plugin.c:374
-#: src/notification_prefs.c:317
-#: src/notification_prefs.c:331
-#: src/notification_prefs.c:348
-#: src/notification_prefs.c:365
-#: src/notification_prefs.c:382
-#: src/notification_prefs.c:399
+#: src/notification_plugin.c:192 src/notification_plugin.c:378
+#: src/notification_prefs.c:317 src/notification_prefs.c:331
+#: src/notification_prefs.c:348 src/notification_prefs.c:365
+#: src/notification_prefs.c:382 src/notification_prefs.c:399
 msgid "Notification"
 msgstr "Notification"
 
-#: src/notification_plugin.c:193
+#: src/notification_plugin.c:197
 msgid "The Notification plugin needs threading support."
 msgstr "Le module Notification nécessite le support des threads."
 
-#: src/notification_plugin.c:200
+#: src/notification_plugin.c:204
 msgid "Failed to register folder item update hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook folderitemupdate dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook folderitemupdate dans le module Notification"
 
-#: src/notification_plugin.c:208
+#: src/notification_plugin.c:212
 msgid "Failed to register folder update hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook folderupdate dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook folderupdate dans le module Notification"
 
-#: src/notification_plugin.c:218
+#: src/notification_plugin.c:222
 msgid "Failed to register msginfo update hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook msginfoupdate dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook msginfoupdate dans le module Notification"
 
-#: src/notification_plugin.c:228
+#: src/notification_plugin.c:232
 msgid "Failed to register offline switch hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook offlineswitch dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook offlineswitch dans le module Notification"
 
-#: src/notification_plugin.c:239
+#: src/notification_plugin.c:243
 msgid "Failed to register main window close hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook mainwindowclose dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook mainwindowclose dans le module Notification"
 
-#: src/notification_plugin.c:252
+#: src/notification_plugin.c:256
 msgid "Failed to register got iconified hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook goticonified dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook goticonified dans le module Notification"
 
-#: src/notification_plugin.c:265
+#: src/notification_plugin.c:269
 msgid "Failed to register account list changed hook in the Notification plugin"
-msgstr "Impossible d'enregistrer le hook accountlistchanged dans le module Notification"
+msgstr ""
+"Impossible d'enregistrer le hook accountlistchanged dans le module "
+"Notification"
 
-#: src/notification_plugin.c:278
+#: src/notification_plugin.c:282
 msgid "Failed to register theme change hook int the Notification plugin"
 msgstr "Impossible d'enregistrer le hook theme dans le module Notification"
 
-#: src/notification_plugin.c:379
+#: src/notification_plugin.c:383
 msgid ""
-"This plugin provides various ways to notify the user of new and unread email.\n"
+"This plugin provides various ways to notify the user of new and unread "
+"email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Ce module fournit divers moyens de notifier l'utilisateur de nouveaux emails.\n"
+"Ce module fournit divers moyens de notifier l'utilisateur de nouveaux "
+"emails.\n"
 "Commentaires bienvenus à <berndth@gmx.de>."
 
-#: src/notification_plugin.c:402
+#: src/notification_plugin.c:406
 msgid "Various tools"
 msgstr "Outils variés"
 
@@ -95,13 +101,11 @@ msgstr "Outils variés"
 msgid "New Mail message"
 msgstr "Nouvel email"
 
-#: src/notification_popup.c:291
-#: src/notification_popup.c:570
+#: src/notification_popup.c:291 src/notification_popup.c:570
 msgid "(No From)"
 msgstr "(Pas d'expéditeur)"
 
-#: src/notification_popup.c:293
-#: src/notification_popup.c:574
+#: src/notification_popup.c:293 src/notification_popup.c:574
 msgid "(No Subject)"
 msgstr "(Pas de sujet)"
 
@@ -141,8 +145,7 @@ msgstr "Un nouveau message de type inconnu est arrivé"
 msgid "Mail message"
 msgstr "Message email"
 
-#: src/notification_popup.c:442
-#: src/notification_popup.c:448
+#: src/notification_popup.c:442 src/notification_popup.c:448
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
@@ -182,12 +185,9 @@ msgid_plural "%d new messages"
 msgstr[0] "%d nouveau message"
 msgstr[1] "%d nouveaux messages"
 
-#: src/notification_prefs.c:316
-#: src/notification_prefs.c:330
-#: src/notification_prefs.c:347
-#: src/notification_prefs.c:364
-#: src/notification_prefs.c:381
-#: src/notification_prefs.c:398
+#: src/notification_prefs.c:316 src/notification_prefs.c:330
+#: src/notification_prefs.c:347 src/notification_prefs.c:364
+#: src/notification_prefs.c:381 src/notification_prefs.c:398
 msgid "Plugins"
 msgstr "Modules"
 
@@ -287,42 +287,33 @@ msgstr "Inclure les messages non lus dans la bannière"
 msgid "Make banner sticky"
 msgstr "Rendre la bannière \"collante\""
 
-#: src/notification_prefs.c:669
-#: src/notification_prefs.c:867
-#: src/notification_prefs.c:1139
-#: src/notification_prefs.c:1371
+#: src/notification_prefs.c:669 src/notification_prefs.c:867
+#: src/notification_prefs.c:1139 src/notification_prefs.c:1371
 msgid "Only include selected folders"
 msgstr "N'inclure que les dossiers sélectionnés"
 
-#: src/notification_prefs.c:678
-#: src/notification_prefs.c:876
-#: src/notification_prefs.c:1148
-#: src/notification_prefs.c:1380
+#: src/notification_prefs.c:678 src/notification_prefs.c:876
+#: src/notification_prefs.c:1148 src/notification_prefs.c:1380
 msgid "Select folders..."
 msgstr "Sélectionner des dossiers..."
 
-#: src/notification_prefs.c:688
-#: src/notification_prefs.c:908
+#: src/notification_prefs.c:688 src/notification_prefs.c:908
 msgid "Use custom colors"
 msgstr "Utiliser des couleurs spécifiques"
 
-#: src/notification_prefs.c:701
-#: src/notification_prefs.c:921
+#: src/notification_prefs.c:701 src/notification_prefs.c:921
 msgid "Foreground"
 msgstr "Premier plan"
 
-#: src/notification_prefs.c:707
-#: src/notification_prefs.c:927
+#: src/notification_prefs.c:707 src/notification_prefs.c:927
 msgid "Foreground color"
 msgstr "Couleur de premier plan"
 
-#: src/notification_prefs.c:712
-#: src/notification_prefs.c:932
+#: src/notification_prefs.c:712 src/notification_prefs.c:932
 msgid "Background"
 msgstr "Arrière-plan"
 
-#: src/notification_prefs.c:718
-#: src/notification_prefs.c:938
+#: src/notification_prefs.c:718 src/notification_prefs.c:938
 msgid "Background color"
 msgstr "Couleur d'arrière-plan"
 
@@ -330,13 +321,11 @@ msgstr "Couleur d'arrière-plan"
 msgid "Enable popup"
 msgstr "Activer la popup"
 
-#: src/notification_prefs.c:848
-#: src/notification_prefs.c:1426
+#: src/notification_prefs.c:848 src/notification_prefs.c:1426
 msgid "Popup timeout:"
 msgstr "Délai de disparition de la popup"
 
-#: src/notification_prefs.c:858
-#: src/notification_prefs.c:1130
+#: src/notification_prefs.c:858 src/notification_prefs.c:1130
 #: src/notification_prefs.c:1435
 msgid "seconds"
 msgstr "secondes"
@@ -353,8 +342,7 @@ msgstr "Régler la taille et position de la popup"
 msgid "(the window manager is free to ignore this)"
 msgstr "(Le gestionnaire de fenêtres peut ignorer ceci)"
 
-#: src/notification_prefs.c:950
-#: src/notification_prefs.c:1438
+#: src/notification_prefs.c:950 src/notification_prefs.c:1438
 msgid "Display folder name"
 msgstr "Afficher le nom du dossier"
 
@@ -415,4 +403,3 @@ msgstr "Popup passive"
 #: src/notification_prefs.c:1408
 msgid "Enable Popup"
 msgstr "Activer la popup"
-
