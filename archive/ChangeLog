@@ -1,3 +1,8 @@
+2008-11-28 [colin]	0.6.2cvs10
+
+	* po/fr.po
+		Update translation
+
 2008-10-22 [michael]	0.6.2cvs9
 
 	* src/libarchive_archive.c
