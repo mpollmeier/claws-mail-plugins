@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2008-03-12 13:57+0100\n"
+"POT-Creation-Date: 2008-11-28 10:10+0100\n"
 "PO-Revision-Date: 2008-04-18 08:51+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -67,11 +67,11 @@ msgstr "Optimisé :"
 msgid "PDF Viewer Plugin"
 msgstr "Module Lecteur PDF"
 
-#: src/poppler_viewer.c:1130
+#: src/poppler_viewer.c:1131
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: src/poppler_viewer.c:1180
+#: src/poppler_viewer.c:1181
 #, c-format
 msgid "%s Document"
 msgstr "Document %s"
@@ -83,87 +83,79 @@ msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: src/poppler_viewer.c:1578
-#: src/poppler_viewer.c:1819
+#: src/poppler_viewer.c:1578 src/poppler_viewer.c:1798
 msgid "Document Index"
 msgstr "Index du document"
 
-#: src/poppler_viewer.c:1650
+#: src/poppler_viewer.c:1652
 msgid "Name"
 msgstr "Nom"
 
-#: src/poppler_viewer.c:1765
+#: src/poppler_viewer.c:1766
 msgid "First Page"
 msgstr "Première page"
 
-#: src/poppler_viewer.c:1770
+#: src/poppler_viewer.c:1769
 msgid "Previous Page"
 msgstr "Page précédente"
 
-#: src/poppler_viewer.c:1775
+#: src/poppler_viewer.c:1772
 msgid "Next Page"
 msgstr "Page suivante"
 
-#: src/poppler_viewer.c:1780
+#: src/poppler_viewer.c:1775
 msgid "Last Page"
 msgstr "Dernière page"
 
-#: src/poppler_viewer.c:1785
+#: src/poppler_viewer.c:1778
 msgid "Zoom In"
 msgstr "Zoomer"
 
-#: src/poppler_viewer.c:1789
+#: src/poppler_viewer.c:1780
 msgid "Zoom Out"
 msgstr "Dézoomer"
 
-#: src/poppler_viewer.c:1794
+#: src/poppler_viewer.c:1783
 msgid "Fit Page"
 msgstr "Adapter à la taille"
 
-#: src/poppler_viewer.c:1799
+#: src/poppler_viewer.c:1786
 msgid "Fit Page Width"
 msgstr "Adapter à la largeur"
 
-#: src/poppler_viewer.c:1804
+#: src/poppler_viewer.c:1789
 msgid "Rotate Left"
 msgstr "Pivoter à gauche"
 
-#: src/poppler_viewer.c:1809
+#: src/poppler_viewer.c:1792
 msgid "Rotate Right"
 msgstr "Pivoter à droite"
 
-#: src/poppler_viewer.c:1814
+#: src/poppler_viewer.c:1795
 msgid "Document Info"
 msgstr "Informations"
 
-#: src/poppler_viewer.c:1823
+#: src/poppler_viewer.c:1800
 msgid "Page Number"
 msgstr "Numéro de page"
 
-#: src/poppler_viewer.c:1827
+#: src/poppler_viewer.c:1802
 msgid "Zoom Factor"
 msgstr "Facteur de zoom"
 
-#: src/poppler_viewer.c:1931
+#: src/poppler_viewer.c:1910
 #, c-format
 msgid ""
-"This plugin enables the viewing of PDF and PostScript attachments using the Poppler %s Lib and the gs tool.\n"
+"This plugin enables the viewing of PDF and PostScript attachments using the "
+"Poppler %s Lib and the gs tool.\n"
 "\n"
 "Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
-"Ce module permet de lire des fichiers joints PDF et PostScript, avec la bibliothèque Poppler %s et l'outil gs.\n"
+"Ce module permet de lire des fichiers joints PDF et PostScript, avec la "
+"bibliothèque Poppler %s et l'outil gs.\n"
 "\n"
 "Retours bienvenus: iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1940
-#: src/poppler_viewer.c:1955
+#: src/poppler_viewer.c:1918 src/poppler_viewer.c:1933
 msgid "PDF Viewer"
 msgstr "Lecteur PDF"
-
-#~ msgid ""
-#~ "This plugin renders PDF attachments in mails using the poppler lib.\n"
-#~ "The extended name is Red Poppler PDF Viewer."
-#~ msgstr ""
-#~ "Ce plugin affiche les fichiers PDF joints.Son nom complet est Red Poppler "
-#~ "PDF Viewer."
-
