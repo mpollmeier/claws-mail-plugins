@@ -1,3 +1,13 @@
+2008-12-02 [colin]	0.21.0cvs4
+
+	* libgtkhtml/graphics/htmlimagefactory.c
+		Better fix for 0.21.0cvs1 - don't use
+		weak pointers to objects more short-
+		lived than the image, and don't add
+		an extra ref (which caused heavier 
+		memory usage as images were never
+		freed)
+
 2008-11-28 [colin]	0.21.0cvs3
 
 	* libgtkhtml/graphics/htmlimagefactory.c

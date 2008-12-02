@@ -150,7 +150,6 @@ html_image_factory_get_image (HtmlImageFactory *image_factory, const gchar *uri)
 		HtmlStream *stream;
 		
 		image = HTML_IMAGE (g_object_new (HTML_IMAGE_TYPE, NULL));
-		g_object_ref(image);
 
 		g_signal_connect_swapped (G_OBJECT (image), "last_unref", G_CALLBACK (html_image_shutdown), image_factory);
 		
@@ -160,8 +159,6 @@ html_image_factory_get_image (HtmlImageFactory *image_factory, const gchar *uri)
 					  image);
 
 		image->stream = stream;
-		g_object_add_weak_pointer (G_OBJECT (stream), (gpointer *) &(image->stream));
-		g_object_add_weak_pointer (G_OBJECT (image), (gpointer *) &(stream->user_data));
 
 		g_signal_emit (G_OBJECT (image_factory), image_factory_signals [REQUEST_IMAGE], 0, uri, stream);
 		
