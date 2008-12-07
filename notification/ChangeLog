@@ -1,3 +1,8 @@
+2008-12-07 [paul]	0.19cvs2
+
+	* configure.ac
+		check for compiler before setting CFLAGS
+
 2008-11-28 [colin]	0.19cvs2
 
 	* po/fr.po
