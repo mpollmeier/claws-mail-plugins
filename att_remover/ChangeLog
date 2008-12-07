@@ -1,3 +1,8 @@
+2008-12-07 [paul]	1.0.9cvs2
+
+	* configure.ac
+		check for compiler before setting CFLAGS
+
 2008-11-14 [colin]	1.0.9cvs1
 
 	* src/att_remover.c
