@@ -9,12 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=14
-EXTRA_VERSION=2
-
-CFLAGS="$CFLAGS -Wall"
-if test $USE_MAINTAINER_MODE = yes; then
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-fi
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -63,7 +58,6 @@ case "$host" in
     ;;
 esac
 
-AC_MSG_RESULT([$platform_win32])
 AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = x"yes")
 
 AC_MSG_CHECKING([for native Win32])
@@ -108,6 +102,10 @@ case "$target" in
         ;;
 esac
 
+CFLAGS="$CFLAGS -Wall"
+if test $USE_MAINTAINER_MODE = yes; then
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+fi
 
 dnl Checks for iconv
 AM_ICONV
