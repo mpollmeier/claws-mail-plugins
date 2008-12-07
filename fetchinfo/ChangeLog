@@ -1,3 +1,9 @@
+2008-12-07 [paul]	0.4.23cvs1
+
+	* configure.ac
+		check for compiler before setting CFLAGS
+		prohibit gcc4's signedness warnings
+
 2008-04-18 [paul]	0.4.23
 
 	0.4.23 released

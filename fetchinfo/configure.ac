@@ -8,12 +8,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=23
-EXTRA_VERSION=0
-
-CFLAGS="$CFLAGS -Wall"
-if test $USE_MAINTAINER_MODE = yes; then
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-fi
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -39,6 +34,21 @@ AM_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
+
+AC_MSG_CHECKING([if gcc supports -Wno-pointer-sign])
+_gcc_cflags_save=$CFLAGS
+CFLAGS="-Wno-pointer-sign"
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([]),_gcc_psign=yes,_gcc_psign=no)
+AC_MSG_RESULT($_gcc_psign)
+CFLAGS=$_gcc_cflags_save;
+if test x"$_gcc_psign" = xyes ; then
+	CFLAGS="$CFLAGS -Wno-pointer-sign"
+fi
+
+CFLAGS="$CFLAGS -Wall"
+if test $USE_MAINTAINER_MODE = yes; then
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+fi
 
 #
 # Find pkg-config
