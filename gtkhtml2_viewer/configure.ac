@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=21
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -176,6 +176,16 @@ if test x$CURL_CONFIG = xno ; then
 	AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
 fi
 CURL_CFLAGS="`$CURL_CONFIG --cflags`"
+
+AC_MSG_CHECKING([if gcc supports -Wno-pointer-sign])
+_gcc_cflags_save=$CFLAGS
+CFLAGS="-Wno-pointer-sign"
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([]),_gcc_psign=yes,_gcc_psign=no)
+AC_MSG_RESULT($_gcc_psign)
+CFLAGS=$_gcc_cflags_save;
+if test x"$_gcc_psign" = xyes ; then
+	CFLAGS="$CFLAGS -Wno-pointer-sign"
+fi
 
 CFLAGS="$CFLAGS $CURL_CFLAGS -Wall"
 if test $USE_MAINTAINER_MODE = yes; then

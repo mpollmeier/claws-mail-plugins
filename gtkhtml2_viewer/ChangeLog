@@ -1,3 +1,8 @@
+2008-12-07 [paul]	0.21.0cvs5
+
+	* configure.ac
+		prohibit gcc4's signedness warning
+
 2008-12-02 [colin]	0.21.0cvs4
 
 	* libgtkhtml/graphics/htmlimagefactory.c
