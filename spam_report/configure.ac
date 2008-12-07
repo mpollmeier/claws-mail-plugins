@@ -11,11 +11,6 @@ MINOR_VERSION=3
 MICRO_VERSION=6
 EXTRA_VERSION=4
 
-CFLAGS="$CFLAGS -Wall"
-if test $USE_MAINTAINER_MODE = yes; then
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-fi
-
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
         VERSION=${MAJOR_VERSION}.${MINOR_VERSION} 
@@ -55,6 +50,21 @@ AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
+
+AC_MSG_CHECKING([if gcc supports -Wno-pointer-sign])
+_gcc_cflags_save=$CFLAGS
+CFLAGS="-Wno-pointer-sign"
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([]),_gcc_psign=yes,_gcc_psign=no)
+AC_MSG_RESULT($_gcc_psign)
+CFLAGS=$_gcc_cflags_save;
+if test x"$_gcc_psign" = xyes ; then
+	CFLAGS="$CFLAGS -Wno-pointer-sign"
+fi
+
+CFLAGS="$CFLAGS -Wall"
+if test $USE_MAINTAINER_MODE = yes; then
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+fi
 
 ALL_LINGUAS="ca es fi fr hu it pt_BR ru sk"
 
@@ -104,12 +114,9 @@ CURL_CFLAGS="`$CURL_CONFIG --cflags`"
 CFLAGS="$CFLAGS $CURL_CFLAGS"
 
 CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
-AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
-
-CURL_LIBS="`$CURL_CONFIG --libs`"
-
-LIBS="$LIBS $CURL_LIBS"
-AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
+AC_CHECK_HEADER(curl/curl.h, [
+	AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])],
+	[AC_MSG_ERROR(libcurl headers are missing)])
 
 dnl check for pthread support
 AC_ARG_ENABLE(pthread,
