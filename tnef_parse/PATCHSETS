@@ -26,3 +26,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/tnef_parse.c;  ) > 0.3.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/claws.def;  ) > 0.3.1cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fr.po;  ) > 0.3.2cvs1.patchset
+( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 configure.ac;  ) > 0.3.2cvs2.patchset
