@@ -10,12 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=22
 MICRO_VERSION=0
-EXTRA_VERSION=4
-
-CFLAGS="$CFLAGS -Wall"
-if test $USE_MAINTAINER_MODE = yes; then
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-fi
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -62,7 +57,6 @@ case "$host" in
     ;;
 esac
 
-AC_MSG_RESULT([$platform_win32])
 AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = x"yes")
 
 AC_MSG_CHECKING([for native Win32])
@@ -107,6 +101,20 @@ case "$target" in
         ;;
 esac
 
+AC_MSG_CHECKING([if gcc supports -Wno-pointer-sign])
+_gcc_cflags_save=$CFLAGS
+CFLAGS="-Wno-pointer-sign"
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([]),_gcc_psign=yes,_gcc_psign=no)
+AC_MSG_RESULT($_gcc_psign)
+CFLAGS=$_gcc_cflags_save;
+if test x"$_gcc_psign" = xyes ; then
+	CFLAGS="$CFLAGS -Wno-pointer-sign"
+fi
+
+CFLAGS="$CFLAGS -Wall"
+if test $USE_MAINTAINER_MODE = yes; then
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+fi
 
 dnl Checks for iconv
 AM_ICONV
@@ -204,12 +212,10 @@ fi
 AC_SUBST(PTHREAD_LIBS)
 
 CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
-AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
 
-CURL_LIBS="`$CURL_CONFIG --libs`"
-
-LIBS="$LIBS $CURL_LIBS"
-AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
+AC_CHECK_HEADER(curl/curl.h, [
+	AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])],
+	[AC_MSG_ERROR(libcurl headers are missing)])
 
 PKG_CHECK_MODULES(libxml, "libxml-2.0",,
 									[AC_MSG_ERROR(libxml library is missing)])
