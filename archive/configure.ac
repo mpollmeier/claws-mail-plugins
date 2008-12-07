@@ -13,7 +13,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=2
-EXTRA_VERSION=11
+EXTRA_VERSION=12
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -36,13 +36,6 @@ AM_INIT_AUTOMAKE($PACKAGE, $VERSION, no-define)
 AC_DEFINE_UNQUOTED(PLUGINVERSION, "$VERSION", [plugin version])
 
 AC_CONFIG_HEADERS([config.h])
-
-if test $USE_MAINTAINER_MODE = yes; then
-    CFLAGS="-g -Werror -Wall"
-    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-else
-    CFLAGS="$CFLAGS -O2 -Wall"
-fi
 
 # Checks for programs.
 AC_PROG_CC
@@ -78,6 +71,13 @@ else
   CLAWS_MAIL_PLUGINDIR='${libdir}/claws-mail/plugins'
 fi
 AC_SUBST(CLAWS_MAIL_PLUGINDIR)
+
+if test $USE_MAINTAINER_MODE = yes; then
+    CFLAGS="-g -Werror -Wall"
+    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+else
+    CFLAGS="$CFLAGS -O2 -Wall"
+fi
 
 ALL_LINGUAS="ca es fr hu pt_BR"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
