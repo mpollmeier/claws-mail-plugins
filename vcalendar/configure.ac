@@ -10,13 +10,7 @@ dnl plugin version
 MAJOR_VERSION=2
 MINOR_VERSION=0
 MICRO_VERSION=2
-EXTRA_VERSION=3
-
-CFLAGS="$CFLAGS -Wall"
-
-if test $USE_MAINTAINER_MODE = yes; then
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-fi
+EXTRA_VERSION=4
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -113,6 +107,11 @@ case "$target" in
         ;;
 esac
 
+CFLAGS="$CFLAGS -Wall"
+
+if test $USE_MAINTAINER_MODE = yes; then
+	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+fi
 
 dnl Checks for iconv
 AM_ICONV
@@ -171,12 +170,9 @@ if test $USE_MAINTAINER_MODE = yes; then
 fi
 
 CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
-AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
-
-CURL_LIBS="`$CURL_CONFIG --libs`"
-
-LIBS="$LIBS $CURL_LIBS"
-AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
+AC_CHECK_HEADER(curl/curl.h, [
+	AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])],
+	[AC_MSG_ERROR(libcurl headers are missing)])
 
 dnl check for pthread support
 AC_ARG_ENABLE(pthread,

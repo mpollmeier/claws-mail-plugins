@@ -1,3 +1,9 @@
+2008-12-07 [paul]	2.0.2cvs4
+
+	* configure.ac
+		check for compiler before setting CFLAGS
+		clean up check for curl
+
 2008-11-28 [colin]	2.0.2cvs3
 
 	* po/fr.po
