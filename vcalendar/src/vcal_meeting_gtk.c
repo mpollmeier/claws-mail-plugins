@@ -849,7 +849,7 @@ static gboolean find_availability(const gchar *dtstart, const gchar *dtend, GSLi
 	gchar *msg = NULL;
 	struct icaltimetype start = icaltime_from_string(dtstart);
 	struct icaltimetype end = icaltime_from_string(dtend);
-	AlertValue val;
+	AlertValue val = G_ALERTALTERNATE;
 	gint total = 0;
 	GHashTable *avail_table_avail = g_hash_table_new(NULL, g_direct_equal);
 	GHashTable *avail_table_before = g_hash_table_new(NULL, g_direct_equal);

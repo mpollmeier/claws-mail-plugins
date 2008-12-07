@@ -210,3 +210,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/claws.def;  cvs diff -u -r 1.2.2.105 -r 1.2.2.106 src/vcal_folder.c;  cvs diff -u -r 1.1.2.77 -r 1.1.2.78 src/vcal_manager.c;  cvs diff -u -r 1.2.2.84 -r 1.2.2.85 src/vcalendar.c;  ) > 2.0.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 po/fr.po;  ) > 2.0.2cvs3.patchset
 ( cvs diff -u -r 1.2.2.313 -r 1.2.2.314 configure.ac;  ) > 2.0.2cvs4.patchset
+( cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/month-view.c;  cvs diff -u -r 1.1.2.84 -r 1.1.2.85 src/vcal_meeting_gtk.c;  ) > 2.0.2cvs5.patchset
