@@ -27,3 +27,4 @@
 ( cvs diff -u -r 1.10.2.7 -r 1.10.2.8 src/mailmbox_folder.c;  cvs diff -u -r 1.4.2.23 -r 1.4.2.24 src/plugin_gtk.c;  ) > 1.14.1cvs1.patchset
 ( cvs diff -u -r 1.4.2.20 -r 1.4.2.21 src/plugin.c;  cvs diff -u -r 1.4.2.24 -r 1.4.2.25 src/plugin_gtk.c;  ) > 1.14.1cvs2.patchset
 ( cvs diff -u -r 1.4.2.21 -r 1.4.2.22 src/plugin.c;  cvs diff -u -r 1.4.2.25 -r 1.4.2.26 src/plugin_gtk.c;  ) > 1.14.1cvs3.patchset
+( cvs diff -u -r 1.8.2.56 -r 1.8.2.57 configure.ac;  ) > 1.14.2cvs1.patchset
