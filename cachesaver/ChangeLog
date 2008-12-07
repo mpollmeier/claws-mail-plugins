@@ -1,3 +1,8 @@
+2008-12-07 [paul]	0.10.8cvs1
+
+	* configure.ac
+		check for compiler before setting CFLAGS
+
 2008-10-03 [paul]	0.10.8
 
 	0.10.8 released
