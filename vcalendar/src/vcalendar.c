@@ -260,7 +260,7 @@ static void vcal_viewer_clear_viewer(MimeViewer *_mimeviewer)
 	vcalviewer->file = NULL;
 	if (vcalviewer->tmpfile) {
 		debug_print("unlinking %s\n", vcalviewer->tmpfile);
-		unlink(vcalviewer->tmpfile);
+		g_unlink(vcalviewer->tmpfile);
 		g_free(vcalviewer->tmpfile);
 		vcalviewer->tmpfile = NULL;
 	}
@@ -1009,7 +1009,7 @@ void vcalendar_cancel_meeting(FolderItem *item, const gchar *uid)
 	vcal_manager_save_event(event, TRUE);
 	
 	file = vcal_manager_get_event_file(event->uid);
-	unlink(file);
+	g_unlink(file);
 	vcal_manager_free_event(event);
 	g_free(file);
 	if (folder)

@@ -1382,7 +1382,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 	folderitem = account_get_special_folder(account, F_QUEUE);
 	if (!folderitem) {
 		g_warning("can't find queue folder for %s\n", account->address);
-		unlink(tmpfile);
+		g_unlink(tmpfile);
 		g_free(tmpfile);
 		return FALSE;
 	}
@@ -1390,7 +1390,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 	
 	if ((msgnum = folder_item_add_msg(folderitem, tmpfile, NULL, TRUE)) < 0) {
 		g_warning("can't queue the message\n");
-		unlink(tmpfile);
+		g_unlink(tmpfile);
 		g_free(tmpfile);
 		return FALSE;
 	}
@@ -1410,7 +1410,7 @@ static gboolean vcal_manager_send (PrefsAccount 	*account,
 			g_free(err);
 		}
 	}
-	unlink(tmpfile);
+	g_unlink(tmpfile);
 	g_free(tmpfile);
 	g_free(msgpath);
 

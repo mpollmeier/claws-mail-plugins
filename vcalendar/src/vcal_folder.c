@@ -917,7 +917,7 @@ static MsgInfo *vcal_get_msginfo(Folder * folder,
 
 		debug_print("  adding %d\n", num);
 	}
-	unlink(file);
+	g_unlink(file);
 	g_free(file);
 
 	debug_print("  got msginfo %p\n", msginfo);
@@ -1186,7 +1186,7 @@ static void vcal_remove_event (Folder *folder, MsgInfo *msginfo)
 
 	if (uid) {
 		gchar *file = vcal_manager_get_event_file(uid);
-		unlink(file);
+		g_unlink(file);
 		g_free(file);
 	}
 	
@@ -1251,7 +1251,7 @@ void vcal_folder_gtk_done(void)
 		if (!file)			
 			continue;
 		debug_print("removing %s\n", file);
-		unlink(file);
+		g_unlink(file);
 		g_free(file);
 	}
 	g_slist_free(created_files);
