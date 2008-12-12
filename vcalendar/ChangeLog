@@ -4,6 +4,7 @@
 	* src/vcal_manager.c
 	* src/vcalendar.c
 		win32: fix unlinking
+		Patch by Colin
 
 2008-12-07 [colin]	2.0.2cvs5
 
