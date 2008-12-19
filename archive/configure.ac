@@ -13,7 +13,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=2
-EXTRA_VERSION=12
+EXTRA_VERSION=13
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -79,7 +79,7 @@ else
     CFLAGS="$CFLAGS -O2 -Wall"
 fi
 
-ALL_LINGUAS="ca es fr hu pt_BR"
+ALL_LINGUAS="ca cs es fr hu pt_BR ru"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 AM_GNU_GETTEXT_VERSION([0.15])
 AM_GNU_GETTEXT([external])

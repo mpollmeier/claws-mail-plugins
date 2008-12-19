@@ -1,0 +1,465 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Michael Rasmussen
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Archiver Plugin for Claws Mail\n"
+"Report-Msgid-Bugs-To: mir@datanom.net\n"
+"POT-Creation-Date: 2008-12-12 11:30+0000\n"
+"PO-Revision-Date: 2008-12-19 15:12+0300\n"
+"Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
+"Language-Team:  <NONE>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/archiver.c:40
+#: src/archiver_prefs.c:87
+msgid "Mail Archiver"
+msgstr "Архивирование почты"
+
+#: src/archiver.c:51
+msgid "Create Archive..."
+msgstr "Создать архив"
+
+#: src/archiver.c:117
+msgid ""
+"This plugin adds archiving features to Claws Mail.\n"
+"\n"
+"It enables you to select a mail folder that you want to be archived, and then choose a name, format and location for the archive. Subfolders can be included and MD5 checksums can be added for each file in the archive. Several archiving options are also available.\n"
+"\n"
+"The archive can be stored as:\n"
+"\tTAR\n"
+"\tPAX\n"
+"\tSHAR\n"
+"\tCPIO\n"
+"\n"
+"The archive can be compressed using:\n"
+"\tGZIP/ZIP\n"
+"\tBZIP2\n"
+"\n"
+"The archives can be restored with any standard tool that supports the chosen format and compression.\n"
+"\n"
+"The supported folder types are MH, IMAP, RSSyl and vCalendar.\n"
+"\n"
+"To activate the archiving feature go to /Tools/Create Archive\n"
+"\n"
+"Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
+msgstr ""
+"Этот модуль добавляет в Claws Mail возможность создавать архивы переписки.\n"
+"\n"
+"Он позволяет Вам выбрать папку, которую Вы хотите архивировать, имя, формат и каталог для архива. В архив можно включать вложенные папки и добавлять контрольные суммы MD5 к каждому файлу.\n"
+"\n"
+"Можно создавать архивы формата TAR, PAX, SHAR или CPIO.\n"
+"\n"
+"Доступно также сжатие архивов в формате ZIP или BZIP2.\n"
+"\n"
+"В последствии восстановить файлы из архивов любыми стандартными средствами поддерживающими выбранный формат.\n"
+"\n"
+"Поддерживаются папки MH, IMAP, RSSyl и vCalendar."
+
+#: src/archiver.c:146
+msgid "Archiver"
+msgstr "Архиватор"
+
+#: src/archiver_gtk.c:101
+msgid "Archiving"
+msgstr "Архивирование"
+
+#: src/archiver_gtk.c:119
+msgid "Press Cancel button to stop archiving"
+msgstr "Нажите 'Отменить', чтобы остановить процесс архивирования"
+
+#: src/archiver_gtk.c:135
+msgid "Archiving:"
+msgstr "Архивирование:"
+
+#: src/archiver_gtk.c:501
+msgid "Folder and archive must be selected"
+msgstr "Должны быть выбраны папка и архив"
+
+#: src/archiver_gtk.c:510
+#, c-format
+msgid "%s: Exists. Continue anyway?"
+msgstr "%s уже существует. Всё равно продолжить?"
+
+#: src/archiver_gtk.c:513
+#, c-format
+msgid "%s: Is a link. Cannot continue"
+msgstr "%s является ссылкой. Операция прервана."
+
+#: src/archiver_gtk.c:516
+#, c-format
+msgid "%s: Is a directory. Cannot continue"
+msgstr "%s является каталогом. Операция прервана."
+
+#: src/archiver_gtk.c:519
+#, c-format
+msgid "%s: Missing permissions. Cannot continue"
+msgstr "%s: недостаточно прав. Операция прерва . Операция прервана."
+
+#: src/archiver_gtk.c:522
+#, c-format
+msgid "%s: Unknown error. Cannot continue"
+msgstr "%s: неизвестная ошибка. Операция прервана."
+
+#: src/archiver_gtk.c:559
+#, c-format
+msgid ""
+"Not a valid file name:\n"
+"%s."
+msgstr ""
+"Некорректное имя файла:\n"
+"%s."
+
+#: src/archiver_gtk.c:572
+#, c-format
+msgid ""
+"Not a valid Claws Mail folder:\n"
+"%s."
+msgstr ""
+"Неподдерживаемая папка Claws Mail:\n"
+"%s."
+
+#: src/archiver_gtk.c:601
+#, c-format
+msgid ""
+"Adding files in folder failed\n"
+"Files in folder: %d\n"
+"Files in list:   %d\n"
+"\n"
+"Continue anyway?"
+msgstr ""
+"Не удалось добавить файлы все в папку\n"
+"Файлов добавлено: %d\n"
+"Файлов всего:   %d\n"
+"\n"
+"Всё равно продолжить?"
+
+#: src/archiver_gtk.c:704
+msgid "Archive result"
+msgstr "Результат"
+
+#: src/archiver_gtk.c:730
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#: src/archiver_gtk.c:734
+msgid "Values"
+msgstr "Значения"
+
+#: src/archiver_gtk.c:743
+msgid "Archive"
+msgstr "Архив"
+
+#: src/archiver_gtk.c:749
+msgid "Archive format"
+msgstr "Формат архива"
+
+#: src/archiver_gtk.c:756
+msgid "Compression method"
+msgstr "Метод сжатия"
+
+#: src/archiver_gtk.c:764
+msgid "Number of files"
+msgstr "Количество файлов"
+
+#: src/archiver_gtk.c:772
+msgid "Archive Size"
+msgstr "Размер архива"
+
+#: src/archiver_gtk.c:780
+msgid "Folder Size"
+msgstr "Размер папки"
+
+#: src/archiver_gtk.c:789
+msgid "Compression level"
+msgstr "Степень сжатия"
+
+#: src/archiver_gtk.c:794
+#: src/archiver_gtk.c:802
+#: src/archiver_gtk.c:810
+msgid "Yes"
+msgstr "Да"
+
+#: src/archiver_gtk.c:794
+#: src/archiver_gtk.c:802
+#: src/archiver_gtk.c:810
+msgid "No"
+msgstr "Нет"
+
+#: src/archiver_gtk.c:797
+msgid "MD5 checksum"
+msgstr "Контрольная сумма MD5"
+
+#: src/archiver_gtk.c:805
+msgid "Descriptive names"
+msgstr "Понятные имена"
+
+#: src/archiver_gtk.c:813
+msgid "Delete selected files"
+msgstr "Удалить выбранные файлы"
+
+#: src/archiver_gtk.c:822
+#: src/archiver_gtk.c:1196
+msgid "Select mails before"
+msgstr "Выбирать сообщения старше"
+
+#: src/archiver_gtk.c:898
+msgid "Select file name for archive [suffix should reflect archive like .tgz]"
+msgstr "Выберите имя файла архива"
+
+#: src/archiver_gtk.c:946
+#, c-format
+msgid "%ld of %ld"
+msgstr "%ld из %ld"
+
+#: src/archiver_gtk.c:984
+msgid "Create Archive"
+msgstr "Создать архив"
+
+#: src/archiver_gtk.c:999
+msgid "Enter Archiver arguments"
+msgstr "Параметры архиватора"
+
+#: src/archiver_gtk.c:1012
+msgid "Folder to archive"
+msgstr "Папка для архивации"
+
+#: src/archiver_gtk.c:1019
+msgid "Folder which is the root of the archive"
+msgstr "Корень архива"
+
+#: src/archiver_gtk.c:1021
+msgid "_Browse"
+msgstr "Обзор..."
+
+#: src/archiver_gtk.c:1024
+msgid "Click this button to select a folder which is to be root of the archive"
+msgstr "Выбрать папку, которая будет \"корнем\" архива"
+
+#: src/archiver_gtk.c:1030
+msgid "Name for archive"
+msgstr "Имя архива"
+
+#: src/archiver_gtk.c:1036
+msgid "Archive location and name"
+msgstr "Путь к архиву"
+
+#: src/archiver_gtk.c:1038
+#: src/archiver_prefs.c:190
+msgid "_Select"
+msgstr "Выбрать..."
+
+#: src/archiver_gtk.c:1041
+msgid "Click this button to select a name and location for the archive"
+msgstr "Выбрать каталог и имя файла архива"
+
+#: src/archiver_gtk.c:1043
+msgid "Choose compression"
+msgstr "Формат сжатия"
+
+#: src/archiver_gtk.c:1056
+msgid "Choose this option to use ZIP compression for the archive"
+msgstr "Сжимать архив, используя ZIP"
+
+#: src/archiver_gtk.c:1063
+msgid "Choose this option to use BZIP2 compression for the archive"
+msgstr "Сжимать архив, используя BZIP2"
+
+#: src/archiver_gtk.c:1073
+msgid "_None"
+msgstr "(нет)"
+
+#: src/archiver_gtk.c:1077
+msgid "Choose this option to disable compression for the archive"
+msgstr "Не сжимать архивы"
+
+#: src/archiver_gtk.c:1094
+msgid "Choose format"
+msgstr "Формат архива"
+
+#: src/archiver_gtk.c:1107
+msgid "Choose this option to use TAR as format for the archive"
+msgstr "Архивировать в TAR"
+
+#: src/archiver_gtk.c:1114
+msgid "Choose this to use SHAR as format for the archive"
+msgstr "Архивировать в SHAR"
+
+#: src/archiver_gtk.c:1121
+msgid "Choose this option to use CPIO as format for the archive"
+msgstr "Архивировать в CPIO"
+
+#: src/archiver_gtk.c:1128
+msgid "Choose this option to use PAX as format for the archive"
+msgstr "Архивировать в PAX"
+
+#: src/archiver_gtk.c:1148
+msgid "Miscellaneous options"
+msgstr "Настройки"
+
+#: src/archiver_gtk.c:1157
+msgid "_Recursive"
+msgstr "Рекурсивно"
+
+#: src/archiver_gtk.c:1161
+msgid "Choose this option to include subfolders in the archive"
+msgstr "Включать в архив вложенные папки"
+
+#: src/archiver_gtk.c:1163
+msgid "_MD5sum"
+msgstr "_MD5sum"
+
+#: src/archiver_gtk.c:1167
+msgid ""
+"Choose this option to add MD5 checksums for each file in the archive.\n"
+"Be aware though, that this dramatically increases the time it\n"
+"will take to create the archive"
+msgstr ""
+"Добавлять в архивы контрольную сумму MD5 для каждого файла.\n"
+"Это позволит проверить целостность архива в дальнейшем, но может значительно замедлить его создание."
+
+#: src/archiver_gtk.c:1171
+msgid "R_ename"
+msgstr "Переименовать"
+
+#: src/archiver_gtk.c:1175
+#: src/archiver_prefs.c:311
+msgid ""
+"Choose this option to use descriptive names for each file in the archive.\n"
+"The naming scheme: date_from@to@subject.\n"
+"Names will be truncated to max 96 characters"
+msgstr ""
+"Использовать \"понятные\" именя файлов в архивах.\n"
+"Имена файлов будут иметь формат дата_отправитель@адресат@тема.\n"
+"Имена будут обрезаны до 96 символов."
+
+#: src/archiver_gtk.c:1179
+msgid "_Delete"
+msgstr "У_далить"
+
+#: src/archiver_gtk.c:1183
+msgid ""
+"Choose this option to delete mails after archiving\n"
+"At this point only handles IMAP4, Local mbox and POP3"
+msgstr ""
+"Удалить сообщения после архивации\n"
+"Поддерживаются ящики IMAP4, mbox и POP3"
+
+#: src/archiver_gtk.c:1187
+msgid "Selection options"
+msgstr "Выбор сообщений"
+
+#: src/archiver_gtk.c:1203
+msgid ""
+"Select emails before a certain date\n"
+"Date must comply to ISO-8601 [YYYY-MM-DD]"
+msgstr ""
+"Выбрать сообщения с датой до...\n"
+"Дата должна быть в формате ISO-8601 [ГГГГ-ММ-ДД]"
+
+#: src/archiver_prefs.c:86
+msgid "Plugins"
+msgstr "Модули"
+
+#: src/archiver_prefs.c:122
+msgid "Select destination folder"
+msgstr "Выбрать каталог назначения"
+
+#: src/archiver_prefs.c:128
+#, c-format
+msgid "'%s' is not a directory."
+msgstr "'%s' не является каталогом."
+
+#: src/archiver_prefs.c:182
+msgid "Default save folder"
+msgstr "Каталог по умолчанию"
+
+#: src/archiver_prefs.c:194
+msgid "Click this button to select the default location for saving archives"
+msgstr "Выбрать, куда по умолчанию будут сохраняться архивы"
+
+#: src/archiver_prefs.c:203
+msgid "Default compression"
+msgstr "Формат сжатия по умолчанию"
+
+#: src/archiver_prefs.c:215
+msgid "Choose this option to use ZIP compression by default"
+msgstr "Сжимать архив, используя ZIP"
+
+#: src/archiver_prefs.c:222
+msgid "Choose this option to use BZIP2 compression by default"
+msgstr "Сжимать архив, используя BZIP2"
+
+#: src/archiver_prefs.c:224
+msgid "None"
+msgstr "(нет)"
+
+#: src/archiver_prefs.c:229
+msgid "Choose this option to disable compression by default"
+msgstr "Не сжимать архивы"
+
+#: src/archiver_prefs.c:243
+msgid "Default format"
+msgstr "Формат архива по умолчанию"
+
+#: src/archiver_prefs.c:255
+msgid "Choose this option to use the TAR format by default"
+msgstr "Архивировать в TAR"
+
+#: src/archiver_prefs.c:262
+msgid "Choose this option to use the SHAR format by default"
+msgstr "Архивировать в SHAR"
+
+#: src/archiver_prefs.c:269
+msgid "Choose this option to use the CPIO format by default"
+msgstr "Архивировать в CPIO"
+
+#: src/archiver_prefs.c:276
+msgid "Choose this option to use the PAX format by default"
+msgstr "Архивировать в PAX"
+
+#: src/archiver_prefs.c:293
+msgid "Default miscellaneous options"
+msgstr "Настройки по умолчанию"
+
+#: src/archiver_prefs.c:300
+msgid "Recursive"
+msgstr "Рекурсивно"
+
+#: src/archiver_prefs.c:302
+msgid "Choose this option to include subfolders in the archives by default"
+msgstr "Включать в архив вложенные папки"
+
+#: src/archiver_prefs.c:303
+msgid "MD5sum"
+msgstr "MD5sum"
+
+#: src/archiver_prefs.c:305
+msgid ""
+"Choose this option to add MD5 checksums for each file in the archives by default.\n"
+"Be aware though, that this dramatically increases the time it\n"
+"will take to create the archives"
+msgstr ""
+"Добавлять в архивы контрольную сумму MD5 для каждого файла.\n"
+"Это позволит проверить целостность архива в дальнейшем, но может значительно замедлить его создание."
+
+#: src/archiver_prefs.c:309
+msgid "Rename"
+msgstr "Переименовать"
+
+#: src/archiver_prefs.c:315
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/archiver_prefs.c:317
+msgid "Choose this option to delete mails after archiving"
+msgstr "Удалить сообщения после архивирования"
+
