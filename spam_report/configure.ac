@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=3
 MICRO_VERSION=6
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -66,7 +66,7 @@ if test $USE_MAINTAINER_MODE = yes; then
 	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
 fi
 
-ALL_LINGUAS="ca es fi fr hu it pt_BR ru sk"
+ALL_LINGUAS="ca cs es fi fr hu it pt_BR ru sk"
 
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
