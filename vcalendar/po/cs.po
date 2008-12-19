@@ -1,0 +1,1000 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2008-12-12 11:43+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: src/plugin.c:45
+#: src/plugin.c:64
+#: src/vcal_prefs.c:645
+msgid "vCalendar"
+msgstr "vCalendar"
+
+#: src/plugin.c:69
+msgid ""
+"This plugin enables vCalendar message handling like that produced by Evolution or Outlook.\n"
+"\n"
+"When loaded, it will create a vCalendar mailbox in the Folder List, which will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form and you will be able to accept or decline them.\n"
+"To create a meeting right-click on the vCalendar or Meetings folder and choose \"New meeting...\".\n"
+"\n"
+"You will also be able to subscribe to remote webCal feeds,export your meetings and calendars, publish your free/busy information and retrieve that information from others."
+msgstr ""
+"Zásuvný modul umožňuje zpracovávat vCalendar zprávy vytvořené v Evolution nebo Outlook.\n"
+"\n"
+"Jestliže je načten, vytvoří vCalendar mailbox v seznamu složek, který plněn schůzkami, které jste přijal nebo odmítl.\n"
+"Obdržená schůzka bude prezentována v odpovídající formě a budete schopen ji přijmout nebo odmítnout.\n"
+"Pravým kliknutím na složku vCalendar nebo Schůzky a vybráním \"Nová schůzka...\" vytvoříte schůzku.\n"
+"\n"
+"Je možné se přihlásit k webCal kanálu, exportovat schůzky a kalendáře, publikovat volný/zaneprázdněn informace a dostávat informace od druhých."
+
+#: src/plugin.c:102
+msgid "Calendar"
+msgstr "Kalendář"
+
+#: src/vcalendar.c:93
+msgid "Create meeting from message..."
+msgstr "Vytvořit schůzku ze zprávy..."
+
+#: src/vcalendar.c:113
+#, c-format
+msgid "You are about to create %d meetings, one by one. Do you want to continue?"
+msgstr "Hodláte vytvořit %d schůzek, po jedné. Chcete pokračovat?"
+
+#: src/vcalendar.c:118
+msgid "Warning"
+msgstr "Varování"
+
+#: src/vcalendar.c:132
+msgid "Creating meeting..."
+msgstr "Vytváření schůzky..."
+
+#: src/vcalendar.c:151
+msgid "no subject"
+msgstr "žádný předmět"
+
+#: src/vcalendar.c:384
+msgid "Accept"
+msgstr "Přijmout"
+
+#: src/vcalendar.c:385
+msgid "Tentatively accept"
+msgstr "Předběžně přijmout"
+
+#: src/vcalendar.c:386
+msgid "Decline"
+msgstr "Odmítnout"
+
+#: src/vcalendar.c:473
+msgid "You have a Todo item."
+msgstr "Máte Todo položku."
+
+#: src/vcalendar.c:474
+#: src/vcalendar.c:481
+#: src/vcalendar.c:486
+#: src/vcalendar.c:494
+#: src/vcalendar.c:503
+#: src/vcalendar.c:734
+msgid "Details follow:"
+msgstr "Detaily:"
+
+#: src/vcalendar.c:480
+msgid "You have created a meeting."
+msgstr "Vytvořil jste schůzku."
+
+#: src/vcalendar.c:485
+msgid "You have been invited to a meeting."
+msgstr "Byl jste pozván na schůzku."
+
+#: src/vcalendar.c:493
+msgid "A meeting to which you had been invited has been cancelled."
+msgstr "Schůzka na kterou jste byl pozván, byla zrušena."
+
+#: src/vcalendar.c:502
+msgid "You have been forwarded an appointment."
+msgstr "Byla předána dohoda."
+
+#: src/vcalendar.c:548
+#, c-format
+msgid "%s <span weight=\"bold\">(this event recurs)</span>"
+msgstr "%s <span weight=\"bold\">(událost se opakuje)</span>"
+
+#: src/vcalendar.c:554
+#, c-format
+msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
+msgstr "%s <span weight=\"bold\">(událost součástí opakující se události)</span>"
+
+#: src/vcalendar.c:733
+msgid "You have received an answer to an unknown meeting proposal."
+msgstr "Doručena odpověď na neznámý návrh schůzky."
+
+#: src/vcalendar.c:737
+#, c-format
+msgid ""
+"You have received an answer to a meeting proposal.\n"
+"%s has %s the invitation whose details follow:"
+msgstr ""
+"Obdržena odpověď na návrh schůzky.\n"
+"%s má %s pozvání s detaily:"
+
+#: src/vcalendar.c:813
+msgid "Error - could not get the calendar MIME part."
+msgstr "Chyba - nemohu získat kalendářovou MIME část."
+
+#: src/vcalendar.c:820
+msgid "Error - no calendar part found."
+msgstr "Chyba - kalendářová část nebyla nalezena."
+
+#: src/vcalendar.c:834
+msgid "Error - Unknown calendar component type."
+msgstr "Chyba - Neznámý typ komponenty kalendáře."
+
+#: src/vcalendar.c:962
+msgid "Send a notification to the attendees"
+msgstr "Poslat upozornění účastníkům"
+
+#: src/vcalendar.c:971
+msgid "Cancel meeting"
+msgstr "Zrušit schůzku"
+
+#: src/vcalendar.c:972
+msgid "Are you sure you want to cancel this meeting?"
+msgstr "Jste si jistý, že chcete zrušit tuto schůzku?"
+
+#: src/vcalendar.c:1056
+msgid "No account found"
+msgstr "Účet nenalezen"
+
+#: src/vcalendar.c:1057
+msgid ""
+"You have no account matching any attendee.\n"
+"Do you want to reply anyway ?"
+msgstr ""
+"Nemáte účet odpovídající žádnému účastníkovi.\n"
+"Chcete přesto odpovědět?"
+
+#: src/vcalendar.c:1059
+msgid "+Reply anyway"
+msgstr "+Přesto odpovědět"
+
+#: src/vcalendar.c:1183
+msgid "Answer"
+msgstr "Odpověď"
+
+#: src/vcalendar.c:1184
+msgid "Edit meeting..."
+msgstr "Upravit schůzku..."
+
+#: src/vcalendar.c:1185
+msgid "Cancel meeting..."
+msgstr "Zrušit schůzku..."
+
+#: src/vcalendar.c:1186
+msgid "Launch website"
+msgstr "Spustit webovou stránku"
+
+#: src/vcalendar.c:1190
+msgid "You are already busy at this time."
+msgstr "Již jste zaneprázdněn v tuto dobu."
+
+#: src/vcalendar.c:1228
+#: src/vcal_meeting_gtk.c:1714
+msgid "Event:"
+msgstr "Událost:"
+
+#: src/vcalendar.c:1229
+#: src/vcal_meeting_gtk.c:1694
+#: src/vcal_meeting_gtk.c:1704
+msgid "Organizer:"
+msgstr "Organizátor:"
+
+#: src/vcalendar.c:1230
+#: src/vcal_meeting_gtk.c:1695
+#: src/vcal_meeting_gtk.c:1705
+msgid "Summary:"
+msgstr "Shrnutí:"
+
+#: src/vcalendar.c:1231
+msgid "Starting:"
+msgstr "Začátek:"
+
+#: src/vcalendar.c:1232
+msgid "Ending:"
+msgstr "Konec:"
+
+#: src/vcalendar.c:1233
+#: src/vcal_meeting_gtk.c:1697
+#: src/vcal_meeting_gtk.c:1706
+msgid "Description:"
+msgstr "Popis:"
+
+#: src/vcalendar.c:1234
+#: src/vcal_meeting_gtk.c:1698
+#: src/vcal_meeting_gtk.c:1707
+msgid "Attendees:"
+msgstr "Účastníci:"
+
+#: src/vcalendar.c:1236
+msgid "Action:"
+msgstr "Akce:"
+
+#: src/vcal_folder.c:160
+msgid "_New meeting..."
+msgstr "_Nová schůzka..."
+
+#: src/vcal_folder.c:161
+msgid "_Export calendar..."
+msgstr "_Exportovat kalendář..."
+
+#: src/vcal_folder.c:162
+msgid "_Subscribe to webCal..."
+msgstr "_Přihlásit webCal..."
+
+#: src/vcal_folder.c:163
+msgid "_Unsubscribe..."
+msgstr "_Odhlásit..."
+
+#: src/vcal_folder.c:164
+msgid "_Rename..."
+msgstr "Pře_jmenovat"
+
+#: src/vcal_folder.c:165
+msgid "U_pdate subscriptions"
+msgstr "U_pdatovat přihlášení"
+
+#: src/vcal_folder.c:166
+msgid "_List view"
+msgstr "Zobrazení jako _seznam"
+
+#: src/vcal_folder.c:167
+msgid "_Week view"
+msgstr "Zobrazení po _týdnech"
+
+#: src/vcal_folder.c:168
+msgid "_Month view"
+msgstr "Zobrazení po _měsících"
+
+#: src/vcal_folder.c:1426
+msgid "in the past"
+msgstr "v minulosti"
+
+#: src/vcal_folder.c:1429
+msgid "today"
+msgstr "dnes"
+
+#: src/vcal_folder.c:1432
+msgid "tomorrow"
+msgstr "zítra"
+
+#: src/vcal_folder.c:1435
+msgid "this week"
+msgstr "tento týden"
+
+#: src/vcal_folder.c:1438
+msgid "later"
+msgstr "později"
+
+#: src/vcal_folder.c:1442
+#, c-format
+msgid ""
+"\n"
+"These are the events planned %s:\n"
+msgstr ""
+"\n"
+"Jsou plánovány tyto události %s:\n"
+
+#: src/vcal_folder.c:1534
+#, c-format
+msgid "Timeout (%d seconds) connecting to %s\n"
+msgstr "Čas (%d sekund) připojení k %s\n"
+
+#: src/vcal_folder.c:1543
+msgid "401 (Authorisation required)"
+msgstr "401 (Vyžadována autorizace)"
+
+#: src/vcal_folder.c:1546
+msgid "403 (Unauthorised)"
+msgstr "403 (Neuatorizován)"
+
+#: src/vcal_folder.c:1549
+msgid "404 (Not found)"
+msgstr "404 (Nenalezen)"
+
+#: src/vcal_folder.c:1552
+#, c-format
+msgid "Error %ld"
+msgstr "Chyba %ld"
+
+#: src/vcal_folder.c:1589
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "Stahování '%s'..."
+
+#: src/vcal_folder.c:1755
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s:\n"
+"\n"
+"%s"
+msgstr ""
+"Nemohl získat Webcal URL:\n"
+"%s:\n"
+"\n"
+"%s"
+
+#: src/vcal_folder.c:1756
+#: src/vcal_folder.c:1760
+#: src/vcal_folder.c:1771
+#: src/vcal_folder.c:1774
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+
+#: src/vcal_folder.c:1759
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s:\n"
+"\n"
+"%s\n"
+msgstr ""
+"Nemohl získat Webcal URL:\n"
+"%s:\n"
+"\n"
+"%s\n"
+
+#: src/vcal_folder.c:1770
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+"%s"
+msgstr ""
+"URL nevypadá jako WebCal URL:\n"
+"%s\n"
+"%s"
+
+#: src/vcal_folder.c:1773
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+"%s\n"
+msgstr ""
+"URL nevypadá jako WebCal URL:\n"
+"%s\n"
+"%s\n"
+
+#: src/vcal_folder.c:1829
+msgid "Claws Mail needs network access in order to update the Webcal feed."
+msgstr "Claws Mail potřebuje přístup na síť pro update Webcal kanálu."
+
+#: src/vcal_folder.c:1848
+msgid "Claws Mail needs network access in order to update the subscription."
+msgstr "Claws Mail potřebuje přístup na síť pro update přihlášení."
+
+#: src/vcal_folder.c:1860
+msgid "Subscribe to WebCal"
+msgstr "Přihlásit WebCal"
+
+#: src/vcal_folder.c:1860
+msgid "Enter the WebCal URL:"
+msgstr "Vložte WebCal URL:"
+
+#: src/vcal_folder.c:1872
+msgid "Could not parse the URL."
+msgstr "Nemohu parsovat URL."
+
+#: src/vcal_folder.c:1901
+msgid "Do you really want to unsubscribe?"
+msgstr "Skutečně chcete odhlásit?"
+
+#: src/vcal_folder.c:1902
+msgid "Delete folder"
+msgstr "Smazat složku"
+
+#: src/vcal_folder.c:1923
+#, c-format
+msgid "Can't remove the folder '%s'."
+msgstr "Nemohu odstranit složku '%s'."
+
+#: src/vcal_folder.c:1966
+#, c-format
+msgid "Input new name for '%s':"
+msgstr "Vložte nové jméno pro '%s':"
+
+#: src/vcal_folder.c:1967
+msgid "Rename folder"
+msgstr "Přejmenovat složku"
+
+#: src/vcal_folder.c:1974
+#, c-format
+msgid "'%c' can't be included in folder name."
+msgstr "'%c' nemůže být součástí jména složky."
+
+#: src/vcal_folder.c:1981
+#, c-format
+msgid "The folder '%s' already exists."
+msgstr "Složka '%s' už existuje."
+
+#: src/vcal_folder.c:1987
+msgid ""
+"The folder could not be renamed.\n"
+"The new folder name is not allowed."
+msgstr ""
+"Složka nemohla být přejmenována.\n"
+"Nové jméno není povoleno."
+
+#: src/vcal_manager.c:94
+msgid "accepted"
+msgstr "přijaté"
+
+#: src/vcal_manager.c:95
+msgid "tentatively accepted"
+msgstr "předběžně přijaté"
+
+#: src/vcal_manager.c:96
+msgid "declined"
+msgstr "odmítnuté"
+
+#: src/vcal_manager.c:97
+msgid "did not answer"
+msgstr "nezodpovězené"
+
+#: src/vcal_manager.c:98
+#: src/vcal_manager.c:131
+msgid "unknown"
+msgstr "neznámé"
+
+#: src/vcal_manager.c:127
+msgid "individual"
+msgstr "inviduální"
+
+#: src/vcal_manager.c:128
+msgid "group"
+msgstr "skupina"
+
+#: src/vcal_manager.c:129
+msgid "resource"
+msgstr "zdroj"
+
+#: src/vcal_manager.c:130
+msgid "room"
+msgstr "místnost"
+
+#: src/vcal_manager.c:535
+msgid "Past"
+msgstr "V minulosti"
+
+#: src/vcal_manager.c:538
+msgid "Today"
+msgstr "Dnes"
+
+#: src/vcal_manager.c:541
+msgid "Tomorrow"
+msgstr "Zítra"
+
+#: src/vcal_manager.c:544
+msgid "This week"
+msgstr "Tento týden"
+
+#: src/vcal_manager.c:547
+msgid "Later"
+msgstr "Později"
+
+#: src/vcal_manager.c:1203
+msgid "Accepted: "
+msgstr "Přijaté"
+
+#: src/vcal_manager.c:1205
+msgid "Declined: "
+msgstr "Odmítnuté:"
+
+#: src/vcal_manager.c:1207
+msgid "Tentatively Accepted: "
+msgstr "Předběžně přijaté:"
+
+#: src/vcal_meeting_gtk.c:287
+msgid "Use <tab> to autocomplete from addressbook"
+msgstr "Používat <tab> pro automatické doplňování z knihy adres"
+
+#: src/vcal_meeting_gtk.c:305
+msgid "Individual"
+msgstr "Inviduální"
+
+#: src/vcal_meeting_gtk.c:306
+msgid "Group"
+msgstr "Skupina"
+
+#: src/vcal_meeting_gtk.c:307
+msgid "Resource"
+msgstr "Zdroje"
+
+#: src/vcal_meeting_gtk.c:308
+msgid "Room"
+msgstr "Místnost"
+
+#: src/vcal_meeting_gtk.c:321
+msgid "Add..."
+msgstr "Přidat..."
+
+#: src/vcal_meeting_gtk.c:322
+msgid "Remove"
+msgstr "Odebrat"
+
+#: src/vcal_meeting_gtk.c:775
+msgid ""
+"The following person(s) are busy at the time of your planned meeting:\n"
+"- "
+msgstr ""
+"Následující osoba(y) jsou zaneprázdněny v době plánované schůzky:\n"
+"- "
+
+#: src/vcal_meeting_gtk.c:776
+#: src/vcal_meeting_gtk.c:868
+#: src/vcal_meeting_gtk.c:954
+msgid "You"
+msgstr "Vy"
+
+#: src/vcal_meeting_gtk.c:777
+msgid "You are busy at the time of your planned meeting"
+msgstr "Jste zaneprázdněn v čase plánované schůzky"
+
+#: src/vcal_meeting_gtk.c:779
+#, c-format
+msgid "%s is busy at the time of your planned meeting"
+msgstr "%s je zaneprázdněn v čase plánované schůzky"
+
+#: src/vcal_meeting_gtk.c:781
+#, c-format
+msgid "%d hour sooner"
+msgstr "%d hodina dříve"
+
+#: src/vcal_meeting_gtk.c:783
+#, c-format
+msgid "%d hours sooner"
+msgstr "%d hodin dříve"
+
+#: src/vcal_meeting_gtk.c:785
+#, c-format
+msgid "%d hours and %d minutes sooner"
+msgstr "%d hodin a %d minut dříve"
+
+#: src/vcal_meeting_gtk.c:787
+#, c-format
+msgid "%d minutes sooner"
+msgstr "%d minut dříve"
+
+#: src/vcal_meeting_gtk.c:792
+#, c-format
+msgid "%d hour later"
+msgstr "%d hodinu později"
+
+#: src/vcal_meeting_gtk.c:794
+#, c-format
+msgid "%d hours later"
+msgstr "%d hodin později"
+
+#: src/vcal_meeting_gtk.c:796
+#, c-format
+msgid "%d hours and %d minutes later"
+msgstr "%d hodin a %d minut později"
+
+#: src/vcal_meeting_gtk.c:798
+#, c-format
+msgid "%d minutes later"
+msgstr "%d minut později"
+
+#: src/vcal_meeting_gtk.c:804
+#, c-format
+msgid ""
+"\n"
+"\n"
+"Everyone would be available %s or %s."
+msgstr ""
+"\n"
+"\n"
+"Každý by měl dostupný %s nebo %s."
+
+#: src/vcal_meeting_gtk.c:806
+#, c-format
+msgid ""
+"\n"
+"\n"
+"Everyone would be available %s."
+msgstr ""
+"\n"
+"\n"
+"Každý by měl být dostupný %s."
+
+#: src/vcal_meeting_gtk.c:808
+msgid ""
+"\n"
+"\n"
+"It isn't possible to have this meeting with everyone in the previous or next 6 hours."
+msgstr ""
+"\n"
+"\n"
+"Není možné mít schůzku s každým v předchozích nebo dalších 6 hodinách."
+
+#: src/vcal_meeting_gtk.c:813
+#, c-format
+msgid "would be available %s or %s"
+msgstr "by měl být dostupný %s nebo %s"
+
+#: src/vcal_meeting_gtk.c:815
+#, c-format
+msgid "would be available %s"
+msgstr "by měl být dostupný %s"
+
+#: src/vcal_meeting_gtk.c:817
+#: src/vcal_meeting_gtk.c:881
+#: src/vcal_meeting_gtk.c:951
+msgid "not available"
+msgstr "nedostupné"
+
+#: src/vcal_meeting_gtk.c:820
+#, c-format
+msgid ", but would be available %s or %s."
+msgstr ", ale mohly by být dostupné %s nebo %s."
+
+#: src/vcal_meeting_gtk.c:822
+#, c-format
+msgid ", but would be available %s."
+msgstr ", ale mohla by být dostupná %s."
+
+#: src/vcal_meeting_gtk.c:824
+msgid ", and isn't available in the previous or next 6 hours."
+msgstr ", nebyla dostupná v předchozích nebo následujících 6 hodinách."
+
+#: src/vcal_meeting_gtk.c:884
+msgid "available"
+msgstr "dostupné"
+
+#: src/vcal_meeting_gtk.c:886
+#: src/vcal_meeting_gtk.c:1132
+msgid "Free/busy retrieval failed"
+msgstr "Nalezení volný/zaneprázdněn selhalo"
+
+#: src/vcal_meeting_gtk.c:968
+msgid "Not everyone is available"
+msgstr "Ne každý je dostupný"
+
+#: src/vcal_meeting_gtk.c:969
+msgid "Send anyway"
+msgstr "Přesto poslat"
+
+#: src/vcal_meeting_gtk.c:980
+msgid "Not everyone is available. See tooltips for more info..."
+msgstr "Ne každý je dostupný. Další viz. tip..."
+
+#: src/vcal_meeting_gtk.c:1141
+msgid "Available"
+msgstr "Dostupné"
+
+#: src/vcal_meeting_gtk.c:1154
+#: src/vcal_meeting_gtk.c:1161
+#: src/vcal_meeting_gtk.c:1169
+msgid "Everyone is available."
+msgstr "Každý je dostupný."
+
+#: src/vcal_meeting_gtk.c:1170
+msgid "Everyone seems available, but some free/busy information failed to be retrieved."
+msgstr "Všichni vypadají dostupní, ale některé volný/zaneprázdněn zprávy nebyly doručeny."
+
+#: src/vcal_meeting_gtk.c:1339
+msgid ""
+"Could not send the meeting invitation.\n"
+"Check the recipients."
+msgstr ""
+"Nemohu poslat pozvání ke schůzce.\n"
+"Zkontrolujte příjemce."
+
+#: src/vcal_meeting_gtk.c:1454
+msgid "Save & Send"
+msgstr "Uložit & Poslat"
+
+#: src/vcal_meeting_gtk.c:1455
+msgid "Check availability"
+msgstr "Zkontrolovat dostupnost"
+
+#: src/vcal_meeting_gtk.c:1578
+msgid "<b>Starts at:</b> "
+msgstr "<b>Začíná v:</b> "
+
+#: src/vcal_meeting_gtk.c:1583
+#: src/vcal_meeting_gtk.c:1605
+msgid "<b> on:</b>"
+msgstr "<b> přes:</b>"
+
+#: src/vcal_meeting_gtk.c:1600
+msgid "<b>Ends at:</b> "
+msgstr "<b>Končí v:</b> "
+
+#: src/vcal_meeting_gtk.c:1639
+msgid "New meeting"
+msgstr "Nová schůzka"
+
+#: src/vcal_meeting_gtk.c:1641
+#, c-format
+msgid "%s - Edit meeting"
+msgstr "%s - Upravil schůzku"
+
+#: src/vcal_meeting_gtk.c:1696
+#: src/vcal_meeting_gtk.c:1718
+msgid "Time:"
+msgstr "Čas:"
+
+#: src/vcal_meeting_gtk.c:1854
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d hodina"
+msgstr[1] "%d hodiny"
+msgstr[2] "%d hodin"
+
+#: src/vcal_meeting_gtk.c:1857
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuta"
+msgstr[1] "%d minuty"
+msgstr[2] "%d minut"
+
+#: src/vcal_meeting_gtk.c:1868
+#, c-format
+msgid "Upcoming event: %s"
+msgstr "Aktuální událost: %s"
+
+#: src/vcal_meeting_gtk.c:1869
+#, c-format
+msgid ""
+"You have a meeting or event soon.\n"
+"It starts at %s and ends %s later.\n"
+"More information:\n"
+"\n"
+"%s"
+msgstr ""
+"Brzy máte schůzku nebo událost.\n"
+"Začíná v %s a končí o %s později.\n"
+"Další informace:\n"
+"\n"
+"%s"
+
+#: src/vcal_meeting_gtk.c:1884
+#, c-format
+msgid "Remind me in %d minute"
+msgid_plural "Remind me in %d minutes"
+msgstr[0] "Připomenout za %d minutu"
+msgstr[1] "Připomenout za %d minuty"
+msgstr[2] "Připomenout za %d minut"
+
+#: src/vcal_meeting_gtk.c:2010
+msgid "Empty calendar"
+msgstr "Prázdný kalendář"
+
+#: src/vcal_meeting_gtk.c:2011
+msgid "There is nothing to export."
+msgstr "Nic k exportu."
+
+#: src/vcal_meeting_gtk.c:2051
+msgid "Could not export the calendar."
+msgstr "Nemohu exportovat kalendář."
+
+#: src/vcal_meeting_gtk.c:2068
+msgid "Export calendar to ICS"
+msgstr "Export kalendáře do ICS"
+
+#: src/vcal_meeting_gtk.c:2090
+#, c-format
+msgid "Couldn't export calendar to '%s'\n"
+msgstr "Nemohu exportovat kalendář do '%s'\n"
+
+#: src/vcal_meeting_gtk.c:2206
+msgid "Could not export the freebusy info."
+msgstr "Nemohu exportovat informaci volný/zaneprázdněn."
+
+#: src/vcal_meeting_gtk.c:2237
+#, c-format
+msgid "Couldn't export free/busy to '%s'\n"
+msgstr "Nemohu exportovat volný/zaneprázdněn do '%s'\n"
+
+#: src/vcal_prefs.c:255
+msgid "Reminders"
+msgstr "Připomenutí"
+
+#: src/vcal_prefs.c:264
+msgid "Alert me"
+msgstr "Upozornit mně"
+
+#: src/vcal_prefs.c:276
+msgid "minutes before an event"
+msgstr "minut před událostí"
+
+#: src/vcal_prefs.c:288
+msgid "Calendar export"
+msgstr "Export kalendáře"
+
+#: src/vcal_prefs.c:299
+msgid "Automatically export calendar to"
+msgstr "Automaticky exportovat kalendář do"
+
+#: src/vcal_prefs.c:308
+#: src/vcal_prefs.c:414
+msgid "You can export to a local file or URL"
+msgstr "Nemohu exportovat do lokálního souboru nebo URL"
+
+#: src/vcal_prefs.c:310
+msgid "Specify a local file or URL (http://server/path/file.ics)"
+msgstr "Specifikovat lokální soubor nebo URL (http://server/path/file.ics)"
+
+#: src/vcal_prefs.c:318
+#: src/vcal_prefs.c:424
+msgid "User ID"
+msgstr "User ID"
+
+#: src/vcal_prefs.c:326
+#: src/vcal_prefs.c:432
+msgid "Password"
+msgstr "Heslo"
+
+#: src/vcal_prefs.c:340
+msgid "Include webcal subscriptions in export"
+msgstr "Vložit webcal přihlášení do exportu"
+
+#: src/vcal_prefs.c:350
+msgid "Command to run after calendar export"
+msgstr "Příkaz pro spuštění po exportu kalendáře"
+
+#: src/vcal_prefs.c:379
+msgid "Register Claws' calendar in XFCE's Orage clock"
+msgstr "Registrovat Claws kalnedář do XFCE Orage"
+
+#: src/vcal_prefs.c:381
+msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
+msgstr "Povolit Orage (verze vyšší než 4.4) vidět Claws Mail kalendář"
+
+#: src/vcal_prefs.c:393
+msgid "Free/Busy information"
+msgstr "Volný/zaneprázdněn informace"
+
+#: src/vcal_prefs.c:405
+msgid "Automatically export free/busy status to"
+msgstr "Automaticky exportovat volný/zaneprázdněn stav do"
+
+#: src/vcal_prefs.c:416
+msgid "Specify a local file or URL (http://server/path/file.ifb)"
+msgstr "Specifikovat lokální nebo URL (http://server/path/file.ifb)"
+
+#: src/vcal_prefs.c:446
+msgid "Command to run after free/busy status export"
+msgstr "Příkaz pro spuštění po exportu stavu volný/zaneprázdněn"
+
+#: src/vcal_prefs.c:473
+msgid "Get free/busy status of others from"
+msgstr "Získat stav volný/zaneprázdněn jiných z"
+
+#: src/vcal_prefs.c:481
+#, c-format
+msgid "Specify a local file or URL (http://server/path/file.ifb). Use %u for the left part of the email address, %d for the domain"
+msgstr "Specifikovat lokální soubor nebo URL (http://server/path/file.ifb). Použijte %u pro levou část emailové adresy, %d pro doménu."
+
+#: src/vcal_prefs.c:644
+msgid "Plugins"
+msgstr "Zásuvné moduly"
+
+#: src/day-view.c:403
+#: src/month-view.c:414
+msgid "Unknown"
+msgstr "Neznámý"
+
+#: src/day-view.c:594
+#: src/month-view.c:684
+msgid "Start"
+msgstr "Začátek"
+
+#: src/day-view.c:607
+#: src/month-view.c:697
+msgid "Show"
+msgstr "Zobrazit"
+
+#: src/day-view.c:615
+#: src/month-view.c:705
+msgid "days"
+msgstr "dnů"
+
+#: src/month-view.c:104
+msgid "Monday"
+msgstr "Pondělí"
+
+#: src/month-view.c:105
+msgid "Tuesday"
+msgstr "Úterý"
+
+#: src/month-view.c:106
+msgid "Wednesday"
+msgstr "Středa"
+
+#: src/month-view.c:107
+msgid "Thursday"
+msgstr "Čtvrtek"
+
+#: src/month-view.c:108
+msgid "Friday"
+msgstr "Pátek"
+
+#: src/month-view.c:109
+msgid "Saturday"
+msgstr "Sobota"
+
+#: src/month-view.c:110
+msgid "Sunday"
+msgstr "Neděle"
+
+#: src/month-view.c:113
+msgid "January"
+msgstr "Leden"
+
+#: src/month-view.c:114
+msgid "February"
+msgstr "Únor"
+
+#: src/month-view.c:115
+msgid "March"
+msgstr "Březen"
+
+#: src/month-view.c:116
+msgid "April"
+msgstr "Duben"
+
+#: src/month-view.c:117
+msgid "May"
+msgstr "Květen"
+
+#: src/month-view.c:118
+msgid "June"
+msgstr "Červen"
+
+#: src/month-view.c:119
+msgid "July"
+msgstr "Červenec"
+
+#: src/month-view.c:120
+msgid "August"
+msgstr "Srpen"
+
+#: src/month-view.c:121
+msgid "September"
+msgstr "Září"
+
+#: src/month-view.c:122
+msgid "October"
+msgstr "Říjen"
+
+#: src/month-view.c:123
+msgid "November"
+msgstr "Listopad"
+
+#: src/month-view.c:124
+msgid "December"
+msgstr "Prosinec"
+
+#: src/month-view.c:792
+msgid "Week number"
+msgstr "Číslo týdne"
+
+#: src/month-view.c:890
+msgid "Previous month"
+msgstr "Předchozí měsíc"
+
+#: src/month-view.c:913
+msgid "Next month"
+msgstr "Další měsíc"
+
