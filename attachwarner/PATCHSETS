@@ -43,3 +43,4 @@
 ( cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/attachwarner.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/claws.def;  ) > 0.2.14cvs1.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fr.po;  ) > 0.2.14cvs2.patchset
 ( cvs diff -u -r 1.1.2.62 -r 1.1.2.63 configure.ac;  ) > 0.2.14cvs3.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.2.14cvs4.patchset

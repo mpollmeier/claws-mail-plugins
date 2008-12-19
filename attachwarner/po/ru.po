@@ -7,62 +7,60 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail attach warner plugin\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2008-10-03 12:57+0400\n"
-"PO-Revision-Date: 2008-10-03 13:47+0400\n"
+"POT-Creation-Date: 2008-12-12 11:31+0000\n"
+"PO-Revision-Date: 2008-12-19 15:17+0300\n"
 "Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/attachwarner.c:257
+#: src/attachwarner.c:272
 msgid "+_Send"
 msgstr "_Отправить."
 
-#: src/attachwarner.c:259
+#: src/attachwarner.c:274
 msgid "+_Queue"
 msgstr "_В очередь."
 
-#: src/attachwarner.c:262
+#: src/attachwarner.c:277
 #, c-format
-msgid ""
-"An attachment is mentioned in the mail you're sending, but no file was "
-"attached. %s it anyway?"
+msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
 msgstr "Вы упомянули в своём сообщение вложение, но не вложили в него ни одного файла. Всё равно %s?"
 
-#: src/attachwarner.c:263
+#: src/attachwarner.c:278
 msgid "Send"
 msgstr "отправить сообщение"
 
-#: src/attachwarner.c:263
+#: src/attachwarner.c:278
 msgid "Queue"
 msgstr "поставить сообщение в очередь"
 
-#: src/attachwarner.c:264
+#: src/attachwarner.c:279
 msgid "Attachment warning"
 msgstr "Внимание!"
 
-#: src/attachwarner.c:287 src/attachwarner.c:324 src/attachwarner.c:376
+#: src/attachwarner.c:306
+#: src/attachwarner.c:343
+#: src/attachwarner.c:395
 msgid "Attach warner"
 msgstr "Напоминание о вложениях"
 
-#: src/attachwarner.c:294
+#: src/attachwarner.c:313
 msgid "Failed to register check before send hook"
 msgstr "Не удалось зарегистрировать hook на 'check before send'"
 
-#: src/attachwarner.c:334
-msgid ""
-"Warns user if some reference to attachments is found in the message text and "
-"no file is attached."
+#: src/attachwarner.c:353
+msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
 msgstr "Предупреждает Вас, если Вы упомянули о каком-то вложении в тексте сообщения, но не вложили в него ни одного файла."
 
-#: src/attachwarner_prefs.c:45
+#: src/attachwarner_prefs.c:48
 msgid "attach"
 msgstr "вложен"
 
-#: src/attachwarner_prefs.c:70
+#: src/attachwarner_prefs.c:73
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -70,27 +68,27 @@ msgstr ""
 "Предупреждать, если сообщение совпадает с одним из регулярных выражений:\n"
 "(по одному на строку)"
 
-#: src/attachwarner_prefs.c:89
+#: src/attachwarner_prefs.c:92
 msgid "Skip quoted lines"
 msgstr "Не проверять цитаты"
 
-#: src/attachwarner_prefs.c:96
+#: src/attachwarner_prefs.c:99
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr "Не проверять процитированный текст на соответствие заданным регулярным выражениям."
 
-#: src/attachwarner_prefs.c:99
+#: src/attachwarner_prefs.c:102
 msgid "Skip forwards and redirections"
 msgstr "Не проверять пересылаемые сообщения"
 
-#: src/attachwarner_prefs.c:106
+#: src/attachwarner_prefs.c:109
 msgid "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "Не проверять сообщения, которые вы пересылаете или перенаправляете другим адресатам"
 
-#: src/attachwarner_prefs.c:179
+#: src/attachwarner_prefs.c:182
 msgid "Plugins"
 msgstr "Модули"
 
-#: src/attachwarner_prefs.c:180
+#: src/attachwarner_prefs.c:183
 msgid "Attach Warner"
 msgstr "Напоминание о вложениях"
 

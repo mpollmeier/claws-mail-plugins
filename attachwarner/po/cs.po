@@ -6,49 +6,60 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-02-28 08:36+0100\n"
-"PO-Revision-Date: 2007-02-28 09:13+0100\n"
-"Last-Translator: Tim <timbrain@post.cz>\n"
+"POT-Creation-Date: 2008-12-12 11:31+0000\n"
+"PO-Revision-Date: 2008-12-13 19:56+0100\n"
+"Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(((n%100>=10 && n%100<=14) || (n%10>5)) ? 2 : (n%10>=2 && n%10<=4) ? 1 : 0);\n"
+"Plural-Forms: nplurals=3; plural=(((n%100>=10 && n%100<=14) || (n%10>5)) ? 2 : (n%10>=2 && n%10<=4) ? 1 : 0);\n"
 
-#: src/attachwarner.c:252
-msgid "Attachment warning"
-msgstr "Příloha - upozornění"
-
-#: src/attachwarner.c:253
-msgid ""
-"An attachment is mentioned in the mail you're sending, but no file was "
-"attached. Send it anyway?"
-msgstr "V textu odesílané zprávy je zmíněna příloha, ale není připojen žádný soubor. Chcete zprávu přesto odeslat?"
-
-#: src/attachwarner.c:254
+#: src/attachwarner.c:272
 msgid "+_Send"
 msgstr "+ _Odeslat"
 
-#: src/attachwarner.c:275 src/attachwarner.c:311 src/attachwarner.c:363
+#: src/attachwarner.c:274
+msgid "+_Queue"
+msgstr "+_Fronta"
+
+#: src/attachwarner.c:277
+#, c-format
+msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
+msgstr "V textu odesílané zprávy je zmíněna příloha, ale není připojen žádný soubor. Přesto %s?"
+
+#: src/attachwarner.c:278
+msgid "Send"
+msgstr "Odeslat"
+
+#: src/attachwarner.c:278
+msgid "Queue"
+msgstr "Fronta"
+
+#: src/attachwarner.c:279
+msgid "Attachment warning"
+msgstr "Příloha - upozornění"
+
+#: src/attachwarner.c:306
+#: src/attachwarner.c:343
+#: src/attachwarner.c:395
 msgid "Attach warner"
 msgstr "Kontrola příloh"
 
-#: src/attachwarner.c:282
+#: src/attachwarner.c:313
 msgid "Failed to register check before send hook"
 msgstr "Nepodařilo se zaregistrovat kontrolu do operace odesílání zprávy."
 
-#: src/attachwarner.c:321
-msgid ""
-"Warns user if some reference to attachments is found in the message text and "
-"no file is attached."
+#: src/attachwarner.c:353
+msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
 msgstr "Tento zásuvný modul upozorňuje pokud je v textu zprávy zmíněna příloha a není přiložen žádný soubor."
 
-#: src/attachwarner_prefs.c:44
+#: src/attachwarner_prefs.c:48
 msgid "attach"
-msgstr ""
+msgstr "přiložit"
 
-#: src/attachwarner_prefs.c:70
+#: src/attachwarner_prefs.c:73
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -56,27 +67,27 @@ msgstr ""
 "Upozornit, pokud dojde k nalezení jednoho z těchto regulárních výrazů:\n"
 "(každý výraz na samostatný řádek)"
 
-#: src/attachwarner_prefs.c:89
+#: src/attachwarner_prefs.c:92
 msgid "Skip quoted lines"
 msgstr "Přeskočit citace"
 
-#: src/attachwarner_prefs.c:96
+#: src/attachwarner_prefs.c:99
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr "Text citací ve zprávě nebude kontrolován."
 
-#: src/attachwarner_prefs.c:99
+#: src/attachwarner_prefs.c:102
 msgid "Skip forwards and redirections"
 msgstr "Nekontrolovat předávané a přesměrovávané zprávy"
 
-#: src/attachwarner_prefs.c:106
+#: src/attachwarner_prefs.c:109
 msgid "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "Text zpráv, které předáváte (forward) nebo přesměrováváte (redirect) nebude kontrolován."
 
-#: src/attachwarner_prefs.c:177
+#: src/attachwarner_prefs.c:182
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: src/attachwarner_prefs.c:178
+#: src/attachwarner_prefs.c:183
 msgid "Attach Warner"
 msgstr "Kontrola příloh"
 
