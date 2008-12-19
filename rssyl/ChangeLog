@@ -1,3 +1,9 @@
+2008-12-19 [paul]	0.22.0cvs6
+
+	* po/cs.po
+	* po/ru.po
+		updated by David Vachulka, Aleksei Miheev
+
 2008-12-07 [paul]	0.22.0cvs5
 
 	* configure.ac
