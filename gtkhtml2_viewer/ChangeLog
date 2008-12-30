@@ -1,3 +1,8 @@
+2008-12-30 [paul]	0.22.0cvs1
+
+	* src/gtkhtml2_viewer.c
+		no need to prematurely trim the uri in the statusbar
+
 2008-12-19 [paul]	0.22.0
 
 	0.22 released

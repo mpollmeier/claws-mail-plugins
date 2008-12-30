@@ -559,7 +559,6 @@ void link_clicked(HtmlDocument *doc, const gchar *url, GtkHtml2Viewer *viewer) {
  */
 static void on_url(GtkWidget *widget, const gchar *url, gpointer data)
 {
-	gchar *trimmed_uri = NULL;
 	MimeViewer *viewer = (MimeViewer *)data;
 	MessageView *messageview = viewer->mimeview ? viewer->mimeview->messageview : NULL;
 
@@ -567,12 +566,10 @@ static void on_url(GtkWidget *widget, const gchar *url, gpointer data)
 
 	if (url != NULL) {
 		gchar *real_url = make_url(url, ((GtkHtml2Viewer *)data)->base);
-		trimmed_uri = trim_string(real_url?real_url:url, 60);
 		if (messageview->statusbar)
 			gtk_statusbar_push(GTK_STATUSBAR(messageview->statusbar),
-				   messageview->statusbar_cid, trimmed_uri);
+				   messageview->statusbar_cid, real_url);
 		g_free(real_url);
-		g_free(trimmed_uri);
 		((GtkHtml2Viewer *)viewer)->is_on_url = TRUE;
 	} else {
 		if (messageview->statusbar)
