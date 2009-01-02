@@ -82,8 +82,7 @@ struct _PdfViewer
 	GtkWidget			*pdf_view_ebox;
 	GtkWidget			*icon_type_ebox;
 	GtkWidget			*icon_type;
-	GdkPixmap			*icon_pixmap;
-	GdkBitmap			*icon_bitmap;
+	GdkPixbuf			*icon_pixbuf;
 	GtkWidget			*doc_label;
 	GtkWidget			*cur_page;
 	GtkWidget			*doc_index_pane;

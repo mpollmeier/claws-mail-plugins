@@ -1,3 +1,9 @@
+2009-01-02 [colin]	0.9.1cvs8
+
+	* src/poppler_viewer.c
+	* src/poppler_viewer.h
+		Move to stock_pixbuf
+
 2008-11-28 [cleroy]	0.9.1cvs7
 
 	* po/fr.po

@@ -1103,29 +1103,24 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 		}
 		
 		if (pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PS) {
-			stock_pixmap_gdk(viewer->hbox, 
+			stock_pixbuf_gdk(viewer->hbox, 
 					STOCK_PIXMAP_MIME_PS, 
-					&viewer->icon_pixmap, 
-					&viewer->icon_bitmap);
-		gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
+					&viewer->icon_pixbuf);
+		gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->icon_type), viewer->icon_pixbuf);
 		} 
 		else if (pdf_viewer_mimepart_get_type(viewer->to_load) == TYPE_PDF) {
-			stock_pixmap_gdk(viewer->hbox, 
+			stock_pixbuf_gdk(viewer->hbox, 
 			STOCK_PIXMAP_MIME_PDF, 
-			&viewer->icon_pixmap, 
-			&viewer->icon_bitmap);
-			gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), 
-									viewer->icon_pixmap, 
-									viewer->icon_bitmap);
+			&viewer->icon_pixbuf);
+			gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->icon_type), 
+									viewer->icon_pixbuf);
 		} 
 		else {
-			stock_pixmap_gdk(viewer->hbox, 
+			stock_pixbuf_gdk(viewer->hbox, 
 			STOCK_PIXMAP_MIME_APPLICATION, 
-			&viewer->icon_pixmap, 
-			&viewer->icon_bitmap);
-			gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), 
-									viewer->icon_pixmap, 
-									viewer->icon_bitmap);
+			&viewer->icon_pixbuf);
+			gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->icon_type), 
+									viewer->icon_pixbuf);
 		}
 
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label), _("Loading..."));	
@@ -1195,12 +1190,11 @@ static void pdf_viewer_update(MimeViewer *_viewer, gboolean reload_file, int pag
 	if (viewer->pdf_doc == NULL) {
 	
 		strretchomp(error->message);
-		stock_pixmap_gdk(viewer->hbox, 
+		stock_pixbuf_gdk(viewer->hbox, 
 				STOCK_PIXMAP_MIME_APPLICATION, 
-				&viewer->icon_pixmap, 
-				&viewer->icon_bitmap);
+				&viewer->icon_pixbuf);
 
-		gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), viewer->icon_pixmap, viewer->icon_bitmap);
+		gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->icon_type), viewer->icon_pixbuf);
 		gtk_label_set_text(GTK_LABEL(viewer->doc_label), error->message);
 	
 		pdf_viewer_show_controls(viewer, FALSE);
@@ -1676,14 +1670,12 @@ static MimeViewer *pdf_viewer_create(void)
 
 	/* end treeview */
 
-	stock_pixmap_gdk(viewer->hbox, 
+	stock_pixbuf_gdk(viewer->hbox, 
 			STOCK_PIXMAP_MIME_TEXT_PLAIN, 
-			&viewer->icon_pixmap, 
-			&viewer->icon_bitmap);
+			&viewer->icon_pixbuf);
 
-	gtk_image_set_from_pixmap(GTK_IMAGE(viewer->icon_type), 
-				viewer->icon_pixmap, 
-				viewer->icon_bitmap);
+	gtk_image_set_from_pixbuf(GTK_IMAGE(viewer->icon_type), 
+				viewer->icon_pixbuf);
 
 	/* pack widgets*/
 	gtk_box_pack_start(GTK_BOX(viewer->hbox), viewer->icon_type_ebox, FALSE, FALSE, 0);
