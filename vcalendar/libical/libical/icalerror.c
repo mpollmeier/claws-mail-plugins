@@ -3,7 +3,7 @@
   FILE: icalerror.c
   CREATOR: eric 16 May 1999
   
-  $Id: icalerror.c,v 1.1.2.2 2008-08-17 07:06:25 colinler Exp $
+  $Id: icalerror.c,v 1.1.2.3 2009-01-06 19:40:54 colinler Exp $
   $Locker:  $
     
 
@@ -103,7 +103,7 @@ static struct icalerror_string_map string_map[] =
 
 icalerrorenum icalerror_error_from_string(const char* str){
  
-    icalerrorenum e;
+    icalerrorenum e = ICAL_UNKNOWN_ERROR;
     int i = 0;
 
     for( i = 0; string_map[i].error != ICAL_NO_ERROR; i++){

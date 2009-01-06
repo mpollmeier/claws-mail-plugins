@@ -4,7 +4,7 @@
  CREATOR: eric 26 July 2000
 
 
- $Id: icalmime.c,v 1.1.2.1 2005-07-04 17:06:57 colinleroy Exp $
+ $Id: icalmime.c,v 1.1.2.2 2009-01-06 19:40:54 colinler Exp $
  $Locker:  $
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -205,7 +205,7 @@ icalcomponent* icalmime_parse(char* (*get_string)(char *s, size_t size,
 	}
 
 	if(parts[i].header.error!=SSPM_NO_ERROR){
-	    char *str;
+	    char *str = NULL;
 	    char* temp[256];
 
 	    if(parts[i].header.error==SSPM_UNEXPECTED_BOUNDARY_ERROR){

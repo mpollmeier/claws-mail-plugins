@@ -3,7 +3,7 @@
   FILE: sspm.c Parse Mime
   CREATOR: eric 25 June 2000
   
-  $Id: sspm.c,v 1.1.2.1 2005-07-04 17:06:58 colinleroy Exp $
+  $Id: sspm.c,v 1.1.2.2 2009-01-06 19:40:54 colinler Exp $
   $Locker:  $
     
  The contents of this file are subject to the Mozilla Public License
@@ -1163,7 +1163,7 @@ char *decode_base64(char *dest,
 			     char *src,
 			     size_t *size)
 {
-    int cc;
+    int cc = 0;
     char buf[4] = {0,0,0,0};  
     int p = 0;
     int valid_data = 0;
