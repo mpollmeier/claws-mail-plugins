@@ -1,3 +1,9 @@
+2009-01-11 [paul]	0.23.0cvs1
+
+	* src/rssyl_cb_menu.c
+		trim the label but not the entry in the
+		Rename dialog
+
 2008-12-19 [paul]	0.23.0
 
 	0.23 released

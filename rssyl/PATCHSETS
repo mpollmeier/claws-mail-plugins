@@ -158,3 +158,4 @@
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fr.po;  ) > 0.22.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.222 -r 1.1.2.223 configure.ac;  ) > 0.22.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.22.0cvs6.patchset
+( cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/rssyl_cb_menu.c;  ) > 0.23.0cvs1.patchset

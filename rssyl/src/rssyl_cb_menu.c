@@ -328,7 +328,7 @@ void rssyl_rename_cb(GtkAction *action, gpointer data)
 
 	name = trim_string(item->name, 32);
 	message = g_strdup_printf(_("Input new name for '%s':"), name);
-	new_folder = input_dialog(_("Rename folder"), message, name);
+	new_folder = input_dialog(_("Rename folder"), message, item->name);
 	g_free(message);
 	g_free(name);
 	if (!new_folder) return;
