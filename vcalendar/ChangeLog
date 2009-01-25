@@ -1,3 +1,9 @@
+2009-01-25 [paul]	2.0.3cvs2
+
+	* src/vcal_prefs.c
+		fix warning "GtkSpinButton: setting an
+		adjustment with non-zero page size is deprecated"
+
 2009-01-06 [colin]	2.0.3cvs1
 
 	* libical/libical/icalerror.c

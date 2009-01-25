@@ -265,7 +265,7 @@ static void vcal_prefs_create_widget_func(PrefsPage * _page,
 	gtk_widget_show (alert_enable_checkbtn);
 	gtk_box_pack_start(GTK_BOX (hbox1), alert_enable_checkbtn, FALSE, FALSE, 0);
 
-	alert_enable_spinbtn_adj = gtk_adjustment_new (10, 1, 24*60, 1, 10, 10);
+	alert_enable_spinbtn_adj = gtk_adjustment_new (10, 1, 24*60, 1, 10, 0);
 	alert_enable_spinbtn = gtk_spin_button_new
 		(GTK_ADJUSTMENT (alert_enable_spinbtn_adj), 1, 0);
 	gtk_widget_set_size_request (alert_enable_spinbtn, 64, -1);
