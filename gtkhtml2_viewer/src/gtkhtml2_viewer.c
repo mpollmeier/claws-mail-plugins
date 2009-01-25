@@ -48,6 +48,8 @@
 #include "common/version.h"
 #include "main.h"
 #include "plugin.h"
+#include "mainwindow.h"
+#include "summaryview.h"
 #include "mimeview.h"
 #include "messageview.h"
 #include "prefs_common.h"
@@ -240,6 +242,13 @@ static gboolean has_header(FILE *fp)
 	return FALSE;
 }
 
+static void gtkhtml2_restore_focus(void)
+{
+	MainWindow *mainwin = mainwindow_get_mainwindow();
+	if (mainwin)
+		summary_grab_focus(mainwin->summaryview);
+}
+
 static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 {
 	GtkHtml2Viewer *viewer = (GtkHtml2Viewer *) _viewer;
@@ -419,6 +428,7 @@ static void reload_with_img(NoticeView *noticeview, GtkHtml2Viewer *viewer)
 {
 	viewer->force_image_loading = TRUE;
 	gtkhtml2_show_mimepart((MimeViewer *)viewer, NULL, viewer->mimeinfo);
+	gtkhtml2_restore_focus();
 }
 #endif
 
@@ -550,6 +560,7 @@ void link_clicked(HtmlDocument *doc, const gchar *url, GtkHtml2Viewer *viewer) {
 			       bevent->button, bevent->time);
 	}
 	g_free(real_url);
+	gtkhtml2_restore_focus();
 }
 
 

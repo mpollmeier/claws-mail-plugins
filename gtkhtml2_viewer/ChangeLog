@@ -1,3 +1,9 @@
+2009-01-25 [colin]	0.22.0cvs2
+
+	* src/gtkhtml2_viewer.c
+		Restore focus after clicking on links
+		Patch by Pawel
+
 2008-12-30 [paul]	0.22.0cvs1
 
 	* src/gtkhtml2_viewer.c

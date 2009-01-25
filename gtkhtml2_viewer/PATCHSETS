@@ -121,3 +121,4 @@
 ( cvs diff -u -r 1.1.2.154 -r 1.1.2.155 configure.ac;  ) > 0.21.0cvs6.patchset
 ( cvs diff -u -r 1.1.2.155 -r 1.1.2.156 configure.ac;  diff -u /dev/null po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.21.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.81 -r 1.1.2.82 src/gtkhtml2_viewer.c;  ) > 0.22.0cvs1.patchset
+( cvs diff -u -r 1.1.2.82 -r 1.1.2.83 src/gtkhtml2_viewer.c;  ) > 0.22.0cvs2.patchset
