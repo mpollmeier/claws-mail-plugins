@@ -1,14 +1,1 @@
-This plugin handles S/MIME signed and/or encrypted 
-mails. You can decrypt mails, verify signatures or 
-sign and encrypt your own mails.
-
-WARNING: This plugin doesn't handle sign+encrypt and
-encryption of multipart messages very well (yet).
-
-It can be selected as the Default Privacy System in 
-/Configuration/[Account Preferences]/Privacy and when 
-composing a message from /Options/Privacy System
-
-The plugin uses the GPGME library as a wrapper for GnuPG.
-
-GPGME is copyright 2001 by Werner Koch <dd9jn@gnu.org>
+This plugin is now in the claws cvs module and is shipped in the tarballs.

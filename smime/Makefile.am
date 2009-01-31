@@ -1,8 +1,0 @@
-SUBDIRS = src
-
-EXTRA_DIST = \
-	COPYING \
-	INSTALL \
-	README \
-	NEWS \
-	ChangeLog
