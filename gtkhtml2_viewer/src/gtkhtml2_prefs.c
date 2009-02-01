@@ -191,7 +191,7 @@ static void create_gtkhtml_prefs_page(PrefsPage *page,
         gtk_widget_show(vbox);
         
         local_checkbox = gtk_check_button_new_with_label
-				(_("Load remote images in mails"));
+				(_("Automatically load remote images"));
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(local_checkbox),
                                      !gtkhtml_prefs.local);
         gtk_box_pack_start(GTK_BOX(vbox), local_checkbox, FALSE, FALSE, 0);
@@ -242,7 +242,7 @@ static void create_gtkhtml_prefs_page(PrefsPage *page,
         gtk_widget_show(cache_images_checkbox);
         
         clear_cache_checkbox = gtk_check_button_new_with_label
-				(_("Clear images cache when quitting"));
+				(_("Clear image cache when quitting"));
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(clear_cache_checkbox),
                                      gtkhtml_prefs.clear_cache);
         gtk_box_pack_start(GTK_BOX(vbox), clear_cache_checkbox, FALSE, FALSE, 0);
