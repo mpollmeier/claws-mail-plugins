@@ -128,8 +128,6 @@ static void local_checkbox_toggled(GtkToggleButton *button,
 	gboolean active = gtk_toggle_button_get_active(button);
         GtkHtmlBrowserPage *prefs_page = (GtkHtmlBrowserPage *) user_data;
 
-	gtk_widget_set_sensitive(prefs_page->cache_images, active);
-	
 	gtk_widget_set_sensitive(prefs_page->whitelist_ab, active);
 	gtk_widget_set_sensitive(prefs_page->whitelist_ab_folder_combo, active && 
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->whitelist_ab)));
@@ -137,7 +135,6 @@ static void local_checkbox_toggled(GtkToggleButton *button,
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->whitelist_ab)));
 	
 	active &= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_page->cache_images));
-	gtk_widget_set_sensitive(prefs_page->clear_cache, active);	
 }
 
 static void whitelist_checkbox_toggled(GtkToggleButton *button,

@@ -1,3 +1,8 @@
+2009-02-01 [paul]	0.22.0cvs5
+
+	* src/gtkhtml2_prefs.c
+		fix sensitivity
+
 2009-02-01 [paul]	0.22.0cvs4
 
 	* src/gtkhtml2_prefs.c
