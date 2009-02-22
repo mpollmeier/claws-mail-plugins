@@ -77,7 +77,7 @@ rfc1738_make_full_url (const gchar *base, const gchar *rel)
 		return g_strdup (base);
 
 	/* Looks like rel is a full url, lets use it */
-	if (strchr (rel, ':'))
+	if (rel && strchr (rel, ':'))
 		return g_strdup (rel);
 
 	pos = strlen (base) - 1;

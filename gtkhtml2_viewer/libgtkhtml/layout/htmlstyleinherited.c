@@ -89,7 +89,7 @@ html_style_inherited_dup (HtmlStyleInherited *inherited)
 	/* FIXME: can font_spec be NULL here? */
 	if (result->font_spec)
 		html_font_specification_ref (result->font_spec);
-	if (inherited->color)
+	if (inherited && inherited->color)
 		result->color = html_color_ref (inherited->color);
 	
 	return result;

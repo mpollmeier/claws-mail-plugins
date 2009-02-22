@@ -552,7 +552,7 @@ html_box_text_relayout (HtmlBox *self, HtmlRelayout *relayout)
 		ptr = text->canon_text;
 		end = text->canon_text + text->length;
 
-		while (ptr < end && *ptr != '\n' && *ptr != '\r') 
+		while (ptr && ptr < end && *ptr != '\n' && *ptr != '\r') 
 			ptr += g_utf8_skip[(unsigned int)*ptr];
 
 		if (ptr != text->canon_text) {

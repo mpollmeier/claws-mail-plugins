@@ -264,7 +264,8 @@ static gint gtkhtml2_show_mimepart_real(MimeViewer *_viewer)
 	memset(buf, 0, sizeof(buf));
 
 	viewer->loading = 1;
-	messageview->updating = TRUE;
+	if (messageview)
+		messageview->updating = TRUE;
 	debug_print("gtkhtml2_show_mimepart\n");
 
 	if (viewer->filename != NULL) {
@@ -378,7 +379,8 @@ out:
 	viewer->stop_previous = FALSE;
 	viewer->force_image_loading = FALSE;	
 	g_mutex_unlock(viewer->mutex);
-	messageview->updating = FALSE;
+	if (messageview)
+		messageview->updating = FALSE;
 	viewer->preparing = FALSE;
 	return FALSE;
 }
@@ -628,6 +630,7 @@ static void *gtkhtml_fetch_feed_threaded(void *arg)
 		ctx->ready = TRUE;
 		claws_unlink(template);
 		g_free(template);
+		fclose(f);
 		return NULL;
 	}
 
@@ -729,8 +732,6 @@ static void requested_url(HtmlDocument *doc, const gchar *url, HtmlStream *strea
 		gchar *cache_file = NULL;
 #endif
 		debug_print("looking for %s in Content-Location\n", url);
-                if (url == '\0')
-                        goto fail;
 
                 while ((mimeinfo = procmime_mimeinfo_next(mimeinfo)) != NULL) {
                         if (mimeinfo->location != NULL && strcmp(mimeinfo->location, url) == 0)

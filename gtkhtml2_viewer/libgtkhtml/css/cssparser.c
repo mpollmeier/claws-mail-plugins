@@ -1166,9 +1166,14 @@ css_parser_parse_ruleset (const gchar *buffer, gint start_pos, gint end_pos, Css
 	cur_pos = pos + 1;
 	pos = css_parser_parse_to_char (buffer, '}', cur_pos, end_pos);
 
-	if (cur_pos == end_pos || sel == NULL)
+	if (cur_pos == end_pos || sel == NULL) {
+		gint i;
+
+		for (i = 0; i < n_sel; i++)
+			css_selector_destroy (sel[i]);
+		g_free (sel);
 		return pos + 1;
-	
+	}
 	if (pos == end_pos) {
 		gint i;
 

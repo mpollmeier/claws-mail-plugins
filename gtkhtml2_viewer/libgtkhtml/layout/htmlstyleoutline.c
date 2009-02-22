@@ -77,7 +77,7 @@ html_style_outline_dup (HtmlStyleOutline *outline)
 
 	result->refcount = 0;
 
-	if (outline->color)
+	if (outline && outline->color)
 		result->color = html_color_ref (outline->color);
 
 	return result;

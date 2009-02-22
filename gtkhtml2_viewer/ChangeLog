@@ -1,3 +1,13 @@
+2009-02-22 [colin]	0.22.0cvs6
+
+	* libgtkhtml/css/cssparser.c
+	* libgtkhtml/layout/htmlboxtext.c
+	* libgtkhtml/layout/htmlstyleinherited.c
+	* libgtkhtml/layout/htmlstyleoutline.c
+	* libgtkhtml/util/rfc1738.c
+	* src/gtkhtml2_viewer.c
+		Some coverity fixes
+
 2009-02-01 [paul]	0.22.0cvs5
 
 	* src/gtkhtml2_prefs.c
