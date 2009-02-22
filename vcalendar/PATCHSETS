@@ -215,3 +215,4 @@
 ( cvs diff -u -r 1.2.2.316 -r 1.2.2.317 configure.ac;  diff -u /dev/null po/cs.po;  ) > 2.0.2cvs7.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libical/libical/icalerror.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libical/libical/icalmime.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libical/libical/sspm.c;  ) > 2.0.3cvs1.patchset
 ( cvs diff -u -r 1.1.2.31 -r 1.1.2.32 src/vcal_prefs.c;  ) > 2.0.3cvs2.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libical/libical/icalmime.c;  cvs diff -u -r 1.2.2.107 -r 1.2.2.108 src/vcal_folder.c;  ) > 2.0.3cvs3.patchset

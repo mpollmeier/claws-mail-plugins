@@ -1,3 +1,9 @@
+2009-02-22 [colin]	2.0.3cvs3
+
+	* libical/libical/icalmime.c
+	* src/vcal_folder.c
+		Coverity fixes
+
 2009-01-25 [paul]	2.0.3cvs2
 
 	* src/vcal_prefs.c

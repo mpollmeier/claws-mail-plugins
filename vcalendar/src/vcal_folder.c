@@ -841,6 +841,8 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 	for (cur = events; cur; cur = cur->next) {
 		VCalEvent *event = (VCalEvent *)cur->data;
 
+		if (!event)
+			continue;
 		g_hash_table_insert(hash_uids, GINT_TO_POINTER(n_msg), g_strdup(event->uid));
 		
 		if (event->rec_occurence) {
@@ -848,7 +850,7 @@ static gint vcal_get_num_list(Folder *folder, FolderItem *item,
 			continue;
 		}
 
-		if (event && event->method != ICAL_METHOD_CANCEL) {
+		if (event->method != ICAL_METHOD_CANCEL) {
 			EventTime days;
 			VCAL_FOLDER_ADD_EVENT(event);
 		}
