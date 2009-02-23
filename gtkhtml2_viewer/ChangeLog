@@ -1,3 +1,8 @@
+2009-02-23 [colin]	0.22.0cvs8
+
+	* libgtkhtml/graphics/htmlstylepainter.c
+		Fix copy/paste error
+
 2009-02-23 [colin]	0.22.0cvs7
 
 	* libgtkhtml/document/htmldocument.c
