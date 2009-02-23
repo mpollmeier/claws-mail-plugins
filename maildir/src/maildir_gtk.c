@@ -104,7 +104,7 @@ void maildir_gtk_done(void)
 
 	folderview_unregister_popup(&maildir_popup);
 
-	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "File/AddMailbox/RSSyl", main_menu_id);
+	MENUITEM_REMUI_MANAGER(mainwin->ui_manager,mainwin->action_group, "File/AddMailbox/Maildir", main_menu_id);
 	main_menu_id = 0;
 }
 

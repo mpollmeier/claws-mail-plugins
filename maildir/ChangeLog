@@ -1,3 +1,9 @@
+2009-02-23 [colin]	0.24.4cvs12
+
+	* src/maildir_gtk.c
+		Fix bug 1856, 'Load, unload, load produces Gtk-WARNING'
+		Fix menu removal; patch by Fabian <fk at dev.anterias.net>
+
 2008-08-17 [colin]	0.24.4cvs11
 
 	* src/maildir.c
