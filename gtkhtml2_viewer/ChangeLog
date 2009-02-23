@@ -1,3 +1,9 @@
+2009-02-23 [colin]	0.22.0cvs7
+
+	* libgtkhtml/document/htmldocument.c
+	* libgtkhtml/graphics/htmlstylepainter.c
+		Fix missing NULL checks
+
 2009-02-22 [colin]	0.22.0cvs6
 
 	* libgtkhtml/css/cssparser.c

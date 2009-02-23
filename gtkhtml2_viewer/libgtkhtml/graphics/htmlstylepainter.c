@@ -115,7 +115,8 @@ html_style_painter_draw_background_color (HtmlBox *self, HtmlPainter *painter, G
 	if (style->display == HTML_DISPLAY_TABLE_CELL) {
 		HtmlBox *box = self;
 
-		while (box && box->parent && bg_style->background->color.transparent) {
+		while (box && box->parent && bg_style && bg_style->background->bg_style->background &&
+			bg_style->background->color.transparent) {
 			if (HTML_BOX_GET_STYLE (box)->display == HTML_DISPLAY_TABLE)
 				break;
 			box = box->parent;
@@ -123,7 +124,7 @@ html_style_painter_draw_background_color (HtmlBox *self, HtmlPainter *painter, G
 		}
 	}
 
-	if (bg_style->visibility != HTML_VISIBILITY_VISIBLE)
+	if (!bg_style || bg_style->visibility != HTML_VISIBILITY_VISIBLE)
 		return;
 
 	if (bg_style && !bg_style->background->color.transparent) {

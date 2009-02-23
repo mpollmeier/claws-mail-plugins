@@ -89,7 +89,7 @@ html_document_restyle_node (HtmlDocument *document, DomNode *node, HtmlAtom *pse
 	    node->xmlnode->type == XML_DTD_NODE)
 		return style_change;
 	
-	if (node->xmlnode->parent)
+	if (node->xmlnode->parent && dom_Node__get_parentNode (node))
 			parent_style = dom_Node__get_parentNode (node)->style;
 		else
 			parent_style = NULL;
@@ -349,7 +349,7 @@ html_document_node_inserted_traverser (HtmlDocument *document, DomNode *node)
 		    node->xmlnode->type == XML_DTD_NODE)
 			return;
 		
-		if (node->xmlnode->parent)
+		if (node->xmlnode->parent && dom_Node__get_parentNode (node))
 			parent_style = dom_Node__get_parentNode (node)->style;
 		else
 			parent_style = NULL;
