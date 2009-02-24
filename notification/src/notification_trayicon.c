@@ -579,6 +579,8 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
   gchar *summary = NULL;
   gchar *utf8_str = NULL;
   GdkPixbuf *pixbuf;
+  GList *caps = NULL;
+  gboolean support_actions = FALSE;
 
   /* init libnotify if necessary */
   if(!notify_is_initted()) {
@@ -601,13 +603,28 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
   g_free(summary);
   g_free(utf8_str);
 
+  caps = notify_get_server_caps();
+    if(caps != NULL) {
+      GList *c;
+      for(c = caps; c != NULL; c = c->next) {
+	if(strcmp((char*)c->data, "actions") == 0 ) {
+	  support_actions = TRUE;
+	  break;
+        }
+      }
+
+    g_list_foreach(caps, (GFunc)g_free, NULL);
+    g_list_free(caps);
+  }
+
   /* Default action */
-  notify_notification_add_action(popup.notification,
-				 "default", "Present main window",
-				 (NotifyActionCallback)
-				 notification_trayicon_popup_default_action_cb,
-				 GINT_TO_POINTER(nftype),
-				 notification_trayicon_popup_free_func);
+  if (support_actions)
+    notify_notification_add_action(popup.notification,
+				   "default", "Present main window",
+				   (NotifyActionCallback)
+				   notification_trayicon_popup_default_action_cb,
+				   GINT_TO_POINTER(nftype),
+				   notification_trayicon_popup_free_func);
 
   if(popup.notification == NULL) {
     debug_print("Notification Plugin: Failed to create a new notification.\n");
@@ -651,7 +668,7 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
   /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(popup.notification, NOTIFY_EXPIRES_NEVER);
+  notify_notification_set_timeout(popup.notification, notify_config.trayicon_popup_timeout+1000);
 
   /* Category */
   notify_notification_set_category(popup.notification, "email.arrived");

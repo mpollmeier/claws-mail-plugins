@@ -115,3 +115,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fr.po;  ) > 0.19cvs2.patchset
 ( cvs diff -u -r 1.1.2.148 -r 1.1.2.149 configure.ac;  ) > 0.19cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.19cvs3.patchset
+( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/notification_popup.c;  cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/notification_trayicon.c;  ) > 0.20cvs1.patchset

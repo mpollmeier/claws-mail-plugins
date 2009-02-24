@@ -270,6 +270,8 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   gchar *subj = NULL;
   gchar *from = NULL;
   gchar *foldname = NULL;
+  GList *caps = NULL;
+  gboolean support_actions = FALSE;
 
   g_return_val_if_fail(msginfo, FALSE);
 
@@ -332,12 +334,27 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     return FALSE;
   }
 
+  caps = notify_get_server_caps();
+    if(caps != NULL) {
+      GList *c;
+      for(c = caps; c != NULL; c = c->next) {
+	if(strcmp((char*)c->data, "actions") == 0 ) {
+	  support_actions = TRUE;
+	  break;
+        }
+      }
+
+    g_list_foreach(caps, (GFunc)g_free, NULL);
+    g_list_free(caps);
+  }
+
   /* Default action */
-  notify_notification_add_action(ppopup->notification,
-				 "default", "Present main window",
-				 (NotifyActionCallback)default_action_cb,
-				 GINT_TO_POINTER(nftype),
-				 notification_libnotify_free_func);
+  if (support_actions)
+    notify_notification_add_action(ppopup->notification,
+				   "default", "Present main window",
+				   (NotifyActionCallback)default_action_cb,
+				   GINT_TO_POINTER(nftype),
+				   notification_libnotify_free_func);
 
   /* Icon */
   pixbuf = NULL;
@@ -376,7 +393,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
   /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(ppopup->notification, NOTIFY_EXPIRES_NEVER);
+  notify_notification_set_timeout(ppopup->notification, notify_config.popup_timeout+1000);
 
   /* Category */
   notify_notification_set_category(ppopup->notification, "email.arrived");
