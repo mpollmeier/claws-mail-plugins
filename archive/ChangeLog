@@ -1,3 +1,13 @@
+2009-02-26 [michael]	0.6.3cvs1
+
+	* src/archiver_gtk.c
+	* src/archiver_prefs.c
+	* src/archiver_prefs.h
+	* src/libarchive_archive.c
+	* src/libarchive_archive.h
+
+        Added support for compression method COMPRESS
+
 2008-12-19 [paul]	0.6.3
 
 	0.6.3 released

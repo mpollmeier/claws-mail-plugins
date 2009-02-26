@@ -499,10 +499,10 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 			if (archive_write_set_compression_bzip2(arch) != ARCHIVE_OK)
 				return archive_error_string(arch);
 			break;
-/*		case COMPRESS:
-			if (archive_write_set_compression_gzip(arch) != ARCHIVE_OK)
+		case COMPRESS:
+			if (archive_write_set_compression_compress(arch) != ARCHIVE_OK)
 				return archive_error_string(arch);
-			break;*/
+			break;
 		case NO_COMPRESS:
 			if (archive_write_set_compression_none(arch) != ARCHIVE_OK)
 				return archive_error_string(arch);
