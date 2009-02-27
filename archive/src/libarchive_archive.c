@@ -65,9 +65,6 @@ static int permissions = 0;
 static void free_msg_trash(MsgTrash* trash) {
     if (trash) {
         debug_print("Freeing files in %s\n", folder_item_get_name(trash->item));
-/*        if (trash->item) {
-            g_free(trash->item);
-        }*/
         if (trash->msgs) {
             g_slist_free(trash->msgs);
         }
@@ -100,15 +97,11 @@ void archive_free_archived_files() {
     GSList* l = NULL;
    
     for (l = msg_trash_list; l; l = g_slist_next(l)) {
-/*        debug_set_mode(TRUE);*/
         mt = (MsgTrash *) l->data;
         debug_print("Trashing messages in folder: %s\n", 
                 folder_item_get_name(mt->item));
-/*        debug_set_mode(FALSE);*/
         res = folder_item_remove_msgs(mt->item, mt->msgs);
-/*        debug_set_mode(TRUE);*/
         debug_print("Result was %d\n", res);
-/*        debug_set_mode(FALSE);*/
         free_msg_trash(mt);
     }
     g_slist_free(msg_trash_list);
@@ -117,10 +110,8 @@ void archive_free_archived_files() {
 
 void archive_add_msg_mark(MsgTrash* trash, MsgInfo* msg) {
     g_return_if_fail(trash != NULL || msg != NULL);
-/*    debug_set_mode(TRUE);*/
     debug_print("Marking msg #%d for removal\n", msg->msgnum);
     trash->msgs = g_slist_prepend(trash->msgs, msg);
-/*    debug_set_mode(FALSE);*/
 }
 
 static void free_all(GDate* date, gchar** parts) {
@@ -499,10 +490,12 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 			if (archive_write_set_compression_bzip2(arch) != ARCHIVE_OK)
 				return archive_error_string(arch);
 			break;
-/*		case COMPRESS:
-			if (archive_write_set_compression_gzip(arch) != ARCHIVE_OK)
-				return archive_error_string(arch);
-			break;*/
+#if NEW_ARCHIVE_API
+		case COMPRESS:
+			if (archive_write_set_compression_compress(arch) != ARCHIVE_OK)
+    			        return archive_error_string(arch);
+			break;
+#endif
 		case NO_COMPRESS:
 			if (archive_write_set_compression_none(arch) != ARCHIVE_OK)
 				return archive_error_string(arch);
@@ -583,13 +576,11 @@ const gchar* archive_create(const char* archive_name, GSList* files,
 					buf = NULL;
 					buf = malloc(READ_BLOCK_SIZE);
 					len = read(fd, buf, READ_BLOCK_SIZE);
-					/*debug_print("First read: %d byte(s) read\n", len);*/
 					while (len > 0) {
 						if (archive_write_data(arch, buf, len) == -1)
 							g_warning("%s", archive_error_string(arch));
 						memset(buf, 0, READ_BLOCK_SIZE);
 						len = read(fd, buf, READ_BLOCK_SIZE);
-						/*debug_print("Read: %d byte(s) read\n", len);*/
 					}
 					g_free(buf);
 				}
@@ -629,7 +620,6 @@ void archive_scan_folder(const char* dir) {
 	chdir(dir);
 
 	while ((ent = readdir(root)) != NULL) {
-		/*fprintf(stdout, "%s\n", ent->d_name);*/
 		if (strcmp(".", ent->d_name) == 0 || strcmp("..", ent->d_name) == 0)
 			continue;
 		g_stat(ent->d_name, &st);

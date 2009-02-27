@@ -13,7 +13,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=3
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -114,6 +114,23 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_SYS_LARGEFILE
 
+# check the version of libarchive
+AC_MSG_CHECKING([The API version of archive])
+AC_RUN_IFELSE([AC_LANG_PROGRAM(
+               [#include <archive.h>],
+               [int old_api = 1;
+		if (archive_version_number() >= 2005000)
+                    old_api = 0;
+		return old_api;
+               ])],
+               [AC_MSG_RESULT([version >= 2005000])
+               AC_DEFINE(NEW_ARCHIVE_API, 1, Define if archive API is at least version 2005000.)]
+               ARCHIVE_VER=">= 2.5",
+               [AC_MSG_RESULT([version < 2005000])
+               AC_DEFINE(NEW_ARCHIVE_API, 0, Define if archive API is at least version 2005000.)]
+               ARCHIVE_VER="< 2.5",
+               [])
+
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
@@ -127,6 +144,7 @@ AC_CONFIG_COMMANDS(
     echo "archive will be compiled with these settings:"
     echo ""
     echo -e "CFLAGS: ${CFLAGS}"
+    echo -e "Archive version: ${ARCHIVE_VER}"
     echo ""
     echo -e "Now run make to build archive plugin"
     echo ""
@@ -134,7 +152,8 @@ AC_CONFIG_COMMANDS(
     echo -e "Email addresses can be found in the AUTHORS file."
     echo ""]],
     [
-     CFLAGS="$CFLAGS"
+     CFLAGS="$CFLAGS",
+     ARCHIVE_VER="$ARCHIVE_VER"
     ]
 )
 

@@ -27,10 +27,12 @@
 
 typedef enum _COMPRESS_METHOD COMPRESS_METHOD;
 enum _COMPRESS_METHOD {
-		NO_COMPRESS,
 		ZIP,
-		BZIP2
-/*		,COMPRESS*/
+		BZIP2,
+#if NEW_ARCHIVE_API
+                COMPRESS,
+#endif
+                NO_COMPRESS
 };
 
 typedef enum _ARCHIVE_FORMAT ARCHIVE_FORMAT;
