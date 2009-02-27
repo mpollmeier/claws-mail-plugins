@@ -47,7 +47,6 @@ struct ArchiverPrefsPage {
 	gint compression;
 	GtkWidget *zip_radiobtn;
 	GtkWidget *bzip_radiobtn;
-        GtkWidget *compress_radiobtn;
 	GtkWidget *none_radiobtn;
 	GtkWidget *tar_radiobtn;
 	GtkWidget *shar_radiobtn;
@@ -156,7 +155,6 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	GSList    *compression_group = NULL;
 	GtkWidget *zip_radiobtn;
 	GtkWidget *bzip_radiobtn;
-        GtkWidget *compress_radiobtn;
 	GtkWidget *none_radiobtn;
 	GSList    *format_group = NULL;
 	GtkWidget *tar_radiobtn;
@@ -223,14 +221,7 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	CLAWS_SET_TIP(bzip_radiobtn,
 			_("Choose this option to use BZIP2 compression by default"));
 
-	compress_radiobtn = gtk_radio_button_new_with_label(compression_group, "COMPRESS");
-	compression_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(compress_radiobtn));
-	gtk_widget_show(compress_radiobtn);
-	gtk_box_pack_start(GTK_BOX (hbox1), compress_radiobtn, FALSE, FALSE, 0);
-	CLAWS_SET_TIP(compress_radiobtn,
-			_("Choose this option to use COMPRESS compression by default"));
-
-        none_radiobtn = gtk_radio_button_new_with_label(compression_group, _("None"));
+	none_radiobtn = gtk_radio_button_new_with_label(compression_group, _("None"));
 	compression_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(none_radiobtn));
 	gtk_widget_show(none_radiobtn);
 	gtk_box_pack_start(GTK_BOX (hbox1), none_radiobtn, FALSE, FALSE, 0);
@@ -243,9 +234,6 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 		break;
 	case COMPRESSION_BZIP:
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(bzip_radiobtn), TRUE);
-		break;
-        case COMPRESSION_COMPRESS:       
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(compress_radiobtn), TRUE);
 		break;
 	case COMPRESSION_NONE:
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(none_radiobtn), TRUE);
@@ -341,7 +329,6 @@ static void create_archiver_prefs_page(PrefsPage * _page,
 	page->save_folder = save_folder;
 	page->zip_radiobtn = zip_radiobtn;
 	page->bzip_radiobtn = bzip_radiobtn;
-        page->compress_radiobtn = compress_radiobtn;
 	page->none_radiobtn = none_radiobtn;
 	page->tar_radiobtn = tar_radiobtn;
 	page->shar_radiobtn = shar_radiobtn;
@@ -372,8 +359,6 @@ static void save_archiver_prefs(PrefsPage * _page)
 		archiver_prefs.compression = COMPRESSION_ZIP;
 	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->bzip_radiobtn)))
 		archiver_prefs.compression = COMPRESSION_BZIP;
-	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->compress_radiobtn)))
-		archiver_prefs.compression = COMPRESSION_COMPRESS;
 	else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->none_radiobtn)))
 		archiver_prefs.compression = COMPRESSION_NONE;
 
