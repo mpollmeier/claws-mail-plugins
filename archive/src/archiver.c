@@ -127,9 +127,6 @@ const gchar* plugin_desc(void) {
 			"\n"
 			"The archive can be compressed using:\n"
 			"\tGZIP/ZIP\n\tBZIP2\n"
-#if NEW_ARCHIVE_API
-                        "\tCOMPRESS\n"
-#endif
 			"\n"
 			"The archives can be restored with any standard tool "
 			"that supports the chosen format and compression.\n"

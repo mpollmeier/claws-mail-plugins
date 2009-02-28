@@ -1,3 +1,15 @@
+2009-02-28 [paul]	0.6.3cvs4
+
+	* configure.ac
+	* src/archiver.c
+	* src/archiver_gtk.c
+	* src/archiver_prefs.c
+	* src/archiver_prefs.h
+	* src/libarchive_archive.c
+	* src/libarchive_archive.h
+		Revert previous patch until next release,
+		we're in string-freeze and feature-freeze mode
+
 2009-02-27 [michael]	0.6.3cvs3
 
 	* configure.ac

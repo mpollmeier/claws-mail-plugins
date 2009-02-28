@@ -27,9 +27,6 @@ typedef struct _ArchiverPrefs	ArchiverPrefs;
 typedef enum {
 	COMPRESSION_ZIP,
 	COMPRESSION_BZIP,
-#if NEW_ARCHIVE_API
-        COMPRESSION_COMPRESS,
-#endif
 	COMPRESSION_NONE
 } CompressionType;
 
