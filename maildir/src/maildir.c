@@ -209,13 +209,13 @@ static gchar *maildir_item_get_path(Folder *folder, FolderItem *item)
 	g_return_val_if_fail(folder_path != NULL, NULL);
 
 	if (g_path_is_absolute(folder_path)) {
-                if (item->path && strcmp(item->path, "INBOX"))
+                if (item->path && strcmp(item->path, ".inbox"))
                         path = g_strconcat(folder_path, G_DIR_SEPARATOR_S,
                                            item->path, NULL);
                 else
                         path = g_strdup(folder_path);
         } else {
-                if (item->path && strcmp(item->path, "INBOX"))
+                if (item->path && strcmp(item->path, ".inbox"))
                         path = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S,
                                            folder_path, G_DIR_SEPARATOR_S,
                                            item->path, NULL);
@@ -340,7 +340,7 @@ static gint maildir_scan_tree(Folder *folder)
 
 	/* Add inbox folder */
 	if (!folder->inbox) {
-		inboxitem = folder_item_new(folder, "inbox", "INBOX");
+		inboxitem = folder_item_new(folder, "inbox", ".inbox");
 		inboxitem->folder = folder;
 		inboxitem->stype = F_INBOX;
 		inboxnode = g_node_new(inboxitem);
@@ -929,16 +929,16 @@ static gboolean setup_new_folder(const gchar * path, gboolean subfolder)
 	tmppath = g_strconcat(path, G_DIR_SEPARATOR_S, "tmp", NULL);
 
 	if (!is_dir_exist(path))
-		if (mkdir(path, 0777) != 0)
+		if (mkdir(path, 0700) != 0)
 			failed = TRUE;
 	if (!is_dir_exist(curpath))
-		if (mkdir(curpath, 0777) != 0)
+		if (mkdir(curpath, 0700) != 0)
 			failed = TRUE;
 	if (!is_dir_exist(newpath))
-		if (mkdir(newpath, 0777) != 0)
+		if (mkdir(newpath, 0700) != 0)
 			failed = TRUE;
 	if (!is_dir_exist(tmppath))
-		if (mkdir(tmppath, 0777) != 0)
+		if (mkdir(tmppath, 0700) != 0)
 			failed = TRUE;
 
 	if (subfolder) {
@@ -1039,7 +1039,7 @@ static gint maildir_create_tree(Folder *folder)
 				    "Can't create folder.", real_rootpath);
 			return -1;
 		}
-		if (make_dir(real_rootpath) < 0)
+		if (make_dir_hier(real_rootpath) < 0)
 			return -1;
 	}
 

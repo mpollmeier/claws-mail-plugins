@@ -1,3 +1,14 @@
+2009-03-03 [colin]	0.24.4cvs13
+
+	* src/maildir.c
+	* src/maildir_gtk.c
+		Fix bug 1860, 'Permissions' (wrong permissions
+		when creating subfolders)
+		Fix bug 1861, 'Subfolders in INBOX'
+		Fix bug 1862, 'Create new mailbox with non-existant 
+		parent directory'
+		All patches by Fabian <fk at dev.anterias.net>
+
 2009-02-23 [colin]	0.24.4cvs12
 
 	* src/maildir_gtk.c
