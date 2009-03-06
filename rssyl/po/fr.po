@@ -80,13 +80,21 @@ msgstr "Mise à jour du flux '%s'..."
 
 #: src/feed.c:1066
 #, c-format
-msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
-msgstr "RSSyl : La récupération des commentaires n'est pas possible pour les flux RDF. Impossible de récupérer les commentaires de '%s'."
+msgid ""
+"RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
+"comments of '%s'"
+msgstr ""
+"RSSyl : La récupération des commentaires n'est pas possible pour les flux "
+"RDF. Impossible de récupérer les commentaires de '%s'."
 
 #: src/feed.c:1074
 #, c-format
-msgid "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch comments of '%s'"
-msgstr "RSSyl : La récupération des commentaires n'est pas possible pour les flux Atom. Impossible de récupérer les commentaires de '%s'."
+msgid ""
+"RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
+"comments of '%s'"
+msgstr ""
+"RSSyl : La récupération des commentaires n'est pas possible pour les flux "
+"Atom. Impossible de récupérer les commentaires de '%s'."
 
 #: src/feed.c:1080
 msgid "This feed format is not supported yet."
@@ -129,8 +137,7 @@ msgstr ""
 "Impossible d'atteindre l'URL '%s':\n"
 "%s"
 
-#: src/feed.c:1549
-#: src/feed.c:1553
+#: src/feed.c:1549 src/feed.c:1553
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -148,8 +155,7 @@ msgstr ""
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossible de s'abonner au flux '%s'."
 
-#: src/feed.c:1670
-#: src/rssyl_cb_menu.c:280
+#: src/feed.c:1670 src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "Claws Mail nécessite un accès réseau pour mettre à jour le flux."
@@ -187,13 +193,18 @@ msgstr "RSSyl: mise à jour du flux terminée : '%s'\n"
 
 #: src/plugin.c:68
 msgid ""
-"This plugin allows you to create a mailbox tree where you can add newsfeeds in RSS 1.0, RSS 2.0 or Atom format.\n"
+"This plugin allows you to create a mailbox tree where you can add newsfeeds "
+"in RSS 1.0, RSS 2.0 or Atom format.\n"
 "\n"
-"Each newsfeed will create a folder with appropriate entries, fetched from the web. You can read them, and delete or keep old entries."
+"Each newsfeed will create a folder with appropriate entries, fetched from "
+"the web. You can read them, and delete or keep old entries."
 msgstr ""
-"Ce module vous permet de créer une arborescence dans laquelle vous pourrez ajouter des flux RSS 1.0, RSS 2.0 ou Atom.\n"
+"Ce module vous permet de créer une arborescence dans laquelle vous pourrez "
+"ajouter des flux RSS 1.0, RSS 2.0 ou Atom.\n"
 "\n"
-"Chaque flux sera enregistré dans un dossier contenant ses articles, récupérés sur Internet. Vous pourrez les lire, puis effacer ou conserver les anciens articles."
+"Chaque flux sera enregistré dans un dossier contenant ses articles, "
+"récupérés sur Internet. Vous pourrez les lire, puis effacer ou conserver les "
+"anciens articles."
 
 #: src/plugin.c:92
 msgid "RSS feed"
@@ -219,14 +230,12 @@ msgstr "Veuillez saisir le nom du nouveau dossier :"
 msgid "NewFolder"
 msgstr "NouveauDossier"
 
-#: src/rssyl_cb_menu.c:94
-#: src/rssyl_cb_menu.c:338
+#: src/rssyl_cb_menu.c:94 src/rssyl_cb_menu.c:338
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "'%c' n'est pas un caractère valide dans le nom d'un dossier."
 
-#: src/rssyl_cb_menu.c:104
-#: src/rssyl_cb_menu.c:345
+#: src/rssyl_cb_menu.c:104 src/rssyl_cb_menu.c:345
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "Le dossier '%s' existe déjà."
@@ -239,7 +248,8 @@ msgstr "Impossible de créer le dossier '%s'."
 #: src/rssyl_cb_menu.c:135
 #, c-format
 msgid "Really remove the folder tree '%s' ?\n"
-msgstr "Voulez-vous vraiment supprimer le dossier '%s' et ses sous-dossiers ?\n"
+msgstr ""
+"Voulez-vous vraiment supprimer le dossier '%s' et ses sous-dossiers ?\n"
 
 #: src/rssyl_cb_menu.c:136
 msgid "Remove folder tree"
@@ -257,11 +267,13 @@ msgstr "Impossible de supprimer la flux '%s'."
 #: src/rssyl_cb_menu.c:231
 #, c-format
 msgid ""
-"All folders and messages under '%s' will be permanently deleted. Recovery will not be possible.\n"
+"All folders and messages under '%s' will be permanently deleted. Recovery "
+"will not be possible.\n"
 "\n"
 "Do you really want to delete?"
 msgstr ""
-"Attention, tous les dossiers et messages sous '%s' vont être supprimés définitivement. Leur restauration sera IMPOSSIBLE !\n"
+"Attention, tous les dossiers et messages sous '%s' vont être supprimés "
+"définitivement. Leur restauration sera IMPOSSIBLE !\n"
 "\n"
 "Voulez-vous vraiment les supprimer ?"
 
@@ -351,10 +363,12 @@ msgstr "La boîte '%s' existe déjà."
 #: src/rssyl_gtk.c:165
 msgid ""
 "Creation of folder tree failed.\n"
-"Maybe some files already exist, or you don't have the permission to write there?"
+"Maybe some files already exist, or you don't have the permission to write "
+"there?"
 msgstr ""
 "La création de l'arborescence a échoué.\n"
-"Peut-être les fichiers existent-ils déjà, ou vous n'avez pas la permission d'écrire à cet endroit ?"
+"Peut-être les fichiers existent-ils déjà, ou vous n'avez pas la permission "
+"d'écrire à cet endroit ?"
 
 #: src/rssyl_gtk.c:180
 msgid "RSSyl..."
@@ -390,7 +404,8 @@ msgid ""
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
 msgstr ""
 "<b>Intervalle de mise à jour, en minutes :</b>\n"
-"<small>(Saisissez 0 pour désactiver la mise à jour automatique de ce flux)</small>"
+"<small>(Saisissez 0 pour désactiver la mise à jour automatique de ce flux)</"
+"small>"
 
 #: src/rssyl_gtk.c:398
 msgid ""
@@ -412,8 +427,7 @@ msgstr "_Valider"
 msgid "Set feed properties"
 msgstr "Propriétés du flux"
 
-#: src/rssyl_gtk.c:585
-#: src/rssyl_gtk.c:610
+#: src/rssyl_gtk.c:585 src/rssyl_gtk.c:610
 msgid "Unsubscribe feed"
 msgstr "Se désabonner du flux"
 
@@ -459,7 +473,9 @@ msgstr "Chemin vers le fichier de cookies"
 
 #: src/rssyl_prefs.c:145
 msgid "Path to Netscape-style cookies.txt file containing your cookies"
-msgstr "Chemin vers un fichier cookies.txt au format Netscape, qui contient vos cookies"
+msgstr ""
+"Chemin vers un fichier cookies.txt au format Netscape, qui contient vos "
+"cookies"
 
 #: src/rssyl.h:8
 msgid "RSSyl"
