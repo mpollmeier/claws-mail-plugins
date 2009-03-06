@@ -1,3 +1,13 @@
+2009-03-06 [paul]	0.22.0cvs9
+
+	* po/cs.po
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+	* po/pt_BR.po
+		updated by David Vachulka, Flammie Pirinen, Colin Leroy,
+		Pader Rezso, and Frederico Goncalves Guimaraes
+
 2009-02-23 [colin]	0.22.0cvs8
 
 	* libgtkhtml/graphics/htmlstylepainter.c
