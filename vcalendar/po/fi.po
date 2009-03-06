@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sylpheed-claws\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-09-26 14:06+0300\n"
-"PO-Revision-Date: 2008-09-26 18:31+0300\n"
+"POT-Creation-Date: 2009-03-03 10:28+0200\n"
+"PO-Revision-Date: 2009-03-03 12:00+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -996,34 +996,34 @@ msgid "Next month"
 msgstr "Seuraava kuukausi"
 
 #~ msgid "/Message/Create meeting from message..."
-#~ msgstr "/Viestit/Luo tapaaminen viestistä…"
+#~ msgstr "Viestit/Luo tapaaminen viestistä…"
 
 #~ msgid "/List view"
-#~ msgstr "/Luettelonäkymä"
+#~ msgstr "Luettelonäkymä"
 
 #~ msgid "/Week view"
-#~ msgstr "/Viikkonäkymä"
+#~ msgstr "Viikkonäkymä"
 
 #~ msgid "/Month view"
-#~ msgstr "/Kuukausinäkymä"
+#~ msgstr "Kuukausinäkymä"
 
 #~ msgid "/New meeting..."
-#~ msgstr "/Uusi tapaaminen…"
+#~ msgstr "Uusi tapaaminen…"
 
 #~ msgid "/Export calendar..."
-#~ msgstr "/Tuo kalenteri…"
+#~ msgstr "Tuo kalenteri…"
 
 #~ msgid "/Subscribe to webCal..."
-#~ msgstr "/Tilaa webCal…"
+#~ msgstr "Tilaa webCal…"
 
 #~ msgid "/Unsubscribe..."
-#~ msgstr "/Peru tilaus…"
+#~ msgstr "Peru tilaus…"
 
 #~ msgid "/Rename..."
-#~ msgstr "/Nimeä uudelleen…"
+#~ msgstr "Nimeä uudelleen…"
 
 #~ msgid "/Update subscriptions"
-#~ msgstr "/Päivitä tilaukset"
+#~ msgstr "Päivitä tilaukset"
 
 #~ msgid "text/calendar"
 #~ msgstr "text/calendar"
