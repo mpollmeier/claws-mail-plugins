@@ -57,4 +57,5 @@ procmime_mimeinfo_next
 remove_dir_recursive
 start_address_completion
 strcasestr
+summary_grab_focus
 trim_string

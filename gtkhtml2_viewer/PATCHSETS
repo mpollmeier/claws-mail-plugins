@@ -129,3 +129,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/document/htmldocument.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/graphics/htmlstylepainter.c;  ) > 0.22.0cvs7.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libgtkhtml/graphics/htmlstylepainter.c;  ) > 0.22.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fi.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fr.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/hu.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/pt_BR.po;  ) > 0.22.0cvs9.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/claws.def;  ) > 0.23.0cvs1.patchset
