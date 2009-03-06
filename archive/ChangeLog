@@ -1,3 +1,17 @@
+Added support for compression method COMPRESS.
+The patch automatically detects version of libarchive.
+libarchive < 2.5 will not have COMPRESS activated since
+this method is only available if libarchive >= 2.5
+2009-03-06 [michael]	0.6.4cvs1
+
+	* configure.ac
+	* src/archiver.c
+	* src/archiver_gtk.c
+	* src/archiver_prefs.c
+	* src/archiver_prefs.h
+	* src/libarchive_archive.c
+	* src/libarchive_archive.h
+
 2008-12-19 [paul]	0.6.4
 
 	0.6.4 released
