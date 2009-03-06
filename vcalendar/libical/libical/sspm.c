@@ -3,7 +3,7 @@
   FILE: sspm.c Parse Mime
   CREATOR: eric 25 June 2000
   
-  $Id: sspm.c,v 1.1.2.2 2009-01-06 19:40:54 colinler Exp $
+  $Id: sspm.c,v 1.1.2.3 2009-03-06 09:19:22 colinler Exp $
   $Locker:  $
     
  The contents of this file are subject to the Mozilla Public License
@@ -1485,7 +1485,7 @@ void sspm_write_header(struct sspm_buffer *buf,struct sspm_header *header)
     /* Append any content type parameters */    
     if(header->content_type_params != 0){
 	for(i=0; *(header->content_type_params[i])!= 0;i++){
-	    sprintf(temp,header->content_type_params[i]);
+	    sprintf(temp,"%s",header->content_type_params[i]);
 	    sspm_append_char(buf,';');
 	    sspm_append_string(buf,temp);
 	}
