@@ -1,13 +1,11 @@
-# Brazilian Portuguese translation of Archive.
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2008.
-# Copyright (C) YEAR Michael Rasmussen
-# This file is distributed under the same license as the PACKAGE package.
+# Brazilian Portuguese translation of  Claws Mail Archive plugin.
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2008, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version:  Claws Mail Archive plugin\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-10-08 00:32+0200\n"
-"PO-Revision-Date: 2008-06-26 23:10-0300\n"
+"POT-Creation-Date: 2009-02-28 17:19+0100\n"
+"PO-Revision-Date: 2009-03-05 08:49-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
@@ -15,14 +13,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/archiver.c:40 src/archiver_prefs.c:85
+#: src/archiver.c:40 src/archiver_prefs.c:87
 msgid "Mail Archiver"
 msgstr "Empacotador de mensagens"
 
 #: src/archiver.c:51
-#, fuzzy
 msgid "Create Archive..."
-msgstr "Criar pacote"
+msgstr "Criar pacote..."
 
 #: src/archiver.c:117
 msgid ""
@@ -57,8 +54,8 @@ msgstr ""
 "\n"
 "Ele habilita a seleção de uma pasta de mensagens que você deseja empacotar, "
 "a seleção de um nome, formato e localização para o pacote. Subpastas podem "
-"ser incluídas e somas de checagem MD5 podem ser adicionadas para cada "
-"arquivo no pacote. Existem várias opções de empacotamento.\n"
+"ser incluídas e checksums MD5 podem ser adicionadas para cada arquivo no "
+"pacote. Existem várias opções de empacotamento.\n"
 "\n"
 "Os pacotes podem ser armazenados como:\n"
 "\tTAR\n"
@@ -75,37 +72,57 @@ msgstr ""
 "\n"
 "Os tipos de pasta suportados são MH, IMAP, RSSyl e vCalendar.\n"
 "\n"
-"Para ativar o recurso de empacotamento, vá até /Ferramentas/Criar pacote\n"
+"Para ativar o recurso de empacotamento, vá até /Ferramentas/Criar pacote.\n"
 "\n"
 "As opções padrão podem ser definidas em /Configuração/Preferências/Plugins/"
-"Empacotador de mensagens"
+"Empacotador de mensagens."
 
 #: src/archiver.c:146
 msgid "Archiver"
 msgstr "Empacotador"
 
-#: src/archiver_gtk.c:93
+#: src/archiver_gtk.c:101
 msgid "Archiving"
 msgstr "Empacotando"
 
-#: src/archiver_gtk.c:111
+#: src/archiver_gtk.c:119
 msgid "Press Cancel button to stop archiving"
 msgstr "Pressione o botão Cancelar para interromper o empacotamento"
 
-#: src/archiver_gtk.c:127
+#: src/archiver_gtk.c:135
 msgid "Archiving:"
 msgstr "Empacotando:"
 
-#: src/archiver_gtk.c:454
+#: src/archiver_gtk.c:501
 msgid "Folder and archive must be selected"
 msgstr "A pasta e o pacote devem ser selecionados"
 
-#: src/archiver_gtk.c:467
+#: src/archiver_gtk.c:510
 #, c-format
 msgid "%s: Exists. Continue anyway?"
 msgstr "%s: já existe. Continuar mesmo assim?"
 
-#: src/archiver_gtk.c:481
+#: src/archiver_gtk.c:513
+#, c-format
+msgid "%s: Is a link. Cannot continue"
+msgstr "%s: é um link. Não é possível continuar."
+
+#: src/archiver_gtk.c:516
+#, c-format
+msgid "%s: Is a directory. Cannot continue"
+msgstr "%s: é um diretório. Não é possível continuar."
+
+#: src/archiver_gtk.c:519
+#, c-format
+msgid "%s: Missing permissions. Cannot continue"
+msgstr "%s: permissões insuficientes. Não é possível continuar."
+
+#: src/archiver_gtk.c:522
+#, c-format
+msgid "%s: Unknown error. Cannot continue"
+msgstr "%s: erro desconhecido. Não é possível continuar."
+
+#: src/archiver_gtk.c:559
 #, c-format
 msgid ""
 "Not a valid file name:\n"
@@ -114,7 +131,7 @@ msgstr ""
 "Não é um nome de arquivo válido:\n"
 "%s."
 
-#: src/archiver_gtk.c:494
+#: src/archiver_gtk.c:572
 #, c-format
 msgid ""
 "Not a valid Claws Mail folder:\n"
@@ -123,7 +140,7 @@ msgstr ""
 "Não é uma pasta do Claws Mail válida:\n"
 "%s."
 
-#: src/archiver_gtk.c:521
+#: src/archiver_gtk.c:601
 #, c-format
 msgid ""
 "Adding files in folder failed\n"
@@ -138,184 +155,192 @@ msgstr ""
 "\n"
 "Continuar mesmo assim?"
 
-#: src/archiver_gtk.c:621
+#: src/archiver_gtk.c:704
 msgid "Archive result"
 msgstr "Resultado do pacote"
 
-#: src/archiver_gtk.c:647
+#: src/archiver_gtk.c:730
 msgid "Attributes"
 msgstr "Atributos"
 
-#: src/archiver_gtk.c:651
+#: src/archiver_gtk.c:734
 msgid "Values"
 msgstr "Valores"
 
-#: src/archiver_gtk.c:660
+#: src/archiver_gtk.c:743
 msgid "Archive"
 msgstr "Pacote"
 
-#: src/archiver_gtk.c:666
+#: src/archiver_gtk.c:749
 msgid "Archive format"
 msgstr "Formato do pacote"
 
-#: src/archiver_gtk.c:673
+#: src/archiver_gtk.c:756
 msgid "Compression method"
 msgstr "Método de compressão"
 
-#: src/archiver_gtk.c:681
+#: src/archiver_gtk.c:764
 msgid "Number of files"
 msgstr "Número de arquivos"
 
-#: src/archiver_gtk.c:689
+#: src/archiver_gtk.c:772
 msgid "Archive Size"
 msgstr "Tamanho do pacote"
 
-#: src/archiver_gtk.c:697
+#: src/archiver_gtk.c:780
 msgid "Folder Size"
 msgstr "Tamanho da pasta"
 
-#: src/archiver_gtk.c:706
+#: src/archiver_gtk.c:789
 msgid "Compression level"
 msgstr "Nível de compressão"
 
-#: src/archiver_gtk.c:711 src/archiver_gtk.c:719
+#: src/archiver_gtk.c:794 src/archiver_gtk.c:802 src/archiver_gtk.c:810
 msgid "Yes"
 msgstr "Sim"
 
-#: src/archiver_gtk.c:711 src/archiver_gtk.c:719
+#: src/archiver_gtk.c:794 src/archiver_gtk.c:802 src/archiver_gtk.c:810
 msgid "No"
 msgstr "Não"
 
-#: src/archiver_gtk.c:714
+#: src/archiver_gtk.c:797
 msgid "MD5 checksum"
-msgstr "Soma de checagem MD5"
+msgstr "Checksum MD5"
 
-#: src/archiver_gtk.c:722
+#: src/archiver_gtk.c:805
 msgid "Descriptive names"
 msgstr "Nomes descritivos"
 
-#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:813
+msgid "Delete selected files"
+msgstr "Excluir arquivos selecionados"
+
+#: src/archiver_gtk.c:822 src/archiver_gtk.c:1196
+msgid "Select mails before"
+msgstr "Selecione as mensagens antes"
+
+#: src/archiver_gtk.c:898
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr ""
 "Selecione o nome de arquivo para o pacote [o sufixo deve indicar o tipo de "
 "pacote, ex. .tgz]"
 
-#: src/archiver_gtk.c:845
+#: src/archiver_gtk.c:946
 #, c-format
 msgid "%ld of %ld"
 msgstr "%ld de %ld"
 
-#: src/archiver_gtk.c:883
+#: src/archiver_gtk.c:984
 msgid "Create Archive"
 msgstr "Criar pacote"
 
-#: src/archiver_gtk.c:898
+#: src/archiver_gtk.c:999
 msgid "Enter Archiver arguments"
 msgstr "Digite os argumentos para o empacotador"
 
-#: src/archiver_gtk.c:911
+#: src/archiver_gtk.c:1012
 msgid "Folder to archive"
 msgstr "Pasta para o pacote"
 
-#: src/archiver_gtk.c:918
+#: src/archiver_gtk.c:1019
 msgid "Folder which is the root of the archive"
 msgstr "Pasta onde está a raiz do pacote"
 
-#: src/archiver_gtk.c:920
+#: src/archiver_gtk.c:1021
 msgid "_Browse"
 msgstr "_Navegar"
 
-#: src/archiver_gtk.c:923
+#: src/archiver_gtk.c:1024
 msgid "Click this button to select a folder which is to be root of the archive"
 msgstr "Clique nesse botão para selecionar a pasta que será a raiz do pacote"
 
-#: src/archiver_gtk.c:929
+#: src/archiver_gtk.c:1030
 msgid "Name for archive"
 msgstr "Nome para o pacote"
 
-#: src/archiver_gtk.c:935
+#: src/archiver_gtk.c:1036
 msgid "Archive location and name"
 msgstr "Localização e nome do pacote"
 
-#: src/archiver_gtk.c:937 src/archiver_prefs.c:187
+#: src/archiver_gtk.c:1038 src/archiver_prefs.c:190
 msgid "_Select"
 msgstr "_Selecionar"
 
-#: src/archiver_gtk.c:940
+#: src/archiver_gtk.c:1041
 msgid "Click this button to select a name and location for the archive"
 msgstr "Clique nesse botão para selecionar o nome a localização para o pacote"
 
-#: src/archiver_gtk.c:942
+#: src/archiver_gtk.c:1043
 msgid "Choose compression"
 msgstr "Escolha a compressão"
 
-#: src/archiver_gtk.c:955
+#: src/archiver_gtk.c:1056
 msgid "Choose this option to use ZIP compression for the archive"
 msgstr "Selecione essa opção para usar a compressão ZIP no pacote"
 
-#: src/archiver_gtk.c:962
+#: src/archiver_gtk.c:1063
 msgid "Choose this option to use BZIP2 compression for the archive"
 msgstr "Selecione essa opção para usar a compressão BZIP2 no pacote"
 
-#: src/archiver_gtk.c:972
+#: src/archiver_gtk.c:1073
 msgid "_None"
 msgstr "_Nenhuma"
 
-#: src/archiver_gtk.c:976
+#: src/archiver_gtk.c:1077
 msgid "Choose this option to disable compression for the archive"
 msgstr "Selecione essa opção para desabilitar a compressão do pacote"
 
-#: src/archiver_gtk.c:993
+#: src/archiver_gtk.c:1094
 msgid "Choose format"
 msgstr "Escolha o formato"
 
-#: src/archiver_gtk.c:1006
+#: src/archiver_gtk.c:1107
 msgid "Choose this option to use TAR as format for the archive"
 msgstr "Selecione essa opção para usar o TAR como formato do pacote"
 
-#: src/archiver_gtk.c:1013
+#: src/archiver_gtk.c:1114
 msgid "Choose this to use SHAR as format for the archive"
 msgstr "Selecione essa opção para usar o SHAR como formato do pacote"
 
-#: src/archiver_gtk.c:1020
+#: src/archiver_gtk.c:1121
 msgid "Choose this option to use CPIO as format for the archive"
 msgstr "Selecione essa opção para usar o CPIO como formato do pacote"
 
-#: src/archiver_gtk.c:1027
+#: src/archiver_gtk.c:1128
 msgid "Choose this option to use PAX as format for the archive"
 msgstr "Selecione essa opção para usar o PAX como formato do pacote"
 
-#: src/archiver_gtk.c:1047
+#: src/archiver_gtk.c:1148
 msgid "Miscellaneous options"
 msgstr "Outras opções"
 
-#: src/archiver_gtk.c:1056
+#: src/archiver_gtk.c:1157
 msgid "_Recursive"
 msgstr "_Recursivo"
 
-#: src/archiver_gtk.c:1060
+#: src/archiver_gtk.c:1161
 msgid "Choose this option to include subfolders in the archive"
 msgstr "Selecione essa opção para incluir as subpastas no pacote"
 
-#: src/archiver_gtk.c:1062
+#: src/archiver_gtk.c:1163
 msgid "_MD5sum"
 msgstr "_MD5sum"
 
-#: src/archiver_gtk.c:1066
+#: src/archiver_gtk.c:1167
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archive.\n"
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archive"
 msgstr ""
-"Selecione essa opção para adicionar somas de checagem MD5 a cada\n"
-"arquivo do pacote. Saiba, entretanto, que isso irá aumentar\n"
-"significativamente o tempo de criação do pacote"
+"Selecione essa opção para adicionar checksums MD5 a cada arquivo do\n"
+"pacote. Saiba, entretanto, que isso aumentará significativamente o\n"
+"tempo de criação do pacote."
 
-#: src/archiver_gtk.c:1070
+#: src/archiver_gtk.c:1171
 msgid "R_ename"
 msgstr "R_enomear"
 
-#: src/archiver_gtk.c:1074 src/archiver_prefs.c:308
+#: src/archiver_gtk.c:1175 src/archiver_prefs.c:311
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
@@ -323,105 +348,131 @@ msgid ""
 msgstr ""
 "Selecione essa opção para usar nomes descritivos para cada arquivo no\n"
 "pacote. O esquema de nome é: data_de@para@assunto.\n"
-"Os nomes serão truncados no limite de 96 caracteres"
+"Os nomes serão truncados no limite de 96 caracteres."
 
-#: src/archiver_prefs.c:84
+#: src/archiver_gtk.c:1179
+msgid "_Delete"
+msgstr "_Excluir"
+
+#: src/archiver_gtk.c:1183
+msgid ""
+"Choose this option to delete mails after archiving\n"
+"At this point only handles IMAP4, Local mbox and POP3"
+msgstr ""
+"Selecione essa opção para excluir as mensagens após o empacotamento.\n"
+"Apenas para IMAP4, caixa postal local e POP3."
+
+#: src/archiver_gtk.c:1187
+msgid "Selection options"
+msgstr "Opções de seleção"
+
+#: src/archiver_gtk.c:1203
+msgid ""
+"Select emails before a certain date\n"
+"Date must comply to ISO-8601 [YYYY-MM-DD]"
+msgstr ""
+"Excluir mensagens anteriores a determinada data.\n"
+"A data deve estar no formato ISO-8601 [YYYY-MM-DD]."
+
+#: src/archiver_prefs.c:86
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/archiver_prefs.c:120
+#: src/archiver_prefs.c:122
 msgid "Select destination folder"
 msgstr "Selecione a pasta de destino"
 
-#: src/archiver_prefs.c:126
+#: src/archiver_prefs.c:128
 #, c-format
 msgid "'%s' is not a directory."
 msgstr "'%s' não é um diretório."
 
-#: src/archiver_prefs.c:179
+#: src/archiver_prefs.c:182
 msgid "Default save folder"
 msgstr "Pasta de salvamento padrão"
 
-#: src/archiver_prefs.c:191
+#: src/archiver_prefs.c:194
 msgid "Click this button to select the default location for saving archives"
 msgstr ""
 "Clique nesse botão para selecionar a localização padrão para salvamento de "
 "pacotes"
 
-#: src/archiver_prefs.c:200
+#: src/archiver_prefs.c:203
 msgid "Default compression"
 msgstr "Compressão padrão"
 
-#: src/archiver_prefs.c:212
+#: src/archiver_prefs.c:215
 msgid "Choose this option to use ZIP compression by default"
 msgstr "Selecione essa opção para usar a compressão ZIP como padrão"
 
-#: src/archiver_prefs.c:219
+#: src/archiver_prefs.c:222
 msgid "Choose this option to use BZIP2 compression by default"
 msgstr "Selecione essa opção para usar a compressão BZIP como padrão"
 
-#: src/archiver_prefs.c:221
+#: src/archiver_prefs.c:224
 msgid "None"
 msgstr "Nenhuma"
 
-#: src/archiver_prefs.c:226
+#: src/archiver_prefs.c:229
 msgid "Choose this option to disable compression by default"
 msgstr "Selecione essa opção para desabilitar a compressão por padrão"
 
-#: src/archiver_prefs.c:240
+#: src/archiver_prefs.c:243
 msgid "Default format"
 msgstr "Formato padrão"
 
-#: src/archiver_prefs.c:252
+#: src/archiver_prefs.c:255
 msgid "Choose this option to use the TAR format by default"
 msgstr "Selecione essa opção para usar o formato TAR como padrão"
 
-#: src/archiver_prefs.c:259
+#: src/archiver_prefs.c:262
 msgid "Choose this option to use the SHAR format by default"
 msgstr "Selecione essa opção para usar o formato SHAR como padrão"
 
-#: src/archiver_prefs.c:266
+#: src/archiver_prefs.c:269
 msgid "Choose this option to use the CPIO format by default"
 msgstr "Selecione essa opção para usar o formato CPIO como padrão"
 
-#: src/archiver_prefs.c:273
+#: src/archiver_prefs.c:276
 msgid "Choose this option to use the PAX format by default"
 msgstr "Selecione essa opção para usar o formato PAX como padrão"
 
-#: src/archiver_prefs.c:290
+#: src/archiver_prefs.c:293
 msgid "Default miscellaneous options"
 msgstr "Padrões para outras opções"
 
-#: src/archiver_prefs.c:297
+#: src/archiver_prefs.c:300
 msgid "Recursive"
 msgstr "Recursivo"
 
-#: src/archiver_prefs.c:299
+#: src/archiver_prefs.c:302
 msgid "Choose this option to include subfolders in the archives by default"
 msgstr "Selecione essa opção para incluir as subpastas no pacote como padrão"
 
-#: src/archiver_prefs.c:300
+#: src/archiver_prefs.c:303
 msgid "MD5sum"
 msgstr "MD5sum"
 
-#: src/archiver_prefs.c:302
+#: src/archiver_prefs.c:305
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archives by "
 "default.\n"
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Selecione essa opção para adicionar, como padrão, somas de checagem\n"
-"MD5 a cada arquivo dos pacotes.\n"
-"Saiba, entretanto, que isso irá aumentar significativamente o tempo de\n"
-"criação dos pacotes"
+"Selecione essa opção para adicionar, como padrão, checksums MD5 a\n"
+"cada arquivo do pacote. Saiba, entretanto, que isso aumentará \n"
+"significativamente o tempo de criação do pacote."
 
-#: src/archiver_prefs.c:306
+#: src/archiver_prefs.c:309
 msgid "Rename"
 msgstr "Renomear"
 
-#~ msgid "/Tools/Create Archive..."
-#~ msgstr "/Ferramentas/Criar pacote..."
+#: src/archiver_prefs.c:315
+msgid "Delete"
+msgstr "Excluir"
 
-#~ msgid "/Tools/----"
-#~ msgstr "/Ferramentas/----"
+#: src/archiver_prefs.c:317
+msgid "Choose this option to delete mails after archiving"
+msgstr "Selecione essa opção para excluir as mensagens após o empacotamento"
+

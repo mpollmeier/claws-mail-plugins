@@ -1,27 +1,27 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Michael Rasmussen
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Claws Mail plugin: archive.
+# Copyright (C) 2008 Michael Rasmussen
+# This file is distributed under the same license as the Claws Mail package.
+# Marcel Pol <mpol@gmx.net>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: archive\n"
+"Project-Id-Version: 0.6.2\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-11-28 10:15+0100\n"
-"PO-Revision-Date: 2008-11-28 10:21+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: fr <subscript@free.fr>\n"
+"POT-Creation-Date: 2009-01-20 11:53+0100\n"
+"PO-Revision-Date: 2009-01-19 22:24+0100\n"
+"Last-Translator: Marcel Pol <mpol@gmx.net>\n"
+"Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/archiver.c:40 src/archiver_prefs.c:87
 msgid "Mail Archiver"
-msgstr "Archivage de dossiers"
+msgstr "Mail Archiveerder"
 
 #: src/archiver.c:51
 msgid "Create Archive..."
-msgstr "Créer une archive..."
+msgstr "Maak Archief Aan..."
 
 #: src/archiver.c:117
 msgid ""
@@ -52,79 +52,78 @@ msgid ""
 "Default options can be set in /Configuration/Preferences/Plugins/Mail "
 "Archiver"
 msgstr ""
-"Ce module permet l'archivage de dossiers dans Claws Mail.\n"
+"Deze plugin voegt archiverings mogelijkheden toe aan Claws Mail.\n"
 "\n"
-"Il permet de sélectionner un dossier à archiver, il faut alors  déterminer "
-"le nom de l'archive, un répertoire de destination et les options "
-"d'archivage. Il est possible d'inclure sous-dossiers et de générer des "
-"sommes de contrôles MD5.\n"
+"Het biedt de mogelijkheid om een mail map te selecteren dat je gearchiveerd "
+"wilt hebben, en dan een naam, formaat en lokatie te kiezen voor het archief."
+"Submappen kunnen bijgevoegd worden en MD5 checksums kunnen toegevoegd worden "
+"voor elk bestand in het archief. Meerdere archiveringsopties zijn verder nog "
+"beschikbaar.\n"
 "\n"
-"Les archives peuvent être créés au format :\n"
-"\t\tTAR\n"
-"\t\tPAX\n"
-"\t\tSHAR\n"
-"\t\tCPIO\n"
+"Het archief kan opgeslagen worden als:\n"
+"\tTAR\n"
+"\tPAX\n"
+"\tSHAR\n"
+"\tCPIO\n"
 "\n"
-"Les archives peuvent être compressées avec :\n"
-"\t\tGZIP/ZIP\n"
-"\t\tBZIP2\n"
+"Het archief kan gecomprimeerd worden met:\n"
+"\tGZIP/ZIP\n"
+"\tBZIP2\n"
 "\n"
-"L'archive peut être ultérieurement restaurée à l'aide des outils standard de "
-"manipulation d'archives en fonction du format et des options de compression "
-"choisis.\n"
+"De archieven kunnen teruggehaald worden met iedere standaard tool dat het "
+"gekozen formaat en compressie ondersteunt.\n"
 "\n"
-"Les dossiers de type MH, IMAP, RSSyl et vCalendar peuvent être archivés.\n"
+"De ondersteunde map-types zijn MH, IMAP, RSSyl and vCalendar.\n"
 "\n"
+"Om de archivering te activeren ga naar /Gereedschap/Maak Archief Aan\n"
 "\n"
-"Pour archiver un dossier, utiliser /Outils/Créer une archive.\n"
-"\n"
-"Les options par défaut peuvent être changées dans /Configuration/Préférences/"
-"Modules/Archivage de dossiers."
+"Standaard opties kunnen ingesteld worden in /Configuratie/Voorkeuren/Plugins/ "
+"Mail Archiveerder"
 
 #: src/archiver.c:146
 msgid "Archiver"
-msgstr "Archivage"
+msgstr "Archiveerder"
 
 #: src/archiver_gtk.c:101
 msgid "Archiving"
-msgstr "Archivage"
+msgstr "Archiveren"
 
 #: src/archiver_gtk.c:119
 msgid "Press Cancel button to stop archiving"
-msgstr "Cliquer le bouton Annuler pour interrompre l'archivage"
+msgstr "Klik op Annuleren om het archiveren te stoppen"
 
 #: src/archiver_gtk.c:135
 msgid "Archiving:"
-msgstr "Archivage :"
+msgstr "Archiveren:"
 
 #: src/archiver_gtk.c:501
 msgid "Folder and archive must be selected"
-msgstr "Le dossier à archiver et le nom de l'archive doivent être renseignés"
+msgstr "Map en archief moeten geselecteerd worden"
 
 #: src/archiver_gtk.c:510
 #, c-format
 msgid "%s: Exists. Continue anyway?"
-msgstr "%s : Existe déjà. Continuer ?"
+msgstr "%s: Bestaat. Toch doorgaan?"
 
 #: src/archiver_gtk.c:513
 #, c-format
 msgid "%s: Is a link. Cannot continue"
-msgstr "%s: est un lien. Impossible de continuer"
+msgstr "%s: Is een link. Kan niet doorgaan"
 
 #: src/archiver_gtk.c:516
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
-msgstr "%s: est un répertoire. Impossible de continuer"
+msgstr "%s: Is een map. Kan niet doorgaan"
 
 #: src/archiver_gtk.c:519
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
-msgstr "%s: Pas de permissions. Impossible de continuer"
+msgstr "%s: Geen toegang. Kan niet doorgaan"
 
 #: src/archiver_gtk.c:522
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
-msgstr "%s: Erreur inconnue. Impossible de continuer"
+msgstr "%s: Onbekende fout. Kan niet doorgaan"
 
 #: src/archiver_gtk.c:559
 #, c-format
@@ -132,7 +131,7 @@ msgid ""
 "Not a valid file name:\n"
 "%s."
 msgstr ""
-"Nom de fichier invalide :\n"
+"Geen geldige bestandsnaam:\n"
 "%s."
 
 #: src/archiver_gtk.c:572
@@ -141,7 +140,7 @@ msgid ""
 "Not a valid Claws Mail folder:\n"
 "%s."
 msgstr ""
-"Ce n'est pas un dossier Claws Mail valide :\n"
+"Geen geldige Claws Mail map:\n"
 "%s."
 
 #: src/archiver_gtk.c:601
@@ -153,185 +152,182 @@ msgid ""
 "\n"
 "Continue anyway?"
 msgstr ""
-"Échec de l'archivage de certains fichiers\n"
-"Fichiers du dossier : %d\n"
-"Fichiers dans la liste :   %d\n"
+"Bestanden toevoegen aan map mislukt\n"
+"Bestanden in map:   %d\n"
+"Bestanden in lijst: %d\n"
 "\n"
-"Continuer ?"
+"Toch doorgaan?"
 
 #: src/archiver_gtk.c:704
 msgid "Archive result"
-msgstr "Rapport d'archivage"
+msgstr "Archiveer resultaat"
 
 #: src/archiver_gtk.c:730
 msgid "Attributes"
-msgstr "Attributs"
+msgstr "Overige gegevens"
 
 #: src/archiver_gtk.c:734
 msgid "Values"
-msgstr "Valeurs"
+msgstr "Waardes"
 
 #: src/archiver_gtk.c:743
 msgid "Archive"
-msgstr "Archive"
+msgstr "Archief"
 
 #: src/archiver_gtk.c:749
 msgid "Archive format"
-msgstr "Format d'archive"
+msgstr "Archief formaat"
 
 #: src/archiver_gtk.c:756
 msgid "Compression method"
-msgstr "Méthode de compression"
+msgstr "Complessie methode"
 
 #: src/archiver_gtk.c:764
 msgid "Number of files"
-msgstr "Nombre de fichiers"
+msgstr "Aantal bestanden"
 
 #: src/archiver_gtk.c:772
 msgid "Archive Size"
-msgstr "Taille de l'archive"
+msgstr "Archief Grootte"
 
 #: src/archiver_gtk.c:780
 msgid "Folder Size"
-msgstr "Taille du dossier"
+msgstr "Map Grootte"
 
 #: src/archiver_gtk.c:789
 msgid "Compression level"
-msgstr "Taux de compression"
+msgstr "Compressie niveau"
 
 #: src/archiver_gtk.c:794 src/archiver_gtk.c:802 src/archiver_gtk.c:810
 msgid "Yes"
-msgstr "Oui"
+msgstr "Ja"
 
 #: src/archiver_gtk.c:794 src/archiver_gtk.c:802 src/archiver_gtk.c:810
 msgid "No"
-msgstr "Non"
+msgstr "Nee"
 
 #: src/archiver_gtk.c:797
 msgid "MD5 checksum"
-msgstr "Somme de contrôle MD5"
+msgstr "MD5 checksum"
 
 #: src/archiver_gtk.c:805
 msgid "Descriptive names"
-msgstr "Noms longs"
+msgstr "Beschrijvende namen"
 
 #: src/archiver_gtk.c:813
 msgid "Delete selected files"
-msgstr "Supprimer les fichiers sélectionnés"
+msgstr "Verwijder geselecteerd bestand"
 
 #: src/archiver_gtk.c:822 src/archiver_gtk.c:1196
 msgid "Select mails before"
-msgstr "Sélectionner les emails avant"
+msgstr "Selecteer e-mails voor"
 
 #: src/archiver_gtk.c:898
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr ""
-"Nom du fichier archive (il est recommandé d'utiliser\n"
-"un suffixe en rapport avec le format de l'archive, par\n"
-"exemple .tgz)"
+"Selecteer bestandsnaam voor archief [achtervoegsel moet "
+"overeenkomen met archief zoals .tgz]"
 
 #: src/archiver_gtk.c:946
 #, c-format
 msgid "%ld of %ld"
-msgstr "%ld sur %ld"
+msgstr "%ld of %ld"
 
 #: src/archiver_gtk.c:984
 msgid "Create Archive"
-msgstr "Créer une archive"
+msgstr "Maak Archief aan"
 
 #: src/archiver_gtk.c:999
 msgid "Enter Archiver arguments"
-msgstr "Paramètres d'archivage"
+msgstr "Voer Archiveerder argumenten in"
 
 #: src/archiver_gtk.c:1012
 msgid "Folder to archive"
-msgstr "Dossier à archiver"
+msgstr "Map om te archiveren"
 
 #: src/archiver_gtk.c:1019
 msgid "Folder which is the root of the archive"
-msgstr "Dossier racine de l'archive"
+msgstr "Bovenste map van het archief"
 
 #: src/archiver_gtk.c:1021
 msgid "_Browse"
-msgstr "_Parcourir"
+msgstr "_Verken"
 
 #: src/archiver_gtk.c:1024
 msgid "Click this button to select a folder which is to be root of the archive"
-msgstr "Cliquer ce bouton pour sélectionner un dossier à archiver"
+msgstr "Klik hier om een map te selecteren wat de bovenste map van het archief is"
 
 #: src/archiver_gtk.c:1030
 msgid "Name for archive"
-msgstr "Nom de l'archive"
+msgstr "Naam van het archief"
 
 #: src/archiver_gtk.c:1036
 msgid "Archive location and name"
-msgstr "Chemin et nom de l'archive"
+msgstr "Lokatie en naam van het archief"
 
 #: src/archiver_gtk.c:1038 src/archiver_prefs.c:190
 msgid "_Select"
-msgstr "_Choisir"
+msgstr "_Selecteer"
 
 #: src/archiver_gtk.c:1041
 msgid "Click this button to select a name and location for the archive"
-msgstr ""
-"Cliquer ce bouton pour sélectionner un chemin et un nom de fichier pour "
-"l'archive à créer"
+msgstr "Klik hier om een naam en lokatie voor het archief te selecteren"
 
 #: src/archiver_gtk.c:1043
 msgid "Choose compression"
-msgstr "Choix de la compression"
+msgstr "Kies compressie"
 
 #: src/archiver_gtk.c:1056
 msgid "Choose this option to use ZIP compression for the archive"
-msgstr "Compresser l'archive avec ZIP"
+msgstr "Kies deze optie om ZIP compressie te gebruiken voor het archief"
 
 #: src/archiver_gtk.c:1063
 msgid "Choose this option to use BZIP2 compression for the archive"
-msgstr "Compresser l'archive avec BZIP2"
+msgstr "Kies deze optie om BZIP2 compressie te gebruiken voor het archief"
 
 #: src/archiver_gtk.c:1073
 msgid "_None"
-msgstr "_Aucune"
+msgstr "_Geen"
 
 #: src/archiver_gtk.c:1077
 msgid "Choose this option to disable compression for the archive"
-msgstr "Ne pas compresser l'archive"
+msgstr "Kies dzee optie om compressie uit te schakelen voor het archief"
 
 #: src/archiver_gtk.c:1094
 msgid "Choose format"
-msgstr "Choix du format"
+msgstr "Kies formaat"
 
 #: src/archiver_gtk.c:1107
 msgid "Choose this option to use TAR as format for the archive"
-msgstr "Créer une archive au format TAR"
+msgstr "Kies deze optie om TAR te gebruiken als formaat voor het archief"
 
 #: src/archiver_gtk.c:1114
 msgid "Choose this to use SHAR as format for the archive"
-msgstr "Créer une archive au format SHAR"
+msgstr "Kies deze optie om SHAR te gebruiken als formaat voor het archief"
 
 #: src/archiver_gtk.c:1121
 msgid "Choose this option to use CPIO as format for the archive"
-msgstr "Créer une archive au format CPIO"
+msgstr "Kies deze optie om CPIO te gebruiken als formaat voor het archief"
 
 #: src/archiver_gtk.c:1128
 msgid "Choose this option to use PAX as format for the archive"
-msgstr "Créer une archive au format PAX"
+msgstr "Kies deze optie om PAX te gebruiken als formaat voor het archief"
 
 #: src/archiver_gtk.c:1148
 msgid "Miscellaneous options"
-msgstr "Autres options"
+msgstr "Overige opties"
 
 #: src/archiver_gtk.c:1157
 msgid "_Recursive"
-msgstr "_Récursif"
+msgstr "_Recursief"
 
 #: src/archiver_gtk.c:1161
 msgid "Choose this option to include subfolders in the archive"
-msgstr "Inclure les sous-dossiers dans l'archive"
+msgstr "Kies dzee optie om submappen in het archief te voegen"
 
 #: src/archiver_gtk.c:1163
 msgid "_MD5sum"
-msgstr "Somme de contrôle _MD5"
+msgstr "_MD5sum"
 
 #: src/archiver_gtk.c:1167
 msgid ""
@@ -339,13 +335,13 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archive"
 msgstr ""
-"Inclure les sommes de contrôle MD5 pour chaque fichier ajouté à l'archive.\n"
-"Attention, activer cette option augmentera le temps nécessaire à la création "
-"de l'archive."
+"Kies deze optie om MD5sums toe te voegen voor ieder bestand in het archief.\n"
+"Wees u ervan bewust dat dit de tijd die het duurt om het archief te "
+"creeren drastisch verhoogt"
 
 #: src/archiver_gtk.c:1171
 msgid "R_ename"
-msgstr "R_enommer"
+msgstr "_Hernoemen"
 
 #: src/archiver_gtk.c:1175 src/archiver_prefs.c:311
 msgid ""
@@ -353,112 +349,110 @@ msgid ""
 "The naming scheme: date_from@to@subject.\n"
 "Names will be truncated to max 96 characters"
 msgstr ""
-"Utiliser une forme longue pour chaque fichier stocké dans l'archive.\n"
-"Les noms longs sont de la forme date_de@à@sujet.\n"
-"Les noms seront tronqués s'ils dépassent 96 caractères"
+"Kies deze optie om ieder bestand in het archief te benoemen.\n"
+"Dit volgens het schema: datum_van@onderwerp.\n"
+"Namen worden verkort tot max 96 karakters"
 
 #: src/archiver_gtk.c:1179
 msgid "_Delete"
-msgstr "_Supprimer"
+msgstr "Ver_wijderen"
 
 #: src/archiver_gtk.c:1183
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
 msgstr ""
-"Choisir cette option pour effacer les emails après archivage\n"
-"(IMAP4, Mbox et POP3)"
+"Kies deze optie om e-mails te verwijderen na het archiveren\n"
+"Op dit moment kan dit alleen bij IMAP4, Lokale mbox en POP3"
 
 #: src/archiver_gtk.c:1187
 msgid "Selection options"
-msgstr "Options de sélection"
+msgstr "Selecteer opties"
 
 #: src/archiver_gtk.c:1203
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
 msgstr ""
-"Sélectionner les emails avant une certaine date\n"
-"La date doit être au format ISO-8601 [AAAA-MM-JJ]"
+"Selecteer e-mails van voor een bepaalde datum\n"
+"datum moet overeenkomen met ISO-8601 [YYYY-MM-DD]"
 
 #: src/archiver_prefs.c:86
 msgid "Plugins"
-msgstr "Modules"
+msgstr "Plugins"
 
 #: src/archiver_prefs.c:122
 msgid "Select destination folder"
-msgstr "Choisir un répertoire de destination"
+msgstr "Selecteer doelmap"
 
 #: src/archiver_prefs.c:128
 #, c-format
 msgid "'%s' is not a directory."
-msgstr "'%s' n'est pas un répertoire."
+msgstr "'%s' is geen map"
 
 #: src/archiver_prefs.c:182
 msgid "Default save folder"
-msgstr "Répertoire de destination par défaut"
+msgstr "Standaard bewaar map"
 
 #: src/archiver_prefs.c:194
 msgid "Click this button to select the default location for saving archives"
-msgstr ""
-"Cliquer ce bouton pour sélectionner un répertoire destination par défaut "
-"pour la création des archives"
+msgstr "Klik deze knop om de standaard lokatie te selecteren voor het bewaren van archieven"
 
 #: src/archiver_prefs.c:203
 msgid "Default compression"
-msgstr "Compression par défaut"
+msgstr "Standaard compressie"
 
 #: src/archiver_prefs.c:215
 msgid "Choose this option to use ZIP compression by default"
-msgstr "Utiliser la compression ZIP par défaut"
+msgstr "Kies deze optie om standaard ZIP compressie te gebruiken"
 
 #: src/archiver_prefs.c:222
 msgid "Choose this option to use BZIP2 compression by default"
-msgstr "Utiliser la compression BZIP2 par défaut"
+msgstr "Kies deze optie om standaard BZIP2 compressie te gebruiken"
 
 #: src/archiver_prefs.c:224
 msgid "None"
-msgstr "Aucune"
+msgstr "Geen"
 
 #: src/archiver_prefs.c:229
 msgid "Choose this option to disable compression by default"
-msgstr "Ne pas compresser l'archive par défaut"
+msgstr "Kies dzee optie om standaard compressie uit te zetten"
 
 #: src/archiver_prefs.c:243
 msgid "Default format"
-msgstr "Format par défaut"
+msgstr "Standaard formaat"
 
 #: src/archiver_prefs.c:255
 msgid "Choose this option to use the TAR format by default"
-msgstr "Utiliser le format d'archive TAR par défaut"
+msgstr "Kies deze optie om standaard het TAR formaat te gebruiken"
 
 #: src/archiver_prefs.c:262
 msgid "Choose this option to use the SHAR format by default"
-msgstr "Utiliser le format d'archive SHAR par défaut"
+msgstr "Kies deze optie om standaard het SHAR formaat te gebruiken"
 
 #: src/archiver_prefs.c:269
 msgid "Choose this option to use the CPIO format by default"
-msgstr "Utiliser le format d'archive CPIO par défaut"
+msgstr "Kies deze optie om standaard het CPIO formaat te gebruiken"
 
 #: src/archiver_prefs.c:276
 msgid "Choose this option to use the PAX format by default"
-msgstr "Utiliser le format d'archive PAX par défaut"
+msgstr "Kies deze optie om standaard het PAX formaat te gebruiken"
 
 #: src/archiver_prefs.c:293
 msgid "Default miscellaneous options"
-msgstr "Autres options par défaut"
+msgstr "Standaard opties"
 
 #: src/archiver_prefs.c:300
 msgid "Recursive"
-msgstr "Récursif"
+msgstr "Recursief"
 
 #: src/archiver_prefs.c:302
 msgid "Choose this option to include subfolders in the archives by default"
-msgstr "Inclure par défaut les sous-répertoires dans l'archive"
+msgstr "Kies deze optie om standaard submappen bij te voegen in de archieven"
 
 #: src/archiver_prefs.c:303
 msgid "MD5sum"
-msgstr "Somme de contrôle MD5"
+msgstr "MD5sum"
 
 #: src/archiver_prefs.c:305
 msgid ""
@@ -467,19 +461,19 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Inclure par défaut les sommes de contrôle MD5 pour chaque fichier ajouté à "
-"l'archive.\n"
-"Attention, activer cette option augmentera le temps nécessaire à la création "
-"de l'archive."
+"Kies deze optie om standaard MD5sums toe te voegen voor ieder bestand in "
+"de archieven.\n"
+"Wees u ervan bewust dat dit de tijd die nodig is om de archieven aan te "
+"maken drastisch verhoogt"
 
 #: src/archiver_prefs.c:309
 msgid "Rename"
-msgstr "Renommer"
+msgstr "Hernoemen"
 
 #: src/archiver_prefs.c:315
 msgid "Delete"
-msgstr "Supprimer"
+msgstr "Verwijderen"
 
 #: src/archiver_prefs.c:317
 msgid "Choose this option to delete mails after archiving"
-msgstr "Choisir cette option pour effacer les emails après archivage"
+msgstr "Kies deze optie om e-mails te verwijderen na het archiveren"
