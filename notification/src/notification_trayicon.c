@@ -668,7 +668,7 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
   /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(popup.notification, notify_config.trayicon_popup_timeout+1000);
+  notify_notification_set_timeout(popup.notification, NOTIFY_EXPIRES_NEVER);
 
   /* Category */
   notify_notification_set_category(popup.notification, "email.arrived");

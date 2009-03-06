@@ -117,3 +117,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.19cvs3.patchset
 ( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/notification_popup.c;  cvs diff -u -r 1.1.2.19 -r 1.1.2.20 src/notification_trayicon.c;  ) > 0.20cvs1.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fi.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/fr.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/hu.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/pt_BR.po;  ) > 0.20cvs2.patchset
+( cvs diff -u -r 1.1.2.28 -r 1.1.2.29 src/notification_popup.c;  cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/notification_trayicon.c;  ) > 0.21cvs1.patchset

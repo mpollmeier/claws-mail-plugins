@@ -393,7 +393,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
   /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(ppopup->notification, notify_config.popup_timeout+1000);
+  notify_notification_set_timeout(ppopup->notification, NOTIFY_EXPIRES_NEVER);
 
   /* Category */
   notify_notification_set_category(ppopup->notification, "email.arrived");
