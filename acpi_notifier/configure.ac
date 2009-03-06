@@ -8,8 +8,8 @@ PACKAGE=acpi_notifier
 dnl plugin version
 MAJOR_VERSION=1
 MINOR_VERSION=0
-MICRO_VERSION=19
-EXTRA_VERSION=2
+MICRO_VERSION=20
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
