@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: claws-mail-notification-plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-11-28 10:10+0100\n"
+"POT-Creation-Date: 2009-02-26 10:55+0100\n"
 "PO-Revision-Date: 2008-10-03 10:30+0100\n"
 "Last-Translator: Colin Leroy <colin@colino.net>\n"
 "Language-Team:  <sylpheed-claws-translators@lists.sourceforge.net>\n"
@@ -97,88 +97,88 @@ msgstr ""
 msgid "Various tools"
 msgstr "Outils variés"
 
-#: src/notification_popup.c:289
+#: src/notification_popup.c:291
 msgid "New Mail message"
 msgstr "Nouvel email"
 
-#: src/notification_popup.c:291 src/notification_popup.c:570
+#: src/notification_popup.c:293 src/notification_popup.c:587
 msgid "(No From)"
 msgstr "(Pas d'expéditeur)"
 
-#: src/notification_popup.c:293 src/notification_popup.c:574
+#: src/notification_popup.c:295 src/notification_popup.c:591
 msgid "(No Subject)"
 msgstr "(Pas de sujet)"
 
-#: src/notification_popup.c:310
+#: src/notification_popup.c:312
 msgid "New News post"
 msgstr "Nouveau post Usenet"
 
-#: src/notification_popup.c:311
+#: src/notification_popup.c:313
 msgid "A new message arrived"
 msgstr "Un nouveau message est arrivé"
 
-#: src/notification_popup.c:314
+#: src/notification_popup.c:316
 msgid "New Calendar message"
 msgstr "Nouvel évènement"
 
-#: src/notification_popup.c:315
+#: src/notification_popup.c:317
 msgid "A new calendar message arrived"
 msgstr "Un nouvel évènement est arrivé"
 
-#: src/notification_popup.c:318
+#: src/notification_popup.c:320
 msgid "New RSS feed article"
 msgstr "Nouveau message RSS"
 
-#: src/notification_popup.c:319
+#: src/notification_popup.c:321
 msgid "A new article in a RSS feed arrived"
 msgstr "Un nouvel article est arrivé dans un flux RSS"
 
-#: src/notification_popup.c:322
+#: src/notification_popup.c:324
 msgid "New unknown message"
 msgstr "Nouveau message inconnu"
 
-#: src/notification_popup.c:323
+#: src/notification_popup.c:325
 msgid "Unknown message type arrived"
 msgstr "Un nouveau message de type inconnu est arrivé"
 
-#: src/notification_popup.c:441
+#: src/notification_popup.c:458
 msgid "Mail message"
 msgstr "Message email"
 
-#: src/notification_popup.c:442 src/notification_popup.c:448
+#: src/notification_popup.c:459 src/notification_popup.c:465
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "%d nouveau message est arrivé"
 msgstr[1] "%d nouveaux messages sont arrivés"
 
-#: src/notification_popup.c:447
+#: src/notification_popup.c:464
 msgid "News message"
 msgstr "Message Usenet"
 
-#: src/notification_popup.c:453
+#: src/notification_popup.c:470
 msgid "Calendar message"
 msgstr "Évènement"
 
-#: src/notification_popup.c:454
+#: src/notification_popup.c:471
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "%d nouvel évènement est arrivé"
 msgstr[1] "%d nouveaux évènements sont arrivés"
 
-#: src/notification_popup.c:459
+#: src/notification_popup.c:476
 msgid "RSS news feed"
 msgstr "flux RSS"
 
-#: src/notification_popup.c:460
+#: src/notification_popup.c:477
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] "%d nouvel article de flux RSS est arrivé"
 msgstr[1] "%d nouveaux articles de flux RSS sont arrivés"
 
-#: src/notification_popup.c:521
+#: src/notification_popup.c:538
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"

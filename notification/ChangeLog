@@ -1,3 +1,12 @@
+2009-03-06 [paul]	0.20cvs2
+
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+	* po/pt_BR.po
+		updated by Flammie Pirinen, Colin Leroy, Pader Rezso,
+		and Frederico Goncalves Guimaraes
+
 2009-02-24 [colin]	0.20cvs1
 
 	* src/notification_popup.c
