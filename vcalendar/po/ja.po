@@ -1,0 +1,992 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2009-03-01 19:24+0000\n"
+"PO-Revision-Date: 2009-03-07 01:12+0900\n"
+"Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
+"Language-Team: Japanese <ja@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/plugin.c:45
+#: src/plugin.c:64
+#: src/vcal_prefs.c:645
+msgid "vCalendar"
+msgstr "vCalendar"
+
+#: src/plugin.c:69
+msgid ""
+"This plugin enables vCalendar message handling like that produced by Evolution or Outlook.\n"
+"\n"
+"When loaded, it will create a vCalendar mailbox in the Folder List, which will be populated by meetings that you have accepted or created.\n"
+"Meeting requests that you receive will be presented in an appropriate form and you will be able to accept or decline them.\n"
+"To create a meeting right-click on the vCalendar or Meetings folder and choose \"New meeting...\".\n"
+"\n"
+"You will also be able to subscribe to remote webCal feeds,export your meetings and calendars, publish your free/busy information and retrieve that information from others."
+msgstr ""
+"このプラグインはEvolutionやOutlookによって作成されたようなvCalenderメッセージを取扱いを可能にします。\n"
+"\n"
+"ロードした際、あなたが受け付けた、または作成したミーティングによって投入されたフォルダリスト内にvCalenderメールボックスを作成します。\n"
+"Meeting requests that you receive will be presented in an appropriate form and you will be able to accept or decline them.\n"
+"To create a meeting right-click on the vCalendar or Meetings folder and choose \"New meeting...\".\n"
+"\n"
+"You will also be able to subscribe to remote webCal feeds,export your meetings and calendars, publish your free/busy information and retrieve that information from others."
+
+#: src/plugin.c:102
+msgid "Calendar"
+msgstr "カレンダー"
+
+#: src/vcalendar.c:93
+msgid "Create meeting from message..."
+msgstr "メッセージからミーティングを作成..."
+
+#: src/vcalendar.c:113
+#, c-format
+msgid "You are about to create %d meetings, one by one. Do you want to continue?"
+msgstr "%d つのミーティングを1つづつ作成しようとしています。続けますか?"
+
+#: src/vcalendar.c:118
+msgid "Warning"
+msgstr "警告"
+
+#: src/vcalendar.c:132
+msgid "Creating meeting..."
+msgstr "ミーティング作成中..."
+
+#: src/vcalendar.c:151
+msgid "no subject"
+msgstr "題名無し"
+
+#: src/vcalendar.c:384
+msgid "Accept"
+msgstr "受け付ける"
+
+#: src/vcalendar.c:385
+msgid "Tentatively accept"
+msgstr "一時的に受け付ける"
+
+#: src/vcalendar.c:386
+msgid "Decline"
+msgstr "辞退する"
+
+#: src/vcalendar.c:473
+msgid "You have a Todo item."
+msgstr "TODOアイテムがあります"
+
+#: src/vcalendar.c:474
+#: src/vcalendar.c:481
+#: src/vcalendar.c:486
+#: src/vcalendar.c:494
+#: src/vcalendar.c:503
+#: src/vcalendar.c:734
+msgid "Details follow:"
+msgstr "詳細:"
+
+#: src/vcalendar.c:480
+msgid "You have created a meeting."
+msgstr "作成したミーティングがあります。"
+
+#: src/vcalendar.c:485
+msgid "You have been invited to a meeting."
+msgstr "ミーティングに招待されています。"
+
+#: src/vcalendar.c:493
+msgid "A meeting to which you had been invited has been cancelled."
+msgstr "あなたが招待したミーティングはキャンセルされました。"
+
+#: src/vcalendar.c:502
+msgid "You have been forwarded an appointment."
+msgstr "約束を転送済みです"
+
+#: src/vcalendar.c:548
+#, c-format
+msgid "%s <span weight=\"bold\">(this event recurs)</span>"
+msgstr "%s <span weight=\"bold\">(このイベントは繰り返されます)</span>"
+
+#: src/vcalendar.c:554
+#, c-format
+msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
+msgstr "%s <span weight=\"bold\">(このイベントは繰り返しているイベントの一部です)</span>"
+
+#: src/vcalendar.c:733
+msgid "You have received an answer to an unknown meeting proposal."
+msgstr "不明なミーティングの提案への回答を受信しました。"
+
+#: src/vcalendar.c:737
+#, c-format
+msgid ""
+"You have received an answer to a meeting proposal.\n"
+"%s has %s the invitation whose details follow:"
+msgstr ""
+
+#: src/vcalendar.c:813
+msgid "Error - could not get the calendar MIME part."
+msgstr "エラー - カレンダーMIMEパートが取得できません。"
+
+#: src/vcalendar.c:820
+msgid "Error - no calendar part found."
+msgstr "エラー - カレンダーパートが見つかりません。"
+
+#: src/vcalendar.c:834
+msgid "Error - Unknown calendar component type."
+msgstr "エラー - 不明なカレンダーコンポーネントタイプ"
+
+#: src/vcalendar.c:962
+msgid "Send a notification to the attendees"
+msgstr "出席者へ通知を送る"
+
+#: src/vcalendar.c:971
+msgid "Cancel meeting"
+msgstr "ミーティングをキャンセル"
+
+#: src/vcalendar.c:972
+msgid "Are you sure you want to cancel this meeting?"
+msgstr "このミーティングを本当にキャンセルしますか?"
+
+#: src/vcalendar.c:1056
+msgid "No account found"
+msgstr "アカウントが見つかりません"
+
+#: src/vcalendar.c:1057
+msgid ""
+"You have no account matching any attendee.\n"
+"Do you want to reply anyway ?"
+msgstr ""
+"どの参加者にもアカウントが一致しません。\n"
+"とにかく返信しますか?"
+
+#: src/vcalendar.c:1059
+msgid "+Reply anyway"
+msgstr "+とにかく返信する"
+
+#: src/vcalendar.c:1183
+msgid "Answer"
+msgstr "回答"
+
+#: src/vcalendar.c:1184
+msgid "Edit meeting..."
+msgstr "ミーティングの編集..."
+
+#: src/vcalendar.c:1185
+msgid "Cancel meeting..."
+msgstr "ミーティングをキャンセル..."
+
+#: src/vcalendar.c:1186
+msgid "Launch website"
+msgstr "webサイトを起動"
+
+#: src/vcalendar.c:1190
+msgid "You are already busy at this time."
+msgstr "その時は既にビジーです。"
+
+#: src/vcalendar.c:1228
+#: src/vcal_meeting_gtk.c:1714
+msgid "Event:"
+msgstr "イベント:"
+
+#: src/vcalendar.c:1229
+#: src/vcal_meeting_gtk.c:1694
+#: src/vcal_meeting_gtk.c:1704
+msgid "Organizer:"
+msgstr "主催者:"
+
+#: src/vcalendar.c:1230
+#: src/vcal_meeting_gtk.c:1695
+#: src/vcal_meeting_gtk.c:1705
+msgid "Summary:"
+msgstr "要約:"
+
+#: src/vcalendar.c:1231
+msgid "Starting:"
+msgstr "開始:"
+
+#: src/vcalendar.c:1232
+msgid "Ending:"
+msgstr "終了:"
+
+#: src/vcalendar.c:1233
+#: src/vcal_meeting_gtk.c:1697
+#: src/vcal_meeting_gtk.c:1706
+msgid "Description:"
+msgstr "説明:"
+
+#: src/vcalendar.c:1234
+#: src/vcal_meeting_gtk.c:1698
+#: src/vcal_meeting_gtk.c:1707
+msgid "Attendees:"
+msgstr "参加者:"
+
+#: src/vcalendar.c:1236
+msgid "Action:"
+msgstr "活動:"
+
+#: src/vcal_folder.c:160
+msgid "_New meeting..."
+msgstr "新しいミーティング...(_N)"
+
+#: src/vcal_folder.c:161
+msgid "_Export calendar..."
+msgstr "カレンダーのエキスポート...(_E)"
+
+#: src/vcal_folder.c:162
+msgid "_Subscribe to webCal..."
+msgstr "webCalを購読する...(_S)"
+
+#: src/vcal_folder.c:163
+msgid "_Unsubscribe..."
+msgstr "購読中止(_U)..."
+
+#: src/vcal_folder.c:164
+msgid "_Rename..."
+msgstr "名前を変える(_R)..."
+
+#: src/vcal_folder.c:165
+msgid "U_pdate subscriptions"
+msgstr "投稿をアップデート(_P)"
+
+#: src/vcal_folder.c:166
+msgid "_List view"
+msgstr "リスト表示(_L)"
+
+#: src/vcal_folder.c:167
+msgid "_Week view"
+msgstr "週間表示(_W)"
+
+#: src/vcal_folder.c:168
+msgid "_Month view"
+msgstr "月間表示(_M)"
+
+#: src/vcal_folder.c:1428
+msgid "in the past"
+msgstr "過去"
+
+#: src/vcal_folder.c:1431
+msgid "today"
+msgstr "今日"
+
+#: src/vcal_folder.c:1434
+msgid "tomorrow"
+msgstr "明日"
+
+#: src/vcal_folder.c:1437
+msgid "this week"
+msgstr "今週"
+
+#: src/vcal_folder.c:1440
+msgid "later"
+msgstr "前"
+
+#: src/vcal_folder.c:1444
+#, c-format
+msgid ""
+"\n"
+"These are the events planned %s:\n"
+msgstr ""
+"\n"
+" %s が計画したイベントがあります:\n"
+
+#: src/vcal_folder.c:1536
+#, c-format
+msgid "Timeout (%d seconds) connecting to %s\n"
+msgstr "タイムアウト (%d 秒)  %s への接続\n"
+
+#: src/vcal_folder.c:1545
+msgid "401 (Authorisation required)"
+msgstr "401 (Authorisation required)"
+
+#: src/vcal_folder.c:1548
+msgid "403 (Unauthorised)"
+msgstr "403 (Unauthorised)"
+
+#: src/vcal_folder.c:1551
+msgid "404 (Not found)"
+msgstr "404 (Not found)"
+
+#: src/vcal_folder.c:1554
+#, c-format
+msgid "Error %ld"
+msgstr "エラー %ld"
+
+#: src/vcal_folder.c:1591
+#, c-format
+msgid "Fetching '%s'..."
+msgstr "取得しています '%s'..."
+
+#: src/vcal_folder.c:1757
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s:\n"
+"\n"
+"%s"
+msgstr ""
+"取得できないWebcal URL:\n"
+"%s:\n"
+"\n"
+"%s"
+
+#: src/vcal_folder.c:1758
+#: src/vcal_folder.c:1762
+#: src/vcal_folder.c:1773
+#: src/vcal_folder.c:1776
+msgid "Unknown error"
+msgstr "不明なエラー"
+
+#: src/vcal_folder.c:1761
+#, c-format
+msgid ""
+"Could not retrieve the Webcal URL:\n"
+"%s:\n"
+"\n"
+"%s\n"
+msgstr ""
+"取得できないWebcal URL:\n"
+"%s:\n"
+"\n"
+"%s\n"
+
+#: src/vcal_folder.c:1772
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+"%s"
+msgstr ""
+"このURLはWebCal URLでないようです:\n"
+"%s\n"
+"%s"
+
+#: src/vcal_folder.c:1775
+#, c-format
+msgid ""
+"This URL does not look like a WebCal URL:\n"
+"%s\n"
+"%s\n"
+msgstr ""
+"このURLはWebCal URLでないようです:\n"
+"%s\n"
+"%s\n"
+
+#: src/vcal_folder.c:1831
+msgid "Claws Mail needs network access in order to update the Webcal feed."
+msgstr "Claws MailはWebcalフィードの更新のためにネットワークへのアクセスが必要です。"
+
+#: src/vcal_folder.c:1850
+msgid "Claws Mail needs network access in order to update the subscription."
+msgstr "Claws Mailは購読の更新のためにネットワークへのアクセスが必要です。"
+
+#: src/vcal_folder.c:1862
+msgid "Subscribe to WebCal"
+msgstr "WebCalを購読"
+
+#: src/vcal_folder.c:1862
+msgid "Enter the WebCal URL:"
+msgstr "WebCal URLを入力:"
+
+#: src/vcal_folder.c:1874
+msgid "Could not parse the URL."
+msgstr "URLの構文解析ができません。"
+
+#: src/vcal_folder.c:1903
+msgid "Do you really want to unsubscribe?"
+msgstr "本当に購読中止しますか?"
+
+#: src/vcal_folder.c:1904
+msgid "Delete folder"
+msgstr "フォルダの削除"
+
+#: src/vcal_folder.c:1925
+#, c-format
+msgid "Can't remove the folder '%s'."
+msgstr "フォルダ '%s' が削除できません。"
+
+#: src/vcal_folder.c:1968
+#, c-format
+msgid "Input new name for '%s':"
+msgstr " '%s' の新しい名前を入力:"
+
+#: src/vcal_folder.c:1969
+msgid "Rename folder"
+msgstr "フォルダ名を変更"
+
+#: src/vcal_folder.c:1976
+#, c-format
+msgid "'%c' can't be included in folder name."
+msgstr "'%c' はフォルダ名に含めることができません。"
+
+#: src/vcal_folder.c:1983
+#, c-format
+msgid "The folder '%s' already exists."
+msgstr "フォルダ '%s' はすでに存在します。"
+
+#: src/vcal_folder.c:1989
+msgid ""
+"The folder could not be renamed.\n"
+"The new folder name is not allowed."
+msgstr ""
+"フォルダ名の変更ができません。\n"
+"新しいフォルダ名は許可されません。"
+
+#: src/vcal_manager.c:94
+msgid "accepted"
+msgstr "受付済み"
+
+#: src/vcal_manager.c:95
+msgid "tentatively accepted"
+msgstr "一時受付済み"
+
+#: src/vcal_manager.c:96
+msgid "declined"
+msgstr "辞退済"
+
+#: src/vcal_manager.c:97
+msgid "did not answer"
+msgstr "回答しない"
+
+#: src/vcal_manager.c:98
+#: src/vcal_manager.c:131
+msgid "unknown"
+msgstr "不明"
+
+#: src/vcal_manager.c:127
+msgid "individual"
+msgstr "個人"
+
+#: src/vcal_manager.c:128
+msgid "group"
+msgstr "グループ"
+
+#: src/vcal_manager.c:129
+msgid "resource"
+msgstr "リソース"
+
+#: src/vcal_manager.c:130
+msgid "room"
+msgstr "部屋"
+
+#: src/vcal_manager.c:535
+msgid "Past"
+msgstr "過去"
+
+#: src/vcal_manager.c:538
+msgid "Today"
+msgstr "今日"
+
+#: src/vcal_manager.c:541
+msgid "Tomorrow"
+msgstr "明日"
+
+#: src/vcal_manager.c:544
+msgid "This week"
+msgstr "今週"
+
+#: src/vcal_manager.c:547
+msgid "Later"
+msgstr "未来"
+
+#: src/vcal_manager.c:1203
+msgid "Accepted: "
+msgstr "受付済み:"
+
+#: src/vcal_manager.c:1205
+msgid "Declined: "
+msgstr "辞退済:"
+
+#: src/vcal_manager.c:1207
+msgid "Tentatively Accepted: "
+msgstr "一時的に受付済み:"
+
+#: src/vcal_meeting_gtk.c:287
+msgid "Use <tab> to autocomplete from addressbook"
+msgstr "アドレス帳から自動補完するには<tab>を使います"
+
+#: src/vcal_meeting_gtk.c:305
+msgid "Individual"
+msgstr "個人"
+
+#: src/vcal_meeting_gtk.c:306
+msgid "Group"
+msgstr "グループ"
+
+#: src/vcal_meeting_gtk.c:307
+msgid "Resource"
+msgstr "リソース"
+
+#: src/vcal_meeting_gtk.c:308
+msgid "Room"
+msgstr "部屋"
+
+#: src/vcal_meeting_gtk.c:321
+msgid "Add..."
+msgstr "追加..."
+
+#: src/vcal_meeting_gtk.c:322
+msgid "Remove"
+msgstr "削除"
+
+#: src/vcal_meeting_gtk.c:775
+msgid ""
+"The following person(s) are busy at the time of your planned meeting:\n"
+"- "
+msgstr ""
+"以下の方々があなたが計画したミーティングの時間は忙しい:\n"
+"- "
+
+#: src/vcal_meeting_gtk.c:776
+#: src/vcal_meeting_gtk.c:868
+#: src/vcal_meeting_gtk.c:954
+msgid "You"
+msgstr "あなた"
+
+#: src/vcal_meeting_gtk.c:777
+msgid "You are busy at the time of your planned meeting"
+msgstr "あなたが計画したミーティングの時間はあなた自身が忙しいです"
+
+#: src/vcal_meeting_gtk.c:779
+#, c-format
+msgid "%s is busy at the time of your planned meeting"
+msgstr "あなたが計画したミーティングの時間は %s が忙しいです"
+
+#: src/vcal_meeting_gtk.c:781
+#, c-format
+msgid "%d hour sooner"
+msgstr "%d 時間前"
+
+#: src/vcal_meeting_gtk.c:783
+#, c-format
+msgid "%d hours sooner"
+msgstr "%d 時間前"
+
+#: src/vcal_meeting_gtk.c:785
+#, c-format
+msgid "%d hours and %d minutes sooner"
+msgstr "%d 時間 %d 分前"
+
+#: src/vcal_meeting_gtk.c:787
+#, c-format
+msgid "%d minutes sooner"
+msgstr "%d 分前"
+
+#: src/vcal_meeting_gtk.c:792
+#, c-format
+msgid "%d hour later"
+msgstr "%d 時間後"
+
+#: src/vcal_meeting_gtk.c:794
+#, c-format
+msgid "%d hours later"
+msgstr "%d 時間後"
+
+#: src/vcal_meeting_gtk.c:796
+#, c-format
+msgid "%d hours and %d minutes later"
+msgstr "%d 時間 %d 分後"
+
+#: src/vcal_meeting_gtk.c:798
+#, c-format
+msgid "%d minutes later"
+msgstr "%d 分後"
+
+#: src/vcal_meeting_gtk.c:804
+#, c-format
+msgid ""
+"\n"
+"\n"
+"Everyone would be available %s or %s."
+msgstr ""
+"\n"
+"\n"
+"全員が %s か %s に可能です。"
+
+#: src/vcal_meeting_gtk.c:806
+#, c-format
+msgid ""
+"\n"
+"\n"
+"Everyone would be available %s."
+msgstr ""
+"\n"
+"\n"
+"全員が %s に可能です。"
+
+#: src/vcal_meeting_gtk.c:808
+msgid ""
+"\n"
+"\n"
+"It isn't possible to have this meeting with everyone in the previous or next 6 hours."
+msgstr ""
+"\n"
+"\n"
+"前後6時間、この全員参加ミーティングを行うことができません。"
+
+#: src/vcal_meeting_gtk.c:813
+#, c-format
+msgid "would be available %s or %s"
+msgstr ""
+
+#: src/vcal_meeting_gtk.c:815
+#, c-format
+msgid "would be available %s"
+msgstr ""
+
+#: src/vcal_meeting_gtk.c:817
+#: src/vcal_meeting_gtk.c:881
+#: src/vcal_meeting_gtk.c:951
+msgid "not available"
+msgstr "利用不可"
+
+#: src/vcal_meeting_gtk.c:820
+#, c-format
+msgid ", but would be available %s or %s."
+msgstr ""
+
+#: src/vcal_meeting_gtk.c:822
+#, c-format
+msgid ", but would be available %s."
+msgstr ""
+
+#: src/vcal_meeting_gtk.c:824
+msgid ", and isn't available in the previous or next 6 hours."
+msgstr ""
+
+#: src/vcal_meeting_gtk.c:884
+msgid "available"
+msgstr "利用可能"
+
+#: src/vcal_meeting_gtk.c:886
+#: src/vcal_meeting_gtk.c:1132
+msgid "Free/busy retrieval failed"
+msgstr "フリー/ビジー情報の取得失敗"
+
+#: src/vcal_meeting_gtk.c:968
+msgid "Not everyone is available"
+msgstr "全員利用不可"
+
+#: src/vcal_meeting_gtk.c:969
+msgid "Send anyway"
+msgstr "とにかく送信"
+
+#: src/vcal_meeting_gtk.c:980
+msgid "Not everyone is available. See tooltips for more info..."
+msgstr "全員利用可能ではありません。詳細な情報はツールチップを見てください..."
+
+#: src/vcal_meeting_gtk.c:1141
+msgid "Available"
+msgstr "利用可能"
+
+#: src/vcal_meeting_gtk.c:1154
+#: src/vcal_meeting_gtk.c:1161
+#: src/vcal_meeting_gtk.c:1169
+msgid "Everyone is available."
+msgstr "全員が利用可能"
+
+#: src/vcal_meeting_gtk.c:1170
+msgid "Everyone seems available, but some free/busy information failed to be retrieved."
+msgstr "全員が利用可能に見えますが、いくつかのフリー/ビジー情報が取得に失敗しています。"
+
+#: src/vcal_meeting_gtk.c:1339
+msgid ""
+"Could not send the meeting invitation.\n"
+"Check the recipients."
+msgstr ""
+"ミーティング招待状を送信できません。\n"
+"受信者を確認してください。"
+
+#: src/vcal_meeting_gtk.c:1454
+msgid "Save & Send"
+msgstr "保存と送信"
+
+#: src/vcal_meeting_gtk.c:1455
+msgid "Check availability"
+msgstr "利用可能か確認する"
+
+#: src/vcal_meeting_gtk.c:1578
+msgid "<b>Starts at:</b> "
+msgstr "<b>開始:</b> "
+
+#: src/vcal_meeting_gtk.c:1583
+#: src/vcal_meeting_gtk.c:1605
+msgid "<b> on:</b>"
+msgstr "<b> on:</b>"
+
+#: src/vcal_meeting_gtk.c:1600
+msgid "<b>Ends at:</b> "
+msgstr "<b>終了:</b> "
+
+#: src/vcal_meeting_gtk.c:1639
+msgid "New meeting"
+msgstr "新しいミーティング"
+
+#: src/vcal_meeting_gtk.c:1641
+#, c-format
+msgid "%s - Edit meeting"
+msgstr "%s - ミーティングの編集"
+
+#: src/vcal_meeting_gtk.c:1696
+#: src/vcal_meeting_gtk.c:1718
+msgid "Time:"
+msgstr "時間:"
+
+#: src/vcal_meeting_gtk.c:1854
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d 時間"
+
+#: src/vcal_meeting_gtk.c:1857
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d 分"
+
+#: src/vcal_meeting_gtk.c:1868
+#, c-format
+msgid "Upcoming event: %s"
+msgstr "次のイベント: %s"
+
+#: src/vcal_meeting_gtk.c:1869
+#, c-format
+msgid ""
+"You have a meeting or event soon.\n"
+"It starts at %s and ends %s later.\n"
+"More information:\n"
+"\n"
+"%s"
+msgstr ""
+"まもなくミーティングまたはイベントが始まります。\n"
+"%s に開始し %s 後に終了します。\n"
+"詳細な情報:\n"
+"\n"
+"%s"
+
+#: src/vcal_meeting_gtk.c:1884
+#, c-format
+msgid "Remind me in %d minute"
+msgid_plural "Remind me in %d minutes"
+msgstr[0] "%d 分ごとに知らせる"
+
+#: src/vcal_meeting_gtk.c:2010
+msgid "Empty calendar"
+msgstr "空のカレンダー"
+
+#: src/vcal_meeting_gtk.c:2011
+msgid "There is nothing to export."
+msgstr "エキスポートするものがありません。"
+
+#: src/vcal_meeting_gtk.c:2051
+msgid "Could not export the calendar."
+msgstr "カレンダーをエキスポートできません。"
+
+#: src/vcal_meeting_gtk.c:2068
+msgid "Export calendar to ICS"
+msgstr "カレンダーをICSにエキスポートする"
+
+#: src/vcal_meeting_gtk.c:2090
+#, c-format
+msgid "Couldn't export calendar to '%s'\n"
+msgstr "カレンダーを '%s' にエキスポートできません\n"
+
+#: src/vcal_meeting_gtk.c:2206
+msgid "Could not export the freebusy info."
+msgstr "フリー/ビジー情報をエキスポートできません。"
+
+#: src/vcal_meeting_gtk.c:2237
+#, c-format
+msgid "Couldn't export free/busy to '%s'\n"
+msgstr "フリー/ビジーを '%s' にエクスポートできません\n"
+
+#: src/vcal_prefs.c:255
+msgid "Reminders"
+msgstr "リマインダー"
+
+#: src/vcal_prefs.c:264
+msgid "Alert me"
+msgstr "知らせる"
+
+#: src/vcal_prefs.c:276
+msgid "minutes before an event"
+msgstr "イベント前の数分"
+
+#: src/vcal_prefs.c:288
+msgid "Calendar export"
+msgstr "カレンダーのエクスポート"
+
+#: src/vcal_prefs.c:299
+msgid "Automatically export calendar to"
+msgstr "自動的にカレンダーをエクスポート"
+
+#: src/vcal_prefs.c:308
+#: src/vcal_prefs.c:414
+msgid "You can export to a local file or URL"
+msgstr "ローカルファイルかURLへエクスポートできます"
+
+#: src/vcal_prefs.c:310
+msgid "Specify a local file or URL (http://server/path/file.ics)"
+msgstr "ローカルファイルかURLで指定 (http://server/path/file.ics)"
+
+#: src/vcal_prefs.c:318
+#: src/vcal_prefs.c:424
+msgid "User ID"
+msgstr "ユーザID"
+
+#: src/vcal_prefs.c:326
+#: src/vcal_prefs.c:432
+msgid "Password"
+msgstr "パスワード"
+
+#: src/vcal_prefs.c:340
+msgid "Include webcal subscriptions in export"
+msgstr "エクスポートにwebcalの購読を含む"
+
+#: src/vcal_prefs.c:350
+msgid "Command to run after calendar export"
+msgstr "カレンダーのエクスポート後に実行するコマンド"
+
+#: src/vcal_prefs.c:379
+msgid "Register Claws' calendar in XFCE's Orage clock"
+msgstr "XFCEのOrage clock内のClawsカレンダーに登録"
+
+#: src/vcal_prefs.c:381
+msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
+msgstr "Claws Mailのカレンダーを見るためOrage (バージョン4.4以上)を許可する"
+
+#: src/vcal_prefs.c:393
+msgid "Free/Busy information"
+msgstr "フリー/ビジー 情報"
+
+#: src/vcal_prefs.c:405
+msgid "Automatically export free/busy status to"
+msgstr "フリー/ビジー状態を自動的にエクスポート"
+
+#: src/vcal_prefs.c:416
+msgid "Specify a local file or URL (http://server/path/file.ifb)"
+msgstr "ローカルファイルかURLを指定(http://server/path/file.ifb)"
+
+#: src/vcal_prefs.c:446
+msgid "Command to run after free/busy status export"
+msgstr "フリー/ビジー状態のエクスポート後に実行するコマンド"
+
+#: src/vcal_prefs.c:473
+msgid "Get free/busy status of others from"
+msgstr "他のフリー/ビジー状態を取得"
+
+#: src/vcal_prefs.c:481
+#, c-format
+msgid "Specify a local file or URL (http://server/path/file.ifb). Use %u for the left part of the email address, %d for the domain"
+msgstr "ローカルファイルまたはURLを指定してください (http://server/path/file.ifb)。 %u メールアドレスの左側として、 %d はドメインとして使います。"
+
+#: src/vcal_prefs.c:644
+msgid "Plugins"
+msgstr "プラグイン"
+
+#: src/day-view.c:403
+#: src/month-view.c:414
+msgid "Unknown"
+msgstr "不明"
+
+#: src/day-view.c:594
+#: src/month-view.c:684
+msgid "Start"
+msgstr "開始"
+
+#: src/day-view.c:607
+#: src/month-view.c:697
+msgid "Show"
+msgstr ""
+
+#: src/day-view.c:615
+#: src/month-view.c:705
+msgid "days"
+msgstr ""
+
+#: src/month-view.c:104
+msgid "Monday"
+msgstr "月"
+
+#: src/month-view.c:105
+msgid "Tuesday"
+msgstr "火"
+
+#: src/month-view.c:106
+msgid "Wednesday"
+msgstr "水"
+
+#: src/month-view.c:107
+msgid "Thursday"
+msgstr "木"
+
+#: src/month-view.c:108
+msgid "Friday"
+msgstr "金"
+
+#: src/month-view.c:109
+msgid "Saturday"
+msgstr "土"
+
+#: src/month-view.c:110
+msgid "Sunday"
+msgstr "日"
+
+#: src/month-view.c:113
+msgid "January"
+msgstr "1月"
+
+#: src/month-view.c:114
+msgid "February"
+msgstr "2月"
+
+#: src/month-view.c:115
+msgid "March"
+msgstr "3月"
+
+#: src/month-view.c:116
+msgid "April"
+msgstr "4月"
+
+#: src/month-view.c:117
+msgid "May"
+msgstr "5月"
+
+#: src/month-view.c:118
+msgid "June"
+msgstr "6月"
+
+#: src/month-view.c:119
+msgid "July"
+msgstr "7月"
+
+#: src/month-view.c:120
+msgid "August"
+msgstr "8月"
+
+#: src/month-view.c:121
+msgid "September"
+msgstr "9月"
+
+#: src/month-view.c:122
+msgid "October"
+msgstr "10月"
+
+#: src/month-view.c:123
+msgid "November"
+msgstr "11月"
+
+#: src/month-view.c:124
+msgid "December"
+msgstr "12月"
+
+#: src/month-view.c:792
+msgid "Week number"
+msgstr "週番号"
+
+#: src/month-view.c:890
+msgid "Previous month"
+msgstr "前月"
+
+#: src/month-view.c:913
+msgid "Next month"
+msgstr "次月"
+
