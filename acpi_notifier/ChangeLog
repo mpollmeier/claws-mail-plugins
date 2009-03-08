@@ -1,3 +1,9 @@
+2009-03-08 [paul]	1.0.20cvs1
+
+	* configure.ac
+	* po/ja.po
+		add Japanese translation, submitted by kazken3
+
 2009-03-06 [paul]	1.0.20
 
 	1.0.20 released

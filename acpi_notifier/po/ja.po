@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: acpi_notifier 0.8\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2008-12-12 11:28+0000\n"
+"PO-Revision-Date: 2009-03-07 01:11+0900\n"
+"Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
+"Language-Team: Japanese <ja@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/acpi_notifier.c:46
+msgid "Acpi Notifier"
+msgstr "ACPI通知"
+
+#: src/acpi_notifier.c:62
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.cakey.de/acerhk/"
+msgstr ""
+"カーネルモジュール'acerhk'がロード済みか確認してください。\n"
+"http://www.cakey.de/acerhk/ から入手できます"
+
+#: src/acpi_notifier.c:64
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://code.google.com/p/aceracpi/"
+msgstr ""
+"カーネルモジュール'acer_acpi'がロード済みか確認してください。\n"
+"http://code.google.com/p/aceracpi/ から入手できます"
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'asus_laptop' is loaded."
+msgstr "カーネルモジュール'asus_laptop'がロード済みか確認してください。"
+
+#: src/acpi_notifier.c:67
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "カーネルモジュール'asus_acpi'がロード済みか確認してください。"
+
+#: src/acpi_notifier.c:68
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "カーネルモジュール'ibm_acpi'がロード済みか確認してください。"
+
+#: src/acpi_notifier.c:69
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"apanelcがインストール済みか確認してください。\n"
+"http://apanel.sourceforge.net/ から入手できます"
+
+#: src/acpi_notifier.c:200
+#: src/acpi_notifier.c:206
+#: src/acpi_notifier.c:418
+msgid "Control file doesn't exist."
+msgstr "コントロールファイルが存在しません。"
+
+#: src/acpi_notifier.c:298
+msgid " : no new or unread mail"
+msgstr " : 新規または未読メールなし"
+
+#: src/acpi_notifier.c:299
+msgid " : unread mail"
+msgstr " : 未読メール"
+
+#: src/acpi_notifier.c:300
+msgid " : new mail"
+msgstr " : 新規メール"
+
+#: src/acpi_notifier.c:302
+#: src/acpi_notifier.c:308
+#: src/acpi_notifier.c:314
+msgid "off"
+msgstr "無効"
+
+#: src/acpi_notifier.c:304
+#: src/acpi_notifier.c:310
+#: src/acpi_notifier.c:316
+msgid "blinking"
+msgstr "点滅"
+
+#: src/acpi_notifier.c:306
+#: src/acpi_notifier.c:312
+#: src/acpi_notifier.c:318
+msgid "on"
+msgstr "有効"
+
+#: src/acpi_notifier.c:340
+#: src/acpi_notifier.c:349
+#: src/acpi_notifier.c:364
+msgid "LED "
+msgstr "LED"
+
+#: src/acpi_notifier.c:379
+msgid "ACPI type: "
+msgstr "ACPI タイプ: "
+
+#: src/acpi_notifier.c:388
+msgid "ACPI file: "
+msgstr "ACPI ファイル: "
+
+#: src/acpi_notifier.c:399
+msgid "values - On: "
+msgstr "値 - 有効: "
+
+#: src/acpi_notifier.c:404
+msgid " - Off: "
+msgstr " - 無効: "
+
+#: src/acpi_notifier.c:426
+msgid "Blink when user interaction is required"
+msgstr "ユーザへの通知が必要となったときに点滅する"
+
+#: src/acpi_notifier.c:783
+msgid "Plugins"
+msgstr "プラグイン"
+
+#: src/acpi_notifier.c:866
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "このプラグインは様々なACPIメールLEDを取り扱います。"
+
+#: src/acpi_notifier.c:887
+msgid "Laptop LED"
+msgstr "ラップトップLED"
+
