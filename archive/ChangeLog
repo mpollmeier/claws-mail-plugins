@@ -1,3 +1,9 @@
+2009-03-08 [paul]	0.6.4cvs2
+
+	* configure.ac
+	* po/ja.po
+		add Japanese translation, submitted by kazken3
+
 Added support for compression method COMPRESS.
 The patch automatically detects version of libarchive.
 libarchive < 2.5 will not have COMPRESS activated since
