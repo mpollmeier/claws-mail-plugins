@@ -358,6 +358,9 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		fitem->date_published = 0;
 		fitem->text = NULL;
 		
+		if (parent)
+			fitem->parent_link = g_strdup(parent);
+
 		do {
 			/* Title */
 			if( !strcmp(n->name, "title") ) {
@@ -370,7 +373,7 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* ID */
 			if( !strcmp(n->name, "id") ) {
 				content = xmlNodeGetContent(n);
-				fitem->id = g_strdup(content);
+				fitem->id = g_strdup_printf("%s%s", (parent?"comment-":""), content);
 				xmlFree(content);
 				debug_print("RSSyl: XML - Atom id: '%s'\n", fitem->id);
 			}
@@ -404,7 +407,12 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				g_free(tmp);
 
 				if( !link_rel || (link_rel && !strcmp(link_rel, "alternate")) ) {
-					fitem->link = link_href;
+					if (!parent) {
+						fitem->link = link_href;
+					} else {
+						fitem->link  = g_strdup_printf("comment-%s", link_href);
+						g_free(link_href);
+					}
 					debug_print("RSSyl: XML - Atom item link: '%s'\n", fitem->link);
 				} else if( link_rel && !strcmp(link_rel, "enclosure") ) {
 					debug_print("RSSyl: XML - Atom item enclosure: '%s' (%ld) [%s]\n",
@@ -452,6 +460,15 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				g_free(name);
 				g_free(mail);
 				debug_print("RSSyl: XML - Atom item author: '%s'\n", fitem->author);
+			}
+
+			/* Comments */
+			if( !strcmp(n->name, "commentRSS") || !strcmp(n->name, "commentRss") ||
+			     !strcmp(n->name, "wfw:commentRSS") || !strcmp(n->name, "wfw:commentRss") ) {
+				content = xmlNodeGetContent(n);
+				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+				xmlFree(content);
+				debug_print("RSSyl: XML - comments_link: '%s'\n", fitem->comments_link);
 			}
 		} while( (n = n->next) != NULL);
 

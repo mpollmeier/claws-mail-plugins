@@ -1070,11 +1070,6 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		count = rssyl_parse_rdf(doc, ritem, parent);
 	} else if( !strcmp(rootnode, "feed") ) {
 		debug_print("RSSyl: XML - calling rssyl_parse_atom()\n");
-		if (ritem->fetch_comments) {
-			log_error(LOG_PROTOCOL, _("RSSyl: Fetching comments is not supported for Atom feeds. "
-				    "Cannot fetch comments of '%s'"), ritem->item.name);
-			ritem->fetch_comments = FALSE;
-		}
 		count = rssyl_parse_atom(doc, ritem, parent);
 	} else {
 		alertpanel_error(_("This feed format is not supported yet."));

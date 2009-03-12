@@ -1,3 +1,10 @@
+2009-03-12 [colin]	0.24.0cvs2
+
+	* src/feed.c
+	* src/parsers.c
+	* src/rssyl.c
+		Add support for comments in Atom feeds
+
 2009-03-08 [paul]	0.24.0cvs1
 
 	* configure.ac

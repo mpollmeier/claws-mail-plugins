@@ -537,7 +537,7 @@ static gint rssyl_add_msg(Folder *folder, FolderItem *dest, const gchar *file,
 
 static gint rssyl_dummy_copy_msg(Folder *folder, FolderItem *dest, MsgInfo *info)
 {
-	if (info->folder->folder != dest->folder) {
+	if (info->folder == NULL || info->folder->folder != dest->folder) {
 		return -1;
 	}
 	if (info->folder && info->folder->name && dest->name
