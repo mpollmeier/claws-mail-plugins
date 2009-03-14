@@ -1,3 +1,8 @@
+2009-03-14 [colin]	0.24.0cvs3
+
+	* src/parsers.c
+		Fix little bugs from 0.24.0cvs2
+
 2009-03-12 [colin]	0.24.0cvs2
 
 	* src/feed.c

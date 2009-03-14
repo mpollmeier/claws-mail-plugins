@@ -407,12 +407,7 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				g_free(tmp);
 
 				if( !link_rel || (link_rel && !strcmp(link_rel, "alternate")) ) {
-					if (!parent) {
-						fitem->link = link_href;
-					} else {
-						fitem->link  = g_strdup_printf("comment-%s", link_href);
-						g_free(link_href);
-					}
+					fitem->link = link_href;
 					debug_print("RSSyl: XML - Atom item link: '%s'\n", fitem->link);
 				} else if( link_rel && !strcmp(link_rel, "enclosure") ) {
 					debug_print("RSSyl: XML - Atom item enclosure: '%s' (%ld) [%s]\n",
@@ -463,8 +458,7 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			}
 
 			/* Comments */
-			if( !strcmp(n->name, "commentRSS") || !strcmp(n->name, "commentRss") ||
-			     !strcmp(n->name, "wfw:commentRSS") || !strcmp(n->name, "wfw:commentRss") ) {
+			if( !strcmp(n->name, "commentRSS") || !strcmp(n->name, "commentRss")) {
 				content = xmlNodeGetContent(n);
 				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
 				xmlFree(content);
