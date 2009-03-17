@@ -2,7 +2,7 @@
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
  * == Fancy Plugin ==
  * Copyright (C) 1999-2006 Hiroyuki Yamamoto and the Claws Mail Team
- * This file Copyright (C) 2008 Salvatore De Paolis <iwkse@claws-mail.org>
+ * This file Copyright (C) 2009 Salvatore De Paolis <iwkse@claws-mail.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef MAYFLOWER_VIEWER_H
-#define MAYFLOWER_VIEWER_H
+#ifndef FANCY_VIEWER_H
+#define FANCY_VIEWER_H
 
 #include <unistd.h>
 #include <stdio.h>

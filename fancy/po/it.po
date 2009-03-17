@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: claws_mail_fancy_plugin\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-09-03 03:38+0200\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
+"POT-Creation-Date: 2009-03-17 03:52+0100\n"
 "PO-Revision-Date: 2008-09-09 13:40+0200\n"
 "Last-Translator: Salvatore De Paolis <iwkse@claws-mail.org>\n"
 "Language-Team: English\n"
@@ -45,13 +45,9 @@ msgstr "Salva Immagine Come"
 msgid "Copy Image"
 msgstr "Copia Immagine"
 
-#: src/fancy_viewer.c:591
-msgid "Webkit HTML Viewer"
-msgstr "Webkit HTML Viewer"
-
-#: src/fancy_viewer.c:612
-msgid "WebKit HTML Viewer"
-msgstr "WebKit HTML Viewer"
+#: src/fancy_viewer.c:591 src/fancy_viewer.c:612
+msgid "Fancy"
+msgstr ""
 
 #: src/fancy_prefs.c:75
 msgid "Plugins"
@@ -72,3 +68,9 @@ msgstr "Enable Javascript"
 #: src/fancy_prefs.c:133
 msgid "Enable Plugins"
 msgstr "Enable Plugins"
+
+#~ msgid "Webkit HTML Viewer"
+#~ msgstr "Webkit HTML Viewer"
+
+#~ msgid "WebKit HTML Viewer"
+#~ msgstr "WebKit HTML Viewer"

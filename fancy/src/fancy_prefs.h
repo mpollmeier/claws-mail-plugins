@@ -1,8 +1,8 @@
 /* 
  * Claws Mail -- A GTK+ based, lightweight, and fast e-mail client
- * Copyright(C) 1999-2007 the Claws Mail Team
+ * Copyright(C) 1999-2009 the Claws Mail Team
  * == Fancy Plugin ==
- * This file Copyright (C) 2007 Salvatore De Paolis
+ * This file Copyright (C) 2009 Salvatore De Paolis
  * <iwkse@claws-mail.org>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef WEBKITGTKPREFS_H
-#define WEBKITGTKPREFS_H
+#ifndef FANCY_PREFS_H
+#define FANCY_PREFS_H
 
 #include <glib.h>
 #include <webkit/webkitwebsettings.h>

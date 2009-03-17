@@ -1,8 +1,8 @@
 /* 
  * Claws Mail -- A GTK+ based, lightweight, and fast e-mail client
  * == Fancy Plugin ==
- * Copyright(C) 1999-2007 the Claws Mail Team
- * This file Copyright (C) 2007 Salvatore De Paolis
+ * Copyright(C) 1999-2009 the Claws Mail Team
+ * This file Copyright (C) 2009 Salvatore De Paolis
  * <iwkse@claws-mail.org>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -146,13 +146,6 @@ static void fancy_destroy_viewer(MimeViewer *_viewer)
 	FancyViewer *viewer = (FancyViewer *) _viewer;
 
 	debug_print("fancy_destroy_viewer\n");
-/*	g_object_unref(viewer->zoom_100);
-	g_object_unref(viewer->zoom_in);
-	g_object_unref(viewer->zoom_out);
-	g_object_unref(viewer->ev_zoom_100);
-	g_object_unref(viewer->ev_zoom_in);
-	g_object_unref(viewer->ev_zoom_out);
-	g_object_unref(viewer->l_link);*/
 
 	g_free(viewer->filename);
    	g_free(viewer);
@@ -515,23 +508,15 @@ static MimeViewer *fancy_viewer_create(void)
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), hbox, FALSE, FALSE, 0);
 
 	gtk_widget_show(viewer->ev_zoom_100);
-	//gtk_object_ref(GTK_OBJECT(viewer->ev_zoom_100));
 	gtk_widget_show(viewer->ev_zoom_in);
-	//gtk_object_ref(GTK_OBJECT(viewer->ev_zoom_100));
 	gtk_widget_show(viewer->ev_zoom_out);
-	//gtk_object_ref(GTK_OBJECT(viewer->ev_zoom_100));
 
 	gtk_widget_show(viewer->scrollwin);
-	//gtk_object_ref(GTK_OBJECT(viewer->scrollwin));
 	gtk_widget_show(viewer->zoom_100);
-	//g_object_ref(G_OBJECT(viewer->zoom_100));
 	gtk_widget_show(viewer->zoom_in);
-	//g_object_ref(G_OBJECT(viewer->zoom_in));
 	gtk_widget_show(viewer->zoom_out);
-	//g_object_ref(G_OBJECT(viewer->zoom_out));
 
 	gtk_widget_show(viewer->l_link);
-	//gtk_object_ref(GTK_OBJECT(viewer->l_link));
 	gtk_widget_show(viewer->vbox);
 	gtk_widget_show(hbox);
 	gtk_widget_show(GTK_WIDGET(viewer->view));
@@ -609,7 +594,7 @@ gboolean plugin_done(void)
 
 const gchar *plugin_name(void)
 {
-	return _("Fancy");
+	return _("Fancy HTML Viewer");
 }
 
 const gchar *plugin_desc(void)
@@ -627,7 +612,7 @@ const gchar *plugin_type(void)
 
 const gchar *plugin_licence(void)
 {
-	return "GPL2+";
+	return "GPL3";
 }
 
 const gchar *plugin_version(void)
