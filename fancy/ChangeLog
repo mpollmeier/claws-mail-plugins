@@ -1,3 +1,8 @@
+2009-03-17 [iwkse]	0.9.6cvs6
+
+	* src/fancy_viewer.c
+		fix description of the plugin
+
 2009-03-17 [iwkse]	0.9.6cvs5
 
 	* configure.ac
