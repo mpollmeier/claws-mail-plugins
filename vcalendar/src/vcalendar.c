@@ -76,6 +76,7 @@ struct _VCalViewer
 	GtkWidget *who;
 	GtkWidget *start;
 	GtkWidget *end;
+	GtkWidget *location;
 	GtkWidget *summary;
 	GtkWidget *description;
 	gchar	  *url;
@@ -185,7 +186,7 @@ static void create_meeting_from_message_cb_ui(GtkAction *action, gpointer data)
 			generate_msgid(uid, 255);
 			
 			event = vcal_manager_new_event(uid,
-					org, NULL, summary, description, 
+					org, NULL, NULL/*location*/, summary, description, 
 					dtstart, dtend, recur, tzid, url, method, sequence, 
 					ICAL_VTODO_COMPONENT);
 			
@@ -324,6 +325,7 @@ static void vcalviewer_reset(VCalViewer *vcalviewer)
 {
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->type), "-");
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->location), "-");
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), "-");
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->description), "-");
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->start), "-");
@@ -516,6 +518,13 @@ void vcalviewer_display_event (VCalViewer *vcalviewer, VCalEvent *event)
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), event->organizer);
 	} else {
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
+	}
+
+/* location */
+	if (event->location && *(event->location)) {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->location), event->location);
+	} else {
+		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->location), "-");
 	}
 
 /* summary */
@@ -767,6 +776,9 @@ static void vcalviewer_get_reply_values(VCalViewer *vcalviewer, MimeInfo *mimein
 		GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->who), "-");
 	}
 	
+	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->location),
+		vcalviewer->event->location?vcalviewer->event->location:"-");
+
 	GTK_LABEL_SET_TEXT_TRIMMED(GTK_LABEL(vcalviewer->summary), 
 		vcalviewer->event->summary?vcalviewer->event->summary:"-");
 
@@ -861,6 +873,7 @@ static void vcal_viewer_show_mimepart(MimeViewer *_mimeviewer, const gchar *file
 	GTK_EVENTS_FLUSH();
 	gtk_widget_set_size_request(vcalviewer->description, 
 		vcalviewer->scrolledwin->allocation.width - 200, -1);
+	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->location), TRUE);
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->summary), TRUE);
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->description), TRUE);
 	gtk_label_set_line_wrap(GTK_LABEL(vcalviewer->attendees), FALSE);
@@ -1174,6 +1187,7 @@ MimeViewer *vcal_viewer_create(void)
 	vcalviewer->who = gtk_label_new("who");
 	vcalviewer->start = gtk_label_new("start");
 	vcalviewer->end = gtk_label_new("end");
+	vcalviewer->location = gtk_label_new("location");
 	vcalviewer->summary = gtk_label_new("summary");
 	vcalviewer->description = gtk_label_new("description");
 	vcalviewer->attendees = gtk_label_new("attendees");
@@ -1209,6 +1223,7 @@ MimeViewer *vcal_viewer_create(void)
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->who), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->start), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->end), TRUE);
+	gtk_label_set_selectable(GTK_LABEL(vcalviewer->location), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->summary), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->description), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(vcalviewer->attendees), TRUE);
@@ -1227,6 +1242,7 @@ MimeViewer *vcal_viewer_create(void)
 
 	TABLE_ADD_LINE(_("Event:"), vcalviewer->type);
 	TABLE_ADD_LINE(_("Organizer:"), vcalviewer->who);
+	TABLE_ADD_LINE(_("Location:"), vcalviewer->location);
 	TABLE_ADD_LINE(_("Summary:"), vcalviewer->summary);
 	TABLE_ADD_LINE(_("Starting:"), vcalviewer->start);
 	TABLE_ADD_LINE(_("Ending:"), vcalviewer->end);

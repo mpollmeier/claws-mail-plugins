@@ -43,6 +43,7 @@ struct _VCalEvent
 	gchar *dtend;
 	gchar *recur;
 	gchar *tzid;
+	gchar *location;
 	gchar *summary;
 	gchar *description;
 	GSList *answers;
@@ -73,6 +74,7 @@ typedef enum {
 VCalEvent *vcal_manager_new_event	(const gchar 	*uid, 
 					 const gchar	*organizer,
 					 const gchar	*orgname,
+					 const gchar	*location,
 					 const gchar	*summary,
 					 const gchar	*description,
 					 const gchar	*dtstart,

@@ -219,3 +219,4 @@
 ( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 po/fi.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/fr.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/hu.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/pt_BR.po;  ) > 2.0.3cvs4.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libical/libical/sspm.c;  ) > 2.0.4cvs1.patchset
 ( cvs diff -u -r 1.2.2.324 -r 1.2.2.325 configure.ac;  diff -u /dev/null po/ja.po;  ) > 2.0.4cvs2.patchset
+( cvs diff -u -r 1.2.2.108 -r 1.2.2.109 src/vcal_folder.c;  cvs diff -u -r 1.1.2.79 -r 1.1.2.80 src/vcal_manager.c;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/vcal_manager.h;  cvs diff -u -r 1.1.2.85 -r 1.1.2.86 src/vcal_meeting_gtk.c;  cvs diff -u -r 1.2.2.86 -r 1.2.2.87 src/vcalendar.c;  ) > 2.0.4cvs3.patchset

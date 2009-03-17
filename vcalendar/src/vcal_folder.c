@@ -780,7 +780,7 @@ GSList *vcal_get_events_list(FolderItem *item)
 							icaltime_add(next, ical_dur));
 					debug_print("adding with start/end %s:%s\n", new_start, new_end);
 					nevent = vcal_manager_new_event(uid, event->organizer, event->orgname, 
-								event->summary, event->description, 
+								event->location, event->summary, event->description, 
 								new_start, new_end, NULL, 
 								event->tzid, event->url, event->method, 
 								event->sequence, event->type);
@@ -2109,6 +2109,7 @@ VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset)
 	icalproperty *prop = NULL;
 	GSList *list = NULL, *cur = NULL;
 	gchar *uid = NULL;
+	gchar *location = NULL;
 	gchar *summary = NULL;
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
@@ -2134,6 +2135,12 @@ VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset)
 	if (prop) {
 		uid = g_strdup(icalproperty_get_uid(prop));
 		TO_UTF8(uid);
+		icalproperty_free(prop);
+	}
+	GET_PROP(comp, prop, ICAL_LOCATION_PROPERTY);
+	if (prop) {
+		location = g_strdup(icalproperty_get_location(prop));
+		TO_UTF8(location);
 		icalproperty_free(prop);
 	}
 	GET_PROP(comp, prop, ICAL_SUMMARY_PROPERTY);
@@ -2248,7 +2255,7 @@ VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset)
 	g_slist_free(list);
 	
 	event = vcal_manager_new_event	(uid, org_email, org_name,
-					 summary, description,
+					 location, summary, description,
 					 dtstart, dtend, recur,
 					 tzid, url,
 					 method, sequence, type);

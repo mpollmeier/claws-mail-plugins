@@ -68,6 +68,7 @@ struct _VCalMeeting
 	GtkWidget *start_time;
 	GtkWidget *end_c;
 	GtkWidget *end_time;
+	GtkWidget *location;
 	GtkWidget *summary;
 	GtkWidget *description;
 	GSList 	  *attendees;
@@ -476,6 +477,11 @@ static gchar *get_date(VCalMeeting *meet, int start)
 	t += dst_offset;
 	debug_print("%s\n", ctime(&t));
 	return g_strdup(icaltime_as_ical_string(icaltime_from_timet(t, FALSE)));
+}
+
+static gchar *get_location(VCalMeeting *meet)
+{
+	return gtk_editable_get_chars(GTK_EDITABLE(meet->location),0, -1);
 }
 
 static gchar *get_summary(VCalMeeting *meet) 
@@ -1213,6 +1219,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	gchar *dtstart = NULL;
 	gchar *dtend = NULL;
 	gchar *tzid = NULL;
+	gchar *location = NULL;
 	gchar *summary = NULL;
 	gchar *description = NULL;
 	VCalEvent *event = NULL;
@@ -1265,10 +1272,11 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 
 	dtstart		= get_date(meet, TRUE);
 	dtend		= get_date(meet, FALSE);
+	location	= get_location(meet);
 	summary		= get_summary(meet);
 	description	= get_description(meet);
 	
-	event = vcal_manager_new_event(uid, organizer, organizer_name, summary, description,
+	event = vcal_manager_new_event(uid, organizer, organizer_name, location, summary, description,
 					dtstart, dtend, NULL, tzid, NULL, meet->method, 
 					meet->sequence,
 					ICAL_VEVENT_COMPONENT);
@@ -1325,6 +1333,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	g_free(dtstart);
 	g_free(dtend);
 	g_free(description);
+	g_free(location);
 	g_free(summary);
 	vcal_manager_free_event(event);
 
@@ -1426,6 +1435,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	list_free_strings(times);
 	g_list_free(times);
 
+	meet->location  	= gtk_entry_new();
 	meet->summary		= gtk_entry_new();
 	meet->description	= gtk_text_view_new();
         buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(meet->description));
@@ -1446,6 +1456,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 		meet->method = (event->method == ICAL_METHOD_CANCEL ?
 				ICAL_METHOD_CANCEL:ICAL_METHOD_REQUEST);
 
+		gtk_entry_set_text(GTK_ENTRY(meet->location), event->location);
 		gtk_entry_set_text(GTK_ENTRY(meet->summary), event->summary);	
 		gtk_text_buffer_set_text(buffer, event->description, -1);	
 	} else 
@@ -1692,6 +1703,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 
 #ifndef GENERIC_UMPC
 	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE);
+	TABLE_ADD_LINE(_("Location:"), meet->location, TRUE);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE);
 	TABLE_ADD_LINE(_("Time:"), date_hbox, TRUE);
 	TABLE_ADD_LINE(_("Description:"), scrolledwin, TRUE);
@@ -1702,6 +1714,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_container_add(GTK_CONTAINER(meet->window), meet->table);
 #else
 	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE, TRUE);
+	TABLE_ADD_LINE(_("Location:"), meet->location, TRUE);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE, TRUE);
 	TABLE_ADD_LINE(_("Description:"), scrolledwin, TRUE, TRUE);
 	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox, FALSE, TRUE);
@@ -1868,10 +1881,12 @@ gint vcal_meeting_alert_check(gpointer data)
 			title = g_strdup_printf(_("Upcoming event: %s"), event->summary);
 			message = g_strdup_printf(_("You have a meeting or event soon.\n"
 					 "It starts at %s and ends %s later.\n"
+                     "Location: %s\n"
 					 "More information:\n\n"
 					 "%s"),
 						estart,
 						duration,
+						event->location?event->location:"",
 						event->description);
 
 			g_free(duration);

@@ -1,3 +1,15 @@
+2009-03-17 [colin]	2.0.4cvs3
+
+	* src/vcal_folder.c
+	* src/vcal_manager.c
+	* src/vcal_manager.h
+	* src/vcal_meeting_gtk.c
+	* src/vcalendar.c
+		Add support for the Location field. Patch by
+		Pascal Eberhard <pascal.eberhard at gmail.com>,
+		fixes bug 1852 'vCalendar Plugin should display 
+		Location of events'
+
 2009-03-08 [paul]	2.0.4cvs2
 
 	* configure.ac

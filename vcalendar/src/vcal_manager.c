@@ -247,6 +247,7 @@ void vcal_manager_event_print(VCalEvent *event)
 		"event->organizer\t\t%s\n"
 		"event->start\t\t%s\n"
 		"event->end\t\t%s\n"
+		"event->location\t\t%s\n"
 		"event->summary\t\t%s\n"
 		"event->description\t%s\n"
 		"event->url\t%s\n"
@@ -260,6 +261,7 @@ void vcal_manager_event_print(VCalEvent *event)
 		event->organizer,
 		event->start,
 		event->end,
+		event->location,
 		event->summary,
 		event->description,
 		event->url,
@@ -387,6 +389,8 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	}
 	icalcomponent_add_property(ievent,
 		icalproperty_new_description(event->description));
+	icalcomponent_add_property(ievent,
+		icalproperty_new_location(event->location));
 	icalcomponent_add_property(ievent,
 		icalproperty_new_summary(event->summary));
 	icalcomponent_add_property(ievent,
@@ -745,6 +749,7 @@ gchar *vcal_manager_icalevent_dump(icalcomponent *event, gchar *orga, icalcompon
 VCalEvent * vcal_manager_new_event	(const gchar 	*uid, 
 					 const gchar	*organizer,
 					 const gchar	*orgname,
+					 const gchar	*location,
 					 const gchar	*summary,
 					 const gchar	*description,
 					 const gchar	*dtstart,
@@ -778,6 +783,7 @@ VCalEvent * vcal_manager_new_event	(const gchar 	*uid,
 	event->dtstart		= g_strdup(dtstart?dtstart:"");
 	event->dtend		= g_strdup(dtend?dtend:"");
 	event->recur		= g_strdup(recur?recur:"");
+	event->location 	= g_strdup(location?location:"");
 	event->summary		= g_strdup(summary?summary:"");
 	event->description	= g_strdup(description?description:"");
 	event->url		= g_strdup(url?url:"");
@@ -803,6 +809,7 @@ void vcal_manager_free_event (VCalEvent *event)
 	g_free(event->orgname);
 	g_free(event->start);
 	g_free(event->end);
+	g_free(event->location);
 	g_free(event->summary);
 	g_free(event->dtstart);
 	g_free(event->dtend);
@@ -871,6 +878,7 @@ void vcal_manager_save_event (VCalEvent *event, gboolean export_after)
 	tag = xml_tag_new("event");
 	xml_tag_add_attr(tag, xml_attr_new("organizer", event->organizer));
 	xml_tag_add_attr(tag, xml_attr_new("orgname", event->orgname));
+	xml_tag_add_attr(tag, xml_attr_new("location", event->location));
 	xml_tag_add_attr(tag, xml_attr_new("summary", event->summary));
 	xml_tag_add_attr(tag, xml_attr_new("description", event->description));
 	xml_tag_add_attr(tag, xml_attr_new("url", event->url));
@@ -953,7 +961,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 {
 	XMLNode *xmlnode;
 	GList *list;
-	gchar *org = NULL, *summary = NULL, *orgname = NULL;
+	gchar *org = NULL, *location = NULL, *summary = NULL, *orgname = NULL;
 	gchar *dtstart = NULL, *dtend = NULL, *tzid = NULL;
 	gchar *description = NULL, *url = NULL, *recur = NULL;
 	VCalEvent *event = NULL;
@@ -979,6 +987,8 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 			org = g_strdup(attr->value);
 		if (!strcmp(attr->name, "orgname"))
 			orgname = g_strdup(attr->value);
+		if (!strcmp(attr->name, "location"))
+			location = g_strdup(attr->value);
 		if (!strcmp(attr->name, "summary"))
 			summary = g_strdup(attr->value);
 		if (!strcmp(attr->name, "description"))
@@ -1005,7 +1015,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 			rec_occurence = atoi(attr->value);
 	}
 
-	event = vcal_manager_new_event(uid, org, orgname, summary, description, 
+	event = vcal_manager_new_event(uid, org, orgname, location, summary, description, 
 					dtstart, dtend, recur, tzid, url, method, 
 					sequence, type);
 
@@ -1014,6 +1024,7 @@ static VCalEvent *event_get_from_xml (const gchar *uid, GNode *node)
 
 	g_free(org); 
 	g_free(orgname); 
+	g_free(location);
 	g_free(summary); 
 	g_free(description); 
 	g_free(url); 
