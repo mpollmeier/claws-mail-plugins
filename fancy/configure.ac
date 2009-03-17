@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=9
 MICRO_VERSION=6
-EXTRA_VERSION=2
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -19,9 +19,9 @@ if test \( $EXTRA_VERSION -eq 0 \); then
     fi
 else
     if test \( $MICRO_VERSION -eq 0 \); then
-        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}svn${EXTRA_VERSION}
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}cvs${EXTRA_VERSION}
     else
-		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}svn${EXTRA_VERSION}
+		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
 

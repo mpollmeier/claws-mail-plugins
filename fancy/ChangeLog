@@ -1,0 +1,15 @@
+2009-03-17 [iwkse]	0.9.6cvs5
+
+	* configure.ac
+		switch svn to cvs prefix
+
+2009-03-17 [iwkse]	0.9.6cvs4
+
+	* configure.ac
+		svn to cvs prefix
+
+2009-03-17 [iwkse]	0.9.6cvs3
+
+	* configure.ac
+		Switch svn to cvs prefix
+
