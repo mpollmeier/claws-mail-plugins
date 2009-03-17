@@ -3,13 +3,13 @@ AC_INIT(src/fancy_viewer.c)
 AC_CONFIG_AUX_DIR([config])
 AM_MAINTAINER_MODE
 
-PACKAGE=claws_mail_fancy_plugin
+PACKAGE=fancy
 
 dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=9
 MICRO_VERSION=6
-EXTRA_VERSION=6
+EXTRA_VERSION=7
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -90,7 +90,7 @@ PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
 dnl Check for WebKit
 PKG_CHECK_MODULES(WEBKIT, webkit-1.0, ,
-		  AC_MSG_ERROR([Can't find WebKitGtk library.]))
+		  AC_MSG_ERROR([Can't find GTK+ WebKit library.]))
 AC_SUBST(WEBKIT_LIBS)
 AC_SUBST(WEBKIT_CFLAGS)
 

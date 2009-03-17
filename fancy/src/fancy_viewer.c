@@ -599,7 +599,7 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return g_strdup_printf("This plugin renders HTML e-mails using the WebKit %d.%d.%d "
+	return g_strdup_printf("This plugin renders HTML e-mail using the WebKit %d.%d.%d "
 		"library.", WEBKIT_MAJOR_VERSION, 
 					WEBKIT_MINOR_VERSION, 
 					WEBKIT_MICRO_VERSION);

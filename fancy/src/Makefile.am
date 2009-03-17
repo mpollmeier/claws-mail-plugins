@@ -1,15 +1,15 @@
 plugindir = $(CLAWS_MAIL_PLUGINDIR)
 
-plugin_LTLIBRARIES = fancy_plugin.la
+plugin_LTLIBRARIES = fancy.la
 
-fancy_plugin_la_SOURCES = \
+fancy_la_SOURCES = \
         fancy_viewer.c \
 		fancy_viewer.h \
 		fancy_prefs.c \
 		fancy_prefs.h \
 	 	gettext.h
 
-fancy_plugin_la_LDFLAGS = \
+fancy_la_LDFLAGS = \
 	-avoid-version -module \
 	$(GTK_LIBS) \
 	$(WEBKIT_LIBS)
