@@ -1714,7 +1714,7 @@ static VCalMeeting *vcal_meeting_create_real(VCalEvent *event, gboolean visible)
 	gtk_container_add(GTK_CONTAINER(meet->window), meet->table);
 #else
 	TABLE_ADD_LINE(_("Organizer:"), hbox, FALSE, TRUE);
-	TABLE_ADD_LINE(_("Location:"), meet->location, TRUE);
+	TABLE_ADD_LINE(_("Location:"), meet->location, FALSE, TRUE);
 	TABLE_ADD_LINE(_("Summary:"), meet->summary, TRUE, TRUE);
 	TABLE_ADD_LINE(_("Description:"), scrolledwin, TRUE, TRUE);
 	TABLE_ADD_LINE(_("Attendees:"), meet->attendees_vbox, FALSE, TRUE);

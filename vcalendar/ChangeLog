@@ -1,3 +1,8 @@
+2009-03-17 [colin]	2.0.4cvs4
+
+	* src/vcal_meeting_gtk.c
+		Fix Location line, thanks to Miras
+
 2009-03-17 [colin]	2.0.4cvs3
 
 	* src/vcal_folder.c
