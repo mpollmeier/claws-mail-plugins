@@ -2,3 +2,5 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 configure.ac;  ) > 0.9.6cvs4.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 configure.ac;  ) > 0.9.6cvs5.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/fancy_viewer.c;  ) > 0.9.6cvs6.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 README;  ) > 0.9.6cvs7.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 README;  ) > 0.9.6cvs8.patchset

@@ -1,2 +1,2 @@
-The Mayflower plugin render html emails using the WebKit Web Engine.
-More info is possible to find at www.webkit.org
+The Fancy plugin renders html emails using the GTK+ port of WebKit library.
+More info is possible to find at www.webkit.org and here http://trac.webkit.org/wiki/BuildingGtk
