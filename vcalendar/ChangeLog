@@ -1,3 +1,10 @@
+2009-03-18 [colin]	2.0.4cvs5
+
+	* src/vcal_manager.c
+		Fix double Location
+	* src/vcalendar.c
+		Fix replying to an event update.
+
 2009-03-17 [colin]	2.0.4cvs4
 
 	* src/vcal_meeting_gtk.c

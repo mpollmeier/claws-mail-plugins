@@ -390,8 +390,6 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 	icalcomponent_add_property(ievent,
 		icalproperty_new_description(event->description));
 	icalcomponent_add_property(ievent,
-		icalproperty_new_location(event->location));
-	icalcomponent_add_property(ievent,
 		icalproperty_new_summary(event->summary));
 	icalcomponent_add_property(ievent,
 		icalproperty_new_sequence(modif && !is_reply ? event->sequence + 1 : event->sequence));
@@ -399,8 +397,12 @@ gchar *vcal_manager_event_dump(VCalEvent *event, gboolean is_reply, gboolean is_
 		icalproperty_new_class("PUBLIC"));
 	icalcomponent_add_property(ievent,
 		icalproperty_new_transp("OPAQUE"));
-	icalcomponent_add_property(ievent,
-		icalproperty_new_location(""));
+	if (event->location && *event->location)
+		icalcomponent_add_property(ievent,
+			icalproperty_new_location(event->location));
+	else
+		icalcomponent_add_property(ievent,
+			icalproperty_new_location(""));
 	icalcomponent_add_property(ievent,
 		icalproperty_new_status(ICAL_STATUS_CONFIRMED));
 	icalcomponent_add_property(ievent,

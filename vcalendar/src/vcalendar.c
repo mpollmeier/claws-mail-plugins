@@ -1050,7 +1050,7 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 	gint index = gtk_combo_box_get_active(GTK_COMBO_BOX(vcalviewer->answer));
 	enum icalparameter_partstat reply[3] = {ICAL_PARTSTAT_ACCEPTED, ICAL_PARTSTAT_TENTATIVE, ICAL_PARTSTAT_DECLINED};
 	PrefsAccount *account = NULL;
-	
+	VCalEvent *saved_event = NULL, *event = NULL;
 	debug_print("index chosen %d\n", index);
 	
 	if (index < 0 || index > 2) {
@@ -1063,7 +1063,18 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 		g_warning("can't get event\n");
 		return TRUE;
 	}
-	account = vcal_manager_get_account_from_event(vcalviewer->event);
+
+/* see if we have it registered and more recent */
+	event = vcalviewer->event;
+	saved_event = vcal_manager_load_event(vcalviewer->event->uid);
+	if (saved_event && saved_event->sequence >= vcalviewer->event->sequence) {
+		saved_event->method = vcalviewer->event->method;
+		event = saved_event;
+	} else if (saved_event) {
+		vcal_manager_free_event(saved_event);
+		saved_event = NULL;
+	}
+	account = vcal_manager_get_account_from_event(event);
 	
 	if (!account) {
 		AlertValue val = alertpanel_full(_("No account found"), 
@@ -1073,27 +1084,31 @@ static gboolean vcalviewer_action_cb(GtkButton *widget, gpointer data)
 				   	NULL, ALERT_QUESTION, G_ALERTDEFAULT);
 		if (val == G_ALERTALTERNATE) {		
 			account = account_get_default();
-			vcal_manager_update_answer(vcalviewer->event, account->address, 
+			vcal_manager_update_answer(event, account->address, 
 					account->name,
 					ICAL_PARTSTAT_NEEDSACTION, 
 					ICAL_CUTYPE_INDIVIDUAL);
-		} else
+		} else {
+			if (saved_event)
+				vcal_manager_free_event(saved_event);
 			return TRUE;
+		}
 	}
 	
-	vcal_manager_update_answer(vcalviewer->event, account->address, account->name, reply[index], 0);
+	vcal_manager_update_answer(event, account->address, account->name, reply[index], 0);
 	
-	if (vcalviewer->event->organizer && *(vcalviewer->event->organizer) && 
-	    !vcal_manager_reply(account, vcalviewer->event)) {
+	if (event->organizer && *(event->organizer) && 
+	    !vcal_manager_reply(account, event)) {
 		g_warning("couldn't send reply\n");
 	} else {
 		debug_print("no organizer, not sending answer\n");
 	}
 	
-	vcal_manager_save_event(vcalviewer->event, TRUE);
+	vcal_manager_save_event(event, TRUE);
 
-	vcalviewer_display_event(vcalviewer, vcalviewer->event);
-	
+	vcalviewer_display_event(vcalviewer, event);
+	if (saved_event)
+		vcal_manager_free_event(saved_event);
         return TRUE;
 };
 
