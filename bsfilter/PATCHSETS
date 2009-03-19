@@ -1,0 +1,1 @@
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 Makefile.am;  ) > 1.0.0cvs1.patchset

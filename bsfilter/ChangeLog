@@ -1,3 +1,8 @@
+2009-03-19 [colin]	1.0.0cvs1
+
+	* Makefile.am
+		Fix make dist
+
 2006-11-10 [colin]	1.0.0
 
 	* Initial import
