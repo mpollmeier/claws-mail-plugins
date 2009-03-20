@@ -5,3 +5,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 README;  ) > 0.9.6cvs7.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 README;  ) > 0.9.6cvs8.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/fancy_viewer.c;  ) > 0.9.6cvs9.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 README;  ) > 0.9.6cvs10.patchset
