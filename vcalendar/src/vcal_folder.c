@@ -2260,7 +2260,17 @@ VCalEvent *vcal_get_event_from_ical(const gchar *ical, const gchar *charset)
 					 tzid, url,
 					 method, sequence, type);
 	event->answers = attendees;
-	
+	g_free(uid);
+	g_free(location);
+	g_free(summary);
+	g_free(dtstart);
+	g_free(dtend);
+	g_free(org_email);
+	g_free(org_name);
+	g_free(description);
+	g_free(url);
+	g_free(tzid);
+	g_free(recur);
 	g_free(int_ical);
 	return event;
 }

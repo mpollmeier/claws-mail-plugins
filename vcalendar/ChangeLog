@@ -1,3 +1,8 @@
+2009-03-20 [colin]	2.0.4cvs7
+
+	* src/vcal_folder.c
+		Fix leak
+
 2009-03-20 [colin]	2.0.4cvs6
 
 	* src/vcal_meeting_gtk.c
