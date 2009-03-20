@@ -1,3 +1,8 @@
+2009-03-20 [iwkse]	0.9.6cvs12
+
+	* src/fancy_viewer.c
+		Fix wrong callback arguments
+
 2009-03-20 [iwkse]	0.9.6cvs11
 
 	* src/fancy_viewer.c

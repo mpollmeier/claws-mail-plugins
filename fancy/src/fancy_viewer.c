@@ -215,7 +215,7 @@ static void load_progress_cb(WebKitWebView *view, gint progress, FancyViewer *vi
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(viewer->progress), (const gchar*)label);
 	g_free(label);
 }
-static void stop_loading_cb(WebKitWebView *view, gint progress, FancyViewer *viewer)
+static void stop_loading_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer)
 {
 	webkit_web_view_stop_loading (viewer->view);
 	gtk_widget_hide(viewer->progress);
