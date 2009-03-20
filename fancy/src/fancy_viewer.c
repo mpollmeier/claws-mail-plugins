@@ -188,12 +188,14 @@ static void fancy_scroll_one_line(MimeViewer *_viewer, gboolean up)
 
 static void load_start_cb(WebKitWebView *view, gint progress, FancyViewer *viewer)
 {
-	gtk_widget_show(GTK_WIDGET(viewer->progress));
+	gtk_widget_show(viewer->progress);
+	gtk_widget_show(viewer->ev_stop_loading);
 }
 
 static void load_finished_cb(WebKitWebView *view, gint progress, FancyViewer *viewer)
 {
-	gtk_widget_hide(GTK_WIDGET(viewer->progress));
+	gtk_widget_hide(viewer->progress);
+	gtk_widget_hide(viewer->ev_stop_loading);
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(viewer->progress), (gdouble) 0.0);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(viewer->progress), "");
 }
@@ -212,6 +214,12 @@ static void load_progress_cb(WebKitWebView *view, gint progress, FancyViewer *vi
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(viewer->progress), pbar);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(viewer->progress), (const gchar*)label);
 	g_free(label);
+}
+static void stop_loading_cb(WebKitWebView *view, gint progress, FancyViewer *viewer)
+{
+	webkit_web_view_stop_loading (viewer->view);
+	gtk_widget_hide(viewer->progress);
+	gtk_widget_hide(viewer->ev_stop_loading);
 }
 static WebKitNavigationResponse navigation_requested_cb(WebKitWebView *view, 
 																	WebKitWebFrame *frame, 
@@ -485,26 +493,32 @@ static MimeViewer *fancy_viewer_create(void)
 	viewer->zoom_100 = gtk_image_new_from_stock(GTK_STOCK_ZOOM_100, GTK_ICON_SIZE_MENU);
 	viewer->zoom_in = gtk_image_new_from_stock(GTK_STOCK_ZOOM_IN, GTK_ICON_SIZE_MENU);
 	viewer->zoom_out = gtk_image_new_from_stock(GTK_STOCK_ZOOM_OUT, GTK_ICON_SIZE_MENU);
+	viewer->stop_loading = gtk_image_new_from_stock(GTK_STOCK_CANCEL, GTK_ICON_SIZE_MENU);
 
 	viewer->l_link = gtk_label_new("");
 
 	viewer->ev_zoom_100 = gtk_event_box_new();
 	viewer->ev_zoom_in = gtk_event_box_new();
 	viewer->ev_zoom_out = gtk_event_box_new();
+	viewer->ev_stop_loading = gtk_event_box_new();
+
 
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_100), FALSE);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_in), FALSE);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_out), FALSE);
+	gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_stop_loading), FALSE);
 
 	gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_100), viewer->zoom_100);
 	gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_in), viewer->zoom_in);
 	gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_out), viewer->zoom_out);
+	gtk_container_add(GTK_CONTAINER(viewer->ev_stop_loading), viewer->stop_loading);
 
 	gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_zoom_100, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_zoom_in, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_zoom_out, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(hbox), viewer->l_link, FALSE, FALSE, 8);
 	gtk_box_pack_end(GTK_BOX(hbox), viewer->progress, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(hbox), viewer->ev_stop_loading, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), viewer->scrollwin, TRUE, TRUE, 1);
 	gtk_box_pack_start(GTK_BOX(viewer->vbox), hbox, FALSE, FALSE, 0);
 
@@ -516,6 +530,7 @@ static MimeViewer *fancy_viewer_create(void)
 	gtk_widget_show(viewer->zoom_100);
 	gtk_widget_show(viewer->zoom_in);
 	gtk_widget_show(viewer->zoom_out);
+	gtk_widget_show(viewer->stop_loading);
 
 	gtk_widget_show(viewer->l_link);
 	gtk_widget_show(viewer->vbox);
@@ -552,6 +567,9 @@ static MimeViewer *fancy_viewer_create(void)
 	g_signal_connect(G_OBJECT(viewer->ev_zoom_out), "button-press-event",
 					 G_CALLBACK(zoom_out_cb),
 					 (gpointer *)viewer);
+	g_signal_connect(G_OBJECT(viewer->ev_stop_loading), "button-press-event",
+					 G_CALLBACK(stop_loading_cb),
+					 viewer);
 
 	viewer->filename = NULL;
 

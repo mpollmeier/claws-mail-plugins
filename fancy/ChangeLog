@@ -1,3 +1,9 @@
+2009-03-20 [iwkse]	0.9.6cvs11
+
+	* src/fancy_viewer.c
+	* src/fancy_viewer.h
+		Add a button for stop loading the message
+
 2009-03-20 [iwkse]	0.9.6cvs10
 
 	* README

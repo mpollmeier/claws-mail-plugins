@@ -65,9 +65,11 @@ struct _FancyViewer
 	GtkWidget		*zoom_100;
 	GtkWidget		*zoom_in;
 	GtkWidget		*zoom_out;
+	GtkWidget		*stop_loading;
 	GtkWidget		*ev_zoom_100;
 	GtkWidget		*ev_zoom_in;
 	GtkWidget		*ev_zoom_out;
+	GtkWidget		*ev_stop_loading;
 	GtkWidget		*progress;
 	WebKitWebSettings *settings;	
 	gboolean		load_page;
