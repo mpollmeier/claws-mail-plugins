@@ -133,6 +133,7 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
 	FancyViewer *viewer = (FancyViewer *) _viewer;
 	GtkAdjustment *vadj;
 	
+	webkit_web_view_open(viewer->view, "about:blank");
 	debug_print("fancy_clear_viewer\n");
 	viewer->to_load = NULL;
 	vadj = gtk_scrolled_window_get_vadjustment(

@@ -1,3 +1,9 @@
+2009-03-20 [iwkse]	0.9.6cvs9
+
+	* src/fancy_viewer.c
+		Clean the viewer before loading
+		a new message
+
 2009-03-18 [iwkse]	0.9.6cvs8
 
 	* README
