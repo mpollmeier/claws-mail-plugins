@@ -686,7 +686,8 @@ pvl_elem
 pvl_head(pvl_list l )
 {
     struct pvl_list_t *L = (struct pvl_list_t *)l;
-
+    if (L == NULL)
+	return NULL;
     return (pvl_elem)L->head;
 }
 

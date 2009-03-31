@@ -224,3 +224,4 @@
 ( cvs diff -u -r 1.1.2.80 -r 1.1.2.81 src/vcal_manager.c;  cvs diff -u -r 1.2.2.87 -r 1.2.2.88 src/vcalendar.c;  ) > 2.0.4cvs5.patchset
 ( cvs diff -u -r 1.1.2.87 -r 1.1.2.88 src/vcal_meeting_gtk.c;  ) > 2.0.4cvs6.patchset
 ( cvs diff -u -r 1.2.2.109 -r 1.2.2.110 src/vcal_folder.c;  ) > 2.0.4cvs7.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libical/libical/pvl.c;  ) > 2.0.4cvs8.patchset

@@ -1,3 +1,9 @@
+2009-03-31 [colin]	2.0.4cvs8
+
+	* libical/libical/pvl.c
+		Fix crash in pvl_head. Patch by Michael
+		Rasmussen
+
 2009-03-20 [colin]	2.0.4cvs7
 
 	* src/vcal_folder.c
