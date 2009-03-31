@@ -30,3 +30,4 @@
 ( cvs diff -u -r 1.6.2.22 -r 1.6.2.23 src/maildir_gtk.c;  ) > 0.24.4cvs12.patchset
 ( cvs diff -u -r 1.22.2.15 -r 1.22.2.16 src/maildir.c;  cvs diff -u -r 1.6.2.23 -r 1.6.2.24 src/maildir_gtk.c;  ) > 0.24.4cvs13.patchset
 ( cvs diff -u -r 1.2.2.1 -r 1.2.2.2 AUTHORS;  ) > 0.24.4cvs14.patchset
+( cvs diff -u -r 1.1.1.1 -r 1.1.1.2 src/maildir.h;  cvs diff -u -r 1.22.2.16 -r 1.22.2.17 src/maildir.c;  ) > 0.24.4cvs15.patchset

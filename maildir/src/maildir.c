@@ -499,11 +499,11 @@ static MessageData *get_msgdata_for_uid(MaildirFolderItem *item, guint32 uid)
 	uiddb_delete_entry(item->db, uid);
 
 	/* try to find file with same uniq and different info */
-	filename = g_strconcat(path, G_DIR_SEPARATOR_S, "new", G_DIR_SEPARATOR_S, msgdata->uniq, NULL);
+	filename = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_NEW, G_DIR_SEPARATOR_S, msgdata->uniq, NULL);
 	if (!is_file_exist(filename)) {
 		g_free(filename);
 
-		filename = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
+		filename = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_CUR, G_DIR_SEPARATOR_S, msgdata->uniq, ":*", NULL);
 		glob(filename, 0, NULL, &globbuf);
 		g_free(filename);
 
@@ -583,11 +583,11 @@ static gint maildir_get_num_list(Folder *folder, FolderItem *item,
 	globbuf.gl_offs = 0;
 	path = maildir_item_get_path(folder, item);
 
-	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", G_DIR_SEPARATOR_S, "*", NULL);
+	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_CUR, G_DIR_SEPARATOR_S, "*", NULL);
 	glob(globpattern, GLOB_NOSORT, NULL, &globbuf);
 	g_free(globpattern);
 
-	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, "new", G_DIR_SEPARATOR_S, "*", NULL);
+	globpattern = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_NEW, G_DIR_SEPARATOR_S, "*", NULL);
 	glob(globpattern, GLOB_NOSORT | GLOB_APPEND, NULL, &globbuf);
 	g_free(globpattern);
 
@@ -739,13 +739,13 @@ static gint add_file_to_maildir(MaildirFolderItem *item, const gchar *file, MsgF
 		msgdata->info = g_strdup("");
 	msgdata->uid = uiddb_get_new_uid(item->db);
 
-	msgdata->dir = "tmp";
+	msgdata->dir = DIR_TMP;
 	tmpname = get_filepath_for_msgdata(item, msgdata);
 
 	if (flags != NULL)
-		msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? "new" : "cur");
+		msgdata->dir = g_strdup(flags->perm_flags & MSG_NEW ? DIR_NEW : DIR_CUR);
 	else
-		msgdata->dir = g_strdup("new");
+		msgdata->dir = g_strdup(DIR_NEW);
 
 	if (copy_file(file, tmpname, FALSE) < 0) {
 		goto exit;
@@ -869,7 +869,7 @@ static void maildir_change_flags(Folder *folder, FolderItem *_item, MsgInfo *msg
 	} else
 		g_free(newinfo);
 
-	newdir = g_strdup(newflags & MSG_NEW ? "new" : "cur");
+	newdir = g_strdup(newflags & MSG_NEW ? DIR_NEW : DIR_CUR);
 	if (strcmp(msgdata->dir, newdir)) {
 		g_free(msgdata->dir);
 		msgdata->dir = newdir;
@@ -924,21 +924,21 @@ static gboolean setup_new_folder(const gchar * path, gboolean subfolder)
 
 	g_return_val_if_fail(path != NULL, TRUE);
 
-	curpath = g_strconcat(path, G_DIR_SEPARATOR_S, "cur", NULL);
-	newpath = g_strconcat(path, G_DIR_SEPARATOR_S, "new", NULL);
-	tmppath = g_strconcat(path, G_DIR_SEPARATOR_S, "tmp", NULL);
+	curpath = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_CUR, NULL);
+	newpath = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_NEW, NULL);
+	tmppath = g_strconcat(path, G_DIR_SEPARATOR_S, DIR_TMP, NULL);
 
 	if (!is_dir_exist(path))
-		if (mkdir(path, 0700) != 0)
+		if (mkdir(path, DIR_PERMISSION) != 0)
 			failed = TRUE;
 	if (!is_dir_exist(curpath))
-		if (mkdir(curpath, 0700) != 0)
+		if (mkdir(curpath, DIR_PERMISSION) != 0)
 			failed = TRUE;
 	if (!is_dir_exist(newpath))
-		if (mkdir(newpath, 0700) != 0)
+		if (mkdir(newpath, DIR_PERMISSION) != 0)
 			failed = TRUE;
 	if (!is_dir_exist(tmppath))
-		if (mkdir(tmppath, 0700) != 0)
+		if (mkdir(tmppath, DIR_PERMISSION) != 0)
 			failed = TRUE;
 
 	if (subfolder) {

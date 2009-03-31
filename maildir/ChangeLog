@@ -1,3 +1,9 @@
+ [fab]	0.24.4cvs15
+
+	* src/maildir.h
+	* src/maildir.c
+	Replace some magic numbers with macro definitions
+
  [fab]	0.24.4cvs14
 
 	* AUTHORS
