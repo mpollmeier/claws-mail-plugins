@@ -1,3 +1,8 @@
+ [fab]	0.24.4cvs14
+
+	* AUTHORS
+	Update maintainer
+
 2009-03-03 [colin]	0.24.4cvs13
 
 	* src/maildir.c
