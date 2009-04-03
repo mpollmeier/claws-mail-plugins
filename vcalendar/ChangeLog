@@ -1,3 +1,9 @@
+2009-04-03 [colin]	2.0.4cvs9
+
+	* libical/libical/Makefile.am
+		Fix bug 1890, 'include/ical.h conflicts with 
+		a file installed by libical'
+
 2009-03-31 [colin]	2.0.4cvs8
 
 	* libical/libical/pvl.c

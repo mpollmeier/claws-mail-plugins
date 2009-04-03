@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.1.2.3 2007-10-03 18:26:02 colinler Exp $
+#  $Id: Makefile.am,v 1.1.2.4 2009-04-03 16:43:34 colinler Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -92,9 +92,8 @@ libical_la_SOURCES =		\
 	sspm.h			\
 	vsnprintf.c		\
 	icallangbind.h		
-	
 
-libicalincludedir = $(includedir)
+libicalincludedir = $(includedir)/claws-mail/plugins/@PACKAGE@
 
 libicalinclude_HEADERS =  ical.h 
 
