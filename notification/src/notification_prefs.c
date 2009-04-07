@@ -48,6 +48,9 @@ typedef struct
 	GtkWidget *include_calendar;
 	GtkWidget *urgency_hint_new;
 	GtkWidget *urgency_hint_unread;
+#ifdef HAVE_LIBCANBERRA_GTK
+	GtkWidget *canberra_play_sounds;
+#endif
 } NotifyPage;
 
 NotifyPrefs notify_config;
@@ -154,6 +157,11 @@ PrefParam
 						NULL, NULL, NULL },
 				{ "urgency_hint_unread", "FALSE", &notify_config.urgency_hint_unread, P_BOOL,
 						NULL, NULL, NULL },
+
+#ifdef HAVE_LIBCANBERRA_GTK
+                { "canberra_play_sounds", "TRUE", &notify_config.canberra_play_sounds, P_BOOL,
+                        NULL, NULL, NULL },
+#endif
 
 #ifdef NOTIFICATION_BANNER
 				{	"banner_show", "0", &notify_config.banner_show, P_INT, NULL, NULL, NULL},
@@ -559,6 +567,16 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
 	gtk_widget_show(checkbox);
 	notify_page.urgency_hint_unread = checkbox;
 
+#ifdef HAVE_LIBCANBERRA_GTK
+	/* canberra */
+    checkbox = gtk_check_button_new_with_label(_("Use sound theme"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+            notify_config.canberra_play_sounds);
+    gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+    gtk_widget_show(checkbox);
+    notify_page.canberra_play_sounds = checkbox;
+#endif
+
 	/* done with the frame */
 	gtk_widget_show(frame);
 	gtk_widget_show(vbox);
@@ -581,8 +599,11 @@ static void notify_save_prefs(PrefsPage *page)
 			= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_calendar));
 	notify_config.urgency_hint_new = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.urgency_hint_new));
 	notify_config.urgency_hint_unread = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.urgency_hint_unread));
+#ifdef HAVE_LIBCANBERRA_GTK
+   notify_config.canberra_play_sounds = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.canberra_play_sounds));
+#endif
 
-	notification_core_global_includes_changed();
+   notification_core_global_includes_changed();
 }
 
 #ifdef NOTIFICATION_BANNER

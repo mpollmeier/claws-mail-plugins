@@ -29,6 +29,9 @@
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
 
+#ifdef HAVE_LIBCANBERRA_GTK
+# include <canberra-gtk.h>
+#endif
 
 typedef struct {
   GSList *collected_msgs;
@@ -44,6 +47,10 @@ static gboolean notification_traverse_hash_startup(GNode*, gpointer);
 
 static GHashTable *msg_count_hash;
 static NotificationMsgCount msg_count;
+
+#ifdef HAVE_LIBCANBERRA_GTK
+static gboolean canberra_new_email_is_playing = FALSE;
+#endif
 
 static void msg_count_hash_update_func(FolderItem*, gpointer);
 static void msg_count_update_from_hash(gpointer, gpointer, gpointer);
@@ -358,6 +365,13 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
   procmsg_msg_list_free(msg_list);
 }
 
+#ifdef HAVE_LIBCANBERRA_GTK
+static void canberra_finished_cb(ca_context *c, uint32_t id, int error, void *data)
+{
+  canberra_new_email_is_playing = FALSE;
+}
+#endif
+
 static void notification_new_unnotified_do_msg(MsgInfo *msg)
 {
 #ifdef NOTIFICATION_POPUP
@@ -368,6 +382,20 @@ static void notification_new_unnotified_do_msg(MsgInfo *msg)
 #endif
 #ifdef NOTIFICATION_TRAYICON
   notification_trayicon_msg(msg);
+#endif
+
+#ifdef HAVE_LIBCANBERRA_GTK
+  /* canberra */
+  if(notify_config.canberra_play_sounds && !canberra_new_email_is_playing) {
+    MainWindow *mainwin;
+    ca_proplist *proplist;
+    mainwin = mainwindow_get_mainwindow();
+    ca_proplist_create(&proplist);
+    ca_proplist_sets(proplist,CA_PROP_EVENT_ID ,"message-new-email");
+    canberra_new_email_is_playing = TRUE;
+    ca_context_play_full(ca_gtk_context_get(), 0, proplist, canberra_finished_cb, NULL);
+    ca_proplist_destroy(proplist);
+  }
 #endif
 }
 

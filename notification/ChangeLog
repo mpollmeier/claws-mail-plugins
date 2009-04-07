@@ -1,3 +1,17 @@
+2009-04-07 [holger]	0.21cvs4
+
+	* configure.ac
+	* src/Makefile.am
+	* src/notification_core.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Add optional support for the fd.o sound theme spec via canberra.
+		Support is build by default when libcanberra-gtk is present,
+		but can be turned off at compile time with
+		--disable-libcanberra-gtk or at run time on the main
+		prefs page.
+		Fixes reminder bug #1729.
+
 2009-04-07 [holger]	0.21cvs3
 
 	* src/notification_core.c

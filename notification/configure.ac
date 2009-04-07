@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=21
 MICRO_VERSION=0
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -175,6 +175,33 @@ fi
 AC_SUBST(libnotify_CFLAGS)
 AC_SUBST(libnotify_LIBS)
 
+dnl Check for libcanberra-gtk
+LIBCANBERRA_GTK_REQUIRED=0.6
+AC_ARG_ENABLE(libcanberra-gtk,
+	[  --disable-libcanberra-gtk  do not include libcanberra-gtk support],
+	[enable_libcanberra_gtk=$enableval], [enable_libcanberra_gtk=auto])
+if test "x$enable_libcanberra_gtk" != "xno"; then
+	PKG_CHECK_MODULES(libcanberra_gtk, libcanberra-gtk >= $LIBCANBERRA_GTK_REQUIRED,
+	  have_libcanberra_gtk=yes, have_libcanberra_gtk=no)
+	if test "x$have_libcanberra_gtk" = "xno" -a "x$enable_libcanberra_gtk" = "xyes"; then
+	  AC_MSG_ERROR([libcanberra-gtk support explicitely requested, but libcanberra-gtk couldn't be found or is too old])
+	  have_libcanberra_gtk=no
+	fi
+	if test "x$have_libcanberra_gtk" = "xyes"; then
+	  enable_libcanberra_gtk=yes
+	else
+	  enable_libcanberra_gtk=no
+	fi
+fi
+if test "x$enable_libcanberra_gtk" = "xyes"; then
+  AC_DEFINE(HAVE_LIBCANBERRA_GTK, 1, [Define if libcanberra-gtk support is enabled])
+else
+  libcanberra_gtk_CFLAGS=""
+  libcanberra_gtk_LIBS=""
+fi
+AC_SUBST(libcanberra_gtk_CFLAGS)
+AC_SUBST(libcanberra_gtk_LIBS)
+
 dnl Popup for new email
 AC_ARG_ENABLE(popup,
 	[  --disable-popup         do not include popup support],
@@ -274,5 +301,6 @@ echo ""
 echo ""
 echo "External libraries usage:"
 echo ""
-echo "libnotify : $enable_libnotify"
+echo "libnotify       : $enable_libnotify"
+echo "libcanberra-gtk : $enable_libcanberra_gtk"
 echo ""

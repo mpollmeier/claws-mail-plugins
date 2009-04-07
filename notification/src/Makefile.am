@@ -68,7 +68,8 @@ notification_plugin_la_DEPENDENCIES = $(plugin_deps)
 
 notification_plugin_la_LIBADD = $(plugin_ldadd) $(cygwin_export_lib) \
         $(GTK_LIBS)  \
-	$(libnotify_LIBS)
+	$(libnotify_LIBS) \
+	$(libcanberra_gtk_LIBS)
 
 notification_plugin_la_CPPFLAGS = \
 	$(NOTIFY_CFLAGS) \
@@ -76,7 +77,8 @@ notification_plugin_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\" \
-	$(libnotify_CFLAGS)
+	$(libnotify_CFLAGS) \
+	$(libcanberra_gtk_CFLAGS)
 
 clean-local:
 	rm -f libclaws.a
