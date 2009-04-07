@@ -24,4 +24,6 @@
 void notification_update_banner(void);
 #endif
 
+void notification_update_urgency_hint(void);
+
 #endif /* NOTIFICATION_PLUGIN_H */

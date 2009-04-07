@@ -90,6 +90,7 @@ void notification_update_msg_counts(FolderItem *removed_item)
 #ifdef NOTIFICATION_TRAYICON
   notification_update_trayicon();
 #endif
+  notification_update_urgency_hint();
 }
 
 static void msg_count_clear(NotificationMsgCount *count)
@@ -227,11 +228,11 @@ gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate *msg_update)
       debug_print("Notification Plugin: Message has no message ID!\n");
       msgid = "";
     }
-    
+
     g_return_val_if_fail(msg != NULL, FALSE);
 
     if(g_hash_table_lookup(notified_hash, msgid) != NULL) {
-      
+
       debug_print("Notification Plugin: Removing message id %s from hash "
 		  "table\n", msgid);
       g_hash_table_remove(notified_hash, msgid);
@@ -256,7 +257,7 @@ void notification_notified_hash_startup_init(void)
   folder_list = folder_get_list();
   for(walk = folder_list; walk != NULL; walk = g_list_next(walk)) {
     folder = walk->data;
-    
+
     g_node_traverse(folder->node, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
 		    notification_traverse_hash_startup, NULL);
   }
@@ -274,7 +275,7 @@ static gboolean notification_traverse_hash_startup(GNode *node, gpointer data)
 
   new_msgs_left = item->new_msgs;
   msg_list = folder_item_get_msg_list(item);
-  
+
   for(walk = msg_list; walk; walk = g_slist_next(walk)) {
     MsgInfo *msg = (MsgInfo*) walk->data;
     if(MSG_IS_NEW(msg->flags)) {
@@ -326,7 +327,7 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
   for(walk = msg_list; walk; walk = g_slist_next(walk)) {
     MsgInfo *msg;
     msg = (MsgInfo*) walk->data;
-    
+
     if(MSG_IS_NEW(msg->flags)) {
       gchar *msgid;
 
@@ -347,11 +348,11 @@ void notification_new_unnotified_msgs(FolderItemUpdateData *update_data)
 	g_hash_table_insert(notified_hash, g_strdup(msgid),
 			    GINT_TO_POINTER(1));
 	debug_print("no, added to table.\n");
-	
+
 	/* Do the notification */
 	notification_new_unnotified_do_msg(msg);
       }
-      
+
     } /* msg is 'new' */
   } /* for all messages */
   procmsg_msg_list_free(msg_list);
@@ -389,7 +390,7 @@ GSList* notification_collect_msgs(gboolean unread_also, GSList *folder_items,
   folder_list = folder_get_list();
   for(walk = folder_list; walk != NULL; walk = g_list_next(walk)) {
     folder = walk->data;
-    
+
     g_node_traverse(folder->node, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
 		    notification_traverse_collect, &collect_data);
   }

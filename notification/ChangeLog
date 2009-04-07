@@ -1,3 +1,16 @@
+2009-04-07 [holger]	0.21cvs3
+
+	* src/notification_core.c
+	* src/notification_plugin.c
+	* src/notification_plugin.h
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		Support setting the window manager urgency hint
+		when new and/or unread messages exist, configurable
+		on the Notification main prefs page.
+		The implementation is inspired by a patch from Dima Kogan <dkogan@cds.caltech.edu>
+		Fixes bug #1730
+
 2009-03-08 [paul]	0.21cvs2
 
 	* configure.ac

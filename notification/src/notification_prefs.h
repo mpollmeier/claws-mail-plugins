@@ -39,6 +39,8 @@ typedef struct {
   gboolean         include_news;
   gboolean         include_rss;
   gboolean         include_calendar;
+  gboolean         urgency_hint_new;
+  gboolean         urgency_hint_unread;
 #ifdef NOTIFICATION_BANNER
   NotifyBannerShow banner_show;
   gint             banner_speed;

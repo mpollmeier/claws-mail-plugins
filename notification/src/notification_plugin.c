@@ -73,6 +73,25 @@ static guint hook_theme_changed;
 static GSList* banner_collected_msgs;
 #endif
 
+void notification_update_urgency_hint(void)
+{
+  MainWindow *mainwin;
+  mainwin = mainwindow_get_mainwindow();
+  if(mainwin) {
+    NotificationMsgCount count;
+    gboolean active;
+    active = FALSE;
+    if(notify_config.urgency_hint_new || notify_config.urgency_hint_unread) {
+      notification_core_get_msg_count(NULL, &count);
+      if(notify_config.urgency_hint_new)
+        active = (active || (count.new_msgs > 0));
+      if(notify_config.urgency_hint_unread)
+        active = (active || (count.unread_msgs > 0));
+    }
+    gtk_window_set_urgency_hint(GTK_WINDOW(mainwin->window), active);
+  }
+}
+
 static gboolean my_account_list_changed_hook(gpointer source,
 					     gpointer data)
 {
@@ -129,10 +148,13 @@ static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
   FolderType ftype;
   gchar *uistr;
 
-  g_return_val_if_fail(source != NULL, FALSE);  
+  g_return_val_if_fail(source != NULL, FALSE);
 
 #if defined(NOTIFICATION_LCDPROC) || defined(NOTIFICATION_TRAYICON)
     notification_update_msg_counts(NULL);
+#else
+    if(notify_config.urgency_hint)
+    	notification_update_msg_counts(NULL);
 #endif
 
   /* Check if the folder types is to be notified about */
@@ -156,7 +178,7 @@ static gboolean my_folder_update_hook(gpointer source, gpointer data)
 {
   FolderUpdateData *hookdata;
 
-  g_return_val_if_fail(source != NULL, FALSE);  
+  g_return_val_if_fail(source != NULL, FALSE);
   hookdata = source;
 
 #if defined(NOTIFICATION_LCDPROC) || defined(NOTIFICATION_TRAYICON)
@@ -165,7 +187,7 @@ static gboolean my_folder_update_hook(gpointer source, gpointer data)
   else
     notification_update_msg_counts(NULL);
 #endif
-  
+
   return FALSE;
 
 }
@@ -186,7 +208,7 @@ gint plugin_init(gchar **error)
 	bindtextdomain(TEXTDOMAIN, get_locale_dir());
 #endif
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
-  
+
   /* Version check */
   if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,4,0,70),
 			   VERSION_NUMERIC, _("Notification"), error))
@@ -277,10 +299,10 @@ gint plugin_init(gchar **error)
     return -1;
   }
 
-  hook_theme_changed = hooks_register_hook(THEME_CHANGED_HOOKLIST, my_update_theme_hook, NULL);                                                                  
-  if(hook_theme_changed == (guint)-1) {                                                                                                                                 
+  hook_theme_changed = hooks_register_hook(THEME_CHANGED_HOOKLIST, my_update_theme_hook, NULL);
+  if(hook_theme_changed == (guint)-1) {
     *error = g_strdup(_("Failed to register theme change hook int the "
-      "Notification plugin"));                                                                                            
+      "Notification plugin"));
     hooks_unregister_hook(FOLDER_ITEM_UPDATE_HOOKLIST, hook_f_item);
     hooks_unregister_hook(FOLDER_UPDATE_HOOKLIST, hook_f);
     hooks_unregister_hook(MSGINFO_UPDATE_HOOKLIST, hook_m_info);
@@ -288,8 +310,8 @@ gint plugin_init(gchar **error)
     hooks_unregister_hook(MAIN_WINDOW_CLOSE, hook_mw_close);
     hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
     hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
-    return -1;                                                                                                                                 
-  }   
+    return -1;
+  }
 
   /* Configuration */
   prefs_set_default(notify_param);
@@ -311,7 +333,7 @@ gint plugin_init(gchar **error)
   notification_lcdproc_connect();
 #endif
 #ifdef NOTIFICATION_TRAYICON
-  if(notify_config.trayicon_enabled && 
+  if(notify_config.trayicon_enabled &&
 		 notify_config.trayicon_hide_at_startup && claws_is_starting()) {
     MainWindow *mainwin = mainwindow_get_mainwindow();
 
@@ -323,6 +345,9 @@ gint plugin_init(gchar **error)
 #endif
 
   my_account_list_changed_hook(NULL,NULL);
+
+  if(notify_config.urgency_hint_new || notify_config.urgency_hint_unread)
+	notification_update_msg_counts(NULL);
 
   debug_print("Notification plugin loaded\n");
 
@@ -339,7 +364,7 @@ gboolean plugin_done(void)
   hooks_unregister_hook(MAIN_WINDOW_GOT_ICONIFIED, hook_got_iconified);
   hooks_unregister_hook(ACCOUNT_LIST_CHANGED_HOOKLIST, hook_account);
   hooks_unregister_hook(THEME_CHANGED_HOOKLIST, hook_theme_changed);
- 
+
   notify_save_config();
 
   notify_gtk_done();
@@ -402,7 +427,7 @@ const gchar *plugin_version(void)
 
 struct PluginFeature *plugin_provides(void)
 {
-  static struct PluginFeature features[] = 
+  static struct PluginFeature features[] =
     { {PLUGIN_NOTIFIER, N_("Various tools")},
       {PLUGIN_NOTHING, NULL}};
   return features;
@@ -417,7 +442,7 @@ void notification_update_banner(void)
   if(notify_config.banner_show != NOTIFY_BANNER_SHOW_NEVER) {
     guint id;
     GSList *folder_list = NULL;
-		
+
     if(notify_config.banner_folder_specific) {
       id = notification_register_folder_specific_list
 				(BANNER_SPECIFIC_FOLDER_ID_STR);
@@ -427,10 +452,10 @@ void notification_update_banner(void)
     if(!(notify_config.banner_folder_specific && (folder_list == NULL)))
       banner_collected_msgs =
 				notification_collect_msgs(notify_config.banner_include_unread,
-																	notify_config.banner_folder_specific ? 
+																	notify_config.banner_folder_specific ?
 																	folder_list : NULL, notify_config.banner_max_msgs);
   }
-  
+
   notification_banner_show(banner_collected_msgs);
 }
 #endif

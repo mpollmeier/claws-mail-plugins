@@ -46,6 +46,8 @@ typedef struct
 	GtkWidget *include_news;
 	GtkWidget *include_rss;
 	GtkWidget *include_calendar;
+	GtkWidget *urgency_hint_new;
+	GtkWidget *urgency_hint_unread;
 } NotifyPage;
 
 NotifyPrefs notify_config;
@@ -147,6 +149,10 @@ PrefParam
 				{ "include_rss", "TRUE", &notify_config.include_rss, P_BOOL, NULL,
 						NULL, NULL },
 				{ "include_calendar", "TRUE", &notify_config.include_calendar, P_BOOL,
+						NULL, NULL, NULL },
+				{ "urgency_hint_new", "FALSE", &notify_config.urgency_hint_new, P_BOOL,
+						NULL, NULL, NULL },
+				{ "urgency_hint_unread", "FALSE", &notify_config.urgency_hint_unread, P_BOOL,
 						NULL, NULL, NULL },
 
 #ifdef NOTIFICATION_BANNER
@@ -509,7 +515,7 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
 	/* Include calendar folders */
 	checkbox = gtk_check_button_new_with_label(_("Calendar folders"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
-	notify_config.include_calendar);
+			notify_config.include_calendar);
 	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
 	gtk_widget_show(checkbox);
 	notify_page.include_calendar = checkbox;
@@ -521,9 +527,43 @@ static void notify_create_prefs_page(PrefsPage *page, GtkWindow *window,
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
 
-	/* Done. */
+	/* done with the frame */
 	gtk_widget_show(frame);
 	gtk_widget_show(vbox);
+
+	/* Frame */
+	frame = gtk_frame_new(_("Global notification settings"));
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 10);
+	gtk_box_pack_start(GTK_BOX(pvbox), frame, FALSE, FALSE, 0);
+
+	/* Frame vbox */
+	vbox = gtk_vbox_new(FALSE, 4);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
+
+	/* urgency hint new */
+	checkbox = gtk_check_button_new_with_label(_("Set window manager "
+			"urgency hint when new messages exist"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			notify_config.urgency_hint_new);
+	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	gtk_widget_show(checkbox);
+	notify_page.urgency_hint_new = checkbox;
+
+	/* urgency hint new */
+	checkbox = gtk_check_button_new_with_label(_("Set window manager "
+			"urgency hint when unread messages exist"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			notify_config.urgency_hint_unread);
+	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	gtk_widget_show(checkbox);
+	notify_page.urgency_hint_unread = checkbox;
+
+	/* done with the frame */
+	gtk_widget_show(frame);
+	gtk_widget_show(vbox);
+
+	/* done with the page */
 	gtk_widget_show(pvbox);
 	page->widget = pvbox;
 }
@@ -538,7 +578,9 @@ static void notify_save_prefs(PrefsPage *page)
 	notify_config.include_news =gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_news));
 	notify_config.include_rss =gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_rss));
 	notify_config.include_calendar
-			=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_calendar));
+			= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.include_calendar));
+	notify_config.urgency_hint_new = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.urgency_hint_new));
+	notify_config.urgency_hint_unread = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(notify_page.urgency_hint_unread));
 
 	notification_core_global_includes_changed();
 }
