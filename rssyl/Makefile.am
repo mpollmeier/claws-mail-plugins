@@ -7,7 +7,6 @@ EXTRA_DIST = \
 	ChangeLog \
 	INSTALL \
 	NEWS \
-	README \
-	TODO
+	README
 
 BZIP2_ENV = 

@@ -1,3 +1,8 @@
+2009-04-18 [colin]	0.24.0cvs5
+
+	* Makefile.am
+		Fix make dist
+
 2009-04-18 [michael]	0.24.0cvs4
 
 	* src/parsers.c

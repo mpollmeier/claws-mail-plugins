@@ -164,3 +164,4 @@
 ( cvs diff -u -r 1.1.2.105 -r 1.1.2.106 src/feed.c;  cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/parsers.c;  cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/rssyl.c;  ) > 0.24.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/parsers.c;  ) > 0.24.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/parsers.c;  ) > 0.24.0cvs4.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 Makefile.am;  ) > 0.24.0cvs5.patchset
