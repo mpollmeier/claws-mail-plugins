@@ -1,9 +1,9 @@
-Commit done for Andrej. See bug 1900.
-Fixes bug 1900. The attached patch adds support
-for XHTML content in Atom feeds.
 2009-04-18 [michael]	0.24.0cvs4
 
 	* src/parsers.c
+		fix bug 1900 'Linus' atom feed does not 
+		show correcly in RRSyl: missing newlines'
+		Patch by Ticho.
 
 2009-03-14 [colin]	0.24.0cvs3
 
