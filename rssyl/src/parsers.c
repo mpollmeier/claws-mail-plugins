@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
+#include <libxml/HTMLtree.h>
 
 #include "date.h"
 #include "feed.h"
@@ -325,13 +326,13 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
  */
 gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 {
-	xmlNodePtr node, n;
+	xmlNodePtr node, n, h;
+	xmlBufferPtr buf = NULL;
 	gint count = 0;
 	RSSylFeedItem *fitem = NULL;
 	RSSylFeedItemMedia *media = NULL;
-	gchar *link_type, *link_href, *link_rel, *tmp;
+	gchar *link_type, *link_href, *link_rel, *tmp, *content = NULL;
 	gulong link_size;
-	gchar *content;
 
 	g_return_val_if_fail(doc != NULL, 0);
 	g_return_val_if_fail(ritem != NULL, 0);
@@ -390,9 +391,19 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				debug_print("RSSyl: XML - Atom item text (content) caught\n");
 				if (fitem->text)
 					g_free(fitem->text);
-				content = xmlNodeGetContent(n);
+				if( !xmlStrcmp(xmlGetProp(n, "type"), "xhtml") ) {
+					for( h = n->children; h; h = h->next ) {
+						if( !xmlStrcmp(h->name, "div") ) {
+							buf = xmlBufferCreate();
+							htmlNodeDump(buf, doc, h);
+							content = g_strdup((gchar *)xmlBufferContent(buf));
+							xmlBufferFree(buf);
+						}
+					}
+				} else
+					content = xmlNodeGetContent(n);
 				fitem->text = rssyl_format_string(g_strdup(content), FALSE, FALSE);
-				xmlFree(content);
+				g_free(content);
 				got_content = TRUE;
 			}
 
