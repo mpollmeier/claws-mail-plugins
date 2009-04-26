@@ -67,7 +67,6 @@ typedef struct {
   gint num_calendar;
   gint num_rss;
   gchar *msg_path;
-  guint timeout_id;
   NotifyNotification *notification;
   GError *error;
 } NotificationTrayiconPopup;
@@ -78,7 +77,7 @@ static gboolean notification_trayicon_popup_add_msg(MsgInfo*,
 						    NotificationFolderType);
 static gboolean notification_trayicon_popup_create(MsgInfo*,
 						   NotificationFolderType);
-static gboolean popup_timeout_fun(gpointer);
+static void popup_timeout_fun(NotifyNotification*, gpointer);
 static void notification_trayicon_popup_free_func(gpointer);
 static void notification_trayicon_popup_default_action_cb(NotifyNotification*,
 							  const char*,void*);
@@ -148,7 +147,7 @@ void notification_trayicon_msg(MsgInfo *msginfo)
     for(; (list != NULL) && !found; list = g_slist_next(list)) {
       gchar *list_identifier;
       FolderItem *list_item = (FolderItem*) list->data;
-      
+
       list_identifier = folder_item_get_identifier(list_item);
       if(!strcmp2(list_identifier, identifier))
 	found = TRUE;
@@ -156,11 +155,11 @@ void notification_trayicon_msg(MsgInfo *msginfo)
       g_free(list_identifier);
     }
     g_free(identifier);
-    
+
     if(!found)
       return;
   } /* folder specific */
-  
+
   ftype = msginfo->folder->folder->klass->type;
 
   G_LOCK(trayicon_popup);
@@ -188,7 +187,7 @@ void notification_trayicon_msg(MsgInfo *msginfo)
       debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
       G_UNLOCK(trayicon_popup);
       return;
-    } 
+    }
     break;
   default:
     debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
@@ -196,13 +195,8 @@ void notification_trayicon_msg(MsgInfo *msginfo)
     return;
   }
 
-  
-  if(notification_trayicon_popup_add_msg(msginfo, nftype)) {
-    if(popup.timeout_id)
-      g_source_remove(popup.timeout_id);
-    popup.timeout_id = g_timeout_add(notify_config.trayicon_popup_timeout,
-				     popup_timeout_fun, NULL);
-  }
+
+  notification_trayicon_popup_add_msg(msginfo, nftype);
 
   G_UNLOCK(trayicon_popup);
 
@@ -238,7 +232,7 @@ void notification_update_trayicon()
   }
   else
     list = NULL;
-    
+
   notification_core_get_msg_count(list, &count);
 
   if(!trayicon) {
@@ -323,7 +317,7 @@ gboolean notification_trayicon_account_list_changed(gpointer source,
 	GtkWidget *menu, *submenu;
   GtkWidget *menuitem;
   PrefsAccount *ac_prefs;
-  
+
   GList *account_list = account_get_list();
 
   if(!notify_config.trayicon_enabled)
@@ -331,13 +325,13 @@ gboolean notification_trayicon_account_list_changed(gpointer source,
 
 	menu = gtk_ui_manager_get_widget(gtkut_ui_manager(), "/Menus/SysTrayiconPopup/EmailAcc");
 	gtk_widget_show(menu);
- 
+
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu), NULL);
 	submenu = gtk_menu_new();
 
   for(cur_ac = account_list; cur_ac != NULL; cur_ac = cur_ac->next) {
     ac_prefs = (PrefsAccount *)cur_ac->data;
-    
+
     menuitem = gtk_menu_item_new_with_label
       (ac_prefs->account_name ? ac_prefs->account_name
        : _("Untitled"));
@@ -363,7 +357,7 @@ static GdkPixbuf* notification_trayicon_create(void)
 
   trayicon = gtk_status_icon_new_from_pixbuf(trayicon_nomail);
 
-  g_signal_connect(G_OBJECT(trayicon), "activate", 
+  g_signal_connect(G_OBJECT(trayicon), "activate",
 		   G_CALLBACK(notification_trayicon_on_activate), NULL);
   g_signal_connect(G_OBJECT(trayicon), "popup-menu",
 		   G_CALLBACK(notification_trayicon_on_popup_menu), NULL);
@@ -375,7 +369,7 @@ static GdkPixbuf* notification_trayicon_create(void)
 																						 G_N_ELEMENTS(trayicon_popup_menu_entries), NULL);
 	gtk_action_group_add_toggle_actions(action_group, trayicon_popup_toggle_menu_entries,
 																			G_N_ELEMENTS(trayicon_popup_toggle_menu_entries), NULL);
-	
+
 	MENUITEM_ADDUI("/Menus", "SysTrayiconPopup", "SysTrayiconPopup", GTK_UI_MANAGER_MENU)
 	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "GetMail", "SysTrayiconPopup/GetMail", GTK_UI_MANAGER_MENUITEM)
 	MENUITEM_ADDUI("/Menus/SysTrayiconPopup", "Separator1", "SysTrayiconPopup/---", GTK_UI_MANAGER_SEPARATOR)
@@ -433,7 +427,7 @@ static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,
   /* initialize checkitems according to current states */
 	cm_toggle_menu_set_active("SysTrayiconPopup/ToggleOffline", prefs_common_get_prefs()->work_offline);
 #ifdef HAVE_LIBNOTIFY
-	cm_toggle_menu_set_active("SysTrayiconPopup/ShowBubbles", notify_config.trayicon_popup_enabled);	
+	cm_toggle_menu_set_active("SysTrayiconPopup/ShowBubbles", notify_config.trayicon_popup_enabled);
 #endif
 	cm_menu_set_sensitive("SysTrayiconPopup/GetMail", mainwin->lock_count == 0);
 
@@ -454,7 +448,7 @@ static gboolean notification_trayicon_on_size_changed(GtkStatusIcon *icon,
 						      gpointer user_data)
 {
   notification_update_msg_counts(NULL);
-  return FALSE;  
+  return FALSE;
 }
 
 /* popup menu callbacks */
@@ -508,14 +502,14 @@ static void app_exit_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
     }
     manage_window_focus_in(mainwin->window, NULL, NULL);
   }
-  
+
   app_will_exit(NULL, mainwin);
 }
 
 static void trayicon_exit_cb(GtkAction *action, gpointer data)
 {
   MainWindow *mainwin = mainwindow_get_mainwindow();
-  
+
   if(mainwin->lock_count == 0) {
     app_exit_cb(mainwin, 0, NULL);
   }
@@ -551,7 +545,7 @@ static gboolean notification_trayicon_popup_add_msg(MsgInfo *msginfo,
   if(pixbuf)
     notify_notification_set_icon_from_pixbuf(popup.notification, pixbuf);
 
-  retval = notify_notification_update(popup.notification, summary, 
+  retval = notify_notification_update(popup.notification, summary,
 				      utf8_str, NULL);
   g_free(summary);
   g_free(utf8_str);
@@ -566,7 +560,7 @@ static gboolean notification_trayicon_popup_add_msg(MsgInfo *msginfo,
     g_clear_error(&(popup.error));
     return FALSE;
   }
-  
+
   debug_print("Notification Plugin: Popup successfully modified "
 	      "with libnotify.\n");
 
@@ -653,7 +647,7 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
 	g_error_free(error);
       }
     }
-    else 
+    else
       debug_print("Picture path does not exist: %s\n",icon_path);
     g_free(icon_path);
   }
@@ -667,11 +661,14 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
   else /* This is not fatal */
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
-  /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(popup.notification, NOTIFY_EXPIRES_NEVER);
+  /* timeout */
+  notify_notification_set_timeout(popup.notification, notify_config.trayicon_popup_timeout);
 
   /* Category */
   notify_notification_set_category(popup.notification, "email.arrived");
+
+  /* get notified on bubble close */
+  g_signal_connect(G_OBJECT(popup.notification), "closed", G_CALLBACK(popup_timeout_fun), NULL);
 
   /* Show the popup */
   if(!notify_notification_show(popup.notification, &(popup.error))) {
@@ -701,23 +698,14 @@ static gboolean notification_trayicon_popup_create(MsgInfo *msginfo,
   return TRUE;
 }
 
-static gboolean popup_timeout_fun(gpointer data)
+static void popup_timeout_fun(NotifyNotification *nn, gpointer data)
 {
   G_LOCK(trayicon_popup);
 
-  if(!notify_notification_close(popup.notification, &(popup.error))) {
-    debug_print("Notification Plugin: Failed to close notification: %s.\n",
-		popup.error->message);
-    /* do I need to g_object_unref()? */
-  }
-  else {
-    g_object_unref(G_OBJECT(popup.notification));
-    debug_print("Notification Plugin: Popup closed due to timeout.\n");
-  }
+  g_object_unref(G_OBJECT(popup.notification));
+
   popup.notification = NULL;
   g_clear_error(&(popup.error));
-
-  popup.timeout_id = 0;
 
   popup.count = 0;
   popup.num_mail = 0;
@@ -731,8 +719,6 @@ static gboolean popup_timeout_fun(gpointer data)
   }
 
   G_UNLOCK(trayicon_popup);
-
-  return FALSE;
 }
 
 static void notification_trayicon_popup_free_func(gpointer data)
@@ -829,15 +815,15 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       gchar *subj;
       gchar *text;
 	  gchar *foldname = NULL;
-      
-      from = notification_libnotify_sanitize_str(msginfo->from ? 
+
+      from = notification_libnotify_sanitize_str(msginfo->from ?
 						 msginfo->from :
 						 _("(No From)"));
       subj = notification_libnotify_sanitize_str(msginfo->subject ?
 						 msginfo->subject :
 						 _("(No Subject)"));
   	if (notify_config.trayicon_display_folder_name) {
-        foldname = notification_libnotify_sanitize_str(msginfo->folder->path); 
+        foldname = notification_libnotify_sanitize_str(msginfo->folder->path);
         text = g_strconcat(from,"\n\n", subj, "\n\n", foldname, NULL);
 	}
     else

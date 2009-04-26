@@ -1,3 +1,10 @@
+2009-04-26 [holger]	0.21cvs5
+
+	* src/notification_popup.c
+	* src/notification_trayicon.c
+		Rework bubble logic to work better
+		with notify-osd
+
 2009-04-07 [holger]	0.21cvs4
 
 	* configure.ac

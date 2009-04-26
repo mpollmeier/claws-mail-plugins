@@ -42,12 +42,12 @@
 
 typedef struct {
   gint count;
-  guint timeout_id;
   gchar *msg_path;
 #ifdef HAVE_LIBNOTIFY
   NotifyNotification *notification;
   GError *error;
 #else /* !HAVE_LIBNOTIFY */
+  guint timeout_id;
   GtkWidget *window;
   GtkWidget *frame;
   GtkWidget *event_box;
@@ -61,26 +61,23 @@ G_LOCK_DEFINE_STATIC(popup);
 
 #ifdef HAVE_LIBNOTIFY
 static NotificationPopup popup[F_TYPE_LAST];
-#else
-static NotificationPopup popup;
-#endif
 
-static gboolean popup_timeout_fun(gpointer data);
+static void popup_timeout_fun(NotifyNotification*, gpointer data);
 
-#ifdef HAVE_LIBNOTIFY
-static gboolean notification_libnotify_create(MsgInfo*,
-					      NotificationFolderType);
-static gboolean notification_libnotify_add_msg(MsgInfo*,
-					       NotificationFolderType);
+static gboolean notification_libnotify_create(MsgInfo*, NotificationFolderType);
+static gboolean notification_libnotify_add_msg(MsgInfo*, NotificationFolderType);
 static void default_action_cb(NotifyNotification*, const char*,void*);
 static void notification_libnotify_free_func(gpointer);
 
-#else /* !HAVE_LIBNOTIFY */
+#else
+static NotificationPopup popup;
+
+static gboolean popup_timeout_fun(gpointer data);
+
 static gboolean notification_popup_add_msg(MsgInfo*);
 static gboolean notification_popup_create(MsgInfo*);
-static gboolean notification_popup_button(GtkWidget*, GdkEventButton*,
-					  gpointer);
-#endif /* !HAVE_LIBNOTIFY */
+static gboolean notification_popup_button(GtkWidget*, GdkEventButton*, gpointer);
+#endif
 
 
 void notification_popup_msg(MsgInfo *msginfo)
@@ -115,7 +112,7 @@ void notification_popup_msg(MsgInfo *msginfo)
     for(; (list != NULL) && !found; list = g_slist_next(list)) {
       gchar *list_identifier;
       FolderItem *list_item = (FolderItem*) list->data;
-      
+
       list_identifier = folder_item_get_identifier(list_item);
       if(!strcmp2(list_identifier, identifier))
 	found = TRUE;
@@ -156,7 +153,7 @@ void notification_popup_msg(MsgInfo *msginfo)
       debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
       G_UNLOCK(popup);
       return;
-    } 
+    }
     break;
   default:
     debug_print("Notification Plugin: Unknown folder type %d\n",ftype);
@@ -169,15 +166,18 @@ void notification_popup_msg(MsgInfo *msginfo)
 #else /* !HAVE_LIBNOTIFY */
   ppopup = &popup;
   retval = notification_popup_add_msg(msginfo);
-#endif /* !HAVE_LIBNOTIFY */
+
   /* Renew timeout only when the above call was successful */
   if(retval) {
     if(ppopup->timeout_id)
       g_source_remove(ppopup->timeout_id);
     ppopup->timeout_id = g_timeout_add(notify_config.popup_timeout,
-				       popup_timeout_fun,
-				       GINT_TO_POINTER(nftype));
+                       popup_timeout_fun,
+                       GINT_TO_POINTER(nftype));
   }
+
+  #endif /* !HAVE_LIBNOTIFY */
+
   G_UNLOCK(popup);
 
 #ifndef HAVE_LIBNOTIFY
@@ -188,6 +188,32 @@ void notification_popup_msg(MsgInfo *msginfo)
 
 }
 
+#ifdef HAVE_LIBNOTIFY
+static void popup_timeout_fun(NotifyNotification *nn, gpointer data)
+{
+  NotificationPopup *ppopup;
+  NotificationFolderType nftype;
+
+  nftype = GPOINTER_TO_INT(data);
+
+  G_LOCK(popup);
+
+  ppopup = &(popup[nftype]);
+
+  g_object_unref(G_OBJECT(ppopup->notification));
+  ppopup->notification = NULL;
+  g_clear_error(&(ppopup->error));
+
+  if(ppopup->msg_path) {
+    g_free(ppopup->msg_path);
+    ppopup->msg_path = NULL;
+  }
+  ppopup->count = 0;
+  G_UNLOCK(popup);
+  debug_print("Notification Plugin: Popup closed due to timeout.\n");
+}
+
+#else
 static gboolean popup_timeout_fun(gpointer data)
 {
   NotificationPopup *ppopup;
@@ -196,28 +222,14 @@ static gboolean popup_timeout_fun(gpointer data)
   nftype = GPOINTER_TO_INT(data);
 
   G_LOCK(popup);
-#ifdef HAVE_LIBNOTIFY
-  ppopup = &(popup[nftype]);
 
-  if(!notify_notification_close(ppopup->notification, &(ppopup->error))) {
-    debug_print("Notification Plugin: Failed to close notification: %s.\n",
-		ppopup->error->message);
-    /* do I need to g_object_unref()? */
-    ppopup->notification = NULL;    
-  }
-  else {
-    g_object_unref(G_OBJECT(ppopup->notification));
-    ppopup->notification = NULL;
-  }
-  g_clear_error(&(ppopup->error));
-#else /* !HAVE_LIBNOTIFY */
   ppopup = &popup;
   if(ppopup->window) {
     gtk_widget_destroy(ppopup->window);
     ppopup->window = NULL;
   }
-#endif
   ppopup->timeout_id = 0;
+
   if(ppopup->msg_path) {
     g_free(ppopup->msg_path);
     ppopup->msg_path = NULL;
@@ -227,6 +239,7 @@ static gboolean popup_timeout_fun(gpointer data)
   debug_print("Notification Plugin: Popup closed due to timeout.\n");
   return FALSE;
 }
+#endif
 
 #ifdef HAVE_LIBNOTIFY
 static void default_action_cb(NotifyNotification *notification,
@@ -289,7 +302,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   switch(nftype) {
   case F_TYPE_MAIL:
     summary = _("New Mail message");
-    from    = notification_libnotify_sanitize_str(msginfo->from ? 
+    from    = notification_libnotify_sanitize_str(msginfo->from ?
                                                   msginfo->from : _("(No From)"));
     subj    = notification_libnotify_sanitize_str(msginfo->subject ?
                                                   msginfo->subject : _("(No Subject)"));
@@ -378,7 +391,7 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
 	g_error_free(error);
       }
     }
-    else 
+    else
       debug_print("Picture path does not exist: %s\n",icon_path);
     g_free(icon_path);
   }
@@ -392,11 +405,14 @@ static gboolean notification_libnotify_create(MsgInfo *msginfo,
   else /* This is not fatal */
     debug_print("Notification plugin: Icon could not be loaded.\n");
 
-  /* Never time out, close is handled manually. */
-  notify_notification_set_timeout(ppopup->notification, NOTIFY_EXPIRES_NEVER);
+  /* timeout */
+  notify_notification_set_timeout(ppopup->notification, notify_config.popup_timeout);
 
   /* Category */
   notify_notification_set_category(ppopup->notification, "email.arrived");
+
+  /* get notified on bubble close */
+  g_signal_connect(G_OBJECT(popup->notification), "closed", G_CALLBACK(popup_timeout_fun), NULL);
 
   /* Show the popup */
   if(!notify_notification_show(ppopup->notification, &(ppopup->error))) {
@@ -484,7 +500,7 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
     return FALSE;
   }
 
-  retval = notify_notification_update(ppopup->notification, summary, 
+  retval = notify_notification_update(ppopup->notification, summary,
 				      text, NULL);
   g_free(text);
   if(!retval) {
@@ -552,7 +568,7 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
   g_return_val_if_fail(msginfo, FALSE);
 
   ppopup = &popup;
-  
+
   /* Window */
   ppopup->window = gtkut_window_new(GTK_WINDOW_TOPLEVEL, "notification_popup");
   gtk_window_set_decorated(GTK_WINDOW(ppopup->window), FALSE);
@@ -573,7 +589,7 @@ static gboolean notification_popup_create(MsgInfo *msginfo)
 
   /* Event box */
   ppopup->event_box = gtk_event_box_new();
-  gtk_container_add(GTK_CONTAINER(ppopup->window), ppopup->event_box);  
+  gtk_container_add(GTK_CONTAINER(ppopup->window), ppopup->event_box);
 
   /* Frame */
   ppopup->frame = gtk_frame_new(NULL);
