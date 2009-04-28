@@ -4,4 +4,5 @@ src/notification_foldercheck.c
 src/notification_plugin.c
 src/notification_popup.c
 src/notification_prefs.c
+src/notification_trayicon.c
 

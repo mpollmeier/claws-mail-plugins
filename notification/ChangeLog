@@ -1,3 +1,9 @@
+2009-04-28 [holger]	0.21cvs6
+
+	* po/POTFILES.in
+		Add missing file to potfiles.
+		Patch by Ilya Barygin <conscious@mail.ru>
+
 2009-04-26 [holger]	0.21cvs5
 
 	* src/notification_popup.c
