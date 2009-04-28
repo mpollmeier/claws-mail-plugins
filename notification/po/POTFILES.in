@@ -1,6 +1,7 @@
 # List of source files which contain translatable strings.
 src/notification_banner.c
 src/notification_foldercheck.c
+src/notification_lcdproc.c
 src/notification_plugin.c
 src/notification_popup.c
 src/notification_prefs.c
