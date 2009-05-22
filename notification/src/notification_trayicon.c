@@ -503,6 +503,11 @@ static void app_exit_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
     manage_window_focus_in(mainwin->window, NULL, NULL);
   }
 
+  if (prefs_common.clean_on_exit) {
+    if (!main_window_empty_trash(mainwin, prefs_common.ask_on_clean, TRUE))
+      return;
+  }
+
   app_will_exit(NULL, mainwin);
 }
 

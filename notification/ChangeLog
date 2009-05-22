@@ -1,3 +1,11 @@
+2009-05-22 [holger]	0.21cvs8
+
+	* configure.ac
+	* src/notification_plugin.c
+	* src/notification_trayicon.c
+		Honour prefs_common.clean_on_exit, see
+		Claws Mail 3.7.1cvs60
+
 2009-04-28 [holger]	0.21cvs7
 
 	* po/POTFILES.in
