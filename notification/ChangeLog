@@ -1,3 +1,8 @@
+2009-05-22 [holger]	0.21cvs9
+
+	* src/notification_trayicon.c
+		Replace deprecated status icon tooltip function
+
 2009-05-22 [holger]	0.21cvs8
 
 	* configure.ac
