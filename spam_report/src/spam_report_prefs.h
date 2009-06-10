@@ -23,11 +23,16 @@
 
 #include <glib.h>
 
+#include "procmsg.h"
+
+#define SPAM_REPORT_USERAGENT "Claws Mail SpamReport plugin "
+
 typedef struct _SpamReportPrefs	SpamReportPrefs;
 
 typedef enum {
 	INTF_SIGNALSPAM,
 	INTF_SPAMCOP,
+	INTF_DEBIANSPAM,
 	INTF_LAST
 } InterfaceId;
 
@@ -35,6 +40,7 @@ typedef enum {
 	INTF_HTTP,
 	INTF_HTTP_AUTH,
 	INTF_MAIL,
+	INTF_HTTP_GET,
 	INTF_NULL
 } InterfaceType;
 
@@ -43,6 +49,7 @@ typedef struct _ReportInterface {
 	InterfaceType type;
 	gchar *url;
 	gchar *body;
+	gboolean (*should_report)(MsgInfo *info);
 } ReportInterface;
 
 extern ReportInterface spam_interfaces[];

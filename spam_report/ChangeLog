@@ -1,3 +1,14 @@
+2009-06-10 [mones]	0.3.8cvs2
+
+	* src/spam_report.c
+	* src/spam_report_prefs.c
+	* src/spam_report_prefs.h
+		Added support for spam nomination in Debian
+		mailing lists.
+		Patch based on David Paleino's initial effort
+		collab-maint/claws-mail-debian-spam-plugin.git
+		located at http://git.debian.org/
+
 2009-03-08 [paul]	0.3.8cvs1
 
 	* configure.ac

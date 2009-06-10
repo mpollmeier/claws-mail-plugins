@@ -44,6 +44,7 @@
 #include "menu.h"
 #include "defs.h"
 #include "base64.h"
+#include "procheader.h"
 
 #ifdef USE_PTHREAD
 #include <pthread.h>
@@ -54,14 +55,24 @@
 #include <curl/curlver.h>
 #endif
 
+struct CurlReadWrite {
+        char *data;
+        size_t size;
+};
+
+static gboolean check_debian_listid(MsgInfo *msginfo);
+
 /* this interface struct is probably not enough for the various available 
  * reporting places/methods. It'll be extended as necessary. */
 
 ReportInterface spam_interfaces[] = {
 	{ "Signal-Spam.fr", INTF_HTTP_AUTH, "https://www.signal-spam.fr/api/signaler",
-		"message=%claws_mail_body_b64%"},
-	{ "Spamcop.net", INTF_MAIL, NULL, NULL},
-	{ NULL, INTF_NULL, NULL, NULL}
+		"message=%claws_mail_body_b64%", NULL},
+	{ "Spamcop.net", INTF_MAIL, NULL, NULL, NULL},
+	{ "Debian Lists", INTF_HTTP_GET, 
+		"http://lists.debian.org/cgi-bin/nominate-for-review.pl?Quiet=on&msgid=%claws_mail_msgid%",
+		NULL, check_debian_listid},
+	{ NULL, INTF_NULL, NULL, NULL, NULL}
 };
 
 /* From RSSyl. This should be factorized to the core... */
@@ -128,25 +139,85 @@ static gchar *spamreport_strreplace(gchar *source, gchar *pattern,
 	return new;
 }
 
+static gboolean check_debian_listid(MsgInfo *msginfo)
+{
+	gchar buf[1024];
+	if (!procheader_get_header_from_msginfo(msginfo, buf, sizeof(buf), "List-Id:")) {
+		if (strstr(buf, "lists.debian.org")) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+static void spamreport_http_response_log(gchar *url, long response)
+{
+	switch (response) {
+	case 400: /* Bad Request */
+		log_error(LOG_PROTOCOL, "%s: Bad Request\n", url);
+		break;
+	case 401: /* Not Authorized */
+		log_error(LOG_PROTOCOL, "%s: Wrong login or password\n", url);
+		break;
+	case 404: /* Not Authorized */
+		log_error(LOG_PROTOCOL, "%s: Not found\n", url);
+		break;
+	}
+}
+
+static void *myrealloc(void *pointer, size_t size) {
+        /*
+         * There might be a realloc() out there that doesn't like reallocing
+         * NULL pointers, so we take care of it here.
+         */
+        if (pointer) {
+                return realloc(pointer, size);
+        } else {
+                return malloc(size);
+        }
+}
+
+static size_t curl_writefunction_cb(void *pointer, size_t size, size_t nmemb, void *data) {
+        size_t realsize = size * nmemb;
+        struct CurlReadWrite *mem = (struct CurlReadWrite *)data;
+
+        mem->data = myrealloc(mem->data, mem->size + realsize + 1);
+        if (mem->data) {
+                memcpy(&(mem->data[mem->size]), pointer, realsize);
+                mem->size += realsize;
+                mem->data[mem->size] = 0;
+        }
+        return realsize;
+}
 
 static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar *contents)
 {
-	gchar *reqbody = NULL, *tmp = NULL, *auth = NULL, *b64 = NULL;
+	gchar *reqbody = NULL, *tmp = NULL, *auth = NULL, *b64 = NULL, *geturl = NULL;
 	size_t len_contents;
 	CURL *curl;
 	CURLcode res;
 	long response;
+	struct CurlReadWrite chunk;
+
+	chunk.data = NULL;
+	chunk.size = 0;
 	
 	if (spamreport_prefs.enabled[id] == FALSE) {
 		debug_print("not reporting via %s (disabled)\n", intf->name);
 		return;
 	}
+	if (intf->should_report != NULL && (intf->should_report)(msginfo) == FALSE) {
+		debug_print("not reporting via %s (unsuitable)\n", intf->name);
+		return;
+	}
+
 	debug_print("reporting via %s\n", intf->name);
 	tmp = spamreport_strreplace(intf->body, "%claws_mail_body%", contents);
 	len_contents = strlen(contents);
 	b64 = g_malloc0(B64LEN(len_contents) + 1);
 	base64_encode(b64, contents, len_contents);
 	reqbody = spamreport_strreplace(tmp, "%claws_mail_body_b64%", b64);
+	geturl = spamreport_strreplace(intf->url, "%claws_mail_msgid%", msginfo->msgid);
 	g_free(b64);
 	g_free(tmp);
 	
@@ -161,22 +232,11 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 			curl_easy_setopt(curl, CURLOPT_USERPWD, auth);
 			curl_easy_setopt(curl, CURLOPT_TIMEOUT, prefs_common_get_prefs()->io_timeout_secs);
 			curl_easy_setopt(curl, CURLOPT_USERAGENT,
-                		"Claws Mail SpamReport plugin "
-	                	"(" PLUGINS_URI ")");
+                		SPAM_REPORT_USERAGENT "(" PLUGINS_URI ")");
 			res = curl_easy_perform(curl);
 			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response);
 			curl_easy_cleanup(curl);
-			switch (response) {
-			case 400: /* Bad Request */
-				log_error(LOG_PROTOCOL, "%s: Bad Request\n", intf->url);
-				break;
-			case 401: /* Not Authorized */
-				log_error(LOG_PROTOCOL, "%s: Wrong login or password\n", intf->url);
-				break;
-			case 404: /* Not Authorized */
-				log_error(LOG_PROTOCOL, "%s: Not found\n", intf->url);
-				break;
-			}
+			spamreport_http_response_log(intf->url, response);
 			g_free(auth);
 		}
 		break;
@@ -188,10 +248,32 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 			compose_send(compose);
 		}
 		break;
+	case INTF_HTTP_GET:
+	        curl = curl_easy_init();
+        	curl_easy_setopt(curl, CURLOPT_URL, geturl);
+		curl_easy_setopt(curl, CURLOPT_USERAGENT,
+                		SPAM_REPORT_USERAGENT "(" PLUGINS_URI ")");
+        	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_writefunction_cb);
+	        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
+        	res = curl_easy_perform(curl);
+		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response);
+	        curl_easy_cleanup(curl);
+		spamreport_http_response_log(geturl, response);
+        	/* On success the page should return "OK: nominated <msgid>" */
+		if (chunk.size < 13 || strstr(chunk.data, "OK: nominated") == NULL) {
+			if (chunk.size > 0) {
+				log_error(LOG_PROTOCOL, "%s: response was %s\n", geturl, chunk.data);
+			}
+			else {
+				log_error(LOG_PROTOCOL, "%s: response was empty\n", geturl);
+			}
+		}
+		break;
 	default:
 		g_warning("Unknown method\n");
 	}
 	g_free(reqbody);
+	g_free(geturl);
 }
 
 static void report_spam_cb_ui(GtkAction *action, gpointer data)
@@ -311,8 +393,11 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-	return _("This plugin reports spam to various places. Currently "
-		 "only spam-signal.fr is supported.");
+	return _("This plugin reports spam to various places.\n"
+		 "Currently the following sites or methods are supported:\n\n"
+		 " * spam-signal.fr\n"
+                 " * spamcop.net\n"
+		 " * lists.debian.org nomination system");
 }
 
 const gchar *plugin_type(void)

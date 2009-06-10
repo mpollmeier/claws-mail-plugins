@@ -58,6 +58,7 @@ static PrefParam param[] = {
         {"signalspam_pass", "", &spamreport_prefs.pass[INTF_SIGNALSPAM], P_PASSWORD, NULL, NULL, NULL},
 	{"spamcop_enabled",    "FALSE", &spamreport_prefs.enabled[INTF_SPAMCOP], P_BOOL, NULL, NULL, NULL},
 	{"spamcop_user",    "", &spamreport_prefs.user[INTF_SPAMCOP], P_STRING, NULL, NULL, NULL},
+	{"debianspam_enabled", "FALSE", &spamreport_prefs.enabled[INTF_DEBIANSPAM], P_BOOL, NULL, NULL, NULL},
        {0,0,0,0,0,0,0}
 };
 
@@ -155,8 +156,10 @@ static void create_spamreport_prefs_page(PrefsPage *page,
 		gtk_table_attach(GTK_TABLE(table), prefs_page->user_entry[i], 1, 2, 1, 2,
 				GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 
 				0, 0);
-		gtk_widget_show(tmp);
-		gtk_widget_show(prefs_page->user_entry[i]);
+		if (spam_interfaces[i].type != INTF_HTTP_GET) {
+			gtk_widget_show(tmp);
+			gtk_widget_show(prefs_page->user_entry[i]);
+		}
 
 		tmp = gtk_label_new(_("Password:"));
 		gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 2, 3,
@@ -165,7 +168,7 @@ static void create_spamreport_prefs_page(PrefsPage *page,
 		gtk_table_attach(GTK_TABLE(table), prefs_page->pass_entry[i], 1, 2, 2, 3,
 				GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 
 				0, 0);
-		if (spam_interfaces[i].type != INTF_MAIL) {
+		if (spam_interfaces[i].type != INTF_MAIL && spam_interfaces[i].type != INTF_HTTP_GET) {
 			gtk_widget_show(tmp);
 			gtk_widget_show(prefs_page->pass_entry[i]);
 		}
