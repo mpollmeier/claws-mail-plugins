@@ -1250,7 +1250,7 @@ static gchar *write_headers(PrefsAccount 	*account,
 		g_snprintf(msgid, sizeof(msgid), "%s", "");
 	}
 
-	generate_msgid(msgid, sizeof(msgid));
+	generate_msgid(msgid, sizeof(msgid), account->address);
 
 	result = g_strdup_printf("%s"
 				"From: %s <%s>\n"

@@ -183,7 +183,7 @@ static void create_meeting_from_message_cb_ui(GtkAction *action, gpointer data)
 			} else {
 				g_snprintf(uid, sizeof(uid), "%s", "");
 			}
-			generate_msgid(uid, 255);
+			generate_msgid(uid, 255, account->address);
 			
 			event = vcal_manager_new_event(uid,
 					org, NULL, NULL/*location*/, summary, description, 

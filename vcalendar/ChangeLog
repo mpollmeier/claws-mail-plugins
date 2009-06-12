@@ -1,3 +1,11 @@
+2009-06-12 [iwkse]	2.0.4cvs10
+
+	* src/vcalendar.c
+	* src/vcal_meeting_gtk.c
+	* src/vcal_manager.c
+        Fix generate_msgid to reflect
+        API change
+
 2009-04-03 [colin]	2.0.4cvs9
 
 	* libical/libical/Makefile.am

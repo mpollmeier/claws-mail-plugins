@@ -1262,7 +1262,7 @@ static gboolean send_meeting_cb(GtkButton *widget, gpointer data)
 	} else {
 		g_snprintf(buf, sizeof(buf), "%s", "");
 	}
-	generate_msgid(buf, 255);
+	generate_msgid(buf, 255, account->address);
 
 	if (meet->uid) {
 		uid 	= g_strdup(meet->uid);
