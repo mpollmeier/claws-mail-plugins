@@ -22,16 +22,16 @@
 
 #include <glib.h>
 #include <webkit/webkitwebsettings.h>
-typedef struct _FancyPrefs	FancyPrefs;
+typedef struct _FancyPrefs FancyPrefs;
 
 struct _FancyPrefs
 {
-	WebKitWebSettings *web_settings;
-	
-	gboolean auto_load_images;
-	gboolean block_links;
-	gboolean enable_scripts;
-	gboolean enable_plugins;
+    WebKitWebSettings *web_settings;
+    
+    gboolean auto_load_images;
+    gboolean block_links;
+    gboolean enable_scripts;
+    gboolean enable_plugins;
 };
 
 extern FancyPrefs fancy_prefs;

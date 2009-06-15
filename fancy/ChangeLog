@@ -1,3 +1,15 @@
+2009-06-15 [iwkse]	0.9.6cvs13
+
+	* configure.ac
+	* src/Makefile.am
+	* src/fancy_viewer.c
+	* src/fancy_viewer.h
+	* src/fancy_prefs.c
+	* src/fancy_prefs.h
+        Implement get_selection interface
+        Implement print interface
+        Better code indentation
+
 2009-03-20 [iwkse]	0.9.6cvs12
 
 	* src/fancy_viewer.c

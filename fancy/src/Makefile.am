@@ -12,6 +12,7 @@ fancy_la_SOURCES = \
 fancy_la_LDFLAGS = \
 	-avoid-version -module \
 	$(GTK_LIBS) \
+    $(GTKPRINTUNIX_LIBS) \
 	$(WEBKIT_LIBS)
 
 INCLUDES = \
@@ -25,5 +26,6 @@ AM_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(OPENSSL_CFLAGS) \
+    $(GTKPRINTUNIX_CFLAGS) \
 	$(WEBKIT_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\"

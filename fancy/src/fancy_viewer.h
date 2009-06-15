@@ -57,30 +57,31 @@
 typedef struct _FancyViewer FancyViewer;
 struct _FancyViewer
 {
-	MimeViewer		mimeviewer;
-	GtkWidget		*scrollwin;
-	WebKitWebView	*view;
-	GtkWidget		*vbox;  
-	GtkWidget		*l_link;
-	GtkWidget		*zoom_100;
-	GtkWidget		*zoom_in;
-	GtkWidget		*zoom_out;
-	GtkWidget		*stop_loading;
-	GtkWidget		*ev_zoom_100;
-	GtkWidget		*ev_zoom_in;
-	GtkWidget		*ev_zoom_out;
-	GtkWidget		*ev_stop_loading;
-	GtkWidget		*progress;
-	WebKitWebSettings *settings;	
-	gboolean		load_page;
+    MimeViewer        mimeviewer;
+    GtkWidget         *scrollwin;
+    WebKitWebView     *view;
+    GtkWidget         *vbox;  
+    GtkWidget         *l_link;
+    GtkWidget         *zoom_100;
+    GtkWidget         *zoom_in;
+    GtkWidget         *zoom_out;
+    GtkWidget         *stop_loading;
+    GtkWidget         *ev_zoom_100;
+    GtkWidget         *ev_zoom_in;
+    GtkWidget         *ev_zoom_out;
+    GtkWidget         *ev_stop_loading;
+    GtkWidget         *progress;
+    WebKitWebSettings *settings;    
+    gboolean          load_page;
+    gboolean          printing;
 
-	const gchar		*cur_link;
-	gchar			*filename;
-	MimeInfo		*to_load;
-	gulong			doc_handle;
-	gint		 	tag;
-	gint		 	loading;
-	gint		 	stop_previous;
+    const gchar       *cur_link;
+    gchar             *filename;
+    MimeInfo          *to_load;
+    gulong            doc_handle;
+    gint              tag;
+    gint              loading;
+    gint              stop_previous;
 };
 
 #define GOOGLE_SEARCH "http://www.google.com/search?hl=en&q="
