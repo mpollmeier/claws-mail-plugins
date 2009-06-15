@@ -1,3 +1,9 @@
+2009-06-15 [iwkse]	0.9.6cvs14
+
+	* configure.ac
+	* src/Makefile.am
+        Better code indentation
+
 2009-06-15 [iwkse]	0.9.6cvs13
 
 	* configure.ac

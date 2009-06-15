@@ -9,19 +9,19 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=9
 MICRO_VERSION=6
-EXTRA_VERSION=13
+EXTRA_VERSION=14
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
         VERSION=${MAJOR_VERSION}.${MINOR_VERSION} 
     else
-		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}
     fi
 else
     if test \( $MICRO_VERSION -eq 0 \); then
         VERSION=${MAJOR_VERSION}.${MINOR_VERSION}cvs${EXTRA_VERSION}
     else
-		VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
+        VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${MICRO_VERSION}cvs${EXTRA_VERSION}
     fi
 fi
 
@@ -41,8 +41,8 @@ AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h sys/file.h unistd.h paths.h \
-		 sys/param.h sys/utsname.h sys/select.h \
-		 wchar.h wctype.h locale.h netdb.h)
+                 sys/param.h sys/utsname.h sys/select.h \
+                 wchar.h wctype.h locale.h netdb.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -80,11 +80,11 @@ dnl Check for GLib
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.6 gmodule-2.0 >= 2.6 gobject-2.0 >= 2.6 gthread-2.0 >= 2.6)
       
 PKG_CHECK_MODULES(GTKPRINTUNIX, gtk+-unix-print-2.0, ac_cv_enable_gtkprint=yes, ac_cv_enable_gtkprint=no)        
-	if test x$ac_cv_enable_gtkprint = xyes; then
-		AC_DEFINE(USE_PRINTUNIX, 1, Define if you want gtk+-unix-print support)
-	else
-		AC_MSG_RESULT(not found)
-	fi
+    if test x$ac_cv_enable_gtkprint = xyes; then
+        AC_DEFINE(USE_PRINTUNIX, 1, Define if you want gtk+-unix-print support)
+    else
+        AC_MSG_RESULT(not found)
+    fi
 AC_SUBST(GTKPRINTUNIX_CFLAGS)
 AC_SUBST(GTKPRINTUNIX_LIBS)
 
@@ -99,14 +99,14 @@ PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
 dnl Check for WebKit
 PKG_CHECK_MODULES(WEBKIT, webkit-1.0, ,
-		  AC_MSG_ERROR([Can't find GTK+ WebKit library.]))
+          AC_MSG_ERROR([Can't find GTK+ WebKit library.]))
 AC_SUBST(WEBKIT_LIBS)
 AC_SUBST(WEBKIT_CFLAGS)
 
 dnl Find curl-config
 AC_PATH_PROG(CURL_CONFIG, curl-config, no)
 if test x$CURL_CONFIG = xno ; then
-	AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
+    AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
 fi
 CURL_CFLAGS="`$CURL_CONFIG --cflags`"
 
@@ -122,13 +122,13 @@ AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
 
 dnl check for pthread support
 AC_ARG_ENABLE(pthread,
-	[  --disable-pthread           Disable pthread support],
-	[ac_cv_enable_pthread=$enableval], [ac_cv_enable_pthread=yes])
+    [  --disable-pthread           Disable pthread support],
+    [ac_cv_enable_pthread=$enableval], [ac_cv_enable_pthread=yes])
 AC_MSG_CHECKING([whether to use pthread])
 if test x$ac_cv_enable_pthread = xno; then
-	AC_MSG_RESULT(no)
+    AC_MSG_RESULT(no)
 else
-	AC_MSG_RESULT(yes)
+    AC_MSG_RESULT(yes)
 
         # For W32 we need to use a special ptrhead lib. In this case we can't
         # use AC_CHECK_LIB because it has no means of checking for a
@@ -137,16 +137,16 @@ else
         if test -n "${pthread_name}" ; then
            ac_cv_enable_pthread=yes
         else
-	AC_CHECK_LIB(pthread, pthread_create, :, ac_cv_enable_pthread=no)
+    AC_CHECK_LIB(pthread, pthread_create, :, ac_cv_enable_pthread=no)
         fi
-	AC_CHECK_HEADERS(pthread.h, :, ac_cv_enable_pthread=no)
+    AC_CHECK_HEADERS(pthread.h, :, ac_cv_enable_pthread=no)
 
-	if test x$ac_cv_enable_pthread = xyes; then
-		AC_DEFINE(USE_PTHREAD, 1, Define if you have pthread)
+    if test x$ac_cv_enable_pthread = xyes; then
+        AC_DEFINE(USE_PTHREAD, 1, Define if you have pthread)
                 if test -z "${pthread_name}" ; then
-		PTHREAD_LIBS="-lpthread"
-	fi
-	fi
+        PTHREAD_LIBS="-lpthread"
+    fi
+    fi
 
 fi
 AC_SUBST(PTHREAD_LIBS)
