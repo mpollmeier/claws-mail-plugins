@@ -1,70 +1,70 @@
-2009-06-15 [iwkse]	0.9.6cvs14
+2009-06-15 [iwkse]    0.9.6cvs14
 
-	* configure.ac
-	* src/Makefile.am
+    * configure.ac
+    * src/Makefile.am
         Better code indentation
 
-2009-06-15 [iwkse]	0.9.6cvs13
+2009-06-15 [iwkse]    0.9.6cvs13
 
-	* configure.ac
-	* src/Makefile.am
-	* src/fancy_viewer.c
-	* src/fancy_viewer.h
-	* src/fancy_prefs.c
-	* src/fancy_prefs.h
+    * configure.ac
+    * src/Makefile.am
+    * src/fancy_viewer.c
+    * src/fancy_viewer.h
+    * src/fancy_prefs.c
+    * src/fancy_prefs.h
         Implement get_selection interface
         Implement print interface
         Better code indentation
 
-2009-03-20 [iwkse]	0.9.6cvs12
+2009-03-20 [iwkse]    0.9.6cvs12
 
-	* src/fancy_viewer.c
-		Fix wrong callback arguments
+    * src/fancy_viewer.c
+        Fix wrong callback arguments
 
-2009-03-20 [iwkse]	0.9.6cvs11
+2009-03-20 [iwkse]    0.9.6cvs11
 
-	* src/fancy_viewer.c
-	* src/fancy_viewer.h
-		Add a button for stop loading the message
+    * src/fancy_viewer.c
+    * src/fancy_viewer.h
+        Add a button for stop loading the message
 
-2009-03-20 [iwkse]	0.9.6cvs10
+2009-03-20 [iwkse]    0.9.6cvs10
 
-	* README
-		Update the info link
+    * README
+        Update the info link
 
-2009-03-20 [iwkse]	0.9.6cvs9
+2009-03-20 [iwkse]    0.9.6cvs9
 
-	* src/fancy_viewer.c
-		Clean the viewer before loading
-		a new message
+    * src/fancy_viewer.c
+        Clean the viewer before loading
+        a new message
 
-2009-03-18 [iwkse]	0.9.6cvs8
+2009-03-18 [iwkse]    0.9.6cvs8
 
-	* README
-		Update info
+    * README
+        Update info
 
-2009-03-18 [iwkse]	0.9.6cvs7
+2009-03-18 [iwkse]    0.9.6cvs7
 
-	* README
-		Update info in the file
+    * README
+        Update info in the file
 
-2009-03-17 [iwkse]	0.9.6cvs6
+2009-03-17 [iwkse]    0.9.6cvs6
 
-	* src/fancy_viewer.c
-		fix description of the plugin
+    * src/fancy_viewer.c
+        fix description of the plugin
 
-2009-03-17 [iwkse]	0.9.6cvs5
+2009-03-17 [iwkse]    0.9.6cvs5
 
-	* configure.ac
-		switch svn to cvs prefix
+    * configure.ac
+        switch svn to cvs prefix
 
-2009-03-17 [iwkse]	0.9.6cvs4
+2009-03-17 [iwkse]    0.9.6cvs4
 
-	* configure.ac
-		svn to cvs prefix
+    * configure.ac
+        svn to cvs prefix
 
-2009-03-17 [iwkse]	0.9.6cvs3
+2009-03-17 [iwkse]    0.9.6cvs3
 
-	* configure.ac
-		Switch svn to cvs prefix
+    * configure.ac
+        Switch svn to cvs prefix
 
