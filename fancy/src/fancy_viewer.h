@@ -83,7 +83,7 @@ struct _FancyViewer
     gint              loading;
     gint              stop_previous;
 };
-
+#define CTRL_KEY 4
 #define GOOGLE_SEARCH "http://www.google.com/search?hl=en&q="
 
 #endif

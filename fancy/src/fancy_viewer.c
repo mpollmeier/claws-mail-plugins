@@ -63,6 +63,9 @@ job_complete_cb (GtkPrintJob *print_job, FancyViewer *viewer, GError *error);
 
 static gint keypress_events_cb (GtkWidget *widget, GdkEventKey *event,
                                 FancyViewer *viewer);
+static void zoom_in_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
+static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
+static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -470,14 +473,15 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                                 "Search the Web")) {
             gtk_label_set_text(GTK_LABEL(menul), _("Search the Web"));
                 
-        if (!fancy_prefs.block_links)
-            gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
+            if (!fancy_prefs.block_links) {
+                gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
 
-            GtkImageMenuItem *m_search = GTK_IMAGE_MENU_ITEM(menuitem);
-            g_signal_connect(G_OBJECT(m_search), "activate",
-                             G_CALLBACK(search_the_web_cb),
-                             (gpointer *) viewer);
+                GtkImageMenuItem *m_search = GTK_IMAGE_MENU_ITEM(menuitem);
+                g_signal_connect(G_OBJECT(m_search), "activate",
+                                 G_CALLBACK(search_the_web_cb),
+                                 (gpointer *) viewer);
             }
+        }
 
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                 "Open Link in New Window" )) {
@@ -488,16 +492,16 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
             g_signal_connect(G_OBJECT(m_new), "activate",
                              G_CALLBACK(open_in_browser_cb),
                              (gpointer *) viewer);
-            }
+        }
             
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                 "Open Image in New Window" )) {
-                gtk_label_set_text(GTK_LABEL(menul), _("Open Image"));
-                GtkImageMenuItem *m_image = GTK_IMAGE_MENU_ITEM(menuitem);
-                g_signal_connect(G_OBJECT(m_image), "activate",
-                                 G_CALLBACK(open_image_cb),
-                                 (gpointer *) viewer);
-            }
+            gtk_label_set_text(GTK_LABEL(menul), _("Open Image"));
+            GtkImageMenuItem *m_image = GTK_IMAGE_MENU_ITEM(menuitem);
+            g_signal_connect(G_OBJECT(m_image), "activate",
+                             G_CALLBACK(open_image_cb),
+                             (gpointer *) viewer);
+        }
 
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                     "Copy Link Location" )) {
@@ -532,7 +536,7 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
             g_signal_connect(G_OBJECT(m_oimage), "activate",
                              G_CALLBACK(open_image_cb),
                              (gpointer *) viewer);
-            }
+        }
 
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                                    "Save Image As" )) {
@@ -573,11 +577,18 @@ static gboolean populate_popup_cb (WebKitWebView *view, GtkWidget *menu,
 static gint keypress_events_cb (GtkWidget *widget, GdkEventKey *event,
                                 FancyViewer *viewer)
 {
-    debug_print("keyval: %d\n", event->keyval);
+    if (event->state == CTRL_KEY) {
     switch (event->keyval) {
     case GDK_plus:
-        debug_print("ressed\n");
+        zoom_in_cb(viewer->ev_zoom_in, NULL, viewer);
         break;
+    case GDK_period:
+        zoom_100_cb(viewer->ev_zoom_100, NULL, viewer);
+        break;
+    case GDK_minus:
+        zoom_out_cb(viewer->ev_zoom_out, NULL, viewer);
+        break;
+    }
     }
     return FALSE;
 }
@@ -615,8 +626,8 @@ static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer)
 static MimeViewer *fancy_viewer_create(void)
 {
     FancyViewer    *viewer;
-    GtkAdjustment     *adj;
-    GtkWidget        *hbox;
+    GtkAdjustment  *adj;
+    GtkWidget      *hbox;
     
     debug_print("fancy_viewer_create\n");
 
@@ -671,13 +682,13 @@ static MimeViewer *fancy_viewer_create(void)
 
 
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_100), 
-                                                   FALSE);
+                                     FALSE);
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_in), 
-                                                   FALSE);
+                                     FALSE);
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_out), 
-                                                   FALSE);
+                                     FALSE);
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_stop_loading), 
-                                                   FALSE);
+                                     FALSE);
 
     gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_100), viewer->zoom_100);
     gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_in), viewer->zoom_in);
@@ -712,41 +723,29 @@ static MimeViewer *fancy_viewer_create(void)
     gtk_widget_show(GTK_WIDGET(viewer->view));
     
     g_signal_connect(G_OBJECT(viewer->view), "load-started", 
-                     G_CALLBACK(load_start_cb), 
-                     viewer);
+                     G_CALLBACK(load_start_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "load-finished", 
-                     G_CALLBACK(load_finished_cb), 
-                     viewer);
+                     G_CALLBACK(load_finished_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "hovering-over-link", 
-                     G_CALLBACK(over_link_cb), 
-                     viewer);
+                     G_CALLBACK(over_link_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "load-progress-changed", 
-                     G_CALLBACK(load_progress_cb), 
-                     viewer);
+                     G_CALLBACK(load_progress_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "navigation-requested",
-                     G_CALLBACK(navigation_requested_cb),
-                     viewer);
+                     G_CALLBACK(navigation_requested_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "populate-popup",
-                     G_CALLBACK(populate_popup_cb),
-                     viewer);
+                     G_CALLBACK(populate_popup_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "button-release-event",
-                     G_CALLBACK(release_button_cb),
-                     viewer);
+                     G_CALLBACK(release_button_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->ev_zoom_100), "button-press-event",
-                     G_CALLBACK(zoom_100_cb),
-                     (gpointer*)viewer);
+                     G_CALLBACK(zoom_100_cb), (gpointer*)viewer);
     g_signal_connect(G_OBJECT(viewer->ev_zoom_in), "button-press-event",
-                     G_CALLBACK(zoom_in_cb),
-                     (gpointer *)viewer);
+                     G_CALLBACK(zoom_in_cb), (gpointer *)viewer);
     g_signal_connect(G_OBJECT(viewer->ev_zoom_out), "button-press-event",
-                     G_CALLBACK(zoom_out_cb),
-                     (gpointer *)viewer);
+                     G_CALLBACK(zoom_out_cb), (gpointer *)viewer);
     g_signal_connect(G_OBJECT(viewer->ev_stop_loading), "button-press-event",
-                     G_CALLBACK(stop_loading_cb),
-                     viewer);
+                     G_CALLBACK(stop_loading_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "key_press_event",
-                     G_CALLBACK(keypress_events_cb),
-                     viewer);
+                     G_CALLBACK(keypress_events_cb), viewer);
 
     viewer->filename = NULL;
 
@@ -769,7 +768,7 @@ gint plugin_init(gchar **error)
                 "fancy_viewer", NULL); */
 
     if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
-                VERSION_NUMERIC, _("Fancy"), error))
+                              VERSION_NUMERIC, _("Fancy"), error))
         return -1;
     fancy_prefs_init();
     
@@ -818,7 +817,7 @@ const gchar *plugin_version(void)
 struct PluginFeature *plugin_provides(void)
 {
     static struct PluginFeature features[] = 
-        { {PLUGIN_MIMEVIEWER, "text/html"},
-          {PLUGIN_NOTHING, NULL}};
+        {{PLUGIN_MIMEVIEWER, "text/html"},
+         {PLUGIN_NOTHING, NULL}};
     return features;
 }
