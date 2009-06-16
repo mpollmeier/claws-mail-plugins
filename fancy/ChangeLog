@@ -1,3 +1,10 @@
+2009-06-16 [iwkse]	0.9.6cvs15
+
+	* src/fancy_viewer.c
+	* src/fancy_viewer.h
+        Fix memory corruption while
+        using popup actions
+
 2009-06-15 [iwkse]    0.9.6cvs14
 
     * configure.ac

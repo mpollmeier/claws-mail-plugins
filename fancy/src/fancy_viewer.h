@@ -75,7 +75,7 @@ struct _FancyViewer
     gboolean          load_page;
     gboolean          printing;
 
-    const gchar       *cur_link;
+    gchar             *cur_link;
     gchar             *filename;
     MimeInfo          *to_load;
     gulong            doc_handle;
