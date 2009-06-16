@@ -1,3 +1,9 @@
+2009-06-16 [iwkse]	0.9.6cvs17
+
+	* src/fancy_viewer.c
+            Fix search for the web broken
+            in previous commit
+
 2009-06-16 [iwkse]	0.9.6cvs16
 
 	* src/fancy_viewer.c

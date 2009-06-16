@@ -113,6 +113,7 @@ static gint fancy_show_mimepart_real(MimeViewer *_viewer)
         webkit_web_view_open(viewer->view, tmp);
         g_free(tmp);
     }
+    gtk_widget_grab_focus(GTK_WIDGET(viewer->view));
     viewer->loading = FALSE;
     return FALSE;
 }
@@ -274,7 +275,8 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     webkit_web_view_open(viewer->view, "about:blank");
     debug_print("fancy_clear_viewer\n");
     viewer->to_load = NULL;
-    g_free(viewer->cur_link);
+    if(viewer->cur_link)
+        g_free(viewer->cur_link);
     vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
     vadj->value = 0.0;
     g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);
@@ -342,7 +344,6 @@ static void over_link_cb(WebKitWebView *view, const gchar *wtf,
                          const gchar *link, FancyViewer *viewer, void *wtfa)
 {
     gtk_label_set_text(GTK_LABEL(viewer->l_link), link);
-    debug_print("link: %s\n", link);
     if(link) {
         if (viewer->cur_link) {
             g_free(viewer->cur_link);
@@ -475,7 +476,7 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                 
             if (!fancy_prefs.block_links) {
                 gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
-
+            } else {
                 GtkImageMenuItem *m_search = GTK_IMAGE_MENU_ITEM(menuitem);
                 g_signal_connect(G_OBJECT(m_search), "activate",
                                  G_CALLBACK(search_the_web_cb),
