@@ -43,6 +43,8 @@ LT_AC_PROG_RC
 AC_LIBTOOL_RC
 AC_LIB_PREFIX
 AC_PROG_LIBTOOL
+AC_SYS_LARGEFILE
+
 
 case "$host" in
   *-*-solaris*)

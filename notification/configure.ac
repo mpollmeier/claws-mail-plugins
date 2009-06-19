@@ -42,6 +42,8 @@ LT_AC_PROG_RC
 AC_LIBTOOL_RC
 AC_LIB_PREFIX
 AC_PROG_LIBTOOL
+AC_SYS_LARGEFILE
+
 
 dnl Copied from the official gtk+-2 configure.in
 AC_MSG_CHECKING([for some Win32 platform])

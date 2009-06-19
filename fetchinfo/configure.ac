@@ -34,6 +34,8 @@ AM_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_CPP
 AM_PROG_LIBTOOL
+AC_SYS_LARGEFILE
+
 
 AC_MSG_CHECKING([if gcc supports -Wno-pointer-sign])
 _gcc_cflags_save=$CFLAGS
