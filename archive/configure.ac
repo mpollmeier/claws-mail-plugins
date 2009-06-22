@@ -13,7 +13,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=4
-EXTRA_VERSION=2
+EXTRA_VERSION=3
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -48,8 +48,6 @@ AC_PROG_MAKE_SET
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
-AC_SYS_LARGEFILE
-
 
 # Checks for libraries.
 #
@@ -76,10 +74,10 @@ AC_SUBST(CLAWS_MAIL_PLUGINDIR)
 
 if test $USE_MAINTAINER_MODE = yes; then
     CFLAGS="-g -Werror -Wall"
-    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
 else
-    CFLAGS="$CFLAGS -O2 -Wall"
+    CFLAGS="$CFLAGS -Wall"
 fi
+CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
 
 ALL_LINGUAS="ca cs es fr hu ja nl pt_BR ru"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
@@ -154,8 +152,8 @@ AC_CONFIG_COMMANDS(
     echo -e "Email addresses can be found in the AUTHORS file."
     echo ""]],
     [
-     CFLAGS="$CFLAGS",
-     ARCHIVE_VER="$ARCHIVE_VER"
+     CFLAGS="$CFLAGS".
+     ARCHIVE_VER="$ARCHIVE_VER".
     ]
 )
 
