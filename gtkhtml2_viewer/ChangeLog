@@ -1,3 +1,8 @@
+2009-06-29 [colin]	0.23.0cvs3
+
+	* libgtkhtml/layout/htmlboxtext.c
+		Fix bug 1937, 'another crasher in gtkhtml plugin'
+
 2009-03-08 [paul]	0.23.0cvs2
 
 	* configure.ac

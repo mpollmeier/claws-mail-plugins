@@ -224,8 +224,11 @@ html_box_text_canonicalize (guchar *src, guchar *dst, gint src_len, gboolean pre
 			*dst++ = (seen_newline)?'\n':' ';
 		} else {
 			bytes = g_utf8_skip[(unsigned int)*src]; 
-			for (i=0;i<bytes;i++)
+			for (i=0;i<bytes;i++) {
 				*dst++ = *src++;
+				if (src == src_end)
+					break;
+			}
 		}
 	}
 	return dst;
@@ -277,8 +280,11 @@ pre_convert_whitespace (guchar *text, int length, gint line_offset, gint *out_le
 		}
 		else {
 			bytes = g_utf8_skip[(unsigned int)*text]; 
-			for (i=0;i<bytes;i++)
+			for (i=0;i<bytes;i++) {
 				*dst++ = *text++;
+				if (text == end)
+					break;
+			}
 		}
 	}
 	*out_len = dst - res;
