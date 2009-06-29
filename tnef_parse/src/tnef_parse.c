@@ -365,6 +365,8 @@ static gboolean tnef_parse (MimeParser *parser, MimeInfo *mimeinfo)
 		sub_info = NULL;
 		
 		att = att->next;
+
+		g_free(filename);
 	}
 	
 	TNEFFree(&tnef);
