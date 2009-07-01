@@ -132,3 +132,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/claws.def;  ) > 0.23.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.168 -r 1.1.2.169 configure.ac;  diff -u /dev/null po/ja.po;  ) > 0.23.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 libgtkhtml/layout/htmlboxtext.c;  ) > 0.23.0cvs3.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/css/cssdebug.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libgtkhtml/css/cssparser.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/layout/html/htmlboxembeddedimage.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 libgtkhtml/layout/html/htmlboximage.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 libgtkhtml/view/htmlview.c;  ) > 0.23.0cvs4.patchset

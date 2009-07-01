@@ -280,7 +280,7 @@ css_debug_print_statement (CssStatement *stat)
 		css_debug_print_ruleset (stat->s.ruleset);
 		break;
 	default:
-		g_error ("eek");
+		g_warning ("eek");
 	}
 }
 

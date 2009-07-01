@@ -335,7 +335,7 @@ void
 html_box_image_set_image (HtmlBoxImage *box, HtmlImage *image)
 {
 	if (box->image)
-		g_error ("support image replacing");
+		g_warning ("support image replacing");
 
 	g_signal_connect (G_OBJECT (image), "resize_image",
 			  G_CALLBACK (html_box_image_resize_image), box);

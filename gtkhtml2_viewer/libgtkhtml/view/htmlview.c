@@ -2018,7 +2018,7 @@ html_view_text_updated (HtmlDocument *document, DomNode *node, HtmlView *view)
 		html_box_set_unrelayouted_up (box);
 	}
 	else {
-		g_error ("talk to the box factory here!");
+		g_warning ("talk to the box factory here!");
 	}
 
 	html_view_relayout_when_idle (view);
@@ -2177,7 +2177,7 @@ html_view_style_updated (HtmlDocument *document, DomNode *node, HtmlStyleChange 
 	case HTML_STYLE_CHANGE_NONE:
 		break;
 	default:
-		g_error ("fix me!");
+		g_warning ("fix me!");
 	}
 }
 

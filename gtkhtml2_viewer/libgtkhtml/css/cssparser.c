@@ -160,7 +160,7 @@ css_parser_parse_escape (const gchar *p, gint start_pos, gint end_pos, gunichar 
 	}
 	else if (c & 0x80) {
 		/* We have a (needlessly) escaped nonascii character */
-		g_error ("eek, we don't handle utf8 yet");
+		g_warning ("eek, we don't handle utf8 yet");
 	}
 
 	
@@ -581,7 +581,6 @@ css_parser_parse_term (const gchar *buffer, gint start_pos, gint end_pos, CssVal
 			}
 		}
 
-/*		g_error ("t1"); */
 		return -1;
 	}
 
@@ -807,7 +806,7 @@ css_parser_parse_simple_selector (const gchar *buffer, gint start_pos, gint end_
 			pos = css_parser_parse_ident (buffer, pos + 1, end_pos, &id);
 
 			if (pos == -1) {
-				g_error ("1. return -1");
+				g_warning ("1. return -1");
 				return -1;
 			}
 			

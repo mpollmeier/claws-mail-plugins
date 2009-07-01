@@ -1,3 +1,13 @@
+2009-07-01 [colin]	0.23.0cvs4
+
+	* libgtkhtml/css/cssdebug.c
+	* libgtkhtml/css/cssparser.c
+	* libgtkhtml/layout/html/htmlboxembeddedimage.c
+	* libgtkhtml/layout/html/htmlboximage.c
+	* libgtkhtml/view/htmlview.c
+		Fix bug 1939, ' Error parsing CSS in HTML message 
+		causes claws-mail to quit': don't use g_error...
+
 2009-06-29 [colin]	0.23.0cvs3
 
 	* libgtkhtml/layout/htmlboxtext.c
