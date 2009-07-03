@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lpoppler_viewer-0\n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2008-04-14 00:23+0300\n"
-"PO-Revision-Date: 2008-04-14 10:41+0300\n"
+"POT-Creation-Date: 2009-07-01 16:31+0300\n"
+"PO-Revision-Date: 2009-07-01 16:43+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -68,83 +68,83 @@ msgstr "Optimointi:"
 msgid "PDF Viewer Plugin"
 msgstr "PDF‐näytinliitännäinen"
 
-#: src/poppler_viewer.c:1130
+#: src/poppler_viewer.c:1126
 msgid "Loading..."
 msgstr "Ladataan…"
 
-#: src/poppler_viewer.c:1180
+#: src/poppler_viewer.c:1176
 #, c-format
 msgid "%s Document"
 msgstr "%s‐asiakirja"
 
-#: src/poppler_viewer.c:1187
+#: src/poppler_viewer.c:1182
 #, c-format
 msgid "%d page"
 msgid_plural "%d pages"
 msgstr[0] "%d sivu"
 msgstr[1] "%d sivua"
 
-#: src/poppler_viewer.c:1578 src/poppler_viewer.c:1819
+#: src/poppler_viewer.c:1572 src/poppler_viewer.c:1790
 msgid "Document Index"
 msgstr "Asiakirjahakemisto"
 
-#: src/poppler_viewer.c:1650
+#: src/poppler_viewer.c:1646
 msgid "Name"
 msgstr "Nimi"
 
-#: src/poppler_viewer.c:1765
+#: src/poppler_viewer.c:1758
 msgid "First Page"
 msgstr "Ensimmäinen sivu"
 
-#: src/poppler_viewer.c:1770
+#: src/poppler_viewer.c:1761
 msgid "Previous Page"
 msgstr "Edellinen sivu"
 
-#: src/poppler_viewer.c:1775
+#: src/poppler_viewer.c:1764
 msgid "Next Page"
 msgstr "Seuraava sivu"
 
-#: src/poppler_viewer.c:1780
+#: src/poppler_viewer.c:1767
 msgid "Last Page"
 msgstr "Viimeinen sivu"
 
-#: src/poppler_viewer.c:1785
+#: src/poppler_viewer.c:1770
 msgid "Zoom In"
 msgstr "Zoomaa sisään"
 
-#: src/poppler_viewer.c:1789
+#: src/poppler_viewer.c:1772
 msgid "Zoom Out"
 msgstr "Zoomaa ulos"
 
-#: src/poppler_viewer.c:1794
+#: src/poppler_viewer.c:1775
 msgid "Fit Page"
 msgstr "Sivun kokoiseksi"
 
-#: src/poppler_viewer.c:1799
+#: src/poppler_viewer.c:1778
 msgid "Fit Page Width"
 msgstr "Sivun levyiseksi"
 
-#: src/poppler_viewer.c:1804
+#: src/poppler_viewer.c:1781
 msgid "Rotate Left"
 msgstr "Kierrä vasemmalle"
 
-#: src/poppler_viewer.c:1809
+#: src/poppler_viewer.c:1784
 msgid "Rotate Right"
 msgstr "Kierrä oikealle"
 
-#: src/poppler_viewer.c:1814
+#: src/poppler_viewer.c:1787
 msgid "Document Info"
 msgstr "Asiakirjan tiedot"
 
-#: src/poppler_viewer.c:1823
+#: src/poppler_viewer.c:1792
 msgid "Page Number"
 msgstr "Sivunumero"
 
-#: src/poppler_viewer.c:1827
+#: src/poppler_viewer.c:1794
 msgid "Zoom Factor"
 msgstr "Zoom‐kerroin"
 
-#: src/poppler_viewer.c:1931
+#: src/poppler_viewer.c:1902
 #, c-format
 msgid ""
 "This plugin enables the viewing of PDF and PostScript attachments using the "
@@ -157,7 +157,7 @@ msgstr ""
 "\n"
 "Palaute on tervetullutta iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1940 src/poppler_viewer.c:1955
+#: src/poppler_viewer.c:1910 src/poppler_viewer.c:1925
 msgid "PDF Viewer"
 msgstr "PDF‐näytin"
 

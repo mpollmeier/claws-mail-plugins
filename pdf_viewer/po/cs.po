@@ -1,151 +1,145 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Salvatore De Paolis
-# This file is distributed under the same license as the PACKAGE package.
-# Páder Rezső <rezso@rezso.net>, 2007.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF viewer plugin for Claws Mail\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
 "POT-Creation-Date: 2009-06-26 18:36+0100\n"
-"PO-Revision-Date: 2009-06-26 22:11+0100\n"
-"Last-Translator: rezso <rezso@rezso.net>\n"
-"Language-Team:  <NONE>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: src/poppler_viewer.c:554
 msgid "Filename:"
-msgstr "Fájlnév:"
+msgstr "Jméno souboru:"
 
 #: src/poppler_viewer.c:555
 msgid "Size:"
-msgstr "Méret:"
+msgstr "Velikost:"
 
 #: src/poppler_viewer.c:557
 msgid "Title:"
-msgstr "Cím:"
+msgstr "Titul:"
 
 #: src/poppler_viewer.c:558
 msgid "Subject:"
-msgstr "Tárgy:"
+msgstr "Předmět:"
 
 #: src/poppler_viewer.c:559
 msgid "Author:"
-msgstr "Szerző:"
+msgstr "Autor:"
 
 #: src/poppler_viewer.c:560
 msgid "Keywords:"
-msgstr "Kulcsszavak:"
+msgstr "Klíčová slova:"
 
 #: src/poppler_viewer.c:561
 msgid "Creator:"
-msgstr "Készítő:"
+msgstr "Tvůrce:"
 
 #: src/poppler_viewer.c:562
 msgid "Producer:"
-msgstr "Gyártó:"
+msgstr "Produkováno:"
 
 #: src/poppler_viewer.c:565
 msgid "Created:"
-msgstr "Létrehozva:"
+msgstr "Vytvořeno:"
 
 #: src/poppler_viewer.c:569
 msgid "Modified:"
-msgstr "Módosítva:"
+msgstr "Upraveno:"
 
 #: src/poppler_viewer.c:572
 msgid "Format:"
-msgstr "Formátum:"
+msgstr "Formát:"
 
 #: src/poppler_viewer.c:573
 msgid "Optimized:"
-msgstr "Optimizálva:"
+msgstr "Optimalizováno:"
 
 #: src/poppler_viewer.c:1024
 msgid "PDF Viewer Plugin"
-msgstr "PDF megjelenítő plugin"
+msgstr "Zásuvný modul prohlížeč PDF"
 
 #: src/poppler_viewer.c:1126
 msgid "Loading..."
-msgstr "Betöltés..."
+msgstr "Načítám..."
 
 #: src/poppler_viewer.c:1176
 #, c-format
 msgid "%s Document"
-msgstr "%s dokumentum"
+msgstr "%s dokument"
 
 #: src/poppler_viewer.c:1182
 #, c-format
 msgid "%d page"
 msgid_plural "%d pages"
-msgstr[0] "%d oldal"
-msgstr[1] "%d oldal"
+msgstr[0] "%d stránka"
+msgstr[1] "%d stránky"
+msgstr[2] "%d stránek"
 
 #: src/poppler_viewer.c:1572
 #: src/poppler_viewer.c:1790
 msgid "Document Index"
-msgstr "Dokumentum index"
+msgstr "Index dokumentu"
 
 #: src/poppler_viewer.c:1646
 msgid "Name"
-msgstr "Név"
+msgstr "Jméno"
 
 #: src/poppler_viewer.c:1758
 msgid "First Page"
-msgstr "Első oldal"
+msgstr "První stránka"
 
 #: src/poppler_viewer.c:1761
 msgid "Previous Page"
-msgstr "Előző oldal"
+msgstr "Předchozí stránka"
 
 #: src/poppler_viewer.c:1764
 msgid "Next Page"
-msgstr "Következő oldal"
+msgstr "Následující stránka"
 
 #: src/poppler_viewer.c:1767
 msgid "Last Page"
-msgstr "Utolsó oldal"
+msgstr "Poslední stránka"
 
 #: src/poppler_viewer.c:1770
 msgid "Zoom In"
-msgstr "Nagyítás"
+msgstr "Zvětšit"
 
 #: src/poppler_viewer.c:1772
 msgid "Zoom Out"
-msgstr "Kicsinyítés"
+msgstr "Zmenšit"
 
 #: src/poppler_viewer.c:1775
 msgid "Fit Page"
-msgstr "Nagyítás teljes méretre"
+msgstr "Přizpůsobit stránce"
 
 #: src/poppler_viewer.c:1778
 msgid "Fit Page Width"
-msgstr "Nagyítás teljes szélességre"
+msgstr "Přizpůsobit šířce stránky"
 
 #: src/poppler_viewer.c:1781
 msgid "Rotate Left"
-msgstr "Forgatás balra"
+msgstr "Otočit vlevo"
 
 #: src/poppler_viewer.c:1784
 msgid "Rotate Right"
-msgstr "Forgatás jobbra"
+msgstr "Otočit vpravo"
 
 #: src/poppler_viewer.c:1787
 msgid "Document Info"
-msgstr "Dokumentum információ"
+msgstr "Informace o dokumentu"
 
 #: src/poppler_viewer.c:1792
 msgid "Page Number"
-msgstr "Oldalszám"
+msgstr "Číslo stránky"
 
 #: src/poppler_viewer.c:1794
 msgid "Zoom Factor"
-msgstr "Nagyítási tényező"
+msgstr "Faktor zobrazení"
 
 #: src/poppler_viewer.c:1902
 #, c-format
@@ -154,12 +148,12 @@ msgid ""
 "\n"
 "Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
-"A plugin PDF és PostScript mellékletek megjelenítését teszi lehetővé a Poppler %s függvénykönyvtár és a gs eszköz használatával.\n"
+"Zásuvný modul umožňuje prohlížení PDF a PostScript příloh pomocí Poppler %s Lib a gs.\n"
 "\n"
-"Bármilyen visszajelzést szívesen fogadok: iwkse@claws-mail.org"
+"Jakákoliv zpětná vazba je vítána: iwkse@claws-mail.org"
 
 #: src/poppler_viewer.c:1910
 #: src/poppler_viewer.c:1925
 msgid "PDF Viewer"
-msgstr "PDF megjelenítő"
+msgstr "Prohlížeč PDF"
 
