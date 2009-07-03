@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2009-06-26 18:32+0100\n"
+"PO-Revision-Date: 2009-06-29 00:00+0900\n"
+"Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
+"Language-Team: kentaro kazuhama <kazken3@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/bsfilter.c:78
+#: src/bsfilter_gtk.c:393
+msgid "Bsfilter"
+msgstr "Bsfilter"
+
+#: src/bsfilter.c:103
+#: src/bsfilter_gtk.c:193
+#: src/bsfilter_gtk.c:258
+#: src/bsfilter_gtk.c:318
+msgid "Any"
+msgstr ""
+
+#: src/bsfilter.c:295
+msgid "Bsfilter: fetching body..."
+msgstr "Bsfilter: bodyを取得しています..."
+
+#: src/bsfilter.c:304
+msgid "Bsfilter: filtering message..."
+msgstr "Bsfilter: メッセージを振り分けています..."
+
+#: src/bsfilter.c:389
+msgid ""
+"The Bsfilter plugin couldn't filter a message. The probable cause of the error is that it didn't learn from any mail.\n"
+"Use \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\" to train Bsfilter with a few hundred spam and ham messages."
+msgstr ""
+"Bsfilterプラグインはメッセージを振り分けることが出来ません。どのメールからも学習していないためのエラーと思われます。\n"
+"\"/マーク/spamとしてマーク\" や \"/マーク/非Spamとしてマーク\"を使って、数百のSpamや非SpamメッセージでBsfilterをトレーニングしてください。"
+
+#: src/bsfilter.c:396
+#, c-format
+msgid "The Bsfilter plugin couldn't filter a message. The command `%s` couldn't be run."
+msgstr "Bsfilterプラグインは、メッセージを振り分けることができません。コマンド `%s` が実行できません。"
+
+#: src/bsfilter.c:497
+msgid "Bsfilter: learning from message..."
+msgstr "Bsfilter: メッセージから学習中です..."
+
+#: src/bsfilter.c:507
+#, c-format
+msgid "Learning failed; `%s` returned with status %d."
+msgstr "学習に失敗しました; `%s` はステータス %d を返しました。"
+
+#: src/bsfilter.c:641
+msgid ""
+"This plugin can check all messages that are received from an IMAP, LOCAL or POP account for spam using Bsfilter. You will need Bsfilter installed locally.\n"
+"\n"
+"Before Bsfilter can recognize spam messages, you have to train it by marking a few hundred spam and ham messages with the use of \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\".\n"
+"\n"
+"When a message is identified as spam it can be deleted or saved in a specially designated folder.\n"
+"\n"
+"Options can be found in /Configuration/Preferences/Plugins/Bsfilter"
+msgstr ""
+"このプラグインはspam検出のためIMAPやローカル、またはPOPアカウントから受信した全てのメッセージをBsfilterを使ってチェックすることができます。ローカルにBsfilterをインストールしなければいけません。\n"
+"\n"
+"BefilterがSpamメッセージを認識する前に、\"/マーク/spamとしてマーク\" や \"/マーク/非Spamとしてマーク\"を使い、数百のSpamと非Spamメッセージをマークすることでトレーニングする必要があります。\n"
+"\n"
+"メッセージがSpamとして認識されたとき、Bsfilterは削除したり、特別に指定したフォルダへ保存します。\n"
+"\n"
+"オプションは/設定/全般の設定/プラグイン/Bsfilter にあります"
+
+#: src/bsfilter.c:674
+msgid "Spam detection"
+msgstr "Spam検出"
+
+#: src/bsfilter.c:675
+msgid "Spam learning"
+msgstr "Spam学習"
+
+#: src/bsfilter_gtk.c:139
+msgid "Process messages on receiving"
+msgstr "受信側でメッセージを処理する"
+
+#: src/bsfilter_gtk.c:147
+msgid "Maximum size"
+msgstr "最大サイズ"
+
+#: src/bsfilter_gtk.c:156
+msgid "Messages larger than this will not be checked"
+msgstr "チェックしないメッセージより大きいメッセージ"
+
+#: src/bsfilter_gtk.c:159
+msgid "KB"
+msgstr "KB"
+
+#: src/bsfilter_gtk.c:167
+msgid "Save spam in"
+msgstr "spamを保存する"
+
+#: src/bsfilter_gtk.c:175
+msgid "Folder for storing identified spam. Leave empty to use the trash folder."
+msgstr "Spamと識別された保存用フォルダ。ゴミ箱を利用するには空にします。"
+
+#: src/bsfilter_gtk.c:177
+msgid "_Browse"
+msgstr "見る(_B)"
+
+#: src/bsfilter_gtk.c:181
+msgid "Click this button to select a folder for storing spam"
+msgstr "このボタンをクリックしてSpam保存用のフォルダを選択します"
+
+#: src/bsfilter_gtk.c:187
+msgid "Whitelist senders found in address book/folder"
+msgstr "アドレス帳やフォルダにある送信者はホワイトリストに入れる"
+
+#: src/bsfilter_gtk.c:191
+msgid "Messages coming from your address book contacts will be received in the normal folder even if detected as spam"
+msgstr "アドレス帳の連絡先から受信したメッセージは、Spamと検出されても通常のフォルダで受信する"
+
+#: src/bsfilter_gtk.c:197
+msgid "Select ..."
+msgstr "選択 ..."
+
+#: src/bsfilter_gtk.c:201
+msgid "Click this button to select a book or folder in the address book"
+msgstr "このボタンをクリックしてアドレス帳のフォルダやブックを選択します"
+
+#: src/bsfilter_gtk.c:203
+msgid "Learn whitelisted emails as ham"
+msgstr "ホワイトリストとしたメールを非Spamとして学習"
+
+#: src/bsfilter_gtk.c:205
+msgid "If Bsfilter thought an email was spam or unsure, but it was whitelisted, learn it as ham."
+msgstr "Bsfilterはメールをspamが信頼できないものと考えていますが、ホワイトリスト済みで非Spamと学習しています。"
+
+#: src/bsfilter_gtk.c:214
+msgid "Bsfilter call"
+msgstr "Bsfilterの呼び出し"
+
+#: src/bsfilter_gtk.c:222
+msgid "Path to bsfilter executable"
+msgstr "bsfilter実行ファイルへのパス"
+
+#: src/bsfilter_gtk.c:228
+msgid "Mark spam as read"
+msgstr "Spamを既読としてマークする"
+
+#: src/bsfilter_gtk.c:392
+msgid "Plugins"
+msgstr "プラグイン"
+

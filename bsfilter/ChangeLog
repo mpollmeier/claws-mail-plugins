@@ -1,3 +1,16 @@
+2009-07-03 [paul]	1.0.0cvs2
+
+	* configure.ac
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/id.po
+	* po/it.po
+	* po/ja.po
+	* po/ru.po
+		added by Ricardo Mones, Tommi Pirinen, Pader Rezso, MSulchan Darmawan,
+		Andrea Spadaccini, kazken3, Aleksei Miheev
+
 2009-03-19 [colin]	1.0.0cvs1
 
 	* Makefile.am
