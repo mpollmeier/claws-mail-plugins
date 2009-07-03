@@ -1,3 +1,9 @@
+2009-07-03 [paul]	1.0.20cvs2
+
+	* configure.ac
+	* po/id.po
+		added Indonesian translation, submitted by MSulchan Darmawan
+
 2009-03-08 [paul]	1.0.20cvs1
 
 	* configure.ac

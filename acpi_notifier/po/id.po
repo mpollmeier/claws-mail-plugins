@@ -1,0 +1,132 @@
+# Indonesian translation of acpi_notifier package
+# Copyright (C) 2009 Colin Leroy
+# This file is distributed under the same license as the acpi_notifier package.
+# MSulchan Darmawan <bleketux@gmail.com>, 2009.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: acpi_notifier\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2009-06-23 21:28+0700\n"
+"PO-Revision-Date: 2009-06-29 11:37+0700\n"
+"Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/acpi_notifier.c:46
+msgid "Acpi Notifier"
+msgstr "Pemberitahu Acpi"
+
+#: src/acpi_notifier.c:62
+msgid ""
+"Make sure that the kernel module 'acerhk' is loaded.\n"
+"You can get it from http://www.cakey.de/acerhk/"
+msgstr ""
+"Pastikan modul kernel 'acerhk' telah dimuat.\n"
+"Anda bisa memperolehnya di http://www.cakey.de/acerhk/"
+
+#: src/acpi_notifier.c:64
+msgid ""
+"Make sure that the kernel module 'acer_acpi' is loaded.\n"
+"You can get it from http://code.google.com/p/aceracpi/"
+msgstr ""
+"Pastikan modul kernel 'acer_acpi' telah dimuat.\n"
+"Anda bisa memperolehnya di http://code.google.com/aceracpi/"
+
+#: src/acpi_notifier.c:66
+msgid "Make sure that the kernel module 'asus_laptop' is loaded."
+msgstr "Pastikan modul kernel 'asus_laptop telah dimuat."
+
+#: src/acpi_notifier.c:67
+msgid "Make sure that the kernel module 'asus_acpi' is loaded."
+msgstr "Pastikan modul kernel 'asus_acpi' telah dimuat."
+
+#: src/acpi_notifier.c:68
+msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
+msgstr "Pastikan modul kernel 'asus_acpi' telah dimuat."
+
+#: src/acpi_notifier.c:69
+msgid ""
+"Make sure that you have apanelc installed.\n"
+"You can get it from http://apanel.sourceforge.net/"
+msgstr ""
+"Pastikan bahwa anda memiliki apanelc terpasang.\n"
+"Anda bisa memperolehnya di http://apanel.sourceforge.net/"
+
+#: src/acpi_notifier.c:200
+#: src/acpi_notifier.c:206
+#: src/acpi_notifier.c:418
+msgid "Control file doesn't exist."
+msgstr "Berkas kontrol tidak ada."
+
+#: src/acpi_notifier.c:298
+msgid " : no new or unread mail"
+msgstr " : tidak ada surat baru atau belum dibaca"
+
+#: src/acpi_notifier.c:299
+msgid " : unread mail"
+msgstr " : surat belum dibaca"
+
+#: src/acpi_notifier.c:300
+msgid " : new mail"
+msgstr " : surat baru"
+
+#: src/acpi_notifier.c:302
+#: src/acpi_notifier.c:308
+#: src/acpi_notifier.c:314
+msgid "off"
+msgstr "mati"
+
+#: src/acpi_notifier.c:304
+#: src/acpi_notifier.c:310
+#: src/acpi_notifier.c:316
+msgid "blinking"
+msgstr "berkedip"
+
+#: src/acpi_notifier.c:306
+#: src/acpi_notifier.c:312
+#: src/acpi_notifier.c:318
+msgid "on"
+msgstr "hidup"
+
+#: src/acpi_notifier.c:340
+#: src/acpi_notifier.c:349
+#: src/acpi_notifier.c:364
+msgid "LED "
+msgstr "LED "
+
+#: src/acpi_notifier.c:379
+msgid "ACPI type: "
+msgstr "Tipe ACPI: "
+
+#: src/acpi_notifier.c:388
+msgid "ACPI file: "
+msgstr "Berkas ACPI: "
+
+#: src/acpi_notifier.c:399
+msgid "values - On: "
+msgstr "nilai - Hidup: "
+
+#: src/acpi_notifier.c:404
+msgid " - Off: "
+msgstr " - Mati: "
+
+#: src/acpi_notifier.c:426
+msgid "Blink when user interaction is required"
+msgstr "Berkedip ketika interaksi pengguna dibutuhkan"
+
+#: src/acpi_notifier.c:783
+msgid "Plugins"
+msgstr "Pengaya"
+
+#: src/acpi_notifier.c:866
+msgid "This plugin handles various ACPI mail LEDs."
+msgstr "Pengaya ini menangani berbagai LED surat ACPI."
+
+#: src/acpi_notifier.c:887
+msgid "Laptop LED"
+msgstr "LED Laptop"
+
