@@ -1,0 +1,539 @@
+# Spanish translation of notification plugin for Claws Mail.
+# Copyright (C) 2009 Ricardo Mones
+# This file is licensed under the same license as the notification plugin.
+# Ricardo Mones <ricardo@mones.org>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: notification\n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2009-06-26 18:35+0100\n"
+"PO-Revision-Date: 2009-07-01 07:50+0200\n"
+"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
+"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: src/notification_banner.c:90
+msgid "_Reply"
+msgstr "_Responder"
+
+#: src/notification_banner.c:351
+msgid "Folder:"
+msgstr "Carpeta:"
+
+#: src/notification_foldercheck.c:476
+msgid "Select folder(s)"
+msgstr "Seleccionar carpeta(s)"
+
+#: src/notification_foldercheck.c:580
+msgid "select recursively"
+msgstr "seleccionar recursivamente"
+
+#: src/notification_lcdproc.c:137
+msgid "New"
+msgstr "Nuevos"
+
+#: src/notification_lcdproc.c:141
+msgid "Unread"
+msgstr "No leídos"
+
+#: src/notification_lcdproc.c:145
+msgid "Total"
+msgstr "Total"
+
+#: src/notification_lcdproc.c:151
+msgid "No new messages"
+msgstr "No hay mensajes nuevos"
+
+#: src/notification_plugin.c:214 src/notification_plugin.c:403
+#: src/notification_prefs.c:331 src/notification_prefs.c:345
+#: src/notification_prefs.c:362 src/notification_prefs.c:379
+#: src/notification_prefs.c:396 src/notification_prefs.c:413
+msgid "Notification"
+msgstr "Notificación"
+
+#: src/notification_plugin.c:219
+msgid "The Notification plugin needs threading support."
+msgstr "El módulo de notificación necesita soporte de hilos."
+
+#: src/notification_plugin.c:226
+msgid "Failed to register folder item update hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de actualización de elementos de carpeta en el "
+"módulo de notificación"
+
+#: src/notification_plugin.c:234
+msgid "Failed to register folder update hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de actualización de carpetas en el módulo de "
+"notificación"
+
+#: src/notification_plugin.c:244
+msgid "Failed to register msginfo update hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de actualización de información de mensajes en "
+"el módulo de notificación"
+
+#: src/notification_plugin.c:254
+msgid "Failed to register offline switch hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de cambio a modo sin conexión en el módulo de "
+"notificación"
+
+#: src/notification_plugin.c:265
+msgid "Failed to register main window close hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de cierre de la ventana principal en el módulo "
+"de notificación"
+
+#: src/notification_plugin.c:278
+msgid "Failed to register got iconified hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace del estado de iconización en el módulo de "
+"notificación"
+
+#: src/notification_plugin.c:291
+msgid "Failed to register account list changed hook in the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de cambio en la lista de cuentas en el módulo "
+"de notificación"
+
+#: src/notification_plugin.c:304
+msgid "Failed to register theme change hook int the Notification plugin"
+msgstr ""
+"Falló el registro del enlace de cambio de tema en el módulo de notificación"
+
+#: src/notification_plugin.c:408
+msgid ""
+"This plugin provides various ways to notify the user of new and unread "
+"email.\n"
+"Feedback to <berndth@gmx.de> is welcome."
+msgstr ""
+"Este módulo proporciona diversas maneras de notificar al usuario sobre "
+"el correo nuevo y no leído.\n"
+"Comentarios acerca del mismo para <berndth@gmx.de> son bienvenidos."
+
+#: src/notification_plugin.c:431
+msgid "Various tools"
+msgstr "Varias herramientas"
+
+#: src/notification_popup.c:304
+msgid "New Mail message"
+msgstr "Nuevo mensaje de correo"
+
+#: src/notification_popup.c:306 src/notification_popup.c:603
+#: src/notification_trayicon.c:830
+msgid "(No From)"
+msgstr "(Sin remitente)"
+
+#: src/notification_popup.c:308 src/notification_popup.c:607
+#: src/notification_trayicon.c:833
+msgid "(No Subject)"
+msgstr "(Sin asunto)"
+
+#: src/notification_popup.c:325
+msgid "New News post"
+msgstr "Nuevo mensaje de noticias"
+
+#: src/notification_popup.c:326
+msgid "A new message arrived"
+msgstr "Ha llegado un mensaje nuevo"
+
+#: src/notification_popup.c:329
+msgid "New Calendar message"
+msgstr "Nuevo mensaje de calendario"
+
+#: src/notification_popup.c:330 src/notification_trayicon.c:851
+msgid "A new calendar message arrived"
+msgstr "Ha llegado un mensaje nuevo de calendario"
+
+#: src/notification_popup.c:333
+msgid "New RSS feed article"
+msgstr "Nuevo artículo de canal RSS"
+
+#: src/notification_popup.c:334 src/notification_trayicon.c:854
+msgid "A new article in a RSS feed arrived"
+msgstr "Ha llegado un mensaje nuevo en un canal RSS"
+
+#: src/notification_popup.c:337
+msgid "New unknown message"
+msgstr "Nuevo mensaje desconocido"
+
+#: src/notification_popup.c:338
+msgid "Unknown message type arrived"
+msgstr "Ha llegado un mensaje de tipo desconocido"
+
+#: src/notification_popup.c:474
+msgid "Mail message"
+msgstr "Mensaje de correo"
+
+#: src/notification_popup.c:475 src/notification_popup.c:481
+#, c-format
+msgid "%d new message arrived"
+msgid_plural "%d new messages arrived"
+msgstr[0] "recibido %d mensaje nuevo"
+msgstr[1] "recibidos %d mensajes nuevos"
+
+#: src/notification_popup.c:480
+msgid "News message"
+msgstr "Mensaje de noticias"
+
+#: src/notification_popup.c:486
+msgid "Calendar message"
+msgstr "Mensaje de calendario"
+
+#: src/notification_popup.c:487 src/notification_trayicon.c:888
+#, c-format
+msgid "%d new calendar message arrived"
+msgid_plural "%d new calendar messages arrived"
+msgstr[0] "recibido %d mensaje nuevo de calendario"
+msgstr[1] "recibidos %d mensajes nuevos de calendario"
+
+#: src/notification_popup.c:492
+msgid "RSS news feed"
+msgstr "Canal de noticias RSS"
+
+#: src/notification_popup.c:493
+#, c-format
+msgid "%d new article in a RSS feed arrived"
+msgid_plural "%d new articles in a RSS feed arrived"
+msgstr[0] "recibido %d artículo nuevo en un canal RSS"
+msgstr[1] "recibidos %d artículos nuevos en un canal RSS"
+
+#: src/notification_popup.c:554
+#, c-format
+msgid "%d new message"
+msgid_plural "%d new messages"
+msgstr[0] "%d mensaje nuevo"
+msgstr[1] "%d mensajes nuevos"
+
+#: src/notification_prefs.c:330 src/notification_prefs.c:344
+#: src/notification_prefs.c:361 src/notification_prefs.c:378
+#: src/notification_prefs.c:395 src/notification_prefs.c:412
+msgid "Plugins"
+msgstr "Módulos"
+
+#: src/notification_prefs.c:346
+msgid "Banner"
+msgstr "Panel"
+
+#: src/notification_prefs.c:363
+msgid "Popup"
+msgstr "Emergente"
+
+#: src/notification_prefs.c:380
+msgid "Command"
+msgstr "Orden"
+
+#: src/notification_prefs.c:397
+msgid "LCD"
+msgstr "Pantalla LCD"
+
+#: src/notification_prefs.c:414
+msgid "SysTrayicon"
+msgstr "Bandeja del sistema"
+
+#: src/notification_prefs.c:463
+msgid ""
+"\n"
+"Notification Plugin: Failed to write plugin configuration to file\n"
+msgstr ""
+"\n"
+"Módulo de notificación: falló la escritura del fichero de configuración\n"
+
+#: src/notification_prefs.c:490
+msgid "Include folder types"
+msgstr "Incluir tipos de carpetas"
+
+#: src/notification_prefs.c:500
+msgid "Mail folders"
+msgstr "Carpetas de correo"
+
+#: src/notification_prefs.c:508
+msgid "News folders"
+msgstr "Carpetas de noticias"
+
+#: src/notification_prefs.c:516
+msgid "RSS folders"
+msgstr "Carpetas RSS"
+
+#: src/notification_prefs.c:524
+msgid "Calendar folders"
+msgstr "Carpetas de calendario"
+
+#: src/notification_prefs.c:532
+msgid "These settings overwrite folder-specific selections."
+msgstr ""
+"Esta configuración sobreescribe la seleccionada específicamente para cada "
+"carpeta."
+
+#: src/notification_prefs.c:543
+msgid "Global notification settings"
+msgstr "Configuración global de notificación"
+
+#: src/notification_prefs.c:553
+msgid "Set window manager urgency hint when new messages exist"
+msgstr ""
+"Establecer el consejo de urgente en el gestor de ventanas cuando existen "
+"mensajes nuevos"
+
+#: src/notification_prefs.c:562
+msgid "Set window manager urgency hint when unread messages exist"
+msgstr ""
+"Establecer el consejo de urgente en el gestor de ventanas cuando existen "
+"mensajes sin leer"
+
+#: src/notification_prefs.c:572
+msgid "Use sound theme"
+msgstr "Usar tema de sonido"
+
+#: src/notification_prefs.c:634
+msgid "Show banner"
+msgstr "Mostrar panel"
+
+#: src/notification_prefs.c:639
+msgid "Never"
+msgstr "Nunca"
+
+#: src/notification_prefs.c:641
+msgid "Always"
+msgstr "Siempre"
+
+#: src/notification_prefs.c:643
+msgid "Only when not empty"
+msgstr "Sólo si no está vacío"
+
+#: src/notification_prefs.c:661
+msgid "slow"
+msgstr "lento"
+
+#: src/notification_prefs.c:665
+msgid "fast"
+msgstr "rápido"
+
+#: src/notification_prefs.c:669
+msgid "Banner speed"
+msgstr "Velocidad del panel"
+
+#: src/notification_prefs.c:687
+msgid "Maximum number of messages (0 means unlimited)"
+msgstr "Número máximo de mensajes (0 significa sin límite)"
+
+#: src/notification_prefs.c:701
+msgid "Banner width in pixels (0 means screen size)"
+msgstr "Anchura del panel en pixels (0 significa el tamaño de pantalla)"
+
+#: src/notification_prefs.c:714
+msgid "Include unread mails in banner"
+msgstr "Incluir los correos no leídos en el panel"
+
+#: src/notification_prefs.c:722
+msgid "Make banner sticky"
+msgstr "Hacer el panel persistente"
+
+#: src/notification_prefs.c:732 src/notification_prefs.c:930
+#: src/notification_prefs.c:1202 src/notification_prefs.c:1434
+msgid "Only include selected folders"
+msgstr "Sólo incluir carpetas seleccionadas"
+
+#: src/notification_prefs.c:741 src/notification_prefs.c:939
+#: src/notification_prefs.c:1211 src/notification_prefs.c:1443
+msgid "Select folders..."
+msgstr "Seleccionar carpetas..."
+
+#: src/notification_prefs.c:751 src/notification_prefs.c:971
+msgid "Use custom colors"
+msgstr "Usar colores propios"
+
+#: src/notification_prefs.c:764 src/notification_prefs.c:984
+msgid "Foreground"
+msgstr "Primer plano"
+
+#: src/notification_prefs.c:770 src/notification_prefs.c:990
+msgid "Foreground color"
+msgstr "Color de primer plano"
+
+#: src/notification_prefs.c:775 src/notification_prefs.c:995
+msgid "Background"
+msgstr "Fondo"
+
+#: src/notification_prefs.c:781 src/notification_prefs.c:1001
+msgid "Background color"
+msgstr "Color de fondo"
+
+#: src/notification_prefs.c:894
+msgid "Enable popup"
+msgstr "Activar emergente"
+
+#: src/notification_prefs.c:911 src/notification_prefs.c:1489
+msgid "Popup timeout:"
+msgstr "Tiempo límite del emergente:"
+
+#: src/notification_prefs.c:921 src/notification_prefs.c:1193
+#: src/notification_prefs.c:1498
+msgid "seconds"
+msgstr "segundos"
+
+#: src/notification_prefs.c:950
+msgid "Make popup sticky"
+msgstr "Hacer el emergente persistente"
+
+#: src/notification_prefs.c:960
+msgid "Set popup window width and position"
+msgstr "Anchura y posición de la ventana emergente"
+
+#: src/notification_prefs.c:965
+msgid "(the window manager is free to ignore this)"
+msgstr "(el gestor de ventanas puede ignorar esto)"
+
+#: src/notification_prefs.c:1013 src/notification_prefs.c:1501
+msgid "Display folder name"
+msgstr "Mostrar nombre de carpeta"
+
+#: src/notification_prefs.c:1078
+msgid "Sample popup window"
+msgstr "Ejemplo de ventana emergente"
+
+#: src/notification_prefs.c:1084
+msgid "Done"
+msgstr "Hecho"
+
+#: src/notification_prefs.c:1153
+msgid "Enable command"
+msgstr "Activar orden"
+
+#: src/notification_prefs.c:1170
+msgid "Command to execute:"
+msgstr "Orden a ejecutar:"
+
+#: src/notification_prefs.c:1183
+msgid "Block command after execution for"
+msgstr "Bloquear la orden después de la ejecución durante"
+
+#: src/notification_prefs.c:1290
+msgid "Enable LCD"
+msgstr "Activar pantalla LCD"
+
+#: src/notification_prefs.c:1309
+msgid "Hostname:Port of LCDd server:"
+msgstr "Nombre:Puerto del servidor LCDd:"
+
+#: src/notification_prefs.c:1391
+msgid "Enable Trayicon"
+msgstr "Activar icono en bandeja"
+
+#: src/notification_prefs.c:1407
+msgid "Hide at start-up"
+msgstr "Ocultar al inicio"
+
+#: src/notification_prefs.c:1415
+msgid "Close to tray"
+msgstr "Cerrar a la bandeja"
+
+#: src/notification_prefs.c:1423
+msgid "Hide when iconified"
+msgstr "Ocultar al iconizarse"
+
+#. TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
+#. A toast is a small passive (non-focus-stealing)
+#. notification bubble. If your language does not have a word
+#. for that, go for something along the lines of "passive popup"
+#. instead.See also
+#. http://en.wikipedia.org/wiki/Toast_(computing)
+#: src/notification_prefs.c:1460
+msgid "Passive toaster popup"
+msgstr "Burbuja de notificación"
+
+#: src/notification_prefs.c:1471
+msgid "Enable Popup"
+msgstr "Activar burbuja"
+
+#: src/notification_trayicon.c:98
+msgid "_Get Mail"
+msgstr "_Recibir correo"
+
+#: src/notification_trayicon.c:100
+msgid "_Email"
+msgstr "_Correo"
+
+#: src/notification_trayicon.c:101
+msgid "E_mail from account"
+msgstr "C_orreo desde la cuenta"
+
+#: src/notification_trayicon.c:102
+msgid "Open A_ddressbook"
+msgstr "_Agenda de direcciones"
+
+#: src/notification_trayicon.c:103
+msgid "E_xit Claws Mail"
+msgstr "_Salir de Claws Mail"
+
+#: src/notification_trayicon.c:108
+msgid "_Work Offline"
+msgstr "_Trabajar sin conexión"
+
+#: src/notification_trayicon.c:110
+msgid "Show Trayicon Notifications"
+msgstr "Mostrar notificaciones en bandeja"
+
+#: src/notification_trayicon.c:247
+#, c-format
+msgid "New %d, Unread: %d, Total: %d"
+msgstr "Nuevo: %d, no leído: %d, total: %d"
+
+#: src/notification_trayicon.c:341
+msgid "Untitled"
+msgstr "Sin título"
+
+#: src/notification_trayicon.c:502
+msgid "Exit"
+msgstr "Salir"
+
+#: src/notification_trayicon.c:502
+msgid "Exit Claws Mail?"
+msgstr "¿Salir de Claws Mail?"
+
+#: src/notification_trayicon.c:801
+msgid "New mail message"
+msgstr "Nuevo mensaje de correo"
+
+#: src/notification_trayicon.c:803
+msgid "New news post"
+msgstr "Nuevo mensaje de noticias"
+
+#: src/notification_trayicon.c:805
+msgid "New calendar message"
+msgstr "Nuevo mensaje de calendario"
+
+#: src/notification_trayicon.c:807
+msgid "New article in RSS feed"
+msgstr "Nuevo artículo en canal RSS"
+
+#: src/notification_trayicon.c:810
+msgid "New messages arrived"
+msgstr "Recibidos mensajes nuevos"
+
+#: src/notification_trayicon.c:866
+#, c-format
+msgid "%d new mail message arrived"
+msgid_plural "%d new mail messages arrived"
+msgstr[0] "recibido %d mensaje de correo nuevo"
+msgstr[1] "recibidos %d mensajes de correo nuevos"
+
+#: src/notification_trayicon.c:877
+#, c-format
+msgid "%d new news post arrived"
+msgid_plural "%d new news posts arrived"
+msgstr[0] "recibido %d mensaje de noticias nuevo"
+msgstr[1] "recibidos %d mensajes de noticias nuevos"
+
+#: src/notification_trayicon.c:899
+#, c-format
+msgid "%d new article in RSS feeds arrived"
+msgid_plural "%d new articles in RSS feeds arrived"
+msgstr[0] "recibido %d artículo de canal RSS nuevo"
+msgstr[1] "recibidos %d artículos de canal RSS nuevos"
+
