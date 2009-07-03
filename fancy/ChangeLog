@@ -1,3 +1,21 @@
+2009-07-03 [paul]	0.9.6cvs18
+
+	* commitHelper
+		added
+	* po/fancy_plugin.pot
+		removed
+	* po/it.po
+		updated by Andrea Spadaccini
+	* configure.ac
+	* po/cs.po
+	* po/es.po
+	* po/hu.po
+	* po/id.po
+	* po/ja.po
+	* po/ru.po
+		added by David Vachulka, Ricardo Mones, Pader Rezso,
+		MSulchan Darmawan, kazken3, and Aleksei Miheev
+
 2009-06-16 [iwkse]	0.9.6cvs17
 
 	* src/fancy_viewer.c
