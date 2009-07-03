@@ -9,8 +9,8 @@ dnl plugin version
 
 MAJOR_VERSION=2
 MINOR_VERSION=0
-MICRO_VERSION=4
-EXTRA_VERSION=11
+MICRO_VERSION=5
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
