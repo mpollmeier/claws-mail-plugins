@@ -24,7 +24,7 @@ msgid ""
 "You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
 "Assicurarsi che il modulo del kernel 'acerhk' sia caricato.\n"
-"È possibile prelevarlo da http://www.cakey.de/acerhk/"
+"possibile prelevarlo da http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
 msgid ""
@@ -32,7 +32,7 @@ msgid ""
 "You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
 "Assicurarsi che il modulo del kernel 'acer_acpi' sia caricato.\n"
-"È possibile prelevarlo da http://code.google.com/p/aceracpi/"
+"possibile prelevarlo da http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
@@ -52,7 +52,7 @@ msgid ""
 "You can get it from http://apanel.sourceforge.net/"
 msgstr ""
 "Assicurarsi che apanelc sia installato.\n"
-"È possibile prelevarlo da http://apanel.sourceforge.net/"
+"possibile prelevarlo da http://apanel.sourceforge.net/"
 
 #: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
