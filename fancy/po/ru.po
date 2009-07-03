@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Ricardo Mones
+# Copyright (C) YEAR Salvatore De Paolis
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bsfilter_plugin\n"
-"Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2009-07-03 09:54+0400\n"
-"PO-Revision-Date: 2009-07-03 10:35+0300\n"
+"Project-Id-Version: claws_mail_fancy_plugin\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
+"POT-Creation-Date: 2009-07-03 09:45+0400\n"
+"PO-Revision-Date: 2009-07-03 09:53+0300\n"
 "Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
 "Language-Team: russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,141 +16,99 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/bsfilter.c:78
-#: src/bsfilter_gtk.c:393
-msgid "Bsfilter"
-msgstr "Bsfilter (антиспам)"
-
-#: src/bsfilter.c:103
-#: src/bsfilter_gtk.c:193
-#: src/bsfilter_gtk.c:258
-#: src/bsfilter_gtk.c:318
-msgid "Any"
-msgstr "Все"
-
-#: src/bsfilter.c:295
-msgid "Bsfilter: fetching body..."
-msgstr "Bsfilter: получение тела сообщения..."
-
-#: src/bsfilter.c:304
-msgid "Bsfilter: filtering message..."
-msgstr "Bsfilter: обработка сообщения..."
-
-#: src/bsfilter.c:389
-msgid ""
-"The Bsfilter plugin couldn't filter a message. The probable cause of the error is that it didn't learn from any mail.\n"
-"Use \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\" to train Bsfilter with a few hundred spam and ham messages."
-msgstr ""
-"Не удалось отфильтровать сообщение. Возможно это произошло потому, что вы ещё не проводили обучение фильтра.\n"
-"Используйте для команды \"Пометить как спам\" и \"Пометить как не спам\"."
-
-#: src/bsfilter.c:396
+#: src/fancy_viewer.c:151
 #, c-format
-msgid "The Bsfilter plugin couldn't filter a message. The command `%s` couldn't be run."
-msgstr "Сообщение не было проверено. Не удалось запустить команду `%s`."
-
-#: src/bsfilter.c:497
-msgid "Bsfilter: learning from message..."
-msgstr "Bsfilter: обучение..."
-
-#: src/bsfilter.c:507
-#, c-format
-msgid "Learning failed; `%s` returned with status %d."
-msgstr "Ошибка при обучении филтра; %s завершился со статусом %d."
-
-#: src/bsfilter.c:641
 msgid ""
-"This plugin can check all messages that are received from an IMAP, LOCAL or POP account for spam using Bsfilter. You will need Bsfilter installed locally.\n"
-"\n"
-"Before Bsfilter can recognize spam messages, you have to train it by marking a few hundred spam and ham messages with the use of \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\".\n"
-"\n"
-"When a message is identified as spam it can be deleted or saved in a specially designated folder.\n"
-"\n"
-"Options can be found in /Configuration/Preferences/Plugins/Bsfilter"
+"Printing failed:\n"
+" %s"
 msgstr ""
-"Этот модуль может проверять все сообщения в учётных записях типов POP, IMAP или LOCAL на спам с использованием bsfilter. Для его работы требуется установленный на вашей машине bsfilter.\n"
-"\n"
-"Чтобы фильтр работал корректно, вам следует сначала обучить его на нескольких сотнях сообщений с помощью команд \"Пометить как спам\" и \"Пометить как не сам\".\n"
-"\n"
-"Если сообщение опознаётся фильтром как спам, оно может быть удалено или сохранено в выбранную папку."
+"Не удалось распечатать:\n"
+" %s"
 
-#: src/bsfilter.c:674
-msgid "Spam detection"
-msgstr "Обнаружение спама"
+#: src/fancy_viewer.c:179
+msgid "Printing HTML is only possible if the program 'html2ps' is installed."
+msgstr "Печать HTML возможна только если установлена программа 'html2ps'."
 
-#: src/bsfilter.c:675
-msgid "Spam learning"
-msgstr "Обучение фильтра"
+#: src/fancy_viewer.c:184
+msgid "Filename is null."
+msgstr "Пустое имя файла."
 
-#: src/bsfilter_gtk.c:139
-msgid "Process messages on receiving"
-msgstr "Фильтровать при получении"
+#: src/fancy_viewer.c:199
+msgid "Conversion to postscript failed."
+msgstr "Не удалось сконвертировать в Postscript"
 
-#: src/bsfilter_gtk.c:147
-msgid "Maximum size"
-msgstr "Максимальный размер"
+#: src/fancy_viewer.c:206
+msgid "Print"
+msgstr "Печать"
 
-#: src/bsfilter_gtk.c:156
-msgid "Messages larger than this will not be checked"
-msgstr "Сообщения больше указанного размера проверяться не будут"
+#: src/fancy_viewer.c:227
+#, c-format
+msgid "Printer %s doesn't accept PostScript files."
+msgstr "Принтер %s не поддерживает Postscript."
 
-#: src/bsfilter_gtk.c:159
-msgid "KB"
-msgstr "кБ"
+#: src/fancy_viewer.c:241
+#, c-format
+msgid ""
+"Printing failed:\n"
+"%s"
+msgstr ""
+"Не удалось распечатать:\n"
+"%s"
 
-#: src/bsfilter_gtk.c:167
-msgid "Save spam in"
-msgstr "Сохранять спам в"
+#: src/fancy_viewer.c:475
+msgid "Search the Web"
+msgstr "Искать..."
 
-#: src/bsfilter_gtk.c:175
-msgid "Folder for storing identified spam. Leave empty to use the trash folder."
-msgstr "Папка для сообщений, опознанных как спам. По умолчанию будет использоваться корзина."
+#: src/fancy_viewer.c:490
+msgid "Open in Browser"
+msgstr "Открыть в браузере"
 
-#: src/bsfilter_gtk.c:177
-msgid "_Browse"
-msgstr "Обзрор..."
+#: src/fancy_viewer.c:500
+#: src/fancy_viewer.c:533
+msgid "Open Image"
+msgstr "Открыть изображение"
 
-#: src/bsfilter_gtk.c:181
-msgid "Click this button to select a folder for storing spam"
-msgstr "Нажмите, чтобы выбрать папку для спама"
+#: src/fancy_viewer.c:509
+msgid "Copy Link"
+msgstr "Копировать ссылку"
 
-#: src/bsfilter_gtk.c:187
-msgid "Whitelist senders found in address book/folder"
-msgstr "Добавлять в белый список контакты из адресной книги"
+#: src/fancy_viewer.c:522
+msgid "Download Link"
+msgstr "Сохранить ссылку как..."
 
-#: src/bsfilter_gtk.c:191
-msgid "Messages coming from your address book contacts will be received in the normal folder even if detected as spam"
-msgstr "Сообщения от контактов, найденныхы в адресной книге, будут доставлены в обычные папки, даже если фильтр опознает их как спам."
+#: src/fancy_viewer.c:545
+msgid "Save Image As"
+msgstr "Сохранить изображение как..."
 
-#: src/bsfilter_gtk.c:197
-msgid "Select ..."
-msgstr "Выбрать"
+#: src/fancy_viewer.c:556
+msgid "Copy Image"
+msgstr "Копировать изображение"
 
-#: src/bsfilter_gtk.c:201
-msgid "Click this button to select a book or folder in the address book"
-msgstr "Выбрать адресную книгу или папку в книге."
+#: src/fancy_viewer.c:772
+msgid "Fancy"
+msgstr "Fancy (WebKit)"
 
-#: src/bsfilter_gtk.c:203
-msgid "Learn whitelisted emails as ham"
-msgstr "Обучать фильтр по белым спискам"
+#: src/fancy_viewer.c:793
+msgid "Fancy HTML Viewer"
+msgstr "Просмотр HTML (WebKit)"
 
-#: src/bsfilter_gtk.c:205
-msgid "If Bsfilter thought an email was spam or unsure, but it was whitelisted, learn it as ham."
-msgstr "Если фильтр \"решил\", что сообщение - спам, но отправитель в белом списке, обучать фильтр."
-
-#: src/bsfilter_gtk.c:214
-msgid "Bsfilter call"
-msgstr "Путь к bsfliter"
-
-#: src/bsfilter_gtk.c:222
-msgid "Path to bsfilter executable"
-msgstr "Путь к bsfliter"
-
-#: src/bsfilter_gtk.c:228
-msgid "Mark spam as read"
-msgstr "Помечать спам прочтённым"
-
-#: src/bsfilter_gtk.c:392
+#: src/fancy_prefs.c:78
 msgid "Plugins"
 msgstr "Модули"
+
+#: src/fancy_prefs.c:115
+msgid "Auto-Load images"
+msgstr "Загружать картинки автоматически"
+
+#: src/fancy_prefs.c:121
+msgid "Block external links"
+msgstr "Блокировать внешние ссылки"
+
+#: src/fancy_prefs.c:127
+msgid "Enable Javascript"
+msgstr "Разрешить JavaScript"
+
+#: src/fancy_prefs.c:133
+msgid "Enable Plugins"
+msgstr "Разрешить плагины"
 

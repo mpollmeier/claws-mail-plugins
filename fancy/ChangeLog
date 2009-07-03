@@ -1,3 +1,13 @@
+2009-07-03 [paul]	0.9.6cvs19
+
+	* po/cs.po
+	* po/hu.po
+	* po/id.po
+	* po/it.po
+	* po/ja.po
+	* po/ru.po
+		this time commit the correct files!
+
 2009-07-03 [paul]	0.9.6cvs18
 
 	* commitHelper

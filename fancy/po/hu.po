@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Ricardo Mones
+# Copyright (C) YEAR Salvatore De Paolis
 # This file is distributed under the same license as the PACKAGE package.
 # Páder Rezső (rezso) <rezso@rezso.net>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bsfilter\n"
-"Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2009-06-26 18:32+0100\n"
-"PO-Revision-Date: 2009-06-29 19:18+0100\n"
+"Project-Id-Version: fancy\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
+"POT-Creation-Date: 2009-06-26 18:33+0100\n"
+"PO-Revision-Date: 2009-06-27 20:20+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -18,143 +18,99 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/bsfilter.c:78
-#: src/bsfilter_gtk.c:393
-msgid "Bsfilter"
-msgstr "Bsfilter"
-
-#: src/bsfilter.c:103
-#: src/bsfilter_gtk.c:193
-#: src/bsfilter_gtk.c:258
-#: src/bsfilter_gtk.c:318
-msgid "Any"
-msgstr "Bármely"
-
-#: src/bsfilter.c:295
-msgid "Bsfilter: fetching body..."
-msgstr "Bsfilter: üzenettörzs vétele..."
-
-#: src/bsfilter.c:304
-msgid "Bsfilter: filtering message..."
-msgstr "Bsfilter: üzenet szűrése..."
-
-#: src/bsfilter.c:389
-msgid ""
-"The Bsfilter plugin couldn't filter a message. The probable cause of the error is that it didn't learn from any mail.\n"
-"Use \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\" to train Bsfilter with a few hundred spam and ham messages."
-msgstr ""
-"A Bsfilter plugin nem tudja szűrni az üzenetet. A hiba lehetséges oka, hogy men tud tanulni korábbi e-mailekből.\n"
-"A \"/Megjelölés/Megjelölés mint spam\" és \"/Megjelölés/Megjelölés mint nem spam\" opciókkal tanítsd a Bsfilter-t pár száz spam és nem spam üzenettel."
-
-#: src/bsfilter.c:396
+#: src/fancy_viewer.c:151
 #, c-format
-msgid "The Bsfilter plugin couldn't filter a message. The command `%s` couldn't be run."
-msgstr "A Bsfilter plugin nem tudja szűrni az üzenetet: `%s` parancs nem futtatható."
-
-#: src/bsfilter.c:497
-msgid "Bsfilter: learning from message..."
-msgstr "Bsfilter: üzenet tanulása..."
-
-#: src/bsfilter.c:507
-#, c-format
-msgid "Learning failed; `%s` returned with status %d."
-msgstr "A tanulás sikertelen; `%s` %d státusszal tért vissza."
-
-#: src/bsfilter.c:641
 msgid ""
-"This plugin can check all messages that are received from an IMAP, LOCAL or POP account for spam using Bsfilter. You will need Bsfilter installed locally.\n"
-"\n"
-"Before Bsfilter can recognize spam messages, you have to train it by marking a few hundred spam and ham messages with the use of \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\".\n"
-"\n"
-"When a message is identified as spam it can be deleted or saved in a specially designated folder.\n"
-"\n"
-"Options can be found in /Configuration/Preferences/Plugins/Bsfilter"
+"Printing failed:\n"
+" %s"
 msgstr ""
-"A plugin minden, IMAP, LOCAL vagy POP3 fiókról érkező üzenetet ellenőriz a Bsfilter spamszűrővel. A Bsfilter-nek telepítve kell lennie.\n"
-"\n"
-"A Bsfilter-t tanítani kell pár száz spam és nem spam üzenettel, a \"/Megjelölés/Megjelölés mint spam\" és \"/Megjelölés/Megjelölés mint nem spam\" opciók segítségével.\n"
-"\n"
-"A spam-ként megjelölt üzenet törölhető, vagy külön kijelölt mappába menthető.\n"
-"\n"
-"A beállítások a /Beállítások/Beállítások/Pluginek/Bsfilter menüpontban találhatók."
+"A nyomtatás nem sikerült:\n"
+" %s"
 
-#: src/bsfilter.c:674
-msgid "Spam detection"
-msgstr "Spamszűrés"
+#: src/fancy_viewer.c:179
+msgid "Printing HTML is only possible if the program 'html2ps' is installed."
+msgstr "HTML nyomtatása csak akkor lehetséges, ha a 'html2ps' telepítve van."
 
-#: src/bsfilter.c:675
-msgid "Spam learning"
-msgstr "Spam tanítás"
+#: src/fancy_viewer.c:184
+msgid "Filename is null."
+msgstr "A fájlnév üres."
 
-#: src/bsfilter_gtk.c:139
-msgid "Process messages on receiving"
-msgstr "Üzenetek feldolgozása fogadás közben"
+#: src/fancy_viewer.c:199
+msgid "Conversion to postscript failed."
+msgstr "A postscript formátumba konvertálás nem sikerült."
 
-#: src/bsfilter_gtk.c:147
-msgid "Maximum size"
-msgstr "Maximális méret"
+#: src/fancy_viewer.c:206
+msgid "Print"
+msgstr "Nyomtatás"
 
-#: src/bsfilter_gtk.c:156
-msgid "Messages larger than this will not be checked"
-msgstr "Az ennél nagyobb üzenetek nem lesznek ellenőrizve"
+#: src/fancy_viewer.c:227
+#, c-format
+msgid "Printer %s doesn't accept PostScript files."
+msgstr "%s nyomtató nem fogadja el a PostScript fájlokat."
 
-#: src/bsfilter_gtk.c:159
-msgid "KB"
-msgstr "KB"
+#: src/fancy_viewer.c:241
+#, c-format
+msgid ""
+"Printing failed:\n"
+"%s"
+msgstr ""
+"A nyomtatás nem sikerült:\n"
+"%s"
 
-#: src/bsfilter_gtk.c:167
-msgid "Save spam in"
-msgstr "Spam mentése ide:"
+#: src/fancy_viewer.c:475
+msgid "Search the Web"
+msgstr "Keresés a weben"
 
-#: src/bsfilter_gtk.c:175
-msgid "Folder for storing identified spam. Leave empty to use the trash folder."
-msgstr "A spamként megjelölt üzenetek tárolási mappája. Hagy üresen az alapértelmezett kuka mappa használatához."
+#: src/fancy_viewer.c:490
+msgid "Open in Browser"
+msgstr "Megnyitás böngészőben"
 
-#: src/bsfilter_gtk.c:177
-msgid "_Browse"
-msgstr "_Böngészés"
+#: src/fancy_viewer.c:500
+#: src/fancy_viewer.c:533
+msgid "Open Image"
+msgstr "Kép megnyitása"
 
-#: src/bsfilter_gtk.c:181
-msgid "Click this button to select a folder for storing spam"
-msgstr "Kattints a gombra a spam tárolási mappájának kijelöléséhez"
+#: src/fancy_viewer.c:509
+msgid "Copy Link"
+msgstr "A link másolása"
 
-#: src/bsfilter_gtk.c:187
-msgid "Whitelist senders found in address book/folder"
-msgstr "Engedélyezés, ha a feladó szerepel a címjegyzékben/mappában"
+#: src/fancy_viewer.c:522
+msgid "Download Link"
+msgstr "Hivatkozott elem letöltése"
 
-#: src/bsfilter_gtk.c:191
-msgid "Messages coming from your address book contacts will be received in the normal folder even if detected as spam"
-msgstr "A címjegyzékben szereplő partnerektől érkezett üzenetek a normál bejövő mappába kerülnek akkor is, ha spam-nek jelöltek."
+#: src/fancy_viewer.c:545
+msgid "Save Image As"
+msgstr "A kép mentése másként"
 
-#: src/bsfilter_gtk.c:197
-msgid "Select ..."
-msgstr "Kiválasztás ..."
+#: src/fancy_viewer.c:556
+msgid "Copy Image"
+msgstr "A kép másolása"
 
-#: src/bsfilter_gtk.c:201
-msgid "Click this button to select a book or folder in the address book"
-msgstr "Kattints a gombra a címlista vagy a mappa kiválasztásához a címjegyzékben"
+#: src/fancy_viewer.c:772
+msgid "Fancy"
+msgstr "Fancy"
 
-#: src/bsfilter_gtk.c:203
-msgid "Learn whitelisted emails as ham"
-msgstr "Az engedélyezett e-mailek megjegyzése, mint nem spam"
+#: src/fancy_viewer.c:793
+msgid "Fancy HTML Viewer"
+msgstr "Fancy HTML megjelenítő"
 
-#: src/bsfilter_gtk.c:205
-msgid "If Bsfilter thought an email was spam or unsure, but it was whitelisted, learn it as ham."
-msgstr "Ha a Bsfilter egy e-mailt spam-nak vagy bizonytalannak talál, de engedélyezett, nem spamként tanulja meg."
-
-#: src/bsfilter_gtk.c:214
-msgid "Bsfilter call"
-msgstr "Bsfilter hívás"
-
-#: src/bsfilter_gtk.c:222
-msgid "Path to bsfilter executable"
-msgstr "A bsfilter binárisának elérési útja"
-
-#: src/bsfilter_gtk.c:228
-msgid "Mark spam as read"
-msgstr "Spam megjelölése olvasottként"
-
-#: src/bsfilter_gtk.c:392
+#: src/fancy_prefs.c:78
 msgid "Plugins"
 msgstr "Pluginek"
+
+#: src/fancy_prefs.c:115
+msgid "Auto-Load images"
+msgstr "Képek automatikus betöltése"
+
+#: src/fancy_prefs.c:121
+msgid "Block external links"
+msgstr "Külső linkek tiltása"
+
+#: src/fancy_prefs.c:127
+msgid "Enable Javascript"
+msgstr "JavaScript engedélyezése"
+
+#: src/fancy_prefs.c:133
+msgid "Enable Plugins"
+msgstr "Pluginek engedélyezése"
 
