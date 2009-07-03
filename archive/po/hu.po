@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Archive plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2009-03-01 19:09+0000\n"
-"PO-Revision-Date: 2009-03-02 14:40+0100\n"
+"POT-Creation-Date: 2009-06-26 18:29+0100\n"
+"PO-Revision-Date: 2009-06-26 22:04+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Country: HUNGARY\n"
 
 #: src/archiver.c:40
-#: src/archiver_prefs.c:87
+#: src/archiver_prefs.c:90
 msgid "Mail Archiver"
 msgstr "E-mail archiváló"
 
@@ -42,6 +42,7 @@ msgid ""
 "The archive can be compressed using:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "The archives can be restored with any standard tool that supports the chosen format and compression.\n"
 "\n"
@@ -64,6 +65,7 @@ msgstr ""
 "Az archívum ezek használatával tömöríthető:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "Az archívumok bármely standard eszközzel visszaállíthatók, amely a választott formátumot és tömörítést támogatja.\n"
 "\n"
@@ -73,7 +75,7 @@ msgstr ""
 "\n"
 "A beállítások a /Beállítások/Közös beállítások/Pluginek/E-mail archiváló menüpontban találhatók."
 
-#: src/archiver.c:146
+#: src/archiver.c:149
 msgid "Archiver"
 msgstr "Archiváló"
 
@@ -89,36 +91,36 @@ msgstr "Kattints a Mégsem gombra az archiválás leállításához"
 msgid "Archiving:"
 msgstr "Archiválás:"
 
-#: src/archiver_gtk.c:501
+#: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
 msgstr "A mappát és az archívumot ki kell jelölni"
 
-#: src/archiver_gtk.c:510
+#: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
 msgstr "%s már létezik. Mégis folytatod?"
 
-#: src/archiver_gtk.c:513
+#: src/archiver_gtk.c:515
 #, c-format
 msgid "%s: Is a link. Cannot continue"
 msgstr "%s: Ez egy link. Nem folytatható"
 
-#: src/archiver_gtk.c:516
+#: src/archiver_gtk.c:518
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
 msgstr "%s: Ez egy könyvtár. Nem folytatható"
 
-#: src/archiver_gtk.c:519
+#: src/archiver_gtk.c:521
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
 msgstr "%s: Hiányzó jogosultságok. Nem folytatható"
 
-#: src/archiver_gtk.c:522
+#: src/archiver_gtk.c:524
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
 msgstr "%s: Ismeretlen hiba. Nem folytatható"
 
-#: src/archiver_gtk.c:559
+#: src/archiver_gtk.c:561
 #, c-format
 msgid ""
 "Not a valid file name:\n"
@@ -127,7 +129,7 @@ msgstr ""
 "Nem érvényes fájlnév:\n"
 "%s."
 
-#: src/archiver_gtk.c:572
+#: src/archiver_gtk.c:574
 #, c-format
 msgid ""
 "Not a valid Claws Mail folder:\n"
@@ -136,7 +138,7 @@ msgstr ""
 "Érvénytelen Claws Mail mappa:\n"
 "%s."
 
-#: src/archiver_gtk.c:601
+#: src/archiver_gtk.c:603
 #, c-format
 msgid ""
 "Adding files in folder failed\n"
@@ -151,182 +153,186 @@ msgstr ""
 "\n"
 "Mindenképpen folytatod?"
 
-#: src/archiver_gtk.c:704
+#: src/archiver_gtk.c:707
 msgid "Archive result"
 msgstr "Archívum találat"
 
-#: src/archiver_gtk.c:730
+#: src/archiver_gtk.c:733
 msgid "Attributes"
 msgstr "Attribútumok"
 
-#: src/archiver_gtk.c:734
+#: src/archiver_gtk.c:737
 msgid "Values"
 msgstr "Értékek"
 
-#: src/archiver_gtk.c:743
+#: src/archiver_gtk.c:746
 msgid "Archive"
 msgstr "Archívum"
 
-#: src/archiver_gtk.c:749
+#: src/archiver_gtk.c:752
 msgid "Archive format"
 msgstr "Archívum formátuma"
 
-#: src/archiver_gtk.c:756
+#: src/archiver_gtk.c:759
 msgid "Compression method"
 msgstr "Tömörítési eljárás"
 
-#: src/archiver_gtk.c:764
+#: src/archiver_gtk.c:767
 msgid "Number of files"
 msgstr "Fájlok száma"
 
-#: src/archiver_gtk.c:772
+#: src/archiver_gtk.c:775
 msgid "Archive Size"
 msgstr "Archívum mérete"
 
-#: src/archiver_gtk.c:780
+#: src/archiver_gtk.c:783
 msgid "Folder Size"
 msgstr "Mappa mérete"
 
-#: src/archiver_gtk.c:789
+#: src/archiver_gtk.c:792
 msgid "Compression level"
 msgstr "Tömörítési szint"
 
-#: src/archiver_gtk.c:794
-#: src/archiver_gtk.c:802
-#: src/archiver_gtk.c:810
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "Yes"
 msgstr "Igen"
 
-#: src/archiver_gtk.c:794
-#: src/archiver_gtk.c:802
-#: src/archiver_gtk.c:810
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "No"
 msgstr "Nem"
 
-#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:800
 msgid "MD5 checksum"
 msgstr "MD5 ellenőrzőösszeg"
 
-#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:808
 msgid "Descriptive names"
 msgstr "Leíró nevek"
 
-#: src/archiver_gtk.c:813
+#: src/archiver_gtk.c:816
 msgid "Delete selected files"
 msgstr "A kijelölt fájlok törlése"
 
-#: src/archiver_gtk.c:822
-#: src/archiver_gtk.c:1196
+#: src/archiver_gtk.c:825
+#: src/archiver_gtk.c:1208
 msgid "Select mails before"
 msgstr "Ennél korábbi levelek kijelölése"
 
-#: src/archiver_gtk.c:898
+#: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr "Adj nevet az archívumnak [az utótag a típusát fogja jelezni, pl.  .tgz]"
 
-#: src/archiver_gtk.c:946
+#: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
 msgstr "%ld / %ld"
 
-#: src/archiver_gtk.c:984
+#: src/archiver_gtk.c:989
 msgid "Create Archive"
 msgstr "Archívum készítése"
 
-#: src/archiver_gtk.c:999
+#: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
 msgstr "Az Archiváló argumentumainak megadása"
 
-#: src/archiver_gtk.c:1012
+#: src/archiver_gtk.c:1017
 msgid "Folder to archive"
 msgstr "Az archiválandó mappa"
 
-#: src/archiver_gtk.c:1019
+#: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
 msgstr "Az archívum gyökérkönyvtára"
 
-#: src/archiver_gtk.c:1021
+#: src/archiver_gtk.c:1026
 msgid "_Browse"
 msgstr "_Böngészés"
 
-#: src/archiver_gtk.c:1024
+#: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
 msgstr "Kattints a gombra az archívum gyökérkönyvtárának kiválasztásához"
 
-#: src/archiver_gtk.c:1030
+#: src/archiver_gtk.c:1035
 msgid "Name for archive"
 msgstr "Az archívum neve"
 
-#: src/archiver_gtk.c:1036
+#: src/archiver_gtk.c:1041
 msgid "Archive location and name"
 msgstr "Az archívum helye és neve"
 
-#: src/archiver_gtk.c:1038
-#: src/archiver_prefs.c:190
+#: src/archiver_gtk.c:1043
+#: src/archiver_prefs.c:196
 msgid "_Select"
 msgstr "_Kiválasztás"
 
-#: src/archiver_gtk.c:1041
+#: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
 msgstr "Kattints a gombra az archívum nevének és helyének kiválasztásához"
 
-#: src/archiver_gtk.c:1043
+#: src/archiver_gtk.c:1048
 msgid "Choose compression"
 msgstr "Tömörítés kiválasztása"
 
-#: src/archiver_gtk.c:1056
+#: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
 msgstr "ZIP formátum használata az archívumhoz"
 
-#: src/archiver_gtk.c:1063
+#: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
 msgstr "BZIP formátum használata az archívumhoz"
 
-#: src/archiver_gtk.c:1073
+#: src/archiver_gtk.c:1076
+msgid "Choose this to use Compress compression for your archive"
+msgstr "Compress formátum használata az archívumhoz"
+
+#: src/archiver_gtk.c:1080
 msgid "_None"
 msgstr "_Nincs"
 
-#: src/archiver_gtk.c:1077
+#: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
 msgstr "Tömörítés tiltása az archívum készítésénél"
 
-#: src/archiver_gtk.c:1094
+#: src/archiver_gtk.c:1106
 msgid "Choose format"
 msgstr "Formátum kiválasztása"
 
-#: src/archiver_gtk.c:1107
+#: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
 msgstr "TAR formátum használata az archívumhoz"
 
-#: src/archiver_gtk.c:1114
+#: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
 msgstr "SHAR formátum használata az archívumhoz"
 
-#: src/archiver_gtk.c:1121
+#: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
 msgstr "CPIO formátum használata az archívumhoz"
 
-#: src/archiver_gtk.c:1128
+#: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
 msgstr "PAX formátum használata az archívumhoz"
 
-#: src/archiver_gtk.c:1148
+#: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
 msgstr "Egyéb opciók"
 
-#: src/archiver_gtk.c:1157
+#: src/archiver_gtk.c:1169
 msgid "_Recursive"
 msgstr "_Rekurzív"
 
-#: src/archiver_gtk.c:1161
+#: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
 msgstr "Almappák hozzáadása az archívumhoz"
 
-#: src/archiver_gtk.c:1163
+#: src/archiver_gtk.c:1175
 msgid "_MD5sum"
 msgstr "_MD5 ellenőrző összeg"
 
-#: src/archiver_gtk.c:1167
+#: src/archiver_gtk.c:1179
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archive.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -336,12 +342,12 @@ msgstr ""
 "Légy óvatos, ez jelentősen megnöveli az arhívum elkészítésének idejét.\n"
 " "
 
-#: src/archiver_gtk.c:1171
+#: src/archiver_gtk.c:1183
 msgid "R_ename"
 msgstr "Á_tnevezés"
 
-#: src/archiver_gtk.c:1175
-#: src/archiver_prefs.c:311
+#: src/archiver_gtk.c:1187
+#: src/archiver_prefs.c:331
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
@@ -351,11 +357,11 @@ msgstr ""
 "A fájlnév formája date_from@to@subject lesz.\n"
 "A fájlnevek max. 96 karakter hosszúak lesznek"
 
-#: src/archiver_gtk.c:1179
+#: src/archiver_gtk.c:1191
 msgid "_Delete"
 msgstr "_Törlés"
 
-#: src/archiver_gtk.c:1183
+#: src/archiver_gtk.c:1195
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
@@ -363,11 +369,11 @@ msgstr ""
 "Válaszd ki ezt az opciót, ha archiválás után törölni akarod a leveleket\n"
 "Jelenleg IMAP4, Local mbox és POP3 támogatott"
 
-#: src/archiver_gtk.c:1187
+#: src/archiver_gtk.c:1199
 msgid "Selection options"
 msgstr "Kijelölési opciók"
 
-#: src/archiver_gtk.c:1203
+#: src/archiver_gtk.c:1215
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
@@ -375,84 +381,88 @@ msgstr ""
 "A megadott dátumnál korábbi levelek kijelölése\n"
 "A dátumot ISO-8601 formátumban kell megadni [YYYY-MM-DD]"
 
-#: src/archiver_prefs.c:86
+#: src/archiver_prefs.c:89
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/archiver_prefs.c:122
+#: src/archiver_prefs.c:125
 msgid "Select destination folder"
 msgstr "Célmappa kiválasztása"
 
-#: src/archiver_prefs.c:128
+#: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
 msgstr "'%s' nem könyvtár."
 
-#: src/archiver_prefs.c:182
+#: src/archiver_prefs.c:188
 msgid "Default save folder"
 msgstr "Mentés alapértelmezett könyvtára"
 
-#: src/archiver_prefs.c:194
+#: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
 msgstr "Kattints a gombra az archívumok alapértelmezett mentési helyének kiválasztásához"
 
-#: src/archiver_prefs.c:203
+#: src/archiver_prefs.c:209
 msgid "Default compression"
 msgstr "Alapértelmezett tömörítés"
 
-#: src/archiver_prefs.c:215
+#: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
 msgstr "ZIP formátum használata alapértelmezésként"
 
-#: src/archiver_prefs.c:222
+#: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
 msgstr "BZIP2 formátum használata alapértelmezésként"
 
-#: src/archiver_prefs.c:224
+#: src/archiver_prefs.c:236
+msgid "Choose this option to use COMPRESS compression by default"
+msgstr "Compress formátum használata alapértelmezésként"
+
+#: src/archiver_prefs.c:239
 msgid "None"
 msgstr "Nincs"
 
-#: src/archiver_prefs.c:229
+#: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
 msgstr "Tömörítés tiltása alapértelmezésben"
 
-#: src/archiver_prefs.c:243
+#: src/archiver_prefs.c:263
 msgid "Default format"
 msgstr "Alapértelmezett formátum"
 
-#: src/archiver_prefs.c:255
+#: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
 msgstr "TAR formátum használata alapértelmezésként"
 
-#: src/archiver_prefs.c:262
+#: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
 msgstr "SHAR formátum használata alapértelmezésként"
 
-#: src/archiver_prefs.c:269
+#: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
 msgstr "CPIO formátum használata alapértelmezésként"
 
-#: src/archiver_prefs.c:276
+#: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
 msgstr "PAX formátum használata alapértelmezésként"
 
-#: src/archiver_prefs.c:293
+#: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
 msgstr "Egyéb opciók alapértelmezései"
 
-#: src/archiver_prefs.c:300
+#: src/archiver_prefs.c:320
 msgid "Recursive"
 msgstr "Rekurzív"
 
-#: src/archiver_prefs.c:302
+#: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
 msgstr "Almappák hozzáadása az archívumhoz alapértelmezésben"
 
-#: src/archiver_prefs.c:303
+#: src/archiver_prefs.c:323
 msgid "MD5sum"
 msgstr "MD5 ellenőrző összeg"
 
-#: src/archiver_prefs.c:305
+#: src/archiver_prefs.c:325
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archives by default.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -462,15 +472,15 @@ msgstr ""
 "Légy óvatos, ez jelentősen megnövelheti az archívumok létrehozásához szükséges időt\n"
 " "
 
-#: src/archiver_prefs.c:309
+#: src/archiver_prefs.c:329
 msgid "Rename"
 msgstr "Átnevezés"
 
-#: src/archiver_prefs.c:315
+#: src/archiver_prefs.c:335
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/archiver_prefs.c:317
+#: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
 msgstr "Válaszd ki ezt az opciót, ha archiválás után törölni akarod a leveleket"
 

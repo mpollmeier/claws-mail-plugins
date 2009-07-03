@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-12-12 11:30+0000\n"
-"PO-Revision-Date: 2009-03-07 01:11+0900\n"
+"POT-Creation-Date: 2009-06-26 18:29+0100\n"
+"PO-Revision-Date: 2009-06-28 15:46+0900\n"
 "Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/archiver.c:40
-#: src/archiver_prefs.c:87
+#: src/archiver_prefs.c:90
 msgid "Mail Archiver"
 msgstr "メール書庫"
 
@@ -35,6 +35,7 @@ msgid ""
 "The archive can be compressed using:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "The archives can be restored with any standard tool that supports the chosen format and compression.\n"
 "\n"
@@ -44,29 +45,29 @@ msgid ""
 "\n"
 "Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
 msgstr ""
-"This plugin adds archiving features to Claws Mail.\n"
+"このプラグインはClaws Mailに書庫機能を追加します。\n"
 "\n"
-"It enables you to select a mail folder that you want to be archived, and then choose a name, format and location for the archive. Subfolders can be included and MD5 checksums can be added for each file in the archive. Several archiving options are also available.\n"
+"書庫機能は、書庫にしたいメールフォルダを選択する事ででき、次に名前やフォーマット、書庫の保存場所を選択します。サブフォルダも含まれ、MD5チェックサムは書庫上の各ファイルに付けられます。複数の書庫オプションも利用可能です。\n"
 "\n"
-"The archive can be stored as:\n"
+"保存可能な書庫は以下になります:\n"
 "\tTAR\n"
 "\tPAX\n"
 "\tSHAR\n"
 "\tCPIO\n"
 "\n"
-"The archive can be compressed using:\n"
+"圧縮が利用可能な書庫は以下になります:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\n"
-"The archives can be restored with any standard tool that supports the chosen format and compression.\n"
+"書庫はフォーマットや圧縮をサポートする一般的なツールでリストアすることができます。\n"
 "\n"
-"The supported folder types are MH, IMAP, RSSyl and vCalendar.\n"
+"サポートされるフォルダは、MH、IMAP、RSSyl、vCalendarです。\n"
 "\n"
-"To activate the archiving feature go to /Tools/Create Archive\n"
+"書庫機能を有効にするには/ツール/書庫の作成を選択します\n"
 "\n"
-"Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
+"既定のオプションは/設定/全般の設定/Plugins/メール書庫 にあります"
 
-#: src/archiver.c:146
+#: src/archiver.c:149
 msgid "Archiver"
 msgstr "書庫"
 
@@ -82,36 +83,36 @@ msgstr "書庫の作成を中止するにはキャンセルボタンを押して
 msgid "Archiving:"
 msgstr "書庫作成中:"
 
-#: src/archiver_gtk.c:501
+#: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
 msgstr "フォルダと書庫を選択する必要があります"
 
-#: src/archiver_gtk.c:510
+#: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
 msgstr "%s: 存在します。続けますか?"
 
-#: src/archiver_gtk.c:513
+#: src/archiver_gtk.c:515
 #, c-format
 msgid "%s: Is a link. Cannot continue"
 msgstr "%s: はリンクです。続けることができません"
 
-#: src/archiver_gtk.c:516
+#: src/archiver_gtk.c:518
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
 msgstr "%s: はディレクトリです。続けることができません"
 
-#: src/archiver_gtk.c:519
+#: src/archiver_gtk.c:521
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
 msgstr "%s: 権限が失われています。続けることができません"
 
-#: src/archiver_gtk.c:522
+#: src/archiver_gtk.c:524
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
 msgstr "%s: 不明なエラーです。続けることができません"
 
-#: src/archiver_gtk.c:559
+#: src/archiver_gtk.c:561
 #, c-format
 msgid ""
 "Not a valid file name:\n"
@@ -120,7 +121,7 @@ msgstr ""
 "有効なファイル名ではありません:\n"
 "%s."
 
-#: src/archiver_gtk.c:572
+#: src/archiver_gtk.c:574
 #, c-format
 msgid ""
 "Not a valid Claws Mail folder:\n"
@@ -129,7 +130,7 @@ msgstr ""
 "有効なClaws Mailフォルダではありません:\n"
 "%s."
 
-#: src/archiver_gtk.c:601
+#: src/archiver_gtk.c:603
 #, c-format
 msgid ""
 "Adding files in folder failed\n"
@@ -144,182 +145,186 @@ msgstr ""
 "\n"
 "続けますか?"
 
-#: src/archiver_gtk.c:704
+#: src/archiver_gtk.c:707
 msgid "Archive result"
 msgstr "書庫作成結果"
 
-#: src/archiver_gtk.c:730
+#: src/archiver_gtk.c:733
 msgid "Attributes"
 msgstr "属性"
 
-#: src/archiver_gtk.c:734
+#: src/archiver_gtk.c:737
 msgid "Values"
 msgstr "値"
 
-#: src/archiver_gtk.c:743
+#: src/archiver_gtk.c:746
 msgid "Archive"
 msgstr "書庫"
 
-#: src/archiver_gtk.c:749
+#: src/archiver_gtk.c:752
 msgid "Archive format"
 msgstr "書庫フォーマット"
 
-#: src/archiver_gtk.c:756
+#: src/archiver_gtk.c:759
 msgid "Compression method"
 msgstr "圧縮方法"
 
-#: src/archiver_gtk.c:764
+#: src/archiver_gtk.c:767
 msgid "Number of files"
 msgstr "行番号"
 
-#: src/archiver_gtk.c:772
+#: src/archiver_gtk.c:775
 msgid "Archive Size"
 msgstr "書庫サイズ"
 
-#: src/archiver_gtk.c:780
+#: src/archiver_gtk.c:783
 msgid "Folder Size"
 msgstr "フォルダサイズ"
 
-#: src/archiver_gtk.c:789
+#: src/archiver_gtk.c:792
 msgid "Compression level"
 msgstr "圧縮レベル"
 
-#: src/archiver_gtk.c:794
-#: src/archiver_gtk.c:802
-#: src/archiver_gtk.c:810
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "Yes"
 msgstr "はい"
 
-#: src/archiver_gtk.c:794
-#: src/archiver_gtk.c:802
-#: src/archiver_gtk.c:810
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "No"
 msgstr "いいえ"
 
-#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:800
 msgid "MD5 checksum"
 msgstr "MD5チェックサム"
 
-#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:808
 msgid "Descriptive names"
 msgstr "記述名"
 
-#: src/archiver_gtk.c:813
+#: src/archiver_gtk.c:816
 msgid "Delete selected files"
 msgstr "選択したファイルを削除"
 
-#: src/archiver_gtk.c:822
-#: src/archiver_gtk.c:1196
+#: src/archiver_gtk.c:825
+#: src/archiver_gtk.c:1208
 msgid "Select mails before"
 msgstr "メールを選択"
 
-#: src/archiver_gtk.c:898
+#: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr "書庫にするファイル名を選択する [拡張子は.tgz野用に書庫に反映されます]"
 
-#: src/archiver_gtk.c:946
+#: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
 msgstr "%ld of %ld"
 
-#: src/archiver_gtk.c:984
+#: src/archiver_gtk.c:989
 msgid "Create Archive"
 msgstr "書庫を作成"
 
-#: src/archiver_gtk.c:999
+#: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
 msgstr "書庫の引数を入力"
 
-#: src/archiver_gtk.c:1012
+#: src/archiver_gtk.c:1017
 msgid "Folder to archive"
 msgstr "書庫にするフォルダ"
 
-#: src/archiver_gtk.c:1019
+#: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
 msgstr "書庫のルートであるフォルダ"
 
-#: src/archiver_gtk.c:1021
+#: src/archiver_gtk.c:1026
 msgid "_Browse"
 msgstr "ブラウズ(_B)"
 
-#: src/archiver_gtk.c:1024
+#: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
 msgstr "書庫のルートであるフォルダを選択するにはこのボタンをクリック"
 
-#: src/archiver_gtk.c:1030
+#: src/archiver_gtk.c:1035
 msgid "Name for archive"
 msgstr "書庫名"
 
-#: src/archiver_gtk.c:1036
+#: src/archiver_gtk.c:1041
 msgid "Archive location and name"
 msgstr "書庫の場所と名前"
 
-#: src/archiver_gtk.c:1038
-#: src/archiver_prefs.c:190
+#: src/archiver_gtk.c:1043
+#: src/archiver_prefs.c:196
 msgid "_Select"
 msgstr "選択(_S)"
 
-#: src/archiver_gtk.c:1041
+#: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
 msgstr "書庫の場所と名前を選択するにはこのボタンをクリック"
 
-#: src/archiver_gtk.c:1043
+#: src/archiver_gtk.c:1048
 msgid "Choose compression"
 msgstr "圧縮を選択"
 
-#: src/archiver_gtk.c:1056
+#: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
 msgstr "書庫のZIP圧縮を利用するにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1063
+#: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
 msgstr "書庫のBZIP2圧縮を利用するにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1073
+#: src/archiver_gtk.c:1076
+msgid "Choose this to use Compress compression for your archive"
+msgstr "書庫のCompress圧縮を利用するにはこのオプションを選択"
+
+#: src/archiver_gtk.c:1080
 msgid "_None"
 msgstr "なし(_N)"
 
-#: src/archiver_gtk.c:1077
+#: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
 msgstr "書庫の圧縮を無効にするにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1094
+#: src/archiver_gtk.c:1106
 msgid "Choose format"
 msgstr "フォーマットを選択"
 
-#: src/archiver_gtk.c:1107
+#: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
 msgstr "書庫のフォーマットとしてTARを利用するにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1114
+#: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
 msgstr "書庫のフォーマットとしてSHARを利用するにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1121
+#: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
 msgstr "書庫のフォーマットとしてCPIOを利用するにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1128
+#: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
 msgstr "書庫のフォーマットとしてPAXを利用するにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1148
+#: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
 msgstr "雑多なオプション"
 
-#: src/archiver_gtk.c:1157
+#: src/archiver_gtk.c:1169
 msgid "_Recursive"
 msgstr "再帰(_R)"
 
-#: src/archiver_gtk.c:1161
+#: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
 msgstr "書庫内のサブフォルダを含むにはこのオプションを選択"
 
-#: src/archiver_gtk.c:1163
+#: src/archiver_gtk.c:1175
 msgid "_MD5sum"
 msgstr "_MD5sum"
 
-#: src/archiver_gtk.c:1167
+#: src/archiver_gtk.c:1179
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archive.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -329,12 +334,12 @@ msgstr ""
 "ただし、書庫の作成に劇的に時間がかかることに十分に注意してください\n"
 "　　"
 
-#: src/archiver_gtk.c:1171
+#: src/archiver_gtk.c:1183
 msgid "R_ename"
 msgstr "リネーム(_E)"
 
-#: src/archiver_gtk.c:1175
-#: src/archiver_prefs.c:311
+#: src/archiver_gtk.c:1187
+#: src/archiver_prefs.c:331
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
@@ -344,11 +349,11 @@ msgstr ""
 "スキーム名は: date_from@to@subject.\n"
 "名前は最大96文字に省略されます"
 
-#: src/archiver_gtk.c:1179
+#: src/archiver_gtk.c:1191
 msgid "_Delete"
 msgstr "削除(_D)"
 
-#: src/archiver_gtk.c:1183
+#: src/archiver_gtk.c:1195
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
@@ -356,11 +361,11 @@ msgstr ""
 "書庫化の後にメールを削除するにはこのオプションを選択\n"
 "ここではIMAP4やローカルmbox、POP3をそのように取り扱います"
 
-#: src/archiver_gtk.c:1187
+#: src/archiver_gtk.c:1199
 msgid "Selection options"
 msgstr "選択オプション"
 
-#: src/archiver_gtk.c:1203
+#: src/archiver_gtk.c:1215
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
@@ -368,84 +373,88 @@ msgstr ""
 "既定日より前のメールを選択\n"
 "日付はISO-8601に従う必要があります [YYYY-MM-DD]"
 
-#: src/archiver_prefs.c:86
+#: src/archiver_prefs.c:89
 msgid "Plugins"
 msgstr "プラグイン"
 
-#: src/archiver_prefs.c:122
+#: src/archiver_prefs.c:125
 msgid "Select destination folder"
 msgstr "保存先フォルダの選択"
 
-#: src/archiver_prefs.c:128
+#: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
 msgstr "'%s' はディレクトリではありません"
 
-#: src/archiver_prefs.c:182
+#: src/archiver_prefs.c:188
 msgid "Default save folder"
 msgstr "既定の保存フォルダ"
 
-#: src/archiver_prefs.c:194
+#: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
 msgstr "書庫の保存する既定の場所を選択するにはこのボタンをクリック"
 
-#: src/archiver_prefs.c:203
+#: src/archiver_prefs.c:209
 msgid "Default compression"
 msgstr "既定の圧縮"
 
-#: src/archiver_prefs.c:215
+#: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
 msgstr "既定の圧縮としてZIPを使用するにはこのオプションを選択"
 
-#: src/archiver_prefs.c:222
+#: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
 msgstr "既定の圧縮としてBZIP2を使用するにはこのオプションを選択"
 
-#: src/archiver_prefs.c:224
+#: src/archiver_prefs.c:236
+msgid "Choose this option to use COMPRESS compression by default"
+msgstr "既定のCOMPRESS圧縮を使用するにはこのオプションを選択"
+
+#: src/archiver_prefs.c:239
 msgid "None"
 msgstr "なし"
 
-#: src/archiver_prefs.c:229
+#: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
 msgstr "既定の圧縮を無効にするにはこのオプションを選択"
 
-#: src/archiver_prefs.c:243
+#: src/archiver_prefs.c:263
 msgid "Default format"
 msgstr "既定のフォーマット"
 
-#: src/archiver_prefs.c:255
+#: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
 msgstr "既定のフォーマットでTARを使うにはこのオプションを選択"
 
-#: src/archiver_prefs.c:262
+#: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
 msgstr "既定のフォーマットでSHARを使うにはこのオプションを選択"
 
-#: src/archiver_prefs.c:269
+#: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
 msgstr "既定のフォーマットでCPIOを使うにはこのオプションを選択"
 
-#: src/archiver_prefs.c:276
+#: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
 msgstr "既定のフォーマットでPAXを使うにはこのオプションを選択"
 
-#: src/archiver_prefs.c:293
+#: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
 msgstr "既定の雑多なオプション"
 
-#: src/archiver_prefs.c:300
+#: src/archiver_prefs.c:320
 msgid "Recursive"
 msgstr "再帰"
 
-#: src/archiver_prefs.c:302
+#: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
 msgstr "既定の書庫内のサブフォルダを含むにはこのオプションを選択"
 
-#: src/archiver_prefs.c:303
+#: src/archiver_prefs.c:323
 msgid "MD5sum"
 msgstr "MD5sum"
 
-#: src/archiver_prefs.c:305
+#: src/archiver_prefs.c:325
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archives by default.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -455,15 +464,15 @@ msgstr ""
 "ただし、書庫の作成に劇的に時間がかかることに十分に注意してください\n"
 "　　"
 
-#: src/archiver_prefs.c:309
+#: src/archiver_prefs.c:329
 msgid "Rename"
 msgstr "リネーム"
 
-#: src/archiver_prefs.c:315
+#: src/archiver_prefs.c:335
 msgid "Delete"
 msgstr "削除"
 
-#: src/archiver_prefs.c:317
+#: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
 msgstr "書庫化の後にメールを削除するにはこのオプションを選択"
 

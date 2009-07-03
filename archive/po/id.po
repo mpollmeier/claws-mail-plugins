@@ -1,34 +1,34 @@
-# Brazilian Portuguese translation of  Claws Mail Archive plugin.
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2008, 2009.
+# Indonesian translations of archive.
+# Copyright (C) 2009 Michael Rasmussen
+# This file is distributed under the same license as the archive package.
+# MSulchan Darmawan <bleketux@gmail.com>, 2009.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version:  Claws Mail Archive plugin\n"
+"Project-Id-Version: archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2009-03-06 17:22+0100\n"
-"PO-Revision-Date: 2009-03-05 08:49-0300\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Brazilian Portuguese\n"
+"POT-Creation-Date: 2009-06-25 13:29+0700\n"
+"PO-Revision-Date: 2009-06-29 11:37+0700\n"
+"Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
-#: src/archiver.c:40 src/archiver_prefs.c:90
+#: src/archiver.c:40
+#: src/archiver_prefs.c:90
 msgid "Mail Archiver"
-msgstr "Empacotador de mensagens"
+msgstr "Pengarsip Surat"
 
 #: src/archiver.c:51
 msgid "Create Archive..."
-msgstr "Criar pacote..."
+msgstr "Buat Arsip..."
 
 #: src/archiver.c:117
 msgid ""
 "This plugin adds archiving features to Claws Mail.\n"
 "\n"
-"It enables you to select a mail folder that you want to be archived, and "
-"then choose a name, format and location for the archive. Subfolders can be "
-"included and MD5 checksums can be added for each file in the archive. "
-"Several archiving options are also available.\n"
+"It enables you to select a mail folder that you want to be archived, and then choose a name, format and location for the archive. Subfolders can be included and MD5 checksums can be added for each file in the archive. Several archiving options are also available.\n"
 "\n"
 "The archive can be stored as:\n"
 "\tTAR\n"
@@ -41,88 +41,81 @@ msgid ""
 "\tBZIP2\n"
 "\tCOMPRESS\n"
 "\n"
-"The archives can be restored with any standard tool that supports the chosen "
-"format and compression.\n"
+"The archives can be restored with any standard tool that supports the chosen format and compression.\n"
 "\n"
 "The supported folder types are MH, IMAP, RSSyl and vCalendar.\n"
 "\n"
 "To activate the archiving feature go to /Tools/Create Archive\n"
 "\n"
-"Default options can be set in /Configuration/Preferences/Plugins/Mail "
-"Archiver"
+"Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
 msgstr ""
-"Esse plugin adiciona recursos de empacotamento ao Claws Mail.\n"
+"Pengaya ini menambahkan fitur pengarsipan pada Claws Mail.\n"
 "\n"
-"Ele habilita a seleção de uma pasta de mensagens que você deseja empacotar, "
-"a seleção de um nome, formato e localização para o pacote. Subpastas podem "
-"ser incluídas e somas de checagem MD5 podem ser adicionadas para cada arquivo "
-"no pacote. Existem várias opções de empacotamento.\n"
+"Pengaya ini memperbolehkan anda untuk memilih direktori surat yang akan anda arsipkan, dan kemudian memilih nama, format, dan lokasi arsip.  Sub direktori dapat diikutsertakan dan ceksum MD5 dapat ditambahkan untuk setiap berkas di dalam arsip. Beberapa pilihan pengarsipan juga tersedia.\n"
 "\n"
-"Os pacotes podem ser armazenados como:\n"
+"Arsip dapat di buat sebagai:\n"
 "\tTAR\n"
 "\tPAX\n"
 "\tSHAR\n"
 "\tCPIO\n"
 "\n"
-"O pacote pode ser comprimido usando:\n"
+"Arsip dapat dikompres menggunakan:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\tCOMPRESS\n"
 "\n"
-"Os pacotes podem ser restaurados com qualquer ferramenta que suporte o "
-"formato e a compressão selecionados.\n"
+"Arsip dapat dibuka dengan setiap aplikasi standar yang mendukung format dan teknik kompresi yang dipilih.\n"
 "\n"
-"Os tipos de pasta suportados são MH, IMAP, RSSyl e vCalendar.\n"
+"Tipe direktori yang didukunga adalah MH, IMAP, RSSyl dan vCalendar.\n"
 "\n"
-"Para ativar o recurso de empacotamento, vá até /Ferramentas/Criar pacote.\n"
+"Untuk mengaktifkan fitur pengarsipan silahkan ke /Alat/Buat Arsip\n"
 "\n"
-"As opções padrão podem ser definidas em /Configuração/Preferências/Plugins/"
-"Empacotador de mensagens."
+"Pilihan standar dapat diatur di /Konfigurasi/Pengaturan/Pengaya/Pengarsip Surat"
 
 #: src/archiver.c:149
 msgid "Archiver"
-msgstr "Empacotador"
+msgstr "Pengarsip"
 
 #: src/archiver_gtk.c:101
 msgid "Archiving"
-msgstr "Empacotando"
+msgstr "Mengarsipkan"
 
 #: src/archiver_gtk.c:119
 msgid "Press Cancel button to stop archiving"
-msgstr "Pressione o botão Cancelar para interromper o empacotamento"
+msgstr "Tekan tombol Batal untuk berhenti mengarsipkan"
 
 #: src/archiver_gtk.c:135
 msgid "Archiving:"
-msgstr "Empacotando:"
+msgstr "Mengarsipkan:"
 
 #: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
-msgstr "A pasta e o pacote devem ser selecionados"
+msgstr "Direktori dan arsip harus dipilih"
 
 #: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
-msgstr "%s: já existe. Continuar mesmo assim?"
+msgstr "%s: Ada. Lanjutkan saja?"
 
 #: src/archiver_gtk.c:515
 #, c-format
 msgid "%s: Is a link. Cannot continue"
-msgstr "%s: é um link. Não é possível continuar."
+msgstr "%s: Adalah sebuah tautan. Tidak dapat melanjutkan"
 
 #: src/archiver_gtk.c:518
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
-msgstr "%s: é um diretório. Não é possível continuar."
+msgstr "%s: Adalah sebuah direktori. Tidak dapat melanjutkan"
 
 #: src/archiver_gtk.c:521
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
-msgstr "%s: permissões insuficientes. Não é possível continuar."
+msgstr "%s: Kehilangan hak akses. Tidak dapat melanjutkan"
 
 #: src/archiver_gtk.c:524
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
-msgstr "%s: erro desconhecido. Não é possível continuar."
+msgstr "%s: Kesalahan tidak diketahui. Tidak dapat melanjutkan"
 
 #: src/archiver_gtk.c:561
 #, c-format
@@ -130,7 +123,7 @@ msgid ""
 "Not a valid file name:\n"
 "%s."
 msgstr ""
-"Não é um nome de arquivo válido:\n"
+"Bukan sebuah nama berkas yang absah:\n"
 "%s."
 
 #: src/archiver_gtk.c:574
@@ -139,7 +132,7 @@ msgid ""
 "Not a valid Claws Mail folder:\n"
 "%s."
 msgstr ""
-"Não é uma pasta do Claws Mail válida:\n"
+"Bukan sebuah direktori Claws Mail yang absah:\n"
 "%s."
 
 #: src/archiver_gtk.c:603
@@ -151,182 +144,186 @@ msgid ""
 "\n"
 "Continue anyway?"
 msgstr ""
-"Alguns arquivos não foram adicionados à pasta\n"
-"Arquivos na pasta: %d\n"
-"Arquivos na lista:   %d\n"
+"Gagal menambahkan berkas ke dalam direktori\n"
+"Berkas dalam direktori: %d\n"
+"Berkas dalam daftar:   %d\n"
 "\n"
-"Continuar mesmo assim?"
+"Lanjutkan saja?"
 
 #: src/archiver_gtk.c:707
 msgid "Archive result"
-msgstr "Resultado do pacote"
+msgstr "Hasil pengarsipan"
 
 #: src/archiver_gtk.c:733
 msgid "Attributes"
-msgstr "Atributos"
+msgstr "Atribut"
 
 #: src/archiver_gtk.c:737
 msgid "Values"
-msgstr "Valores"
+msgstr "Nilai"
 
 #: src/archiver_gtk.c:746
 msgid "Archive"
-msgstr "Pacote"
+msgstr "Arsip"
 
 #: src/archiver_gtk.c:752
 msgid "Archive format"
-msgstr "Formato do pacote"
+msgstr "Format arsip"
 
 #: src/archiver_gtk.c:759
 msgid "Compression method"
-msgstr "Método de compressão"
+msgstr "Metode kompresi"
 
 #: src/archiver_gtk.c:767
 msgid "Number of files"
-msgstr "Número de arquivos"
+msgstr "Jumlah berkas"
 
 #: src/archiver_gtk.c:775
 msgid "Archive Size"
-msgstr "Tamanho do pacote"
+msgstr "Ukuran Arsip"
 
 #: src/archiver_gtk.c:783
 msgid "Folder Size"
-msgstr "Tamanho da pasta"
+msgstr "Ukuran Direktori"
 
 #: src/archiver_gtk.c:792
 msgid "Compression level"
-msgstr "Nível de compressão"
+msgstr "Tingkat kompresi"
 
-#: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "Yes"
-msgstr "Sim"
+msgstr "Ya"
 
-#: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "No"
-msgstr "Não"
+msgstr "Tidak"
 
 #: src/archiver_gtk.c:800
 msgid "MD5 checksum"
-msgstr "Checksum MD5"
+msgstr "Ceksum MD5"
 
 #: src/archiver_gtk.c:808
 msgid "Descriptive names"
-msgstr "Nomes descritivos"
+msgstr "Nama deskriptif"
 
 #: src/archiver_gtk.c:816
 msgid "Delete selected files"
-msgstr "Excluir arquivos selecionados"
+msgstr "Hapus berkas terpilih"
 
-#: src/archiver_gtk.c:825 src/archiver_gtk.c:1208
+#: src/archiver_gtk.c:825
+#: src/archiver_gtk.c:1208
 msgid "Select mails before"
-msgstr "Selecione as mensagens antes"
+msgstr "Pilih surat sebelum"
 
 #: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
-msgstr ""
-"Selecione o nome de arquivo para o pacote [o sufixo deve indicar o tipo de "
-"pacote, ex. .tgz]"
+msgstr "Pilih nama berkas untuk arsip [akhiran mencerminkan arsip seperti .tgz]"
 
 #: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
-msgstr "%ld de %ld"
+msgstr "%ld dari %ld"
 
 #: src/archiver_gtk.c:989
 msgid "Create Archive"
-msgstr "Criar pacote"
+msgstr "Buat Arsip"
 
 #: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
-msgstr "Digite os argumentos para o empacotador"
+msgstr "Masukkan argumen pengarsip"
 
 #: src/archiver_gtk.c:1017
 msgid "Folder to archive"
-msgstr "Pasta para o pacote"
+msgstr "Direktori untuk diarsipkan"
 
 #: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
-msgstr "Pasta onde está a raiz do pacote"
+msgstr "Direktori yang menjadi direktori utama arsip"
 
 #: src/archiver_gtk.c:1026
 msgid "_Browse"
-msgstr "_Navegar"
+msgstr "_Jelajah"
 
 #: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
-msgstr "Clique nesse botão para selecionar a pasta que será a raiz do pacote"
+msgstr "Klik tombol ini untuk memilih direktori yang menjadi direktori utama dari arsip"
 
 #: src/archiver_gtk.c:1035
 msgid "Name for archive"
-msgstr "Nome para o pacote"
+msgstr "Nama untuk arsip"
 
 #: src/archiver_gtk.c:1041
 msgid "Archive location and name"
-msgstr "Localização e nome do pacote"
+msgstr "Nama dan lokasi arsip"
 
-#: src/archiver_gtk.c:1043 src/archiver_prefs.c:196
+#: src/archiver_gtk.c:1043
+#: src/archiver_prefs.c:196
 msgid "_Select"
-msgstr "_Selecionar"
+msgstr "_Pilih"
 
 #: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
-msgstr "Clique nesse botão para selecionar o nome a localização para o pacote"
+msgstr "Klik tombol ini untuk memilih nama dan lokasi untuk arsip"
 
 #: src/archiver_gtk.c:1048
 msgid "Choose compression"
-msgstr "Escolha a compressão"
+msgstr "Pilih kompresi"
 
 #: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
-msgstr "Selecione essa opção para usar a compressão ZIP no pacote"
+msgstr "Ambil pilihan ini untuk menggunakan kompresi ZIP terhadap arsip"
 
 #: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
-msgstr "Selecione essa opção para usar a compressão BZIP2 no pacote"
+msgstr "Ambil pilihan ini untuk menggunakan kompresi BZIP2 terhadap arsip"
 
 #: src/archiver_gtk.c:1076
 msgid "Choose this to use Compress compression for your archive"
-msgstr "Selecione essa opção para usar a compressão Compress no pacote"
+msgstr "Pilih ini untuk menggunakan kompresi Kompres terhadap arsip anda"
 
 #: src/archiver_gtk.c:1080
 msgid "_None"
-msgstr "_Nenhuma"
+msgstr "_Tidak ada"
 
 #: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
-msgstr "Selecione essa opção para desabilitar a compressão do pacote"
+msgstr "Ambil pilihan ini untuk menonaktifkan kompresi terhadap arsip"
 
 #: src/archiver_gtk.c:1106
 msgid "Choose format"
-msgstr "Escolha o formato"
+msgstr "Pilih format"
 
 #: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
-msgstr "Selecione essa opção para usar o TAR como formato do pacote"
+msgstr "Ambil pilihan ini untuk menggunakan TAR sebagai format untuk arsip"
 
 #: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
-msgstr "Selecione essa opção para usar o SHAR como formato do pacote"
+msgstr "Pilih ini untuk menggunakan SHAR sebagai format untuk arsip"
 
 #: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
-msgstr "Selecione essa opção para usar o CPIO como formato do pacote"
+msgstr "Ambil pilihan ini untuk menggunakan CPIO sebagai format untuk arsip"
 
 #: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
-msgstr "Selecione essa opção para usar o PAX como formato do pacote"
+msgstr "Ambil pilihan ini untuk menggunakan PAX sebagai format untuk arsip"
 
 #: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
-msgstr "Outras opções"
+msgstr "Pilihan macam-macam"
 
 #: src/archiver_gtk.c:1169
 msgid "_Recursive"
-msgstr "_Recursivo"
+msgstr "_Rekursif"
 
 #: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
-msgstr "Selecione essa opção para incluir as subpastas no pacote"
+msgstr "Ambil pilihan ini untuk menyertakan subdirektori pada arsip"
 
 #: src/archiver_gtk.c:1175
 msgid "_MD5sum"
@@ -338,126 +335,125 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archive"
 msgstr ""
-"Selecione essa opção para adicionar checksums MD5 a cada arquivo do\n"
-"pacote. Saiba, entretanto, que isso aumentará significativamente o\n"
-"tempo de criação do pacote."
+"Ambil pilihan ini untuk menambah ceksum MD5 untuk setiap berkas dalam arsip.\n"
+"Namun waspadalah, hal ini meningkatkan waktu\n"
+"pembuatan arsip secara drastis"
 
 #: src/archiver_gtk.c:1183
 msgid "R_ename"
-msgstr "R_enomear"
+msgstr "G_anti nama"
 
-#: src/archiver_gtk.c:1187 src/archiver_prefs.c:331
+#: src/archiver_gtk.c:1187
+#: src/archiver_prefs.c:331
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
 "Names will be truncated to max 96 characters"
 msgstr ""
-"Selecione essa opção para usar nomes descritivos para cada arquivo no\n"
-"pacote. O esquema de nome é: data_de@para@assunto.\n"
-"Os nomes serão truncados no limite de 96 caracteres."
+"Ambil pilihan ini untuk menggunakan nama deskriptif untuk setiap berkas dalam arsip.\n"
+"Skema nama: tanggal_dari@ke@subyek.\n"
+"Nama akan dipotong sampai maksimum 96 karakter"
 
 #: src/archiver_gtk.c:1191
 msgid "_Delete"
-msgstr "_Excluir"
+msgstr "_Hapus"
 
 #: src/archiver_gtk.c:1195
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
 msgstr ""
-"Selecione essa opção para excluir as mensagens após o empacotamento.\n"
-"Apenas para IMAP4, caixa postal local e POP3."
+"Ambil pilihan ini untuk menghapus surat setelah mengarsipkan\n"
+"Pilihan ini hanya mampu menangani IMAP4, mbox lokal dan POP3"
 
 #: src/archiver_gtk.c:1199
 msgid "Selection options"
-msgstr "Opções de seleção"
+msgstr "Pilihan pemilihan"
 
 #: src/archiver_gtk.c:1215
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
 msgstr ""
-"Excluir mensagens anteriores a determinada data.\n"
-"A data deve estar no formato ISO-8601 [YYYY-MM-DD]."
+"Pilih email sebelum tanggal tertentu\n"
+"Tanggal harus memenuhi ISO-8601 [YYYY-MM-DD]"
 
 #: src/archiver_prefs.c:89
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Pengaya"
 
 #: src/archiver_prefs.c:125
 msgid "Select destination folder"
-msgstr "Selecione a pasta de destino"
+msgstr "Pilih direktori tujuan"
 
 #: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
-msgstr "'%s' não é um diretório."
+msgstr "'%s' bukan sebuah direktori."
 
 #: src/archiver_prefs.c:188
 msgid "Default save folder"
-msgstr "Pasta de salvamento padrão"
+msgstr "Direktori simpan standar"
 
 #: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
-msgstr ""
-"Clique nesse botão para selecionar a localização padrão para salvamento de "
-"pacotes"
+msgstr "Klik tombol ini untuk memilih lokasi standar untuk menyimpan arsip"
 
 #: src/archiver_prefs.c:209
 msgid "Default compression"
-msgstr "Compressão padrão"
+msgstr "Kompresi standar"
 
 #: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
-msgstr "Selecione essa opção para usar a compressão ZIP como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan kompresi ZIP"
 
 #: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
-msgstr "Selecione essa opção para usar a compressão BZIP como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan kompresi BZIP2"
 
 #: src/archiver_prefs.c:236
 msgid "Choose this option to use COMPRESS compression by default"
-msgstr "Selecione essa opção para usar a compressão Compress como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan kompresi COMPRESS"
 
 #: src/archiver_prefs.c:239
 msgid "None"
-msgstr "Nenhuma"
+msgstr "Tidak ada"
 
 #: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
-msgstr "Selecione essa opção para desabilitar a compressão por padrão"
+msgstr "Ambil pilihan ini untuk secara standar menonaktifkan kompresi"
 
 #: src/archiver_prefs.c:263
 msgid "Default format"
-msgstr "Formato padrão"
+msgstr "Format standar"
 
 #: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
-msgstr "Selecione essa opção para usar o formato TAR como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan format TAR"
 
 #: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
-msgstr "Selecione essa opção para usar o formato SHAR como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan format SHAR"
 
 #: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
-msgstr "Selecione essa opção para usar o formato CPIO como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan format CPIO"
 
 #: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
-msgstr "Selecione essa opção para usar o formato PAX como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menggunakan format PAX"
 
 #: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
-msgstr "Padrões para outras opções"
+msgstr "Pilihan macam-macam standar"
 
 #: src/archiver_prefs.c:320
 msgid "Recursive"
-msgstr "Recursivo"
+msgstr "Rekursif"
 
 #: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
-msgstr "Selecione essa opção para incluir as subpastas no pacote como padrão"
+msgstr "Ambil pilihan ini untuk secara standar menyertakan subdirektori kedalam arsip"
 
 #: src/archiver_prefs.c:323
 msgid "MD5sum"
@@ -465,24 +461,23 @@ msgstr "MD5sum"
 
 #: src/archiver_prefs.c:325
 msgid ""
-"Choose this option to add MD5 checksums for each file in the archives by "
-"default.\n"
+"Choose this option to add MD5 checksums for each file in the archives by default.\n"
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Selecione essa opção para adicionar, como padrão, checksums MD5 a\n"
-"cada arquivo do pacote. Saiba, entretanto, que isso aumentará \n"
-"significativamente o tempo de criação do pacote."
+"Ambil pilihan ini untuk secara standar menambah ceksum MD5 untuk setiap berkas dalam arsip.\n"
+"Namun waspadalah, hal ini akan meningkatkan waktu\n"
+"pembuatan arsip secara drastis"
 
 #: src/archiver_prefs.c:329
 msgid "Rename"
-msgstr "Renomear"
+msgstr "Ganti nama"
 
 #: src/archiver_prefs.c:335
 msgid "Delete"
-msgstr "Excluir"
+msgstr "Hapus"
 
 #: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
-msgstr "Selecione essa opção para excluir as mensagens após o empacotamento"
+msgstr "Ambil pilihan ini untuk menghapus pesan setelah mengarsipkan"
 

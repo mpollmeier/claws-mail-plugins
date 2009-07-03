@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-12-12 11:30+0000\n"
+"POT-Creation-Date: 2009-06-26 18:29+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: \n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: src/archiver.c:40
-#: src/archiver_prefs.c:87
+#: src/archiver_prefs.c:90
 msgid "Mail Archiver"
 msgstr "Archivování mailů"
 
@@ -35,6 +35,7 @@ msgid ""
 "The archive can be compressed using:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "The archives can be restored with any standard tool that supports the chosen format and compression.\n"
 "\n"
@@ -57,16 +58,17 @@ msgstr ""
 "Archiv může být komprimován:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "Archivy můžou být obnoveny nástroji podporující formát a kompresi.\n"
 "\n"
-"Podporování typy složek MH, IMAP, RSSyl a vCalendar.\n"
+"Podporováné typy složek MH, IMAP, RSSyl a vCalendar.\n"
 "\n"
 "Aktivace v /Nástroje/Vytvořit archiv\n"
 "\n"
 "Nastavení v /Nastavení/Volby/Zásuvné moduly/Archivování mailů"
 
-#: src/archiver.c:146
+#: src/archiver.c:149
 msgid "Archiver"
 msgstr "Archivování"
 
@@ -82,36 +84,36 @@ msgstr "Stisknutím Zrušit zastavíte archivování"
 msgid "Archiving:"
 msgstr "Archivování:"
 
-#: src/archiver_gtk.c:501
+#: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
 msgstr "Složka a archiv musí být vybrán"
 
-#: src/archiver_gtk.c:510
+#: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
 msgstr "%s: Existuje. Přesto pokračovat?"
 
-#: src/archiver_gtk.c:513
+#: src/archiver_gtk.c:515
 #, c-format
 msgid "%s: Is a link. Cannot continue"
 msgstr "%s: Je odkaz. Nemohu pokračovat"
 
-#: src/archiver_gtk.c:516
+#: src/archiver_gtk.c:518
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
 msgstr "%s: Je adresář. Nemohu pokračovat"
 
-#: src/archiver_gtk.c:519
+#: src/archiver_gtk.c:521
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
 msgstr "%s: Chybějící práva. Nemohu pokračovat"
 
-#: src/archiver_gtk.c:522
+#: src/archiver_gtk.c:524
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
 msgstr "%s: Neznámá chyba. Nemohu pokračovat"
 
-#: src/archiver_gtk.c:559
+#: src/archiver_gtk.c:561
 #, c-format
 msgid ""
 "Not a valid file name:\n"
@@ -120,7 +122,7 @@ msgstr ""
 "Neplatné jméno souboru:\n"
 "%s."
 
-#: src/archiver_gtk.c:572
+#: src/archiver_gtk.c:574
 #, c-format
 msgid ""
 "Not a valid Claws Mail folder:\n"
@@ -129,7 +131,7 @@ msgstr ""
 "Neplatná složka Claws Mail:\n"
 "%s."
 
-#: src/archiver_gtk.c:601
+#: src/archiver_gtk.c:603
 #, c-format
 msgid ""
 "Adding files in folder failed\n"
@@ -144,182 +146,186 @@ msgstr ""
 "\n"
 "Přesto pokračovat?"
 
-#: src/archiver_gtk.c:704
+#: src/archiver_gtk.c:707
 msgid "Archive result"
 msgstr "Výsledek archivování"
 
-#: src/archiver_gtk.c:730
+#: src/archiver_gtk.c:733
 msgid "Attributes"
 msgstr "Atributy"
 
-#: src/archiver_gtk.c:734
+#: src/archiver_gtk.c:737
 msgid "Values"
 msgstr "Hodnoty"
 
-#: src/archiver_gtk.c:743
+#: src/archiver_gtk.c:746
 msgid "Archive"
 msgstr "Archiv"
 
-#: src/archiver_gtk.c:749
+#: src/archiver_gtk.c:752
 msgid "Archive format"
 msgstr "Formát archivu"
 
-#: src/archiver_gtk.c:756
+#: src/archiver_gtk.c:759
 msgid "Compression method"
 msgstr "Metoda komprese"
 
-#: src/archiver_gtk.c:764
+#: src/archiver_gtk.c:767
 msgid "Number of files"
 msgstr "Počet souborů"
 
-#: src/archiver_gtk.c:772
+#: src/archiver_gtk.c:775
 msgid "Archive Size"
 msgstr "Velikost archivu"
 
-#: src/archiver_gtk.c:780
+#: src/archiver_gtk.c:783
 msgid "Folder Size"
 msgstr "Velikost složky"
 
-#: src/archiver_gtk.c:789
+#: src/archiver_gtk.c:792
 msgid "Compression level"
 msgstr "Úroveň komprese"
 
-#: src/archiver_gtk.c:794
-#: src/archiver_gtk.c:802
-#: src/archiver_gtk.c:810
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "Yes"
 msgstr "Ano"
 
-#: src/archiver_gtk.c:794
-#: src/archiver_gtk.c:802
-#: src/archiver_gtk.c:810
+#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:813
 msgid "No"
 msgstr "No"
 
-#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:800
 msgid "MD5 checksum"
 msgstr "MD5 kontrola"
 
-#: src/archiver_gtk.c:805
+#: src/archiver_gtk.c:808
 msgid "Descriptive names"
 msgstr "Popisná jména"
 
-#: src/archiver_gtk.c:813
+#: src/archiver_gtk.c:816
 msgid "Delete selected files"
 msgstr "Smazat vybrané soubory"
 
-#: src/archiver_gtk.c:822
-#: src/archiver_gtk.c:1196
+#: src/archiver_gtk.c:825
+#: src/archiver_gtk.c:1208
 msgid "Select mails before"
 msgstr "Vybrat maily před"
 
-#: src/archiver_gtk.c:898
+#: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr "Vyberte jméno archivu [přípona by měla odpovídat archivu jako např. .tgz]"
 
-#: src/archiver_gtk.c:946
+#: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
 msgstr "%ld z %ld"
 
-#: src/archiver_gtk.c:984
+#: src/archiver_gtk.c:989
 msgid "Create Archive"
 msgstr "Vytvořit archiv"
 
-#: src/archiver_gtk.c:999
+#: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
 msgstr "Vložte argumenty archivu"
 
-#: src/archiver_gtk.c:1012
+#: src/archiver_gtk.c:1017
 msgid "Folder to archive"
 msgstr "Složka pro archivaci"
 
-#: src/archiver_gtk.c:1019
+#: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
 msgstr "Složka, která bude hlavní v archivu"
 
-#: src/archiver_gtk.c:1021
+#: src/archiver_gtk.c:1026
 msgid "_Browse"
 msgstr "_Prohlížet"
 
-#: src/archiver_gtk.c:1024
+#: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
 msgstr "Vyberte složku, která bude hlavní v archivu"
 
-#: src/archiver_gtk.c:1030
+#: src/archiver_gtk.c:1035
 msgid "Name for archive"
 msgstr "Jméno archivu"
 
-#: src/archiver_gtk.c:1036
+#: src/archiver_gtk.c:1041
 msgid "Archive location and name"
 msgstr "Umístění a jméno archivu"
 
-#: src/archiver_gtk.c:1038
-#: src/archiver_prefs.c:190
+#: src/archiver_gtk.c:1043
+#: src/archiver_prefs.c:196
 msgid "_Select"
 msgstr "_Vybrat"
 
-#: src/archiver_gtk.c:1041
+#: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
 msgstr "Vyberte jméno a umístění archivu"
 
-#: src/archiver_gtk.c:1043
+#: src/archiver_gtk.c:1048
 msgid "Choose compression"
 msgstr "Vyberte kompresi"
 
-#: src/archiver_gtk.c:1056
+#: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
 msgstr "Vyberte tuto možnost pro používání ZIP komprese pro archivy"
 
-#: src/archiver_gtk.c:1063
+#: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
 msgstr "Vyberte tuto možnost pro používání BZIP2 komprese pro archivy"
 
-#: src/archiver_gtk.c:1073
+#: src/archiver_gtk.c:1076
+msgid "Choose this to use Compress compression for your archive"
+msgstr "Vyberte tuto možnost pro používání COMPRESS komprese pro archivy"
+
+#: src/archiver_gtk.c:1080
 msgid "_None"
 msgstr "Žá_dné"
 
-#: src/archiver_gtk.c:1077
+#: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
 msgstr "Vyberte tuto možnost pro vypnutí komprese pro archivy"
 
-#: src/archiver_gtk.c:1094
+#: src/archiver_gtk.c:1106
 msgid "Choose format"
 msgstr "Vyberte formát"
 
-#: src/archiver_gtk.c:1107
+#: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
 msgstr "Vyberte tuto možnost pro používání TAR formátu pro archivy"
 
-#: src/archiver_gtk.c:1114
+#: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
 msgstr "Vyberte tuto možnost pro používání SHAR formátu pro archivy"
 
-#: src/archiver_gtk.c:1121
+#: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
 msgstr "Vyberte tuto možnost pro používání CPIO formát pro archivy"
 
-#: src/archiver_gtk.c:1128
+#: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
 msgstr "Vyberte tuto možnost pro používání PAX formátu pro archivy"
 
-#: src/archiver_gtk.c:1148
+#: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
 msgstr "Různé volby"
 
-#: src/archiver_gtk.c:1157
+#: src/archiver_gtk.c:1169
 msgid "_Recursive"
 msgstr "_Rekurzivně"
 
-#: src/archiver_gtk.c:1161
+#: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
 msgstr "Vyberte tuto možnost pro vkládání podsložek do archivu"
 
-#: src/archiver_gtk.c:1163
+#: src/archiver_gtk.c:1175
 msgid "_MD5sum"
 msgstr "_MD5sum"
 
-#: src/archiver_gtk.c:1167
+#: src/archiver_gtk.c:1179
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archive.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -329,12 +335,12 @@ msgstr ""
 "Uvědomte si, že to dramaticky zvýší čas\n"
 "potřebný pro vytvoření archivu"
 
-#: src/archiver_gtk.c:1171
+#: src/archiver_gtk.c:1183
 msgid "R_ename"
 msgstr "Pře_jmenovat"
 
-#: src/archiver_gtk.c:1175
-#: src/archiver_prefs.c:311
+#: src/archiver_gtk.c:1187
+#: src/archiver_prefs.c:331
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
@@ -344,11 +350,11 @@ msgstr ""
 "Schéma pro pojmenování: datum_od@komu@předmět.\n"
 "Jména bude oříznuty na maximálně 96 znaků"
 
-#: src/archiver_gtk.c:1179
+#: src/archiver_gtk.c:1191
 msgid "_Delete"
 msgstr "_Smazat"
 
-#: src/archiver_gtk.c:1183
+#: src/archiver_gtk.c:1195
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
@@ -356,11 +362,11 @@ msgstr ""
 "Vyberte tuto možnost pro mazání mailů po archivaci\n"
 "Funguje jen IMAP4, lokálním mboxem a POP3"
 
-#: src/archiver_gtk.c:1187
+#: src/archiver_gtk.c:1199
 msgid "Selection options"
 msgstr "Volby výběru"
 
-#: src/archiver_gtk.c:1203
+#: src/archiver_gtk.c:1215
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
@@ -368,84 +374,88 @@ msgstr ""
 "Vybrat maily před datem\n"
 "Datum musí odpovídat ISO-8601 [YYYY-MM-DD]"
 
-#: src/archiver_prefs.c:86
+#: src/archiver_prefs.c:89
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: src/archiver_prefs.c:122
+#: src/archiver_prefs.c:125
 msgid "Select destination folder"
 msgstr "Vyberte cílový adresář"
 
-#: src/archiver_prefs.c:128
+#: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
 msgstr "'%s' není adresář."
 
-#: src/archiver_prefs.c:182
+#: src/archiver_prefs.c:188
 msgid "Default save folder"
 msgstr "Výchozí adresář pro ukládání"
 
-#: src/archiver_prefs.c:194
+#: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
 msgstr "Vyberte výchozí místo pro ukládání archivů"
 
-#: src/archiver_prefs.c:203
+#: src/archiver_prefs.c:209
 msgid "Default compression"
 msgstr "Výchozí komprese"
 
-#: src/archiver_prefs.c:215
+#: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
 msgstr "Vyberte tuto možnost pro používání ZIP komprese"
 
-#: src/archiver_prefs.c:222
+#: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
 msgstr "Vyberte tuto možnost pro používání BZIP2 komprese"
 
-#: src/archiver_prefs.c:224
+#: src/archiver_prefs.c:236
+msgid "Choose this option to use COMPRESS compression by default"
+msgstr "Vyberte tuto možnost pro používání COMPRESS komprese"
+
+#: src/archiver_prefs.c:239
 msgid "None"
 msgstr "Žádné"
 
-#: src/archiver_prefs.c:229
+#: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
 msgstr "Vyberte tuto možnost pro vypnutí komprese"
 
-#: src/archiver_prefs.c:243
+#: src/archiver_prefs.c:263
 msgid "Default format"
 msgstr "Výchozí formát"
 
-#: src/archiver_prefs.c:255
+#: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
 msgstr "Vyberte tuto možnost pro používání TAR komprese"
 
-#: src/archiver_prefs.c:262
+#: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
 msgstr "Vyberte tuto možnost pro používání SHAR komprese"
 
-#: src/archiver_prefs.c:269
+#: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
 msgstr "Vyberte tuto možnost pro používání CPIO komprese"
 
-#: src/archiver_prefs.c:276
+#: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
 msgstr "Vyberte tuto možnost pro používání PAX komprese"
 
-#: src/archiver_prefs.c:293
+#: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
 msgstr "Různé volby"
 
-#: src/archiver_prefs.c:300
+#: src/archiver_prefs.c:320
 msgid "Recursive"
 msgstr "Rekurzivně"
 
-#: src/archiver_prefs.c:302
+#: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
 msgstr "Vyberte tuto možnost pro vkládání podsložek do archivu"
 
-#: src/archiver_prefs.c:303
+#: src/archiver_prefs.c:323
 msgid "MD5sum"
 msgstr "MD5sum"
 
-#: src/archiver_prefs.c:305
+#: src/archiver_prefs.c:325
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archives by default.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -455,15 +465,15 @@ msgstr ""
 "Uvědomte si, že to dramaticky zvýší čas\n"
 "potřebný pro vytvoření archivu"
 
-#: src/archiver_prefs.c:309
+#: src/archiver_prefs.c:329
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: src/archiver_prefs.c:315
+#: src/archiver_prefs.c:335
 msgid "Delete"
 msgstr "Smazat"
 
-#: src/archiver_prefs.c:317
+#: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
 msgstr "Vyberte tuto možnost pro mazání mailů po archivování"
 
