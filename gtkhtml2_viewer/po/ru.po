@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail GtkHTML viewer plugin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-12-12 11:36+0000\n"
-"PO-Revision-Date: 2008-12-19 15:17+0300\n"
+"POT-Creation-Date: 2009-07-03 09:54+0400\n"
+"PO-Revision-Date: 2009-07-03 09:55+0300\n"
 "Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/gtkhtml2_prefs.c:70
-#: src/gtkhtml2_prefs.c:213
-#: src/gtkhtml2_prefs.c:229
-#: src/gtkhtml2_prefs.c:315
-#: src/gtkhtml2_viewer.c:186
+#: src/gtkhtml2_prefs.c:210
+#: src/gtkhtml2_prefs.c:226
+#: src/gtkhtml2_prefs.c:312
+#: src/gtkhtml2_viewer.c:188
 msgid "Any"
 msgstr "Все"
 
@@ -33,56 +33,56 @@ msgstr "Модули"
 msgid "GtkHtml2 Viewer"
 msgstr "Просмотр HTML (GtkHtml2)"
 
-#: src/gtkhtml2_prefs.c:168
+#: src/gtkhtml2_prefs.c:165
 msgid "Cache cleared."
 msgstr "Кеш очищен"
 
-#: src/gtkhtml2_prefs.c:194
-msgid "Load remote images in mails"
-msgstr "Загружать изображения с удалённых серверов"
+#: src/gtkhtml2_prefs.c:191
+msgid "Automatically load remote images"
+msgstr "Автоматически загружать изображения"
 
-#: src/gtkhtml2_prefs.c:209
-msgid "Only for senders found in address book/folder"
-msgstr "Только в письмах от людей из адресной книги"
+#: src/gtkhtml2_prefs.c:206
+msgid "Only for senders found in address book"
+msgstr "Только в сообщениях от людей из адресной книги"
 
-#: src/gtkhtml2_prefs.c:217
+#: src/gtkhtml2_prefs.c:214
 msgid "Select ..."
 msgstr "Выберите..."
 
-#: src/gtkhtml2_prefs.c:238
+#: src/gtkhtml2_prefs.c:235
 msgid "Cache remote images locally"
 msgstr "Сохранять удалённые изображения в локально"
 
-#: src/gtkhtml2_prefs.c:245
-msgid "Clear images cache when quitting"
-msgstr "Удалять сохранённые изображения  при выходе"
+#: src/gtkhtml2_prefs.c:242
+msgid "Clear image cache on exit"
+msgstr "Удалять сохранённые изображения при выходе"
 
-#: src/gtkhtml2_prefs.c:252
+#: src/gtkhtml2_prefs.c:249
 msgid "Clear image cache now"
 msgstr "Удалить сохранённые изображения"
 
-#: src/gtkhtml2_viewer.c:114
+#: src/gtkhtml2_viewer.c:116
 msgid "_Open with Web browser"
 msgstr "_Открыть в броузере"
 
-#: src/gtkhtml2_viewer.c:115
+#: src/gtkhtml2_viewer.c:117
 msgid "Copy this _link"
 msgstr "_Копировать ссылку"
 
-#: src/gtkhtml2_viewer.c:116
+#: src/gtkhtml2_viewer.c:118
 msgid "Zoom _in"
 msgstr "Кру_пнее"
 
-#: src/gtkhtml2_viewer.c:117
+#: src/gtkhtml2_viewer.c:119
 msgid "Zoom _out"
 msgstr "_Мельче"
 
-#: src/gtkhtml2_viewer.c:798
+#: src/gtkhtml2_viewer.c:807
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Превышено время ожидания при подключении к %s\n"
 
-#: src/gtkhtml2_viewer.c:873
+#: src/gtkhtml2_viewer.c:882
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
@@ -90,7 +90,7 @@ msgstr ""
 "В сообщении есть ссылки на удалённые изображения,\n"
 "но Вы запретили их загрузку в настройках."
 
-#: src/gtkhtml2_viewer.c:875
+#: src/gtkhtml2_viewer.c:884
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
@@ -98,15 +98,15 @@ msgstr ""
 "В сообщении есть удалённые изображения, но они не были\n"
 "загружены, так как вы работаете в автономном режиме."
 
-#: src/gtkhtml2_viewer.c:877
+#: src/gtkhtml2_viewer.c:886
 msgid "Remote images exist, but loading them failed."
 msgstr "В письме есть удалённые изображения, но их не удалось загрузить."
 
-#: src/gtkhtml2_viewer.c:881
+#: src/gtkhtml2_viewer.c:890
 msgid "Load images"
 msgstr "Загрузить изображения"
 
-#: src/gtkhtml2_viewer.c:1117
+#: src/gtkhtml2_viewer.c:1126
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -115,28 +115,28 @@ msgstr ""
 "Не удалось распечатать:\n"
 " %s"
 
-#: src/gtkhtml2_viewer.c:1148
+#: src/gtkhtml2_viewer.c:1157
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
 msgstr "Печать HTML-сообщений возможна только если установлена программа 'html2ps'."
 
-#: src/gtkhtml2_viewer.c:1153
+#: src/gtkhtml2_viewer.c:1162
 msgid "Filename is null."
 msgstr "Пустое имя файла."
 
-#: src/gtkhtml2_viewer.c:1168
+#: src/gtkhtml2_viewer.c:1177
 msgid "Conversion to postscript failed."
 msgstr "Не удалось преобразовать в PostScript."
 
-#: src/gtkhtml2_viewer.c:1175
+#: src/gtkhtml2_viewer.c:1184
 msgid "Print"
 msgstr "Печать"
 
-#: src/gtkhtml2_viewer.c:1196
+#: src/gtkhtml2_viewer.c:1205
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "Принтер '%s' не поддерживает печать PostScript."
 
-#: src/gtkhtml2_viewer.c:1212
+#: src/gtkhtml2_viewer.c:1221
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -145,12 +145,17 @@ msgstr ""
 "Не удалось распечатать:\n"
 " %s"
 
-#: src/gtkhtml2_viewer.c:1373
-#: src/gtkhtml2_viewer.c:1410
+#: src/gtkhtml2_viewer.c:1382
+#: src/gtkhtml2_viewer.c:1419
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Просмотр HTML (GtkHtml2)"
 
-#: src/gtkhtml2_viewer.c:1415
+#: src/gtkhtml2_viewer.c:1424
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Этот модуль позволяет просматривать email-сообщения в формате HTML с использованием gtkhtml2rendering."
+
+#~ msgid "Load remote images in mails"
+#~ msgstr "Загружать изображения с удалённых серверов"
+#~ msgid "Clear images cache when quitting"
+#~ msgstr "Удалять сохранённые изображения  при выходе"
 
