@@ -46,3 +46,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.2.14cvs4.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fi.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/hu.po;  ) > 0.2.15cvs1.patchset
 ( cvs diff -u -r 1.1.2.67 -r 1.1.2.68 configure.ac;  diff -u /dev/null po/ja.po;  ) > 0.2.16cvs1.patchset
+( cvs diff -u -r 1.1.2.70 -r 1.1.2.71 configure.ac;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/es.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fi.po;  diff -u /dev/null po/id.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/it.po;  ) > 0.2.16cvs2.patchset

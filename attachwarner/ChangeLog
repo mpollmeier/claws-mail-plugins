@@ -1,3 +1,14 @@
+2009-07-03 [paul]	0.2.16cvs2
+
+	* configure.ac
+	* po/id.po
+		submitted by MSulchan Darmawan
+	* po/es.po
+	* po/fi.po
+	* po/it.po
+		updated by Ricardo Mones, Tommi Pirinen, and
+		Andrea Spadaccini
+
 2009-03-08 [paul]	0.2.16cvs1
 
 	* configure.ac

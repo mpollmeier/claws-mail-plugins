@@ -7,23 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.3.0\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2008-04-11 07:51+0100\n"
-"PO-Revision-Date: 2008-04-17 17:06+0200\n"
+"POT-Creation-Date: 2009-06-26 18:31+0100\n"
+"PO-Revision-Date: 2009-06-28 16:23+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/attachwarner.c:257
+#: src/attachwarner.c:272
 msgid "+_Send"
 msgstr "+_Invia"
 
-#: src/attachwarner.c:259
+#: src/attachwarner.c:274
 msgid "+_Queue"
 msgstr "+_Coda"
 
-#: src/attachwarner.c:262
+#: src/attachwarner.c:277
 #, c-format
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
@@ -32,27 +32,27 @@ msgstr ""
 "Un allegato è menzionato nel messaggio in uscita, ma nessun file è stato "
 "allegato. %s comunque?"
 
-#: src/attachwarner.c:263
+#: src/attachwarner.c:278
 msgid "Send"
 msgstr "Invia"
 
-#: src/attachwarner.c:263
+#: src/attachwarner.c:278
 msgid "Queue"
 msgstr "Coda"
 
-#: src/attachwarner.c:264
+#: src/attachwarner.c:279
 msgid "Attachment warning"
 msgstr "Avviso allegato"
 
-#: src/attachwarner.c:287 src/attachwarner.c:324 src/attachwarner.c:376
+#: src/attachwarner.c:306 src/attachwarner.c:343 src/attachwarner.c:395
 msgid "Attach warner"
 msgstr "Monitor allegati"
 
-#: src/attachwarner.c:294
+#: src/attachwarner.c:313
 msgid "Failed to register check before send hook"
 msgstr "Impossibile registrare la funzione di controllo prima dell'invio"
 
-#: src/attachwarner.c:334
+#: src/attachwarner.c:353
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
@@ -60,11 +60,11 @@ msgstr ""
 "Avvisa l'utente se nel testo del messaggio sono presenti riferimenti ad "
 "allegati e non è allegato alcun file"
 
-#: src/attachwarner_prefs.c:45
+#: src/attachwarner_prefs.c:48
 msgid "attach"
 msgstr "allega"
 
-#: src/attachwarner_prefs.c:71
+#: src/attachwarner_prefs.c:73
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
@@ -72,27 +72,27 @@ msgstr ""
 "Avvisa se una di queste espressioni regolari corrisponde:\n"
 "(una per riga)"
 
-#: src/attachwarner_prefs.c:90
+#: src/attachwarner_prefs.c:92
 msgid "Skip quoted lines"
 msgstr "Salta righe quotate"
 
-#: src/attachwarner_prefs.c:97
+#: src/attachwarner_prefs.c:99
 msgid "Exclude quoted lines from checking for the regular expressions above"
 msgstr "Escludi righe quotate dal controllo per le espressioni regolari"
 
-#: src/attachwarner_prefs.c:100
+#: src/attachwarner_prefs.c:102
 msgid "Skip forwards and redirections"
 msgstr "Salta invii e redirezioni"
 
-#: src/attachwarner_prefs.c:107
+#: src/attachwarner_prefs.c:109
 msgid ""
 "Don't check for missing attachments when forwarding or redirecting messages"
 msgstr "Non controllare messaggi inoltrati o rediretti"
 
-#: src/attachwarner_prefs.c:180
+#: src/attachwarner_prefs.c:182
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/attachwarner_prefs.c:181
+#: src/attachwarner_prefs.c:183
 msgid "Attach Warner"
 msgstr "Monitor allegati"
