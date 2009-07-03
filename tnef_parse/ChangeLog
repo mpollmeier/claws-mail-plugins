@@ -1,3 +1,12 @@
+2009-07-03 [paul]	0.3.4cvs3
+
+	* configure.ac
+	* po/id.po
+		added by MSulchan Darmawan <bleketux@gmail.com>
+	* po/it.po
+	* po/ru.po
+		updated by Andrea Spadaccini and Aleksei Miheev
+
 2009-06-29 [colin]	0.3.4cvs2
 
 	* src/tnef_parse.c
