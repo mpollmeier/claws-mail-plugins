@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: notification_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-12-12 11:38+0000\n"
-"PO-Revision-Date: 2008-12-13 20:52+0100\n"
+"POT-Creation-Date: 2009-06-26 18:35+0100\n"
+"PO-Revision-Date: 2009-06-27 20:34+0100\n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,54 +29,70 @@ msgstr "Vyberte složky"
 msgid "select recursively"
 msgstr "vybírat i s podsložkami"
 
-#: src/notification_plugin.c:192
-#: src/notification_plugin.c:378
-#: src/notification_prefs.c:317
+#: src/notification_lcdproc.c:137
+msgid "New"
+msgstr "Nové"
+
+#: src/notification_lcdproc.c:141
+msgid "Unread"
+msgstr "Nepřečtené"
+
+#: src/notification_lcdproc.c:145
+msgid "Total"
+msgstr "Celkem"
+
+#: src/notification_lcdproc.c:151
+msgid "No new messages"
+msgstr "Žádné nové zprávy"
+
+#: src/notification_plugin.c:214
+#: src/notification_plugin.c:403
 #: src/notification_prefs.c:331
-#: src/notification_prefs.c:348
-#: src/notification_prefs.c:365
-#: src/notification_prefs.c:382
-#: src/notification_prefs.c:399
+#: src/notification_prefs.c:345
+#: src/notification_prefs.c:362
+#: src/notification_prefs.c:379
+#: src/notification_prefs.c:396
+#: src/notification_prefs.c:413
 msgid "Notification"
 msgstr "Upozorňování"
 
-#: src/notification_plugin.c:197
+#: src/notification_plugin.c:219
 msgid "The Notification plugin needs threading support."
 msgstr "Zásuvný modul \"Upozorňování\" potřebuje podporu vláken (threading support)."
 
-#: src/notification_plugin.c:204
+#: src/notification_plugin.c:226
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat funkci pro obsluhu události \"item update\"."
 
-#: src/notification_plugin.c:212
+#: src/notification_plugin.c:234
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat update složky."
 
-#: src/notification_plugin.c:222
+#: src/notification_plugin.c:244
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat funkci pro obsluhu události \"msginfo update\"."
 
-#: src/notification_plugin.c:232
+#: src/notification_plugin.c:254
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat přepínání offline."
 
-#: src/notification_plugin.c:243
+#: src/notification_plugin.c:265
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat zavření hlavního okna."
 
-#: src/notification_plugin.c:256
+#: src/notification_plugin.c:278
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat ikonifikování."
 
-#: src/notification_plugin.c:269
+#: src/notification_plugin.c:291
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo se zaregistrovat seznam účtů."
 
-#: src/notification_plugin.c:282
+#: src/notification_plugin.c:304
 msgid "Failed to register theme change hook int the Notification plugin"
 msgstr "Zásuvnému modulu \"Upozorňování\" se nepodařilo změnit motiv."
 
-#: src/notification_plugin.c:383
+#: src/notification_plugin.c:408
 msgid ""
 "This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
@@ -84,62 +100,66 @@ msgstr ""
 "Tento zásuvný modul poskytuje různé možnosti upozorňování na novou a nepřečtenou poštu.\n"
 "Připomínky a návrhy zaslané na <berndth@gmx.de> jsou vítány."
 
-#: src/notification_plugin.c:406
+#: src/notification_plugin.c:431
 msgid "Various tools"
 msgstr "Různé nástroje"
 
-#: src/notification_popup.c:289
+#: src/notification_popup.c:304
 msgid "New Mail message"
 msgstr "Zpráva"
 
-#: src/notification_popup.c:291
-#: src/notification_popup.c:570
+#: src/notification_popup.c:306
+#: src/notification_popup.c:603
+#: src/notification_trayicon.c:830
 msgid "(No From)"
 msgstr "(Žádné Od)"
 
-#: src/notification_popup.c:293
-#: src/notification_popup.c:574
+#: src/notification_popup.c:308
+#: src/notification_popup.c:607
+#: src/notification_trayicon.c:833
 msgid "(No Subject)"
 msgstr "(Žádný Předmět)"
 
-#: src/notification_popup.c:310
+#: src/notification_popup.c:325
 msgid "New News post"
 msgstr "Nová News zpráva "
 
-#: src/notification_popup.c:311
+#: src/notification_popup.c:326
 msgid "A new message arrived"
 msgstr "Přišla nová zpáva"
 
-#: src/notification_popup.c:314
+#: src/notification_popup.c:329
 msgid "New Calendar message"
 msgstr "Nová kalendářová zpráva"
 
-#: src/notification_popup.c:315
+#: src/notification_popup.c:330
+#: src/notification_trayicon.c:851
 msgid "A new calendar message arrived"
 msgstr "Přišla nová kalendářová zpráva"
 
-#: src/notification_popup.c:318
+#: src/notification_popup.c:333
 msgid "New RSS feed article"
 msgstr "Zpráva v RSS kanálu"
 
-#: src/notification_popup.c:319
+#: src/notification_popup.c:334
+#: src/notification_trayicon.c:854
 msgid "A new article in a RSS feed arrived"
 msgstr "Byla přijata nová zpráva v RSS kanálu"
 
-#: src/notification_popup.c:322
+#: src/notification_popup.c:337
 msgid "New unknown message"
 msgstr "Zpráva neznámého typu"
 
-#: src/notification_popup.c:323
+#: src/notification_popup.c:338
 msgid "Unknown message type arrived"
 msgstr "Byla přijata nová zpráva neznámého typu"
 
-#: src/notification_popup.c:441
+#: src/notification_popup.c:474
 msgid "Mail message"
 msgstr "Zpráva"
 
-#: src/notification_popup.c:442
-#: src/notification_popup.c:448
+#: src/notification_popup.c:475
+#: src/notification_popup.c:481
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
@@ -147,15 +167,16 @@ msgstr[0] "%d nová zpráva"
 msgstr[1] "%d nové zprávy"
 msgstr[2] "%d nových zpráv"
 
-#: src/notification_popup.c:447
+#: src/notification_popup.c:480
 msgid "News message"
 msgstr "Příspěvek v diskuzní skupině"
 
-#: src/notification_popup.c:453
+#: src/notification_popup.c:486
 msgid "Calendar message"
 msgstr "Kalendářová zpráva"
 
-#: src/notification_popup.c:454
+#: src/notification_popup.c:487
+#: src/notification_trayicon.c:888
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
@@ -163,11 +184,11 @@ msgstr[0] "Přišla %d nová kalendářová zpráva"
 msgstr[1] "Přišly %d nové kalendářové zprávy"
 msgstr[2] "Přišlo %d nových kalendářových zpráv"
 
-#: src/notification_popup.c:459
+#: src/notification_popup.c:492
 msgid "RSS news feed"
 msgstr "RSS kanál"
 
-#: src/notification_popup.c:460
+#: src/notification_popup.c:493
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
@@ -175,7 +196,7 @@ msgstr[0] "%d nová zpráva v RSS kanálu"
 msgstr[1] "%d nové zprávy v RSS kanálu"
 msgstr[2] "%d nových zpráv v RSS kanálu"
 
-#: src/notification_popup.c:521
+#: src/notification_popup.c:554
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
@@ -183,36 +204,36 @@ msgstr[0] "%d nová zpráva"
 msgstr[1] "%d nové zprávy"
 msgstr[2] "%d nových zpráv"
 
-#: src/notification_prefs.c:316
 #: src/notification_prefs.c:330
-#: src/notification_prefs.c:347
-#: src/notification_prefs.c:364
-#: src/notification_prefs.c:381
-#: src/notification_prefs.c:398
+#: src/notification_prefs.c:344
+#: src/notification_prefs.c:361
+#: src/notification_prefs.c:378
+#: src/notification_prefs.c:395
+#: src/notification_prefs.c:412
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: src/notification_prefs.c:332
+#: src/notification_prefs.c:346
 msgid "Banner"
 msgstr "Proužek"
 
-#: src/notification_prefs.c:349
+#: src/notification_prefs.c:363
 msgid "Popup"
 msgstr "Vyskakovací okno"
 
-#: src/notification_prefs.c:366
+#: src/notification_prefs.c:380
 msgid "Command"
 msgstr "Příkaz"
 
-#: src/notification_prefs.c:383
+#: src/notification_prefs.c:397
 msgid "LCD"
 msgstr "LCD"
 
-#: src/notification_prefs.c:400
+#: src/notification_prefs.c:414
 msgid "SysTrayicon"
 msgstr "SysTrayicon"
 
-#: src/notification_prefs.c:449
+#: src/notification_prefs.c:463
 msgid ""
 "\n"
 "Notification Plugin: Failed to write plugin configuration to file\n"
@@ -220,186 +241,202 @@ msgstr ""
 "\n"
 "Zásuvný modul \"Upozorňování\": Nepodařilo se zapsat konfiguraci modoulu do souboru\n"
 
-#: src/notification_prefs.c:476
+#: src/notification_prefs.c:490
 msgid "Include folder types"
 msgstr "Zahrnout do upozorňování tyto typy složek"
 
-#: src/notification_prefs.c:486
+#: src/notification_prefs.c:500
 msgid "Mail folders"
 msgstr "Pošta"
 
-#: src/notification_prefs.c:494
+#: src/notification_prefs.c:508
 msgid "News folders"
 msgstr "Diskuzní skupiny"
 
-#: src/notification_prefs.c:502
+#: src/notification_prefs.c:516
 msgid "RSS folders"
 msgstr "RSS kanály"
 
-#: src/notification_prefs.c:510
+#: src/notification_prefs.c:524
 msgid "Calendar folders"
 msgstr "Kalendářové složky"
 
-#: src/notification_prefs.c:518
+#: src/notification_prefs.c:532
 msgid "These settings overwrite folder-specific selections."
 msgstr "Toto nastavení má přednost před nastavením složek"
 
-#: src/notification_prefs.c:571
+#: src/notification_prefs.c:543
+msgid "Global notification settings"
+msgstr "Nastavení upozorňování"
+
+#: src/notification_prefs.c:553
+msgid "Set window manager urgency hint when new messages exist"
+msgstr "Nastavit zvýraznění okna, jestliže existují nové zprávy"
+
+#: src/notification_prefs.c:562
+msgid "Set window manager urgency hint when unread messages exist"
+msgstr "Nastavit zvýraznění okna, jestliže existují nepřečtené zprávy"
+
+#: src/notification_prefs.c:572
+msgid "Use sound theme"
+msgstr "Použít zvukové téma"
+
+#: src/notification_prefs.c:634
 msgid "Show banner"
 msgstr "Zobrazovat proužek"
 
-#: src/notification_prefs.c:576
+#: src/notification_prefs.c:639
 msgid "Never"
 msgstr "nikdy"
 
-#: src/notification_prefs.c:578
+#: src/notification_prefs.c:641
 msgid "Always"
 msgstr "vždy"
 
-#: src/notification_prefs.c:580
+#: src/notification_prefs.c:643
 msgid "Only when not empty"
 msgstr "pokud není prázdný"
 
-#: src/notification_prefs.c:598
+#: src/notification_prefs.c:661
 msgid "slow"
 msgstr "pomalu"
 
-#: src/notification_prefs.c:602
+#: src/notification_prefs.c:665
 msgid "fast"
 msgstr "rychle"
 
-#: src/notification_prefs.c:606
+#: src/notification_prefs.c:669
 msgid "Banner speed"
 msgstr "Rychlost textu"
 
-#: src/notification_prefs.c:624
+#: src/notification_prefs.c:687
 msgid "Maximum number of messages (0 means unlimited)"
 msgstr "Maximální počet zpráv (0 znamená bez omezení)"
 
-#: src/notification_prefs.c:638
+#: src/notification_prefs.c:701
 msgid "Banner width in pixels (0 means screen size)"
 msgstr "Šířka banneru v pixelech (0 znamená velikost obrazovky)"
 
-#: src/notification_prefs.c:651
+#: src/notification_prefs.c:714
 msgid "Include unread mails in banner"
 msgstr "Zobrazovat i nepřečtené zprávy"
 
-#: src/notification_prefs.c:659
+#: src/notification_prefs.c:722
 msgid "Make banner sticky"
 msgstr "\"Přilepený\" (sticky) proužek"
 
-#: src/notification_prefs.c:669
-#: src/notification_prefs.c:867
-#: src/notification_prefs.c:1139
-#: src/notification_prefs.c:1371
+#: src/notification_prefs.c:732
+#: src/notification_prefs.c:930
+#: src/notification_prefs.c:1202
+#: src/notification_prefs.c:1434
 msgid "Only include selected folders"
 msgstr "Kontrolovat pouze vybrané složky"
 
-#: src/notification_prefs.c:678
-#: src/notification_prefs.c:876
-#: src/notification_prefs.c:1148
-#: src/notification_prefs.c:1380
+#: src/notification_prefs.c:741
+#: src/notification_prefs.c:939
+#: src/notification_prefs.c:1211
+#: src/notification_prefs.c:1443
 msgid "Select folders..."
 msgstr "Vybrat složky..."
 
-#: src/notification_prefs.c:688
-#: src/notification_prefs.c:908
+#: src/notification_prefs.c:751
+#: src/notification_prefs.c:971
 msgid "Use custom colors"
 msgstr "Použít vlastní barvy"
 
-#: src/notification_prefs.c:701
-#: src/notification_prefs.c:921
+#: src/notification_prefs.c:764
+#: src/notification_prefs.c:984
 msgid "Foreground"
 msgstr "Popředí"
 
-#: src/notification_prefs.c:707
-#: src/notification_prefs.c:927
+#: src/notification_prefs.c:770
+#: src/notification_prefs.c:990
 msgid "Foreground color"
 msgstr "Barva popředí"
 
-#: src/notification_prefs.c:712
-#: src/notification_prefs.c:932
+#: src/notification_prefs.c:775
+#: src/notification_prefs.c:995
 msgid "Background"
 msgstr "Pozadí"
 
-#: src/notification_prefs.c:718
-#: src/notification_prefs.c:938
+#: src/notification_prefs.c:781
+#: src/notification_prefs.c:1001
 msgid "Background color"
 msgstr "Barva pozadí"
 
-#: src/notification_prefs.c:831
+#: src/notification_prefs.c:894
 msgid "Enable popup"
 msgstr "Povolit vyskakovací okno"
 
-#: src/notification_prefs.c:848
-#: src/notification_prefs.c:1426
+#: src/notification_prefs.c:911
+#: src/notification_prefs.c:1489
 msgid "Popup timeout:"
 msgstr "Časový limit pro zobrazení okna"
 
-#: src/notification_prefs.c:858
-#: src/notification_prefs.c:1130
-#: src/notification_prefs.c:1435
+#: src/notification_prefs.c:921
+#: src/notification_prefs.c:1193
+#: src/notification_prefs.c:1498
 msgid "seconds"
 msgstr "sekund"
 
-#: src/notification_prefs.c:887
+#: src/notification_prefs.c:950
 msgid "Make popup sticky"
 msgstr "\"Přilepené\" (sticky) okno"
 
-#: src/notification_prefs.c:897
+#: src/notification_prefs.c:960
 msgid "Set popup window width and position"
 msgstr "Nastavit šířku a polohu okna"
 
-#: src/notification_prefs.c:902
+#: src/notification_prefs.c:965
 msgid "(the window manager is free to ignore this)"
 msgstr "(správce oken může toto nastavení ignorovat)"
 
-#: src/notification_prefs.c:950
-#: src/notification_prefs.c:1438
+#: src/notification_prefs.c:1013
+#: src/notification_prefs.c:1501
 msgid "Display folder name"
 msgstr "Zobrazit jméno složky"
 
-#: src/notification_prefs.c:1015
+#: src/notification_prefs.c:1078
 msgid "Sample popup window"
 msgstr "Vzorové vyskakovací okno"
 
-#: src/notification_prefs.c:1021
+#: src/notification_prefs.c:1084
 msgid "Done"
 msgstr "Hotovo"
 
-#: src/notification_prefs.c:1090
+#: src/notification_prefs.c:1153
 msgid "Enable command"
 msgstr "Povolit spuštění příkazu"
 
-#: src/notification_prefs.c:1107
+#: src/notification_prefs.c:1170
 msgid "Command to execute:"
 msgstr "Příkaz:"
 
-#: src/notification_prefs.c:1120
+#: src/notification_prefs.c:1183
 msgid "Block command after execution for"
 msgstr "Blokovat příkaz po vykonání na"
 
-#: src/notification_prefs.c:1227
+#: src/notification_prefs.c:1290
 msgid "Enable LCD"
 msgstr "Povolit LCD"
 
-#: src/notification_prefs.c:1246
+#: src/notification_prefs.c:1309
 msgid "Hostname:Port of LCDd server:"
 msgstr "Hostname:Port LCDd serveru:"
 
-#: src/notification_prefs.c:1328
+#: src/notification_prefs.c:1391
 msgid "Enable Trayicon"
 msgstr "Povolit ikonu panelu"
 
-#: src/notification_prefs.c:1344
+#: src/notification_prefs.c:1407
 msgid "Hide at start-up"
 msgstr "Skrýt při startu"
 
-#: src/notification_prefs.c:1352
+#: src/notification_prefs.c:1415
 msgid "Close to tray"
 msgstr "Zavřít do panelu"
 
-#: src/notification_prefs.c:1360
+#: src/notification_prefs.c:1423
 msgid "Hide when iconified"
 msgstr "Skrýt při ikonifikování"
 
@@ -409,13 +446,102 @@ msgstr "Skrýt při ikonifikování"
 #. for that, go for something along the lines of "passive popup"
 #. instead.See also
 #. http://en.wikipedia.org/wiki/Toast_(computing)
-#: src/notification_prefs.c:1397
+#: src/notification_prefs.c:1460
 msgid "Passive toaster popup"
 msgstr "Pasivní toaster vyskakovací okno"
 
-#: src/notification_prefs.c:1408
+#: src/notification_prefs.c:1471
 msgid "Enable Popup"
 msgstr "Povolit vyskakovací okno"
+
+#: src/notification_trayicon.c:98
+msgid "_Get Mail"
+msgstr "_Získat mail"
+
+#: src/notification_trayicon.c:100
+msgid "_Email"
+msgstr "_Email"
+
+#: src/notification_trayicon.c:101
+msgid "E_mail from account"
+msgstr "E_mail z účtu"
+
+#: src/notification_trayicon.c:102
+msgid "Open A_ddressbook"
+msgstr "Otevřít K_nihu adres"
+
+#: src/notification_trayicon.c:103
+msgid "E_xit Claws Mail"
+msgstr "U_končit Claws Mail"
+
+#: src/notification_trayicon.c:108
+msgid "_Work Offline"
+msgstr "_Pracovat offline"
+
+#: src/notification_trayicon.c:110
+msgid "Show Trayicon Notifications"
+msgstr "Zobrazit trayicon upozorňování"
+
+#: src/notification_trayicon.c:247
+#, c-format
+msgid "New %d, Unread: %d, Total: %d"
+msgstr "Nové: %d, Nepřečtené: %d, Celkem: %d"
+
+#: src/notification_trayicon.c:341
+msgid "Untitled"
+msgstr "Beze jména"
+
+#: src/notification_trayicon.c:502
+msgid "Exit"
+msgstr "Ukončit"
+
+#: src/notification_trayicon.c:502
+msgid "Exit Claws Mail?"
+msgstr "Ukončit Claws Mail?"
+
+#: src/notification_trayicon.c:801
+msgid "New mail message"
+msgstr "Nová mailová zpráva"
+
+#: src/notification_trayicon.c:803
+msgid "New news post"
+msgstr "Nová News zpráva "
+
+#: src/notification_trayicon.c:805
+msgid "New calendar message"
+msgstr "Nová kalendářová zpráva"
+
+#: src/notification_trayicon.c:807
+msgid "New article in RSS feed"
+msgstr "Nový článek v RSS kanálu"
+
+#: src/notification_trayicon.c:810
+msgid "New messages arrived"
+msgstr "Přišly nové zpávy"
+
+#: src/notification_trayicon.c:866
+#, c-format
+msgid "%d new mail message arrived"
+msgid_plural "%d new mail messages arrived"
+msgstr[0] "Přišla %d nová zpráva"
+msgstr[1] "Přišly %d nové zprávy"
+msgstr[2] "Přišlo %d nových zpráv"
+
+#: src/notification_trayicon.c:877
+#, c-format
+msgid "%d new news post arrived"
+msgid_plural "%d new news posts arrived"
+msgstr[0] "Přišla %d nová News zpráva"
+msgstr[1] "Přišly %d nové News zprávy"
+msgstr[2] "Přišlo %d nových News zpráv"
+
+#: src/notification_trayicon.c:899
+#, c-format
+msgid "%d new article in RSS feeds arrived"
+msgid_plural "%d new articles in RSS feeds arrived"
+msgstr[0] "Přišel %d nový článek v RSS kanálu"
+msgstr[1] "Přišli %d nové články v RSS kanálu"
+msgstr[2] "Přišlo %d nových článků v RSS kanálu"
 
 #~ msgid "From:"
 #~ msgstr "Od:"

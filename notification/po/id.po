@@ -1,219 +1,224 @@
-# Finnish translation of notification.
-# Copyright (C) 2007 Holger Berndt 
-# This file is distributed under the same license as the claws mail package.
-# Flammie Pirinen <flammie@iki.fi>, 2008.
+# Indonesian translation of notification plugin.
+# Copyright (C) 2009 Holger Berndt
+# This file is distributed under the same license as the notification package.
+# MSulchan Darmawan <bleketux@gmail.com>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: notification\n"
+"Project-Id-Version: notification plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2009-07-01 16:31+0300\n"
-"PO-Revision-Date: 2009-07-01 16:43+0300\n"
-"Last-Translator: Flammie Pirinen <flammie@gentoo.org>\n"
-"Language-Team: Finnish <laatu@lokalisointi.org>\n"
+"POT-Creation-Date: 2009-06-26 18:35+0100\n"
+"PO-Revision-Date: 2009-06-29 11:44+0700\n"
+"Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/notification_banner.c:90
 msgid "_Reply"
-msgstr "_Vastaa"
+msgstr "_Balas"
 
 #: src/notification_banner.c:351
 msgid "Folder:"
-msgstr "Kansio:"
+msgstr "Direktori:"
 
 #: src/notification_foldercheck.c:476
 msgid "Select folder(s)"
-msgstr "Valitse kansioita"
+msgstr "Pilih direktori"
 
 #: src/notification_foldercheck.c:580
 msgid "select recursively"
-msgstr "valitse rekursiivisesti"
+msgstr "pilih secara rekursif"
 
 #: src/notification_lcdproc.c:137
 msgid "New"
-msgstr "Uusia"
+msgstr "Baru"
 
 #: src/notification_lcdproc.c:141
 msgid "Unread"
-msgstr "Lukemattomia"
+msgstr "Belum dibaca"
 
 #: src/notification_lcdproc.c:145
 msgid "Total"
-msgstr "Yhteensä"
+msgstr "Total"
 
 #: src/notification_lcdproc.c:151
 msgid "No new messages"
-msgstr "Ei uusia viesti"
+msgstr "Tidak ada pesan baru"
 
-#: src/notification_plugin.c:214 src/notification_plugin.c:403
-#: src/notification_prefs.c:331 src/notification_prefs.c:345
-#: src/notification_prefs.c:362 src/notification_prefs.c:379
-#: src/notification_prefs.c:396 src/notification_prefs.c:413
+#: src/notification_plugin.c:214
+#: src/notification_plugin.c:403
+#: src/notification_prefs.c:331
+#: src/notification_prefs.c:345
+#: src/notification_prefs.c:362
+#: src/notification_prefs.c:379
+#: src/notification_prefs.c:396
+#: src/notification_prefs.c:413
 msgid "Notification"
-msgstr "Ilmoitus"
+msgstr "Pemberitahuan"
 
 #: src/notification_plugin.c:219
 msgid "The Notification plugin needs threading support."
-msgstr "Ilmoitusliitännäinen vaatii säietuen."
+msgstr "Pengaya Pemberitahuan membutuhkan dukungan threading."
 
 #: src/notification_plugin.c:226
 msgid "Failed to register folder item update hook in the Notification plugin"
-msgstr "Päivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan pembaharuan item direktori pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:234
 msgid "Failed to register folder update hook in the Notification plugin"
-msgstr "Kansiopäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan pembaharuan direktori pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:244
 msgid "Failed to register msginfo update hook in the Notification plugin"
-msgstr "Viesti-info-koukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan pembaharuan msginfo pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:254
 msgid "Failed to register offline switch hook in the Notification plugin"
-msgstr "Yhteydettömyyskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan pengubah offline pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:265
 msgid "Failed to register main window close hook in the Notification plugin"
-msgstr ""
-"Ikkunan sulkemsiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan tutup jendela utama pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:278
 msgid "Failed to register got iconified hook in the Notification plugin"
-msgstr "Pienentymiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan terikonifikasi pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:291
 msgid "Failed to register account list changed hook in the Notification plugin"
-msgstr ""
-"Tililistapäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan daftar akun dirubah pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:304
 msgid "Failed to register theme change hook int the Notification plugin"
-msgstr "Teemakoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
+msgstr "Gagal meregistrasi kaitan perubahan tema pada pengaya Pemberitahuan"
 
 #: src/notification_plugin.c:408
 msgid ""
-"This plugin provides various ways to notify the user of new and unread "
-"email.\n"
+"This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Liitännäisellä voi ilmoittaa käyttäjälle saapuvasta ja lukemattomasta "
-"postista.\n"
-"Palaute osoitteeseen <berndth@gmx.de>, suomennoksesta <flammie@iki.fi>"
+"Pengaya ini menyediakan berbagai cara untuk memberitahu pengguna adanya email baru dan belum dibaca.\n"
+"Saran dan masukan kepada <berndth@gmx.de> sangat dipersilahkan."
 
 #: src/notification_plugin.c:431
 msgid "Various tools"
-msgstr "Työkaluja"
+msgstr "Berbagai alat"
 
 #: src/notification_popup.c:304
 msgid "New Mail message"
-msgstr "Uusi viesti"
+msgstr "Pesan Surat Baru"
 
-#: src/notification_popup.c:306 src/notification_popup.c:603
+#: src/notification_popup.c:306
+#: src/notification_popup.c:603
 #: src/notification_trayicon.c:830
 msgid "(No From)"
-msgstr "(Lähettäjä puuttuu)"
+msgstr "(Tidak ada Dari)"
 
-#: src/notification_popup.c:308 src/notification_popup.c:607
+#: src/notification_popup.c:308
+#: src/notification_popup.c:607
 #: src/notification_trayicon.c:833
 msgid "(No Subject)"
-msgstr "(Aihe puuttuu)"
+msgstr "(Tidak ada Subyek)"
 
 #: src/notification_popup.c:325
 msgid "New News post"
-msgstr "Uusi nyyssiviesti"
+msgstr "Kiriman Berita Baru"
 
 #: src/notification_popup.c:326
 msgid "A new message arrived"
-msgstr "Uusi viesti saapuu"
+msgstr "Sebuah pesan baru diterima"
 
 #: src/notification_popup.c:329
 msgid "New Calendar message"
-msgstr "Uusi kalenteriviesti"
+msgstr "Pesan Kalender Baru"
 
-#: src/notification_popup.c:330 src/notification_trayicon.c:851
+#: src/notification_popup.c:330
+#: src/notification_trayicon.c:851
 msgid "A new calendar message arrived"
-msgstr "Uusi kalenteriviesti saapui"
+msgstr "Sebuah pesan kalender baru diterima"
 
 #: src/notification_popup.c:333
 msgid "New RSS feed article"
-msgstr "Uusi RSS‐syöte"
+msgstr "Artikel baru feed RSS"
 
-#: src/notification_popup.c:334 src/notification_trayicon.c:854
+#: src/notification_popup.c:334
+#: src/notification_trayicon.c:854
 msgid "A new article in a RSS feed arrived"
-msgstr "Uusi RSS‐syöte saapui"
+msgstr "Sebuah artikel baru pada feed RSS diterima"
 
 #: src/notification_popup.c:337
 msgid "New unknown message"
-msgstr "Uusi tunnistamaton viesti"
+msgstr "Pesan Tidak Diketahui Baru"
 
 #: src/notification_popup.c:338
 msgid "Unknown message type arrived"
-msgstr "Uusi tunnistamaton viesti saapui"
+msgstr "Tipe pesan tidak diketahui telah diterima"
 
 #: src/notification_popup.c:474
 msgid "Mail message"
-msgstr "Sähköpostiviesti"
+msgstr "Pesan Surat"
 
-#: src/notification_popup.c:475 src/notification_popup.c:481
+#: src/notification_popup.c:475
+#: src/notification_popup.c:481
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
-msgstr[0] "%d uusi viesti saapunut"
-msgstr[1] "%d uutta viestiä saapunut"
+msgstr[0] "%d pesan baru diterima"
 
 #: src/notification_popup.c:480
 msgid "News message"
-msgstr "Nyyssiviesti"
+msgstr "Pesan Berita"
 
 #: src/notification_popup.c:486
 msgid "Calendar message"
-msgstr "Kalenteriviesti"
+msgstr "Pesan Kalender"
 
-#: src/notification_popup.c:487 src/notification_trayicon.c:888
+#: src/notification_popup.c:487
+#: src/notification_trayicon.c:888
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
-msgstr[0] "%d uusi kalenteriviesti saapunut"
-msgstr[1] "%d uutta kalenteriviestiä saapunut"
+msgstr[0] "%d pesan kalender baru diterima"
 
 #: src/notification_popup.c:492
 msgid "RSS news feed"
-msgstr "RSS‐syöte"
+msgstr "Feed RSS berita"
 
 #: src/notification_popup.c:493
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
-msgstr[0] "%d uusi viesti RSS‐syötteessä saapunut"
-msgstr[1] "%d uutta viestiä RSS‐syötteessä saapunut"
+msgstr[0] "%d artikel baru pada feed RSS diterima"
 
 #: src/notification_popup.c:554
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
-msgstr[0] "%d uusi viesti"
-msgstr[1] "%d uutta viestiä"
+msgstr[0] "%d pesan baru"
 
-#: src/notification_prefs.c:330 src/notification_prefs.c:344
-#: src/notification_prefs.c:361 src/notification_prefs.c:378
-#: src/notification_prefs.c:395 src/notification_prefs.c:412
+#: src/notification_prefs.c:330
+#: src/notification_prefs.c:344
+#: src/notification_prefs.c:361
+#: src/notification_prefs.c:378
+#: src/notification_prefs.c:395
+#: src/notification_prefs.c:412
 msgid "Plugins"
-msgstr "Liitännäiset"
+msgstr "Pengaya"
 
 #: src/notification_prefs.c:346
 msgid "Banner"
-msgstr "Banneri"
+msgstr "Banner"
 
 #: src/notification_prefs.c:363
 msgid "Popup"
-msgstr "Ponnahdus"
+msgstr "Popup"
 
 #: src/notification_prefs.c:380
 msgid "Command"
-msgstr "Komento"
+msgstr "Perintah"
 
 #: src/notification_prefs.c:397
 msgid "LCD"
@@ -221,7 +226,7 @@ msgstr "LCD"
 
 #: src/notification_prefs.c:414
 msgid "SysTrayicon"
-msgstr "Ilmoitusaluekuvake"
+msgstr "SysTrayicon"
 
 #: src/notification_prefs.c:463
 msgid ""
@@ -229,194 +234,206 @@ msgid ""
 "Notification Plugin: Failed to write plugin configuration to file\n"
 msgstr ""
 "\n"
-"Ilmoitusliitännäinen: liitännäisasetusten kirjoitus tiedostoon epäonnistui\n"
+"Pengaya Pemberitahuan: Gagal menulis konfigurasi pengaya ke berkas\n"
 
 #: src/notification_prefs.c:490
 msgid "Include folder types"
-msgstr "Sisällytä kansiotyypit"
+msgstr "Sertakan tipe direktori"
 
 #: src/notification_prefs.c:500
 msgid "Mail folders"
-msgstr "Sähköpostikansiot"
+msgstr "Direktori surat"
 
 #: src/notification_prefs.c:508
 msgid "News folders"
-msgstr "Nyyssikansiot"
+msgstr "Direktori berita"
 
 #: src/notification_prefs.c:516
 msgid "RSS folders"
-msgstr "RSS‐kansiot"
+msgstr "Direktori RSS"
 
 #: src/notification_prefs.c:524
 msgid "Calendar folders"
-msgstr "Kalenterikansiot"
+msgstr "Direktori kalender"
 
 #: src/notification_prefs.c:532
 msgid "These settings overwrite folder-specific selections."
-msgstr "Asetukset korvaavat kansioittaiset valinnat."
+msgstr "Pengaturan berikut menimpa pilihan direktori-spesifik."
 
 #: src/notification_prefs.c:543
 msgid "Global notification settings"
-msgstr "Yleiset huomautusasetukset"
+msgstr "Pengaturan pemberitahuan menyeluruh"
 
 #: src/notification_prefs.c:553
 msgid "Set window manager urgency hint when new messages exist"
-msgstr "Aset ikkunointiohjelman kiirrellisyysvihje kun uusia viestejä on"
+msgstr "Atur petunjuk kepentingan manajer jendela ketika pesan baru ada"
 
 #: src/notification_prefs.c:562
 msgid "Set window manager urgency hint when unread messages exist"
-msgstr "Aset ikkunointiohjelman kiireellisyysvihje kun lukemattomia viestejä on"
+msgstr "Atur petunjuk kepentingan manajer jendela ketika pesan belum dibaca ada"
 
 #: src/notification_prefs.c:572
 msgid "Use sound theme"
-msgstr "Käytä ääniteemaa"
+msgstr "Gunakan tema suara"
 
 #: src/notification_prefs.c:634
 msgid "Show banner"
-msgstr "Näytä banneri"
+msgstr "Tampilkan banner"
 
 #: src/notification_prefs.c:639
 msgid "Never"
-msgstr "Ei koskaan"
+msgstr "Tidak pernah"
 
 #: src/notification_prefs.c:641
 msgid "Always"
-msgstr "Aina"
+msgstr "Selalu"
 
 #: src/notification_prefs.c:643
 msgid "Only when not empty"
-msgstr "Vain jollei tyhjä"
+msgstr "Hanya ketika tidak kosong"
 
 #: src/notification_prefs.c:661
 msgid "slow"
-msgstr "hidas"
+msgstr "pelan"
 
 #: src/notification_prefs.c:665
 msgid "fast"
-msgstr "nopea"
+msgstr "cepat"
 
 #: src/notification_prefs.c:669
 msgid "Banner speed"
-msgstr "Bannerin vauhti"
+msgstr "Kecepatan banner"
 
 #: src/notification_prefs.c:687
 msgid "Maximum number of messages (0 means unlimited)"
-msgstr "Enimmäismäärä viestejä (0 rajoittamattomalle)"
+msgstr "Jumlah pesan maksimum (0 berarti tidak terbatas)"
 
 #: src/notification_prefs.c:701
 msgid "Banner width in pixels (0 means screen size)"
-msgstr "Bannerin leveys pikseleinä (0 ruudun ko’olle)"
+msgstr "Lebar banner dalam piksel (0 berarti ukuran layar)"
 
 #: src/notification_prefs.c:714
 msgid "Include unread mails in banner"
-msgstr "Sisällytä lukemattomat viestit banneriin"
+msgstr "Sertakan pesan belum dibaca pada banner"
 
 #: src/notification_prefs.c:722
 msgid "Make banner sticky"
-msgstr "Tee bannerista tarttuva"
+msgstr "Jadikan banner lengket"
 
-#: src/notification_prefs.c:732 src/notification_prefs.c:930
-#: src/notification_prefs.c:1202 src/notification_prefs.c:1434
+#: src/notification_prefs.c:732
+#: src/notification_prefs.c:930
+#: src/notification_prefs.c:1202
+#: src/notification_prefs.c:1434
 msgid "Only include selected folders"
-msgstr "Sisällytä vain valitut kansiot"
+msgstr "Hanya sertakan direktori terpilih"
 
-#: src/notification_prefs.c:741 src/notification_prefs.c:939
-#: src/notification_prefs.c:1211 src/notification_prefs.c:1443
+#: src/notification_prefs.c:741
+#: src/notification_prefs.c:939
+#: src/notification_prefs.c:1211
+#: src/notification_prefs.c:1443
 msgid "Select folders..."
-msgstr "Valitse kansioita…"
+msgstr "Pilih direktori..."
 
-#: src/notification_prefs.c:751 src/notification_prefs.c:971
+#: src/notification_prefs.c:751
+#: src/notification_prefs.c:971
 msgid "Use custom colors"
-msgstr "Käytä omia värejä"
+msgstr "Gunakan warna pilihan"
 
-#: src/notification_prefs.c:764 src/notification_prefs.c:984
+#: src/notification_prefs.c:764
+#: src/notification_prefs.c:984
 msgid "Foreground"
-msgstr "Edusta"
+msgstr "Latardepan"
 
-#: src/notification_prefs.c:770 src/notification_prefs.c:990
+#: src/notification_prefs.c:770
+#: src/notification_prefs.c:990
 msgid "Foreground color"
-msgstr "Edustaväri"
+msgstr "Warna latardepan"
 
-#: src/notification_prefs.c:775 src/notification_prefs.c:995
+#: src/notification_prefs.c:775
+#: src/notification_prefs.c:995
 msgid "Background"
-msgstr "Tausta"
+msgstr "Latarbelakang"
 
-#: src/notification_prefs.c:781 src/notification_prefs.c:1001
+#: src/notification_prefs.c:781
+#: src/notification_prefs.c:1001
 msgid "Background color"
-msgstr "Taustaväri"
+msgstr "Warna latarbelakang"
 
 #: src/notification_prefs.c:894
 msgid "Enable popup"
-msgstr "Salli ponnahdus"
+msgstr "Aktifkan popup"
 
-#: src/notification_prefs.c:911 src/notification_prefs.c:1489
+#: src/notification_prefs.c:911
+#: src/notification_prefs.c:1489
 msgid "Popup timeout:"
-msgstr "Ponnahdusaika:"
+msgstr "Waktuhabis popup:"
 
-#: src/notification_prefs.c:921 src/notification_prefs.c:1193
+#: src/notification_prefs.c:921
+#: src/notification_prefs.c:1193
 #: src/notification_prefs.c:1498
 msgid "seconds"
-msgstr "sekuntia"
+msgstr "detik"
 
 #: src/notification_prefs.c:950
 msgid "Make popup sticky"
-msgstr "Tee ponnahduksesta tarttuva"
+msgstr "Jadikan popup lengket"
 
 #: src/notification_prefs.c:960
 msgid "Set popup window width and position"
-msgstr "Aseta ponnahdusikkunan leveys ja sijainti"
+msgstr "Atur lebar dan posisi jendela popup"
 
 #: src/notification_prefs.c:965
 msgid "(the window manager is free to ignore this)"
-msgstr "(ikkunointiohjelma voi sivuuttaa asetukset)"
+msgstr "(Manajer jendela bebas untuk mengabaikan ini)"
 
-#: src/notification_prefs.c:1013 src/notification_prefs.c:1501
+#: src/notification_prefs.c:1013
+#: src/notification_prefs.c:1501
 msgid "Display folder name"
-msgstr "Näytä kansion nimi"
+msgstr "Tampilkan nama direktori"
 
 #: src/notification_prefs.c:1078
 msgid "Sample popup window"
-msgstr "Esimerkkiponnahdus"
+msgstr "Contoh jendela popup"
 
 #: src/notification_prefs.c:1084
 msgid "Done"
-msgstr "Valmis"
+msgstr "Selesai"
 
 #: src/notification_prefs.c:1153
 msgid "Enable command"
-msgstr "Käytä komentoa"
+msgstr "Aktifkan perintah"
 
 #: src/notification_prefs.c:1170
 msgid "Command to execute:"
-msgstr "Ajettava komento:"
+msgstr "Perintah untuk dijalankan:"
 
 #: src/notification_prefs.c:1183
 msgid "Block command after execution for"
-msgstr "Estä komento ajaksi"
+msgstr "Tahan perintah setelah dijalankan untuk"
 
 #: src/notification_prefs.c:1290
 msgid "Enable LCD"
-msgstr "Salli LCD"
+msgstr "Aktifkan LCD"
 
 #: src/notification_prefs.c:1309
 msgid "Hostname:Port of LCDd server:"
-msgstr "Konenimi:portti LCDd‐palvelimeen:"
+msgstr "Namahost:Port dari server LCDd:"
 
 #: src/notification_prefs.c:1391
 msgid "Enable Trayicon"
-msgstr "Käytä ilmoitusaluekuvaketta"
+msgstr "Aktifkan Trayicon"
 
 #: src/notification_prefs.c:1407
 msgid "Hide at start-up"
-msgstr "Piilota käynnistyksessä"
+msgstr "Sembunyikan setiap memulai"
 
 #: src/notification_prefs.c:1415
 msgid "Close to tray"
-msgstr "Sulje ilmoitusalueelle"
+msgstr "Tutup ke tray"
 
 #: src/notification_prefs.c:1423
 msgid "Hide when iconified"
-msgstr "Piilota pienennettynä"
+msgstr "Sembunyikan ketika jadi ikon"
 
 #. TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
 #. A toast is a small passive (non-focus-stealing)
@@ -426,94 +443,92 @@ msgstr "Piilota pienennettynä"
 #. http://en.wikipedia.org/wiki/Toast_(computing)
 #: src/notification_prefs.c:1460
 msgid "Passive toaster popup"
-msgstr "Passiivinen leivänpaahdinponnahdus"
+msgstr "Passive toaster popup"
 
 #: src/notification_prefs.c:1471
 msgid "Enable Popup"
-msgstr "Salli ponnahdus"
+msgstr "Aktifkan popup"
 
 #: src/notification_trayicon.c:98
 msgid "_Get Mail"
-msgstr "_Hae viestit"
+msgstr "_Ambil Surat"
 
 #: src/notification_trayicon.c:100
 msgid "_Email"
-msgstr "_Viestit"
+msgstr "_Email"
 
 #: src/notification_trayicon.c:101
 msgid "E_mail from account"
-msgstr "Viestit _tilitä"
+msgstr "E_mail dari akun"
 
 #: src/notification_trayicon.c:102
 msgid "Open A_ddressbook"
-msgstr "_Avaa osoitekirja"
+msgstr "Buka bu_ku alamat"
 
 #: src/notification_trayicon.c:103
 msgid "E_xit Claws Mail"
-msgstr "_Sulje Claws Mail"
+msgstr "K_eluar Claws Mail"
 
 #: src/notification_trayicon.c:108
 msgid "_Work Offline"
-msgstr "_Siirry yhteydettömään tilaan"
+msgstr "Beker_ja offline"
 
 #: src/notification_trayicon.c:110
 msgid "Show Trayicon Notifications"
-msgstr "Näytä järjestelmäkuvakkeen ilmoitukset"
+msgstr "Perlihatkan Pemberitahuan Trayicon"
 
 #: src/notification_trayicon.c:247
 #, c-format
 msgid "New %d, Unread: %d, Total: %d"
-msgstr "Uusia %d, Lukematta: %d, Yhteensä: %d"
+msgstr "Baru %d, Belum dibaca: %d, Total: %d"
 
 #: src/notification_trayicon.c:341
 msgid "Untitled"
-msgstr "Nimeämätön"
+msgstr "Belum ada judul"
 
 #: src/notification_trayicon.c:502
 msgid "Exit"
-msgstr "Poistu"
+msgstr "Keluar"
 
 #: src/notification_trayicon.c:502
 msgid "Exit Claws Mail?"
-msgstr "Poistu Claws Mailista?"
+msgstr "Keluar Claws Mail?"
 
 #: src/notification_trayicon.c:801
 msgid "New mail message"
-msgstr "Uusi sähköpostiviesti"
+msgstr "Pesan surat baru"
 
 #: src/notification_trayicon.c:803
 msgid "New news post"
-msgstr "Uusi nyyssiviesti"
+msgstr "Kiriman berita baru"
 
 #: src/notification_trayicon.c:805
 msgid "New calendar message"
-msgstr "Uusi kalenteriviesti"
+msgstr "Pesan kalender baru"
 
 #: src/notification_trayicon.c:807
 msgid "New article in RSS feed"
-msgstr "Uusi RSS‐syötteen viesti"
+msgstr "Artikel baru pada feed RSS"
 
 #: src/notification_trayicon.c:810
 msgid "New messages arrived"
-msgstr "Uusia viestejä saapui"
+msgstr "Pesan baru diterima"
 
 #: src/notification_trayicon.c:866
 #, c-format
 msgid "%d new mail message arrived"
 msgid_plural "%d new mail messages arrived"
-msgstr[0] "%d uusi sähköpostiviesti saapunut"
-msgstr[1] "%d uutta sähköpostiviestiä saapunut"
+msgstr[0] "%d pesan surat baru diterima"
 
 #: src/notification_trayicon.c:877
 #, c-format
 msgid "%d new news post arrived"
 msgid_plural "%d new news posts arrived"
-msgstr[0] "%d uusi nyyssiviesti saapunut"
-msgstr[1] "%d uutta nyyssiviestiä saapunut"
+msgstr[0] "%d kiriman berita baru diterima"
 
 #: src/notification_trayicon.c:899
 #, c-format
 msgid "%d new article in RSS feeds arrived"
 msgid_plural "%d new articles in RSS feeds arrived"
-msgstr[0] "%d uusi viesti RSS‐syötteessä saapunut"
-msgstr[1] "%d uutta viestiä RSS‐syötteessä saapunut"
+msgstr[0] "%d artikel baru pada feed RSS diterima"
+

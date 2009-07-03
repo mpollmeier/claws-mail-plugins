@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2009-03-01 19:17+0000\n"
-"PO-Revision-Date: 2009-03-07 01:12+0900\n"
+"POT-Creation-Date: 2009-06-26 18:35+0100\n"
+"PO-Revision-Date: 2009-06-29 00:26+0900\n"
 "Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,54 +27,70 @@ msgstr "フォルダの選択"
 msgid "select recursively"
 msgstr "再帰的に選択"
 
-#: src/notification_plugin.c:192
-#: src/notification_plugin.c:378
-#: src/notification_prefs.c:317
+#: src/notification_lcdproc.c:137
+msgid "New"
+msgstr "新規"
+
+#: src/notification_lcdproc.c:141
+msgid "Unread"
+msgstr "未読"
+
+#: src/notification_lcdproc.c:145
+msgid "Total"
+msgstr "総数"
+
+#: src/notification_lcdproc.c:151
+msgid "No new messages"
+msgstr "新しいメッセージはありません"
+
+#: src/notification_plugin.c:214
+#: src/notification_plugin.c:403
 #: src/notification_prefs.c:331
-#: src/notification_prefs.c:348
-#: src/notification_prefs.c:365
-#: src/notification_prefs.c:382
-#: src/notification_prefs.c:399
+#: src/notification_prefs.c:345
+#: src/notification_prefs.c:362
+#: src/notification_prefs.c:379
+#: src/notification_prefs.c:396
+#: src/notification_prefs.c:413
 msgid "Notification"
 msgstr "通知"
 
-#: src/notification_plugin.c:197
+#: src/notification_plugin.c:219
 msgid "The Notification plugin needs threading support."
 msgstr "通知プラグインはスレッディングサポートが必要です。"
 
-#: src/notification_plugin.c:204
+#: src/notification_plugin.c:226
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "通知プラグインにおけるフォルダアイテムアップデートフックの登録に失敗しました"
 
-#: src/notification_plugin.c:212
+#: src/notification_plugin.c:234
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr "通知プラグインにおけるフォルダアップデートフックの登録に失敗しました"
 
-#: src/notification_plugin.c:222
+#: src/notification_plugin.c:244
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "通知プラグインにおけるmsginfoアップデートフックの登録に失敗しました"
 
-#: src/notification_plugin.c:232
+#: src/notification_plugin.c:254
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr "通知プラグインにおけるオフラインスイッチフックの登録に失敗しました"
 
-#: src/notification_plugin.c:243
+#: src/notification_plugin.c:265
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr "通知プラグインにおけるウィンドウクローズフックの登録に失敗しました"
 
-#: src/notification_plugin.c:256
+#: src/notification_plugin.c:278
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr "通知プラグインにおけるアイコン化取得フックの登録に失敗しました"
 
-#: src/notification_plugin.c:269
+#: src/notification_plugin.c:291
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr "通知プラグインにおけるアカウントリスト変更フックの登録に失敗しました"
 
-#: src/notification_plugin.c:282
+#: src/notification_plugin.c:304
 msgid "Failed to register theme change hook int the Notification plugin"
 msgstr "通知プラグインにおけるテーマ変更フックの登録に失敗しました"
 
-#: src/notification_plugin.c:383
+#: src/notification_plugin.c:408
 msgid ""
 "This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
@@ -82,127 +98,132 @@ msgstr ""
 "このプラグインは新規や未読メールのユーザに通知するための様々な方法を提供します。\n"
 "<berndth@gmx.de> へのフィードバックを歓迎します。"
 
-#: src/notification_plugin.c:406
+#: src/notification_plugin.c:431
 msgid "Various tools"
 msgstr "様々なツール"
 
-#: src/notification_popup.c:291
+#: src/notification_popup.c:304
 msgid "New Mail message"
 msgstr "新規メールメッセージ"
 
-#: src/notification_popup.c:293
-#: src/notification_popup.c:587
+#: src/notification_popup.c:306
+#: src/notification_popup.c:603
+#: src/notification_trayicon.c:830
 msgid "(No From)"
 msgstr "(送信元無し)"
 
-#: src/notification_popup.c:295
-#: src/notification_popup.c:591
+#: src/notification_popup.c:308
+#: src/notification_popup.c:607
+#: src/notification_trayicon.c:833
 msgid "(No Subject)"
 msgstr "(Subject無し)"
 
-#: src/notification_popup.c:312
+#: src/notification_popup.c:325
 msgid "New News post"
 msgstr "新規ニュースを投稿する"
 
-#: src/notification_popup.c:313
+#: src/notification_popup.c:326
 msgid "A new message arrived"
 msgstr "新規メッセージが到着しました"
 
-#: src/notification_popup.c:316
+#: src/notification_popup.c:329
 msgid "New Calendar message"
 msgstr "新しいカレンダーメッセージ"
 
-#: src/notification_popup.c:317
+#: src/notification_popup.c:330
+#: src/notification_trayicon.c:851
 msgid "A new calendar message arrived"
 msgstr "新しいカレンダーメッセージが到着しました"
 
-#: src/notification_popup.c:320
+#: src/notification_popup.c:333
 msgid "New RSS feed article"
 msgstr "新しいRSSフィードの記事"
 
-#: src/notification_popup.c:321
+#: src/notification_popup.c:334
+#: src/notification_trayicon.c:854
 msgid "A new article in a RSS feed arrived"
 msgstr "新しいRSSフィードの記事が到着しました"
 
-#: src/notification_popup.c:324
+#: src/notification_popup.c:337
 msgid "New unknown message"
 msgstr "新しい不明なメッセージ"
 
-#: src/notification_popup.c:325
+#: src/notification_popup.c:338
 msgid "Unknown message type arrived"
 msgstr "不明なメッセージタイプが到着しました"
 
-#: src/notification_popup.c:458
+#: src/notification_popup.c:474
 msgid "Mail message"
 msgstr "メールメッセージ"
 
-#: src/notification_popup.c:459
-#: src/notification_popup.c:465
+#: src/notification_popup.c:475
+#: src/notification_popup.c:481
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
 msgstr[0] "%d 新規メッセージが到着しました"
 
-#: src/notification_popup.c:464
+#: src/notification_popup.c:480
 msgid "News message"
 msgstr "ニュースメッセージ"
 
-#: src/notification_popup.c:470
+#: src/notification_popup.c:486
 msgid "Calendar message"
 msgstr "カレンダーメッセージ"
 
-#: src/notification_popup.c:471
+#: src/notification_popup.c:487
+#: src/notification_trayicon.c:888
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
 msgstr[0] "%d 新規カレンダーメッセージが到着しました"
 
-#: src/notification_popup.c:476
+#: src/notification_popup.c:492
 msgid "RSS news feed"
 msgstr "RSSニュースフィード"
 
-#: src/notification_popup.c:477
+#: src/notification_popup.c:493
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
 msgstr[0] "%d 新規RSSフィードの記事が到着しました"
 
-#: src/notification_popup.c:538
+#: src/notification_popup.c:554
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
 msgstr[0] "%d 新規メッセージ"
 
-#: src/notification_prefs.c:316
 #: src/notification_prefs.c:330
-#: src/notification_prefs.c:347
-#: src/notification_prefs.c:364
-#: src/notification_prefs.c:381
-#: src/notification_prefs.c:398
+#: src/notification_prefs.c:344
+#: src/notification_prefs.c:361
+#: src/notification_prefs.c:378
+#: src/notification_prefs.c:395
+#: src/notification_prefs.c:412
 msgid "Plugins"
 msgstr "プラグイン"
 
-#: src/notification_prefs.c:332
+#: src/notification_prefs.c:346
 msgid "Banner"
 msgstr "バナー"
 
-#: src/notification_prefs.c:349
+#: src/notification_prefs.c:363
 msgid "Popup"
 msgstr "ポップアップ"
 
-#: src/notification_prefs.c:366
+#: src/notification_prefs.c:380
 msgid "Command"
 msgstr "コマンド"
 
-#: src/notification_prefs.c:383
+#: src/notification_prefs.c:397
 msgid "LCD"
 msgstr "LCD"
 
-#: src/notification_prefs.c:400
+#: src/notification_prefs.c:414
 msgid "SysTrayicon"
 msgstr "SysTrayicon"
 
-#: src/notification_prefs.c:449
+#: src/notification_prefs.c:463
 msgid ""
 "\n"
 "Notification Plugin: Failed to write plugin configuration to file\n"
@@ -210,186 +231,202 @@ msgstr ""
 "\n"
 "通知プラグイン: プラグイン設定のファイル書き出しに失敗しました\n"
 
-#: src/notification_prefs.c:476
+#: src/notification_prefs.c:490
 msgid "Include folder types"
 msgstr "フォルダタイプを含む"
 
-#: src/notification_prefs.c:486
+#: src/notification_prefs.c:500
 msgid "Mail folders"
 msgstr "メールフォルダ"
 
-#: src/notification_prefs.c:494
+#: src/notification_prefs.c:508
 msgid "News folders"
 msgstr "ニュースフォルダ"
 
-#: src/notification_prefs.c:502
+#: src/notification_prefs.c:516
 msgid "RSS folders"
 msgstr "RSSフォルダ"
 
-#: src/notification_prefs.c:510
+#: src/notification_prefs.c:524
 msgid "Calendar folders"
 msgstr "カレンダーフォルダ"
 
-#: src/notification_prefs.c:518
+#: src/notification_prefs.c:532
 msgid "These settings overwrite folder-specific selections."
 msgstr "これらの設定はフォルダ固有の選択として上書きされます。"
 
-#: src/notification_prefs.c:571
+#: src/notification_prefs.c:543
+msgid "Global notification settings"
+msgstr "グローバル通知設定"
+
+#: src/notification_prefs.c:553
+msgid "Set window manager urgency hint when new messages exist"
+msgstr "新しいメッセージが存在する場合、ウィンドウマネージャはurgency hintを設定する"
+
+#: src/notification_prefs.c:562
+msgid "Set window manager urgency hint when unread messages exist"
+msgstr "未読メッセージが存在する場合、ウィンドウマネージャはurgency hintを設定する"
+
+#: src/notification_prefs.c:572
+msgid "Use sound theme"
+msgstr "サウンドテーマを使用する"
+
+#: src/notification_prefs.c:634
 msgid "Show banner"
 msgstr "バナーを表示する"
 
-#: src/notification_prefs.c:576
+#: src/notification_prefs.c:639
 msgid "Never"
 msgstr "なし"
 
-#: src/notification_prefs.c:578
+#: src/notification_prefs.c:641
 msgid "Always"
 msgstr "常に"
 
-#: src/notification_prefs.c:580
+#: src/notification_prefs.c:643
 msgid "Only when not empty"
 msgstr "空でないときだけ"
 
-#: src/notification_prefs.c:598
+#: src/notification_prefs.c:661
 msgid "slow"
 msgstr "ゆっくり"
 
-#: src/notification_prefs.c:602
+#: src/notification_prefs.c:665
 msgid "fast"
 msgstr "早い"
 
-#: src/notification_prefs.c:606
+#: src/notification_prefs.c:669
 msgid "Banner speed"
 msgstr "バナー速度"
 
-#: src/notification_prefs.c:624
+#: src/notification_prefs.c:687
 msgid "Maximum number of messages (0 means unlimited)"
 msgstr "最大メッセージ数 (0は制限無し)"
 
-#: src/notification_prefs.c:638
+#: src/notification_prefs.c:701
 msgid "Banner width in pixels (0 means screen size)"
 msgstr "バナー幅をピクセルで (0は画面サイズ)"
 
-#: src/notification_prefs.c:651
+#: src/notification_prefs.c:714
 msgid "Include unread mails in banner"
 msgstr "バナーに未読メールを含む"
 
-#: src/notification_prefs.c:659
+#: src/notification_prefs.c:722
 msgid "Make banner sticky"
 msgstr "バナーを最上部に固定する"
 
-#: src/notification_prefs.c:669
-#: src/notification_prefs.c:867
-#: src/notification_prefs.c:1139
-#: src/notification_prefs.c:1371
+#: src/notification_prefs.c:732
+#: src/notification_prefs.c:930
+#: src/notification_prefs.c:1202
+#: src/notification_prefs.c:1434
 msgid "Only include selected folders"
 msgstr "選択されたフォルダに含まれるもののみ"
 
-#: src/notification_prefs.c:678
-#: src/notification_prefs.c:876
-#: src/notification_prefs.c:1148
-#: src/notification_prefs.c:1380
+#: src/notification_prefs.c:741
+#: src/notification_prefs.c:939
+#: src/notification_prefs.c:1211
+#: src/notification_prefs.c:1443
 msgid "Select folders..."
 msgstr "フォルダの選択..."
 
-#: src/notification_prefs.c:688
-#: src/notification_prefs.c:908
+#: src/notification_prefs.c:751
+#: src/notification_prefs.c:971
 msgid "Use custom colors"
 msgstr "カスタム色を利用する"
 
-#: src/notification_prefs.c:701
-#: src/notification_prefs.c:921
+#: src/notification_prefs.c:764
+#: src/notification_prefs.c:984
 msgid "Foreground"
 msgstr "前景"
 
-#: src/notification_prefs.c:707
-#: src/notification_prefs.c:927
+#: src/notification_prefs.c:770
+#: src/notification_prefs.c:990
 msgid "Foreground color"
 msgstr "前景色"
 
-#: src/notification_prefs.c:712
-#: src/notification_prefs.c:932
+#: src/notification_prefs.c:775
+#: src/notification_prefs.c:995
 msgid "Background"
 msgstr "背景"
 
-#: src/notification_prefs.c:718
-#: src/notification_prefs.c:938
+#: src/notification_prefs.c:781
+#: src/notification_prefs.c:1001
 msgid "Background color"
 msgstr "背景色"
 
-#: src/notification_prefs.c:831
+#: src/notification_prefs.c:894
 msgid "Enable popup"
 msgstr "ポップアップを有効にする"
 
-#: src/notification_prefs.c:848
-#: src/notification_prefs.c:1426
+#: src/notification_prefs.c:911
+#: src/notification_prefs.c:1489
 msgid "Popup timeout:"
 msgstr "ポップアップタイムアウト:"
 
-#: src/notification_prefs.c:858
-#: src/notification_prefs.c:1130
-#: src/notification_prefs.c:1435
+#: src/notification_prefs.c:921
+#: src/notification_prefs.c:1193
+#: src/notification_prefs.c:1498
 msgid "seconds"
 msgstr "秒"
 
-#: src/notification_prefs.c:887
+#: src/notification_prefs.c:950
 msgid "Make popup sticky"
 msgstr "ポップアップを最上部に固定する"
 
-#: src/notification_prefs.c:897
+#: src/notification_prefs.c:960
 msgid "Set popup window width and position"
 msgstr "ポップアップウィンドウの幅と場所を設定する"
 
-#: src/notification_prefs.c:902
+#: src/notification_prefs.c:965
 msgid "(the window manager is free to ignore this)"
 msgstr "(ウィンドウマネージャはこれを無視することから離れています)"
 
-#: src/notification_prefs.c:950
-#: src/notification_prefs.c:1438
+#: src/notification_prefs.c:1013
+#: src/notification_prefs.c:1501
 msgid "Display folder name"
 msgstr "フォルダ名を表示する"
 
-#: src/notification_prefs.c:1015
+#: src/notification_prefs.c:1078
 msgid "Sample popup window"
 msgstr "ポップアップウィンドウのサンプル"
 
-#: src/notification_prefs.c:1021
+#: src/notification_prefs.c:1084
 msgid "Done"
 msgstr "完了"
 
-#: src/notification_prefs.c:1090
+#: src/notification_prefs.c:1153
 msgid "Enable command"
 msgstr "コマンドを有効にする"
 
-#: src/notification_prefs.c:1107
+#: src/notification_prefs.c:1170
 msgid "Command to execute:"
 msgstr "実行するコマンド:"
 
-#: src/notification_prefs.c:1120
+#: src/notification_prefs.c:1183
 msgid "Block command after execution for"
 msgstr "実行後にコマンドをブロックする"
 
-#: src/notification_prefs.c:1227
+#: src/notification_prefs.c:1290
 msgid "Enable LCD"
 msgstr "LCDを有効にする"
 
-#: src/notification_prefs.c:1246
+#: src/notification_prefs.c:1309
 msgid "Hostname:Port of LCDd server:"
 msgstr "ホスト名:LCDdサーバのポート:"
 
-#: src/notification_prefs.c:1328
+#: src/notification_prefs.c:1391
 msgid "Enable Trayicon"
 msgstr "アイコントレイを有効にする"
 
-#: src/notification_prefs.c:1344
+#: src/notification_prefs.c:1407
 msgid "Hide at start-up"
 msgstr "起動時には隠す"
 
-#: src/notification_prefs.c:1352
+#: src/notification_prefs.c:1415
 msgid "Close to tray"
 msgstr "トレイへ閉じる"
 
-#: src/notification_prefs.c:1360
+#: src/notification_prefs.c:1423
 msgid "Hide when iconified"
 msgstr "アイコン化されたら隠す"
 
@@ -399,11 +436,94 @@ msgstr "アイコン化されたら隠す"
 #. for that, go for something along the lines of "passive popup"
 #. instead.See also
 #. http://en.wikipedia.org/wiki/Toast_(computing)
-#: src/notification_prefs.c:1397
+#: src/notification_prefs.c:1460
 msgid "Passive toaster popup"
 msgstr "受身なポップアップ"
 
-#: src/notification_prefs.c:1408
+#: src/notification_prefs.c:1471
 msgid "Enable Popup"
 msgstr "ポップアップを有効にする"
+
+#: src/notification_trayicon.c:98
+msgid "_Get Mail"
+msgstr "メールを受信(_G)"
+
+#: src/notification_trayicon.c:100
+msgid "_Email"
+msgstr "メール(_E)"
+
+#: src/notification_trayicon.c:101
+msgid "E_mail from account"
+msgstr "アカウントのメール(_M)"
+
+#: src/notification_trayicon.c:102
+msgid "Open A_ddressbook"
+msgstr "アドレス帳を開く(_D)"
+
+#: src/notification_trayicon.c:103
+msgid "E_xit Claws Mail"
+msgstr "Claws Mailを終了(_X)"
+
+#: src/notification_trayicon.c:108
+msgid "_Work Offline"
+msgstr "オフラインで作業する(_W)"
+
+#: src/notification_trayicon.c:110
+msgid "Show Trayicon Notifications"
+msgstr "トレイアイコン通知を表示する"
+
+#: src/notification_trayicon.c:247
+#, c-format
+msgid "New %d, Unread: %d, Total: %d"
+msgstr "新規 %d, 未読: %d, 総数: %d"
+
+#: src/notification_trayicon.c:341
+msgid "Untitled"
+msgstr "名称未設定"
+
+#: src/notification_trayicon.c:502
+msgid "Exit"
+msgstr "終了"
+
+#: src/notification_trayicon.c:502
+msgid "Exit Claws Mail?"
+msgstr "Claws Mailを終了しますか?"
+
+#: src/notification_trayicon.c:801
+msgid "New mail message"
+msgstr "新しいメールメッセージ"
+
+#: src/notification_trayicon.c:803
+msgid "New news post"
+msgstr "新しいニュースを投稿"
+
+#: src/notification_trayicon.c:805
+msgid "New calendar message"
+msgstr "新しいカレンダーメッセージ"
+
+#: src/notification_trayicon.c:807
+msgid "New article in RSS feed"
+msgstr "新しいRSSフィードの記事"
+
+#: src/notification_trayicon.c:810
+msgid "New messages arrived"
+msgstr "新しいメッセージが到着しました"
+
+#: src/notification_trayicon.c:866
+#, c-format
+msgid "%d new mail message arrived"
+msgid_plural "%d new mail messages arrived"
+msgstr[0] "%d 新規メッセージが到着しました"
+
+#: src/notification_trayicon.c:877
+#, c-format
+msgid "%d new news post arrived"
+msgid_plural "%d new news posts arrived"
+msgstr[0] "%d 新しいメッセージが到着しました"
+
+#: src/notification_trayicon.c:899
+#, c-format
+msgid "%d new article in RSS feeds arrived"
+msgid_plural "%d new articles in RSS feeds arrived"
+msgstr[0] "%d 新しいRSSフィードの記事が到着しました"
 

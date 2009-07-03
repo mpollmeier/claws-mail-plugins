@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail Notification plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2008-12-12 11:38+0000\n"
-"PO-Revision-Date: 2008-12-19 15:18+0300\n"
+"POT-Creation-Date: 2009-07-03 10:06+0400\n"
+"PO-Revision-Date: 2009-07-03 10:44+0300\n"
 "Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,54 +33,70 @@ msgstr "Выберите папку(и)"
 msgid "select recursively"
 msgstr "рекурсивно"
 
-#: src/notification_plugin.c:192
-#: src/notification_plugin.c:378
-#: src/notification_prefs.c:317
+#: src/notification_lcdproc.c:137
+msgid "New"
+msgstr "Новых"
+
+#: src/notification_lcdproc.c:141
+msgid "Unread"
+msgstr "Непрочтённых"
+
+#: src/notification_lcdproc.c:145
+msgid "Total"
+msgstr "Всего"
+
+#: src/notification_lcdproc.c:151
+msgid "No new messages"
+msgstr "Нет новых сообщений"
+
+#: src/notification_plugin.c:214
+#: src/notification_plugin.c:403
 #: src/notification_prefs.c:331
-#: src/notification_prefs.c:348
-#: src/notification_prefs.c:365
-#: src/notification_prefs.c:382
-#: src/notification_prefs.c:399
+#: src/notification_prefs.c:345
+#: src/notification_prefs.c:362
+#: src/notification_prefs.c:379
+#: src/notification_prefs.c:396
+#: src/notification_prefs.c:413
 msgid "Notification"
 msgstr "Уведомление"
 
-#: src/notification_plugin.c:197
+#: src/notification_plugin.c:219
 msgid "The Notification plugin needs threading support."
 msgstr "Для модуля уведомлений нужна поддержка многопоточности"
 
-#: src/notification_plugin.c:204
+#: src/notification_plugin.c:226
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'folder item update' в модуле уведомлений"
 
-#: src/notification_plugin.c:212
+#: src/notification_plugin.c:234
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'folder update' в модуле уведомлений"
 
-#: src/notification_plugin.c:222
+#: src/notification_plugin.c:244
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'msginfo update' в модуле уведомлений"
 
-#: src/notification_plugin.c:232
+#: src/notification_plugin.c:254
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'offline switch' в модуле уведомлений"
 
-#: src/notification_plugin.c:243
+#: src/notification_plugin.c:265
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'window close' в модуле уведомлений"
 
-#: src/notification_plugin.c:256
+#: src/notification_plugin.c:278
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'got iconified' в модуле уведомлений"
 
-#: src/notification_plugin.c:269
+#: src/notification_plugin.c:291
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'list changed' в модуле уведомлений"
 
-#: src/notification_plugin.c:282
+#: src/notification_plugin.c:304
 msgid "Failed to register theme change hook int the Notification plugin"
 msgstr "Не удалось зарегистрировать hook для 'theme change' в модуле уведомлений"
 
-#: src/notification_plugin.c:383
+#: src/notification_plugin.c:408
 msgid ""
 "This plugin provides various ways to notify the user of new and unread email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
@@ -88,62 +104,66 @@ msgstr ""
 "Этот модуль предоставляет различные способы уведомления о новых и непрочтённых сообщениях.\n"
 "Вопросы и критику отправляйте на <berndth@gmx.de>."
 
-#: src/notification_plugin.c:406
+#: src/notification_plugin.c:431
 msgid "Various tools"
 msgstr "Разное"
 
-#: src/notification_popup.c:289
+#: src/notification_popup.c:304
 msgid "New Mail message"
 msgstr "Новое email-сообщение"
 
-#: src/notification_popup.c:291
-#: src/notification_popup.c:570
+#: src/notification_popup.c:306
+#: src/notification_popup.c:603
+#: src/notification_trayicon.c:830
 msgid "(No From)"
 msgstr "(Отправитель не указан)"
 
-#: src/notification_popup.c:293
-#: src/notification_popup.c:574
+#: src/notification_popup.c:308
+#: src/notification_popup.c:607
+#: src/notification_trayicon.c:833
 msgid "(No Subject)"
 msgstr "(Нет темы)"
 
-#: src/notification_popup.c:310
+#: src/notification_popup.c:325
 msgid "New News post"
 msgstr "Новое сообщение новостей"
 
-#: src/notification_popup.c:311
+#: src/notification_popup.c:326
 msgid "A new message arrived"
 msgstr "Получено новое сообщение."
 
-#: src/notification_popup.c:314
+#: src/notification_popup.c:329
 msgid "New Calendar message"
 msgstr "Новая запись в календаре"
 
-#: src/notification_popup.c:315
+#: src/notification_popup.c:330
+#: src/notification_trayicon.c:851
 msgid "A new calendar message arrived"
 msgstr "Получена новая запись в календаре"
 
-#: src/notification_popup.c:318
+#: src/notification_popup.c:333
 msgid "New RSS feed article"
 msgstr "Обновлен RSS-поток"
 
-#: src/notification_popup.c:319
+#: src/notification_popup.c:334
+#: src/notification_trayicon.c:854
 msgid "A new article in a RSS feed arrived"
 msgstr "Получено обновление потока RSS"
 
-#: src/notification_popup.c:322
+#: src/notification_popup.c:337
 msgid "New unknown message"
 msgstr "Новое сообщение"
 
-#: src/notification_popup.c:323
+#: src/notification_popup.c:338
 msgid "Unknown message type arrived"
 msgstr "Получено новое сообщение неопределённого типа"
 
-#: src/notification_popup.c:441
+#: src/notification_popup.c:474
 msgid "Mail message"
 msgstr "Сообщение email"
 
-#: src/notification_popup.c:442
-#: src/notification_popup.c:448
+#: src/notification_popup.c:475
+#: src/notification_popup.c:481
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
@@ -151,15 +171,16 @@ msgstr[0] "Получено %d новое сообщение"
 msgstr[1] "Получено %d новых сообщения"
 msgstr[2] "Получено %d новых сообщений"
 
-#: src/notification_popup.c:447
+#: src/notification_popup.c:480
 msgid "News message"
 msgstr "Сообщение группы новостей"
 
-#: src/notification_popup.c:453
+#: src/notification_popup.c:486
 msgid "Calendar message"
 msgstr "Событие в календаре"
 
-#: src/notification_popup.c:454
+#: src/notification_popup.c:487
+#: src/notification_trayicon.c:888
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
@@ -167,11 +188,11 @@ msgstr[0] "Получено %d новое событие в календаре"
 msgstr[1] "Получено %d новых события в календаре"
 msgstr[2] "Получено %d новых событий в календаре"
 
-#: src/notification_popup.c:459
+#: src/notification_popup.c:492
 msgid "RSS news feed"
 msgstr "RSS-поток"
 
-#: src/notification_popup.c:460
+#: src/notification_popup.c:493
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
@@ -179,7 +200,7 @@ msgstr[0] "%d обновление в RSS-потоке"
 msgstr[1] "%d обновления в RSS-потоке"
 msgstr[2] "%d обновлений в RSS-потоке"
 
-#: src/notification_popup.c:521
+#: src/notification_popup.c:554
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
@@ -187,36 +208,36 @@ msgstr[0] "%d новое сообщение"
 msgstr[1] "%d новых сообщения"
 msgstr[2] "%d новых сообщений"
 
-#: src/notification_prefs.c:316
 #: src/notification_prefs.c:330
-#: src/notification_prefs.c:347
-#: src/notification_prefs.c:364
-#: src/notification_prefs.c:381
-#: src/notification_prefs.c:398
+#: src/notification_prefs.c:344
+#: src/notification_prefs.c:361
+#: src/notification_prefs.c:378
+#: src/notification_prefs.c:395
+#: src/notification_prefs.c:412
 msgid "Plugins"
 msgstr "Модули"
 
-#: src/notification_prefs.c:332
+#: src/notification_prefs.c:346
 msgid "Banner"
 msgstr "Баннер"
 
-#: src/notification_prefs.c:349
+#: src/notification_prefs.c:363
 msgid "Popup"
 msgstr "Всплывающее окно"
 
-#: src/notification_prefs.c:366
+#: src/notification_prefs.c:380
 msgid "Command"
 msgstr "Команда"
 
-#: src/notification_prefs.c:383
+#: src/notification_prefs.c:397
 msgid "LCD"
 msgstr "LCD"
 
-#: src/notification_prefs.c:400
+#: src/notification_prefs.c:414
 msgid "SysTrayicon"
 msgstr "Значок в трее"
 
-#: src/notification_prefs.c:449
+#: src/notification_prefs.c:463
 msgid ""
 "\n"
 "Notification Plugin: Failed to write plugin configuration to file\n"
@@ -224,186 +245,202 @@ msgstr ""
 "\n"
 "Модуль уведомлений: не удалось сохранить настройки модуля в файл\n"
 
-#: src/notification_prefs.c:476
+#: src/notification_prefs.c:490
 msgid "Include folder types"
 msgstr "Включить следующие папки"
 
-#: src/notification_prefs.c:486
+#: src/notification_prefs.c:500
 msgid "Mail folders"
 msgstr "Папки email"
 
-#: src/notification_prefs.c:494
+#: src/notification_prefs.c:508
 msgid "News folders"
 msgstr "Папки новостей"
 
-#: src/notification_prefs.c:502
+#: src/notification_prefs.c:516
 msgid "RSS folders"
 msgstr "Папки RSS"
 
-#: src/notification_prefs.c:510
+#: src/notification_prefs.c:524
 msgid "Calendar folders"
 msgstr "Папки календаря"
 
-#: src/notification_prefs.c:518
+#: src/notification_prefs.c:532
 msgid "These settings overwrite folder-specific selections."
 msgstr "Это изменит настройки, сделанные для отдельных папок."
 
-#: src/notification_prefs.c:571
+#: src/notification_prefs.c:543
+msgid "Global notification settings"
+msgstr "Общие настройки"
+
+#: src/notification_prefs.c:553
+msgid "Set window manager urgency hint when new messages exist"
+msgstr "Окно привлекает внимание, когда есть новые сообщения"
+
+#: src/notification_prefs.c:562
+msgid "Set window manager urgency hint when unread messages exist"
+msgstr "Окно привлекает внимание, когда есть непрочтённые сообщения"
+
+#: src/notification_prefs.c:572
+msgid "Use sound theme"
+msgstr "Использовать тему звуков"
+
+#: src/notification_prefs.c:634
 msgid "Show banner"
 msgstr "Показывать баннер"
 
-#: src/notification_prefs.c:576
+#: src/notification_prefs.c:639
 msgid "Never"
 msgstr "Всегда"
 
-#: src/notification_prefs.c:578
+#: src/notification_prefs.c:641
 msgid "Always"
 msgstr "Никогда"
 
-#: src/notification_prefs.c:580
+#: src/notification_prefs.c:643
 msgid "Only when not empty"
 msgstr "Когда есть новые сообщения"
 
-#: src/notification_prefs.c:598
+#: src/notification_prefs.c:661
 msgid "slow"
 msgstr "меделенно"
 
-#: src/notification_prefs.c:602
+#: src/notification_prefs.c:665
 msgid "fast"
 msgstr "быстро"
 
-#: src/notification_prefs.c:606
+#: src/notification_prefs.c:669
 msgid "Banner speed"
 msgstr "Скорость баннера"
 
-#: src/notification_prefs.c:624
+#: src/notification_prefs.c:687
 msgid "Maximum number of messages (0 means unlimited)"
 msgstr "Максимальное число сообщений (0 - без ограничений)"
 
-#: src/notification_prefs.c:638
+#: src/notification_prefs.c:701
 msgid "Banner width in pixels (0 means screen size)"
 msgstr "Ширина баннера в точках (0 - во весь экран)"
 
-#: src/notification_prefs.c:651
+#: src/notification_prefs.c:714
 msgid "Include unread mails in banner"
 msgstr "Показывать также непрочтённые сообщения"
 
-#: src/notification_prefs.c:659
+#: src/notification_prefs.c:722
 msgid "Make banner sticky"
 msgstr "Показывать на всех рабочих столах"
 
-#: src/notification_prefs.c:669
-#: src/notification_prefs.c:867
-#: src/notification_prefs.c:1139
-#: src/notification_prefs.c:1371
+#: src/notification_prefs.c:732
+#: src/notification_prefs.c:930
+#: src/notification_prefs.c:1202
+#: src/notification_prefs.c:1434
 msgid "Only include selected folders"
 msgstr "Только для выбранных папок"
 
-#: src/notification_prefs.c:678
-#: src/notification_prefs.c:876
-#: src/notification_prefs.c:1148
-#: src/notification_prefs.c:1380
+#: src/notification_prefs.c:741
+#: src/notification_prefs.c:939
+#: src/notification_prefs.c:1211
+#: src/notification_prefs.c:1443
 msgid "Select folders..."
 msgstr "Выбрать папки"
 
-#: src/notification_prefs.c:688
-#: src/notification_prefs.c:908
+#: src/notification_prefs.c:751
+#: src/notification_prefs.c:971
 msgid "Use custom colors"
 msgstr "Использовать собственные цвета"
 
-#: src/notification_prefs.c:701
-#: src/notification_prefs.c:921
+#: src/notification_prefs.c:764
+#: src/notification_prefs.c:984
 msgid "Foreground"
 msgstr "Текст"
 
-#: src/notification_prefs.c:707
-#: src/notification_prefs.c:927
+#: src/notification_prefs.c:770
+#: src/notification_prefs.c:990
 msgid "Foreground color"
 msgstr "Цвет текста"
 
-#: src/notification_prefs.c:712
-#: src/notification_prefs.c:932
+#: src/notification_prefs.c:775
+#: src/notification_prefs.c:995
 msgid "Background"
 msgstr "Фон"
 
-#: src/notification_prefs.c:718
-#: src/notification_prefs.c:938
+#: src/notification_prefs.c:781
+#: src/notification_prefs.c:1001
 msgid "Background color"
 msgstr "Цвет фона"
 
-#: src/notification_prefs.c:831
+#: src/notification_prefs.c:894
 msgid "Enable popup"
 msgstr "Разрешить всплывающее окно"
 
-#: src/notification_prefs.c:848
-#: src/notification_prefs.c:1426
+#: src/notification_prefs.c:911
+#: src/notification_prefs.c:1489
 msgid "Popup timeout:"
 msgstr "Показывать в течение:"
 
-#: src/notification_prefs.c:858
-#: src/notification_prefs.c:1130
-#: src/notification_prefs.c:1435
+#: src/notification_prefs.c:921
+#: src/notification_prefs.c:1193
+#: src/notification_prefs.c:1498
 msgid "seconds"
 msgstr "секунд"
 
-#: src/notification_prefs.c:887
+#: src/notification_prefs.c:950
 msgid "Make popup sticky"
 msgstr "Показывать на всех рабочих столах"
 
-#: src/notification_prefs.c:897
+#: src/notification_prefs.c:960
 msgid "Set popup window width and position"
 msgstr "Ширина и положение всплывающего окна"
 
-#: src/notification_prefs.c:902
+#: src/notification_prefs.c:965
 msgid "(the window manager is free to ignore this)"
 msgstr "(менеджер окон может это игнорировать)"
 
-#: src/notification_prefs.c:950
-#: src/notification_prefs.c:1438
+#: src/notification_prefs.c:1013
+#: src/notification_prefs.c:1501
 msgid "Display folder name"
 msgstr "Показывать название папки"
 
-#: src/notification_prefs.c:1015
+#: src/notification_prefs.c:1078
 msgid "Sample popup window"
 msgstr "Пример всплывающего окна"
 
-#: src/notification_prefs.c:1021
+#: src/notification_prefs.c:1084
 msgid "Done"
 msgstr "Готово"
 
-#: src/notification_prefs.c:1090
+#: src/notification_prefs.c:1153
 msgid "Enable command"
 msgstr "Разрешить выполнять команду"
 
-#: src/notification_prefs.c:1107
+#: src/notification_prefs.c:1170
 msgid "Command to execute:"
 msgstr "Команда:"
 
-#: src/notification_prefs.c:1120
+#: src/notification_prefs.c:1183
 msgid "Block command after execution for"
 msgstr "Блокировать выполнение через:"
 
-#: src/notification_prefs.c:1227
+#: src/notification_prefs.c:1290
 msgid "Enable LCD"
 msgstr "Разрешить LCD"
 
-#: src/notification_prefs.c:1246
+#: src/notification_prefs.c:1309
 msgid "Hostname:Port of LCDd server:"
 msgstr "Имя-сервера:порт демона LCDd:"
 
-#: src/notification_prefs.c:1328
+#: src/notification_prefs.c:1391
 msgid "Enable Trayicon"
 msgstr "Разрешить значок в трее"
 
-#: src/notification_prefs.c:1344
+#: src/notification_prefs.c:1407
 msgid "Hide at start-up"
 msgstr "Скрывать при запуске"
 
-#: src/notification_prefs.c:1352
+#: src/notification_prefs.c:1415
 msgid "Close to tray"
 msgstr "Скрывать вместо закрытия"
 
-#: src/notification_prefs.c:1360
+#: src/notification_prefs.c:1423
 msgid "Hide when iconified"
 msgstr "Скрывать вместо сворачивания"
 
@@ -413,11 +450,100 @@ msgstr "Скрывать вместо сворачивания"
 #. for that, go for something along the lines of "passive popup"
 #. instead.See also
 #. http://en.wikipedia.org/wiki/Toast_(computing)
-#: src/notification_prefs.c:1397
+#: src/notification_prefs.c:1460
 msgid "Passive toaster popup"
 msgstr "Не захватывать фокус"
 
-#: src/notification_prefs.c:1408
+#: src/notification_prefs.c:1471
 msgid "Enable Popup"
 msgstr "Разрешить"
+
+#: src/notification_trayicon.c:98
+msgid "_Get Mail"
+msgstr "Проверить почту"
+
+#: src/notification_trayicon.c:100
+msgid "_Email"
+msgstr "Новое сообщение"
+
+#: src/notification_trayicon.c:101
+msgid "E_mail from account"
+msgstr "Написать с учётной записи..."
+
+#: src/notification_trayicon.c:102
+msgid "Open A_ddressbook"
+msgstr "Открыть адресную книгу"
+
+#: src/notification_trayicon.c:103
+msgid "E_xit Claws Mail"
+msgstr "В_ыйти из Claws Mail"
+
+#: src/notification_trayicon.c:108
+msgid "_Work Offline"
+msgstr "Работать автономно"
+
+#: src/notification_trayicon.c:110
+msgid "Show Trayicon Notifications"
+msgstr "Показывать уведомления в трее"
+
+#: src/notification_trayicon.c:247
+#, c-format
+msgid "New %d, Unread: %d, Total: %d"
+msgstr "Новых %d, Непрочтённых: %d, Всего: %d"
+
+#: src/notification_trayicon.c:341
+msgid "Untitled"
+msgstr "Безымянный"
+
+#: src/notification_trayicon.c:502
+msgid "Exit"
+msgstr "Выход"
+
+#: src/notification_trayicon.c:502
+msgid "Exit Claws Mail?"
+msgstr "Выйти из Claws Mail?"
+
+#: src/notification_trayicon.c:801
+msgid "New mail message"
+msgstr "Новое email-сообщение"
+
+#: src/notification_trayicon.c:803
+msgid "New news post"
+msgstr "Новое сообщение в группе новостей"
+
+#: src/notification_trayicon.c:805
+msgid "New calendar message"
+msgstr "Новая запись в календаре"
+
+#: src/notification_trayicon.c:807
+msgid "New article in RSS feed"
+msgstr "Получено обновление потока RSS"
+
+#: src/notification_trayicon.c:810
+msgid "New messages arrived"
+msgstr "Получено новое сообщение"
+
+#: src/notification_trayicon.c:866
+#, c-format
+msgid "%d new mail message arrived"
+msgid_plural "%d new mail messages arrived"
+msgstr[0] "Получено %d новое сообщение"
+msgstr[1] "Получено %d новых сообщения"
+msgstr[2] "Получено %d новых сообщений"
+
+#: src/notification_trayicon.c:877
+#, c-format
+msgid "%d new news post arrived"
+msgid_plural "%d new news posts arrived"
+msgstr[0] "Получено %d новое сообщение"
+msgstr[1] "Получено %d новых сообщения"
+msgstr[2] "Получено %d новых сообщений"
+
+#: src/notification_trayicon.c:899
+#, c-format
+msgid "%d new article in RSS feeds arrived"
+msgid_plural "%d new articles in RSS feeds arrived"
+msgstr[0] "%d обновление в RSS-потоке"
+msgstr[1] "%d обновления в RSS-потоке"
+msgstr[2] "%d обновлений в RSS-потоке"
 
