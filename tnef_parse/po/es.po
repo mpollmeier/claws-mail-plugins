@@ -1,0 +1,67 @@
+# Spanish translation for tnef_parse plugin
+# Copyright (C) 2009 Ricardo Mones
+# This file is distributed under the same license as the tnef_parse package.
+# Ricardo Mones <ricardo@mones.org>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tnef_parse\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2009-06-26 18:39+0100\n"
+"PO-Revision-Date: 2009-07-02 19:23+0200\n"
+"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
+"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/tnef_parse.c:64
+#, c-format
+msgid ""
+"\n"
+"Claws Mail TNEF parser:\n"
+"\n"
+"%s\n"
+msgstr ""
+"\n"
+"Intérprete TNEF de Claws Mail:\n"
+"\n"
+"%s\n"
+
+#: src/tnef_parse.c:66
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: src/tnef_parse.c:115
+msgid "Failed to write the part data."
+msgstr "Falló la escritura de la parte de datos."
+
+#: src/tnef_parse.c:157
+msgid "Failed to parse VCalendar data."
+msgstr "Falló la interpretación de los datos «VCalendar»."
+
+#: src/tnef_parse.c:193
+msgid "Failed to parse VTask data."
+msgstr "Falló la interpretación de los datos «VTask»."
+
+#: src/tnef_parse.c:243
+msgid "Failed to parse VCard data."
+msgstr "Falló la interpretación de los datos «VCard»."
+
+#: src/tnef_parse.c:384 src/tnef_parse.c:408
+msgid "TNEF Parser"
+msgstr "Intérprete TNEF"
+
+#: src/tnef_parse.c:413
+msgid ""
+"This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
+"\n"
+"The plugin uses the Ytnef library, which is is copyright 2002-2007 by "
+"Randall Hand <yerase@yerot.com>"
+msgstr ""
+"Este módulo de Claws Mail le permite leer adjuntos de tipo "
+"«application/ms-tnef».\n"
+"\n"
+"El módulo usa la biblioteca Ytnef, que está bajo Copyright 2002-2007 por "
+"Randall Hand <yerase@yerot.com>"
+
