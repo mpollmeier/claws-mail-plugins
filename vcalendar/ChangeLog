@@ -1,3 +1,21 @@
+2009-07-03 [paul]	2.0.4cvs11
+
+	* configure.ac
+	* po/id.po
+	* po/ru.po
+		added by MSulchan Darmawan and Aleksei Miheev
+	* po/cs.po
+	* po/es.po
+	* po/fi.po
+	* po/fr.po
+	* po/hu.po
+	* po/it.po
+	* po/ja.po
+	* po/pt_BR.po
+		updated by David Vachulka, Ricardo Mones, Tommi Pirinen,
+		Colin Leroy, Pader Rezso, Andrea Spadaccini, kazken3,
+		and Frederico Goncalves Guimaraes
+
 2009-06-12 [iwkse]	2.0.4cvs10
 
 	* src/vcalendar.c

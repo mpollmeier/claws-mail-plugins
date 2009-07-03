@@ -1,41 +1,26 @@
-# L�gende des notes :  '.' effectu�, '-' v�rifi�, '>' � effectuer, '?' envisag�
-#
-# 2006-09-19 [fab]	vcalendar-1.89cvs3
-#  . Ce plugin -> Ce module
-#  > [...] feeds,export your [...] -> feeds, export your
-#
-# 2006-03-30 [fab]	vcalendar-1.71
-#  . Votre version de Sylpheed-Claws
-# 	-> La version de Sylpheed-Claws actuellement install�e
-#  . Impossible d'effacer le dossier '%s'. -> ... de supprimer le dossier '%s'.
-#  . Effacer le dossier -> Suppression de dossier
-#  . webcal -> calendrier en ligne (WebCal)
-#
-# 2006-01-25 [fab]	vcalendar-1.28
-#
-#  . Cette URL -> Cet URL
-#  . Cette URL n'a pas l'air d'�tre [...] -> ne semble pas
-#  . Enter : Entrez -> Veuillez saisir
-#  . V�rifiez les destinataires. -> Veuillez v�rifier les destinataires.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Colin Leroy
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: sylpheed-claws-vcalendar-plugin-1.89.1cvs8\n"
+"Project-Id-Version: vcalendar\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2009-06-26 08:44+0200\n"
-"PO-Revision-Date: 2009-06-26 08:47+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team:  <sylpheed-claws-translators@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2009-07-03 11:05+0400\n"
+"PO-Revision-Date: 2009-07-03 12:06+0300\n"
+"Last-Translator: Aleksei Miheev <aleksei@miheev.info>\n"
+"Language-Team: russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n>1;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/plugin.c:45
 #: src/plugin.c:64
 #: src/vcal_prefs.c:645
 msgid "vCalendar"
-msgstr "Calendrier"
+msgstr "vCalendar"
 
 #: src/plugin.c:69
 msgid ""
@@ -47,54 +32,53 @@ msgid ""
 "\n"
 "You will also be able to subscribe to remote webCal feeds,export your meetings and calendars, publish your free/busy information and retrieve that information from others."
 msgstr ""
-"Ce module g�re les messages au format vCalendar comme ceux d'Evolution ou Outlook.\n"
+"Этот модуль добавляет поддержку сообщений vCalendar, подобную Evolution и Outlook.\n"
 "\n"
-"Une fois charg�, il cr�era un dossier vCalendar dans la liste de dossiers, qui sera utilis� pour stocker les rendez-vous que vous avez accept� ou cr��.\n"
-"Les demandes de rendez-vous que vous recevrez vous seront pr�sent�es sous une forme plus appropri�e et vous serez en mesure de les accepter ou les refuser.\n"
-"Pour cr�er un rendez-vous, cliquez avec le bouton droit sur les dossiers vCalendar ou Meetings et choisissez \"Nouveau rendez-vous...\".\n"
+"После загрузки он создаст в списке папок специальный почтовый ящик, который будет заполняться встречами, которые вы создадите и в которых вы подтвердите своё участие.\n"
+"Приглашения на встречи, адресованные вам, будет представлены в соответствующей форме, и у вас будет возможность принять либо отклонить приглашение. Чтобы создать встречу, выберите \"Новая встреча...\" из контекстного меню папки vCalendar.\n"
 "\n"
-"Il est aussi possible de s'incrire � des calendriers en ligne (WebCal), d'exporter vos rendez-vous et vos calendrier(s), de partager votre statut de disponibilit� et de r�cup�rer celui d'autres personnes."
+"Кроме того, вы сможете подписывать на удалённые календари webCal, экспортировать свои календари и встречи, а также публиковать информацию о вашей занятости и получать подобную информацию от других."
 
 #: src/plugin.c:102
 msgid "Calendar"
-msgstr "Calendrier"
+msgstr "Календарь"
 
 #: src/vcalendar.c:94
 msgid "Create meeting from message..."
-msgstr "Cr�er un rendez-vous depuis le message..."
+msgstr "Создать встречу из сообщения..."
 
 #: src/vcalendar.c:114
 #, c-format
 msgid "You are about to create %d meetings, one by one. Do you want to continue?"
-msgstr "Vous �tes sur le point de cr�er %d rendez-vous, un par un. Voulez-vous continuer ?"
+msgstr "Вы пытаетесь создать %d встреч, одну за другой. Продолжить?"
 
 #: src/vcalendar.c:119
 msgid "Warning"
-msgstr "Attention"
+msgstr "Внимание"
 
 #: src/vcalendar.c:133
 msgid "Creating meeting..."
-msgstr "Cr�ation du rendez-vous..."
+msgstr "Создание встречи..."
 
 #: src/vcalendar.c:152
 msgid "no subject"
-msgstr "pas de sujet"
+msgstr "(не темы)"
 
 #: src/vcalendar.c:386
 msgid "Accept"
-msgstr "Accepter"
+msgstr "Принять"
 
 #: src/vcalendar.c:387
 msgid "Tentatively accept"
-msgstr "Accepter sous r�serves"
+msgstr "Ориентировочно принять"
 
 #: src/vcalendar.c:388
 msgid "Decline"
-msgstr "Refuser"
+msgstr "Отклонить"
 
 #: src/vcalendar.c:475
 msgid "You have a Todo item."
-msgstr "Vous avez une t�che � effectuer."
+msgstr "У вас есть запись в списке задач"
 
 #: src/vcalendar.c:476
 #: src/vcalendar.c:483
@@ -102,208 +86,219 @@ msgstr "Vous avez une t�che � effectuer."
 #: src/vcalendar.c:496
 #: src/vcalendar.c:505
 #: src/vcalendar.c:743
+#, fuzzy
 msgid "Details follow:"
-msgstr "En voici les d�tails :"
+msgstr "Подробности:"
 
 #: src/vcalendar.c:482
 msgid "You have created a meeting."
-msgstr "Vous avez cr�� un rendez-vous. "
+msgstr "Вы создали встречу."
 
 #: src/vcalendar.c:487
 msgid "You have been invited to a meeting."
-msgstr "Vous avez �t� convi� � un rendez-vous. "
+msgstr "Вы приглашены на встречу."
 
 #: src/vcalendar.c:495
 msgid "A meeting to which you had been invited has been cancelled."
-msgstr "Un rendez-vous auquel vous �tiez convi� a �t� annul�. "
+msgstr "Встреча, на которую вы были приглашены, отменена."
 
 #: src/vcalendar.c:504
 msgid "You have been forwarded an appointment."
-msgstr "On vous transmis un rendez-vous. "
+msgstr "Вас переслали приглашение."
 
 #: src/vcalendar.c:557
-#, c-format
+#, fuzzy, c-format
 msgid "%s <span weight=\"bold\">(this event recurs)</span>"
-msgstr "%s <span weight=\"bold\">(cet �v�nement est r�current)</span>"
+msgstr "%s <span weight=\"bold\">(это регулярное событие)</span>"
 
 #: src/vcalendar.c:563
 #, c-format
 msgid "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
-msgstr "%s <span weight=\"bold\">(cet �v�nement fait partie d'un �v�nement r�current)</span>"
+msgstr "%s <span weight=\"bold\">(это часть регулярного события)</span>"
 
 #: src/vcalendar.c:742
 msgid "You have received an answer to an unknown meeting proposal."
-msgstr "Vous avez re�u une r�ponse � un rendez-vous inconnu. "
+msgstr "Вы получили ответ на неизвестное приглашение."
 
 #: src/vcalendar.c:746
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
 "%s has %s the invitation whose details follow:"
 msgstr ""
-"Vous avez re�u une r�ponse � un rendez-vous.\n"
-"%s a %s l'invitation dont les d�tails suivent :"
+"Вы получили ответ на приглашение.\n"
+"Контакт %s %s приглашение. Подробности:"
 
 #: src/vcalendar.c:825
+#, fuzzy
 msgid "Error - could not get the calendar MIME part."
-msgstr "Erreur - impossible de trouver la partie MIME calendrier"
+msgstr "Ошибка: не удалось получить календарь из сообщения."
 
 #: src/vcalendar.c:832
+#, fuzzy
 msgid "Error - no calendar part found."
-msgstr "Erreur - aucune partie calendrier trouv�e."
+msgstr "Ошибка: в соощении не найдена часть, содержащая календарь."
 
 #: src/vcalendar.c:846
+#, fuzzy
 msgid "Error - Unknown calendar component type."
-msgstr "Error - Le composant calendrier n'est pas d'un type connu."
+msgstr "Ошибка: неизвестный тип календаря."
 
 #: src/vcalendar.c:975
 msgid "Send a notification to the attendees"
-msgstr "Envoyer une notification aux invit�s"
+msgstr "Отправить уведомление участникам"
 
 #: src/vcalendar.c:984
 msgid "Cancel meeting"
-msgstr "Annuler le rendez-vous"
+msgstr "Отменить встречу"
 
 #: src/vcalendar.c:985
 msgid "Are you sure you want to cancel this meeting?"
-msgstr "Voulez-vous r�ellement annuler ce rendez-vous ?"
+msgstr "Вы уверены, что хотите отменить эту встречу?"
 
 #: src/vcalendar.c:1080
+#, fuzzy
 msgid "No account found"
-msgstr "Pas de compte trouv�"
+msgstr "Учётная запись не найдена"
 
 #: src/vcalendar.c:1081
+#, fuzzy
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
-msgstr "Vous n'avez pas de compte correspondant � un invit�. Avez-vous vraiment �t� invit� ?"
+msgstr ""
+"У вас нет подходящей учётной записи.\n"
+"Всё равно ответить?"
 
 #: src/vcalendar.c:1083
 msgid "+Reply anyway"
-msgstr "+R�pondre tout de m�me"
+msgstr "+Ответиь"
 
 #: src/vcalendar.c:1212
+#, fuzzy
 msgid "Answer"
-msgstr "R�ponse"
+msgstr "Ответить"
 
 #: src/vcalendar.c:1213
 msgid "Edit meeting..."
-msgstr "Modifier le rendez-vous..."
+msgstr "Изменить встречу..."
 
 #: src/vcalendar.c:1214
 msgid "Cancel meeting..."
-msgstr "Annuler le rendez-vous..."
+msgstr "Отменить встречу..."
 
 #: src/vcalendar.c:1215
 msgid "Launch website"
-msgstr "Ouvrir le site web"
+msgstr "Открыть веб-сайт"
 
 #: src/vcalendar.c:1219
 msgid "You are already busy at this time."
-msgstr "Vous n'�tes pas disponible actuellement."
+msgstr "Вы уже заняты в это время."
 
 #: src/vcalendar.c:1258
 #: src/vcal_meeting_gtk.c:1727
 msgid "Event:"
-msgstr "�v�nement :"
+msgstr "Событие:"
 
 #: src/vcalendar.c:1259
 #: src/vcal_meeting_gtk.c:1705
 #: src/vcal_meeting_gtk.c:1716
+#, fuzzy
 msgid "Organizer:"
-msgstr "Organisateur :"
+msgstr "Организатор:"
 
 #: src/vcalendar.c:1260
 #: src/vcal_meeting_gtk.c:1708
 #: src/vcal_meeting_gtk.c:1718
 msgid "Location:"
-msgstr "Endroit :"
+msgstr "Место:"
 
 #: src/vcalendar.c:1261
 #: src/vcal_meeting_gtk.c:1706
 #: src/vcal_meeting_gtk.c:1717
 msgid "Summary:"
-msgstr "R�sum� :"
+msgstr "Резюме:"
 
 #: src/vcalendar.c:1262
 msgid "Starting:"
-msgstr "D�but :"
+msgstr "Начало:"
 
 #: src/vcalendar.c:1263
 msgid "Ending:"
-msgstr "Fin :"
+msgstr "Окончание:"
 
 #: src/vcalendar.c:1264
 #: src/vcal_meeting_gtk.c:1709
 #: src/vcal_meeting_gtk.c:1719
 msgid "Description:"
-msgstr "Description :"
+msgstr "Описание:"
 
 #: src/vcalendar.c:1265
 #: src/vcal_meeting_gtk.c:1710
 #: src/vcal_meeting_gtk.c:1720
 msgid "Attendees:"
-msgstr "Invit�s :"
+msgstr "Участники:"
 
 #: src/vcalendar.c:1267
+#, fuzzy
 msgid "Action:"
-msgstr "Action :"
+msgstr "Действие:"
 
 #: src/vcal_folder.c:160
 msgid "_New meeting..."
-msgstr "_Nouveau rendez-vous..."
+msgstr "_Новая встреча..."
 
 #: src/vcal_folder.c:161
 msgid "_Export calendar..."
-msgstr "_Exporter le calendrier..."
+msgstr "_Экспортировать календарь..."
 
 #: src/vcal_folder.c:162
 msgid "_Subscribe to webCal..."
-msgstr "_S'inscrire � un calendrier en ligne..."
+msgstr "_Подписаться на webCal..."
 
 #: src/vcal_folder.c:163
 msgid "_Unsubscribe..."
-msgstr "Se _d�sinscrire..."
+msgstr "_Отписаться..."
 
 #: src/vcal_folder.c:164
 msgid "_Rename..."
-msgstr "_Renommer..."
+msgstr "П_ереименовать..."
 
 #: src/vcal_folder.c:165
 msgid "U_pdate subscriptions"
-msgstr "Me_ttre � jour les calendriers"
+msgstr "Об_новить подписки"
 
 #: src/vcal_folder.c:166
 msgid "_List view"
-msgstr "Vue en _liste"
+msgstr "Список"
 
 #: src/vcal_folder.c:167
 msgid "_Week view"
-msgstr "Vue _hebdomadaire"
+msgstr "Недели"
 
 #: src/vcal_folder.c:168
 msgid "_Month view"
-msgstr "Vue _mensuelle"
+msgstr "Месяцы"
 
 #: src/vcal_folder.c:1428
 msgid "in the past"
-msgstr "dans le pass�"
+msgstr "прошедшие"
 
 #: src/vcal_folder.c:1431
 msgid "today"
-msgstr "aujourd'hui"
+msgstr "сегодня"
 
 #: src/vcal_folder.c:1434
 msgid "tomorrow"
-msgstr "demain"
+msgstr "завтра"
 
 #: src/vcal_folder.c:1437
 msgid "this week"
-msgstr "cette semaine"
+msgstr "на этой неделе"
 
 #: src/vcal_folder.c:1440
 msgid "later"
-msgstr "plus tard"
+msgstr "в будущем"
 
 #: src/vcal_folder.c:1444
 #, c-format
@@ -312,34 +307,34 @@ msgid ""
 "These are the events planned %s:\n"
 msgstr ""
 "\n"
-"Voici les �v�nements planifi�s %s :\n"
+"Запланированы следующие события %s:\n"
 
 #: src/vcal_folder.c:1536
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
-msgstr "D�lai d'attente d�pass� (%d secondes) lors de la connexion � %s\n"
+msgstr "Истекло время (%d секунд) ожидания при подключении к %s\n"
 
 #: src/vcal_folder.c:1545
 msgid "401 (Authorisation required)"
-msgstr "401 (Autorisation requise)"
+msgstr "401 (Требуется авторизация)"
 
 #: src/vcal_folder.c:1548
 msgid "403 (Unauthorised)"
-msgstr "403 (Non autoris�)"
+msgstr "403 (Не авторизован)"
 
 #: src/vcal_folder.c:1551
 msgid "404 (Not found)"
-msgstr "404 (Non trouv�)"
+msgstr "404 (Документ не найден)"
 
 #: src/vcal_folder.c:1554
 #, c-format
 msgid "Error %ld"
-msgstr "Erreur %ld"
+msgstr "Ошибка %ld"
 
 #: src/vcal_folder.c:1591
 #, c-format
 msgid "Fetching '%s'..."
-msgstr "R�cup�ration de '%s'..."
+msgstr "Получение '%s'..."
 
 #: src/vcal_folder.c:1757
 #, c-format
@@ -349,8 +344,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Impossible de r�cup�rer l'URL du calendrier en ligne suivant :\n"
-"%s\n"
+"Не удалось получить Webcal:\n"
+"%s:\n"
 "\n"
 "%s"
 
@@ -359,7 +354,7 @@ msgstr ""
 #: src/vcal_folder.c:1773
 #: src/vcal_folder.c:1776
 msgid "Unknown error"
-msgstr "Erreur inconnue"
+msgstr "Неизвестная ошибка"
 
 #: src/vcal_folder.c:1761
 #, c-format
@@ -369,8 +364,8 @@ msgid ""
 "\n"
 "%s\n"
 msgstr ""
-"Impossible de r�cup�rer l'URL du calendrier en ligne suivant :\n"
-"%s\n"
+"Не удалось получить Webcal:\n"
+"%s:\n"
 "\n"
 "%s\n"
 
@@ -381,9 +376,6 @@ msgid ""
 "%s\n"
 "%s"
 msgstr ""
-"Cette URL ne semble pas �tre un calendrier WebCal :\n"
-"%s\n"
-"%s"
 
 #: src/vcal_folder.c:1775
 #, c-format
@@ -392,229 +384,226 @@ msgid ""
 "%s\n"
 "%s\n"
 msgstr ""
-"Cette URL ne semble pas �tre un calendrier WebCal :\n"
-"%s\n"
-"%s\n"
 
 #: src/vcal_folder.c:1831
 msgid "Claws Mail needs network access in order to update the Webcal feed."
-msgstr "Claws Mail n�cessite un acc�s r�seau pour mettre � jour le flux du calendrier en ligne."
+msgstr "Claws Mail требуется доступ к сети, чтобы обновить подписку webCal."
 
 #: src/vcal_folder.c:1850
 msgid "Claws Mail needs network access in order to update the subscription."
-msgstr "Claws Mail n�cessite un acc�s r�seau pour mettre � jour l'abonnement."
+msgstr "Claws Mail требуется доступ к сети, чтобы обновить подписку."
 
 #: src/vcal_folder.c:1862
 msgid "Subscribe to WebCal"
-msgstr "S'inscrire � un calendrier en ligne (WebCal)"
+msgstr "Подписать на WebCal"
 
 #: src/vcal_folder.c:1862
 msgid "Enter the WebCal URL:"
-msgstr "Veuillez saisir l'URL du calendrier en ligne (WebCal) :"
+msgstr "Ссылка на WebCal:"
 
 #: src/vcal_folder.c:1874
 msgid "Could not parse the URL."
-msgstr "Impossible de comprendre l'URL."
+msgstr "Не удалось разобрать ссылку."
 
 #: src/vcal_folder.c:1903
 msgid "Do you really want to unsubscribe?"
-msgstr "Voulez-vous vraiment vous d�sinscrire ?"
+msgstr "Вы действительно хотите отписаться?"
 
 #: src/vcal_folder.c:1904
 msgid "Delete folder"
-msgstr "Suppression de dossier"
+msgstr "Удалить папку"
 
 #: src/vcal_folder.c:1925
 #, c-format
 msgid "Can't remove the folder '%s'."
-msgstr "Impossible de supprimer le dossier '%s'."
+msgstr "Не удалось удалить папку '%s'."
 
 #: src/vcal_folder.c:1968
 #, c-format
 msgid "Input new name for '%s':"
-msgstr "Veuillez saisir le nouveau nom pour '%s' :"
+msgstr "Новое имя для '%s':"
 
 #: src/vcal_folder.c:1969
 msgid "Rename folder"
-msgstr "Changement de nom de dossier"
+msgstr "Переименовать папку"
 
 #: src/vcal_folder.c:1976
 #, c-format
 msgid "'%c' can't be included in folder name."
-msgstr "'%c' n'est pas un caract�re valide dans le nom d'un dossier."
+msgstr "Символ '%c' нельзя использовать в имени папки."
 
 #: src/vcal_folder.c:1983
 #, c-format
 msgid "The folder '%s' already exists."
-msgstr "Le dossier '%s' existe d�j�."
+msgstr "Папка с именем '%s' уже существует."
 
 #: src/vcal_folder.c:1989
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
-msgstr ""
-"Le dossier ne peut pas �tre renomm� car\n"
-"le nouveau nom propos� n'est pas autoris�."
+msgstr "Папка не может быть переименована, поскольку новое имя некорректно."
 
 #: src/vcal_manager.c:94
 msgid "accepted"
-msgstr "accept�"
+msgstr "принял"
 
 #: src/vcal_manager.c:95
 msgid "tentatively accepted"
-msgstr "accept� sous r�serves"
+msgstr "ориентировочно принял"
 
 #: src/vcal_manager.c:96
 msgid "declined"
-msgstr "refus�"
+msgstr "отклонил"
 
 #: src/vcal_manager.c:97
 msgid "did not answer"
-msgstr "n'a pas r�pondu"
+msgstr "не ответил на"
 
 #: src/vcal_manager.c:98
 #: src/vcal_manager.c:131
+#, fuzzy
 msgid "unknown"
-msgstr "inconnu"
+msgstr "неизвестно"
 
 #: src/vcal_manager.c:127
+#, fuzzy
 msgid "individual"
-msgstr "personne"
+msgstr "индивидуально"
 
 #: src/vcal_manager.c:128
 msgid "group"
-msgstr "groupe"
+msgstr "группа"
 
 #: src/vcal_manager.c:129
 msgid "resource"
-msgstr "ressource"
+msgstr ""
 
 #: src/vcal_manager.c:130
 msgid "room"
-msgstr "pi�ce"
+msgstr "комната"
 
 #: src/vcal_manager.c:541
 msgid "Past"
-msgstr "Dans le pass�"
+msgstr "Прошедшие"
 
 #: src/vcal_manager.c:544
 msgid "Today"
-msgstr "Aujourd'hui"
+msgstr "Сегодня"
 
 #: src/vcal_manager.c:547
 msgid "Tomorrow"
-msgstr "Demain"
+msgstr "Завтра"
 
 #: src/vcal_manager.c:550
 msgid "This week"
-msgstr "Cette semaine"
+msgstr "На этой неделе"
 
 #: src/vcal_manager.c:553
 msgid "Later"
-msgstr "Plus tard"
+msgstr "В будущем"
 
 #: src/vcal_manager.c:1216
 msgid "Accepted: "
-msgstr "Accept� : "
+msgstr "Принято:"
 
 #: src/vcal_manager.c:1218
 msgid "Declined: "
-msgstr "Refus� : "
+msgstr "Отклонено:"
 
 #: src/vcal_manager.c:1220
 msgid "Tentatively Accepted: "
-msgstr "Accept� sous r�serves : "
+msgstr "Ориентировочно принятно:"
 
 #: src/vcal_meeting_gtk.c:288
 msgid "Use <tab> to autocomplete from addressbook"
-msgstr "Utilisez <tab> pour compl�ter du carnet d'adresses"
+msgstr "Используйте <tab>, чтобы подставить контакт из адресной книги"
 
 #: src/vcal_meeting_gtk.c:306
 msgid "Individual"
-msgstr "Personne"
+msgstr "Индивидуально"
 
 #: src/vcal_meeting_gtk.c:307
 msgid "Group"
-msgstr "Group"
+msgstr "Гуппа"
 
 #: src/vcal_meeting_gtk.c:308
 msgid "Resource"
-msgstr "Ressource"
+msgstr ""
 
 #: src/vcal_meeting_gtk.c:309
 msgid "Room"
-msgstr "Pi�ce"
+msgstr "Комната"
 
 #: src/vcal_meeting_gtk.c:322
 msgid "Add..."
-msgstr "Ajouter..."
+msgstr "Добавить..."
 
 #: src/vcal_meeting_gtk.c:323
 msgid "Remove"
-msgstr "Enlever"
+msgstr "Удалить"
 
 #: src/vcal_meeting_gtk.c:781
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
 msgstr ""
-"Les personnes suivantes ne sont pas disponibles � l'heure pr�vue de votre rendez-vous :\n"
+"Следующие люди заняты во время планируемой встречи:\n"
 "- "
 
 #: src/vcal_meeting_gtk.c:782
 #: src/vcal_meeting_gtk.c:874
 #: src/vcal_meeting_gtk.c:960
 msgid "You"
-msgstr "Vous"
+msgstr "Вы"
 
 #: src/vcal_meeting_gtk.c:783
 msgid "You are busy at the time of your planned meeting"
-msgstr "Vous n'�tes pas disponible � l'heure pr�vue de votre rendez-vous."
+msgstr "Вы заняты во время планируемой встречи"
 
 #: src/vcal_meeting_gtk.c:785
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
-msgstr "%s n'est pas disponible � l'heure pr�vue de votre rendez-vous."
+msgstr "%s занят во время планируемой встречи"
 
 #: src/vcal_meeting_gtk.c:787
 #, c-format
 msgid "%d hour sooner"
-msgstr "%d heure plus t�t"
+msgstr "%d час раньше"
 
 #: src/vcal_meeting_gtk.c:789
 #, c-format
 msgid "%d hours sooner"
-msgstr "%d heures plus t�t"
+msgstr "%d часов раньше"
 
 #: src/vcal_meeting_gtk.c:791
 #, c-format
 msgid "%d hours and %d minutes sooner"
-msgstr "%d heures et %d minutes plus t�t"
+msgstr "%d часов %d минут раньше"
 
 #: src/vcal_meeting_gtk.c:793
 #, c-format
 msgid "%d minutes sooner"
-msgstr "%d minutes plus t�t"
+msgstr "%d минут раньше"
 
 #: src/vcal_meeting_gtk.c:798
 #, c-format
 msgid "%d hour later"
-msgstr "%d heure apr�s"
+msgstr "%d час позже"
 
 #: src/vcal_meeting_gtk.c:800
 #, c-format
 msgid "%d hours later"
-msgstr "%d heures apr�s"
+msgstr "%d часов позже"
 
 #: src/vcal_meeting_gtk.c:802
 #, c-format
 msgid "%d hours and %d minutes later"
-msgstr "%d heures et %d minutes apr�s"
+msgstr "%d часов %d минут позже"
 
 #: src/vcal_meeting_gtk.c:804
 #, c-format
 msgid "%d minutes later"
-msgstr "%d minutes apr�s"
+msgstr "%d минут позже"
 
 #: src/vcal_meeting_gtk.c:810
 #, c-format
@@ -625,7 +614,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Tout le monde sera disponible soit %s, soit %s."
+"Все будут доступны %s или %s."
 
 #: src/vcal_meeting_gtk.c:812
 #, c-format
@@ -636,7 +625,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-" Tout le monde sera disponible %s."
+"Все будут доступны %s."
 
 #: src/vcal_meeting_gtk.c:814
 msgid ""
@@ -646,134 +635,136 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Il ne sera pas possible d'avoir ce rendez-vous avec tout le monde dans les 6 heures pr�c�dentes ou suivantes."
+"Невозможно провести эту встречу со всеми в предыдущие или следующие 6 часов."
 
 #: src/vcal_meeting_gtk.c:819
 #, c-format
 msgid "would be available %s or %s"
-msgstr "sera disponible soit %s, soit %s."
+msgstr "будет доступен %s или %s"
 
 #: src/vcal_meeting_gtk.c:821
 #, c-format
 msgid "would be available %s"
-msgstr "sera disponible %s"
+msgstr "будет доступен %s"
 
 #: src/vcal_meeting_gtk.c:823
 #: src/vcal_meeting_gtk.c:887
 #: src/vcal_meeting_gtk.c:957
 msgid "not available"
-msgstr "non disponible"
+msgstr "не доступен"
 
 #: src/vcal_meeting_gtk.c:826
 #, c-format
 msgid ", but would be available %s or %s."
-msgstr ", mais serait disponible soit %s, soit %s."
+msgstr ", но будет доступен %s или %s."
 
 #: src/vcal_meeting_gtk.c:828
 #, c-format
 msgid ", but would be available %s."
-msgstr ", mais serait disponible %s."
+msgstr ", но будет доступен %s."
 
 #: src/vcal_meeting_gtk.c:830
 msgid ", and isn't available in the previous or next 6 hours."
-msgstr ", et n'est pas disponible dans les 6 heures pr�c�dentes ou suivantes."
+msgstr ", и доступен в следующие или предыдущие 6 часов."
 
 #: src/vcal_meeting_gtk.c:890
 msgid "available"
-msgstr "disponible"
+msgstr "доступен"
 
 #: src/vcal_meeting_gtk.c:892
 #: src/vcal_meeting_gtk.c:1138
 msgid "Free/busy retrieval failed"
-msgstr "Echec de la v�rification de disponibilit�"
+msgstr "Не удалось пролучить информацию о доступности"
 
 #: src/vcal_meeting_gtk.c:974
 msgid "Not everyone is available"
-msgstr "Tout le monde n'est pas disponible"
+msgstr "Не все доступны"
 
 #: src/vcal_meeting_gtk.c:975
 msgid "Send anyway"
-msgstr "Envoyer tout de m�me"
+msgstr "Всё равно отправить"
 
 #: src/vcal_meeting_gtk.c:986
 msgid "Not everyone is available. See tooltips for more info..."
-msgstr "Pas tout le monde n'est disponible. Voir les bulles d'aide pour plus d'info..."
+msgstr "Не все доступны, проверьте всплывающие подсказки..."
 
 #: src/vcal_meeting_gtk.c:1147
 msgid "Available"
-msgstr "Disponible"
+msgstr "Доступен"
 
 #: src/vcal_meeting_gtk.c:1160
 #: src/vcal_meeting_gtk.c:1167
 #: src/vcal_meeting_gtk.c:1175
 msgid "Everyone is available."
-msgstr "Tout le monde est disponible."
+msgstr "Все доступны."
 
 #: src/vcal_meeting_gtk.c:1176
 msgid "Everyone seems available, but some free/busy information failed to be retrieved."
-msgstr "Tout le monde semble disponible, mais un ou des statuts de disponibilit� n'ontpu �tre r�cup�r�s."
+msgstr "Все скорее всего доступны, но часть информации о доступности получить не удалось."
 
 #: src/vcal_meeting_gtk.c:1348
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
 msgstr ""
-"Impossible d'envoyer l'invitation.\n"
-"Veuillez v�rifier les destinataires."
+"Не удалось отправить приглашение.\n"
+"Проверьте получателей."
 
 #: src/vcal_meeting_gtk.c:1465
 msgid "Save & Send"
-msgstr "Enregistrer & envoyer"
+msgstr "Сохранить и отправить"
 
 #: src/vcal_meeting_gtk.c:1466
 msgid "Check availability"
-msgstr "V�rifier la disponibilit�"
+msgstr "Проверить доступность"
 
 #: src/vcal_meeting_gtk.c:1589
 msgid "<b>Starts at:</b> "
-msgstr "<b>D�bute � :</b>"
+msgstr "<b>Начинается в:</b> "
 
 #: src/vcal_meeting_gtk.c:1594
 #: src/vcal_meeting_gtk.c:1616
 msgid "<b> on:</b>"
-msgstr "<b> le :</b>"
+msgstr "<b> в</b>"
 
 #: src/vcal_meeting_gtk.c:1611
 msgid "<b>Ends at:</b> "
-msgstr "<b>Se termine � :</b>"
+msgstr "<b>Заканчивается в:</b>"
 
 #: src/vcal_meeting_gtk.c:1650
 msgid "New meeting"
-msgstr "Nouveau rendez-vous"
+msgstr "Новая встреча"
 
 #: src/vcal_meeting_gtk.c:1652
 #, c-format
 msgid "%s - Edit meeting"
-msgstr "%s - Modifier le rendez-vous"
+msgstr "%s - редактирование встречи"
 
 #: src/vcal_meeting_gtk.c:1707
 #: src/vcal_meeting_gtk.c:1731
 msgid "Time:"
-msgstr "P�riode :"
+msgstr "Время:"
 
 #: src/vcal_meeting_gtk.c:1867
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d heure"
-msgstr[1] "%d heures"
+msgstr[0] "%d час"
+msgstr[1] "%d часа"
+msgstr[2] "%d часов"
 
 #: src/vcal_meeting_gtk.c:1870
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minute"
-msgstr[1] "%d minutes"
+msgstr[0] "%d минута"
+msgstr[1] "%d минуты"
+msgstr[2] "%d минут"
 
 #: src/vcal_meeting_gtk.c:1881
 #, c-format
 msgid "Upcoming event: %s"
-msgstr "�v�nement en instance : %s"
+msgstr "Предстоящее событие: %s"
 
 #: src/vcal_meeting_gtk.c:1882
 #, c-format
@@ -785,10 +776,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Vous avez bient�t un rendez-vous.\n"
-"Il commence � %s et finit apr�s %s.\n"
-"Endroit : %s\n"
-"Plus d'informations :\n"
+"У вас скоро дело или встреча.\n"
+"Начало %s, окончание %s later.\n"
+"Место: %s\n"
+"Подробности:\n"
 "\n"
 "%s"
 
@@ -796,228 +787,229 @@ msgstr ""
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
-msgstr[0] "M'avertir � nouveau dans %d minute"
-msgstr[1] "M'avertir � nouveau dans %d minutes"
+msgstr[0] "Напомниить через %d минуту"
+msgstr[1] "Напоминть через %d минуты"
+msgstr[2] "Напомнить через %d минут"
 
 #: src/vcal_meeting_gtk.c:2025
 msgid "Empty calendar"
-msgstr "Calendrier vide"
+msgstr "Пустой календарь"
 
 #: src/vcal_meeting_gtk.c:2026
 msgid "There is nothing to export."
-msgstr "Il n'y a rien � exporter."
+msgstr "Нечего экпортировать."
 
 #: src/vcal_meeting_gtk.c:2066
 msgid "Could not export the calendar."
-msgstr "Impossible d'exporter le calendrier."
+msgstr "Не удалось экспортировать календарь."
 
 #: src/vcal_meeting_gtk.c:2083
 msgid "Export calendar to ICS"
-msgstr "Exporter le calendrier au format ICS"
+msgstr "Экспортировать календарь в ICS"
 
 #: src/vcal_meeting_gtk.c:2105
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
-msgstr "Impossible d'exporter le calendrier vers '%s'.\n"
+msgstr "Не удалось экспортировать календарь на '%s'\n"
 
 #: src/vcal_meeting_gtk.c:2221
 msgid "Could not export the freebusy info."
-msgstr "Impossible d'exporter les informations de disponibilit�."
+msgstr "Не удалось экспортировать информацию о доступности."
 
 #: src/vcal_meeting_gtk.c:2252
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
-msgstr "Impossible d'exporter les informations de disponibilit� vers '%s'\n"
+msgstr "Не удалось экспортировать информацию о доступности на '%s'\n"
 
 #: src/vcal_prefs.c:255
 msgid "Reminders"
-msgstr "Rappels"
+msgstr "Напоминания"
 
 #: src/vcal_prefs.c:264
 msgid "Alert me"
-msgstr "M'alerter"
+msgstr "Предупреждать меня за"
 
 #: src/vcal_prefs.c:276
 msgid "minutes before an event"
-msgstr "minutes avant un rendez-vous"
+msgstr "минут до события"
 
 #: src/vcal_prefs.c:288
 msgid "Calendar export"
-msgstr "Export de calendrier"
+msgstr "Экспорт календаря"
 
 #: src/vcal_prefs.c:299
 msgid "Automatically export calendar to"
-msgstr "Exporter le calendrier automatiquement vers"
+msgstr "Автоматически экспортировать календарь"
 
 #: src/vcal_prefs.c:308
 #: src/vcal_prefs.c:414
 msgid "You can export to a local file or URL"
-msgstr "Vous pouvez exporter vers un fichier ou un URL"
+msgstr "Вы можете экспортировать в локальный файл или по URL"
 
 #: src/vcal_prefs.c:310
 msgid "Specify a local file or URL (http://server/path/file.ics)"
-msgstr "Veuillez saisir le chemin d'un fichier ou d'une URL (http://server/path/file.ics)"
+msgstr "Укажите локальный пусть или URL (http://server/path/file.ics)."
 
 #: src/vcal_prefs.c:318
 #: src/vcal_prefs.c:424
 msgid "User ID"
-msgstr "Identifiant"
+msgstr "Идентификатор пользовтеля"
 
 #: src/vcal_prefs.c:326
 #: src/vcal_prefs.c:432
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Пароль"
 
 #: src/vcal_prefs.c:340
 msgid "Include webcal subscriptions in export"
-msgstr "Inclure les inscriptions au(x) calendrier(s) en ligne (WebCal) dans l'export"
+msgstr "Экспортировать также подписки webCal"
 
 #: src/vcal_prefs.c:350
 msgid "Command to run after calendar export"
-msgstr "Commande � ex�cuter apr�s l'export"
+msgstr "Запускать после экспорта календаря"
 
 #: src/vcal_prefs.c:379
 msgid "Register Claws' calendar in XFCE's Orage clock"
-msgstr "Enregistrer le calendrier de Claws dans l'horloge Orage d'XFCE"
+msgstr "Регистрировать календарь в часах Orange среды XFCE"
 
 #: src/vcal_prefs.c:381
 msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
-msgstr "Permet � Orage (version sup�rieure � 4.4) de voir le calendrier de Claws Mail"
+msgstr "Позволить Orange (версии выше 4.4) видеть календарь Claws Mail"
 
 #: src/vcal_prefs.c:393
 msgid "Free/Busy information"
-msgstr "Informations de disponibilit�"
+msgstr "Информация о доступности"
 
 #: src/vcal_prefs.c:405
 msgid "Automatically export free/busy status to"
-msgstr "Exporter automatiquement l'�tat de disponibilit� vers"
+msgstr "Автоматически экспортировать статус свободен/занят"
 
 #: src/vcal_prefs.c:416
 msgid "Specify a local file or URL (http://server/path/file.ifb)"
-msgstr "Veuillez saisir le chemin d'un fichier ou d'une URL (http://server/path/file.ifb)"
+msgstr "Укажите файл или URL (http://server/path/file.ifb)"
 
 #: src/vcal_prefs.c:446
 msgid "Command to run after free/busy status export"
-msgstr "Commande � ex�cuter apr�s l'export de l'�tat de disponibilit�"
+msgstr "Запускать после экспорта статуса свободен/зянт"
 
 #: src/vcal_prefs.c:473
 msgid "Get free/busy status of others from"
-msgstr "R�cup�rer les informations de disponibilit� des autres sur"
+msgstr ""
 
 #: src/vcal_prefs.c:481
 #, c-format
 msgid "Specify a local file or URL (http://server/path/file.ifb). Use %u for the left part of the email address, %d for the domain"
-msgstr "Veuillez saisir le chemin d'un fichier ou d'un URL (http://@server/path/file.ifb). Utilisez %u pour la partie gauche de l'adresse email, %d pour le domaine"
+msgstr "Укажите локальный пусть или URL (http://server/path/file.ifb). Используйте %u в качестве левой части e-mail адреса, %d в качестве домена."
 
 #: src/vcal_prefs.c:644
 msgid "Plugins"
-msgstr "Modules"
+msgstr "Модули"
 
 #: src/day-view.c:403
 #: src/month-view.c:414
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr "Неизвестно"
 
 #: src/day-view.c:594
 #: src/month-view.c:684
 msgid "Start"
-msgstr "D�but"
+msgstr "Начало"
 
 #: src/day-view.c:607
 #: src/month-view.c:697
 msgid "Show"
-msgstr "Montrer"
+msgstr "Показывать"
 
 #: src/day-view.c:615
 #: src/month-view.c:705
 msgid "days"
-msgstr "jours"
+msgstr "дни"
 
 #: src/month-view.c:104
 msgid "Monday"
-msgstr "Lundi"
+msgstr "Понедельник"
 
 #: src/month-view.c:105
 msgid "Tuesday"
-msgstr "Mardi"
+msgstr "Вторник"
 
 #: src/month-view.c:106
 msgid "Wednesday"
-msgstr "Mercredi"
+msgstr "Среда"
 
 #: src/month-view.c:107
 msgid "Thursday"
-msgstr "Jeudi"
+msgstr "Четверг"
 
 #: src/month-view.c:108
 msgid "Friday"
-msgstr "Vendredi"
+msgstr "Пятница"
 
 #: src/month-view.c:109
 msgid "Saturday"
-msgstr "Samedi"
+msgstr "Суббота"
 
 #: src/month-view.c:110
 msgid "Sunday"
-msgstr "Dimanche"
+msgstr "Воскресенье"
 
 #: src/month-view.c:113
 msgid "January"
-msgstr "Janvier"
+msgstr "Январь"
 
 #: src/month-view.c:114
 msgid "February"
-msgstr "F�vrier"
+msgstr "Февраль"
 
 #: src/month-view.c:115
 msgid "March"
-msgstr "Mars"
+msgstr "Март"
 
 #: src/month-view.c:116
 msgid "April"
-msgstr "Avril"
+msgstr "Апрель"
 
 #: src/month-view.c:117
 msgid "May"
-msgstr "Mai"
+msgstr "Май"
 
 #: src/month-view.c:118
 msgid "June"
-msgstr "Juin"
+msgstr "Июнь"
 
 #: src/month-view.c:119
 msgid "July"
-msgstr "Juillet"
+msgstr "Июль"
 
 #: src/month-view.c:120
 msgid "August"
-msgstr "Ao�t"
+msgstr "Август"
 
 #: src/month-view.c:121
 msgid "September"
-msgstr "Septembre"
+msgstr "Сентябрь"
 
 #: src/month-view.c:122
 msgid "October"
-msgstr "Octobre"
+msgstr "Октябрь"
 
 #: src/month-view.c:123
 msgid "November"
-msgstr "Novembre"
+msgstr "Ноябрь"
 
 #: src/month-view.c:124
 msgid "December"
-msgstr "D�cembre"
+msgstr "Декабрь"
 
 #: src/month-view.c:792
 msgid "Week number"
-msgstr "Num�ro de semaine"
+msgstr "Неделя"
 
 #: src/month-view.c:890
 msgid "Previous month"
-msgstr "Mois pr�c�dent"
+msgstr "Предыдущий месяц"
 
 #: src/month-view.c:913
 msgid "Next month"
-msgstr "Mois suivant"
+msgstr "Следующий месяц"
 

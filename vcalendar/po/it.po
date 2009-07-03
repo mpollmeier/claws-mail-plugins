@@ -1,13 +1,13 @@
 # Italian translation for the vCalendar plugin for Claws Mail
-# Copyright (C) 2006 - 2008 Andrea Spadaccini
+# Copyright (C) 2006 - 2009 Andrea Spadaccini
 # This file is distributed under the same license as the vcalendar package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2008
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2009
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.3.0\n"
+"Project-Id-Version: 3.7.2\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-04-11 08:02+0100\n"
-"PO-Revision-Date: 2008-04-17 17:12+0200\n"
+"POT-Creation-Date: 2009-06-26 18:40+0100\n"
+"PO-Revision-Date: 2009-06-28 18:10+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/plugin.c:41 src/plugin.c:60 src/vcal_prefs.c:654
+#: src/plugin.c:45 src/plugin.c:64 src/vcal_prefs.c:645
 msgid "vCalendar"
 msgstr "vCalendar"
 
-#: src/plugin.c:65
+#: src/plugin.c:69
 msgid ""
 "This plugin enables vCalendar message handling like that produced by "
 "Evolution or Outlook.\n"
@@ -49,80 +49,76 @@ msgstr ""
 "disponibili informazioni sullo stato (libero/occupato) e prelevare queste "
 "informazioni dagli altri"
 
-#: src/plugin.c:98
+#: src/plugin.c:102
 msgid "Calendar"
 msgstr "Calendario"
 
-#: src/vcalendar.c:87
-msgid "/Message/Create meeting from message..."
-msgstr "/Messaggio/Crea incontro dal messaggio..."
+#: src/vcalendar.c:94
+msgid "Create meeting from message..."
+msgstr "Crea incontro dal messaggio..."
 
-#: src/vcalendar.c:95
-msgid "/Create meeting from message..."
-msgstr "/Crea incontro dal messaggio..."
-
-#: src/vcalendar.c:119
+#: src/vcalendar.c:114
 #, c-format
 msgid ""
 "You are about to create %d meetings, one by one. Do you want to continue?"
 msgstr ""
 "Si sta per iniziare la creazione di %d incontri, uno per uno. Continuare?"
 
-#: src/vcalendar.c:124
+#: src/vcalendar.c:119
 msgid "Warning"
 msgstr "Attenzione"
 
-#: src/vcalendar.c:138
+#: src/vcalendar.c:133
 msgid "Creating meeting..."
 msgstr "Creazione incontro..."
 
-#: src/vcalendar.c:157
+#: src/vcalendar.c:152
 msgid "no subject"
 msgstr "nessun oggetto"
 
-#: src/vcalendar.c:391
+#: src/vcalendar.c:386
 msgid "Accept"
 msgstr "Accetta"
 
-#: src/vcalendar.c:392
+#: src/vcalendar.c:387
 msgid "Tentatively accept"
 msgstr "Accetta con riserva"
 
-#: src/vcalendar.c:393
+#: src/vcalendar.c:388
 msgid "Decline"
 msgstr "Declina"
 
-#: src/vcalendar.c:462
+#: src/vcalendar.c:475
 msgid "You have a Todo item."
 msgstr "Tu hai qualcosa da fare."
 
-#: src/vcalendar.c:463 src/vcalendar.c:470 src/vcalendar.c:475
-#: src/vcalendar.c:483 src/vcalendar.c:492 src/vcalendar.c:711
+#: src/vcalendar.c:476 src/vcalendar.c:483 src/vcalendar.c:488
+#: src/vcalendar.c:496 src/vcalendar.c:505 src/vcalendar.c:743
 msgid "Details follow:"
 msgstr "Dettagli:"
 
-#: src/vcalendar.c:469
+#: src/vcalendar.c:482
 msgid "You have created a meeting."
 msgstr "È stato creato un nuovo incontro"
 
-#: src/vcalendar.c:474
+#: src/vcalendar.c:487
 msgid "You have been invited to a meeting."
 msgstr "È arrivato un invito per un incontro."
 
-#: src/vcalendar.c:482
+#: src/vcalendar.c:495
 msgid "A meeting to which you had been invited has been cancelled."
 msgstr "Un incontro per cui era arrivato un invito è stato cancellato."
 
-#: src/vcalendar.c:491
+#: src/vcalendar.c:504
 msgid "You have been forwarded an appointment."
 msgstr "È arrivato un incontro inoltrato da altri."
 
-#: src/vcalendar.c:537
+#: src/vcalendar.c:557
 #, c-format
 msgid "%s <span weight=\"bold\">(this event recurs)</span>"
 msgstr "%s <span weight=\"bold\">(questo evento ricorre)</span>"
 
-#: src/vcalendar.c:543
+#: src/vcalendar.c:563
 #, c-format
 msgid ""
 "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
@@ -130,11 +126,11 @@ msgstr ""
 "%s <span weight=\"bold\">(questo evento è parte di un evento ricorrente)</"
 "span>"
 
-#: src/vcalendar.c:710
+#: src/vcalendar.c:742
 msgid "You have received an answer to an unknown meeting proposal."
 msgstr "È stata ricevuta una risposta ad una proposta di incontro sconosciuta."
 
-#: src/vcalendar.c:714
+#: src/vcalendar.c:746
 #, c-format
 msgid ""
 "You have received an answer to a meeting proposal.\n"
@@ -143,35 +139,35 @@ msgstr ""
 "È arrivata una risposta ad una proposta di incontro.\n"
 "%s ha %s l'invito i cui dettagli seguono:"
 
-#: src/vcalendar.c:784
+#: src/vcalendar.c:825
 msgid "Error - could not get the calendar MIME part."
 msgstr "Errore - impossibile trovare la parte MIME del calendario."
 
-#: src/vcalendar.c:791
+#: src/vcalendar.c:832
 msgid "Error - no calendar part found."
 msgstr "Errore - nessuna parte calendario trovata"
 
-#: src/vcalendar.c:805
+#: src/vcalendar.c:846
 msgid "Error - Unknown calendar component type."
 msgstr "Errore - Tipo di componente calendario sconosciuto."
 
-#: src/vcalendar.c:934
+#: src/vcalendar.c:975
 msgid "Send a notification to the attendees"
 msgstr "Invia una notifica ai partecipanti"
 
-#: src/vcalendar.c:943
+#: src/vcalendar.c:984
 msgid "Cancel meeting"
 msgstr "Annulla incontro"
 
-#: src/vcalendar.c:944
+#: src/vcalendar.c:985
 msgid "Are you sure you want to cancel this meeting?"
 msgstr "Cancellare realmente questo incontro?"
 
-#: src/vcalendar.c:1029
+#: src/vcalendar.c:1080
 msgid "No account found"
 msgstr "Nessun account trovato"
 
-#: src/vcalendar.c:1030
+#: src/vcalendar.c:1081
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
@@ -179,159 +175,128 @@ msgstr ""
 "Nessun account che corrisponda ad alcuno dei presenti.\n"
 "Rispondere comunque?"
 
-#: src/vcalendar.c:1032
+#: src/vcalendar.c:1083
 msgid "+Reply anyway"
 msgstr "+Rispondi comunque"
 
-#: src/vcalendar.c:1156
+#: src/vcalendar.c:1212
 msgid "Answer"
 msgstr "Rispondi"
 
-#: src/vcalendar.c:1157
+#: src/vcalendar.c:1213
 msgid "Edit meeting..."
 msgstr "Modifica incontro..."
 
-#: src/vcalendar.c:1158
+#: src/vcalendar.c:1214
 msgid "Cancel meeting..."
 msgstr "Cancella incontro..."
 
-#: src/vcalendar.c:1159
+#: src/vcalendar.c:1215
 msgid "Launch website"
 msgstr "Invia sito web"
 
-#: src/vcalendar.c:1163
+#: src/vcalendar.c:1219
 msgid "You are already busy at this time."
 msgstr "Hai già un impegno in questo orario."
 
-#: src/vcalendar.c:1201 src/vcal_meeting_gtk.c:1651
+#: src/vcalendar.c:1258 src/vcal_meeting_gtk.c:1727
 msgid "Event:"
 msgstr "Evento:"
 
-#: src/vcalendar.c:1202 src/vcal_meeting_gtk.c:1631
-#: src/vcal_meeting_gtk.c:1641
+#: src/vcalendar.c:1259 src/vcal_meeting_gtk.c:1705
+#: src/vcal_meeting_gtk.c:1716
 msgid "Organizer:"
 msgstr "Organizzatore:"
 
-#: src/vcalendar.c:1203 src/vcal_meeting_gtk.c:1632
-#: src/vcal_meeting_gtk.c:1642
+#: src/vcalendar.c:1260 src/vcal_meeting_gtk.c:1708
+#: src/vcal_meeting_gtk.c:1718
+msgid "Location:"
+msgstr "Posizione:"
+
+#: src/vcalendar.c:1261 src/vcal_meeting_gtk.c:1706
+#: src/vcal_meeting_gtk.c:1717
 msgid "Summary:"
 msgstr "Sommario:"
 
-#: src/vcalendar.c:1204
+#: src/vcalendar.c:1262
 msgid "Starting:"
 msgstr "Inizio:"
 
-#: src/vcalendar.c:1205
+#: src/vcalendar.c:1263
 msgid "Ending:"
 msgstr "Fine:"
 
-#: src/vcalendar.c:1206 src/vcal_meeting_gtk.c:1634
-#: src/vcal_meeting_gtk.c:1643
+#: src/vcalendar.c:1264 src/vcal_meeting_gtk.c:1709
+#: src/vcal_meeting_gtk.c:1719
 msgid "Description:"
 msgstr "Descrizione:"
 
-#: src/vcalendar.c:1207 src/vcal_meeting_gtk.c:1635
-#: src/vcal_meeting_gtk.c:1644
+#: src/vcalendar.c:1265 src/vcal_meeting_gtk.c:1710
+#: src/vcal_meeting_gtk.c:1720
 msgid "Attendees:"
 msgstr "Inivitato:"
 
-#: src/vcalendar.c:1209
+#: src/vcalendar.c:1267
 msgid "Action:"
 msgstr "Azione:"
 
-#: src/vcal_folder.c:157
-msgid "/_New meeting..."
-msgstr "/_Nuovo incontro..."
-
-#: src/vcal_folder.c:158
-msgid "/_Export calendar..."
-msgstr "/_Esporta calendario..."
-
 #: src/vcal_folder.c:160
-msgid "/_Subscribe to webCal..."
-msgstr "/_Sottoscrivi webCal..."
+msgid "_New meeting..."
+msgstr "_Nuovo incontro..."
 
 #: src/vcal_folder.c:161
-msgid "/_Unsubscribe..."
-msgstr "/_Cancella sottoscrizione..."
+msgid "_Export calendar..."
+msgstr "_Esporta calendario..."
+
+#: src/vcal_folder.c:162
+msgid "_Subscribe to webCal..."
+msgstr "_Sottoscrivi webCal..."
 
 #: src/vcal_folder.c:163
-msgid "/_Rename..."
-msgstr "/_Rinomina..."
+msgid "_Unsubscribe..."
+msgstr "_Cancella sottoscrizione..."
+
+#: src/vcal_folder.c:164
+msgid "_Rename..."
+msgstr "_Rinomina..."
 
 #: src/vcal_folder.c:165
-msgid "/U_pdate subscriptions"
-msgstr "/_Aggiorna sottoscrizioni"
+msgid "U_pdate subscriptions"
+msgstr "_Aggiorna sottoscrizioni"
+
+#: src/vcal_folder.c:166
+msgid "_List view"
+msgstr "_Visualizzazione lista"
 
 #: src/vcal_folder.c:167
-msgid "/_List view"
-msgstr "/_Visualizzazione lista"
+msgid "_Week view"
+msgstr "_Visualizzazione settimana"
 
 #: src/vcal_folder.c:168
-msgid "/_Week view"
-msgstr "/_Visualizzazione settimana"
+msgid "_Month view"
+msgstr "_Visualizzazione mensile"
 
-#: src/vcal_folder.c:169
-msgid "/_Month view"
-msgstr "/_Visualizzazione mensile"
-
-#: src/vcal_folder.c:1279
-msgid "/New meeting..."
-msgstr "Nuovo incontro..."
-
-#: src/vcal_folder.c:1280
-msgid "/Export calendar..."
-msgstr "/Esporta calendario..."
-
-#: src/vcal_folder.c:1281
-msgid "/Subscribe to webCal..."
-msgstr "/Sottoscrivi webCal..."
-
-#: src/vcal_folder.c:1282
-msgid "/Unsubscribe..."
-msgstr "/Cancella sottoscrizione..."
-
-#: src/vcal_folder.c:1283
-msgid "/Rename..."
-msgstr "/Rinomina..."
-
-#: src/vcal_folder.c:1284
-msgid "/Update subscriptions"
-msgstr "/Aggiorna sottoscrizioni"
-
-#: src/vcal_folder.c:1285
-msgid "/List view"
-msgstr "/Visualizzazione lista"
-
-#: src/vcal_folder.c:1286
-msgid "/Week view"
-msgstr "/Visualizzazione settimana"
-
-#: src/vcal_folder.c:1287
-msgid "/Month view"
-msgstr "/Visualizzazione mese"
-
-#: src/vcal_folder.c:1413
+#: src/vcal_folder.c:1428
 msgid "in the past"
 msgstr "nel passato"
 
-#: src/vcal_folder.c:1416
+#: src/vcal_folder.c:1431
 msgid "today"
 msgstr "oggi"
 
-#: src/vcal_folder.c:1419
+#: src/vcal_folder.c:1434
 msgid "tomorrow"
 msgstr "domani"
 
-#: src/vcal_folder.c:1422
+#: src/vcal_folder.c:1437
 msgid "this week"
 msgstr "la prossima settimana"
 
-#: src/vcal_folder.c:1425
+#: src/vcal_folder.c:1440
 msgid "later"
 msgstr "più tardi"
 
-#: src/vcal_folder.c:1429
+#: src/vcal_folder.c:1444
 #, c-format
 msgid ""
 "\n"
@@ -340,34 +305,34 @@ msgstr ""
 "\n"
 "Ci sono eventi pianificati %s:\n"
 
-#: src/vcal_folder.c:1521
+#: src/vcal_folder.c:1536
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
 msgstr "Timeout (%d secondi) durante la connessione a %s\n"
 
-#: src/vcal_folder.c:1530
+#: src/vcal_folder.c:1545
 msgid "401 (Authorisation required)"
 msgstr "401 (Richiesta autorizzazione)"
 
-#: src/vcal_folder.c:1533
+#: src/vcal_folder.c:1548
 msgid "403 (Unauthorised)"
 msgstr "403 (Non autorizzato)"
 
-#: src/vcal_folder.c:1536
+#: src/vcal_folder.c:1551
 msgid "404 (Not found)"
 msgstr "404 (Non trovato)"
 
-#: src/vcal_folder.c:1539
+#: src/vcal_folder.c:1554
 #, c-format
 msgid "Error %ld"
 msgstr "Errore %ld"
 
-#: src/vcal_folder.c:1576
+#: src/vcal_folder.c:1591
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Prelievo di '%s' in corso"
 
-#: src/vcal_folder.c:1741
+#: src/vcal_folder.c:1757
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -380,12 +345,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_folder.c:1742 src/vcal_folder.c:1746 src/vcal_folder.c:1757
-#: src/vcal_folder.c:1760
+#: src/vcal_folder.c:1758 src/vcal_folder.c:1762 src/vcal_folder.c:1773
+#: src/vcal_folder.c:1776
 msgid "Unknown error"
 msgstr "errore sconosciuto"
 
-#: src/vcal_folder.c:1745
+#: src/vcal_folder.c:1761
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -398,7 +363,7 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/vcal_folder.c:1756
+#: src/vcal_folder.c:1772
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -409,7 +374,7 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1759
+#: src/vcal_folder.c:1775
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -420,63 +385,63 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1815
+#: src/vcal_folder.c:1831
 msgid "Claws Mail needs network access in order to update the Webcal feed."
 msgstr ""
 "Claws Mail richiede un accesso alla rete per poter aggiornare il feed di "
 "Webcal"
 
-#: src/vcal_folder.c:1834
+#: src/vcal_folder.c:1850
 msgid "Claws Mail needs network access in order to update the subscription."
 msgstr ""
 "Claws Mail richiede un accesso alla rete per poter aggiornare la "
 "sottoscrizione"
 
-#: src/vcal_folder.c:1846
+#: src/vcal_folder.c:1862
 msgid "Subscribe to WebCal"
 msgstr "Sottoscrivi WebCal"
 
-#: src/vcal_folder.c:1846
+#: src/vcal_folder.c:1862
 msgid "Enter the WebCal URL:"
 msgstr "Inserire l'URL WebCal:"
 
-#: src/vcal_folder.c:1858
+#: src/vcal_folder.c:1874
 msgid "Could not parse the URL."
 msgstr "Impossibile effettuare il parsing dell'URL."
 
-#: src/vcal_folder.c:1886
+#: src/vcal_folder.c:1903
 msgid "Do you really want to unsubscribe?"
 msgstr "Cancellare realmente la sottoscrizione?"
 
-#: src/vcal_folder.c:1887
+#: src/vcal_folder.c:1904
 msgid "Delete folder"
 msgstr "Cancella cartella"
 
-#: src/vcal_folder.c:1908
+#: src/vcal_folder.c:1925
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "Impossibile eliminare la cartella '%s'."
 
-#: src/vcal_folder.c:1951
+#: src/vcal_folder.c:1968
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Inserire un nuovo nome per '%s':"
 
-#: src/vcal_folder.c:1952
+#: src/vcal_folder.c:1969
 msgid "Rename folder"
 msgstr "Rinomina cartella"
 
-#: src/vcal_folder.c:1959
+#: src/vcal_folder.c:1976
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "'%c' non può essere incluso nel nome di una cartella."
 
-#: src/vcal_folder.c:1966
+#: src/vcal_folder.c:1983
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "La cartella '%s' esiste già."
 
-#: src/vcal_folder.c:1972
+#: src/vcal_folder.c:1989
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
@@ -520,67 +485,67 @@ msgstr "risorsa"
 msgid "room"
 msgstr "stanza"
 
-#: src/vcal_manager.c:529
+#: src/vcal_manager.c:541
 msgid "Past"
 msgstr "Passato"
 
-#: src/vcal_manager.c:532
+#: src/vcal_manager.c:544
 msgid "Today"
 msgstr "Oggi"
 
-#: src/vcal_manager.c:535
+#: src/vcal_manager.c:547
 msgid "Tomorrow"
 msgstr "Domani"
 
-#: src/vcal_manager.c:538
+#: src/vcal_manager.c:550
 msgid "This week"
 msgstr "La settimana prossima"
 
-#: src/vcal_manager.c:541
+#: src/vcal_manager.c:553
 msgid "Later"
 msgstr "Più tardi"
 
-#: src/vcal_manager.c:1193
+#: src/vcal_manager.c:1216
 msgid "Accepted: "
 msgstr "Accettato: "
 
-#: src/vcal_manager.c:1195
+#: src/vcal_manager.c:1218
 msgid "Declined: "
 msgstr "Declinato: "
 
-#: src/vcal_manager.c:1197
+#: src/vcal_manager.c:1220
 msgid "Tentatively Accepted: "
 msgstr "Accettato con riserva: "
 
-#: src/vcal_meeting_gtk.c:277
+#: src/vcal_meeting_gtk.c:288
 msgid "Use <tab> to autocomplete from addressbook"
 msgstr "Usare <tab> per completare automaticamente dalla rubrica"
 
-#: src/vcal_meeting_gtk.c:295
+#: src/vcal_meeting_gtk.c:306
 msgid "Individual"
 msgstr "Individuo"
 
-#: src/vcal_meeting_gtk.c:296
+#: src/vcal_meeting_gtk.c:307
 msgid "Group"
 msgstr "Gruppo"
 
-#: src/vcal_meeting_gtk.c:297
+#: src/vcal_meeting_gtk.c:308
 msgid "Resource"
 msgstr "Risorsa"
 
-#: src/vcal_meeting_gtk.c:298
+#: src/vcal_meeting_gtk.c:309
 msgid "Room"
 msgstr "Stanza"
 
-#: src/vcal_meeting_gtk.c:311
+#: src/vcal_meeting_gtk.c:322
 msgid "Add..."
 msgstr "Aggiungi..."
 
-#: src/vcal_meeting_gtk.c:312
+#: src/vcal_meeting_gtk.c:323
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/vcal_meeting_gtk.c:729
+#: src/vcal_meeting_gtk.c:781
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
@@ -588,61 +553,61 @@ msgstr ""
 "Le seguenti persone sono occupate durante i meeting pianificati:\n"
 "- "
 
-#: src/vcal_meeting_gtk.c:730 src/vcal_meeting_gtk.c:819
-#: src/vcal_meeting_gtk.c:905
+#: src/vcal_meeting_gtk.c:782 src/vcal_meeting_gtk.c:874
+#: src/vcal_meeting_gtk.c:960
 msgid "You"
 msgstr "Tu"
 
-#: src/vcal_meeting_gtk.c:731
+#: src/vcal_meeting_gtk.c:783
 msgid "You are busy at the time of your planned meeting"
 msgstr "Sei occupato durante il meeting pianificato"
 
-#: src/vcal_meeting_gtk.c:733
+#: src/vcal_meeting_gtk.c:785
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
 msgstr "%s è occupato durante il meeting pianificato"
 
-#: src/vcal_meeting_gtk.c:735
+#: src/vcal_meeting_gtk.c:787
 #, c-format
 msgid "%d hour sooner"
 msgstr "%d ora prima"
 
-#: src/vcal_meeting_gtk.c:737
+#: src/vcal_meeting_gtk.c:789
 #, c-format
 msgid "%d hours sooner"
 msgstr "%d ore prima"
 
-#: src/vcal_meeting_gtk.c:739
+#: src/vcal_meeting_gtk.c:791
 #, c-format
 msgid "%d hours and %d minutes sooner"
 msgstr "%d ore e %d minuti prima"
 
-#: src/vcal_meeting_gtk.c:741
+#: src/vcal_meeting_gtk.c:793
 #, c-format
 msgid "%d minutes sooner"
 msgstr "%d minuti prima"
 
-#: src/vcal_meeting_gtk.c:746
+#: src/vcal_meeting_gtk.c:798
 #, c-format
 msgid "%d hour later"
 msgstr "%d ora dopo"
 
-#: src/vcal_meeting_gtk.c:748
+#: src/vcal_meeting_gtk.c:800
 #, c-format
 msgid "%d hours later"
 msgstr "%d ore dopo"
 
-#: src/vcal_meeting_gtk.c:750
+#: src/vcal_meeting_gtk.c:802
 #, c-format
 msgid "%d hours and %d minutes later"
 msgstr "%d ore e %d minuti dopo"
 
-#: src/vcal_meeting_gtk.c:752
+#: src/vcal_meeting_gtk.c:804
 #, c-format
 msgid "%d minutes later"
 msgstr "%d minuti dopo"
 
-#: src/vcal_meeting_gtk.c:758
+#: src/vcal_meeting_gtk.c:810
 #, c-format
 msgid ""
 "\n"
@@ -653,7 +618,7 @@ msgstr ""
 "\n"
 "Tutti sono disponibili %s o %s."
 
-#: src/vcal_meeting_gtk.c:760
+#: src/vcal_meeting_gtk.c:812
 #, c-format
 msgid ""
 "\n"
@@ -664,7 +629,7 @@ msgstr ""
 "\n"
 "Tutti sarebbero disponibili %s."
 
-#: src/vcal_meeting_gtk.c:762
+#: src/vcal_meeting_gtk.c:814
 msgid ""
 "\n"
 "\n"
@@ -676,65 +641,65 @@ msgstr ""
 "Impossibile pianificare questo meeting con tutti nelle precedenti o nelle "
 "seguenti 6 ore"
 
-#: src/vcal_meeting_gtk.c:767
+#: src/vcal_meeting_gtk.c:819
 #, c-format
 msgid "would be available %s or %s"
 msgstr "sarebbe disponibile %s o %s"
 
-#: src/vcal_meeting_gtk.c:769
+#: src/vcal_meeting_gtk.c:821
 #, c-format
 msgid "would be available %s"
 msgstr "sarebbe disponibile %s"
 
-#: src/vcal_meeting_gtk.c:771 src/vcal_meeting_gtk.c:832
-#: src/vcal_meeting_gtk.c:902
+#: src/vcal_meeting_gtk.c:823 src/vcal_meeting_gtk.c:887
+#: src/vcal_meeting_gtk.c:957
 msgid "not available"
 msgstr "non disponibile"
 
-#: src/vcal_meeting_gtk.c:774
+#: src/vcal_meeting_gtk.c:826
 #, c-format
 msgid ", but would be available %s or %s."
 msgstr ", ma sarebbe disponibile %s o %s."
 
-#: src/vcal_meeting_gtk.c:776
+#: src/vcal_meeting_gtk.c:828
 #, c-format
 msgid ", but would be available %s."
 msgstr ", ma sarebbe disponibile %s."
 
-#: src/vcal_meeting_gtk.c:778
+#: src/vcal_meeting_gtk.c:830
 msgid ", and isn't available in the previous or next 6 hours."
 msgstr ", e non è disponibile nelle 6 ore precedenti o seguenti"
 
-#: src/vcal_meeting_gtk.c:835
+#: src/vcal_meeting_gtk.c:890
 msgid "available"
 msgstr "disponibile"
 
-#: src/vcal_meeting_gtk.c:837 src/vcal_meeting_gtk.c:1080
+#: src/vcal_meeting_gtk.c:892 src/vcal_meeting_gtk.c:1138
 msgid "Free/busy retrieval failed"
 msgstr "Prelievo dello stato (libero/occupato) fallito"
 
-#: src/vcal_meeting_gtk.c:919
+#: src/vcal_meeting_gtk.c:974
 msgid "Not everyone is available"
 msgstr "Non tutti sono disponibili"
 
-#: src/vcal_meeting_gtk.c:920
+#: src/vcal_meeting_gtk.c:975
 msgid "Send anyway"
 msgstr "Spedisci comunque"
 
-#: src/vcal_meeting_gtk.c:931
+#: src/vcal_meeting_gtk.c:986
 msgid "Not everyone is available. See tooltips for more info..."
 msgstr "Non tutti sono disponibili. Vedi il tooltip per maggiori informazioni"
 
-#: src/vcal_meeting_gtk.c:1089
+#: src/vcal_meeting_gtk.c:1147
 msgid "Available"
 msgstr "Disponibile"
 
-#: src/vcal_meeting_gtk.c:1102 src/vcal_meeting_gtk.c:1109
-#: src/vcal_meeting_gtk.c:1117
+#: src/vcal_meeting_gtk.c:1160 src/vcal_meeting_gtk.c:1167
+#: src/vcal_meeting_gtk.c:1175
 msgid "Everyone is available."
 msgstr "Tutti sono disponibili"
 
-#: src/vcal_meeting_gtk.c:1119
+#: src/vcal_meeting_gtk.c:1176
 msgid ""
 "Everyone seems available, but some free/busy information failed to be "
 "retrieved."
@@ -742,7 +707,7 @@ msgstr ""
 "Tutti sembrano disponibili, ma alcune informazioni sullo stato non sono "
 "state recuperate"
 
-#: src/vcal_meeting_gtk.c:1288
+#: src/vcal_meeting_gtk.c:1348
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
@@ -750,184 +715,186 @@ msgstr ""
 "Impossibile inviare l'invito per l'incontro.\n"
 "Controllare i destinatari."
 
-#: src/vcal_meeting_gtk.c:1396
+#: src/vcal_meeting_gtk.c:1465
 msgid "Save & Send"
 msgstr "Salva ed Invia"
 
-#: src/vcal_meeting_gtk.c:1397
+#: src/vcal_meeting_gtk.c:1466
 msgid "Check availability"
 msgstr "Controlla disponibilità"
 
-#: src/vcal_meeting_gtk.c:1515
+#: src/vcal_meeting_gtk.c:1589
 msgid "<b>Starts at:</b> "
 msgstr "<b>Inizio:</b>"
 
-#: src/vcal_meeting_gtk.c:1520 src/vcal_meeting_gtk.c:1542
+#: src/vcal_meeting_gtk.c:1594 src/vcal_meeting_gtk.c:1616
 msgid "<b> on:</b>"
 msgstr "<b> a:</b>"
 
-#: src/vcal_meeting_gtk.c:1537
+#: src/vcal_meeting_gtk.c:1611
 msgid "<b>Ends at:</b> "
 msgstr "<b>Fine:</b>"
 
-#: src/vcal_meeting_gtk.c:1576
+#: src/vcal_meeting_gtk.c:1650
 msgid "New meeting"
 msgstr "Nuovo incontro"
 
-#: src/vcal_meeting_gtk.c:1578
+#: src/vcal_meeting_gtk.c:1652
 #, c-format
 msgid "%s - Edit meeting"
 msgstr "%s - Modifica incontro"
 
-#: src/vcal_meeting_gtk.c:1633 src/vcal_meeting_gtk.c:1655
+#: src/vcal_meeting_gtk.c:1707 src/vcal_meeting_gtk.c:1731
 msgid "Time:"
 msgstr "Orario:"
 
-#: src/vcal_meeting_gtk.c:1781
+#: src/vcal_meeting_gtk.c:1867
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d ora"
 msgstr[1] "%d ore"
 
-#: src/vcal_meeting_gtk.c:1784
+#: src/vcal_meeting_gtk.c:1870
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuto"
 msgstr[1] "%d minuti"
 
-#: src/vcal_meeting_gtk.c:1795
+#: src/vcal_meeting_gtk.c:1881
 #, c-format
 msgid "Upcoming event: %s"
 msgstr "Prossimo evento: %s"
 
-#: src/vcal_meeting_gtk.c:1796
+#: src/vcal_meeting_gtk.c:1882
 #, c-format
 msgid ""
 "You have a meeting or event soon.\n"
 "It starts at %s and ends %s later.\n"
+"Location: %s\n"
 "More information:\n"
 "\n"
 "%s"
 msgstr ""
 "Prossimamente ci sarà un evento o un incontro.\n"
+"Posizione: %s\n"
 "Inizia alle %s e finisce dopo %s.\n"
 "Maggiori informazioni:\n"
 "\n"
 "%s"
 
-#: src/vcal_meeting_gtk.c:1811
+#: src/vcal_meeting_gtk.c:1899
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
 msgstr[0] "Mostra promemoria tra %d minuto"
 msgstr[1] "Mostra promemoria tra %d minuti"
 
-#: src/vcal_meeting_gtk.c:1937
+#: src/vcal_meeting_gtk.c:2025
 msgid "Empty calendar"
 msgstr "Calendario vuoto"
 
-#: src/vcal_meeting_gtk.c:1938
+#: src/vcal_meeting_gtk.c:2026
 msgid "There is nothing to export."
 msgstr "Non c'è nulla da esportare."
 
-#: src/vcal_meeting_gtk.c:1978
+#: src/vcal_meeting_gtk.c:2066
 msgid "Could not export the calendar."
 msgstr "Impossibile esportare il calendario."
 
-#: src/vcal_meeting_gtk.c:1995
+#: src/vcal_meeting_gtk.c:2083
 msgid "Export calendar to ICS"
 msgstr "Esporta calendario verso ICS"
 
-#: src/vcal_meeting_gtk.c:2017
+#: src/vcal_meeting_gtk.c:2105
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
 msgstr "Impossibile esportare il calendario in '%s'\n"
 
-#: src/vcal_meeting_gtk.c:2133
+#: src/vcal_meeting_gtk.c:2221
 msgid "Could not export the freebusy info."
 msgstr "Impossibile esportare le informazioni sullo stato (libero/occupato)."
 
-#: src/vcal_meeting_gtk.c:2164
+#: src/vcal_meeting_gtk.c:2252
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
 msgstr ""
 "Impossibile esportare le informazioni sullo stato (libero/occupato) in '%s'\n"
 
-#: src/vcal_prefs.c:258
+#: src/vcal_prefs.c:255
 msgid "Reminders"
 msgstr "Promemoria"
 
-#: src/vcal_prefs.c:267
+#: src/vcal_prefs.c:264
 msgid "Alert me"
 msgstr "Mostra un avvertimento"
 
-#: src/vcal_prefs.c:279
+#: src/vcal_prefs.c:276
 msgid "minutes before an event"
 msgstr "minuti prima di un evento"
 
-#: src/vcal_prefs.c:291
+#: src/vcal_prefs.c:288
 msgid "Calendar export"
 msgstr "Esportazione calendario"
 
-#: src/vcal_prefs.c:302
+#: src/vcal_prefs.c:299
 msgid "Automatically export calendar to"
 msgstr "Esporta automaticamente calendario verso"
 
-#: src/vcal_prefs.c:311 src/vcal_prefs.c:420
+#: src/vcal_prefs.c:308 src/vcal_prefs.c:414
 msgid "You can export to a local file or URL"
 msgstr "Puoi esportare verso un file o verso un URL"
 
-#: src/vcal_prefs.c:314
+#: src/vcal_prefs.c:310
 msgid "Specify a local file or URL (http://server/path/file.ics)"
 msgstr "Specifica un file locale o URL (http://server/path/file.ics)"
 
-#: src/vcal_prefs.c:323 src/vcal_prefs.c:432
+#: src/vcal_prefs.c:318 src/vcal_prefs.c:424
 msgid "User ID"
 msgstr "ID Utente"
 
-#: src/vcal_prefs.c:331 src/vcal_prefs.c:440
+#: src/vcal_prefs.c:326 src/vcal_prefs.c:432
 msgid "Password"
 msgstr "Password"
 
-#: src/vcal_prefs.c:345
+#: src/vcal_prefs.c:340
 msgid "Include webcal subscriptions in export"
 msgstr "Includi sottoscrizione webcal nell'esportazione"
 
-#: src/vcal_prefs.c:355
+#: src/vcal_prefs.c:350
 msgid "Command to run after calendar export"
 msgstr "Comando da eseguire dopo l'esportazione del calendario"
 
-#: src/vcal_prefs.c:384
+#: src/vcal_prefs.c:379
 msgid "Register Claws' calendar in XFCE's Orage clock"
 msgstr "Registra il calendario di Claws Mail nell'orologio Orage di XFCE"
 
-#: src/vcal_prefs.c:386
+#: src/vcal_prefs.c:381
 msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
 msgstr "Permetti ad Orage (>4.4) di vedere il calendario di Claws Mail"
 
-#: src/vcal_prefs.c:399
+#: src/vcal_prefs.c:393
 msgid "Free/Busy information"
 msgstr "Informazione sullo stato Libero/Occupato"
 
-#: src/vcal_prefs.c:411
+#: src/vcal_prefs.c:405
 msgid "Automatically export free/busy status to"
 msgstr "Esporta automaticamente stato libero/occupato verso"
 
-#: src/vcal_prefs.c:423
+#: src/vcal_prefs.c:416
 msgid "Specify a local file or URL (http://server/path/file.ifb)"
 msgstr "Specificare un file locale o URL (http://server/path/file.ifb)"
 
-#: src/vcal_prefs.c:454
+#: src/vcal_prefs.c:446
 msgid "Command to run after free/busy status export"
 msgstr "Comando da eseguire dopo l'esportazione dello stato libero/occupato"
 
-#: src/vcal_prefs.c:481
+#: src/vcal_prefs.c:473
 msgid "Get free/busy status of others from"
 msgstr "Preleva lo stato (libero/occupato) degli altri da"
 
-#: src/vcal_prefs.c:489
+#: src/vcal_prefs.c:481
 #, c-format
 msgid ""
 "Specify a local file or URL (http://server/path/file.ifb). Use %u for the "
@@ -936,110 +903,110 @@ msgstr ""
 "Specificare un file locale o URL (http://server/path/file.ifb). Utilizzare %"
 "u per la parte sinistra dell'indizzo email, %d per il dominio"
 
-#: src/vcal_prefs.c:653
+#: src/vcal_prefs.c:644
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/day-view.c:366 src/month-view.c:398
+#: src/day-view.c:403 src/month-view.c:414
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/day-view.c:553 src/month-view.c:654
+#: src/day-view.c:594 src/month-view.c:684
 msgid "Start"
 msgstr "Inizio"
 
-#: src/day-view.c:566 src/month-view.c:667
+#: src/day-view.c:607 src/month-view.c:697
 msgid "Show"
 msgstr "Mostra"
 
-#: src/day-view.c:574 src/month-view.c:675
+#: src/day-view.c:615 src/month-view.c:705
 msgid "days"
 msgstr "giorni"
 
-#: src/month-view.c:103
+#: src/month-view.c:104
 msgid "Monday"
 msgstr "Lunedì"
 
-#: src/month-view.c:104
+#: src/month-view.c:105
 msgid "Tuesday"
 msgstr "Martedì"
 
-#: src/month-view.c:105
+#: src/month-view.c:106
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: src/month-view.c:106
+#: src/month-view.c:107
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: src/month-view.c:107
+#: src/month-view.c:108
 msgid "Friday"
 msgstr "Venerdì"
 
-#: src/month-view.c:108
+#: src/month-view.c:109
 msgid "Saturday"
 msgstr "Sabato"
 
-#: src/month-view.c:109
+#: src/month-view.c:110
 msgid "Sunday"
 msgstr "Domenica"
 
-#: src/month-view.c:112
+#: src/month-view.c:113
 msgid "January"
 msgstr "Gennaio"
 
-#: src/month-view.c:113
+#: src/month-view.c:114
 msgid "February"
 msgstr "Febbraio"
 
-#: src/month-view.c:114
+#: src/month-view.c:115
 msgid "March"
 msgstr "Marzo"
 
-#: src/month-view.c:115
+#: src/month-view.c:116
 msgid "April"
 msgstr "Aprile"
 
-#: src/month-view.c:116
+#: src/month-view.c:117
 msgid "May"
 msgstr "Maggio"
 
-#: src/month-view.c:117
+#: src/month-view.c:118
 msgid "June"
 msgstr "Giugno"
 
-#: src/month-view.c:118
+#: src/month-view.c:119
 msgid "July"
 msgstr "Luglio"
 
-#: src/month-view.c:119
+#: src/month-view.c:120
 msgid "August"
 msgstr "Agosto"
 
-#: src/month-view.c:120
+#: src/month-view.c:121
 msgid "September"
 msgstr "Settembre"
 
-#: src/month-view.c:121
+#: src/month-view.c:122
 msgid "October"
 msgstr "Ottobre"
 
-#: src/month-view.c:122
+#: src/month-view.c:123
 msgid "November"
 msgstr "Novembre"
 
-#: src/month-view.c:123
+#: src/month-view.c:124
 msgid "December"
 msgstr "Dicembre"
 
-#: src/month-view.c:740
+#: src/month-view.c:792
 msgid "Week number"
 msgstr "Settimana numero"
 
-#: src/month-view.c:831
+#: src/month-view.c:890
 msgid "Previous month"
 msgstr "Mese precedente"
 
-#: src/month-view.c:854
+#: src/month-view.c:913
 msgid "Next month"
 msgstr "Mese successivo"
