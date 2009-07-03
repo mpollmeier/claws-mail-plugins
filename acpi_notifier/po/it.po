@@ -1,17 +1,17 @@
 # Italian translation for the ACPI Notifier plugin for Claws Mail
-# Copyright (C) 2006, 2008 Andrea Spadaccini
+# Copyright (C) 2006-2009 Andrea Spadaccini
 # This file is distributed under the same license as the acpi_notifier package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2008
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2006-2009
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.3.0\n"
+"Project-Id-Version: 3.7.2\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2008-04-11 07:50+0100\n"
-"PO-Revision-Date: 2008-04-17 17:05+0200\n"
+"POT-Creation-Date: 2009-06-26 18:28+0100\n"
+"PO-Revision-Date: 2009-06-28 16:25+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/acpi_notifier.c:46
@@ -110,13 +110,10 @@ msgstr "Lampeggia quando viene richiesta l'interazione dell'utente"
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/acpi_notifier.c:862
+#: src/acpi_notifier.c:866
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Questo plugin gestisce vari LED ACPI per la posta."
 
-#: src/acpi_notifier.c:883
+#: src/acpi_notifier.c:887
 msgid "Laptop LED"
 msgstr "LED Laptop"
-
-#~ msgid "Acpi notifier"
-#~ msgstr "Notificatore ACPI"
