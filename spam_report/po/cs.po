@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-12-12 11:40+0000\n"
+"POT-Creation-Date: 2009-06-26 18:38+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: \n"
@@ -11,45 +11,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: src/spam_report.c:214
+#: src/spam_report.c:296
 msgid "Reporting spam..."
 msgstr "Oznamování spamu..."
 
-#: src/spam_report.c:249
+#: src/spam_report.c:331
 msgid "Report spam online..."
 msgstr "Oznamovat spam online..."
 
-#: src/spam_report.c:268
-#: src/spam_report.c:309
-#: src/spam_report_prefs.c:78
+#: src/spam_report.c:350
+#: src/spam_report.c:391
+#: src/spam_report_prefs.c:79
 msgid "SpamReport"
 msgstr "Spam zpráva"
 
-#: src/spam_report.c:314
-msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
-msgstr "Zásuvný modul oznamuje spam na různá místa. Jen spam-signal.fr je teď podporován."
+#: src/spam_report.c:396
+msgid ""
+"This plugin reports spam to various places.\n"
+"Currently the following sites or methods are supported:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
+msgstr ""
+"Zásuvný modul oznamuje spam na různá místa.\n"
+"Následující stránky jsou podporovány:\n"
+"\n"
+"* spam-signal.fr\n"
+"* spamcop.net\n"
+"* lists.debian.org nomination system"
 
-#: src/spam_report.c:336
+#: src/spam_report.c:421
 msgid "Spam reporting"
 msgstr "Oznamování spamu"
 
-#: src/spam_report_prefs.c:77
+#: src/spam_report_prefs.c:78
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: src/spam_report_prefs.c:120
+#: src/spam_report_prefs.c:121
 msgid "Enabled"
 msgstr "Povolen"
 
-#: src/spam_report_prefs.c:147
+#: src/spam_report_prefs.c:148
 msgid "Forward to:"
 msgstr "Přeposlat:"
 
-#: src/spam_report_prefs.c:150
+#: src/spam_report_prefs.c:151
 msgid "Username:"
 msgstr "Uživatelské jméno:"
 
-#: src/spam_report_prefs.c:161
+#: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "Heslo:"
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-12-12 11:40+0000\n"
-"PO-Revision-Date: 2009-03-07 01:12+0900\n"
+"POT-Creation-Date: 2009-06-26 18:38+0100\n"
+"PO-Revision-Date: 2009-06-29 00:37+0900\n"
 "Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11,45 +11,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/spam_report.c:214
+#: src/spam_report.c:296
 msgid "Reporting spam..."
 msgstr "spamをレポートしています..."
 
-#: src/spam_report.c:249
+#: src/spam_report.c:331
 msgid "Report spam online..."
 msgstr "オンラインでspamをレポート..."
 
-#: src/spam_report.c:268
-#: src/spam_report.c:309
-#: src/spam_report_prefs.c:78
+#: src/spam_report.c:350
+#: src/spam_report.c:391
+#: src/spam_report_prefs.c:79
 msgid "SpamReport"
 msgstr "SpamReport"
 
-#: src/spam_report.c:314
-msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
-msgstr "このプラグインは様々な場所にspamを報告します。現在はspam-signal.frのみサポートしています。"
+#: src/spam_report.c:396
+msgid ""
+"This plugin reports spam to various places.\n"
+"Currently the following sites or methods are supported:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
+msgstr ""
+"このプラグインは様々な場所にspamを報告します。\n"
+"現在は以下のサイトまたは手段をサポートしています:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
 
-#: src/spam_report.c:336
+#: src/spam_report.c:421
 msgid "Spam reporting"
 msgstr "spamレポート"
 
-#: src/spam_report_prefs.c:77
+#: src/spam_report_prefs.c:78
 msgid "Plugins"
 msgstr "プラグイン"
 
-#: src/spam_report_prefs.c:120
+#: src/spam_report_prefs.c:121
 msgid "Enabled"
 msgstr "有効"
 
-#: src/spam_report_prefs.c:147
+#: src/spam_report_prefs.c:148
 msgid "Forward to:"
 msgstr "転送:"
 
-#: src/spam_report_prefs.c:150
+#: src/spam_report_prefs.c:151
 msgid "Username:"
 msgstr "ユーザ名:"
 
-#: src/spam_report_prefs.c:161
+#: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "パスワード:"
 

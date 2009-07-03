@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Spam report plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2009-03-01 19:21+0000\n"
-"PO-Revision-Date: 2009-03-02 14:39+0100\n"
+"POT-Creation-Date: 2009-06-26 18:38+0100\n"
+"PO-Revision-Date: 2009-06-26 22:02+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -18,45 +18,57 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/spam_report.c:214
+#: src/spam_report.c:296
 msgid "Reporting spam..."
 msgstr "Spam jelentése..."
 
-#: src/spam_report.c:249
+#: src/spam_report.c:331
 msgid "Report spam online..."
 msgstr "Spam jelentése online..."
 
-#: src/spam_report.c:268
-#: src/spam_report.c:309
-#: src/spam_report_prefs.c:78
+#: src/spam_report.c:350
+#: src/spam_report.c:391
+#: src/spam_report_prefs.c:79
 msgid "SpamReport"
 msgstr "Spam jelentés"
 
-#: src/spam_report.c:314
-msgid "This plugin reports spam to various places. Currently only spam-signal.fr is supported."
-msgstr "E plugin a spameket jelenti különböző helyekre. Jelenleg csak a spam-signal.fr támogatott."
+#: src/spam_report.c:396
+msgid ""
+"This plugin reports spam to various places.\n"
+"Currently the following sites or methods are supported:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
+msgstr ""
+"E plugin a spameket jelenti különböző helyekre.\n"
+"Jelenleg az alábbi oldalak és metódusok támogatottak:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
 
-#: src/spam_report.c:336
+#: src/spam_report.c:421
 msgid "Spam reporting"
 msgstr "Spam jelentése"
 
-#: src/spam_report_prefs.c:77
+#: src/spam_report_prefs.c:78
 msgid "Plugins"
 msgstr "Pluginek"
 
-#: src/spam_report_prefs.c:120
+#: src/spam_report_prefs.c:121
 msgid "Enabled"
 msgstr "Engedélyezve"
 
-#: src/spam_report_prefs.c:147
+#: src/spam_report_prefs.c:148
 msgid "Forward to:"
 msgstr "Továbbítás:"
 
-#: src/spam_report_prefs.c:150
+#: src/spam_report_prefs.c:151
 msgid "Username:"
 msgstr "Felhasználónév:"
 
-#: src/spam_report_prefs.c:161
+#: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "Jelszó:"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail SpamReport plugin\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-11-15 06:40+0100\n"
+"POT-Creation-Date: 2009-06-11 06:31+0200\n"
 "PO-Revision-Date: 2009-03-05 09:37-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -18,47 +18,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/spam_report.c:214
+#: src/spam_report.c:296
 msgid "Reporting spam..."
 msgstr "Relatar o spam..."
 
-#: src/spam_report.c:249
+#: src/spam_report.c:331
 msgid "Report spam online..."
 msgstr "Relatar o spam online..."
 
-#: src/spam_report.c:268 src/spam_report.c:309 src/spam_report_prefs.c:78
+#: src/spam_report.c:350 src/spam_report.c:391 src/spam_report_prefs.c:79
 msgid "SpamReport"
 msgstr "SpamReport"
 
-#: src/spam_report.c:314
+#: src/spam_report.c:396
 msgid ""
-"This plugin reports spam to various places. Currently only spam-signal.fr is "
-"supported."
+"This plugin reports spam to various places.\n"
+"Currently the following sites or methods are supported:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
 msgstr ""
-"Esse plugin relata spams para vários lugares. Atualmente apenas o spam-"
-"signal.fr é suportado."
+"Esse plugin relata spams para vários lugares.\n"
+"Atualmente são suportados os seguintes sites e métodos:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * sistema de notificação da lists.debian.org"
 
-#: src/spam_report.c:336
+#: src/spam_report.c:421
 msgid "Spam reporting"
 msgstr "Relatando o spam"
 
-#: src/spam_report_prefs.c:77
+#: src/spam_report_prefs.c:78
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/spam_report_prefs.c:120
+#: src/spam_report_prefs.c:121
 msgid "Enabled"
 msgstr "Habilitado"
 
-#: src/spam_report_prefs.c:147
+#: src/spam_report_prefs.c:148
 msgid "Forward to:"
 msgstr "Encaminhar para:"
 
-#: src/spam_report_prefs.c:150
+#: src/spam_report_prefs.c:151
 msgid "Username:"
 msgstr "Nome de usuário:"
 
-#: src/spam_report_prefs.c:161
+#: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "Senha:"
 

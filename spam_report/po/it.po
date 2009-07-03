@@ -1,64 +1,68 @@
 # Italian translation for the Spam report plugin for Claws Mail
-# Copyright (C) 2007 - 2008 Andrea Spadaccini
+# Copyright (C) 2007 - 2009 Andrea Spadaccini
 # This file is distributed under the same license as the spam_report package.
-# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007 - 2008.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2007 - 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.3.0\n"
+"Project-Id-Version: 3.7.2\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2008-04-11 07:59+0100\n"
-"PO-Revision-Date: 2008-04-17 17:08+0200\n"
+"POT-Creation-Date: 2009-06-26 18:38+0100\n"
+"PO-Revision-Date: 2009-06-28 18:08+0200\n"
 "Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/spam_report.c:214
+#: src/spam_report.c:296
 msgid "Reporting spam..."
 msgstr "Segnalazione spam in corso"
 
-#: src/spam_report.c:248
-msgid "/Message/Report spam online"
-msgstr "/Messaggio/Segnala come spam online"
+#: src/spam_report.c:331
+msgid "Report spam online..."
+msgstr "Segnala come spam online..."
 
-#: src/spam_report.c:256
-msgid "/Report spam online"
-msgstr "/Segnala come spam online"
-
-#: src/spam_report.c:273 src/spam_report.c:317 src/spam_report_prefs.c:78
+#: src/spam_report.c:350 src/spam_report.c:391 src/spam_report_prefs.c:79
 msgid "SpamReport"
 msgstr "Segnalazione spam"
 
-#: src/spam_report.c:322
+#: src/spam_report.c:396
 msgid ""
-"This plugin reports spam to various places. Currently only spam-signal.fr is "
-"supported."
+"This plugin reports spam to various places.\n"
+"Currently the following sites or methods are supported:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
 msgstr ""
-"Questo plugin segnala messaggi di spam. Attualmente solo spam-signal.fr è "
-"supportato."
+"Questo plugin segnala messaggi di spam a diverse entità.\n"
+"Attualmente sono supportati i seguenti siti o metodi:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * sistema di nomina di lists.debian.org"
 
-#: src/spam_report.c:344
+#: src/spam_report.c:421
 msgid "Spam reporting"
 msgstr "Segnalazione spam"
 
-#: src/spam_report_prefs.c:77
+#: src/spam_report_prefs.c:78
 msgid "Plugins"
 msgstr "Plugin"
 
-#: src/spam_report_prefs.c:120
+#: src/spam_report_prefs.c:121
 msgid "Enabled"
 msgstr "Abilitato"
 
-#: src/spam_report_prefs.c:147
+#: src/spam_report_prefs.c:148
 msgid "Forward to:"
 msgstr "Inoltra a:"
 
-#: src/spam_report_prefs.c:150
+#: src/spam_report_prefs.c:151
 msgid "Username:"
 msgstr "Nome utente:"
 
-#: src/spam_report_prefs.c:161
+#: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "Password:"
