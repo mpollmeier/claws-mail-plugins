@@ -17,3 +17,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/it.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ja.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.9.6cvs19.patchset
 ( diff -u /dev/null NEWS;  ) > 0.9.6cvs20.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/fancy_viewer.c;  ) > 0.9.7cvs1.patchset
+( diff -u /dev/null po/fi.po;  ) > 0.9.7cvs2.patchset
