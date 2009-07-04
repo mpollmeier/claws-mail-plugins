@@ -109,6 +109,16 @@ static gint fancy_show_mimepart_real(MimeViewer *_viewer)
     if (procmime_get_part(viewer->filename, partinfo) < 0) {
             g_free(viewer->filename);
     } else {
+        const gchar *charset = NULL;
+        if (_viewer && _viewer->mimeview &&
+            _viewer->mimeview->messageview->forced_charset)
+            charset = _viewer->mimeview->messageview->forced_charset;
+        else
+            charset = procmime_mimeinfo_get_parameter(partinfo, "charset");
+        if (!charset)
+            charset = conv_get_locale_charset_str();
+        debug_print("using %s charset\n", charset);
+        g_object_set(viewer->settings, "default-encoding", charset, NULL);
         gchar *tmp = g_filename_to_uri(viewer->filename, NULL, NULL);
         webkit_web_view_open(viewer->view, tmp);
         g_free(tmp);
@@ -793,7 +803,7 @@ const gchar *plugin_name(void)
 
 const gchar *plugin_desc(void)
 {
-    return g_strdup_printf("This plugin renders HTML e-mail using the WebKit" 
+    return g_strdup_printf("This plugin renders HTML mail using the WebKit " 
                            "%d.%d.%d library.", WEBKIT_MAJOR_VERSION, 
                            WEBKIT_MINOR_VERSION, WEBKIT_MICRO_VERSION);
 }
