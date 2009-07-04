@@ -107,7 +107,8 @@ static gint fancy_show_mimepart_real(MimeViewer *_viewer)
         return FALSE;
     }
     if (procmime_get_part(viewer->filename, partinfo) < 0) {
-            g_free(viewer->filename);
+        g_free(viewer->filename);
+        viewer->filename = NULL;
     } else {
         const gchar *charset = NULL;
         if (_viewer && _viewer->mimeview &&
@@ -192,6 +193,7 @@ static void fancy_print(MimeViewer *_viewer)
     debug_print("filename: %s\n", viewer->filename);
 	if (!viewer->filename) {
 		alertpanel_error(_("Filename is null."));
+        g_free(program);
 		return;
 	}
 
@@ -353,12 +355,9 @@ static void over_link_cb(WebKitWebView *view, const gchar *wtf,
 {
     gtk_label_set_text(GTK_LABEL(viewer->l_link), link);
     if(link) {
-        if (viewer->cur_link) {
+        if (viewer->cur_link)
             g_free(viewer->cur_link);
-            viewer->cur_link = g_strdup(link);
-        } else {
-            viewer->cur_link = g_strdup(link);
-        }
+        viewer->cur_link = g_strdup(link);
     }
 }
 

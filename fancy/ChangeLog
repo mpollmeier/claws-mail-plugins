@@ -1,3 +1,10 @@
+2009-07-04 [wwp]	0.9.7cvs4
+
+	* src/fancy_viewer.c
+		Reset filename pointer we just free'd.
+		Fix a potential leak in case of error.
+		Slight code simplification.
+
 2009-07-04 [iwkse]	0.9.7cvs3
 
 	* src/fancy_viewer.c
