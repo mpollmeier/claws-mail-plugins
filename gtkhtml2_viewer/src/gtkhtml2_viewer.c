@@ -1160,6 +1160,7 @@ static void gtkhtml2_viewer_print(MimeViewer *mviewer)
 
 	if (viewer->filename == NULL) {
 		alertpanel_error(_("Filename is null."));
+        g_free(program);
 		return;
 	}
 
