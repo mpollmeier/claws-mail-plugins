@@ -275,8 +275,6 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     webkit_web_view_open(viewer->view, "about:blank");
     debug_print("fancy_clear_viewer\n");
     viewer->to_load = NULL;
-    if(viewer->cur_link)
-        g_free(viewer->cur_link);
     vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
     vadj->value = 0.0;
     g_signal_emit_by_name(G_OBJECT(vadj), "value-changed", 0);

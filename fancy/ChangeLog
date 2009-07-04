@@ -1,3 +1,8 @@
+2009-07-04 [iwkse]	0.9.7cvs1
+
+	* src/fancy_viewer.c
+            Fix a double free crash
+
 2009-07-03 [paul]	0.9.7
 
 	0.9.7 released
