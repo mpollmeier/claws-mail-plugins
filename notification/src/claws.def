@@ -32,6 +32,7 @@ inc_all_account_mail_cb
 main_set_show_at_startup
 mainwindow_get_mainwindow
 main_window_hide
+main_window_empty_trash
 mainwindow_is_obscured
 mainwindow_jump_to
 main_window_show
