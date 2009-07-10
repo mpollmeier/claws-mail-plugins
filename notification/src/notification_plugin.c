@@ -395,7 +395,10 @@ gboolean plugin_done(void)
   notification_pixbuf_free_all();
 
   debug_print("Notification plugin unloaded\n");
-  return TRUE;
+
+  /* Returning FALSE here means that g_module_close() will not be called on the plugin.
+   * This is necessary, as needed libraries are not designed to be unloaded. */
+  return FALSE;
 }
 
 const gchar *plugin_name(void)
