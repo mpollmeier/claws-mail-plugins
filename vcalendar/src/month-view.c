@@ -344,6 +344,8 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
     gboolean pack = TRUE, update_tip = FALSE;
     time_t now = time(NULL);
     struct tm tm_today;
+    gboolean start_prev_mon = FALSE;
+
 #if !(GTK_CHECK_VERSION(2,12,0))
 	GtkTooltips *tips = mw->Tooltips;
 #endif
@@ -386,16 +388,24 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
     start_col = orage_days_between(&tm_first, &tm_start)+1;
     end_col   = orage_days_between(&tm_first, &tm_end)+1;
 
-    if (end_col < 1 || start_col < 1) {
+    if (start_col < 0)
+        start_prev_mon = TRUE;
+
+    if (end_col < 1) {
     	return;
     }
-    if (start_col > monthdays[tm_first.tm_mon-1]) {
+    if (start_col > 0 && start_col > monthdays[tm_first.tm_mon-1]) {
         return;
     }
     else {
-        GDate *fdate = g_date_new_dmy(1, tm_start.tm_mon, tm_start.tm_year);
-        GDate *sdate = g_date_new_dmy(tm_start.tm_mday, tm_start.tm_mon, tm_start.tm_year);
         GDate *edate = g_date_new_dmy(tm_end.tm_mday, tm_end.tm_mon, tm_end.tm_year);
+        GDate *fdate = g_date_new_dmy(1, tm_first.tm_mon, tm_first.tm_year);
+        GDate *sdate;
+        if (start_col >= 1) {
+          sdate = g_date_new_dmy(tm_start.tm_mday, tm_start.tm_mon, tm_start.tm_year);
+        } else {
+          sdate = g_date_new_dmy(1, tm_first.tm_mon, tm_first.tm_year);
+        } /* endif */
 
 	col = start_col = (int)g_date_get_weekday(sdate);
 	end_col = (int)g_date_get_weekday(edate);
@@ -522,7 +532,7 @@ static void add_row(month_win *mw, VCalEvent *event, gint days)
             else
                 last_col   = 7;
             for (col = first_col; col <= last_col; col++) {
-                if (row == start_row && col == start_col)
+                if (row == start_row && col == start_col && !start_prev_mon)
                     start_width = ((tm_start.tm_hour*60)+(tm_start.tm_min))*width/(24*60);
                 else
                     start_width = 0;
