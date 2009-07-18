@@ -413,7 +413,7 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
 	return _("This Claws Mail plugin allows you to read application/ms-tnef attachments.\n\n"
-		 "The plugin uses the Ytnef library, which is is copyright 2002-2007 by "
+		 "The plugin uses the Ytnef library, which is copyright 2002-2007 by "
 		 "Randall Hand <yerase@yerot.com>");
 }
 
