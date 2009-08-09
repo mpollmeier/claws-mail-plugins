@@ -1,0 +1,39 @@
+This plugin offers a Python scripting access to Claws Mail.
+ 
+As an example, the following code is sending the same mail
+to a list of people, one at a time.
+ 
+========================== 8< ===========================
+addresses = ["mail1@example", "mail2@example", "mail3@example"]
+
+for address in addresses:
+
+	# The argument for the constructor is an email address on which
+	# the sending account is selected.
+	# It's also possible to use the default constructor without arguments,
+	# in which case the same rules as on a menu click one "New message"
+	# are applied.
+    cw = clawsmail.ComposeWindow("berndth@gmx.de")
+    
+    # Add a recepient. There are also add_Cc and add_Bcc functions.
+    cw.add_To(address)
+    
+    # Set the subject of the message
+    cw.set_subject("Mass mail")
+    
+    # For the message body, access to the GtkTextView is granted in ComposeWindow.text.
+    buffer = cw.text.get_buffer()
+    buffer.set_text("This is an automatic message")
+    
+    # Access to the GtkUIManager is also provided
+    action_group = cw.ui_manager.get_action_groups()[0]
+    action_group.get_action("Message/SendLater").activate()
+
+# Finally, the action group of the main window can be used to send the messages out
+clawsmail.get_mainwindow_action_group().get_action("Message/SendQueue").activate()
+========================== 8< ===========================
+
+This can be seen as a generalisation of templates. It is
+normal Python code, the message contents and the addresses
+could also come from an external source (such as a file,
+or a database).
