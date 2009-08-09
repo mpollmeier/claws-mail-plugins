@@ -1,3 +1,12 @@
+2009-08-09 [holger]	0.0cvs2
+
+	* config/config.rpath
+		Add forgotten file
+
+2009-08-09 [holger]	0.0cvs1
+
+	* Initial import
+
 2009-05-06 [holger]	0.0.1
 
 	* initial import
