@@ -1,0 +1,6 @@
+Makefile
+Makefile.in
+POTFILES
+python_plugin.pot
+remove-potcdate.sed
+stamp-po
