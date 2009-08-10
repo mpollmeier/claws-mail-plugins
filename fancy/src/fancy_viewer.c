@@ -416,7 +416,7 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
         webkit_web_view_set_settings(viewer->view, viewer->settings);
     }
 
-    if (!fancy_prefs.block_links) {
+    if (fancy_prefs.block_links) {
         if (viewer->load_page){
             return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
         }

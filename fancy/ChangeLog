@@ -1,3 +1,9 @@
+2009-08-10 [iwkse]	0.9.7cvs6
+
+	* src/fancy_prefs.c
+	* src/fancy_viewer.c
+            Fix inverted logic for block_links pref
+
 2009-08-10 [iwkse]	0.9.7cvs5
 
 	* src/fancy_viewer.c

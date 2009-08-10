@@ -54,7 +54,7 @@ struct _FancyPrefsPage {
 static PrefParam param[] = {
         {"auto_load_images", "FALSE", &fancy_prefs.auto_load_images, P_BOOL, 
          NULL, NULL, NULL},
-        {"block_links", "FALSE", &fancy_prefs.block_links, P_BOOL, NULL, 
+        {"block_links", "TRUE", &fancy_prefs.block_links, P_BOOL, NULL, 
          NULL, NULL},
         {"enable_scripts", "FALSE", &fancy_prefs.enable_scripts, P_BOOL, NULL, 
          NULL, NULL},
@@ -120,7 +120,7 @@ static void create_fancy_prefs_page(PrefsPage *page, GtkWindow *window,
 
     checkbox2 = gtk_check_button_new_with_label(_("Block external links"));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox2),
-                                 !fancy_prefs.block_links);
+                                 fancy_prefs.block_links);
     gtk_box_pack_start(GTK_BOX(vbox), checkbox2, FALSE, FALSE, 0);
     gtk_widget_show(checkbox2);
     
@@ -156,7 +156,7 @@ static void save_fancy_prefs(PrefsPage *page)
         
         fancy_prefs.auto_load_images = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->auto_load_images));
-        fancy_prefs.block_links = !gtk_toggle_button_get_active
+        fancy_prefs.block_links = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->block_links));
         fancy_prefs.enable_scripts = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->enable_scripts));
