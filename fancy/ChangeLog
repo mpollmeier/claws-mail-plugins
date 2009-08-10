@@ -1,3 +1,8 @@
+2009-08-10 [iwkse]	0.9.7cvs7
+
+	* src/fancy_viewer.c
+            Fix bug 1979: When selection is 0 length return NULL
+
 2009-08-10 [iwkse]	0.9.7cvs6
 
 	* src/fancy_prefs.c

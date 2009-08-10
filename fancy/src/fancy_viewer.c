@@ -272,11 +272,13 @@ static gchar *fancy_get_selection (MimeViewer *_viewer)
 {
     debug_print("fancy_get_selection\n");
     FancyViewer *viewer = (FancyViewer *) _viewer;
-    
-    if (!viewer->view)
+    gchar *sel = webkit_web_view_get_selected_text(viewer->view);
+    if (!viewer->view || strlen(sel) == 0) {
+        g_free(sel);
         return NULL;
+    }
+    g_free(sel);
     return webkit_web_view_get_selected_text(viewer->view); 
-
 }
 static void fancy_clear_viewer(MimeViewer *_viewer)
 {
