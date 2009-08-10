@@ -277,8 +277,7 @@ static gchar *fancy_get_selection (MimeViewer *_viewer)
         g_free(sel);
         return NULL;
     }
-    g_free(sel);
-    return webkit_web_view_get_selected_text(viewer->view); 
+    return sel; 
 }
 static void fancy_clear_viewer(MimeViewer *_viewer)
 {

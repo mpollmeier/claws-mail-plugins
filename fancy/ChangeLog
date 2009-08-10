@@ -1,3 +1,8 @@
+2009-08-10 [iwkse]	0.9.7cvs8
+
+	* src/fancy_viewer.c
+            Return the string instead of calling again the function
+
 2009-08-10 [iwkse]	0.9.7cvs7
 
 	* src/fancy_viewer.c
