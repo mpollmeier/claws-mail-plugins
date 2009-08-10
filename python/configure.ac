@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=1
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=5
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -122,6 +122,10 @@ AM_PATH_PYTHON([2.6], [
 ], [has_python=no])
 
 AM_CONDITIONAL(ENABLE_PYTHON, [test x"$has_pygtk" = x"yes"])
+
+if test x"$has_pygtk" != x"yes"; then
+   AC_MSG_ERROR(PyGTK not found or not recent enough.)
+fi
 
 AC_SUBST(PYTHON_CFLAGS)
 AC_SUBST(PYTHON_LIBS)

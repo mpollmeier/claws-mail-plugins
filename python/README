@@ -1,10 +1,14 @@
 This plugin offers a Python scripting access to Claws Mail.
- 
+
+Python code can be entered interactively into an embedded Python
+console, or stored in scripts under ~/.claws-mail/python-scripts.
+The scripts are then accessible via the menu of the main window.
+
 As an example, the following code is sending the same mail
 to a list of people, one at a time.
  
 ========================== 8< ===========================
-addresses = ["mail1@example", "mail2@example", "mail3@example"]
+addresses = ["mail1@example.tld", "mail2@example.tld", "mail3@example.tld"]
 
 for address in addresses:
 
