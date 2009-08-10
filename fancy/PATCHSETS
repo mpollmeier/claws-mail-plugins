@@ -20,3 +20,4 @@
 ( diff -u /dev/null po/fi.po;  ) > 0.9.7cvs2.patchset
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/fancy_viewer.c;  ) > 0.9.7cvs3.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/fancy_viewer.c;  ) > 0.9.7cvs4.patchset
+( cvs diff -u -r 1.1.2.14 -r 1.1.2.15 src/fancy_viewer.c;  ) > 0.9.7cvs5.patchset

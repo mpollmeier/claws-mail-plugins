@@ -1,3 +1,9 @@
+2009-08-10 [iwkse]	0.9.7cvs5
+
+	* src/fancy_viewer.c
+            Fix bug 1980
+            Use the webkit middle click paste available from version 1.1.12
+
 2009-07-04 [wwp]	0.9.7cvs4
 
 	* src/fancy_viewer.c

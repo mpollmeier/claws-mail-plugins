@@ -124,7 +124,6 @@ static gint fancy_show_mimepart_real(MimeViewer *_viewer)
         webkit_web_view_open(viewer->view, tmp);
         g_free(tmp);
     }
-    gtk_widget_grab_focus(GTK_WIDGET(viewer->view));
     viewer->loading = FALSE;
     return FALSE;
 }
@@ -600,7 +599,7 @@ static gint keypress_events_cb (GtkWidget *widget, GdkEventKey *event,
     }
     return FALSE;
 }
-
+#if (WEBKIT_MICRO_VERSION < 12)
 static gboolean release_button_cb (WebKitWebView *view, GdkEvent *ev, 
                                    gpointer data)
 {
@@ -613,7 +612,7 @@ static gboolean release_button_cb (WebKitWebView *view, GdkEvent *ev,
     }
     return FALSE;
 }
-
+#endif
 static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer)
 {
     gtk_widget_grab_focus(widget);
@@ -742,8 +741,10 @@ static MimeViewer *fancy_viewer_create(void)
                      G_CALLBACK(navigation_requested_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "populate-popup",
                      G_CALLBACK(populate_popup_cb), viewer);
+#if (WEBKIT_MICRO_VERSION < 12)
     g_signal_connect(G_OBJECT(viewer->view), "button-release-event",
                      G_CALLBACK(release_button_cb), viewer);
+#endif
     g_signal_connect(G_OBJECT(viewer->ev_zoom_100), "button-press-event",
                      G_CALLBACK(zoom_100_cb), (gpointer*)viewer);
     g_signal_connect(G_OBJECT(viewer->ev_zoom_in), "button-press-event",
