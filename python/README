@@ -4,10 +4,15 @@ Python code can be entered interactively into an embedded Python
 console, or stored in scripts under ~/.claws-mail/python-scripts.
 The scripts are then accessible via the menu of the main window.
 
-As an example, the following code is sending the same mail
-to a list of people, one at a time.
- 
+A few examples follow. This can be seen as a generalisation of
+templates.
+
 ========================== 8< ===========================
+# Send the same mail to a list of people, one at a time.
+# As this is normal Python code, the message contents and 
+# the addresses could also come from an external source 
+# (such as a file, or a database).
+
 addresses = ["mail1@example.tld", "mail2@example.tld", "mail3@example.tld"]
 
 for address in addresses:
@@ -35,9 +40,35 @@ for address in addresses:
 
 # Finally, the action group of the main window can be used to send the messages out
 clawsmail.get_mainwindow_action_group().get_action("Message/SendQueue").activate()
+
 ========================== 8< ===========================
 
-This can be seen as a generalisation of templates. It is
-normal Python code, the message contents and the addresses
-could also come from an external source (such as a file,
-or a database).
+# Batch processing: Apply an action to all messages recursively starting from
+# the currently selected folder. 
+
+# Define the function to deal with individual folders
+def deal_with_folder(folder):
+    # Get actions for selecting all messages, and marking the selection as read
+    action_group = clawsmail.get_mainwindow_action_group();
+    select_all_action = action_group.get_action("Edit/SelectAll")
+    mark_read_action = action_group.get_action("Message/Mark/MarkRead")
+    
+    # Select given folder
+    clawsmail.folderview_select_folder(folder)
+    
+    # Search for messages with age greater than 28 days
+    clawsmail.quicksearch_search("ag 28", clawsmail.QUICK_SEARCH_EXTENDED)
+    
+    # Mark all messages in the search result as read
+    select_all_action.activate()
+    mark_read_action.activate()
+
+
+# Get selected folder, the subtree below it, and call above function for all folders
+root = clawsmail.get_folderview_selected_folder()
+# Get a tree of subfolders. The argument could also be a string of a mailbox name,
+# or left out for a list of mailbox trees.
+tree = clawsmail.get_folder_tree(root)
+
+# Call above function for all folders.
+tree.traverse(deal_with_folder)
