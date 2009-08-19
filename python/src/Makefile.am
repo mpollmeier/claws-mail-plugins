@@ -7,6 +7,10 @@ python_plugin_la_SOURCES = \
 	clawsmailmodule.h \
 	composewindowtype.c \
 	composewindowtype.h \
+	foldertype.c \
+	foldertype.h \
+	nodetype.c \
+	nodetype.h \
 	python_plugin.c \
 	python-hooks.c \
 	python-hooks.h \

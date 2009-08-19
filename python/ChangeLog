@@ -1,3 +1,17 @@
+2009-08-19 [holger]	0.1cvs7
+
+	* .cvsignore
+		more files to ignore
+	* README
+	* src/Makefile.am
+	* src/clawsmailmodule.c
+	* src/foldertype.c
+	* src/foldertype.h
+	* src/nodetype.c
+	* src/nodetype.h
+		Implement a tree widget, and
+		provide access to the folderview
+
 2009-08-19 [paul]	0.1cvs6
 
 	* Makefile.am

@@ -8,3 +8,5 @@ pluginconfig.h*
 stamp-h1
 autom4te.cache
 PATCHSETS
+.git
+.gitignore
