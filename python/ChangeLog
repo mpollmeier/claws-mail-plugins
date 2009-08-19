@@ -1,3 +1,11 @@
+2009-08-19 [paul]	0.1cvs6
+
+	* Makefile.am
+	* configure.ac
+	* src/Makefile.am
+		reduce the minimum required python to 2.5
+		and other autofoo fixes
+
 2009-08-10 [holger]	0.1cvs5
 
 	* README

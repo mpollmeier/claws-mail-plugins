@@ -1,6 +1,7 @@
 AC_PREREQ(2.60)
 AC_INIT(src/python_plugin.c)
 AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_MACRO_DIR([m4])
 AM_MAINTAINER_MODE
 
 PACKAGE=python_plugin
@@ -9,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=1
 MICRO_VERSION=0
-EXTRA_VERSION=5
+EXTRA_VERSION=6
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -95,7 +96,7 @@ dnl Check for GTK+
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
 dnl Stolen from gtkparasite
-AM_PATH_PYTHON([2.6], [
+AM_PATH_PYTHON([2.5], [
     AC_PATH_PROG(PYTHON_CONFIG, python$PYTHON_VERSION-config)
     if test x"$PYTHON_CONFIG" == x""; then
         AC_PATH_PROG(PYTHON_CONFIG, python-config)

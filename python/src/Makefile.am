@@ -9,7 +9,7 @@ python_plugin_la_SOURCES = \
 	composewindowtype.h \
 	python_plugin.c \
 	python-hooks.c \
-	python-hooks.h \	
+	python-hooks.h \
 	python-shell.c \
 	python-shell.h \
 	gettext.h
