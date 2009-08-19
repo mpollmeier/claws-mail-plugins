@@ -1,3 +1,9 @@
+2009-08-19 [holger]	0.1cvs8
+
+	* src/clawsmailmodule.c
+	* src/nodetype.c
+		Add basic interface to quicksearch
+
 2009-08-19 [holger]	0.1cvs7
 
 	* .cvsignore

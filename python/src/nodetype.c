@@ -47,6 +47,12 @@ PyMODINIT_FUNC initnode(PyObject *module)
       "        for child in self.children:\n"
       "            str.extend(child.get_str_list(level+1))\n"
       "        return str\n"
+      "\n"
+      "    def traverse(self, callback):\n"
+      "        if self.data:\n"
+      "            callback(self.data)\n"
+      "        for child in self.children:\n"
+      "            child.traverse(callback)\n"
       "\n";
 
   dict = PyModule_GetDict(module);

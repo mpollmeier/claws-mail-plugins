@@ -30,7 +30,10 @@
 #include <pygtk/pygtk.h>
 
 #include "mainwindow.h"
+#include "summaryview.h"
+#include "quicksearch.h"
 #include "toolbar.h"
+#include "prefs_common.h"
 
 #include <glib.h>
 
@@ -263,6 +266,48 @@ static PyObject* get_folder_tree(PyObject *self, PyObject *args)
   return result;
 }
 
+static PyObject* quicksearch_search(PyObject *self, PyObject *args)
+{
+  const char *string;
+  int searchtype;
+  QuickSearch *qs;
+  MainWindow *mainwin;
+
+  /* must be given exactly one argument, which is a string */
+  searchtype = prefs_common.summary_quicksearch_type;
+  if(!PyArg_ParseTuple(args, "s|i", &string, &searchtype))
+    return NULL;
+
+  mainwin = mainwindow_get_mainwindow();
+  if(!mainwin || !mainwin->summaryview || !mainwin->summaryview->quicksearch) {
+    PyErr_SetString(PyExc_LookupError, "Quicksearch not found");
+    return NULL;
+  }
+
+  qs = mainwin->summaryview->quicksearch;
+  quicksearch_set(qs, searchtype, string);
+
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+static PyObject* quicksearch_clear(PyObject *self, PyObject *args)
+{
+  QuickSearch *qs;
+  MainWindow *mainwin;
+
+  mainwin = mainwindow_get_mainwindow();
+  if(!mainwin || !mainwin->summaryview || !mainwin->summaryview->quicksearch) {
+    PyErr_SetString(PyExc_LookupError, "Quicksearch not found");
+    return NULL;
+  }
+
+  qs = mainwin->summaryview->quicksearch;
+  quicksearch_set(qs, prefs_common.summary_quicksearch_type, "");
+
+  Py_INCREF(Py_None);
+  return Py_None;
+}
 
 static PyMethodDef ClawsMailMethods[] = {
     /* public */
@@ -270,12 +315,31 @@ static PyMethodDef ClawsMailMethods[] = {
     {"get_folder_tree",  get_folder_tree, METH_VARARGS, "Get folder tree."},
     {"get_folderview_selected_folder",  get_folderview_selected_folder, METH_NOARGS, "Get selected folder in folderview."},
     {"folderview_select_folder",  folderview_select_folder, METH_VARARGS, "Select folder in folderview. Takes an argument of type Folder."},
+    {"quicksearch_search", quicksearch_search, METH_VARARGS, "Perform a quicksearch."},
+    {"quicksearch_clear", quicksearch_clear, METH_NOARGS, "Clear the quicksearch."},
 
      /* private */
      {"__gobj", private_wrap_gobj, METH_VARARGS, "Wraps a C GObject"},
 
     {NULL, NULL, 0, NULL}
 };
+
+static void initmiscstuff(PyObject *module)
+{
+  PyObject *dict;
+  PyObject *res;
+  const char *cmd =
+      "QUICK_SEARCH_SUBJECT = 0\n"
+      "QUICK_SEARCH_FROM = 1\n"
+      "QUICK_SEARCH_TO = 2\n"
+      "QUICK_SEARCH_EXTENDED = 3\n"
+      "QUICK_SEARCH_MIXED = 4\n"
+      "QUICK_SEARCH_TAG = 5\n"
+      "\n";
+  dict = PyModule_GetDict(module);
+  res = PyRun_String(cmd, Py_file_input, dict, dict);
+  Py_XDECREF(res);
+}
 
 void claws_mail_python_init(void)
 {
@@ -289,6 +353,9 @@ void claws_mail_python_init(void)
   initnode(cm_module);
   initcomposewindow(cm_module);
   initfolder(cm_module);
+
+  /* initialize misc things */
+  initmiscstuff(cm_module);
 
   PyRun_SimpleString("import clawsmail\n");
 }
