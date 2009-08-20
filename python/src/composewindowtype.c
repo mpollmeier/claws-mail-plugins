@@ -177,11 +177,47 @@ static PyObject* ComposeWindow_add_Bcc(clawsmail_ComposeWindowObject *self, PyOb
   return Py_None;
 }
 
+static PyObject* ComposeWindow_attach(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  PyObject *olist;
+  Py_ssize_t size, iEl;
+  GList *list = NULL;
+
+  if(!PyArg_ParseTuple(args, "O!", &PyList_Type, &olist))
+    return NULL;
+
+  size = PyList_Size(olist);
+  for(iEl = 0; iEl < size; iEl++) {
+    PyObject *element = PyList_GET_ITEM(olist, iEl);
+    char *ss;
+
+    if(!element)
+      continue;
+
+    Py_INCREF(element);
+    if(!PyArg_Parse(element, "s", &ss)) {
+      Py_DECREF(element);
+      if(list)
+        g_list_free(list);
+      return NULL;
+    }
+    Py_DECREF(element);
+    list = g_list_prepend(list, ss);
+  }
+
+  compose_attach_from_list(self->compose, list, FALSE);
+  g_list_free(list);
+
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
 static PyMethodDef ComposeWindow_methods[] = {
     {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
     {"add_To",  (PyCFunction)ComposeWindow_add_To,  METH_VARARGS, "Append another To header."},
     {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS, "Append another Cc header."},
     {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS, "Append another Bcc header."},
+    {"attach",  (PyCFunction)ComposeWindow_attach, METH_VARARGS, "Attach a list of files."},
     {NULL}
 };
 
