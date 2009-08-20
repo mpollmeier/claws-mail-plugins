@@ -188,8 +188,8 @@ static PyObject* ComposeWindow_attach(clawsmail_ComposeWindowObject *self, PyObj
 
   size = PyList_Size(olist);
   for(iEl = 0; iEl < size; iEl++) {
-    PyObject *element = PyList_GET_ITEM(olist, iEl);
     char *ss;
+    PyObject *element = PyList_GET_ITEM(olist, iEl);
 
     if(!element)
       continue;
@@ -201,8 +201,8 @@ static PyObject* ComposeWindow_attach(clawsmail_ComposeWindowObject *self, PyObj
         g_list_free(list);
       return NULL;
     }
-    Py_DECREF(element);
     list = g_list_prepend(list, ss);
+    Py_DECREF(element);
   }
 
   compose_attach_from_list(self->compose, list, FALSE);

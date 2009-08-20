@@ -1,8 +1,15 @@
+2009-08-20 [holger]	0.1cvs12
+
+	* ChangeLog
+		Fix typo
+	* src/composewindowtype.c
+		More robust statement order
+
 2009-08-20 [holger]	0.1cvs11
 
 	* configure.ac
 	* src/python_plugin.c
-		Bump required Claws Mail version to 3.7.19
+		Bump required Claws Mail version to 3.7.2.19
 	* src/composewindowtype.c
 		Add interface for attaching files to a compose window
 
