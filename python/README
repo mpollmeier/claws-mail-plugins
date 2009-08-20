@@ -4,8 +4,7 @@ Python code can be entered interactively into an embedded Python
 console, or stored in scripts under ~/.claws-mail/python-scripts.
 The scripts are then accessible via the menu of the main window.
 
-A few examples follow. This can be seen as a generalisation of
-templates.
+A few examples follow.
 
 ========================== 8< ===========================
 # Send the same mail to a list of people, one at a time.
@@ -17,14 +16,14 @@ addresses = ["mail1@example.tld", "mail2@example.tld", "mail3@example.tld"]
 
 for address in addresses:
 
-	# The argument for the constructor is an email address on which
-	# the sending account is selected.
-	# It's also possible to use the default constructor without arguments,
-	# in which case the same rules as on a menu click one "New message"
-	# are applied.
+    # The argument for the constructor is an email address on which
+    # the sending account is selected.
+    # It's also possible to use the default constructor without arguments,
+    # in which case the same rules as on a menu click one "New message"
+    # are applied.
     cw = clawsmail.ComposeWindow("berndth@gmx.de")
     
-    # Add a recepient. There are also add_Cc and add_Bcc functions.
+    # Add a recipient. There are also add_Cc and add_Bcc functions.
     cw.add_To(address)
     
     # Set the subject of the message
