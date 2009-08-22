@@ -1,3 +1,12 @@
+2009-08-22 [holger]	0.22cvs4
+
+	* m4/.cvsignore
+		More files to ignore
+	* src/notification_prefs.c
+		Increase maximum popup time to an hour,
+		and allow popups that never time out when
+		using libnotify
+
 2009-07-10 [colin]	0.22cvs3
 
 	* src/claws.def

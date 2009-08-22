@@ -130,3 +130,4 @@
 ( cvs diff -u -r 1.1.2.167 -r 1.1.2.168 configure.ac;  diff -u /dev/null po/es.po;  ) > 0.22cvs1.patchset
 ( cvs diff -u -r 1.1.2.33 -r 1.1.2.34 src/notification_plugin.c;  ) > 0.22cvs2.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/claws.def;  cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/notification_trayicon.c;  ) > 0.22cvs3.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 m4/.cvsignore;  cvs diff -u -r 1.1.2.31 -r 1.1.2.32 src/notification_prefs.c;  ) > 0.22cvs4.patchset

@@ -39,6 +39,17 @@
 
 #include "notification_foldercheck.h"
 
+#ifdef HAVE_LIBNOTIFY
+/* allow infinite timeout with libnotify */
+# define TIMEOUT_SPINNER_MIN     0.0
+#else
+/* don't allow infinite timeout with self-handled popups */
+# define TIMEOUT_SPINNER_MIN     0.2
+#endif
+
+#define TIMEOUT_SPINNER_MAX  3600.0
+#define TIMEOUT_SPINNER_STEP    0.5
+
 typedef struct
 {
 	PrefsPage page;
@@ -911,7 +922,7 @@ static void notify_create_popup_page(PrefsPage *page, GtkWindow *window,
 	label = gtk_label_new(_("Popup timeout:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
-	spinner = gtk_spin_button_new_with_range(0.2, 60., 0.5);
+	spinner = gtk_spin_button_new_with_range(TIMEOUT_SPINNER_MIN, TIMEOUT_SPINNER_MAX, TIMEOUT_SPINNER_STEP);
 	gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 1);
 	timeout = notify_config.popup_timeout/1000.;
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner), timeout);
@@ -1489,7 +1500,7 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 	label = gtk_label_new(_("Popup timeout:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
-	spinner = gtk_spin_button_new_with_range(0.2, 60., 0.5);
+	spinner = gtk_spin_button_new_with_range(TIMEOUT_SPINNER_MIN, TIMEOUT_SPINNER_MAX, TIMEOUT_SPINNER_STEP);
 	gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spinner), 1);
 	timeout = notify_config.trayicon_popup_timeout/1000.;
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinner), timeout);
