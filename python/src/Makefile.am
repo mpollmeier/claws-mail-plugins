@@ -9,6 +9,8 @@ python_plugin_la_SOURCES = \
 	composewindowtype.h \
 	foldertype.c \
 	foldertype.h \
+	messageinfotype.c \
+	messageinfotype.h \
 	nodetype.c \
 	nodetype.h \
 	python_plugin.c \

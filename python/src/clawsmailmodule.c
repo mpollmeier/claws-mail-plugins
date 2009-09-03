@@ -25,6 +25,7 @@
 #include "nodetype.h"
 #include "composewindowtype.h"
 #include "foldertype.h"
+#include "messageinfotype.h"
 
 #include <pygobject.h>
 #include <pygtk/pygtk.h>
@@ -309,6 +310,36 @@ static PyObject* quicksearch_clear(PyObject *self, PyObject *args)
   return Py_None;
 }
 
+static PyObject* get_summaryview_selected_message_list(PyObject *self, PyObject *args)
+{
+  MainWindow *mainwin;
+  GSList *list, *walk;
+  PyObject *result;
+
+  mainwin = mainwindow_get_mainwindow();
+  if(!mainwin || !mainwin->summaryview) {
+    PyErr_SetString(PyExc_LookupError, "SummaryView not found");
+    return NULL;
+  }
+
+  result = Py_BuildValue("[]");
+  if(!result)
+    return NULL;
+
+  list = summary_get_selected_msg_list(mainwin->summaryview);
+  for(walk = list; walk; walk = walk->next) {
+    PyObject *msg;
+    msg = clawsmail_msginfo_new(walk->data);
+    if(PyList_Append(result, msg) == -1) {
+      Py_DECREF(result);
+      return NULL;
+    }
+  }
+  g_slist_free(list);
+
+  return result;
+}
+
 static PyMethodDef ClawsMailMethods[] = {
     /* public */
     {"get_mainwindow_action_group",  get_mainwindow_action_group, METH_NOARGS, "Get action group of main window menu."},
@@ -317,6 +348,7 @@ static PyMethodDef ClawsMailMethods[] = {
     {"folderview_select_folder",  folderview_select_folder, METH_VARARGS, "Select folder in folderview. Takes an argument of type Folder."},
     {"quicksearch_search", quicksearch_search, METH_VARARGS, "Perform a quicksearch."},
     {"quicksearch_clear", quicksearch_clear, METH_NOARGS, "Clear the quicksearch."},
+    {"get_summaryview_selected_message_list", get_summaryview_selected_message_list, METH_NOARGS, "Get selected message list."},
 
      /* private */
      {"__gobj", private_wrap_gobj, METH_VARARGS, "Wraps a C GObject"},
@@ -353,6 +385,7 @@ void claws_mail_python_init(void)
   initnode(cm_module);
   initcomposewindow(cm_module);
   initfolder(cm_module);
+  initmessageinfo(cm_module);
 
   /* initialize misc things */
   initmiscstuff(cm_module);
