@@ -48,11 +48,19 @@ PyMODINIT_FUNC initnode(PyObject *module)
       "            str.extend(child.get_str_list(level+1))\n"
       "        return str\n"
       "\n"
-      "    def traverse(self, callback):\n"
+      "    def traverse(self, callback, arg=None):\n"
       "        if self.data:\n"
-      "            callback(self.data)\n"
+      "            if arg is not None:\n"
+      "                callback(self.data, arg)\n"
+      "            else:\n"
+      "                callback(self.data)\n"
       "        for child in self.children:\n"
-      "            child.traverse(callback)\n"
+      "            child.traverse(callback, arg)\n"
+      "\n"
+      "    def flat_list(self):\n"
+      "        flat_list = []\n"
+      "        self.traverse(lambda data,list: list.append(data), flat_list)\n"
+      "        return flat_list\n"
       "\n";
 
   dict = PyModule_GetDict(module);

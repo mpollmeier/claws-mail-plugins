@@ -42,8 +42,8 @@ clawsmail.get_mainwindow_action_group().get_action("Message/SendQueue").activate
 
 ========================== 8< ===========================
 
-# Batch processing: Apply an action to all messages recursively starting from
-# the currently selected folder. 
+# Batch processing: Apply an action (here: marking as read) to all messages
+# recursively starting from the currently selected folder. 
 
 # Define the function to deal with individual folders
 def deal_with_folder(folder):
