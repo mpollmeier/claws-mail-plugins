@@ -65,8 +65,56 @@ static PyObject* MessageInfo_str(PyObject *self)
   return str;
 }
 
+static PyObject *py_boolean_return_value(gboolean val)
+{
+  if(val) {
+    Py_INCREF(Py_True);
+    return Py_True;
+  }
+  else {
+    Py_INCREF(Py_False);
+    return Py_False;
+  }
+}
+
+static PyObject *is_new(PyObject *self, PyObject *args)
+{
+  return py_boolean_return_value(MSG_IS_NEW(((clawsmail_MessageInfoObject*)self)->msginfo->flags));
+}
+
+static PyObject *is_unread(PyObject *self, PyObject *args)
+{
+  return py_boolean_return_value(MSG_IS_UNREAD(((clawsmail_MessageInfoObject*)self)->msginfo->flags));
+}
+
+static PyObject *is_marked(PyObject *self, PyObject *args)
+{
+  return py_boolean_return_value(MSG_IS_MARKED(((clawsmail_MessageInfoObject*)self)->msginfo->flags));
+}
+
+static PyObject *is_replied(PyObject *self, PyObject *args)
+{
+  return py_boolean_return_value(MSG_IS_REPLIED(((clawsmail_MessageInfoObject*)self)->msginfo->flags));
+}
+
+static PyObject *is_locked(PyObject *self, PyObject *args)
+{
+  return py_boolean_return_value(MSG_IS_LOCKED(((clawsmail_MessageInfoObject*)self)->msginfo->flags));
+}
+
+static PyObject *is_forwarded(PyObject *self, PyObject *args)
+{
+  return py_boolean_return_value(MSG_IS_FORWARDED(((clawsmail_MessageInfoObject*)self)->msginfo->flags));
+}
+
 static PyMethodDef MessageInfo_methods[] = {
-    {NULL}
+  {"is_new",  is_new, METH_NOARGS, "Returns true if the new flag is set."},
+  {"is_unread",  is_unread, METH_NOARGS, "Returns true if the unread flag is set."},
+  {"is_marked",  is_marked, METH_NOARGS, "Returns true if the marked flag is set."},
+  {"is_replied",  is_replied, METH_NOARGS, "Returns true if the replied flag is set."},
+  {"is_locked",  is_locked, METH_NOARGS, "Returns true if the locked flag is set."},
+  {"is_forwarded",  is_forwarded, METH_NOARGS, "Returns true if the forwarded flag is set."},
+  {NULL}
 };
 
 static PyMemberDef MessageInfo_members[] = {

@@ -1,3 +1,8 @@
+2009-09-04 [holger]	0.1cvs15
+
+	* src/messageinfotype.c
+		Add access to message flags
+
 2009-09-03 [holger]	0.1cvs14
 
 	* src/Makefile.am
