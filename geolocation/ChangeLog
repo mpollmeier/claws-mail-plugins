@@ -1,0 +1,28 @@
+2009-09-15 [holger]	0.0.1cvs2
+
+	* AUTHORS
+	* COPYING
+	* ChangeLog
+	* INSTALL
+	* Makefile.am
+	* NEWS
+	* README
+	* autogen.sh
+	* commitHelper
+	* configure.ac
+	* earth.svg
+	* config/Makefile.am
+	* config/config.rpath
+	* po/Makefile.in.in
+	* po/Makevars
+	* po/POTFILES.in
+	* po/remove-potcdate.sin
+	* src/Makefile.am
+	* src/geolocation_plugin.c
+	* src/gettext.h
+	* src/pixmap_earth.h
+		Initial import, moving from github
+
+2009-05-06 [holger]	0.0.1
+
+	* initial import
