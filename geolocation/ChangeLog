@@ -1,3 +1,11 @@
+2009-09-15 [holger]	0.0.1cvs4
+
+	* .cvsignore
+	* config/.cvsignore
+	* po/.cvsignore
+	* src/.cvsignore
+		More files to ignore
+
 2009-09-15 [holger]	0.0.1cvs3
 
 	* PATCHSETS
