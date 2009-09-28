@@ -32,6 +32,7 @@ struct _FancyPrefs
     gboolean block_links;
     gboolean enable_scripts;
     gboolean enable_plugins;
+    gboolean open_external;
 };
 
 extern FancyPrefs fancy_prefs;

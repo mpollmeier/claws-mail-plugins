@@ -66,6 +66,7 @@ static gint keypress_events_cb (GtkWidget *widget, GdkEventKey *event,
 static void zoom_in_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
+static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer);
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -423,6 +424,16 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
         }
         else {
             viewer->load_page = TRUE;
+        }
+    } else {
+        /* If we're not blocking, do we open with internal or external? */
+        if (fancy_prefs.open_external) {
+            if (viewer->load_page) {
+                open_in_browser_cb(NULL, viewer);
+                return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
+            } else {
+                viewer->load_page = TRUE;
+            }
         }
     }
 

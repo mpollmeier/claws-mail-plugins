@@ -1,3 +1,11 @@
+2009-09-28 [iwkse]	0.9.7cvs9
+
+	* src/fancy_prefs.h
+	* src/fancy_prefs.c
+	* src/fancy_viewer.c
+            Option to use by default external browser for links
+            patch by Marcel|HSD
+
 2009-08-10 [iwkse]	0.9.7cvs8
 
 	* src/fancy_viewer.c

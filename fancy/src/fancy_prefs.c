@@ -49,6 +49,7 @@ struct _FancyPrefsPage {
     GtkWidget *block_links;
     GtkWidget *enable_scripts;
     GtkWidget *enable_plugins;
+    GtkWidget *open_external;
 };
 
 static PrefParam param[] = {
@@ -59,6 +60,8 @@ static PrefParam param[] = {
         {"enable_scripts", "FALSE", &fancy_prefs.enable_scripts, P_BOOL, NULL, 
          NULL, NULL},
         {"enable_plugins", "FALSE", &fancy_prefs.enable_plugins, P_BOOL, NULL, 
+         NULL, NULL},
+        {"open_external", "FALSE", &fancy_prefs.open_external, P_BOOL, NULL, 
          NULL, NULL},
         {0,0,0,0}
 };
@@ -107,6 +110,7 @@ static void create_fancy_prefs_page(PrefsPage *page, GtkWindow *window,
     GtkWidget *checkbox2;
     GtkWidget *checkbox3;
     GtkWidget *checkbox4;
+    GtkWidget *checkbox5;
 
     vbox = gtk_vbox_new(FALSE, 3);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), VBOX_BORDER);
@@ -135,10 +139,18 @@ static void create_fancy_prefs_page(PrefsPage *page, GtkWindow *window,
                                  fancy_prefs.enable_plugins);
     gtk_box_pack_start(GTK_BOX(vbox), checkbox4, FALSE, FALSE, 0);
     gtk_widget_show(checkbox4);
+
+    checkbox5 = gtk_check_button_new_with_label(_("Open links with external browser"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox5),
+                                 fancy_prefs.open_external);
+    gtk_box_pack_start(GTK_BOX(vbox), checkbox5, FALSE, FALSE, 0);
+    gtk_widget_show(checkbox5);
+
     prefs_page->auto_load_images = checkbox1;
     prefs_page->block_links = checkbox2;
     prefs_page->enable_scripts = checkbox3;
     prefs_page->enable_plugins = checkbox4;
+    prefs_page->open_external = checkbox5;
     prefs_page->page.widget = vbox;
 }
 
@@ -162,6 +174,8 @@ static void save_fancy_prefs(PrefsPage *page)
                 (GTK_TOGGLE_BUTTON(prefs_page->enable_scripts));
         fancy_prefs.enable_plugins = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->enable_plugins));
+        fancy_prefs.open_external = gtk_toggle_button_get_active
+                (GTK_TOGGLE_BUTTON(prefs_page->open_external));
 
         pref_file = prefs_write_open(rc_file_path);
         g_free(rc_file_path);
