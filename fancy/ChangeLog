@@ -1,3 +1,8 @@
+2009-09-28 [iwkse]	0.9.7cvs10
+
+	* src/fancy_viewer.c
+            Added fancy_open_uri() to  handle http:// and mailto schemas
+
 2009-09-28 [iwkse]	0.9.7cvs9
 
 	* src/fancy_prefs.h

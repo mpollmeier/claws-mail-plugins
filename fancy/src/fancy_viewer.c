@@ -67,6 +67,7 @@ static void zoom_in_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer);
+static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external);
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -381,6 +382,29 @@ static void stop_loading_cb(GtkWidget *widget, GdkEvent *ev,
     gtk_widget_hide(viewer->ev_stop_loading);
 }
 
+static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external) {
+    if (viewer->load_page) {
+        /* handle mailto scheme */
+        if (!strncmp(viewer->cur_link,"mailto:", 7)) {
+            compose_new(NULL, viewer->cur_link + 7, NULL);
+            return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
+        }
+        /* If we're not blocking, do we open with internal or external? */
+        else if(external) {
+            open_in_browser_cb(NULL, viewer);
+            return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
+        }
+        else {
+            viewer->load_page = TRUE;
+            return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
+        }
+    } 
+    else {
+        viewer->load_page = TRUE;
+        return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
+    }
+}
+
 static WebKitNavigationResponse 
 navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame, 
                         WebKitNetworkRequest *netreq, FancyViewer *viewer)
@@ -422,22 +446,13 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
         if (viewer->load_page){
             return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
         }
-        else {
-            viewer->load_page = TRUE;
-        }
-    } else {
-        /* If we're not blocking, do we open with internal or external? */
-        if (fancy_prefs.open_external) {
-            if (viewer->load_page) {
-                open_in_browser_cb(NULL, viewer);
-                return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
-            } else {
-                viewer->load_page = TRUE;
-            }
-        }
+    } 
+    if (fancy_prefs.open_external) {
+        return fancy_open_uri(viewer, TRUE);
     }
-
-    return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
+    else {
+        return fancy_open_uri(viewer, FALSE);
+    }
 }
 static void search_the_web_cb(GtkWidget *widget, FancyViewer *viewer)
 {
