@@ -62,18 +62,35 @@ struct _FancyViewer
     WebKitWebView     *view;
     GtkWidget         *vbox;  
     GtkWidget         *l_link;
+    /* Zoom Widgets  */
     GtkWidget         *zoom_100;
-    GtkWidget         *zoom_in;
-    GtkWidget         *zoom_out;
-    GtkWidget         *stop_loading;
     GtkWidget         *ev_zoom_100;
+    GtkWidget         *zoom_in;
     GtkWidget         *ev_zoom_in;
+    GtkWidget         *zoom_out;
     GtkWidget         *ev_zoom_out;
+    GtkWidget         *stop_loading;
     GtkWidget         *ev_stop_loading;
+    /* Preferences Widgets  */
+    GtkWidget         *fancy_prefs;
+    GtkWidget         *ev_fancy_prefs;
+    GtkWidget         *fancy_prefs_menu;
+    /* Menu Items */
+    GtkWidget         *auto_load_images;
+    GtkWidget         *enable_scripts;
+    GtkWidget         *enable_plugins;
+    GtkWidget         *block_links;
+    GtkWidget         *open_external;
+
     GtkWidget         *progress;
     WebKitWebSettings *settings;    
     gboolean          load_page;
     gboolean          printing;
+    gboolean          override_prefs_images;
+    gboolean          override_prefs_block_links;
+    gboolean          override_prefs_scripts;
+    gboolean          override_prefs_plugins;
+    gboolean          override_prefs_external;
 
     gchar             *cur_link;
     gchar             *filename;

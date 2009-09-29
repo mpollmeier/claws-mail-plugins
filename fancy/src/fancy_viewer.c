@@ -65,9 +65,11 @@ static gint keypress_events_cb (GtkWidget *widget, GdkEventKey *event,
                                 FancyViewer *viewer);
 static void zoom_in_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
+static gboolean fancy_prefs_cb(GtkWidget *widget, GdkEventButton *ev, FancyViewer *viewer);
 static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer);
 static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external);
+static void fancy_create_popup_prefs_menu(FancyViewer *viewer);
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -286,6 +288,8 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     FancyViewer *viewer = (FancyViewer *) _viewer;
     GtkAdjustment *vadj;
     viewer->load_page = FALSE;    
+    viewer->override_prefs_block_links = FALSE;
+    viewer->override_prefs_external = FALSE;
     webkit_web_view_open(viewer->view, "about:blank");
     debug_print("fancy_clear_viewer\n");
     viewer->to_load = NULL;
@@ -304,11 +308,194 @@ static void fancy_destroy_viewer(MimeViewer *_viewer)
     g_free(viewer);
 }
 
+static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external) {
+    if (viewer->load_page) {
+        /* handle mailto scheme */
+        if (!strncmp(viewer->cur_link,"mailto:", 7)) {
+            compose_new(NULL, viewer->cur_link + 7, NULL);
+            return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
+        }
+        /* If we're not blocking, do we open with internal or external? */
+        else if(external) {
+            open_in_browser_cb(NULL, viewer);
+            return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
+        }
+        else {
+            viewer->load_page = TRUE;
+            return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
+        }
+    } 
+    else {
+        viewer->load_page = TRUE;
+        return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
+    }
+}
+
+static WebKitNavigationResponse 
+navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame, 
+                        WebKitNetworkRequest *netreq, FancyViewer *viewer)
+{
+    if (!fancy_prefs.auto_load_images && !viewer->override_prefs_images) {
+        g_object_set(viewer->settings, 
+                    "auto-load-images", FALSE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    else {
+        g_object_set(viewer->settings, 
+                    "auto-load-images", TRUE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+
+    if (!fancy_prefs.enable_scripts && !viewer->override_prefs_scripts) {
+        g_object_set(viewer->settings, 
+                    "enable-scripts", FALSE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    else {
+        g_object_set(viewer->settings, 
+                    "enable-scripts", TRUE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    
+    if (!fancy_prefs.enable_plugins && !viewer->override_prefs_plugins) {
+        g_object_set(viewer->settings, 
+                    "enable-plugins", FALSE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    else {
+        g_object_set(viewer->settings, 
+                    "enable-plugins", TRUE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    if (fancy_prefs.block_links && !viewer->override_prefs_block_links) {
+        if (viewer->load_page){
+            return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
+        }
+    } 
+    if (!fancy_prefs.open_external && !viewer->override_prefs_external) {
+        return fancy_open_uri(viewer, FALSE);
+    }
+    else {
+        return fancy_open_uri(viewer, TRUE);
+    }
+}
 static gboolean fancy_text_search(MimeViewer *_viewer, gboolean backward, 
                                      const gchar *str, gboolean case_sens)
 {
     return webkit_web_view_search_text(((FancyViewer*)_viewer)->view, str,
                                          case_sens, !backward, TRUE);
+}
+
+static void fancy_auto_load_images_activated(GtkMenuItem *item, FancyViewer *viewer) {
+    viewer->load_page = FALSE;
+    viewer->override_prefs_images = TRUE;
+    webkit_web_view_reload (viewer->view);
+    viewer->override_prefs_images = FALSE;
+}
+static void fancy_block_links_activated(GtkMenuItem *item, FancyViewer *viewer) {
+    viewer->override_prefs_block_links = TRUE;
+}
+static void fancy_enable_scripts_activated(GtkMenuItem *item, FancyViewer *viewer) {
+    viewer->load_page = FALSE;
+    viewer->override_prefs_scripts = TRUE;
+    webkit_web_view_reload (viewer->view);
+    viewer->override_prefs_scripts = FALSE;
+}
+static void fancy_enable_plugins_activated(GtkMenuItem *item, FancyViewer *viewer) {
+    viewer->load_page = FALSE;
+    viewer->override_prefs_plugins = TRUE;
+    webkit_web_view_reload (viewer->view);
+    viewer->override_prefs_plugins = FALSE;
+}
+static void fancy_open_external_activated(GtkMenuItem *item, FancyViewer *viewer) {
+    viewer->override_prefs_external = TRUE;
+
+}
+
+static gboolean fancy_prefs_cb(GtkWidget *widget, GdkEventButton *ev, FancyViewer *viewer)
+{
+    if ((ev->button == 1) && (ev->type == GDK_BUTTON_PRESS)) {
+        /* Set sensitivity according to preferences */
+        if (fancy_prefs.auto_load_images)
+            gtk_widget_set_sensitive(viewer->auto_load_images, FALSE);
+        else
+            gtk_widget_set_sensitive(viewer->auto_load_images, TRUE);
+        if (fancy_prefs.enable_scripts)
+            gtk_widget_set_sensitive(viewer->enable_scripts, FALSE);
+        else
+            gtk_widget_set_sensitive(viewer->enable_scripts, TRUE);
+        if (fancy_prefs.enable_plugins)
+            gtk_widget_set_sensitive(viewer->enable_plugins, FALSE);
+        else
+            gtk_widget_set_sensitive(viewer->enable_plugins, TRUE);
+        if (fancy_prefs.block_links)
+            gtk_widget_set_sensitive(viewer->block_links, TRUE);
+        else
+            gtk_widget_set_sensitive(viewer->block_links, FALSE);
+        if (fancy_prefs.open_external)
+            gtk_widget_set_sensitive(viewer->open_external, FALSE);
+        else
+            gtk_widget_set_sensitive(viewer->open_external, TRUE);
+
+        gtk_menu_popup(GTK_MENU(viewer->fancy_prefs_menu), NULL, NULL, NULL, NULL,
+                       ev->button, ev->time);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static void fancy_create_popup_prefs_menu(FancyViewer *viewer) {
+    GtkWidget *auto_load_images;
+    GtkWidget *item_image, *item_image2, *item_image3, *item_image4, *item_image5;
+    GtkWidget *block_links;
+    GtkWidget *enable_scripts;
+    GtkWidget *enable_plugins;
+    GtkWidget *open_external;
+
+    auto_load_images = gtk_image_menu_item_new_with_label(_("Load images"));
+    item_image = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(auto_load_images), item_image);
+
+    block_links = gtk_image_menu_item_new_with_label(_("Unblock links"));
+    item_image2 = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(block_links), item_image2);
+
+    enable_scripts = gtk_image_menu_item_new_with_label(_("Enable Javascript"));
+    item_image3 = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(enable_scripts), item_image3);
+    enable_plugins = gtk_image_menu_item_new_with_label(_("Enable Plugins"));
+    item_image4 = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(enable_plugins), item_image4);
+    open_external = gtk_image_menu_item_new_with_label(_("Open links with external browser"));
+    item_image5 = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(open_external), item_image5);
+
+    g_signal_connect(G_OBJECT(auto_load_images), "activate",
+                     G_CALLBACK (fancy_auto_load_images_activated), viewer);
+    g_signal_connect(G_OBJECT(block_links), "activate",
+                     G_CALLBACK (fancy_block_links_activated), viewer);
+    g_signal_connect(G_OBJECT(enable_scripts), "activate",
+                     G_CALLBACK (fancy_enable_scripts_activated), viewer);
+    g_signal_connect(G_OBJECT(enable_plugins), "activate",
+                     G_CALLBACK (fancy_enable_plugins_activated), viewer);
+    g_signal_connect(G_OBJECT(open_external), "activate",
+                     G_CALLBACK (fancy_open_external_activated), viewer);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), auto_load_images);
+    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), block_links);
+    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), enable_scripts);
+    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), enable_plugins);
+    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), open_external);
+
+    gtk_menu_attach_to_widget(GTK_MENU(viewer->fancy_prefs_menu), viewer->ev_fancy_prefs, NULL);
+    gtk_widget_show_all(viewer->fancy_prefs_menu);
+
+    viewer->auto_load_images = auto_load_images;
+    viewer->enable_scripts = enable_scripts;
+    viewer->enable_plugins = enable_plugins;
+    viewer->block_links = block_links;
+    viewer->open_external = open_external;
+
 }
 
 static gboolean fancy_scroll_page(MimeViewer *_viewer, gboolean up)
@@ -382,78 +569,6 @@ static void stop_loading_cb(GtkWidget *widget, GdkEvent *ev,
     gtk_widget_hide(viewer->ev_stop_loading);
 }
 
-static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external) {
-    if (viewer->load_page) {
-        /* handle mailto scheme */
-        if (!strncmp(viewer->cur_link,"mailto:", 7)) {
-            compose_new(NULL, viewer->cur_link + 7, NULL);
-            return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
-        }
-        /* If we're not blocking, do we open with internal or external? */
-        else if(external) {
-            open_in_browser_cb(NULL, viewer);
-            return WEBKIT_NAVIGATION_RESPONSE_IGNORE;
-        }
-        else {
-            viewer->load_page = TRUE;
-            return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
-        }
-    } 
-    else {
-        viewer->load_page = TRUE;
-        return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
-    }
-}
-
-static WebKitNavigationResponse 
-navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame, 
-                        WebKitNetworkRequest *netreq, FancyViewer *viewer)
-{
-    if (!fancy_prefs.auto_load_images) {
-        g_object_set(viewer->settings, 
-                    "auto-load-images", FALSE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    else {
-        g_object_set(viewer->settings, 
-                    "auto-load-images", TRUE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-
-    if (!fancy_prefs.enable_scripts) {
-        g_object_set(viewer->settings, 
-                    "enable-scripts", FALSE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    else {
-        g_object_set(viewer->settings, 
-                    "enable-scripts", TRUE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    
-    if (!fancy_prefs.enable_plugins) {
-        g_object_set(viewer->settings, 
-                    "enable-plugins", FALSE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    else {
-        g_object_set(viewer->settings, 
-                    "enable-plugins", TRUE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-
-    if (fancy_prefs.block_links) {
-        if (viewer->load_page){
-            return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
-        }
-    } 
-    if (fancy_prefs.open_external) {
-        return fancy_open_uri(viewer, TRUE);
-    }
-    else {
-        return fancy_open_uri(viewer, FALSE);
-    }
-}
 static void search_the_web_cb(GtkWidget *widget, FancyViewer *viewer)
 {
     debug_print("Clicked on Search on Web\n");
@@ -657,6 +772,7 @@ static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer)
     webkit_web_view_zoom_out(viewer->view);
 }
 
+
 static MimeViewer *fancy_viewer_create(void)
 {
     FancyViewer    *viewer;
@@ -697,7 +813,7 @@ static MimeViewer *fancy_viewer_create(void)
     viewer->vbox = gtk_vbox_new(FALSE, 0);
     hbox = gtk_hbox_new(FALSE, 0);
     viewer->progress = gtk_progress_bar_new();
-    
+    /* Zoom Widgets */
     viewer->zoom_100 = gtk_image_new_from_stock(GTK_STOCK_ZOOM_100, 
                                                 GTK_ICON_SIZE_MENU);
     viewer->zoom_in = gtk_image_new_from_stock(GTK_STOCK_ZOOM_IN, 
@@ -706,33 +822,40 @@ static MimeViewer *fancy_viewer_create(void)
                                                 GTK_ICON_SIZE_MENU);
     viewer->stop_loading = gtk_image_new_from_stock(GTK_STOCK_CANCEL, 
                                                     GTK_ICON_SIZE_MENU);
-
-    viewer->l_link = gtk_label_new("");
-
+    /* Event Widgets for the Zoom Widgets  */
     viewer->ev_zoom_100 = gtk_event_box_new();
     viewer->ev_zoom_in = gtk_event_box_new();
     viewer->ev_zoom_out = gtk_event_box_new();
     viewer->ev_stop_loading = gtk_event_box_new();
+    
+    /* Link Label */
+    viewer->l_link = gtk_label_new("");
 
+    /* Preferences Widgets to override preferences on the fly  */
+    viewer->fancy_prefs = gtk_image_new_from_stock(GTK_STOCK_PREFERENCES,
+                                                   GTK_ICON_SIZE_MENU);
+    viewer->ev_fancy_prefs = gtk_event_box_new();
 
-    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_100), 
-                                     FALSE);
-    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_in), 
-                                     FALSE);
-    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_out), 
-                                     FALSE);
-    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_stop_loading), 
-                                     FALSE);
+    /* Popup Menu for preferences  */
+    viewer->fancy_prefs_menu = gtk_menu_new();
+    fancy_create_popup_prefs_menu(viewer);
+
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_100), FALSE);
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_in), FALSE);
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_zoom_out), FALSE);
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_fancy_prefs), FALSE);
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(viewer->ev_stop_loading), FALSE);
 
     gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_100), viewer->zoom_100);
     gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_in), viewer->zoom_in);
     gtk_container_add(GTK_CONTAINER(viewer->ev_zoom_out), viewer->zoom_out);
-    gtk_container_add(GTK_CONTAINER(viewer->ev_stop_loading), 
-                                    viewer->stop_loading);
+    gtk_container_add(GTK_CONTAINER(viewer->ev_fancy_prefs), viewer->fancy_prefs);
+    gtk_container_add(GTK_CONTAINER(viewer->ev_stop_loading), viewer->stop_loading);
 
     gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_zoom_100, FALSE, FALSE, 1);
     gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_zoom_in, FALSE, FALSE, 2);
     gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_zoom_out, FALSE, FALSE, 2);
+    gtk_box_pack_start(GTK_BOX(hbox), viewer->ev_fancy_prefs, FALSE, FALSE, 2);
     gtk_box_pack_start(GTK_BOX(hbox), viewer->l_link, FALSE, FALSE, 8);
     gtk_box_pack_end(GTK_BOX(hbox), viewer->progress, FALSE, FALSE, 0);
     gtk_box_pack_end(GTK_BOX(hbox), viewer->ev_stop_loading, FALSE, FALSE, 0);
@@ -744,11 +867,13 @@ static MimeViewer *fancy_viewer_create(void)
     gtk_widget_show(viewer->ev_zoom_100);
     gtk_widget_show(viewer->ev_zoom_in);
     gtk_widget_show(viewer->ev_zoom_out);
+    gtk_widget_show(viewer->ev_fancy_prefs);
 
     gtk_widget_show(viewer->scrollwin);
     gtk_widget_show(viewer->zoom_100);
     gtk_widget_show(viewer->zoom_in);
     gtk_widget_show(viewer->zoom_out);
+    gtk_widget_show(viewer->fancy_prefs);
     gtk_widget_show(viewer->stop_loading);
 
     gtk_widget_show(viewer->l_link);
@@ -778,6 +903,8 @@ static MimeViewer *fancy_viewer_create(void)
                      G_CALLBACK(zoom_in_cb), (gpointer *)viewer);
     g_signal_connect(G_OBJECT(viewer->ev_zoom_out), "button-press-event",
                      G_CALLBACK(zoom_out_cb), (gpointer *)viewer);
+    g_signal_connect(G_OBJECT(viewer->ev_fancy_prefs), "button-press-event",
+                     G_CALLBACK(fancy_prefs_cb), (gpointer *)viewer);
     g_signal_connect(G_OBJECT(viewer->ev_stop_loading), "button-press-event",
                      G_CALLBACK(stop_loading_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "key_press_event",

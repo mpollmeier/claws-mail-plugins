@@ -1,3 +1,9 @@
+2009-09-29 [iwkse]	0.9.7cvs11
+
+	* src/fancy_viewer.h
+	* src/fancy_viewer.c
+            Added a menu for override preferences
+
 2009-09-28 [iwkse]	0.9.7cvs10
 
 	* src/fancy_viewer.c
