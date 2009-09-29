@@ -682,9 +682,11 @@ static XS(XS_ClawsMail_get_next_header)
   }
   if(procheader_get_one_field(buf, sizeof(buf), message_file, NULL) != -1) {
     header = procheader_parse_header(buf);
-    XST_mPV(0,header->name);
-    XST_mPV(1,header->body);
-    procheader_header_free(header);
+    if(header) {
+      XST_mPV(0,header->name);
+      XST_mPV(1,header->body);
+      procheader_header_free(header);
+    }
     XSRETURN(2);
   }
   else
