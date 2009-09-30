@@ -622,7 +622,7 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                                 "Search the Web")) {
             gtk_label_set_text(GTK_LABEL(menul), _("Search the Web"));
                 
-            if (!fancy_prefs.block_links) {
+            if (fancy_prefs.block_links) {
                 gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
             } else {
                 GtkImageMenuItem *m_search = GTK_IMAGE_MENU_ITEM(menuitem);
