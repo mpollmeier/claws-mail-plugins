@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail Fancy plugin\n"
+"Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
+"POT-Creation-Date: 2009-10-06 11:11+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Colin Leroy <colin@colino.net>\n"
+"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+
+#: src/fancy_viewer.c:165
+#, c-format
+msgid ""
+"Printing failed:\n"
+" %s"
+msgstr ""
+"L'impression a échoué :\n"
+" %s"
+
+#: src/fancy_viewer.c:193
+msgid "Printing HTML is only possible if the program 'html2ps' is installed."
+msgstr "L'impression du HTML n'est possible que si le programme 'html2ps' est installé."
+
+#: src/fancy_viewer.c:198
+msgid "Filename is null."
+msgstr "Le nom du fichier est vide."
+
+#: src/fancy_viewer.c:214
+msgid "Conversion to postscript failed."
+msgstr "Échec de la conversion postscript."
+
+#: src/fancy_viewer.c:221
+msgid "Print"
+msgstr "Imprimer"
+
+#: src/fancy_viewer.c:242
+#, c-format
+msgid "Printer %s doesn't accept PostScript files."
+msgstr "L'imprimante %s n'accepte pas les fichiers PostScript."
+
+#: src/fancy_viewer.c:256
+#, c-format
+msgid ""
+"Printing failed:\n"
+"%s"
+msgstr ""
+"L'impression a échoué :\n"
+"%s"
+
+#: src/fancy_viewer.c:455
+msgid "Load images"
+msgstr "Charger les images"
+
+#: src/fancy_viewer.c:459
+msgid "Unblock links"
+msgstr "Débloquer les liens"
+
+#: src/fancy_viewer.c:463
+#: src/fancy_prefs.c:131
+msgid "Enable Javascript"
+msgstr "Activer Javascript"
+
+#: src/fancy_viewer.c:466
+#: src/fancy_prefs.c:137
+msgid "Enable Plugins"
+msgstr "Activer les modules"
+
+#: src/fancy_viewer.c:469
+#: src/fancy_prefs.c:143
+msgid "Open links with external browser"
+msgstr "Ouvrir les liens avec le navigateur"
+
+#: src/fancy_viewer.c:623
+msgid "Search the Web"
+msgstr "Chercher sur le web"
+
+#: src/fancy_viewer.c:638
+msgid "Open in Browser"
+msgstr "Ouvrir dans le navigateur"
+
+#: src/fancy_viewer.c:648
+#: src/fancy_viewer.c:681
+msgid "Open Image"
+msgstr "Ouvrir l'image"
+
+#: src/fancy_viewer.c:657
+msgid "Copy Link"
+msgstr "Copier le lien"
+
+#: src/fancy_viewer.c:670
+msgid "Download Link"
+msgstr "Enregistrer le lien"
+
+#: src/fancy_viewer.c:693
+msgid "Save Image As"
+msgstr "Enregistrer l'image"
+
+#: src/fancy_viewer.c:704
+msgid "Copy Image"
+msgstr "Copier l'image"
+
+#: src/fancy_viewer.c:934
+msgid "Fancy"
+msgstr "Fancy"
+
+#: src/fancy_viewer.c:955
+msgid "Fancy HTML Viewer"
+msgstr "Visualiseur HTML Fancy"
+
+#: src/fancy_prefs.c:81
+msgid "Plugins"
+msgstr "Modules"
+
+#: src/fancy_prefs.c:119
+msgid "Auto-Load images"
+msgstr "Charger les images automatiquement"
+
+#: src/fancy_prefs.c:125
+msgid "Block external links"
+msgstr "Bloquer les liens externes"
+
