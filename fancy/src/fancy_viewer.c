@@ -372,12 +372,15 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
             return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
         }
     } 
-    if (!fancy_prefs.open_external && !viewer->override_prefs_external) {
-        return fancy_open_uri(viewer, FALSE);
+    if (viewer->cur_link) {
+        if (!fancy_prefs.open_external && !viewer->override_prefs_external) {
+            return fancy_open_uri(viewer, FALSE);
+        }
+        else {
+            return fancy_open_uri(viewer, TRUE);
+        }
     }
-    else {
-        return fancy_open_uri(viewer, TRUE);
-    }
+    return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
 }
 static gboolean fancy_text_search(MimeViewer *_viewer, gboolean backward, 
                                      const gchar *str, gboolean case_sens)
@@ -625,6 +628,7 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
             if (fancy_prefs.block_links) {
                 gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
             } else {
+                viewer->cur_link = NULL;
                 GtkImageMenuItem *m_search = GTK_IMAGE_MENU_ITEM(menuitem);
                 g_signal_connect(G_OBJECT(m_search), "activate",
                                  G_CALLBACK(search_the_web_cb),

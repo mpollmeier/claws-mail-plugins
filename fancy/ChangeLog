@@ -1,7 +1,11 @@
-2009-10-06 [colin]	0.9.7cvs13
+2009-10-09 [paul]	0.9.8
 
-	* po/fr.po
-		Add french translation
+	0.9.8 released.
+
+2009-10-07 [iwkse]	0.9.7cvs13
+
+	* src/fancy_viewer.c
+		Fix bug with popup menu and actions
 
 2009-09-30 [iwkse]	0.9.7cvs12
 

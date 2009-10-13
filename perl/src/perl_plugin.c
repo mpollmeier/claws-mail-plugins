@@ -687,6 +687,10 @@ static XS(XS_ClawsMail_get_next_header)
       XST_mPV(1,header->body);
       procheader_header_free(header);
     }
+    else {
+      XST_mPV(0,"");
+      XST_mPV(1,"");
+    }
     XSRETURN(2);
   }
   else
