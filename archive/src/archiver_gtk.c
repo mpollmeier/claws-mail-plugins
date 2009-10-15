@@ -1069,7 +1069,7 @@ void archiver_gtk_show() {
 
 #if NEW_ARCHIVE_API
 	compress_radio_btn = gtk_radio_button_new_with_mnemonic_from_widget(
-					GTK_RADIO_BUTTON(zip_radio_btn), "C_ompress");
+					GTK_RADIO_BUTTON(zip_radio_btn), "Com_press");
 	gtk_widget_set_name(compress_radio_btn, "COMPRESS");
 	gtk_box_pack_start(GTK_BOX(hbox1), compress_radio_btn, FALSE, FALSE, 0);
 	CLAWS_SET_TIP(compress_radio_btn,

@@ -53,3 +53,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/es.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fr.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/hu.po;  diff -u /dev/null po/id.po;  diff -u /dev/null po/it.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ja.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ru.po;  ) > 0.6.4cvs5.patchset
 ( cvs diff -u -r 1.1.2.63 -r 1.1.2.64 configure.ac;  ) > 0.6.4cvs6.patchset
 ( cvs diff -u -r 1.1.2.65 -r 1.1.2.66 configure.ac;  ) > 0.6.5cvs1.patchset
+( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/archiver_gtk.c;  ) > 0.6.5cvs2.patchset
