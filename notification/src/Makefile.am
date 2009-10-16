@@ -1,3 +1,12 @@
+if BUILD_HOTKEYS
+hotkey_lib = libcmnpgtkhotkey.la
+hotkey_lib_path = $(top_builddir)/gtkhotkey/libcmnpgtkhotkey.la
+else
+hotkey_lib =
+hotkey_lib_path =
+endif
+
+
 EXTRA_DIST = claws.def plugin.def version.rc
 CFLAGS += "-Wall"
 
@@ -15,7 +24,7 @@ plugin_res_ldflag = -Wl,.libs/version.o
 
 export_symbols = -export-symbols $(srcdir)/plugin.def
 
-plugin_deps = libclaws.a $(plugin_res) plugin.def
+plugin_deps = libclaws.a $(plugin_res) plugin.def $(hotkey_lib) 
 
 libclaws.a: claws.def
 	$(DLLTOOL) --output-lib $@ --def $<
@@ -64,12 +73,17 @@ notification_plugin_la_LDFLAGS = \
 	$(plugin_res_ldflag) $(no_undefined) $(export_symbols) \
 	-avoid-version -module
 
-notification_plugin_la_DEPENDENCIES = $(plugin_deps)
+notification_plugin_la_DEPENDENCIES = $(plugin_deps) \
+	$(hotkey_lib_path)
+
+INCLUDES = \
+	-I$(top_srcdir)/gtkhotkey
 
 notification_plugin_la_LIBADD = $(plugin_ldadd) $(cygwin_export_lib) \
         $(GTK_LIBS)  \
 	$(libnotify_LIBS) \
-	$(libcanberra_gtk_LIBS)
+	$(libcanberra_gtk_LIBS) \
+	$(hotkey_lib_path)
 
 notification_plugin_la_CPPFLAGS = \
 	$(NOTIFY_CFLAGS) \

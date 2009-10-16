@@ -1,3 +1,41 @@
+2009-10-16 [holger]	0.23cvs1
+
+	* Makefile.am
+	* configure.ac
+	* gtkhotkey/.cvsignore
+	* gtkhotkey/Makefile.am
+	* gtkhotkey/gtk-hotkey-error.c
+	* gtkhotkey/gtk-hotkey-error.h
+	* gtkhotkey/gtk-hotkey-info.c
+	* gtkhotkey/gtk-hotkey-info.h
+	* gtkhotkey/gtk-hotkey-key-file-registry.c
+	* gtkhotkey/gtk-hotkey-key-file-registry.h
+	* gtkhotkey/gtk-hotkey-listener.c
+	* gtkhotkey/gtk-hotkey-listener.h
+	* gtkhotkey/gtk-hotkey-marshal.c
+	* gtkhotkey/gtk-hotkey-marshal.h
+	* gtkhotkey/gtk-hotkey-registry.c
+	* gtkhotkey/gtk-hotkey-registry.h
+	* gtkhotkey/gtk-hotkey-utils.c
+	* gtkhotkey/gtk-hotkey-utils.h
+	* gtkhotkey/gtk-hotkey-x11-listener.c
+	* gtkhotkey/gtk-hotkey-x11-listener.h
+	* gtkhotkey/gtkhotkey.h
+	* gtkhotkey/x11/.cvsignore
+	* gtkhotkey/x11/eggaccelerators.c
+	* gtkhotkey/x11/eggaccelerators.h
+	* gtkhotkey/x11/tomboykeybinder.c
+	* gtkhotkey/x11/tomboykeybinder.h
+	* src/Makefile.am
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+		Add support for global hotkeys to the trayicon
+		module. Ships a local copy of libgtkhotkey.
+		The hotkey support can be disabled at compile
+		time with the new --disable-hotkeys configure switch.
+
 2009-10-09 [paul]	0.23
 
 	0.23 released

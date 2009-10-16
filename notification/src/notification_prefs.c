@@ -148,6 +148,9 @@ typedef struct {
 	GtkWidget *trayicon_popup_cont_enable;
 	GtkWidget *trayicon_popup_timeout;
 #endif
+#ifdef NOTIFICATION_HOTKEYS
+	GtkWidget *trayicon_hotkey_toggle;
+#endif
 }NotifyTrayiconPage;
 NotifyTrayiconPage trayicon_page;
 #endif
@@ -271,6 +274,10 @@ PrefParam
 				{	"trayicon_popup_timeout", "5000", &notify_config.trayicon_popup_timeout,
 					P_INT, NULL, NULL, NULL},
 #endif /* HAVE_LIBNOTIFY */
+#ifdef NOTIFICATION_HOTKEYS
+				{	"trayicon_hotkey_toggle", "", &notify_config.trayicon_hotkey_toggle,
+					P_STRING, NULL, NULL, NULL},
+#endif
 #endif
 
 				{ NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL } };
@@ -1258,7 +1265,7 @@ static void notify_save_command(PrefsPage *page)
 
 	tmp_str = gtk_entry_get_text(GTK_ENTRY(command_page.command_line));
 	if(notify_config.command_line)
-	g_free(notify_config.command_line);
+      g_free(notify_config.command_line);
 	notify_config.command_line = g_strdup(tmp_str);
 }
 
@@ -1395,6 +1402,11 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 	gdouble timeout;
 #endif
 
+#ifdef NOTIFICATION_HOTKEYS
+    GtkWidget *entry;
+    gchar *markup;
+#endif
+
 	pvbox = gtk_vbox_new(FALSE, 20);
 	gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
 
@@ -1523,6 +1535,36 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 
 #endif
 
+#ifdef NOTIFICATION_HOTKEYS
+	frame = gtk_frame_new(_("Global hotkeys"));
+	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
+
+	/* vbox for frame */
+	svbox = gtk_vbox_new(FALSE, 10);
+	gtk_container_set_border_width(GTK_CONTAINER(svbox), 5);
+	gtk_container_add(GTK_CONTAINER(frame), svbox);
+
+	/* general description */
+	label = gtk_label_new("aa");
+	markup = g_markup_printf_escaped ("Examples for hotkeys include <b>%s</b> and <b>%s</b>", "<control><shift>F11", "<alt>N");
+	gtk_label_set_markup(GTK_LABEL(label), markup);
+	gtk_misc_set_alignment(GTK_MISC(label), 0., 0.);
+	g_free(markup);
+	gtk_widget_show(label);
+	gtk_box_pack_start(GTK_BOX(svbox), label, FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new(FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(svbox), hbox, FALSE, FALSE, 0);
+    label = gtk_label_new(_("Toggle minimize to tray:"));
+    gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	entry = gtk_entry_new();
+    if(notify_config.trayicon_hotkey_toggle)
+      gtk_entry_set_text(GTK_ENTRY(entry), notify_config.trayicon_hotkey_toggle);
+    trayicon_page.trayicon_hotkey_toggle = entry;
+    gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
+    gtk_widget_show_all(frame);
+#endif /* hotkeys */
+
 	notify_trayicon_enable_set_sensitivity
 	(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_enabled), NULL);
 
@@ -1546,6 +1588,9 @@ static void notify_save_trayicon(PrefsPage *page)
 {
 #ifdef HAVE_LIBNOTIFY
 	gdouble timeout;
+#endif
+#ifdef NOTIFICATION_HOTKEYS
+    const gchar *tmp_str;
 #endif
 
 	notify_config.trayicon_enabled =
@@ -1576,6 +1621,15 @@ static void notify_save_trayicon(PrefsPage *page)
 
 	notify_config.trayicon_display_folder_name =
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_display_folder_name));
+#endif
+
+#ifdef NOTIFICATION_HOTKEYS
+    tmp_str = gtk_entry_get_text(GTK_ENTRY(trayicon_page.trayicon_hotkey_toggle));
+	if(notify_config.trayicon_hotkey_toggle)
+      g_free(notify_config.trayicon_hotkey_toggle);
+	notify_config.trayicon_hotkey_toggle = g_strdup(tmp_str);
+
+    notification_trayicon_update_hotkey_bindings();
 #endif
 
 	notify_config.trayicon_folder_specific =

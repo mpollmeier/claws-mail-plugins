@@ -34,11 +34,10 @@
 #include "mainwindow.h"
 #include "prefs_common.h"
 #include "alertpanel.h"
-#include "menu.h"
+#include "gtk/menu.h"
 #include "addrindex.h"
 #include "gtk/manage_window.h"
 #include "common/utils.h"
-
 
 static GdkPixbuf* notification_trayicon_create(void);
 
@@ -110,6 +109,103 @@ static GtkToggleActionEntry trayicon_popup_toggle_menu_entries[] =
 	{"SysTrayiconPopup/ShowBubbles", NULL, N_("Show Trayicon Notifications"), NULL, NULL, G_CALLBACK(trayicon_toggle_notify_cb) },
 #endif
 };
+
+/* Hide/show main window */
+static void toggle_hide_show_window()
+{
+  MainWindow *mainwin;
+  if((mainwin = mainwindow_get_mainwindow()) == NULL)
+    return;
+
+  if(GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))) {
+    if((gdk_window_get_state(GTK_WIDGET(mainwin->window)->window)&GDK_WINDOW_STATE_ICONIFIED)
+       || mainwindow_is_obscured()) {
+      notification_show_mainwindow(mainwin);
+    }
+    else {
+      main_window_hide(mainwin);
+    }
+  }
+  else {
+    notification_show_mainwindow(mainwin);
+  }
+}
+
+#ifdef NOTIFICATION_HOTKEYS
+
+#include "gtkhotkey.h"
+
+#define HOTKEYS_APP_ID "claws-mail"
+#define HOTKEY_KEY_ID_TOGGLED "trayicon-toggle"
+
+static GtkHotkeyInfo *hotkey_toggle = NULL;
+
+static void hotkey_toggle_activated(GtkHotkeyInfo *hotkey, guint event_time, gpointer data)
+{
+  g_return_if_fail(GTK_HOTKEY_IS_INFO(hotkey));
+  debug_print("Notification plugin: Toggled hide/show window due to hotkey %s activation\n", gtk_hotkey_info_get_signature(hotkey));
+  toggle_hide_show_window();
+}
+
+static void update_hotkey_binding_toggle()
+{
+  GError *error;
+  GtkHotkeyRegistry *registry;
+
+  /* don't do anything if no signature is given */
+  if(!notify_config.trayicon_hotkey_toggle || !strcmp(notify_config.trayicon_hotkey_toggle, ""))
+    return;
+
+  /* clean up old hotkey */
+  if(hotkey_toggle) {
+    if(gtk_hotkey_info_is_bound(hotkey_toggle)) {
+      error = NULL;
+      gtk_hotkey_info_unbind(hotkey_toggle, &error);
+      if(error) {
+        debug_print("Notification plugin: Failed to unbind toggle hotkey\n");
+        g_error_free(error);
+        return;
+      }
+    }
+    g_object_unref(hotkey_toggle);
+    hotkey_toggle = NULL;
+  }
+  registry = gtk_hotkey_registry_get_default();
+  if(gtk_hotkey_registry_has_hotkey(registry, HOTKEYS_APP_ID, HOTKEY_KEY_ID_TOGGLED)) {
+    error = NULL;
+    gtk_hotkey_registry_delete_hotkey(registry, HOTKEYS_APP_ID, HOTKEY_KEY_ID_TOGGLED, &error);
+    if(error) {
+      debug_print("Notification plugin: Failed to unregister toggle hotkey: %s\n", error->message);
+      g_error_free(error);
+      return;
+    }
+  }
+
+  /* (re)create hotkey info */
+  hotkey_toggle = gtk_hotkey_info_new(HOTKEYS_APP_ID, HOTKEY_KEY_ID_TOGGLED, notify_config.trayicon_hotkey_toggle, NULL);
+  if(!hotkey_toggle) {
+    debug_print("Notification plugin: Failed to create toggle hotkey for '%s'\n", notify_config.trayicon_hotkey_toggle);
+    return;
+  }
+
+  /* try to register hotkey */
+  error = NULL;
+  gtk_hotkey_info_bind(hotkey_toggle, &error);
+  if(error) {
+    debug_print("Notification plugin: Failed to bind toggle hotkey to '%s': %s\n", notify_config.trayicon_hotkey_toggle, error->message);
+    g_error_free(error);
+    return;
+  }
+
+  g_signal_connect(hotkey_toggle, "activated", G_CALLBACK(hotkey_toggle_activated), NULL);
+}
+
+void notification_trayicon_update_hotkey_bindings()
+{
+  debug_print("Notification plugin: Updating keybindings..\n");
+  update_hotkey_binding_toggle();
+}
+#endif
 
 
 void notification_trayicon_msg(MsgInfo *msginfo)
@@ -236,6 +332,11 @@ void notification_update_trayicon()
   notification_core_get_msg_count(list, &count);
 
   if(!trayicon) {
+
+#ifdef NOTIFICATION_HOTKEYS
+    notification_trayicon_update_hotkey_bindings();
+#endif
+
     old_icon = notification_trayicon_create();
     if(!trayicon) {
       debug_print("Notification plugin: Could not create trayicon\n");
@@ -395,26 +496,10 @@ static GdkPixbuf* notification_trayicon_create(void)
   return trayicon_nomail;
 }
 
-/* Hide/show main window */
 void notification_trayicon_on_activate(GtkStatusIcon *status_icon,
 																			 gpointer user_data)
 {
-  MainWindow *mainwin;
-  if((mainwin = mainwindow_get_mainwindow()) == NULL)
-    return;
-
-  if(GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))) {
-    if((gdk_window_get_state(GTK_WIDGET(mainwin->window)->window)&GDK_WINDOW_STATE_ICONIFIED)
-       || mainwindow_is_obscured()) {
-      notification_show_mainwindow(mainwin);
-    }
-    else {
-      main_window_hide(mainwin);
-    }
-  }
-  else {
-    notification_show_mainwindow(mainwin);
-  }
+  toggle_hide_show_window();
 }
 
 static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,

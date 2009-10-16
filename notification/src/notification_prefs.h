@@ -97,6 +97,9 @@ typedef struct {
   gboolean         trayicon_popup_enabled;
   gint             trayicon_popup_timeout;
 #endif /* HAVE_LIBNOTIFY */
+#ifdef NOTIFICATION_HOTKEYS
+  gchar*           trayicon_hotkey_toggle;
+#endif /* Hotkeys */
 #endif /* Trayicon */
 } NotifyPrefs;
 

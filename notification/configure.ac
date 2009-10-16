@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=23
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -265,6 +265,20 @@ if test x"$enable_lcdproc" = xyes; then
 fi
 AC_MSG_RESULT($enable_lcdproc)
 
+dnl global hotkeys
+AC_ARG_ENABLE(hotkeys,
+	[  --disable-hotkeys       do not include support for global hotkeys],
+ 	[enable_hotkeys=$enableval], [enable_hotkeys=yes])
+AC_MSG_CHECKING([whether to include support for global hotkeys])
+AC_MSG_RESULT($enable_hotkeys)
+if test x"$enable_hotkeys" = xyes; then
+  AC_DEFINE(NOTIFICATION_HOTKEYS, 1, Activate support for global hotkeys)
+  PKG_CHECK_MODULES(CM_NP_HOTKEY, [gio-2.0 >= 2.15.6 gio-unix-2.0 >= 2.15.6])
+fi
+AC_SUBST(CM_NP_HOTKEY_CFLAGS)
+AC_SUBST(CM_NP_HOTKEY_LIBS)
+AM_CONDITIONAL(BUILD_HOTKEYS, test x"$enable_hotkeys" = xyes)
+
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
 AC_SUBST(MAJOR_VERSION)
@@ -278,6 +292,7 @@ m4/Makefile
 config/Makefile
 Makefile
 src/Makefile
+gtkhotkey/Makefile
 ])
 
 dnl Output configuration
@@ -305,4 +320,9 @@ echo "External libraries usage:"
 echo ""
 echo "libnotify       : $enable_libnotify"
 echo "libcanberra-gtk : $enable_libcanberra_gtk"
+echo ""
+echo ""
+echo "Embedded libraries usage:"
+echo ""
+echo "hotkeys         : $enable_hotkeys"
 echo ""
