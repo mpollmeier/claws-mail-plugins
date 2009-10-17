@@ -1393,11 +1393,14 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 	GtkWidget *hbox;
 	GtkWidget *button;
 
-#ifdef HAVE_LIBNOTIFY
-	GtkWidget *svbox;
-	GtkWidget *ssvbox;
+#if defined(HAVE_LIBNOTIFY) || defined(NOTIFICATION_HOTKEYS)
 	GtkWidget *frame;
+	GtkWidget *svbox;
 	GtkWidget *label;
+#endif
+
+#ifdef HAVE_LIBNOTIFY
+	GtkWidget *ssvbox;
 	GtkWidget *spinner;
 	gdouble timeout;
 #endif

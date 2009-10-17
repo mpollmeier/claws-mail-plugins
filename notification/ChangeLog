@@ -1,3 +1,8 @@
+2009-10-17 [holger]	0.23cvs2
+
+	* src/notification_prefs.c
+		Fix build without libnotify, but with hotkey support
+
 2009-10-16 [holger]	0.23cvs1
 
 	* Makefile.am
