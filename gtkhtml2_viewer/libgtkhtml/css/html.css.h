@@ -115,6 +115,7 @@ const gchar html_css [] =
 "*[clear=\"right\"] { clear: right }"
 "*[clear=\"both\"] { clear: both }"
 "*[clear=\"all\"] { clear: both }"
+"blockquote[type=\"cite\"] { padding-left: 12px; border-color: #00F; border-width: 1px; border-style: none; border-left-style: solid }"
 "img[align=\"left\"] { float: left }"
 "img[align=\"right\"] { float: right }";
 

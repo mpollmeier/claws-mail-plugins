@@ -1,3 +1,9 @@
+2009-10-20 [colin]	0.25.0cvs1
+
+	* libgtkhtml/css/html.css.h
+		Add a default CSS for blockquote type "cite".
+		Fixes Thunderbird quoting; patch by Jean Diraison.
+
 2009-10-09 [paul]	0.25
 
 	0.25 released
