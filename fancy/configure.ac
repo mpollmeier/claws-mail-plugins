@@ -53,7 +53,7 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
 
-ALL_LINGUAS="cs es fi hu id it ja ru"
+ALL_LINGUAS="cs es fi fr hu id it ja ru"
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 
 AM_GNU_GETTEXT_VERSION([0.15])
