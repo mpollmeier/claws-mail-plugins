@@ -143,8 +143,13 @@ static GtkHotkeyInfo *hotkey_toggle = NULL;
 static void hotkey_toggle_activated(GtkHotkeyInfo *hotkey, guint event_time, gpointer data)
 {
   g_return_if_fail(GTK_HOTKEY_IS_INFO(hotkey));
-  debug_print("Notification plugin: Toggled hide/show window due to hotkey %s activation\n", gtk_hotkey_info_get_signature(hotkey));
-  toggle_hide_show_window();
+  if(notification_trayicon_is_available()) {
+    debug_print("Notification plugin: Toggled hide/show window due to hotkey %s activation\n", gtk_hotkey_info_get_signature(hotkey));
+    toggle_hide_show_window();
+  }
+  else {
+    debug_print("Notification plugin: Ignored toggle request by hotkey %s activation because status icon is not visible\n", gtk_hotkey_info_get_signature(hotkey));
+  }
 }
 
 static void update_hotkey_binding_toggle()

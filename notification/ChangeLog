@@ -1,3 +1,9 @@
+2009-10-21 [holger]	0.23cvs3
+
+	* src/notification_trayicon.c
+		Refuse to toggle window by hotkey when trayicon
+		is not visible
+
 2009-10-17 [holger]	0.23cvs2
 
 	* src/notification_prefs.c
