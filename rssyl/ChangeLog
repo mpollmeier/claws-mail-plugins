@@ -1,3 +1,9 @@
+2009-10-25 [ticho]	0.25.0cvs1
+
+	* src/feed.c
+	* src/feed.h
+		Do not block UI while parsing a feed.
+
 2008-07-03 [paul]	0.25
 
 	0.25 released

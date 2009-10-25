@@ -828,13 +828,10 @@ void rssyl_free_feeditem(RSSylFeedItem *item)
 	g_free(item);
 }
 
-/* rssyl_read_existing()
- *
- * Parse all existing folder items, storing their data in memory. Data is
- * later used for checking for duplicate entries.
- */
-void rssyl_read_existing(RSSylFolderItem *ritem)
+static void *rssyl_read_existing_thr(void *arg)
 {
+	RSSylParseCtx *ctx = (RSSylParseCtx *)arg;
+	RSSylFolderItem *ritem = ctx->ritem;
 	FolderItem *item = &ritem->item;
 	RSSylFeedItem *fitem = NULL;
 	DIR *dp;
@@ -842,12 +839,14 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 	gint num;
 	gchar *path;
 
-	debug_print("RSSyl: rssyl_read_existing()\n");
-
-	g_return_if_fail(ritem != NULL);
+	debug_print("RSSyl: rssyl_read_existing_thr()\n");
 
 	path = folder_item_get_path(item);
-	g_return_if_fail(path != NULL);
+	if( !path ) {
+		debug_print("RSSyl: read_existing - path is NULL, bailing out\n");
+		ctx->ready = TRUE;
+		return NULL;
+	}
 
 	/* create a new GSList, throw away the old one */
 	if( ritem->contents != NULL ) {
@@ -863,13 +862,13 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 
 	if( change_dir(path) < 0 ) {
 		g_free(path);
-		return;
+		return NULL;
 	}
 
 	if( (dp = opendir(".")) == NULL ) {
 		FILE_OP_ERROR(item->path, "opendir");
 		g_free(path);
-		return;
+		return NULL;
 	}
 
 	while( (d = readdir(dp)) != NULL ) {
@@ -886,7 +885,52 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 
 	ritem->contents = g_slist_reverse(ritem->contents);
 
-	debug_print("RSSyl: rssyl_read_existing() is returning\n");
+	ctx->ready = TRUE;
+
+	debug_print("RSSyl: rssyl_read_existing_thr() is returning\n");
+	return NULL;
+}
+
+/* rssyl_read_existing()
+ *
+ * Parse all existing folder items, storing their data in memory. Data is
+ * later used for checking for duplicate entries.
+ * Of course, actual work is done in a separate thread (if available) in
+ * rssyl_read_existing_thr().
+ */
+void rssyl_read_existing(RSSylFolderItem *ritem)
+{
+	RSSylParseCtx *ctx = NULL;
+#ifdef USE_PTHREAD
+	pthread_t pt;
+#endif
+
+	g_return_if_fail(ritem != NULL);
+
+	ctx = g_new0(RSSylParseCtx, 1);
+	ctx->ritem = ritem;
+	ctx->ready = FALSE;
+
+#ifdef USE_PTHREAD
+	if( pthread_create(&pt, PTHREAD_CREATE_JOINABLE, rssyl_read_existing_thr,
+				(void *)ctx) != 0 ) {
+		/* Couldn't create thread, continue nonthreaded */
+		rssyl_read_existing_thr(ctx);
+	} else {
+		debug_print("RSSyl: waiting for read_existing thread to finish\n");
+		while( !ctx->ready ) {
+			claws_do_idle();
+		}
+
+		debug_print("RSSyl: read_existing thread finished\n");
+		pthread_join(pt, NULL);
+	}
+#else
+	debug_print("RSSyl: pthreads not available, running read_existing non-threaded\n");
+	rssyl_read_existing_thr(ctx);
+#endif
+
+	g_free(ctx);
 }
 
 /* rssyl_cb_feed_compare()
