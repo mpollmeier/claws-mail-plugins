@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "common/utils.h"
 
@@ -100,3 +101,22 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 	return new;
 }
 
+gchar *rssyl_sanitize_string(gchar *str)
+{
+	gchar *new = NULL, *c = str;
+
+	if( str == NULL )
+		return NULL;
+
+	new = malloc(strlen(str) + 1);
+	memset(new, '\0', strlen(str) + 1);
+
+	while( *c != '\0' ) {
+		if( !isspace(*c) || *c == ' ' ) {
+			strncat(new, c, 1);
+		}
+		c++;
+	}
+
+	return new;
+}

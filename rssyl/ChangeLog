@@ -1,3 +1,11 @@
+2009-10-27 [ticho]	0.25.0cvs3
+
+	* src/feed.c
+	* src/strreplace.c
+	* src/strreplace.h
+		Better stripping of unwanted whitespace (newline, tabs, ...)
+		from text during feed parsing. Should fix duplicates in certain feeds.
+
 2009-10-27 [ticho]	0.25.0cvs2
 
 	* src/feed.c

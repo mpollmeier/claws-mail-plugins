@@ -576,29 +576,22 @@ gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_r
 	gchar *res = NULL;
 	gchar *tmp = NULL;
 
+	g_return_val_if_fail(str != NULL, NULL);
+
 	if (replace_html)
-		res = rssyl_replace_html_symbols(str);
+		tmp = rssyl_replace_html_symbols(str);
 	else
-		res = g_strdup(str);
+		tmp = g_strdup(str);
 
-	if (replace_returns) {
-		g_strdelimit(res, "\r\n", ' ');
-	}
+	res = rssyl_sanitize_string(tmp);
+	g_free(tmp);
 
-	g_strdelimit(res, "\t", ' ');
+	g_strstrip(res);
 
-	while (strstr(res, "  ")) {
-		tmp = rssyl_strreplace(res, "  ", " ");
-		g_free(res);
-		res = tmp;
-	}
-	res = strtailchomp(res, ' ');
-	strncpy(str, res, strlen(str));
-	g_free(res);
-	return str;
+	return res;
 }
 
-/* this functions splits a string into an array of string, by 
+/* this function splits a string into an array of string, by 
  * returning an array of pointers to positions of the delimiter
  * in the original string and replacing this delimiter with a
  * NULL. It does not duplicate memory, hence you should only
@@ -1589,7 +1582,7 @@ static RSSylFolderItem *rssyl_find_feed_by_url(gchar *url)
 FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url, 
 				  gboolean verbose)
 {
-	gchar *title;
+	gchar *title = NULL;
 	xmlDocPtr doc;
 	FolderItem *new_item;
 	RSSylFolderItem *ritem;
@@ -1629,7 +1622,9 @@ FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 			log_error(LOG_PROTOCOL, _("Couldn't fetch URL '%s':\n%s\n"), myurl, error ? error:_("Unknown error"));
 		g_free(myurl);
 		g_free(error);
-		xmlFreeDoc(doc);
+		g_free(title);
+		if (doc)
+			xmlFreeDoc(doc);
 		return NULL;
 	}
 
