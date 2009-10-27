@@ -1,3 +1,11 @@
+2009-10-27 [ticho]	0.25.0cvs2
+
+	* src/feed.c
+	* src/feed.h
+		If user exits application while a feed is being parsed, interrupt
+		parsing and allow application to quit immediately. Note: feed download
+		can not be interrupted like this.
+
 2009-10-25 [ticho]	0.25.0cvs1
 
 	* src/feed.c

@@ -51,6 +51,7 @@
 #include "defs.h"
 #include "inc.h"
 #include "common/utils.h"
+#include "main.h"
 
 #include "gettext.h"
 
@@ -872,6 +873,13 @@ static void *rssyl_read_existing_thr(void *arg)
 	}
 
 	while( (d = readdir(dp)) != NULL ) {
+		if (claws_is_exiting()) {
+			closedir(dp);
+			g_free(path);
+			debug_print("RSSyl: read_existing is bailing out, app is exiting\n");
+			ctx->ready = TRUE;
+			return NULL;
+		}
 		if( (num = to_number(d->d_name)) > 0 && dirent_is_regular_file(d) ) {
 			debug_print("RSSyl: starting to parse '%s'\n", d->d_name);
 			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
@@ -1086,6 +1094,11 @@ void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 		return;
 
 	rssyl_read_existing(ritem);
+
+	if (claws_is_exiting()) {
+		debug_print("RSSyl: parse_feed bailing out, app is exiting\n");
+		return;
+	}
 
 	node = xmlDocGetRootElement(doc);
 
@@ -1407,9 +1420,9 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 
 void rssyl_update_feed(RSSylFolderItem *ritem)
 {
-	gchar *title = NULL, *dir = NULL;
+	gchar *title = NULL, *dir = NULL, *error = NULL, *dir2, *tmp;
 	xmlDocPtr doc = NULL;
-	gchar *error = NULL;
+
 	g_return_if_fail(ritem != NULL);
 
 	if( !ritem->url )
@@ -1420,13 +1433,24 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 
 	doc = rssyl_fetch_feed(ritem->url, ritem->item.mtime, &title, &error);
 
+	if (claws_is_exiting()) {
+		debug_print("RSSyl: Claws-Mail is exiting, aborting feed parsing\n");
+		log_print(LOG_PROTOCOL, RSSYL_LOG_EXITING);
+		if (error)
+			g_free(error);
+		if (doc)
+			xmlFreeDoc(doc);
+		g_free(title);
+		g_free(dir);
+		return;
+	}
+
 	if (error) {
 		log_error(LOG_PROTOCOL, _("RSSyl: Cannot update feed %s:\n%s\n"), ritem->url, error);
 	}
 	g_free(error);
 
 	if (doc && title) {
-		gchar *dir2, *tmp;
 		tmp = rssyl_strreplace(title, "/", "\\");
 		dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 				G_DIR_SEPARATOR_S, tmp, NULL);
@@ -1442,6 +1466,7 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 				g_free(dir);
 				g_free(dir2);
 				g_free(title);
+				xmlFreeDoc(doc);
 				return;
 			}
 			g_free(dir2);
@@ -1457,6 +1482,18 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		} 
 
 		rssyl_parse_feed(doc, ritem, NULL);
+
+		if (claws_is_exiting()) {
+			debug_print("RSSyl: Claws-Mail is exiting, aborting feed parsing\n");
+			log_print(LOG_PROTOCOL, RSSYL_LOG_EXITING);
+			if (error)
+				g_free(error);
+			if (doc)
+				xmlFreeDoc(doc);
+			g_free(title);
+			g_free(dir);
+			return;
+		}
 
 		rssyl_expire_items(ritem);
 	}

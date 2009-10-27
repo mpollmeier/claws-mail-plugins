@@ -24,6 +24,7 @@
 
 #define RSSYL_LOG_UPDATING		_("RSSyl: Updating feed %s\n")
 #define RSSYL_LOG_UPDATED 		_("RSSyl: Feed update finished: %s\n")
+#define RSSYL_LOG_EXITING			_("RSSyl: Feed update aborted, application is exiting.\n")
 
 struct _RSSylFeedItemMedia {
 	gchar *url;
