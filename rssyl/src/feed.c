@@ -1401,6 +1401,13 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 	}
 
 	while( (d = readdir(dp)) != NULL ) {
+		if (claws_is_exiting()) {
+			g_free(path);
+			closedir(dp);
+			debug_print("RSSyl: update_comments bailing out, app is exiting\n");
+			return;
+		}
+
 		if( (num = to_number(d->d_name)) > 0 && dirent_is_regular_file(d) ) {
 			debug_print("RSSyl: starting to parse '%s'\n", d->d_name);
 			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
@@ -1505,7 +1512,15 @@ void rssyl_update_feed(RSSylFolderItem *ritem)
 		rssyl_expire_items(ritem);
 	}
 
-	if( ritem->fetch_comments == TRUE )
+	if (claws_is_exiting()) {
+		g_free(title);
+		g_free(dir);
+		if (doc)
+			xmlFreeDoc(doc);
+		return;
+	}
+
+	if( ritem->fetch_comments == TRUE)
 		rssyl_update_comments(ritem);
 
 	ritem->item.mtime = time(NULL);

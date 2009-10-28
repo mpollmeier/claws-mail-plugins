@@ -1,3 +1,9 @@
+2009-10-28 [ticho]	0.25.0cvs6
+
+	* src/feed.c
+		During feed update, do not go over all comment feeds if
+		Claws Mail is exiting, bail out immediately.
+
 2009-10-28 [ticho]	0.25.0cvs5
 
 	* src/feed.c
