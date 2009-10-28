@@ -104,16 +104,17 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 gchar *rssyl_sanitize_string(gchar *str)
 {
 	gchar *new = NULL, *c = str;
-
+	gchar *new_ptr;
 	if( str == NULL )
 		return NULL;
 
-	new = malloc(strlen(str) + 1);
+	new_ptr = new = malloc(strlen(str) + 1);
 	memset(new, '\0', strlen(str) + 1);
 
 	while( *c != '\0' ) {
 		if( !isspace(*c) || *c == ' ' ) {
-			strncat(new, c, 1);
+			*new_ptr = *c;
+			new_ptr++;
 		}
 		c++;
 	}

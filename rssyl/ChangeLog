@@ -1,3 +1,8 @@
+2009-10-28 [colin]	0.25.0cvs4
+
+	* src/strreplace.c
+		Use a walking pointer instead of using strncat
+
 2009-10-27 [ticho]	0.25.0cvs3
 
 	* src/feed.c
