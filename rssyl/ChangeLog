@@ -1,3 +1,8 @@
+2009-10-28 [ticho]	0.25.0cvs5
+
+	* src/feed.c
+		Abort feed fetching as soon as possible if app is exiting.
+
 2009-10-28 [colin]	0.25.0cvs4
 
 	* src/strreplace.c

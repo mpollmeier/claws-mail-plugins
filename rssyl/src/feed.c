@@ -64,6 +64,17 @@
 #include "parsers.h"
 #include "rssyl_prefs.h"
 
+static int rssyl_curl_progress_function(void *clientp,
+		double dltotal, double dlnow, double ultotal, double ulnow)
+{
+	if (claws_is_exiting()) {
+		debug_print("RSSyl: curl_progress_function bailing out, app is exiting\n");
+		return 1;
+	}
+
+	return 0;
+}
+
 struct _RSSylThreadCtx {
 	const gchar *url;
 	time_t last_update;
@@ -131,7 +142,8 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	debug_print("TEMPLATE: %s\n", template);
 
 	curl_easy_setopt(eh, CURLOPT_URL, ctx->url);
-	curl_easy_setopt(eh, CURLOPT_NOPROGRESS, 1);
+	curl_easy_setopt(eh, CURLOPT_NOPROGRESS, 0);
+	curl_easy_setopt(eh, CURLOPT_PROGRESSFUNCTION, rssyl_curl_progress_function);
 #if LIBCURL_VERSION_NUM < 0x071000
 	curl_easy_setopt(eh, CURLOPT_MUTE, 1);
 #endif
@@ -173,8 +185,10 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	res = curl_easy_perform(eh);
 
 	if (res != 0) {
-		if(res == CURLE_OPERATION_TIMEOUTED) {
+		if (res == CURLE_OPERATION_TIMEOUTED) {
 			log_error(LOG_PROTOCOL, RSSYL_LOG_ERROR_TIMEOUT, ctx->url);
+		} else if (res == CURLE_ABORTED_BY_CALLBACK) {
+			log_print(LOG_PROTOCOL, RSSYL_LOG_EXITING);
 		}
 		ctx->error = g_strdup(curl_easy_strerror(res));
 		ctx->ready = TRUE;
