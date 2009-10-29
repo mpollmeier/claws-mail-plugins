@@ -1,3 +1,9 @@
+2009-10-29 [colin]	0.25.0cvs7
+
+	* src/feed.c
+		Parse items using full path. Fixes race conditions when
+		cwd changes from another thread.
+
 2009-10-28 [ticho]	0.25.0cvs6
 
 	* src/feed.c

@@ -638,7 +638,7 @@ static gchar **strplit_no_copy(gchar *str, char delimiter)
  * Parse the RFC822-formatted feed item given by "path", and returns a
  * pointer to a RSSylFeedItem struct, which contains all required data.
  */
-static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
+static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *dir_path, gchar *filename)
 {
 	gchar *contents, **lines, **line, **splid;
 	GError *error = NULL;
@@ -647,18 +647,21 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 	gboolean parsing_headers, past_html_tag, past_endhtml_tag;
 	gboolean started_author = FALSE, started_subject = FALSE;
 	gboolean started_link = FALSE, started_clink = FALSE, started_plink = FALSE;
+	gchar *full_path = g_strconcat(dir_path, G_DIR_SEPARATOR_S, filename, NULL);
+	debug_print("RSSyl: parsing '%s'\n", full_path);
 
-	debug_print("RSSyl: parsing '%s'\n", path);
+	g_file_get_contents(full_path, &contents, NULL, &error);
 
-	g_file_get_contents(path, &contents, NULL, &error);
-
-	if( error )
+	if( error ) {
 		g_warning("GError: '%s'\n", error->message);
+		g_error_free(error);
+		error = NULL;
+	}
 
 	if( contents ) {
 		lines = strplit_no_copy(contents, '\n');
 	} else {
-		g_warning("Badly formatted file found, ignoring: '%s'\n", path);
+		g_warning("Badly formatted file found, ignoring: '%s'\n", full_path);
 		g_free(contents);
 		return NULL;
 	}
@@ -670,7 +673,9 @@ static RSSylFeedItem *rssyl_parse_folder_item_file(gchar *path)
 	fitem->text = NULL;
 	fitem->id = NULL;
 	fitem->id_is_permalink = FALSE;
-	fitem->realpath = g_strdup(path);
+	fitem->realpath = g_strdup(full_path);
+
+	g_free(full_path);
 
 	parsing_headers = TRUE;
 	past_html_tag = FALSE;
@@ -889,7 +894,7 @@ static void *rssyl_read_existing_thr(void *arg)
 		}
 		if( (num = to_number(d->d_name)) > 0 && dirent_is_regular_file(d) ) {
 			debug_print("RSSyl: starting to parse '%s'\n", d->d_name);
-			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
+			if( (fitem = rssyl_parse_folder_item_file(path, d->d_name)) != NULL ) {
 				debug_print("Appending '%s'\n", fitem->title);
 				ritem->contents = g_slist_prepend(ritem->contents, fitem);
 			}
@@ -1410,7 +1415,7 @@ void rssyl_update_comments(RSSylFolderItem *ritem)
 
 		if( (num = to_number(d->d_name)) > 0 && dirent_is_regular_file(d) ) {
 			debug_print("RSSyl: starting to parse '%s'\n", d->d_name);
-			if( (fitem = rssyl_parse_folder_item_file(d->d_name)) != NULL ) {
+			if( (fitem = rssyl_parse_folder_item_file(path, d->d_name)) != NULL ) {
 				xmlDocPtr doc;
 				gchar *title;
 				if (fitem->comments_link && fitem->id && 

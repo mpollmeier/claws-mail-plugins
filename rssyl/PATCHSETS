@@ -172,3 +172,4 @@
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/strreplace.c;  ) > 0.25.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.109 -r 1.1.2.110 src/feed.c;  ) > 0.25.0cvs5.patchset
 ( cvs diff -u -r 1.1.2.110 -r 1.1.2.111 src/feed.c;  ) > 0.25.0cvs6.patchset
+( cvs diff -u -r 1.1.2.111 -r 1.1.2.112 src/feed.c;  ) > 0.25.0cvs7.patchset
