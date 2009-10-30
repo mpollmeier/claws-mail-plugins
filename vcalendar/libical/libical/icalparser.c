@@ -3,7 +3,7 @@
   FILE: icalparser.c
   CREATOR: eric 04 August 1999
   
-  $Id: icalparser.c,v 1.1.2.3 2008-07-08 07:58:17 colinler Exp $
+  $Id: icalparser.c,v 1.1.2.4 2009-10-30 09:27:25 colin Exp $
   $Locker:  $
     
  The contents of this file are subject to the Mozilla Public License
@@ -844,7 +844,7 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 			     ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR);
 		tail = 0;
 		impl->state = ICALPARSER_ERROR;
-		return 0;
+		continue;
 	    }
 
 	    if (param == 0){

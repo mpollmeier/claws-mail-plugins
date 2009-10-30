@@ -52,6 +52,10 @@ Answer *answer_new(const gchar *attendee,
 	Answer *answer = g_new0(Answer, 1);
 	answer->attendee = g_strdup(attendee);
 	answer->name = g_strdup(name);
+	if (!answer->name)
+		answer->name = g_strdup("");
+	if (!answer->attendee)
+		answer->attendee = g_strdup("");
 	answer->answer = ans;
 	answer->cutype = cutype;
 	return answer;

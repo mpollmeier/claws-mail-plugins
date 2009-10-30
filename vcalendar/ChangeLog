@@ -1,3 +1,13 @@
+2009-10-30 [colin]	2.0.6cvs1
+
+	* libical/libical/icalderivedvalue.c.in
+	* libical/libical/icalparser.c
+	* libical/scripts/mkderivedvalues.pl
+	* src/vcal_manager.c
+		Fix crash on ATTENDEEs with no CAL-ADDRESS
+		Avoid stopping parsing parameters after finding
+		a non-compliant one.
+
 2009-10-09 [paul]	2.0.6
 
 	2.0.6 released

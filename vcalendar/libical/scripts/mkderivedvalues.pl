@@ -196,11 +196,17 @@ void icalvalue_set_${lc}(icalvalue* value, $type v) {\
 
     print "\n    impl->data.v_$union_data = $assign \n }\n";
 
-    print "$type\ icalvalue_get_${lc}(icalvalue* value)\ {\n\
-    icalerror_check_arg( (value!=0),\"value\");\
-    icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
-    return ((struct icalvalue_impl*)value)->data.v_${union_data};\n}\n";
-
+    if ($type =~ /char/){
+	print "$type\ icalvalue_get_${lc}(icalvalue* value)\ {\n\
+	icalerror_check_arg_rz( (value!=0),\"value\");\
+	icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
+	return ((struct icalvalue_impl*)value)->data.v_${union_data};\n}\n";
+    } else {
+	print "$type\ icalvalue_get_${lc}(icalvalue* value)\ {\n\
+	icalerror_check_arg( (value!=0),\"value\");\
+	icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
+	return ((struct icalvalue_impl*)value)->data.v_${union_data};\n}\n";
+    }
     
   } elsif($opt_h && $autogen) {
     
