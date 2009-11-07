@@ -1,3 +1,11 @@
+2009-11-07 [iwkse]	0.9.8cvs1
+
+	* src/fancy_viewer.c
+	* src/fancy_prefs.h
+	* src/fancy_prefs.c
+            Fix bug 1977, 'Save zoom level between sessions'
+            Patch mainly by Pawel Pekala
+
 2009-10-09 [paul]	0.9.8
 
 	0.9.8 released.

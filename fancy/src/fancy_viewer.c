@@ -125,6 +125,8 @@ static gint fancy_show_mimepart_real(MimeViewer *_viewer)
         debug_print("using %s charset\n", charset);
         g_object_set(viewer->settings, "default-encoding", charset, NULL);
         gchar *tmp = g_filename_to_uri(viewer->filename, NULL, NULL);
+        debug_print("zoom_level: %i\n", fancy_prefs.zoom_level);
+        webkit_web_view_set_zoom_level(viewer->view, (fancy_prefs.zoom_level / 100.0));
         webkit_web_view_open(viewer->view, tmp);
         g_free(tmp);
     }
@@ -292,6 +294,7 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     viewer->override_prefs_external = FALSE;
     webkit_web_view_open(viewer->view, "about:blank");
     debug_print("fancy_clear_viewer\n");
+    fancy_prefs.zoom_level = webkit_web_view_get_zoom_level(viewer->view) * 100;
     viewer->to_load = NULL;
     vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(viewer->scrollwin));
     vadj->value = 0.0;
@@ -301,9 +304,8 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
 static void fancy_destroy_viewer(MimeViewer *_viewer)
 {
     FancyViewer *viewer = (FancyViewer *) _viewer;
-
+    fancy_prefs.zoom_level = webkit_web_view_get_zoom_level(viewer->view) * 100;
     debug_print("fancy_destroy_viewer\n");
-
     g_free(viewer->filename);
     g_free(viewer);
 }
@@ -680,22 +682,9 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
         }
 
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
-                                                   "Open Image" )) {
-                
-            gtk_label_set_text(GTK_LABEL(menul), _("Open Image"));
-            gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
-                
-            GtkImageMenuItem *m_oimage = GTK_IMAGE_MENU_ITEM(menuitem);
-            g_signal_connect(G_OBJECT(m_oimage), "activate",
-                             G_CALLBACK(open_image_cb),
-                             (gpointer *) viewer);
-        }
-
-        if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                                    "Save Image As" )) {
 
             gtk_label_set_text(GTK_LABEL(menul), _("Save Image As"));
-            gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
                 
             GtkImageMenuItem *m_simage = GTK_IMAGE_MENU_ITEM(menuitem);
             g_signal_connect(G_OBJECT(m_simage), "activate", 
@@ -706,7 +695,6 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                                 "Copy Image" )) {
                 
             gtk_label_set_text(GTK_LABEL(menul), _("Copy Image"));
-            gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
                 
             GtkImageMenuItem *m_cimage = GTK_IMAGE_MENU_ITEM(menuitem);
             g_signal_connect(G_OBJECT(m_cimage), "activate",

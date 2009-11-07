@@ -33,6 +33,7 @@ struct _FancyPrefs
     gboolean enable_scripts;
     gboolean enable_plugins;
     gboolean open_external;
+    gint zoom_level;
 };
 
 extern FancyPrefs fancy_prefs;

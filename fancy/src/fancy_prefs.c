@@ -63,6 +63,8 @@ static PrefParam param[] = {
          NULL, NULL},
         {"open_external", "FALSE", &fancy_prefs.open_external, P_BOOL, NULL, 
          NULL, NULL},
+        {"zoom_level", "100", &fancy_prefs.zoom_level, P_INT, NULL, 
+         NULL, NULL},
         {0,0,0,0}
 };
 
@@ -71,6 +73,7 @@ static FancyPrefsPage fancy_prefs_page;
 static void create_fancy_prefs_page     (PrefsPage *page, GtkWindow *window, 
                                          gpointer   data);
 static void destroy_fancy_prefs_page    (PrefsPage *page);
+static void save_fancy_prefs_page       (PrefsPage *page);
 static void save_fancy_prefs            (PrefsPage *page);
 
 void fancy_prefs_init(void)
@@ -90,13 +93,14 @@ void fancy_prefs_init(void)
     fancy_prefs_page.page.path = path;
     fancy_prefs_page.page.create_widget = create_fancy_prefs_page;
     fancy_prefs_page.page.destroy_widget = destroy_fancy_prefs_page;
-    fancy_prefs_page.page.save_page = save_fancy_prefs;
+    fancy_prefs_page.page.save_page = save_fancy_prefs_page;
     fancy_prefs_page.page.weight = 30.0;
     prefs_gtk_register_page((PrefsPage *) &fancy_prefs_page);
 }
 
 void fancy_prefs_done(void)
 {
+    save_fancy_prefs((PrefsPage *) &fancy_prefs_page);
     prefs_gtk_unregister_page((PrefsPage *) &fancy_prefs_page);
 }
 
@@ -158,13 +162,33 @@ static void destroy_fancy_prefs_page(PrefsPage *page)
 {
     /* Do nothing! */
 }
-
 static void save_fancy_prefs(PrefsPage *page)
 {
+    PrefFile *pref_file;
+    gchar *rc_file_path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+                                      COMMON_RC, NULL);
+    pref_file = prefs_write_open(rc_file_path);
+    g_free(rc_file_path);
+    if (!(pref_file) ||
+    (prefs_set_block_label(pref_file, PREFS_BLOCK_NAME) < 0))
+        return;
+    
+    if (prefs_write_param(param, pref_file->fp) < 0) {
+        g_warning("failed to write Fancy Plugin configuration\n");
+        prefs_file_close_revert(pref_file);
+        return;
+    }
+
+    if (fprintf(pref_file->fp, "\n") < 0) {
+    FILE_OP_ERROR(rc_file_path, "fprintf");
+    prefs_file_close_revert(pref_file);
+    } else
+        prefs_file_close(pref_file);
+}
+
+static void save_fancy_prefs_page(PrefsPage *page)
+{
         FancyPrefsPage *prefs_page = (FancyPrefsPage *) page;
-        PrefFile *pref_file;
-        gchar *rc_file_path = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
-                                          COMMON_RC, NULL);
         
         fancy_prefs.auto_load_images = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->auto_load_images));
@@ -177,22 +201,5 @@ static void save_fancy_prefs(PrefsPage *page)
         fancy_prefs.open_external = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->open_external));
 
-        pref_file = prefs_write_open(rc_file_path);
-        g_free(rc_file_path);
-        
-        if (!(pref_file) ||
-        (prefs_set_block_label(pref_file, PREFS_BLOCK_NAME) < 0))
-          return;
-        
-        if (prefs_write_param(param, pref_file->fp) < 0) {
-          g_warning("failed to write Fancy Plugin configuration\n");
-          prefs_file_close_revert(pref_file);
-          return;
-        }
-
-        if (fprintf(pref_file->fp, "\n") < 0) {
-        FILE_OP_ERROR(rc_file_path, "fprintf");
-        prefs_file_close_revert(pref_file);
-    } else
-            prefs_file_close(pref_file);
+        save_fancy_prefs(page);
 }
