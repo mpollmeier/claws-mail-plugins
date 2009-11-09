@@ -1,3 +1,9 @@
+2009-11-09 [colin]	1.0.10cvs1
+
+	* src/att_remover.c
+		Fix bug 1504, "Remove attachments separately".
+		Patch by Pawel Pekala
+
 2008-12-19 [paul]	1.0.10
 
 	1.0.10 released
