@@ -1161,7 +1161,7 @@ static XS(XS_ClawsMail_forward)
 			    NULL, TRUE, TRUE);
   compose_entry_append(compose, dest,
 		       compose->account->protocol == A_NNTP ?
-		       COMPOSE_NEWSGROUPS : COMPOSE_TO);
+		       COMPOSE_NEWSGROUPS : COMPOSE_TO, PREF_NONE);
 
   val = compose_send(compose);
 
@@ -1203,7 +1203,7 @@ static XS(XS_ClawsMail_redirect)
   if (compose->account->protocol == A_NNTP)
     XSRETURN_UNDEF;
   else
-    compose_entry_append(compose, dest, COMPOSE_TO);
+    compose_entry_append(compose, dest, COMPOSE_TO, PREF_NONE);
 
   val = compose_send(compose);
   
@@ -2054,7 +2054,7 @@ gint plugin_init(gchar **error)
   *env  = NULL;
 
   /* version check */
-	if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,1,0,14),
+	if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,3,13),
 				VERSION_NUMERIC, "Perl", error))
 		return -1;
 
