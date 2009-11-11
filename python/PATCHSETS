@@ -1,0 +1,2 @@
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/python_plugin.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/composewindowtype.c;  ) > 0.2cvs1.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/python_plugin.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/composewindowtype.c;  ) > 0.2cvs2.patchset

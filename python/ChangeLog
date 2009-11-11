@@ -1,3 +1,15 @@
+2009-11-11 [pawel]	0.2cvs2
+
+	* src/python_plugin.c
+	* src/composewindowtype.c
+		sync with core
+
+2009-11-11 [pawel]	0.2cvs1
+
+	* src/python_plugin.c
+	* src/composewindowtype.c
+		sync with core
+
 2009-10-09 [paul]	0.2
 
 	0.2 released. (initial release)

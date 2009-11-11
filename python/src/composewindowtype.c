@@ -145,7 +145,7 @@ static PyObject* ComposeWindow_add_To(clawsmail_ComposeWindowObject *self, PyObj
   if(!PyArg_ParseTuple(args, "s", &ss))
     return NULL;
 
-  compose_entry_append(self->compose, ss, COMPOSE_TO);
+  compose_entry_append(self->compose, ss, COMPOSE_TO, PREF_NONE);
 
   Py_INCREF(Py_None);
   return Py_None;
@@ -158,7 +158,7 @@ static PyObject* ComposeWindow_add_Cc(clawsmail_ComposeWindowObject *self, PyObj
   if(!PyArg_ParseTuple(args, "s", &ss))
     return NULL;
 
-  compose_entry_append(self->compose, ss, COMPOSE_CC);
+  compose_entry_append(self->compose, ss, COMPOSE_CC, PREF_NONE);
 
   Py_INCREF(Py_None);
   return Py_None;
@@ -171,7 +171,7 @@ static PyObject* ComposeWindow_add_Bcc(clawsmail_ComposeWindowObject *self, PyOb
   if(!PyArg_ParseTuple(args, "s", &ss))
     return NULL;
 
-  compose_entry_append(self->compose, ss, COMPOSE_BCC);
+  compose_entry_append(self->compose, ss, COMPOSE_BCC, PREF_NONE);
 
   Py_INCREF(Py_None);
   return Py_None;
