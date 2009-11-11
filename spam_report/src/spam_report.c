@@ -244,7 +244,7 @@ static void report_spam(gint id, ReportInterface *intf, MsgInfo *msginfo, gchar 
 		if (spamreport_prefs.user[id] && *(spamreport_prefs.user[id])) {
 			Compose *compose = compose_forward(NULL, msginfo, TRUE, NULL, TRUE, TRUE);
 			compose->use_signing = FALSE;
-			compose_entry_append(compose, spamreport_prefs.user[id], COMPOSE_TO);
+			compose_entry_append(compose, spamreport_prefs.user[id], COMPOSE_TO, PREF_NONE);
 			compose_send(compose);
 		}
 		break;
@@ -346,7 +346,7 @@ gint plugin_init(gchar **error)
 #endif
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,6,1,27),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,3,13),
 				VERSION_NUMERIC, _("SpamReport"), error))
 		return -1;
 
