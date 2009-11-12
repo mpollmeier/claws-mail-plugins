@@ -1,3 +1,8 @@
+2009-11-12 [pawel]	0.2cvs2
+
+	* configure.ac
+		fix bashism
+
 2009-11-11 [pawel]	0.2cvs1
 
 	* src/python_plugin.c

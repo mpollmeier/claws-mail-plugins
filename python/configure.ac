@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=0
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -98,7 +98,7 @@ PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 dnl Stolen from gtkparasite
 AM_PATH_PYTHON([2.5], [
     AC_PATH_PROG(PYTHON_CONFIG, python$PYTHON_VERSION-config)
-    if test x"$PYTHON_CONFIG" == x""; then
+    if test x"$PYTHON_CONFIG" = x"" ; then
         AC_PATH_PROG(PYTHON_CONFIG, python-config)
     fi
     if test x"$PYTHON_CONFIG" != x""; then
