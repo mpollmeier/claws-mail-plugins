@@ -1,3 +1,9 @@
+2009-11-17 [holger]	0.2cvs4
+
+	* configure.ac
+	* src/python_plugin.c
+		Bump required Claws Mail version to 3.7.3.14
+
 2009-11-17 [holger]	0.2cvs3
 
 	* src/python_plugin.c

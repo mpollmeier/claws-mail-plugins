@@ -293,7 +293,7 @@ gint plugin_init(gchar **error)
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
   /* Version check */
-  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,3,13),
+  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,3,14),
 			   VERSION_NUMERIC, _("Python"), error))
     return -1;
 
