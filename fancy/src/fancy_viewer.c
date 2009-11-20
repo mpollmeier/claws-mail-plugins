@@ -70,6 +70,7 @@ static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer);
 static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external);
 static void fancy_create_popup_prefs_menu(FancyViewer *viewer);
+static void fancy_prefs_cache_init(FancyViewer *viewer);
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -777,7 +778,11 @@ static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer)
     webkit_web_view_zoom_out(viewer->view);
 }
 
-
+static void fancy_prefs_cache_init(FancyViewer *viewer) {
+    viewer->cache_prefs_auto_load_images = !fancy_prefs.auto_load_images;
+    viewer->cache_prefs_enable_plugins   = !fancy_prefs.enable_plugins;
+    viewer->cache_prefs_enable_scripts   = !fancy_prefs.enable_scripts;
+}
 static MimeViewer *fancy_viewer_create(void)
 {
     FancyViewer    *viewer;
@@ -916,7 +921,7 @@ static MimeViewer *fancy_viewer_create(void)
                      G_CALLBACK(keypress_events_cb), viewer);
 
     viewer->filename = NULL;
-
+    fancy_prefs_cache_init(viewer);
     return (MimeViewer *) viewer;
 }
 
