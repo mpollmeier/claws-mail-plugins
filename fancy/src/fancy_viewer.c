@@ -337,51 +337,61 @@ static WebKitNavigationResponse
 navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame, 
                         WebKitNetworkRequest *netreq, FancyViewer *viewer)
 {
-    if (!fancy_prefs.auto_load_images && !viewer->override_prefs_images) {
-        g_object_set(viewer->settings, 
-                    "auto-load-images", FALSE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    else {
-        g_object_set(viewer->settings, 
-                    "auto-load-images", TRUE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
 
-    if (!fancy_prefs.enable_scripts && !viewer->override_prefs_scripts) {
-        g_object_set(viewer->settings, 
-                    "enable-scripts", FALSE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    else {
-        g_object_set(viewer->settings, 
-                    "enable-scripts", TRUE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    
-    if (!fancy_prefs.enable_plugins && !viewer->override_prefs_plugins) {
-        g_object_set(viewer->settings, 
-                    "enable-plugins", FALSE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    else {
-        g_object_set(viewer->settings, 
-                    "enable-plugins", TRUE, NULL);
-        webkit_web_view_set_settings(viewer->view, viewer->settings);
-    }
-    if (fancy_prefs.block_links && !viewer->override_prefs_block_links) {
-        if (viewer->load_page){
-            return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
-        }
-    } 
-    if (viewer->cur_link) {
-        if (!fancy_prefs.open_external && !viewer->override_prefs_external) {
-            return fancy_open_uri(viewer, FALSE);
+    if (viewer->cache_prefs_auto_load_images != fancy_prefs.auto_load_images) {
+        viewer->cache_prefs_auto_load_images = fancy_prefs.auto_load_images;
+        if (!fancy_prefs.auto_load_images && !viewer->override_prefs_images) {
+            g_object_set(viewer->settings, 
+						"auto-load-images", FALSE, NULL);
+            webkit_web_view_set_settings(viewer->view, viewer->settings);
         }
         else {
-            return fancy_open_uri(viewer, TRUE);
+            g_object_set(viewer->settings, 
+						"auto-load-images", TRUE, NULL);
+            webkit_web_view_set_settings(viewer->view, viewer->settings);
         }
     }
+
+    if (viewer->cache_prefs_enable_scripts != fancy_prefs.enable_scripts) {
+        viewer->cache_prefs_enable_scripts = fancy_prefs.enable_scripts;
+        if (!fancy_prefs.enable_scripts && !viewer->override_prefs_scripts) {
+            g_object_set(viewer->settings, 
+						"enable-scripts", FALSE, NULL);
+            webkit_web_view_set_settings(viewer->view, viewer->settings);
+        }
+        else {
+            g_object_set(viewer->settings, 
+						"enable-scripts", TRUE, NULL);
+            webkit_web_view_set_settings(viewer->view, viewer->settings);
+        }
+    }
+    if (viewer->cache_prefs_enable_plugins != fancy_prefs.enable_plugins) {
+        viewer->cache_prefs_enable_plugins = fancy_prefs.enable_plugins;
+        if (!fancy_prefs.enable_plugins && !viewer->override_prefs_plugins) {
+            g_object_set(viewer->settings, 
+                         "enable-plugins", FALSE, NULL);
+            webkit_web_view_set_settings(viewer->view, viewer->settings);
+        }
+        else {
+            g_object_set(viewer->settings, 
+                         "enable-plugins", TRUE, NULL);
+            webkit_web_view_set_settings(viewer->view, viewer->settings);
+        }
+    }
+
+    if (fancy_prefs.block_links && !viewer->override_prefs_block_links) {
+        if (viewer->load_page)
+            return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
+    } 
+
+    if (viewer->cur_link) {
+        if (!fancy_prefs.open_external && !viewer->override_prefs_external)
+            return fancy_open_uri(viewer, FALSE);
+        else 
+            return fancy_open_uri(viewer, TRUE);
+    }
+
+    viewer->load_page = TRUE;
     return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
 }
 static gboolean fancy_text_search(MimeViewer *_viewer, gboolean backward, 
@@ -394,6 +404,7 @@ static gboolean fancy_text_search(MimeViewer *_viewer, gboolean backward,
 static void fancy_auto_load_images_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
     viewer->override_prefs_images = TRUE;
+	viewer->cache_prefs_auto_load_images = !fancy_prefs.auto_load_images;
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_images = FALSE;
 }
@@ -403,12 +414,14 @@ static void fancy_block_links_activated(GtkMenuItem *item, FancyViewer *viewer) 
 static void fancy_enable_scripts_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
     viewer->override_prefs_scripts = TRUE;
+	viewer->cache_prefs_enable_scripts = !fancy_prefs.enable_scripts;
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_scripts = FALSE;
 }
 static void fancy_enable_plugins_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
     viewer->override_prefs_plugins = TRUE;
+	viewer->cache_prefs_enable_plugins = !fancy_prefs.enable_plugins;
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_plugins = FALSE;
 }

@@ -1,3 +1,10 @@
+2009-11-20 [iwkse]	0.9.8cvs2
+
+	* src/fancy_viewer.h
+	* src/fancy_viewer.c
+                Fix a bug related to blocking links preference.
+                Add a simple cache mechanism for Webkit settings.
+
 2009-11-07 [iwkse]	0.9.8cvs1
 
 	* src/fancy_viewer.c
