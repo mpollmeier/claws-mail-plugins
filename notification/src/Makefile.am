@@ -64,6 +64,7 @@ notification_plugin_la_SOURCES = \
 	notification_command.c notification_command.h \
 	notification_lcdproc.c notification_lcdproc.h \
 	notification_trayicon.c notification_trayicon.h \
+	notification_indicator.c notification_indicator.h \
 	notification_prefs.c notification_prefs.h \
 	notification_foldercheck.c notification_foldercheck.h \
 	notification_pixbuf.c notification_pixbuf.h \
@@ -82,6 +83,7 @@ INCLUDES = \
 notification_plugin_la_LIBADD = $(plugin_ldadd) $(cygwin_export_lib) \
         $(GTK_LIBS)  \
 	$(libnotify_LIBS) \
+	$(libindicate_LIBS) \
 	$(libcanberra_gtk_LIBS) \
 	$(hotkey_lib_path)
 
@@ -92,6 +94,7 @@ notification_plugin_la_CPPFLAGS = \
 	$(GTK_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\" \
 	$(libnotify_CFLAGS) \
+	$(libindicate_CFLAGS) \
 	$(libcanberra_gtk_CFLAGS)
 
 clean-local:

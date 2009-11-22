@@ -19,8 +19,8 @@
 
 #include <math.h>
 
-#include "prefs.h"
 #include "prefs_gtk.h"
+#include "common/prefs.h"
 #include "common/utils.h"
 #include "common/defs.h"
 #include "gtk/gtkutils.h"
@@ -36,6 +36,7 @@
 #include "notification_command.h"
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
+#include "notification_indicator.h"
 
 #include "notification_foldercheck.h"
 
@@ -153,6 +154,15 @@ typedef struct {
 #endif
 }NotifyTrayiconPage;
 NotifyTrayiconPage trayicon_page;
+#endif
+
+#ifdef NOTIFICATION_INDICATOR
+typedef struct {
+	PrefsPage page;
+	GtkWidget *indicator_enabled;
+	GtkWidget *indicator_cont_enable;
+}NotifyIndicatorPage;
+NotifyIndicatorPage indicator_page;
 #endif
 
 PrefParam
@@ -280,6 +290,10 @@ PrefParam
 #endif
 #endif
 
+#ifdef NOTIFICATION_INDICATOR
+				{	"indicator_enabled", "FALSE", &notify_config.indicator_enabled, P_BOOL,
+					NULL, NULL, NULL},
+#endif /* NOTIFICATION_INDICATOR */
 				{ NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL } };
 
 static void notify_create_prefs_page(PrefsPage*, GtkWindow*, gpointer);
@@ -338,6 +352,14 @@ static void notify_trayicon_popup_enable_set_sensitivity(GtkToggleButton*,
 		gpointer);
 #endif
 #endif
+
+#ifdef NOTIFICATION_INDICATOR
+static void notify_create_indicator_page(PrefsPage*, GtkWindow*, gpointer);
+static void notify_destroy_indicator_page(PrefsPage*);
+static void notify_save_indicator(PrefsPage*);
+static void notify_indicator_enable_set_sensitivity(GtkToggleButton*, gpointer);
+#endif /* NOTIFICATION_INDICATOR */
+
 
 static gint conv_color_to_int(GdkColor*);
 
@@ -439,6 +461,23 @@ void notify_gtk_init(void)
 		prefs_gtk_register_page((PrefsPage*) &trayicon_page);
 	}
 #endif /* NOTIFICATION_TRAYICON */
+
+#ifdef NOTIFICATION_INDICATOR
+	{
+		static gchar *indicator_path[4];
+
+		indicator_path[0] = _("Plugins");
+		indicator_path[1] = _("Notification");
+		indicator_path[2] = _("Indicator");
+		indicator_path[3] = NULL;
+
+		indicator_page.page.path = indicator_path;
+		indicator_page.page.create_widget = notify_create_indicator_page;
+		indicator_page.page.destroy_widget = notify_destroy_indicator_page;
+		indicator_page.page.save_page = notify_save_indicator;
+		prefs_gtk_register_page((PrefsPage*) &indicator_page);
+	}
+#endif /* NOTIFICATION_INDICATOR */
 }
 
 void notify_gtk_done(void)
@@ -460,6 +499,9 @@ void notify_gtk_done(void)
 #endif
 #ifdef NOTIFICATION_TRAYICON
 	prefs_gtk_unregister_page((PrefsPage*) &trayicon_page);
+#endif
+#ifdef NOTIFICATION_INDICATOR
+	prefs_gtk_unregister_page((PrefsPage*) &indicator_page);
 #endif
 }
 
@@ -1676,6 +1718,59 @@ static void notify_trayicon_popup_enable_set_sensitivity(GtkToggleButton *bu,
 #endif /* HAVE_LIBNOTIFY */
 
 #endif /* NOTIFICATION_TRAYICON */
+
+#ifdef NOTIFICATION_INDICATOR
+static void notify_create_indicator_page(PrefsPage *page, GtkWindow *window,
+		gpointer data)
+{
+	GtkWidget *pvbox;
+	GtkWidget *vbox;
+	GtkWidget *checkbox;
+
+	pvbox = gtk_vbox_new(FALSE, 20);
+	gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
+
+	/* Enable indicator */
+	checkbox = gtk_check_button_new_with_label(_("Add to Indicator Applet"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),
+			notify_config.indicator_enabled);
+	gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
+	g_signal_connect(G_OBJECT(checkbox), "toggled",
+			G_CALLBACK(notify_indicator_enable_set_sensitivity), NULL);
+	gtk_widget_show(checkbox);
+	indicator_page.indicator_enabled = checkbox;
+
+	/* Container vbox for greying out everything */
+	vbox = gtk_vbox_new(FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+	gtk_widget_show(vbox);
+	indicator_page.indicator_cont_enable = vbox;
+
+	notify_indicator_enable_set_sensitivity(GTK_TOGGLE_BUTTON(indicator_page.indicator_enabled), NULL);
+	gtk_widget_show(pvbox);
+	indicator_page.page.widget = pvbox;
+}
+
+static void notify_destroy_indicator_page(PrefsPage *page)
+{
+}
+
+static void notify_save_indicator(PrefsPage *page)
+{
+	notify_config.indicator_enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(indicator_page.indicator_enabled));
+	notification_indicator_destroy();
+	notification_update_indicator();
+}
+
+static void notify_indicator_enable_set_sensitivity(GtkToggleButton *button,
+		gpointer data)
+{
+	gboolean active;
+	active = gtk_toggle_button_get_active
+	(GTK_TOGGLE_BUTTON(indicator_page.indicator_enabled));
+	gtk_widget_set_sensitive(indicator_page.indicator_cont_enable, active);
+}
+#endif /* NOTIFICATION_INDICATOR */
 
 /* This feels so wrong... */
 static gint conv_color_to_int(GdkColor *color)

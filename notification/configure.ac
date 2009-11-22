@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=23
 MICRO_VERSION=0
-EXTRA_VERSION=3
+EXTRA_VERSION=4
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -265,6 +265,35 @@ if test x"$enable_lcdproc" = xyes; then
 fi
 AC_MSG_RESULT($enable_lcdproc)
 
+dnl libindicate
+LIBINDICATE_REQUIRED=0.2.3
+AC_ARG_ENABLE(indicator,
+	[  --disable-indicator     do not include libindicate support],
+ 	[enable_libindicate=$enableval], [enable_libindicate=auto])
+if test "x$enable_libindicate" != "xno"; then
+  PKG_CHECK_MODULES(libindicate, indicate >= $LIBINDICATE_REQUIRED,
+    have_libindicate=yes, have_libindicate=no)
+  if test "x$have_libindicate" = "xno" -a "x$enable_libindicate" = "xyes"; then
+    AC_MSG_ERROR([libindicate support explicitly requested, but libindicate couldn't be found or is too old])
+    have_libindicate=yes
+  fi
+  if test "x$have_libindicate" = "xyes"; then
+    enable_libindicate=yes
+  else
+    AC_MSG_RESULT(no)
+    enable_libindicate=no
+  fi
+fi
+if test "x$enable_libindicate" = "xyes"; then
+  AC_DEFINE(NOTIFICATION_INDICATOR, 1, [Activate support for the indicator applet])
+else
+  libindicate_CFLAGS=""
+  libindicate_LIBS=""
+fi
+AC_SUBST(libindicate_CFLAGS)
+AC_SUBST(libindicate_LIBS)
+
+
 dnl global hotkeys
 AC_ARG_ENABLE(hotkeys,
 	[  --disable-hotkeys       do not include support for global hotkeys],
@@ -319,6 +348,7 @@ echo ""
 echo "External libraries usage:"
 echo ""
 echo "libnotify       : $enable_libnotify"
+echo "libindicate     : $enable_libindicate"
 echo "libcanberra-gtk : $enable_libcanberra_gtk"
 echo ""
 echo ""

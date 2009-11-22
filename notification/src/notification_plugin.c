@@ -25,7 +25,7 @@
 #include "common/utils.h"
 #include "common/defs.h"
 #include "folder.h"
-#include "hooks.h"
+#include "common/hooks.h"
 #include "procmsg.h"
 #include "mainwindow.h"
 #include "main.h"
@@ -38,6 +38,7 @@
 #include "notification_banner.h"
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
+#include "notification_indicator.h"
 #include "notification_foldercheck.h"
 #include "notification_pixbuf.h"
 #include "plugin.h"
@@ -150,7 +151,7 @@ static gboolean my_folder_item_update_hook(gpointer source, gpointer data)
 
   g_return_val_if_fail(source != NULL, FALSE);
 
-#if defined(NOTIFICATION_LCDPROC) || defined(NOTIFICATION_TRAYICON)
+#if defined(NOTIFICATION_LCDPROC) || defined(NOTIFICATION_TRAYICON) || defined(NOTIFICATION_INDICATOR)
     notification_update_msg_counts(NULL);
 #else
     if(notify_config.urgency_hint)
@@ -384,7 +385,9 @@ gboolean plugin_done(void)
 #ifdef NOTIFICATION_TRAYICON
   notification_trayicon_destroy();
 #endif
-
+#ifdef NOTIFICATION_INDICATOR
+  notification_indicator_destroy();
+#endif
   notification_core_free();
 
 #ifdef HAVE_LIBNOTIFY

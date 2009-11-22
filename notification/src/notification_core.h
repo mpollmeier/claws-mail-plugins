@@ -55,6 +55,7 @@ void     notification_core_global_includes_changed(void);
 void     notification_core_free(void);
 void     notification_update_msg_counts(FolderItem*);
 void     notification_core_get_msg_count(GSList*,NotificationMsgCount*);
+void     notification_core_get_msg_count_of_foldername(gchar*, NotificationMsgCount*);
 void     notification_new_unnotified_msgs(FolderItemUpdateData*);
 gboolean notification_notified_hash_msginfo_update(MsgInfoUpdate*);
 void     notification_notified_hash_startup_init(void);
@@ -62,6 +63,8 @@ void     notification_notified_hash_startup_init(void);
 void     notification_show_mainwindow(MainWindow *mainwin);
 /* folder type specific settings */
 gboolean notify_include_folder_type(FolderType, gchar*);
+
+void notification_toggle_hide_show_window(void);
 
 #ifdef HAVE_LIBNOTIFY
 /* Sanitize a string to use with libnotify. Returns a freshly

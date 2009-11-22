@@ -28,6 +28,7 @@
 #include "notification_command.h"
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
+#include "notification_indicator.h"
 
 #ifdef HAVE_LIBCANBERRA_GTK
 # include <canberra-gtk.h>
@@ -71,6 +72,26 @@ void notification_core_global_includes_changed(void)
   notification_update_msg_counts(NULL);
 }
 
+/* Hide/show main window */
+void notification_toggle_hide_show_window(void)
+{
+  MainWindow *mainwin;
+  if((mainwin = mainwindow_get_mainwindow()) == NULL)
+    return;
+
+  if(GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))) {
+    if((gdk_window_get_state(GTK_WIDGET(mainwin->window)->window)&GDK_WINDOW_STATE_ICONIFIED)
+       || mainwindow_is_obscured()) {
+      notification_show_mainwindow(mainwin);
+    }
+    else {
+      main_window_hide(mainwin);
+    }
+  }
+  else {
+    notification_show_mainwindow(mainwin);
+  }
+}
 
 void notification_update_msg_counts(FolderItem *removed_item)
 {
@@ -96,6 +117,9 @@ void notification_update_msg_counts(FolderItem *removed_item)
 #endif
 #ifdef NOTIFICATION_TRAYICON
   notification_update_trayicon();
+#endif
+#ifdef NOTIFICATION_INDICATOR
+  notification_update_indicator();
 #endif
   notification_update_urgency_hint();
 }
@@ -127,6 +151,45 @@ static void msg_count_copy(NotificationMsgCount *c1,NotificationMsgCount *c2)
   c1->unreadmarked_msgs = c2->unreadmarked_msgs;
   c1->marked_msgs       = c2->marked_msgs;
   c1->total_msgs        = c2->total_msgs;
+}
+
+gboolean get_flat_gslist_from_nodes_traverse_func(GNode *node, gpointer data)
+{
+  if(node->data) {
+    GSList **list = data;
+    *list = g_slist_prepend(*list, node->data);
+  }
+  return FALSE;
+}
+
+GSList* get_flat_gslist_from_nodes(GNode *node)
+{
+  GSList *retval = NULL;
+
+  g_node_traverse(node, G_PRE_ORDER, G_TRAVERSE_ALL, -1, get_flat_gslist_from_nodes_traverse_func, &retval);
+  return retval;
+}
+
+void notification_core_get_msg_count_of_foldername(gchar *foldername, NotificationMsgCount *count)
+{
+  GList *list;
+  Folder *walk_folder;
+  Folder *folder = NULL;
+
+  for(list = folder_get_list(); list != NULL; list = list->next) {
+    walk_folder = list->data;
+    if(strcmp2(foldername, walk_folder->name) == 0) {
+      folder = walk_folder;
+      break;
+    }
+  }
+  if(!folder) {
+    debug_print("Notification plugin: Error: Could not find folder %s\n", foldername);
+    return;
+  }
+
+  msg_count_clear(count);
+  notification_core_get_msg_count(get_flat_gslist_from_nodes(folder->node), count);
 }
 
 void notification_core_get_msg_count(GSList *folder_list,

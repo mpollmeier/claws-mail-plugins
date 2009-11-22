@@ -1,3 +1,16 @@
+2009-11-22 [holger]	0.23cvs4
+
+	* configure.ac
+	* src/Makefile.am
+	* src/notification_core.c
+	* src/notification_core.h
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+		Add optional support for the indicator applet.
+		New configure switch --{en|dis}able-indicator
+
 2009-10-21 [holger]	0.23cvs3
 
 	* src/notification_trayicon.c

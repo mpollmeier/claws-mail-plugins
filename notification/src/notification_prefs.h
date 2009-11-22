@@ -101,6 +101,9 @@ typedef struct {
   gchar*           trayicon_hotkey_toggle;
 #endif /* Hotkeys */
 #endif /* Trayicon */
+#ifdef NOTIFICATION_INDICATOR
+  gboolean indicator_enabled;
+#endif /* NOTIFICATION_INDICATOR */
 } NotifyPrefs;
 
 extern NotifyPrefs notify_config;

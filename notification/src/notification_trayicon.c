@@ -110,27 +110,6 @@ static GtkToggleActionEntry trayicon_popup_toggle_menu_entries[] =
 #endif
 };
 
-/* Hide/show main window */
-static void toggle_hide_show_window()
-{
-  MainWindow *mainwin;
-  if((mainwin = mainwindow_get_mainwindow()) == NULL)
-    return;
-
-  if(GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))) {
-    if((gdk_window_get_state(GTK_WIDGET(mainwin->window)->window)&GDK_WINDOW_STATE_ICONIFIED)
-       || mainwindow_is_obscured()) {
-      notification_show_mainwindow(mainwin);
-    }
-    else {
-      main_window_hide(mainwin);
-    }
-  }
-  else {
-    notification_show_mainwindow(mainwin);
-  }
-}
-
 #ifdef NOTIFICATION_HOTKEYS
 
 #include "gtkhotkey.h"
@@ -145,7 +124,7 @@ static void hotkey_toggle_activated(GtkHotkeyInfo *hotkey, guint event_time, gpo
   g_return_if_fail(GTK_HOTKEY_IS_INFO(hotkey));
   if(notification_trayicon_is_available()) {
     debug_print("Notification plugin: Toggled hide/show window due to hotkey %s activation\n", gtk_hotkey_info_get_signature(hotkey));
-    toggle_hide_show_window();
+    notification_toggle_hide_show_window();
   }
   else {
     debug_print("Notification plugin: Ignored toggle request by hotkey %s activation because status icon is not visible\n", gtk_hotkey_info_get_signature(hotkey));
@@ -501,10 +480,9 @@ static GdkPixbuf* notification_trayicon_create(void)
   return trayicon_nomail;
 }
 
-void notification_trayicon_on_activate(GtkStatusIcon *status_icon,
-																			 gpointer user_data)
+void notification_trayicon_on_activate(GtkStatusIcon *status_icon, gpointer user_data)
 {
-  toggle_hide_show_window();
+  notification_toggle_hide_show_window();
 }
 
 static void notification_trayicon_on_popup_menu(GtkStatusIcon *status_icon,
