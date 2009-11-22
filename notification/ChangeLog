@@ -1,3 +1,9 @@
+2009-11-22 [holger]	0.23cvs5
+
+	* src/notification_indicator.c
+	* src/notification_indicator.h
+		Forgot to include new files on last commit
+
 2009-11-22 [holger]	0.23cvs4
 
 	* configure.ac
