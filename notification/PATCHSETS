@@ -136,3 +136,4 @@
 ( cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/notification_trayicon.c;  ) > 0.23cvs3.patchset
 ( cvs diff -u -r 1.1.2.175 -r 1.1.2.176 configure.ac;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/Makefile.am;  cvs diff -u -r 1.1.2.26 -r 1.1.2.27 src/notification_core.c;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/notification_core.h;  cvs diff -u -r 1.1.2.34 -r 1.1.2.35 src/notification_plugin.c;  cvs diff -u -r 1.1.2.34 -r 1.1.2.35 src/notification_prefs.c;  cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/notification_prefs.h;  cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/notification_trayicon.c;  ) > 0.23cvs4.patchset
 ( diff -u /dev/null src/notification_indicator.c;  diff -u /dev/null src/notification_indicator.h;  ) > 0.23cvs5.patchset
+( cvs diff -u -r 1.1.2.177 -r 1.1.2.178 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/notification_indicator.c;  cvs diff -u -r 1.1.2.35 -r 1.1.2.36 src/notification_plugin.c;  ) > 0.23cvs6.patchset

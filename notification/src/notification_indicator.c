@@ -24,6 +24,7 @@
 #include "notification_core.h"
 
 #include "folder.h"
+#include "common/utils.h"
 
 #include <libindicate/server.h>
 #include <libindicate/indicator.h>
@@ -104,8 +105,7 @@ void notification_update_indicator(void)
   if(!server) {
     server = indicate_server_ref_default();
     indicate_server_set_type (server, "message.mail");
-    // TODO: smarter way to get desktop file
-    indicate_server_set_desktop_file(server, "/usr/local/share/applications/claws-mail.desktop");
+    indicate_server_set_desktop_file(server, get_desktop_file());
     g_signal_connect(server, "server-display", G_CALLBACK(show_claws_mail), NULL);
     indicate_server_show(server);
   }

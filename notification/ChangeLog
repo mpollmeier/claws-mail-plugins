@@ -1,3 +1,10 @@
+2009-11-25 [holger]	0.23cvs6
+
+	* configure.ac
+	* src/notification_indicator.c
+	* src/notification_plugin.c
+		Use new API to get .desktop file
+
 2009-11-22 [holger]	0.23cvs5
 
 	* src/notification_indicator.c
