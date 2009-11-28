@@ -40,7 +40,7 @@
 
 #include <champlain/champlain.h>
 #include <champlain-gtk/champlain-gtk.h>
-#include <clutter-gtk/gtk-clutter-embed.h>
+#include <clutter-gtk/clutter-gtk.h>
 
 #include <string.h>
 

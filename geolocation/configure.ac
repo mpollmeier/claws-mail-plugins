@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=0
 MICRO_VERSION=1
-EXTRA_VERSION=5
+EXTRA_VERSION=6
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -97,7 +97,7 @@ dnl Check for libxml2
 PKG_CHECK_MODULES(LIBXML, libxml-2.0)
 
 dnl Check for libchamplain
-PKG_CHECK_MODULES(CHAMPLAIN, champlain-gtk-0.3 >= 0.3.5)
+PKG_CHECK_MODULES(CHAMPLAIN, champlain-gtk-0.4 >= 0.4.0)
 
 AC_SUBST(VERSION)
 AC_SUBST(PLUGINVERSION)
