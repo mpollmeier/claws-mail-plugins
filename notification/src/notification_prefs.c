@@ -161,6 +161,7 @@ typedef struct {
 	PrefsPage page;
 	GtkWidget *indicator_enabled;
 	GtkWidget *indicator_cont_enable;
+	GtkWidget *indicator_register;
 }NotifyIndicatorPage;
 NotifyIndicatorPage indicator_page;
 #endif
@@ -1720,12 +1721,77 @@ static void notify_trayicon_popup_enable_set_sensitivity(GtkToggleButton *bu,
 #endif /* NOTIFICATION_TRAYICON */
 
 #ifdef NOTIFICATION_INDICATOR
+
+#define NOTIFICATION_INDICATOR_REGISTER_PATH ".config/indicators/messages/applications"
+
+static gboolean indicator_register_file_exists(void)
+{
+  gboolean retval;
+  gchar *filepath;
+  filepath = g_strconcat(get_home_dir(), "/" NOTIFICATION_INDICATOR_REGISTER_PATH "/claws-mail", NULL);
+  retval = is_file_exist(filepath);
+  g_free(filepath);
+  return retval;
+}
+
+static gboolean indicator_register_file_create(void)
+{
+  FILE *fp;
+  gchar *path, *filepath;
+  gboolean success;
+
+  /* make sure directory path exists */
+  path = g_strconcat(get_home_dir(), "/" NOTIFICATION_INDICATOR_REGISTER_PATH, NULL);
+  if(!is_dir_exist(path)) {
+    if(make_dir_hier(path) != -1)
+      debug_print("Notification plugin: Created directory '%s'\n", path);
+     else {
+       debug_print("Notification plugin: Error creating directory '%s'\n", path);
+       g_free(path);
+       return FALSE;
+     }
+  }
+
+  /* create register file */
+  filepath = g_strconcat(path, "/claws-mail", NULL);
+  g_free(path);
+  fp = fopen(filepath, "w");
+  success = (fp != NULL);
+  if(fp) {
+    fprintf(fp, "%s\n", get_desktop_file());
+    fclose(fp);
+    debug_print("Notification plugin: Created desktop indicator file '%s'\n", filepath);
+  }
+  else
+    debug_print("Notification plugin: Could not create desktop indicator file '%s'\n", filepath);
+  g_free(filepath);
+
+  return success;
+}
+
+static gboolean indicator_register_file_remove(void)
+{
+  gchar *filepath;
+  int retval;
+
+  filepath = g_strconcat(get_home_dir(), "/" NOTIFICATION_INDICATOR_REGISTER_PATH "/claws-mail", NULL);
+  retval = claws_unlink(filepath);
+  if(retval != -1)
+    debug_print("Notification plugin: Deleted file '%s'\n", filepath);
+  else
+    debug_print("Notification plugin: Error deleting file '%s'\n", filepath);
+  g_free(filepath);
+
+  return (retval != -1);
+}
+
 static void notify_create_indicator_page(PrefsPage *page, GtkWindow *window,
 		gpointer data)
 {
 	GtkWidget *pvbox;
 	GtkWidget *vbox;
 	GtkWidget *checkbox;
+	GtkWidget *ind_reg;
 
 	pvbox = gtk_vbox_new(FALSE, 20);
 	gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
@@ -1737,17 +1803,21 @@ static void notify_create_indicator_page(PrefsPage *page, GtkWindow *window,
 	gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(checkbox), "toggled",
 			G_CALLBACK(notify_indicator_enable_set_sensitivity), NULL);
-	gtk_widget_show(checkbox);
 	indicator_page.indicator_enabled = checkbox;
 
 	/* Container vbox for greying out everything */
 	vbox = gtk_vbox_new(FALSE, 10);
 	gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
-	gtk_widget_show(vbox);
 	indicator_page.indicator_cont_enable = vbox;
 
+	/* register */
+	ind_reg = gtk_check_button_new_with_label(_("Register Claws Mail"));
+	gtk_box_pack_start(GTK_BOX(indicator_page.indicator_cont_enable), ind_reg, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ind_reg), indicator_register_file_exists());
+	indicator_page.indicator_register = ind_reg;
+
 	notify_indicator_enable_set_sensitivity(GTK_TOGGLE_BUTTON(indicator_page.indicator_enabled), NULL);
-	gtk_widget_show(pvbox);
+	gtk_widget_show_all(pvbox);
 	indicator_page.page.widget = pvbox;
 }
 
@@ -1757,7 +1827,20 @@ static void notify_destroy_indicator_page(PrefsPage *page)
 
 static void notify_save_indicator(PrefsPage *page)
 {
+    gboolean ind_reg;
+
 	notify_config.indicator_enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(indicator_page.indicator_enabled));
+
+	ind_reg = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(indicator_page.indicator_register));
+	if(ind_reg) {
+	  if(!indicator_register_file_exists())
+	    indicator_register_file_create();
+	}
+	else {
+	  if(indicator_register_file_exists())
+	    indicator_register_file_remove();
+	}
+
 	notification_indicator_destroy();
 	notification_update_indicator();
 }

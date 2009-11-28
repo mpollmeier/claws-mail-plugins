@@ -1,3 +1,11 @@
+2009-11-28 [holger]	0.23cvs7
+
+	* src/notification_prefs.c
+		Support registering Claws Mail in the
+		indicator applet. If registered, the applet
+		will provide an entry to launch Claws Mail
+		if it's not running
+
 2009-11-25 [holger]	0.23cvs6
 
 	* configure.ac
