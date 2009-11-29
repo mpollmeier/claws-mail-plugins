@@ -103,6 +103,7 @@ typedef struct {
 #endif /* Trayicon */
 #ifdef NOTIFICATION_INDICATOR
   gboolean indicator_enabled;
+  gboolean indicator_hide_minimized;
 #endif /* NOTIFICATION_INDICATOR */
 } NotifyPrefs;
 

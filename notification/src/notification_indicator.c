@@ -32,6 +32,7 @@
 
 static IndicateServer *server = NULL;
 static GHashTable *indicators = NULL;
+static gulong mainwin_state_changed_signal_id = 0;
 
 void notification_indicator_destroy(void)
 {
@@ -44,6 +45,13 @@ void notification_indicator_destroy(void)
     g_object_unref(server);
     server = NULL;
   }
+  if(mainwin_state_changed_signal_id != 0) {
+    MainWindow *mainwin;
+    if((mainwin = mainwindow_get_mainwindow()) != NULL)
+      g_signal_handler_disconnect(mainwin->window, mainwin_state_changed_signal_id);
+    mainwin_state_changed_signal_id = 0;
+  }
+
 }
 
 static void show_claws_mail(gpointer dummy, gpointer data)
@@ -94,10 +102,36 @@ static void create_indicators(void)
   }
 }
 
+static gboolean mainwin_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data)
+{
+  if(notify_config.indicator_hide_minimized) {
+    MainWindow *mainwin;
+
+    if((mainwin = mainwindow_get_mainwindow()) == NULL)
+      return FALSE;
+
+    if((event->changed_mask & GDK_WINDOW_STATE_ICONIFIED) && (event->new_window_state & GDK_WINDOW_STATE_ICONIFIED)) {
+      gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), TRUE);
+    }
+    else if((event->changed_mask & GDK_WINDOW_STATE_ICONIFIED) && !(event->new_window_state & GDK_WINDOW_STATE_ICONIFIED)) {
+      gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), FALSE);
+    }
+  }
+  return FALSE;
+}
+
 void notification_update_indicator(void)
 {
   GHashTableIter iter;
   gpointer key, value;
+
+  if(!mainwin_state_changed_signal_id) {
+    MainWindow *mainwin;
+
+    if((mainwin = mainwindow_get_mainwindow()) != NULL)
+      mainwin_state_changed_signal_id = g_signal_connect(G_OBJECT(mainwin->window), "window-state-event", G_CALLBACK(mainwin_state_event), NULL);
+  }
+
 
   if(!notify_config.indicator_enabled)
     return;

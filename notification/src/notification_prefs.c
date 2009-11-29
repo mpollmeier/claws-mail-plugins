@@ -162,6 +162,7 @@ typedef struct {
 	GtkWidget *indicator_enabled;
 	GtkWidget *indicator_cont_enable;
 	GtkWidget *indicator_register;
+	GtkWidget *indicator_hide_minimized;
 }NotifyIndicatorPage;
 NotifyIndicatorPage indicator_page;
 #endif
@@ -294,6 +295,8 @@ PrefParam
 #ifdef NOTIFICATION_INDICATOR
 				{	"indicator_enabled", "FALSE", &notify_config.indicator_enabled, P_BOOL,
 					NULL, NULL, NULL},
+                {   "indicator_hide_minimized", "FALSE", &notify_config.indicator_hide_minimized, P_BOOL,
+                    NULL, NULL, NULL},
 #endif /* NOTIFICATION_INDICATOR */
 				{ NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL } };
 
@@ -1810,6 +1813,12 @@ static void notify_create_indicator_page(PrefsPage *page, GtkWindow *window,
 	gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
 	indicator_page.indicator_cont_enable = vbox;
 
+	/* hide when minimized */
+	checkbox = gtk_check_button_new_with_label(_("Hide mainwindow when minimized"));
+	gtk_box_pack_start(GTK_BOX(indicator_page.indicator_cont_enable), checkbox, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), notify_config.indicator_hide_minimized);
+	indicator_page.indicator_hide_minimized = checkbox;
+
 	/* register */
 	ind_reg = gtk_check_button_new_with_label(_("Register Claws Mail"));
 	gtk_box_pack_start(GTK_BOX(indicator_page.indicator_cont_enable), ind_reg, FALSE, FALSE, 0);
@@ -1830,6 +1839,8 @@ static void notify_save_indicator(PrefsPage *page)
     gboolean ind_reg;
 
 	notify_config.indicator_enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(indicator_page.indicator_enabled));
+
+	notify_config.indicator_hide_minimized = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(indicator_page.indicator_hide_minimized));
 
 	ind_reg = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(indicator_page.indicator_register));
 	if(ind_reg) {

@@ -138,3 +138,4 @@
 ( diff -u /dev/null src/notification_indicator.c;  diff -u /dev/null src/notification_indicator.h;  ) > 0.23cvs5.patchset
 ( cvs diff -u -r 1.1.2.177 -r 1.1.2.178 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/notification_indicator.c;  cvs diff -u -r 1.1.2.35 -r 1.1.2.36 src/notification_plugin.c;  ) > 0.23cvs6.patchset
 ( cvs diff -u -r 1.1.2.35 -r 1.1.2.36 src/notification_prefs.c;  ) > 0.23cvs7.patchset
+( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/notification_indicator.c;  cvs diff -u -r 1.1.2.36 -r 1.1.2.37 src/notification_prefs.c;  cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/notification_prefs.h;  ) > 0.23cvs8.patchset

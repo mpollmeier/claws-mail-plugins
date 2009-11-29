@@ -1,3 +1,12 @@
+2009-11-29 [holger]	0.23cvs8
+
+	* src/notification_indicator.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+		When using the indicator applet, allow
+		removing the Claws Mail from the window
+		list when it is minimized
+
 2009-11-28 [holger]	0.23cvs7
 
 	* src/notification_prefs.c
