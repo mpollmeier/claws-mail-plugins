@@ -39,6 +39,7 @@
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
 #include "notification_indicator.h"
+#include "notification_hotkeys.h"
 #include "notification_foldercheck.h"
 #include "notification_pixbuf.h"
 #include "plugin.h"

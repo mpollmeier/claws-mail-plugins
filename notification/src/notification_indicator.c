@@ -57,12 +57,19 @@ void notification_indicator_destroy(void)
 static void show_claws_mail(gpointer dummy, gpointer data)
 {
   MainWindow *mainwin;
+
   if((mainwin = mainwindow_get_mainwindow()) == NULL)
     return;
 
   notification_show_mainwindow(mainwin);
-  // TODO: if data is non-NULL, it contains the account name.
-  // display first new message in that account
+  if(data) {
+    Folder *folder = data;
+    FolderItem *item = folder->inbox;
+
+    gchar *path = folder_item_get_identifier(item);
+    mainwindow_jump_to(path, FALSE);
+    g_free(path);
+  }
 }
 
 static void set_indicator_unread_count(IndicateIndicator *indicator, gint new, gint unread)
@@ -96,7 +103,7 @@ static void create_indicators(void)
     set_indicator_unread_count(indicator, 0, 0);
     g_object_set_data(G_OBJECT(indicator), "new_msgs", GINT_TO_POINTER(0));
     g_object_set_data(G_OBJECT(indicator), "unread_msgs", GINT_TO_POINTER(0));
-    g_signal_connect(indicator, "user-display", G_CALLBACK (show_claws_mail), name);
+    g_signal_connect(indicator, "user-display", G_CALLBACK (show_claws_mail), folder);
     indicate_indicator_show(indicator);
     g_hash_table_insert(indicators, name, indicator);
   }

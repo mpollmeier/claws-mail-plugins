@@ -25,6 +25,7 @@
 #include "notification_trayicon.h"
 #include "notification_prefs.h"
 #include "notification_core.h"
+#include "notification_hotkeys.h"
 #include "notification_pixbuf.h"
 #include "notification_foldercheck.h"
 
