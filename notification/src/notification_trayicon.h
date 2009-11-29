@@ -42,10 +42,6 @@ gboolean notification_trayicon_account_list_changed(gpointer, gpointer);
 gboolean notification_trayicon_is_available(void);
 void notification_trayicon_on_activate(GtkStatusIcon*,gpointer);
 
-#ifdef NOTIFICATION_HOTKEYS
-void notification_trayicon_update_hotkey_bindings();
-#endif
-
 #endif /* NOTIFICATION_TRAYICON */
 
 #endif /* include guard */

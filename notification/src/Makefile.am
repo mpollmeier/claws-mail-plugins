@@ -65,6 +65,7 @@ notification_plugin_la_SOURCES = \
 	notification_lcdproc.c notification_lcdproc.h \
 	notification_trayicon.c notification_trayicon.h \
 	notification_indicator.c notification_indicator.h \
+	notification_hotkeys.c notification_hotkeys.h \
 	notification_prefs.c notification_prefs.h \
 	notification_foldercheck.c notification_foldercheck.h \
 	notification_pixbuf.c notification_pixbuf.h \

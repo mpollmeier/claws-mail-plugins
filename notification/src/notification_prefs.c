@@ -37,6 +37,7 @@
 #include "notification_lcdproc.h"
 #include "notification_trayicon.h"
 #include "notification_indicator.h"
+#include "notification_hotkeys.h"
 
 #include "notification_foldercheck.h"
 
@@ -149,9 +150,6 @@ typedef struct {
 	GtkWidget *trayicon_popup_cont_enable;
 	GtkWidget *trayicon_popup_timeout;
 #endif
-#ifdef NOTIFICATION_HOTKEYS
-	GtkWidget *trayicon_hotkey_toggle;
-#endif
 }NotifyTrayiconPage;
 NotifyTrayiconPage trayicon_page;
 #endif
@@ -166,6 +164,17 @@ typedef struct {
 }NotifyIndicatorPage;
 NotifyIndicatorPage indicator_page;
 #endif
+
+#ifdef NOTIFICATION_HOTKEYS
+typedef struct {
+    PrefsPage page;
+    GtkWidget *hotkeys_enabled;
+    GtkWidget *hotkeys_cont_enable;
+    GtkWidget *hotkeys_toggle_mainwindow;
+}NotifyHotkeysPage;
+NotifyHotkeysPage hotkeys_page;
+#endif
+
 
 PrefParam
 		notify_param[] =
@@ -286,10 +295,6 @@ PrefParam
 				{	"trayicon_popup_timeout", "5000", &notify_config.trayicon_popup_timeout,
 					P_INT, NULL, NULL, NULL},
 #endif /* HAVE_LIBNOTIFY */
-#ifdef NOTIFICATION_HOTKEYS
-				{	"trayicon_hotkey_toggle", "", &notify_config.trayicon_hotkey_toggle,
-					P_STRING, NULL, NULL, NULL},
-#endif
 #endif
 
 #ifdef NOTIFICATION_INDICATOR
@@ -298,6 +303,12 @@ PrefParam
                 {   "indicator_hide_minimized", "FALSE", &notify_config.indicator_hide_minimized, P_BOOL,
                     NULL, NULL, NULL},
 #endif /* NOTIFICATION_INDICATOR */
+#ifdef NOTIFICATION_HOTKEYS
+                {   "hotkeys_enabled", "FALSE", &notify_config.hotkeys_enabled, P_BOOL,
+                    NULL, NULL, NULL},
+                {   "hotkeys_toggle_mainwindow", "", &notify_config.hotkeys_toggle_mainwindow,
+                    P_STRING, NULL, NULL, NULL},
+#endif /* NOTIFICATION_HOTKEYS */
 				{ NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL } };
 
 static void notify_create_prefs_page(PrefsPage*, GtkWindow*, gpointer);
@@ -364,6 +375,13 @@ static void notify_save_indicator(PrefsPage*);
 static void notify_indicator_enable_set_sensitivity(GtkToggleButton*, gpointer);
 #endif /* NOTIFICATION_INDICATOR */
 
+#ifdef NOTIFICATION_HOTKEYS
+static void notify_create_hotkeys_page(PrefsPage*, GtkWindow*, gpointer);
+static void notify_destroy_hotkeys_page(PrefsPage*);
+static void notify_save_hotkeys(PrefsPage*);
+static void notify_hotkeys_enable_set_sensitivity(GtkToggleButton*, gpointer);
+#endif /* NOTIFICATION_HOTKEYS */
+
 
 static gint conv_color_to_int(GdkColor*);
 
@@ -380,6 +398,24 @@ void notify_gtk_init(void)
 	notify_page.page.destroy_widget = notify_destroy_prefs_page;
 	notify_page.page.save_page = notify_save_prefs;
 	prefs_gtk_register_page((PrefsPage*) &notify_page);
+
+#ifdef NOTIFICATION_HOTKEYS
+    {
+        static gchar *hotkeys_path[4];
+
+        hotkeys_path[0] = _("Plugins");
+        hotkeys_path[1] = _("Notification");
+        hotkeys_path[2] = _("Hotkeys");
+        hotkeys_path[3] = NULL;
+
+        hotkeys_page.page.path = hotkeys_path;
+        hotkeys_page.page.create_widget = notify_create_hotkeys_page;
+        hotkeys_page.page.destroy_widget = notify_destroy_hotkeys_page;
+        hotkeys_page.page.save_page = notify_save_hotkeys;
+        prefs_gtk_register_page((PrefsPage*) &hotkeys_page);
+    }
+#endif /* NOTIFICATION_HOTKEYS */
+
 
 #ifdef NOTIFICATION_BANNER
 	{
@@ -1439,7 +1475,7 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 	GtkWidget *hbox;
 	GtkWidget *button;
 
-#if defined(HAVE_LIBNOTIFY) || defined(NOTIFICATION_HOTKEYS)
+#if defined(HAVE_LIBNOTIFY)
 	GtkWidget *frame;
 	GtkWidget *svbox;
 	GtkWidget *label;
@@ -1449,11 +1485,6 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 	GtkWidget *ssvbox;
 	GtkWidget *spinner;
 	gdouble timeout;
-#endif
-
-#ifdef NOTIFICATION_HOTKEYS
-    GtkWidget *entry;
-    gchar *markup;
 #endif
 
 	pvbox = gtk_vbox_new(FALSE, 20);
@@ -1584,36 +1615,6 @@ static void notify_create_trayicon_page(PrefsPage *page, GtkWindow *window,
 
 #endif
 
-#ifdef NOTIFICATION_HOTKEYS
-	frame = gtk_frame_new(_("Global hotkeys"));
-	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
-
-	/* vbox for frame */
-	svbox = gtk_vbox_new(FALSE, 10);
-	gtk_container_set_border_width(GTK_CONTAINER(svbox), 5);
-	gtk_container_add(GTK_CONTAINER(frame), svbox);
-
-	/* general description */
-	label = gtk_label_new("aa");
-	markup = g_markup_printf_escaped ("Examples for hotkeys include <b>%s</b> and <b>%s</b>", "<control><shift>F11", "<alt>N");
-	gtk_label_set_markup(GTK_LABEL(label), markup);
-	gtk_misc_set_alignment(GTK_MISC(label), 0., 0.);
-	g_free(markup);
-	gtk_widget_show(label);
-	gtk_box_pack_start(GTK_BOX(svbox), label, FALSE, FALSE, 0);
-
-    hbox = gtk_hbox_new(FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(svbox), hbox, FALSE, FALSE, 0);
-    label = gtk_label_new(_("Toggle minimize to tray:"));
-    gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	entry = gtk_entry_new();
-    if(notify_config.trayicon_hotkey_toggle)
-      gtk_entry_set_text(GTK_ENTRY(entry), notify_config.trayicon_hotkey_toggle);
-    trayicon_page.trayicon_hotkey_toggle = entry;
-    gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
-    gtk_widget_show_all(frame);
-#endif /* hotkeys */
-
 	notify_trayicon_enable_set_sensitivity
 	(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_enabled), NULL);
 
@@ -1637,9 +1638,6 @@ static void notify_save_trayicon(PrefsPage *page)
 {
 #ifdef HAVE_LIBNOTIFY
 	gdouble timeout;
-#endif
-#ifdef NOTIFICATION_HOTKEYS
-    const gchar *tmp_str;
 #endif
 
 	notify_config.trayicon_enabled =
@@ -1670,15 +1668,6 @@ static void notify_save_trayicon(PrefsPage *page)
 
 	notify_config.trayicon_display_folder_name =
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(trayicon_page.trayicon_display_folder_name));
-#endif
-
-#ifdef NOTIFICATION_HOTKEYS
-    tmp_str = gtk_entry_get_text(GTK_ENTRY(trayicon_page.trayicon_hotkey_toggle));
-	if(notify_config.trayicon_hotkey_toggle)
-      g_free(notify_config.trayicon_hotkey_toggle);
-	notify_config.trayicon_hotkey_toggle = g_strdup(tmp_str);
-
-    notification_trayicon_update_hotkey_bindings();
 #endif
 
 	notify_config.trayicon_folder_specific =
@@ -1865,6 +1854,86 @@ static void notify_indicator_enable_set_sensitivity(GtkToggleButton *button,
 	gtk_widget_set_sensitive(indicator_page.indicator_cont_enable, active);
 }
 #endif /* NOTIFICATION_INDICATOR */
+
+#ifdef NOTIFICATION_HOTKEYS
+static void notify_create_hotkeys_page(PrefsPage *page, GtkWindow *window, gpointer data)
+{
+    GtkWidget *pvbox;
+    GtkWidget *vbox;
+    GtkWidget *checkbox;
+    GtkWidget *label;
+    gchar *markup;
+    GtkWidget *table;
+    GtkWidget *entry;
+
+    pvbox = gtk_vbox_new(FALSE, 20);
+    gtk_container_set_border_width(GTK_CONTAINER(pvbox), 10);
+
+    /* Enable hotkeys */
+    checkbox = gtk_check_button_new_with_label(_("Enable global hotkeys"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox),  notify_config.hotkeys_enabled);
+    gtk_box_pack_start(GTK_BOX(pvbox), checkbox, FALSE, FALSE, 0);
+    g_signal_connect(G_OBJECT(checkbox), "toggled",
+        G_CALLBACK(notify_hotkeys_enable_set_sensitivity), NULL);
+    hotkeys_page.hotkeys_enabled = checkbox;
+
+    /* Container vbox for greying out everything */
+    vbox = gtk_vbox_new(FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(pvbox), vbox, FALSE, FALSE, 0);
+    hotkeys_page.hotkeys_cont_enable = vbox;
+
+    /* description */
+    label = gtk_label_new("");
+    markup = g_markup_printf_escaped("Examples for hotkeys include <b>%s</b> and <b>%s</b>", "<control><shift>F11", "<alt>N");
+    gtk_label_set_markup(GTK_LABEL(label), markup);
+    gtk_misc_set_alignment(GTK_MISC(label), 0., 0.);
+    g_free(markup);
+    gtk_box_pack_start(GTK_BOX(hotkeys_page.hotkeys_cont_enable), label, FALSE, FALSE, 0);
+
+    /* table for entry fields */
+    table = gtk_table_new(1, 2, FALSE);
+    gtk_box_pack_start(GTK_BOX(hotkeys_page.hotkeys_cont_enable), table, FALSE, FALSE, 0);
+
+    /* toggle mainwindow */
+    label = gtk_label_new(_("Toggle minimize:"));
+    gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+    entry = gtk_entry_new();
+    gtk_table_attach_defaults(GTK_TABLE(table), entry, 1, 2, 0, 1);
+    if(notify_config.hotkeys_toggle_mainwindow)
+      gtk_entry_set_text(GTK_ENTRY(entry), notify_config.hotkeys_toggle_mainwindow);
+    hotkeys_page.hotkeys_toggle_mainwindow = entry;
+
+    notify_hotkeys_enable_set_sensitivity(GTK_TOGGLE_BUTTON(hotkeys_page.hotkeys_enabled), NULL);
+    gtk_widget_show_all(pvbox);
+    hotkeys_page.page.widget = pvbox;
+}
+
+static void notify_destroy_hotkeys_page(PrefsPage *page)
+{
+}
+
+static void notify_save_hotkeys(PrefsPage *page)
+{
+    const gchar *tmp_str;
+    notify_config.hotkeys_enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(hotkeys_page.hotkeys_enabled));
+
+    tmp_str = gtk_entry_get_text(GTK_ENTRY(hotkeys_page.hotkeys_toggle_mainwindow));
+    if(notify_config.hotkeys_toggle_mainwindow)
+      g_free(notify_config.hotkeys_toggle_mainwindow);
+    notify_config.hotkeys_toggle_mainwindow = g_strdup(tmp_str);
+
+    notification_hotkeys_update_bindings();
+}
+
+static void notify_hotkeys_enable_set_sensitivity(GtkToggleButton *button,
+        gpointer data)
+{
+    gboolean active;
+    active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(hotkeys_page.hotkeys_enabled));
+    gtk_widget_set_sensitive(hotkeys_page.hotkeys_cont_enable, active);
+}
+#endif /* hotkeys */
+
 
 /* This feels so wrong... */
 static gint conv_color_to_int(GdkColor *color)

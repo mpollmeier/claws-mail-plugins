@@ -350,6 +350,10 @@ gint plugin_init(gchar **error)
   if(notify_config.urgency_hint_new || notify_config.urgency_hint_unread)
 	notification_update_msg_counts(NULL);
 
+#ifdef NOTIFICATION_HOTKEYS
+  notification_hotkeys_update_bindings();
+#endif
+
   debug_print("Notification plugin loaded\n");
 
   return 0;
@@ -393,6 +397,10 @@ gboolean plugin_done(void)
 #ifdef HAVE_LIBNOTIFY
   if(notify_is_initted())
     notify_uninit();
+#endif
+
+#ifdef NOTIFICATION_HOTKEYS
+  notification_hotkeys_unbind_all();
 #endif
 
   notification_pixbuf_free_all();

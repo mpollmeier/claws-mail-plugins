@@ -1,3 +1,16 @@
+2009-11-29 [holger]	0.23cvs9
+
+	* src/Makefile.am
+	* src/notification_hotkeys.c
+	* src/notification_hotkeys.h
+	* src/notification_plugin.c
+	* src/notification_prefs.c
+	* src/notification_prefs.h
+	* src/notification_trayicon.c
+	* src/notification_trayicon.h
+		Break global hotkeys out of trayicon as they also
+		make sense to be used in connection with the indicator applet
+
 2009-11-29 [holger]	0.23cvs8
 
 	* src/notification_indicator.c
