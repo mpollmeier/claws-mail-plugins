@@ -3,3 +3,4 @@
 ( diff -u /dev/null .cvsignore;  diff -u /dev/null config/.cvsignore;  diff -u /dev/null po/.cvsignore;  diff -u /dev/null src/.cvsignore;  ) > 0.0.1cvs4.patchset
 ( diff -u /dev/null po/fr.po;  ) > 0.0.1cvs5.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/geolocation_plugin.c;  ) > 0.0.1cvs6.patchset
+( diff -u /dev/null po/es.po;  ) > 0.0.1cvs7.patchset

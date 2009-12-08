@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail Geolocation plugin\n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2009-10-06 11:23+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ricardo Mones <ricardo@mones.org\n"
+"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#. TRANSLATORS: The two numbers are latitude and longitude coordinates
+#: src/geolocation_plugin.c:334
+#, c-format
+msgid "Found location: (%.2f,%.2f)"
+msgstr "Ubicación encontrada: (%.2f, %.2f)"
+
+#. TRANSLATORS: The IP address is appended to the string
+#: src/geolocation_plugin.c:351
+msgid "Could not resolve location of IP address "
+msgstr "No se pudo encontrar la ubicación de la dirección IP "
+
+#: src/geolocation_plugin.c:490
+msgid "Try to locate sender"
+msgstr "Intentar ubicar al remitente"
+
+#: src/geolocation_plugin.c:515
+#: src/geolocation_plugin.c:587
+msgid "GeoLocation"
+msgstr "Ubicación geográfica"
+
+#: src/geolocation_plugin.c:520
+#: src/geolocation_plugin.c:527
+#, c-format
+msgid "Could not create regular expression: %s\n"
+msgstr "No se pudo crear la expresión regular: %s\n"
+
+#: src/geolocation_plugin.c:535
+msgid "Failed to register messageview_show hook in the GeoLocation plugin"
+msgstr ""
+"No se pudo registrar el enlace messageview_show en el módulo de ubicación "
+"geográfica"
+
+#: src/geolocation_plugin.c:592
+msgid ""
+"This plugin provides GeoLocation functionality for Claws Mail.\n"
+"\n"
+"Warning: It is technically impossible to derive the geographic location of senders from their E-Mails with any amount of certainty. The results presented by this plugin are only rough estimates. In particular, mailing list managers often strip sender information from the mails, so mails from mailing lists may be assigned to the location of the mailing list server instead of the mail sender.\n"
+"When in doubt, don't trust the results of this plugin, and don't rely on this information to divorce your spouse.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital quarrels)."
+msgstr ""
+"Este módulo provee funcionalidades de ubicación geográfica para Claws Mail.\n"
+"\n"
+"Aviso: es técnicamente imposible deducir la ubicación geográfica de los "
+"remitentes a partir de sus correos electrónicos con cualquier grado de "
+"certeza. Los resultados que presenta este módulo son meras estimaciones. "
+"En particular, los gestores de listas de correo a menudo eliminan información "
+"del remitente de los correos, por lo que los mensajes provinientes de listas "
+"pueden ser asignados a la ubicación del servidor de la lista en vez de a la "
+"del remitente.\n"
+"Cuando tenga dudas no confíe en los resultados de este módulo, y no confíe "
+"en esta información para divorciarse de su pareja.\n"
+"\n"
+"Los comentarios para <berndth@gmx.de> son bienvenidos (pero sólo si no son "
+"sobre disputas conyugales)."
+
+#: src/geolocation_plugin.c:625
+msgid "GeoLocation integration"
+msgstr "Integración de ubicación geográfica"
+
