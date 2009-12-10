@@ -4,7 +4,8 @@ plugin_LTLIBRARIES = geolocation_plugin.la
 
 geolocation_plugin_la_SOURCES = \
 	geolocation_plugin.c \
-	gettext.h
+	gettext.h \
+	pixmap_earth.h
 
 geolocation_plugin_la_LDFLAGS = \
 	-avoid-version -module \

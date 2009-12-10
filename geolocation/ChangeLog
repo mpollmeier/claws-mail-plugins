@@ -1,3 +1,8 @@
+2009-12-10 [holger]	0.0.1cvs8
+
+	* src/Makefile.am
+		Add header file to _SOURCES
+
 2009-12-08 [mones]	0.0.1cvs7
 
 	* po/es.po
