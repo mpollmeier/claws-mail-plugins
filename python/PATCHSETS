@@ -3,3 +3,4 @@
 ( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 configure.ac;  ) > 0.2cvs2.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/python_plugin.c;  ) > 0.2cvs3.patchset
 ( cvs diff -u -r 1.1.2.20 -r 1.1.2.21 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/python_plugin.c;  ) > 0.2cvs4.patchset
+( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 .cvsignore;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 README;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/python_plugin.c;  ) > 0.2cvs5.patchset

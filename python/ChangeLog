@@ -1,3 +1,11 @@
+2009-12-19 [holger]	0.2cvs5
+
+	* .cvsignore
+		More files to ignore
+	* README
+	* src/python_plugin.c
+		Move scripts to "main" subdir
+
 2009-11-17 [holger]	0.2cvs4
 
 	* configure.ac

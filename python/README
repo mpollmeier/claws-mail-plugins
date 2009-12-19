@@ -1,7 +1,7 @@
 This plugin offers a Python scripting access to Claws Mail.
 
 Python code can be entered interactively into an embedded Python
-console, or stored in scripts under ~/.claws-mail/python-scripts.
+console, or stored in scripts under ~/.claws-mail/python-scripts/main.
 The scripts are then accessible via the menu of the main window.
 
 A few examples follow.

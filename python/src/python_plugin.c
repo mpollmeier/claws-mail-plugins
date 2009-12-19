@@ -37,7 +37,8 @@
 
 #include "gettext.h"
 
-#define PYTHON_SCRIPTS_DIR "python-scripts"
+#define PYTHON_SCRIPTS_BASE_DIR "python-scripts"
+#define PYTHON_SCRIPTS_MAIN_DIR "main"
 #define PYTHON_SCRIPTS_ACTION_PREFIX "Tools/PythonScripts/"
 
 static GSList *menu_id_list = NULL;
@@ -98,7 +99,6 @@ static void remove_python_scripts_menus(void)
 
   mainwin =  mainwindow_get_mainwindow();
 
-
   /* toolbar */
   for(walk = python_scripts_names; walk; walk = walk->next)
     prefs_toolbar_unregister_plugin_item("Python", walk->data);
@@ -136,7 +136,7 @@ static void python_script_callback(GtkAction *action, gpointer data)
   }
 
   filename++;
-  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_DIR, G_DIR_SEPARATOR_S, filename, NULL);
+  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_MAIN_DIR, G_DIR_SEPARATOR_S, filename, NULL);
 
   fp = fopen(filename, "r");
   if(!fp) {
@@ -157,6 +157,48 @@ static void toolbar_callback(const gchar *item_name, gpointer data)
 	g_free(script);
 }
 
+static void migrate_scripts_out_of_base_dir(void)
+{
+  char *base_dir;
+  GDir *dir;
+  const char *filename;
+  gchar *dest_dir;
+
+  base_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, NULL);
+  dir = g_dir_open(base_dir, 0, NULL);
+  g_free(base_dir);
+  if(!dir)
+    return;
+
+  dest_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+      PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S,
+      PYTHON_SCRIPTS_MAIN_DIR, NULL);
+  if(!g_file_test(dest_dir, G_FILE_TEST_IS_DIR)) {
+    if(g_mkdir(dest_dir, 0777) != 0) {
+      g_free(dest_dir);
+      g_dir_close(dir);
+      return;
+    }
+  }
+
+  while((filename = g_dir_read_name(dir)) != NULL) {
+    gchar *filepath;
+    filepath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, filename, NULL);
+    if(g_file_test(filepath, G_FILE_TEST_IS_REGULAR)) {
+      gchar *dest_file;
+      dest_file = g_strconcat(dest_dir, G_DIR_SEPARATOR_S, filename, NULL);
+      if(move_file(filepath, dest_file, FALSE) == 0)
+        g_print("Python plugin: Moved file '%s' to %s subdir\n", filename, PYTHON_SCRIPTS_MAIN_DIR);
+      else
+        g_print("Python plugin: Warning: Could not move file '%s' to %s subdir\n", filename, PYTHON_SCRIPTS_MAIN_DIR);
+      g_free(dest_file);
+    }
+    g_free(filepath);
+  }
+  g_dir_close(dir);
+  g_free(dest_dir);
+}
+
 static void refresh_python_scripts_menu(GtkAction *action, gpointer data)
 {
   char *scripts_dir;
@@ -171,7 +213,12 @@ static void refresh_python_scripts_menu(GtkAction *action, gpointer data)
 
   remove_python_scripts_menus();
 
-  scripts_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_DIR, NULL);
+  migrate_scripts_out_of_base_dir();
+
+  scripts_dir = g_strconcat(get_rc_dir(),
+		  G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR,
+		  G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_MAIN_DIR,
+		  NULL);
   debug_print("Refreshing: %s\n", scripts_dir);
 
   dir = g_dir_open(scripts_dir, 0, &error);

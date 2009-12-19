@@ -11,3 +11,5 @@ PATCHSETS
 .git
 .gitignore
 m4
+.cproject
+.project
