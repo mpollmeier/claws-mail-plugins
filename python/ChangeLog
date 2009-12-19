@@ -1,3 +1,8 @@
+2009-12-19 [holger]	0.2cvs6
+
+	* src/python_plugin.c
+		Register mainwindow scripts for mainwindow toolbar
+
 2009-12-19 [holger]	0.2cvs5
 
 	* .cvsignore

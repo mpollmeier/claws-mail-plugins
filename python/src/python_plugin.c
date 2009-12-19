@@ -42,8 +42,8 @@
 #define PYTHON_SCRIPTS_ACTION_PREFIX "Tools/PythonScripts/"
 
 static GSList *menu_id_list = NULL;
-static GSList *python_scripts_id_list = NULL;
-static GSList *python_scripts_names = NULL;
+static GSList *python_mainwin_scripts_id_list = NULL;
+static GSList *python_mainwin_scripts_names = NULL;
 
 static GtkWidget *python_console = NULL;
 
@@ -100,17 +100,17 @@ static void remove_python_scripts_menus(void)
   mainwin =  mainwindow_get_mainwindow();
 
   /* toolbar */
-  for(walk = python_scripts_names; walk; walk = walk->next)
-    prefs_toolbar_unregister_plugin_item("Python", walk->data);
+  for(walk = python_mainwin_scripts_names; walk; walk = walk->next)
+    prefs_toolbar_unregister_plugin_item(TOOLBAR_MAIN, "Python", walk->data);
 
   /* ui */
-  for(walk = python_scripts_id_list; walk; walk = walk->next)
+  for(walk = python_mainwin_scripts_id_list; walk; walk = walk->next)
       gtk_ui_manager_remove_ui(mainwin->ui_manager, GPOINTER_TO_UINT(walk->data));
-  g_slist_free(python_scripts_id_list);
-  python_scripts_id_list = NULL;
+  g_slist_free(python_mainwin_scripts_id_list);
+  python_mainwin_scripts_id_list = NULL;
 
   /* actions */
-  for(walk = python_scripts_names; walk; walk = walk->next) {
+  for(walk = python_mainwin_scripts_names; walk; walk = walk->next) {
     GtkAction *action;
     gchar *entry;
     entry = g_strconcat(PYTHON_SCRIPTS_ACTION_PREFIX, walk->data, NULL);
@@ -120,8 +120,8 @@ static void remove_python_scripts_menus(void)
       gtk_action_group_remove_action(mainwin->action_group, action);
     g_free(walk->data);
   }
-  g_slist_free(python_scripts_names);
-  python_scripts_names = NULL;
+  g_slist_free(python_mainwin_scripts_names);
+  python_mainwin_scripts_names = NULL;
 }
 
 static void python_script_callback(GtkAction *action, gpointer data)
@@ -149,7 +149,7 @@ static void python_script_callback(GtkAction *action, gpointer data)
   g_free(filename);
 }
 
-static void toolbar_callback(const gchar *item_name, gpointer data)
+static void mainwin_toolbar_callback(const gchar *item_name, gpointer data)
 {
 	gchar *script;
 	script = g_strconcat(PYTHON_SCRIPTS_ACTION_PREFIX, item_name, NULL);
@@ -254,12 +254,12 @@ static void refresh_python_scripts_menu(GtkAction *action, gpointer data)
   for(ii = 0; ii < num_entries; ii++) {
     guint id;
 
-    python_scripts_names = g_slist_prepend(python_scripts_names, g_strdup(entries[ii].label));
+    python_mainwin_scripts_names = g_slist_prepend(python_mainwin_scripts_names, g_strdup(entries[ii].label));
     MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/" PYTHON_SCRIPTS_ACTION_PREFIX, entries[ii].label,
         entries[ii].name, GTK_UI_MANAGER_MENUITEM, id)
-    python_scripts_id_list = g_slist_prepend(python_scripts_id_list, GUINT_TO_POINTER(id));
+    python_mainwin_scripts_id_list = g_slist_prepend(python_mainwin_scripts_id_list, GUINT_TO_POINTER(id));
 
-    prefs_toolbar_register_plugin_item("Python", entries[ii].label, toolbar_callback, NULL);
+    prefs_toolbar_register_plugin_item(TOOLBAR_MAIN, "Python", entries[ii].label, mainwin_toolbar_callback, NULL);
   }
 
   /* cleanup */
