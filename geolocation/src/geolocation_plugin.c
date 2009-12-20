@@ -210,11 +210,13 @@ static gboolean get_lat_lon_from_ip(const gchar *ip, double *lat, double *lon)
   g_free(url);
 
   soup_session_send_message(session, msg);
+  g_object_unref(session);
   if(!SOUP_STATUS_IS_SUCCESSFUL(msg->status_code) || !msg->response_body->data)
     return FALSE;
 
   /* extract longitude and latitude from */
   g_regex_match(lat_lon_from_hostip_response_regex, msg->response_body->data, 0, &match_info);
+  g_object_unref(msg);
   slon = g_match_info_fetch(match_info, 1);
   slat = g_match_info_fetch(match_info, 2);
   g_match_info_free(match_info);

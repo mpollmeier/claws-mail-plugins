@@ -1,3 +1,8 @@
+2009-12-20 [holger]	0.0.1cvs10
+
+	* src/geolocation_plugin.c
+		Fix leaking HTTP stuff
+
 2009-12-20 [holger]	0.0.1cvs9
 
 	* .cvsignore

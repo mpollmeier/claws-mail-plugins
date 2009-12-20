@@ -6,3 +6,4 @@
 ( diff -u /dev/null po/es.po;  ) > 0.0.1cvs7.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/Makefile.am;  ) > 0.0.1cvs8.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 .cvsignore;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/Makefile.am;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/geolocation_plugin.c;  ) > 0.0.1cvs9.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/geolocation_plugin.c;  ) > 0.0.1cvs10.patchset
