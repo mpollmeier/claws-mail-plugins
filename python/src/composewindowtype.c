@@ -134,6 +134,11 @@ static int ComposeWindow_init(clawsmail_ComposeWindowObject *self, PyObject *arg
   return 0;
 }
 
+static PyObject* ComposeWindow_get_subject(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  return Py_BuildValue("s", gtk_entry_get_text(GTK_ENTRY(self->compose->subject_entry)));
+}
+
 /* this is here because wrapping GTK_EDITABLEs in PyGTK is buggy */
 static PyObject* ComposeWindow_set_subject(clawsmail_ComposeWindowObject *self, PyObject *args)
 {
@@ -224,6 +229,7 @@ static PyObject* ComposeWindow_attach(clawsmail_ComposeWindowObject *self, PyObj
 
 static PyMethodDef ComposeWindow_methods[] = {
     {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
+    {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS, "Get subject"},
     {"add_To",  (PyCFunction)ComposeWindow_add_To,  METH_VARARGS, "Append another To header."},
     {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS, "Append another Cc header."},
     {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS, "Append another Bcc header."},

@@ -1,3 +1,11 @@
+2009-12-20 [holger]	0.2cvs10
+
+	* src/composewindowtype.c
+		Add accessor for subject
+	* README
+	* src/python_plugin.c
+		Add auto-triggered script for compose
+
 2009-12-20 [holger]	0.2cvs9
 
 	* README
