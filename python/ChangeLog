@@ -1,3 +1,13 @@
+2009-12-20 [holger]	0.2cvs7
+
+	* src/clawsmailmodule.c
+	* src/clawsmailmodule.h
+	* src/composewindowtype.c
+	* src/composewindowtype.h
+	* src/python_plugin.c
+		Python scripts for the compose window.
+		Toolbar buttons done, menu still left to do.
+
 2009-12-19 [holger]	0.2cvs6
 
 	* src/python_plugin.c

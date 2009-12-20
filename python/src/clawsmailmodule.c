@@ -391,4 +391,14 @@ void claws_mail_python_init(void)
   initmiscstuff(cm_module);
 
   PyRun_SimpleString("import clawsmail\n");
+  PyRun_SimpleString("clawsmail.compose_window = None\n");
+}
+
+void put_composewindow_into_module(Compose *compose)
+{
+  PyObject *pycompose;
+
+  pycompose = clawsmail_compose_new(cm_module, compose);
+  PyObject_SetAttrString(cm_module, "compose_window", pycompose);
+  Py_DECREF(pycompose);
 }

@@ -39,14 +39,17 @@
 
 #define PYTHON_SCRIPTS_BASE_DIR "python-scripts"
 #define PYTHON_SCRIPTS_MAIN_DIR "main"
+#define PYTHON_SCRIPTS_COMPOSE_DIR "compose"
 #define PYTHON_SCRIPTS_ACTION_PREFIX "Tools/PythonScripts/"
 
 static GSList *menu_id_list = NULL;
 static GSList *python_mainwin_scripts_id_list = NULL;
 static GSList *python_mainwin_scripts_names = NULL;
+static GSList *python_compose_scripts_names = NULL;
 
 static GtkWidget *python_console = NULL;
 
+static guint hook_compose_create;
 
 static gboolean python_console_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
@@ -122,40 +125,87 @@ static void remove_python_scripts_menus(void)
   }
   g_slist_free(python_mainwin_scripts_names);
   python_mainwin_scripts_names = NULL;
+
+  /* compose scripts */
+  for(walk = python_compose_scripts_names; walk; walk = walk->next) {
+    prefs_toolbar_unregister_plugin_item(TOOLBAR_COMPOSE, "Python", walk->data);
+    g_free(walk->data);
+  }
+  g_slist_free(python_compose_scripts_names);
+  python_compose_scripts_names = NULL;
 }
 
-static void python_script_callback(GtkAction *action, gpointer data)
+static gchar* extract_filename(const gchar *str)
 {
-  char *filename;
-  FILE *fp;
+  gchar *filename;
 
-  filename = g_strrstr(data, "/");
+  filename = g_strrstr(str, "/");
   if(!filename || *(filename+1) == '\0') {
-    g_print("Error: Could not extract filename\n");
-    return;
+    debug_print("Error: Could not extract filename from %s\n", str);
+    return NULL;
   }
-
   filename++;
-  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_MAIN_DIR, G_DIR_SEPARATOR_S, filename, NULL);
+  return filename;
+}
 
+static void run_script_file(const gchar *filename, Compose *compose)
+{
+  FILE *fp;
   fp = fopen(filename, "r");
   if(!fp) {
     g_print("Error: Could not open file '%s'\n", filename);
     return;
   }
+  put_composewindow_into_module(compose);
   PyRun_SimpleFile(fp, filename);
   fclose(fp);
+}
 
+static void python_mainwin_script_callback(GtkAction *action, gpointer data)
+{
+  char *filename;
+
+  filename = extract_filename(data);
+  if(!filename)
+    return;
+  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_MAIN_DIR, G_DIR_SEPARATOR_S, filename, NULL);
+  run_script_file(filename, NULL);
   g_free(filename);
 }
 
-static void mainwin_toolbar_callback(const gchar *item_name, gpointer data)
+// TODO
+static void python_compose_script_callback(GtkAction *action, gpointer data)
+{
+  char *filename;
+
+  filename = extract_filename(data);
+  if(!filename)
+    return;
+  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_COMPOSE_DIR, G_DIR_SEPARATOR_S, filename, NULL);
+  run_script_file(filename, NULL);
+  g_free(filename);
+}
+
+static void mainwin_toolbar_callback(gpointer parent, const gchar *item_name, gpointer data)
 {
 	gchar *script;
 	script = g_strconcat(PYTHON_SCRIPTS_ACTION_PREFIX, item_name, NULL);
-	python_script_callback(NULL, script);
+	python_mainwin_script_callback(NULL, script);
 	g_free(script);
 }
+
+static void compose_toolbar_callback(gpointer parent, const gchar *item_name, gpointer data)
+{
+  gchar *filename;
+
+  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+      PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S,
+      PYTHON_SCRIPTS_COMPOSE_DIR, G_DIR_SEPARATOR_S,
+      item_name, NULL);
+  run_script_file(filename, (Compose*)parent);
+  g_free(filename);
+}
+
 
 static void migrate_scripts_out_of_base_dir(void)
 {
@@ -199,46 +249,13 @@ static void migrate_scripts_out_of_base_dir(void)
   g_free(dest_dir);
 }
 
-static void refresh_python_scripts_menu(GtkAction *action, gpointer data)
+
+static void create_mainwindow_menus_and_items(GSList *filenames, gint num_entries)
 {
-  char *scripts_dir;
-  GDir *dir;
-  GError *error = NULL;
-  const char *filename;
-  gint num_entries, ii;
-  GSList *filenames = NULL;
+  MainWindow *mainwin;
+  gint ii;
   GSList *walk;
   GtkActionEntry *entries;
-  MainWindow *mainwin;
-
-  remove_python_scripts_menus();
-
-  migrate_scripts_out_of_base_dir();
-
-  scripts_dir = g_strconcat(get_rc_dir(),
-		  G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR,
-		  G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_MAIN_DIR,
-		  NULL);
-  debug_print("Refreshing: %s\n", scripts_dir);
-
-  dir = g_dir_open(scripts_dir, 0, &error);
-  g_free(scripts_dir);
-
-  if(!dir) {
-    g_print("Error opening directory: %s\n", error->message);
-    return;
-  }
-
-  /* get filenames */
-  num_entries = 0;
-  while((filename = g_dir_read_name(dir)) != NULL) {
-    char *fn;
-
-    fn = g_strdup(filename);
-    filenames = g_slist_prepend(filenames, fn);
-    num_entries++;
-  }
-  g_dir_close(dir);
 
   /* create menu items */
   entries = g_new0(GtkActionEntry, num_entries);
@@ -247,7 +264,7 @@ static void refresh_python_scripts_menu(GtkAction *action, gpointer data)
   for(walk = filenames; walk; walk = walk->next) {
     entries[ii].name = g_strconcat(PYTHON_SCRIPTS_ACTION_PREFIX, walk->data, NULL);
     entries[ii].label = walk->data;
-    entries[ii].callback = G_CALLBACK(python_script_callback);
+    entries[ii].callback = G_CALLBACK(python_mainwin_script_callback);
     gtk_action_group_add_actions(mainwin->action_group, &(entries[ii]), 1, (gpointer)entries[ii].name);
     ii++;
   }
@@ -262,11 +279,87 @@ static void refresh_python_scripts_menu(GtkAction *action, gpointer data)
     prefs_toolbar_register_plugin_item(TOOLBAR_MAIN, "Python", entries[ii].label, mainwin_toolbar_callback, NULL);
   }
 
-  /* cleanup */
   g_free(entries);
+}
+
+
+/* this function doesn't really create menu items, but prepares a list that can be used
+ * in the compose create hook. It does however register the scripts for the toolbar editor */
+static void create_compose_menus_and_items(GSList *filenames)
+{
+  GSList *walk;
+  for(walk = filenames; walk; walk = walk->next) {
+    python_compose_scripts_names = g_slist_prepend(python_compose_scripts_names, g_strdup((gchar*)walk->data));
+    prefs_toolbar_register_plugin_item(TOOLBAR_COMPOSE, "Python", (gchar*)walk->data, compose_toolbar_callback, NULL);
+  }
+}
+
+static gboolean my_compose_create_hook(gpointer cw, gpointer data)
+{
+  GSList *walk;
+  for(walk = python_compose_scripts_names; walk; walk = walk->next) {
+    g_print("cw: %s\n", (gchar*)walk->data);
+  }
+  g_print("hhb done.\n");
+  return FALSE;
+}
+
+
+static void refresh_scripts_in_dir(const gchar *subdir, ToolbarType toolbar_type)
+{
+  char *scripts_dir;
+  GDir *dir;
+  GError *error = NULL;
+  const char *filename;
+  GSList *filenames = NULL;
+  GSList *walk;
+  gint num_entries;
+
+  scripts_dir = g_strconcat(get_rc_dir(),
+      G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR,
+      G_DIR_SEPARATOR_S, subdir,
+      NULL);
+  debug_print("Refreshing: %s\n", scripts_dir);
+
+  dir = g_dir_open(scripts_dir, 0, &error);
+  g_free(scripts_dir);
+
+  if(!dir) {
+    g_print("Could not open directory '%s': %s\n", subdir, error->message);
+    return;
+  }
+
+  /* get filenames */
+  num_entries = 0;
+  while((filename = g_dir_read_name(dir)) != NULL) {
+    char *fn;
+
+    fn = g_strdup(filename);
+    filenames = g_slist_prepend(filenames, fn);
+    num_entries++;
+  }
+  g_dir_close(dir);
+
+  if(toolbar_type == TOOLBAR_MAIN)
+    create_mainwindow_menus_and_items(filenames, num_entries);
+  else if(toolbar_type == TOOLBAR_COMPOSE)
+    create_compose_menus_and_items(filenames);
+
+  /* cleanup */
   for(walk = filenames; walk; walk = walk->next)
     g_free(walk->data);
   g_slist_free(filenames);
+}
+
+
+static void refresh_python_scripts_menus(GtkAction *action, gpointer data)
+{
+  remove_python_scripts_menus();
+
+  migrate_scripts_out_of_base_dir();
+
+  refresh_scripts_in_dir(PYTHON_SCRIPTS_MAIN_DIR, TOOLBAR_MAIN);
+  refresh_scripts_in_dir(PYTHON_SCRIPTS_COMPOSE_DIR, TOOLBAR_COMPOSE);
 }
 
 static GtkToggleActionEntry mainwindow_tools_python_toggle[] = {
@@ -277,7 +370,7 @@ static GtkToggleActionEntry mainwindow_tools_python_toggle[] = {
 static GtkActionEntry mainwindow_tools_python_actions[] = {
     {"Tools/PythonScripts", NULL, N_("Python scripts") },
     {"Tools/PythonScripts/Refresh", NULL, N_("Refresh"),
-        NULL, NULL, G_CALLBACK(refresh_python_scripts_menu) },
+        NULL, NULL, G_CALLBACK(refresh_python_scripts_menus) },
     {"Tools/PythonScripts/---", NULL, "---" },
 };
 
@@ -307,7 +400,7 @@ void python_menu_init(void)
       "Tools/PythonScripts/---", GTK_UI_MANAGER_SEPARATOR, id)
   menu_id_list = g_slist_prepend(menu_id_list, GUINT_TO_POINTER(id));
 
-  refresh_python_scripts_menu(NULL, NULL);
+  refresh_python_scripts_menus(NULL, NULL);
 }
 
 void python_menu_done(void)
@@ -344,6 +437,13 @@ gint plugin_init(gchar **error)
 			   VERSION_NUMERIC, _("Python"), error))
     return -1;
 
+  /* load hooks */
+  hook_compose_create = hooks_register_hook(COMPOSE_CREATED_HOOKLIST, my_compose_create_hook, NULL);
+  if(hook_compose_create == (guint)-1) {
+    *error = g_strdup(_("Failed to register compose create hook int the Python plugin"));
+    return -1;
+  }
+
   /* initialize python interpreter */
   Py_Initialize();
 
@@ -363,6 +463,8 @@ gint plugin_init(gchar **error)
 
 gboolean plugin_done(void)
 {
+  hooks_unregister_hook(COMPOSE_CREATED_HOOKLIST, hook_compose_create);
+
   python_menu_done();
 
   if(python_console) {

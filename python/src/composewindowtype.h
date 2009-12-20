@@ -20,10 +20,14 @@
 
 #include <Python.h>
 
+#include "compose.h"
+
 #ifndef PyMODINIT_FUNC  /* declarations for DLL import/export */
 #define PyMODINIT_FUNC void
 #endif
 
 PyMODINIT_FUNC initcomposewindow(PyObject *module);
+
+PyObject* clawsmail_compose_new(PyObject *module, Compose *compose);
 
 #endif /* COMPOSEWINDOWTYPE_H */

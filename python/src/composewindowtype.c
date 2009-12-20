@@ -24,7 +24,6 @@
 
 #include "clawsmailmodule.h"
 
-#include "compose.h"
 #include "mainwindow.h"
 #include "account.h"
 
@@ -57,6 +56,17 @@ static void ComposeWindow_dealloc(clawsmail_ComposeWindowObject* self)
   } while(0)
 
 
+static void composewindow_set_compose(clawsmail_ComposeWindowObject *self, Compose *compose)
+{
+  PyObject *ui_manager = NULL;
+  PyObject *tmp = NULL;
+  PyObject *text = NULL;
+
+  self->compose = compose;
+  WRAP_GOBJECT_IN_MEMBER_VAR(compose->ui_manager, ui_manager);
+  WRAP_GOBJECT_IN_MEMBER_VAR(compose->text, text);
+}
+
 static int ComposeWindow_init(clawsmail_ComposeWindowObject *self, PyObject *args, PyObject *kwds)
 {
   MainWindow *mainwin;
@@ -66,61 +76,61 @@ static int ComposeWindow_init(clawsmail_ComposeWindowObject *self, PyObject *arg
   GList* cur;
   gboolean did_find_compose;
   Compose *compose = NULL;
-  PyObject *tmp = NULL;
-  PyObject *ui_manager = NULL;
-  PyObject *text = NULL;
   const char *ss;
+  unsigned char open_window;
+  /* if __open_window is set to 0/False,
+   * composewindow_set_compose must be called before this object is valid */
+  static char *kwlist[] = {"address", "__open_window", NULL};
 
   ss = NULL;
-  PyArg_ParseTuple(args, "|s", &ss);
+  open_window = 1;
+  PyArg_ParseTupleAndKeywords(args, kwds, "|sb", kwlist, &ss, &open_window);
 
-  mainwin = mainwindow_get_mainwindow();
-  item = mainwin->summaryview->folder_item;
-  did_find_compose = FALSE;
+  if(open_window) {
+    mainwin = mainwindow_get_mainwindow();
+    item = mainwin->summaryview->folder_item;
+    did_find_compose = FALSE;
 
-  if(ss) {
-    ac = account_find_from_address(ss, FALSE);
-    if (ac && ac->protocol != A_NNTP) {
-      compose = compose_new_with_folderitem(ac, item, NULL);
-      did_find_compose = TRUE;
+    if(ss) {
+      ac = account_find_from_address(ss, FALSE);
+      if (ac && ac->protocol != A_NNTP) {
+        compose = compose_new_with_folderitem(ac, item, NULL);
+        did_find_compose = TRUE;
+      }
     }
-  }
-  if(!did_find_compose) {
-    if (item) {
+    if(!did_find_compose) {
+      if (item) {
         ac = account_find_from_item(item);
         if (ac && ac->protocol != A_NNTP) {
           compose = compose_new_with_folderitem(ac, item, NULL);
           did_find_compose = TRUE;
         }
-    }
+      }
 
-    /* use current account */
-    if (!did_find_compose && cur_account && (cur_account->protocol != A_NNTP)) {
-      compose = compose_new_with_folderitem(cur_account, item, NULL);
-      did_find_compose = TRUE;
-    }
+      /* use current account */
+      if (!did_find_compose && cur_account && (cur_account->protocol != A_NNTP)) {
+        compose = compose_new_with_folderitem(cur_account, item, NULL);
+        did_find_compose = TRUE;
+      }
 
-    if(!did_find_compose) {
-      /* just get the first one */
-      list = account_get_list();
-      for (cur = list ; cur != NULL ; cur = g_list_next(cur)) {
-        ac = (PrefsAccount *) cur->data;
-        if (ac->protocol != A_NNTP) {
-          compose = compose_new_with_folderitem(ac, item, NULL);
-          did_find_compose = TRUE;
+      if(!did_find_compose) {
+        /* just get the first one */
+        list = account_get_list();
+        for (cur = list ; cur != NULL ; cur = g_list_next(cur)) {
+          ac = (PrefsAccount *) cur->data;
+          if (ac->protocol != A_NNTP) {
+            compose = compose_new_with_folderitem(ac, item, NULL);
+            did_find_compose = TRUE;
+          }
         }
       }
     }
+
+    if(!did_find_compose)
+      return -1;
+
+    composewindow_set_compose(self, compose);
   }
-
-  if(!did_find_compose)
-    return -1;
-
-  self->compose = compose;
-
-  WRAP_GOBJECT_IN_MEMBER_VAR(compose->ui_manager, ui_manager);
-  WRAP_GOBJECT_IN_MEMBER_VAR(compose->text, text);
-
   return 0;
 }
 
@@ -278,4 +288,25 @@ PyMODINIT_FUNC initcomposewindow(PyObject *module)
 
     Py_INCREF(&clawsmail_ComposeWindowType);
     PyModule_AddObject(module, "ComposeWindow", (PyObject*)&clawsmail_ComposeWindowType);
+}
+
+PyObject* clawsmail_compose_new(PyObject *module, Compose *compose)
+{
+  PyObject *class, *dict;
+  PyObject *self, *args, *kw;
+
+  if(!compose) {
+    Py_INCREF(Py_None);
+    return Py_None;
+  }
+
+  dict = PyModule_GetDict(module);
+  class = PyDict_GetItemString(dict, "ComposeWindow");
+  args = Py_BuildValue("()");
+  kw = Py_BuildValue("{s:b}", "__open_window", 0);
+  self = PyObject_Call(class, args, kw);
+  Py_DECREF(args);
+  Py_DECREF(kw);
+  composewindow_set_compose((clawsmail_ComposeWindowObject*)self, compose);
+  return self;
 }

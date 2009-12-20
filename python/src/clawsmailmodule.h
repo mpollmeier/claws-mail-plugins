@@ -22,8 +22,12 @@
 #include <Python.h>
 #include <glib.h>
 
+#include "compose.h"
+
+
 void claws_mail_python_init(void);
 
 PyObject* get_gobj_from_address(gpointer addr);
+void put_composewindow_into_module(Compose *compose);
 
 #endif /* CLAWSMAILMODULE_H */
