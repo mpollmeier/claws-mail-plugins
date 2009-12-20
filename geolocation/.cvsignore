@@ -9,3 +9,5 @@ libtool
 pluginconfig.h
 pluginconfig.h.in
 stamp-h1
+.cproject
+.project

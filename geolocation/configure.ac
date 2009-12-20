@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=0
 MICRO_VERSION=1
-EXTRA_VERSION=8
+EXTRA_VERSION=9
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -93,8 +93,8 @@ AC_SUBST(GLIB_LIBS)
 dnl Check for GTK+
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
-dnl Check for libxml2
-PKG_CHECK_MODULES(LIBXML, libxml-2.0)
+dnl Check for libsoup
+PKG_CHECK_MODULES(LIBSOUP, libsoup-2.4)
 
 dnl Check for libchamplain
 PKG_CHECK_MODULES(CHAMPLAIN, champlain-gtk-0.4 >= 0.4.0)

@@ -35,8 +35,7 @@
 
 #include "gettext.h"
 
-#include <libxml/nanohttp.h>
-#include <libxml/xpath.h>
+#include <libsoup/soup.h>
 
 #include <champlain/champlain.h>
 #include <champlain-gtk/champlain-gtk.h>
@@ -198,45 +197,24 @@ static gchar* get_ip_from_msginfo(MsgInfo *msginfo)
 static gboolean get_lat_lon_from_ip(const gchar *ip, double *lat, double *lon)
 {
   gchar *url;
-  void* ctxt = NULL;
-  xmlBuffer *output;
-  gint len;
-  guchar *response;
-  gint response_length;
-  xmlChar buf[1024];
   GMatchInfo *match_info;
   gchar *slat;
   gchar *slon;
+  SoupSession *session;
+  SoupMessage *msg;
 
   /* fetch data from hostip.info */
   url = g_strdup_printf("%s?ip=%s", HOSTIP_URL, ip);
-  xmlNanoHTTPInit();
-  ctxt = xmlNanoHTTPMethod(url, "GET", NULL, NULL, NULL, 0);
+  session = soup_session_async_new();
+  msg = soup_message_new(SOUP_METHOD_GET, url);
   g_free(url);
-  if(!ctxt) {
-    g_print("xmlNanoHTTPMethod did not get a response from %s\n", url);
+
+  soup_session_send_message(session, msg);
+  if(!SOUP_STATUS_IS_SUCCESSFUL(msg->status_code) || !msg->response_body->data)
     return FALSE;
-  }
-
-  output = xmlBufferCreate();
-  while((len = xmlNanoHTTPRead(ctxt, buf, sizeof(buf))) > 0) {
-    if(xmlBufferAdd(output, buf, len) != 0) {
-      xmlNanoHTTPClose(ctxt);
-      xmlBufferFree(output);
-      g_print("xmlBufferAdd failed\n");
-      return FALSE;
-    }
-  }
-  xmlNanoHTTPClose(ctxt);
-
-  response_length = xmlBufferLength(output);
-  response = g_malloc(response_length+1);
-  memcpy(response, xmlBufferContent(output), response_length);
-  response[response_length] = '\0';
-  xmlBufferFree(output);
 
   /* extract longitude and latitude from */
-  g_regex_match(lat_lon_from_hostip_response_regex, response, 0, &match_info);
+  g_regex_match(lat_lon_from_hostip_response_regex, msg->response_body->data, 0, &match_info);
   slon = g_match_info_fetch(match_info, 1);
   slat = g_match_info_fetch(match_info, 2);
   g_match_info_free(match_info);

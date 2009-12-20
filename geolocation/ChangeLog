@@ -1,3 +1,15 @@
+2009-12-20 [holger]	0.0.1cvs9
+
+	* .cvsignore
+		More files to ignore
+	* configure.ac
+	* src/Makefile.am
+	* src/geolocation_plugin.c
+		Replace libxml2 dependancy with libsoup.
+		Using libxml2 just as HTTP client library is not
+		really a smart idea, and libchamplain is dependant
+		on libsoup anyways.
+
 2009-12-10 [holger]	0.0.1cvs8
 
 	* src/Makefile.am
