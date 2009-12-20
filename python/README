@@ -1,8 +1,19 @@
 This plugin offers a Python scripting access to Claws Mail.
 
 Python code can be entered interactively into an embedded Python
-console, or stored in scripts under ~/.claws-mail/python-scripts/main.
+console, or stored in scripts.
+
+You can provide scripts working on the main window by placing files
+into ~/.claws-mail/python-scripts/main.
 The scripts are then accessible via the menu of the main window.
+
+You can also provide scripts working on an opened compose window
+by placing files into ~/.claws-mail/python-scripts/compose. The
+compose window object is then available in the variable
+clawsmail.compose_window.
+
+It's also possible to place scripts in the toolbars via the
+toolbar editor.
 
 A few examples follow.
 
@@ -71,3 +82,4 @@ tree = clawsmail.get_folder_tree(root)
 
 # Call above function for all folders.
 tree.traverse(deal_with_folder)
+
