@@ -173,16 +173,20 @@ static void python_mainwin_script_callback(GtkAction *action, gpointer data)
   g_free(filename);
 }
 
-// TODO
+typedef struct _ComposeActionData ComposeActionData;
+struct _ComposeActionData {
+  gchar *name;
+  Compose *compose;
+};
+
 static void python_compose_script_callback(GtkAction *action, gpointer data)
 {
   char *filename;
+  ComposeActionData *dat = (ComposeActionData*)data;
 
-  filename = extract_filename(data);
-  if(!filename)
-    return;
-  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_COMPOSE_DIR, G_DIR_SEPARATOR_S, filename, NULL);
-  run_script_file(filename, NULL);
+  filename = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_COMPOSE_DIR, G_DIR_SEPARATOR_S, dat->name, NULL);
+  run_script_file(filename, dat->compose);
+
   g_free(filename);
 }
 
@@ -294,13 +298,55 @@ static void create_compose_menus_and_items(GSList *filenames)
   }
 }
 
+static GtkActionEntry compose_tools_python_actions[] = {
+    {"Tools/PythonScripts", NULL, N_("Python scripts") },
+};
+
+static void ComposeActionData_destroy_cb(gpointer data)
+{
+  ComposeActionData *dat = (ComposeActionData*)data;
+  g_free(dat->name);
+  g_free(dat);
+}
+
 static gboolean my_compose_create_hook(gpointer cw, gpointer data)
 {
+  gint ii;
   GSList *walk;
+  GtkActionEntry *entries;
+  GtkActionGroup *action_group;
+  Compose *compose = (Compose*)cw;
+  guint num_entries = g_slist_length(python_compose_scripts_names);
+
+  action_group = gtk_action_group_new("PythonPlugin");
+  gtk_action_group_add_actions(action_group, compose_tools_python_actions, 1, NULL);
+  entries = g_new0(GtkActionEntry, num_entries);
+  ii = 0;
   for(walk = python_compose_scripts_names; walk; walk = walk->next) {
-    g_print("cw: %s\n", (gchar*)walk->data);
+    ComposeActionData *dat;
+
+    entries[ii].name = walk->data;
+    entries[ii].label = walk->data;
+    entries[ii].callback = G_CALLBACK(python_compose_script_callback);
+
+    dat = g_new0(ComposeActionData, 1);
+    dat->name = g_strdup(walk->data);
+    dat->compose = compose;
+
+    gtk_action_group_add_actions_full(action_group, &(entries[ii]), 1, dat, ComposeActionData_destroy_cb);
+    ii++;
   }
-  g_print("hhb done.\n");
+  gtk_ui_manager_insert_action_group(compose->ui_manager, action_group, 0);
+
+  MENUITEM_ADDUI_MANAGER(compose->ui_manager, "/Menu/Tools", "PythonScripts",
+      "Tools/PythonScripts", GTK_UI_MANAGER_MENU)
+
+  for(ii = 0; ii < num_entries; ii++) {
+    MENUITEM_ADDUI_MANAGER(compose->ui_manager, "/Menu/" PYTHON_SCRIPTS_ACTION_PREFIX, entries[ii].label,
+        entries[ii].name, GTK_UI_MANAGER_MENUITEM)
+  }
+
+  g_free(entries);
   return FALSE;
 }
 

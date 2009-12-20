@@ -6,3 +6,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 .cvsignore;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 README;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/python_plugin.c;  ) > 0.2cvs5.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/python_plugin.c;  ) > 0.2cvs6.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/clawsmailmodule.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/clawsmailmodule.h;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/composewindowtype.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/composewindowtype.h;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/python_plugin.c;  ) > 0.2cvs7.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/python_plugin.c;  ) > 0.2cvs8.patchset

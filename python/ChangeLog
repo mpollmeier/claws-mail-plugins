@@ -1,3 +1,8 @@
+2009-12-20 [holger]	0.2cvs8
+
+	* src/python_plugin.c
+		Add menu items to compose window
+
 2009-12-20 [holger]	0.2cvs7
 
 	* src/clawsmailmodule.c
