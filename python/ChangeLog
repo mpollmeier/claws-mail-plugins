@@ -1,3 +1,12 @@
+2009-12-20 [holger]	0.2cvs11
+
+	* README
+	* src/python_plugin.c
+		Rename auto/compose to auto/compose_any.
+		Maybe there'll be an extension in the future
+		to have separate scripts for fresh composing,
+		reply, forward etc some day
+
 2009-12-20 [holger]	0.2cvs10
 
 	* src/composewindowtype.c

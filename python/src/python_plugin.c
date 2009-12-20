@@ -41,7 +41,7 @@
 #define PYTHON_SCRIPTS_MAIN_DIR "main"
 #define PYTHON_SCRIPTS_COMPOSE_DIR "compose"
 #define PYTHON_SCRIPTS_AUTO_DIR "auto"
-#define PYTHON_SCRIPTS_AUTO_COMPOSE "compose"
+#define PYTHON_SCRIPTS_AUTO_COMPOSE "compose_any"
 #define PYTHON_SCRIPTS_ACTION_PREFIX "Tools/PythonScripts/"
 
 static GSList *menu_id_list = NULL;

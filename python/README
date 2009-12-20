@@ -15,8 +15,8 @@ clawsmail.compose_window.
 It's also possible to place scripts in the toolbars via the
 toolbar editor.
 
-If the script file ~/.claws-mail/python-scripts/auto/compose exists,
-it is executed automatically upon composing a message.
+If the script file ~/.claws-mail/python-scripts/auto/compose_any
+exists, it is executed automatically upon composing a message.
 
 A few examples follow.
 
