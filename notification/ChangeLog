@@ -1,3 +1,8 @@
+2009-12-22 [holger]	0.23cvs11
+
+	* gtkhotkey/x11/tomboykeybinder.c
+		Turn off debug
+
 2009-11-29 [holger]	0.23cvs10
 
 	* src/notification_plugin.c
