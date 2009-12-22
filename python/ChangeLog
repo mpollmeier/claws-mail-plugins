@@ -1,3 +1,9 @@
+2009-12-22 [holger]	0.2cvs13
+
+	* src/composewindowtype.c
+		Add possibility to manipulate the "From" entry of
+		a compose window
+
 2009-12-22 [holger]	0.2cvs12
 
 	* src/python_plugin.c

@@ -134,23 +134,43 @@ static int ComposeWindow_init(clawsmail_ComposeWindowObject *self, PyObject *arg
   return 0;
 }
 
-static PyObject* ComposeWindow_get_subject(clawsmail_ComposeWindowObject *self, PyObject *args)
+/* this is here because wrapping GTK_EDITABLEs in PyGTK is buggy */
+static PyObject* get_python_object_from_gtk_entry(GtkWidget *entry)
 {
-  return Py_BuildValue("s", gtk_entry_get_text(GTK_ENTRY(self->compose->subject_entry)));
+  return Py_BuildValue("s", gtk_entry_get_text(GTK_ENTRY(entry)));
 }
 
-/* this is here because wrapping GTK_EDITABLEs in PyGTK is buggy */
-static PyObject* ComposeWindow_set_subject(clawsmail_ComposeWindowObject *self, PyObject *args)
+static PyObject* set_gtk_entry_from_python_object(GtkWidget *entry, PyObject *args)
 {
   const char *ss;
 
   if(!PyArg_ParseTuple(args, "s", &ss))
     return NULL;
 
-  gtk_entry_set_text(GTK_ENTRY(self->compose->subject_entry), ss);
+  gtk_entry_set_text(GTK_ENTRY(entry), ss);
 
   Py_INCREF(Py_None);
   return Py_None;
+}
+
+static PyObject* ComposeWindow_get_subject(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  return get_python_object_from_gtk_entry(self->compose->subject_entry);
+}
+
+static PyObject* ComposeWindow_set_subject(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  return set_gtk_entry_from_python_object(self->compose->subject_entry, args);
+}
+
+static PyObject* ComposeWindow_get_from(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  return get_python_object_from_gtk_entry(self->compose->from_name);
+}
+
+static PyObject* ComposeWindow_set_from(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  return set_gtk_entry_from_python_object(self->compose->from_name, args);
 }
 
 static PyObject* ComposeWindow_add_To(clawsmail_ComposeWindowObject *self, PyObject *args)
@@ -230,6 +250,8 @@ static PyObject* ComposeWindow_attach(clawsmail_ComposeWindowObject *self, PyObj
 static PyMethodDef ComposeWindow_methods[] = {
     {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
     {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS, "Get subject"},
+    {"set_from", (PyCFunction)ComposeWindow_set_from, METH_VARARGS, "Set from to text."},
+    {"get_from", (PyCFunction)ComposeWindow_get_from, METH_NOARGS, "Get from"},
     {"add_To",  (PyCFunction)ComposeWindow_add_To,  METH_VARARGS, "Append another To header."},
     {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS, "Append another Cc header."},
     {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS, "Append another Bcc header."},
