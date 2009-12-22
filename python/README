@@ -15,8 +15,21 @@ clawsmail.compose_window.
 It's also possible to place scripts in the toolbars via the
 toolbar editor.
 
-If the script file ~/.claws-mail/python-scripts/auto/compose_any
-exists, it is executed automatically upon composing a message.
+The folder ~/.claws-mail/python-scripts/auto/ may contain some
+scripts that are automatically executed when certain events
+occur. Currently, the following files in this directory
+are recognised:
+
+  compose_any
+  	Gets executed whenever a compose window is opened, no matter
+  	if that opening happened as a result of composing a new message,
+  	replying or forwarding a message.
+  	
+  startup
+  	Executed at plugin load
+  	
+  shutdown
+  	Executed at plugin unload
 
 A few examples follow.
 
