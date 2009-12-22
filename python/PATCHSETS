@@ -10,3 +10,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 README;  ) > 0.2cvs9.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 README;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/composewindowtype.c;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/python_plugin.c;  ) > 0.2cvs10.patchset
 ( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 README;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/python_plugin.c;  ) > 0.2cvs11.patchset
+( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/python_plugin.c;  ) > 0.2cvs12.patchset

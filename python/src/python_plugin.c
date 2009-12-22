@@ -41,6 +41,8 @@
 #define PYTHON_SCRIPTS_MAIN_DIR "main"
 #define PYTHON_SCRIPTS_COMPOSE_DIR "compose"
 #define PYTHON_SCRIPTS_AUTO_DIR "auto"
+#define PYTHON_SCRIPTS_AUTO_STARTUP "startup"
+#define PYTHON_SCRIPTS_AUTO_SHUTDOWN "shutdown"
 #define PYTHON_SCRIPTS_AUTO_COMPOSE "compose_any"
 #define PYTHON_SCRIPTS_ACTION_PREFIX "Tools/PythonScripts/"
 
@@ -161,6 +163,19 @@ static void run_script_file(const gchar *filename, Compose *compose)
   put_composewindow_into_module(compose);
   PyRun_SimpleFile(fp, filename);
   fclose(fp);
+}
+
+static void run_auto_script_file_if_it_exists(const gchar *autofilename, Compose *compose)
+{
+  gchar *auto_filepath;
+
+  /* execute auto/autofilename, if it exists */
+  auto_filepath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+      PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S,
+      PYTHON_SCRIPTS_AUTO_DIR, G_DIR_SEPARATOR_S, autofilename, NULL);
+  if(file_exist(auto_filepath, FALSE))
+    run_script_file(auto_filepath, compose);
+  g_free(auto_filepath);
 }
 
 static void python_mainwin_script_callback(GtkAction *action, gpointer data)
@@ -319,7 +334,6 @@ static gboolean my_compose_create_hook(gpointer cw, gpointer data)
   GtkActionGroup *action_group;
   Compose *compose = (Compose*)cw;
   guint num_entries = g_slist_length(python_compose_scripts_names);
-  gchar *auto_filepath;
 
   action_group = gtk_action_group_new("PythonPlugin");
   gtk_action_group_add_actions(action_group, compose_tools_python_actions, 1, NULL);
@@ -351,13 +365,7 @@ static gboolean my_compose_create_hook(gpointer cw, gpointer data)
 
   g_free(entries);
 
-  /* execute auto/compose, if it exists */
-  auto_filepath = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
-      PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S,
-      PYTHON_SCRIPTS_AUTO_DIR, G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_AUTO_COMPOSE, NULL);
-  if(file_exist(auto_filepath, FALSE))
-    run_script_file(auto_filepath, compose);
-  g_free(auto_filepath);
+  run_auto_script_file_if_it_exists(PYTHON_SCRIPTS_AUTO_COMPOSE, compose);
 
   return FALSE;
 }
@@ -514,6 +522,8 @@ gint plugin_init(gchar **error)
   /* load menu options */
   python_menu_init();
 
+  run_auto_script_file_if_it_exists(PYTHON_SCRIPTS_AUTO_STARTUP, NULL);
+
   debug_print("Python plugin loaded\n");
 
   return 0;
@@ -522,6 +532,8 @@ gint plugin_init(gchar **error)
 gboolean plugin_done(void)
 {
   hooks_unregister_hook(COMPOSE_CREATED_HOOKLIST, hook_compose_create);
+
+  run_auto_script_file_if_it_exists(PYTHON_SCRIPTS_AUTO_SHUTDOWN, NULL);
 
   python_menu_done();
 

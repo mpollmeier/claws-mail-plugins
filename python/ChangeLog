@@ -1,3 +1,8 @@
+2009-12-22 [holger]	0.2cvs12
+
+	* src/python_plugin.c
+		Add startup and shutdown scripts
+
 2009-12-20 [holger]	0.2cvs11
 
 	* README
