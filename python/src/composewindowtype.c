@@ -247,6 +247,36 @@ static PyObject* ComposeWindow_attach(clawsmail_ComposeWindowObject *self, PyObj
   return Py_None;
 }
 
+static PyObject* ComposeWindow_get_header_list(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  GSList *walk;
+  PyObject *retval;
+
+  retval = Py_BuildValue("[]");
+  for(walk = self->compose->header_list; walk; walk = walk->next) {
+    ComposeHeaderEntry *headerentry = walk->data;
+    const gchar *header;
+    const gchar *text;
+
+    header = gtk_editable_get_chars(GTK_EDITABLE(gtk_bin_get_child(GTK_BIN(headerentry->combo))), 0, -1);
+    text = gtk_entry_get_text(GTK_ENTRY(headerentry->entry));
+
+    if(text && strcmp("", text)) {
+      PyObject *ee;
+      int ok;
+
+      ee = Py_BuildValue("(ss)", header, text);
+      ok = PyList_Append(retval, ee);
+      Py_DECREF(ee);
+      if(ok == -1) {
+        Py_DECREF(retval);
+        return PyErr_NoMemory();
+      }
+    }
+  }
+  return retval;
+}
+
 static PyMethodDef ComposeWindow_methods[] = {
     {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
     {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS, "Get subject"},
@@ -256,6 +286,7 @@ static PyMethodDef ComposeWindow_methods[] = {
     {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS, "Append another Cc header."},
     {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS, "Append another Bcc header."},
     {"attach",  (PyCFunction)ComposeWindow_attach, METH_VARARGS, "Attach a list of files."},
+    {"get_header_list", (PyCFunction)ComposeWindow_get_header_list, METH_NOARGS, "Get list of headers."},
     {NULL}
 };
 
