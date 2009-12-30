@@ -306,17 +306,39 @@ static PyObject* ComposeWindow_add_header(clawsmail_ComposeWindowObject *self, P
   return Py_None;
 }
 
+/* this is pretty ugly, as the compose struct does not maintain a pointer to the account selection combo */
+static PyObject* ComposeWindow_get_account_selection(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  GList *children, *walk;
+
+  children = gtk_container_get_children(GTK_CONTAINER(self->compose->header_table));
+  for(walk = children; walk; walk = walk->next) {
+    if(GTK_IS_HBOX(walk->data)) {
+      GList *children2, *walk2;
+      children2 = gtk_container_get_children(GTK_CONTAINER(walk->data));
+      for(walk2 = children2; walk2; walk2 = walk2->next) {
+        if(GTK_IS_EVENT_BOX(walk2->data)) {
+          return get_gobj_from_address(gtk_container_get_children(GTK_CONTAINER(walk2->data))->data);
+        }
+      }
+    }
+  }
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
 static PyMethodDef ComposeWindow_methods[] = {
     {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
     {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS, "Get subject"},
-    {"set_from", (PyCFunction)ComposeWindow_set_from, METH_VARARGS, "Set from to text."},
-    {"get_from", (PyCFunction)ComposeWindow_get_from, METH_NOARGS, "Get from"},
+    {"set_from", (PyCFunction)ComposeWindow_set_from, METH_VARARGS, "Set from header entry to text."},
+    {"get_from", (PyCFunction)ComposeWindow_get_from, METH_NOARGS, "Get from header entry"},
     {"add_To",  (PyCFunction)ComposeWindow_add_To,  METH_VARARGS, "Append another To header."},
     {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS, "Append another Cc header."},
     {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS, "Append another Bcc header."},
     {"attach",  (PyCFunction)ComposeWindow_attach, METH_VARARGS, "Attach a list of files."},
     {"get_header_list", (PyCFunction)ComposeWindow_get_header_list, METH_NOARGS, "Get list of headers."},
     {"add_header", (PyCFunction)ComposeWindow_add_header, METH_VARARGS, "Add a custom header."},
+    {"get_account_selection", (PyCFunction)ComposeWindow_get_account_selection, METH_NOARGS, "Get account selection widget."},
     {NULL}
 };
 
