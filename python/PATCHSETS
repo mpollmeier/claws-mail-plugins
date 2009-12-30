@@ -16,3 +16,4 @@
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/composewindowtype.c;  ) > 0.2cvs15.patchset
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/composewindowtype.c;  ) > 0.2cvs16.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/composewindowtype.c;  ) > 0.2cvs17.patchset
+( cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/composewindowtype.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/foldertype.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/foldertype.h;  ) > 0.2cvs18.patchset

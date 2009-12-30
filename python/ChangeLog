@@ -1,3 +1,10 @@
+2009-12-30 [holger]	0.2cvs18
+
+	* src/composewindowtype.c
+	* src/foldertype.c
+	* src/foldertype.h
+		Add access to "save message to" setting of compose window
+
 2009-12-30 [holger]	0.2cvs17
 
 	* src/composewindowtype.c

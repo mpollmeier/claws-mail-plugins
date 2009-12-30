@@ -167,3 +167,8 @@ PyTypeObject* clawsmail_folder_get_type_object()
 {
   return &clawsmail_FolderType;
 }
+
+gboolean clawsmail_folder_check(PyObject *self)
+{
+  return (PyObject_TypeCheck(self, &clawsmail_FolderType) != 0);
+}

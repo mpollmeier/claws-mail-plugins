@@ -23,9 +23,11 @@
 #include "composewindowtype.h"
 
 #include "clawsmailmodule.h"
+#include "foldertype.h"
 
 #include "mainwindow.h"
 #include "account.h"
+#include "folder.h"
 
 #include <structmember.h>
 
@@ -327,6 +329,46 @@ static PyObject* ComposeWindow_get_account_selection(clawsmail_ComposeWindowObje
   return Py_None;
 }
 
+static PyObject* ComposeWindow_save_message_to(clawsmail_ComposeWindowObject *self, PyObject *args)
+{
+  PyObject *arg;
+
+  if(!PyArg_ParseTuple(args, "O", &arg))
+    return NULL;
+
+  if(PyString_Check(arg)) {
+    GtkEditable *editable;
+    gint pos;
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->compose->savemsg_checkbtn), TRUE);
+
+    editable = GTK_EDITABLE(gtk_bin_get_child(GTK_BIN(self->compose->savemsg_combo)));
+    gtk_editable_delete_text(editable, 0, -1);
+    gtk_editable_insert_text(editable, PyString_AsString(arg), -1, &pos);
+  }
+  else if(clawsmail_folder_check(arg)) {
+    GtkEditable *editable;
+    gint pos;
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->compose->savemsg_checkbtn), TRUE);
+
+    editable = GTK_EDITABLE(gtk_bin_get_child(GTK_BIN(self->compose->savemsg_combo)));
+    gtk_editable_delete_text(editable, 0, -1);
+    gtk_editable_insert_text(editable, folder_item_get_identifier(clawsmail_folder_get_item(arg)), -1, &pos);
+  }
+  else if (arg == Py_None){
+    /* turn off checkbutton */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->compose->savemsg_checkbtn), FALSE);
+  }
+  else {
+    PyErr_SetString(PyExc_TypeError, "function takes exactly one argument which may be a folder object, a string, or None");
+    return NULL;
+  }
+
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
 static PyMethodDef ComposeWindow_methods[] = {
     {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
     {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS, "Get subject"},
@@ -339,6 +381,7 @@ static PyMethodDef ComposeWindow_methods[] = {
     {"get_header_list", (PyCFunction)ComposeWindow_get_header_list, METH_NOARGS, "Get list of headers."},
     {"add_header", (PyCFunction)ComposeWindow_add_header, METH_VARARGS, "Add a custom header."},
     {"get_account_selection", (PyCFunction)ComposeWindow_get_account_selection, METH_NOARGS, "Get account selection widget."},
+    {"save_message_to", (PyCFunction)ComposeWindow_save_message_to, METH_VARARGS, "Save message to folder"},
     {NULL}
 };
 

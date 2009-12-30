@@ -32,4 +32,6 @@ PyObject* clawsmail_folder_new(FolderItem *folderitem);
 FolderItem* clawsmail_folder_get_item(PyObject *self);
 PyTypeObject* clawsmail_folder_get_type_object();
 
+gboolean clawsmail_folder_check(PyObject *self);
+
 #endif /* FOLDERTYPE_H */
