@@ -1,3 +1,8 @@
+2009-12-30 [holger]	0.2cvs16
+
+	* src/composewindowtype.c
+		Allow setting of custom headers in compose window
+
 2009-12-29 [holger]	0.2cvs15
 
 	* src/composewindowtype.c
