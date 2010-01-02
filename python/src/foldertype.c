@@ -59,7 +59,13 @@ static PyObject* Folder_str(PyObject *self)
   return str;
 }
 
+static PyObject* Folder_get_identifier(clawsmail_FolderObject *self, PyObject *args)
+{
+  return Py_BuildValue("s", folder_item_get_identifier(self->folderitem));
+}
+
 static PyMethodDef Folder_methods[] = {
+    {"get_identifier", (PyCFunction)Folder_get_identifier, METH_NOARGS, "Get identifier"},
     {NULL}
 };
 

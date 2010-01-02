@@ -1,3 +1,8 @@
+2010-01-02 [holger]	0.2cvs19
+
+	* src/foldertype.c
+		Add accessor for identifier
+
 2009-12-30 [holger]	0.2cvs18
 
 	* src/composewindowtype.c
