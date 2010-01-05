@@ -1,3 +1,8 @@
+2010-01-05 [colin]	0.23cvs12
+
+	* po/fr.po
+		Update french translation
+
 2009-12-22 [holger]	0.23cvs11
 
 	* gtkhotkey/x11/tomboykeybinder.c
