@@ -227,6 +227,24 @@ static void compose_toolbar_callback(gpointer parent, const gchar *item_name, gp
   g_free(filename);
 }
 
+static void make_sure_script_directory_exists(const gchar *subdir)
+{
+  char *dir;
+  dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, subdir, NULL);
+  if(!g_file_test(dir, G_FILE_TEST_IS_DIR)) {
+    if(g_mkdir(dir, 0777) != 0)
+      debug_print("Python plugin: Could not create directory '%s'\n", dir);
+  }
+  g_free(dir);
+}
+
+static void make_sure_directories_exist(void)
+{
+  make_sure_script_directory_exists("");
+  make_sure_script_directory_exists(PYTHON_SCRIPTS_MAIN_DIR);
+  make_sure_script_directory_exists(PYTHON_SCRIPTS_COMPOSE_DIR);
+  make_sure_script_directory_exists(PYTHON_SCRIPTS_AUTO_DIR);
+}
 
 static void migrate_scripts_out_of_base_dir(void)
 {
@@ -392,6 +410,7 @@ static void refresh_scripts_in_dir(const gchar *subdir, ToolbarType toolbar_type
 
   if(!dir) {
     g_print("Could not open directory '%s': %s\n", subdir, error->message);
+    g_error_free(error);
     return;
   }
 
@@ -417,6 +436,20 @@ static void refresh_scripts_in_dir(const gchar *subdir, ToolbarType toolbar_type
   g_slist_free(filenames);
 }
 
+static void browse_python_scripts_dir(GtkAction *action, gpointer data)
+{
+  gchar *argv[2];
+  gboolean retval;
+  GError *error = NULL;
+  argv[0] = "xdg-open";
+  argv[1] = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, PYTHON_SCRIPTS_BASE_DIR, G_DIR_SEPARATOR_S, NULL);
+  retval = gdk_spawn_on_screen(gdk_screen_get_default(), NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
+  g_free(argv[1]);
+  if(!retval) {
+    debug_print("Could not open scripts dir browser: '%s'\n", error->message);
+    g_error_free(error);
+  }
+}
 
 static void refresh_python_scripts_menus(GtkAction *action, gpointer data)
 {
@@ -437,6 +470,8 @@ static GtkActionEntry mainwindow_tools_python_actions[] = {
     {"Tools/PythonScripts", NULL, N_("Python scripts") },
     {"Tools/PythonScripts/Refresh", NULL, N_("Refresh"),
         NULL, NULL, G_CALLBACK(refresh_python_scripts_menus) },
+    {"Tools/PythonScripts/Browse", NULL, "Browse",
+        NULL, NULL, G_CALLBACK(browse_python_scripts_dir) },
     {"Tools/PythonScripts/---", NULL, "---" },
 };
 
@@ -462,6 +497,10 @@ void python_menu_init(void)
       "Tools/PythonScripts/Refresh", GTK_UI_MANAGER_MENUITEM, id)
   menu_id_list = g_slist_prepend(menu_id_list, GUINT_TO_POINTER(id));
 
+  MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Tools/PythonScripts", "Browse",
+      "Tools/PythonScripts/Browse", GTK_UI_MANAGER_MENUITEM, id)
+  menu_id_list = g_slist_prepend(menu_id_list, GUINT_TO_POINTER(id));
+
   MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Tools/PythonScripts", "Separator1",
       "Tools/PythonScripts/---", GTK_UI_MANAGER_SEPARATOR, id)
   menu_id_list = g_slist_prepend(menu_id_list, GUINT_TO_POINTER(id));
@@ -485,6 +524,7 @@ void python_menu_done(void)
     MENUITEM_REMUI_MANAGER(mainwin->ui_manager, mainwin->action_group, "Tools/ShowPythonConsole", 0);
     MENUITEM_REMUI_MANAGER(mainwin->ui_manager, mainwin->action_group, "Tools/PythonScripts", 0);
     MENUITEM_REMUI_MANAGER(mainwin->ui_manager, mainwin->action_group, "Tools/PythonScripts/Refresh", 0);
+    MENUITEM_REMUI_MANAGER(mainwin->ui_manager, mainwin->action_group, "Tools/PythonScripts/Browse", 0);
     MENUITEM_REMUI_MANAGER(mainwin->ui_manager, mainwin->action_group, "Tools/PythonScripts/---", 0);
   }
 }
@@ -509,6 +549,9 @@ gint plugin_init(gchar **error)
     *error = g_strdup(_("Failed to register compose create hook int the Python plugin"));
     return -1;
   }
+
+  /* script directories */
+  make_sure_directories_exist();
 
   /* initialize python interpreter */
   Py_Initialize();

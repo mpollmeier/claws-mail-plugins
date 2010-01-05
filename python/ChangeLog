@@ -1,3 +1,10 @@
+2010-01-05 [holger]	0.2cvs20
+
+	* src/python_plugin.c
+		Make sure standard script directories exist,
+		and add a menu item to open the script root dir
+		in the default file browser
+
 2010-01-02 [holger]	0.2cvs19
 
 	* src/foldertype.c
