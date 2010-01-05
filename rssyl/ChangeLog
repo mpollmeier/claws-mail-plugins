@@ -1,3 +1,8 @@
+2010-01-05 [colin]	0.25.0cvs9
+
+	* po/fr.po
+		Update french translation
+
 2009-10-31 [ticho]	0.25.0cvs8
 
 	* src/feed.c
