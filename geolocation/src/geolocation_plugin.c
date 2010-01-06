@@ -397,7 +397,7 @@ static GtkWidget* get_geolocation_container_from_messageview(MessageView *messag
     /* label */
     label = gtk_label_new("");
     gtk_widget_show(label);
-    gtk_box_pack_start(GTK_BOX(container), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(container), label, FALSE, FALSE, 2);
     g_object_set_data(G_OBJECT(container), GEOLOCATION_CONTAINER_DATA_LABEL, label);
 
     gtk_box_pack_start(GTK_BOX(vbox), container, FALSE, FALSE, 0);
