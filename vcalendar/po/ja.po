@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2009-06-26 18:40+0100\n"
-"PO-Revision-Date: 2009-06-29 00:48+0900\n"
+"POT-Creation-Date: 2010-01-01 19:09+0000\n"
+"PO-Revision-Date: 2010-01-02 23:23+0900\n"
 "Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -438,72 +438,72 @@ msgstr ""
 "フォルダ名の変更ができません。\n"
 "新しいフォルダ名は許可されません。"
 
-#: src/vcal_manager.c:94
+#: src/vcal_manager.c:98
 msgid "accepted"
 msgstr "受付済み"
 
-#: src/vcal_manager.c:95
+#: src/vcal_manager.c:99
 msgid "tentatively accepted"
 msgstr "一時受付済み"
 
-#: src/vcal_manager.c:96
+#: src/vcal_manager.c:100
 msgid "declined"
 msgstr "辞退済"
 
-#: src/vcal_manager.c:97
+#: src/vcal_manager.c:101
 msgid "did not answer"
 msgstr "回答しない"
 
-#: src/vcal_manager.c:98
-#: src/vcal_manager.c:131
+#: src/vcal_manager.c:102
+#: src/vcal_manager.c:135
 msgid "unknown"
 msgstr "不明"
 
-#: src/vcal_manager.c:127
+#: src/vcal_manager.c:131
 msgid "individual"
 msgstr "個人"
 
-#: src/vcal_manager.c:128
+#: src/vcal_manager.c:132
 msgid "group"
 msgstr "グループ"
 
-#: src/vcal_manager.c:129
+#: src/vcal_manager.c:133
 msgid "resource"
 msgstr "リソース"
 
-#: src/vcal_manager.c:130
+#: src/vcal_manager.c:134
 msgid "room"
 msgstr "部屋"
 
-#: src/vcal_manager.c:541
+#: src/vcal_manager.c:545
 msgid "Past"
 msgstr "過去"
 
-#: src/vcal_manager.c:544
+#: src/vcal_manager.c:548
 msgid "Today"
 msgstr "今日"
 
-#: src/vcal_manager.c:547
+#: src/vcal_manager.c:551
 msgid "Tomorrow"
 msgstr "明日"
 
-#: src/vcal_manager.c:550
+#: src/vcal_manager.c:554
 msgid "This week"
 msgstr "今週"
 
-#: src/vcal_manager.c:553
+#: src/vcal_manager.c:557
 msgid "Later"
 msgstr "未来"
 
-#: src/vcal_manager.c:1216
+#: src/vcal_manager.c:1220
 msgid "Accepted: "
 msgstr "受付済み:"
 
-#: src/vcal_manager.c:1218
+#: src/vcal_manager.c:1222
 msgid "Declined: "
 msgstr "辞退済:"
 
-#: src/vcal_manager.c:1220
+#: src/vcal_manager.c:1224
 msgid "Tentatively Accepted: "
 msgstr "一時的に受付済み:"
 
@@ -893,24 +893,24 @@ msgid "Plugins"
 msgstr "プラグイン"
 
 #: src/day-view.c:403
-#: src/month-view.c:414
+#: src/month-view.c:424
 msgid "Unknown"
 msgstr "不明"
 
 #: src/day-view.c:594
-#: src/month-view.c:684
+#: src/month-view.c:694
 msgid "Start"
 msgstr "開始"
 
 #: src/day-view.c:607
-#: src/month-view.c:697
+#: src/month-view.c:707
 msgid "Show"
-msgstr ""
+msgstr "表示"
 
 #: src/day-view.c:615
-#: src/month-view.c:705
+#: src/month-view.c:715
 msgid "days"
-msgstr ""
+msgstr "日"
 
 #: src/month-view.c:104
 msgid "Monday"
@@ -988,15 +988,15 @@ msgstr "11月"
 msgid "December"
 msgstr "12月"
 
-#: src/month-view.c:792
+#: src/month-view.c:802
 msgid "Week number"
 msgstr "週番号"
 
-#: src/month-view.c:890
+#: src/month-view.c:900
 msgid "Previous month"
 msgstr "前月"
 
-#: src/month-view.c:913
+#: src/month-view.c:923
 msgid "Next month"
 msgstr "次月"
 

@@ -1,3 +1,18 @@
+2010-01-08 [paul]	2.0.6cvs2
+
+	* configure.ac
+	* po/nl.po
+		added by Marcel Pol
+	* po/ca.po
+	* po/cs.po
+	* po/es.po
+	* po/fi.po
+	* po/id.po
+	* po/ja.po
+	* po/sk.po
+		updated by Miquel Oliete, David Vachulka, Ricardo Mones Lastra,
+		Tommi Pirinen, MSulchan Darmawan, kazken3, and Slavko
+
 2009-10-30 [colin]	2.0.6cvs1
 
 	* libical/libical/icalderivedvalue.c.in

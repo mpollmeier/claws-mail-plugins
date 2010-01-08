@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2009-06-26 18:40+0100\n"
+"POT-Creation-Date: 2010-01-01 19:09+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: \n"
@@ -438,72 +438,72 @@ msgstr ""
 "Složka nemohla být přejmenována.\n"
 "Nové jméno není povoleno."
 
-#: src/vcal_manager.c:94
+#: src/vcal_manager.c:98
 msgid "accepted"
 msgstr "přijaté"
 
-#: src/vcal_manager.c:95
+#: src/vcal_manager.c:99
 msgid "tentatively accepted"
 msgstr "předběžně přijaté"
 
-#: src/vcal_manager.c:96
+#: src/vcal_manager.c:100
 msgid "declined"
 msgstr "odmítnuté"
 
-#: src/vcal_manager.c:97
+#: src/vcal_manager.c:101
 msgid "did not answer"
 msgstr "nezodpovězené"
 
-#: src/vcal_manager.c:98
-#: src/vcal_manager.c:131
+#: src/vcal_manager.c:102
+#: src/vcal_manager.c:135
 msgid "unknown"
 msgstr "neznámé"
 
-#: src/vcal_manager.c:127
+#: src/vcal_manager.c:131
 msgid "individual"
 msgstr "inviduální"
 
-#: src/vcal_manager.c:128
+#: src/vcal_manager.c:132
 msgid "group"
 msgstr "skupina"
 
-#: src/vcal_manager.c:129
+#: src/vcal_manager.c:133
 msgid "resource"
 msgstr "zdroj"
 
-#: src/vcal_manager.c:130
+#: src/vcal_manager.c:134
 msgid "room"
 msgstr "místnost"
 
-#: src/vcal_manager.c:541
+#: src/vcal_manager.c:545
 msgid "Past"
 msgstr "V minulosti"
 
-#: src/vcal_manager.c:544
+#: src/vcal_manager.c:548
 msgid "Today"
 msgstr "Dnes"
 
-#: src/vcal_manager.c:547
+#: src/vcal_manager.c:551
 msgid "Tomorrow"
 msgstr "Zítra"
 
-#: src/vcal_manager.c:550
+#: src/vcal_manager.c:554
 msgid "This week"
 msgstr "Tento týden"
 
-#: src/vcal_manager.c:553
+#: src/vcal_manager.c:557
 msgid "Later"
 msgstr "Později"
 
-#: src/vcal_manager.c:1216
+#: src/vcal_manager.c:1220
 msgid "Accepted: "
 msgstr "Přijaté"
 
-#: src/vcal_manager.c:1218
+#: src/vcal_manager.c:1222
 msgid "Declined: "
 msgstr "Odmítnuté:"
 
-#: src/vcal_manager.c:1220
+#: src/vcal_manager.c:1224
 msgid "Tentatively Accepted: "
 msgstr "Předběžně přijaté:"
 
@@ -899,22 +899,22 @@ msgid "Plugins"
 msgstr "Zásuvné moduly"
 
 #: src/day-view.c:403
-#: src/month-view.c:414
+#: src/month-view.c:424
 msgid "Unknown"
 msgstr "Neznámý"
 
 #: src/day-view.c:594
-#: src/month-view.c:684
+#: src/month-view.c:694
 msgid "Start"
 msgstr "Začátek"
 
 #: src/day-view.c:607
-#: src/month-view.c:697
+#: src/month-view.c:707
 msgid "Show"
 msgstr "Zobrazit"
 
 #: src/day-view.c:615
-#: src/month-view.c:705
+#: src/month-view.c:715
 msgid "days"
 msgstr "dnů"
 
@@ -994,15 +994,15 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Prosinec"
 
-#: src/month-view.c:792
+#: src/month-view.c:802
 msgid "Week number"
 msgstr "Číslo týdne"
 
-#: src/month-view.c:890
+#: src/month-view.c:900
 msgid "Previous month"
 msgstr "Předchozí měsíc"
 
-#: src/month-view.c:913
+#: src/month-view.c:923
 msgid "Next month"
 msgstr "Další měsíc"
 

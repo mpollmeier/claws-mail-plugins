@@ -1,16 +1,21 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Dutch translations for vcalendar package
+# Engelse vertalingen voor het pakket vcalendar.
+# Copyright (C) 2009 Colin Leroy
+# This file is distributed under the same license as the vcalendar package.
+# Marcel Pol <mpol@gmx.net>, 2009-2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: vcalendar_plugin\n"
+"Project-Id-Version: vcalendar\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2010-01-01 19:09+0000\n"
-"PO-Revision-Date: 2010-01-02 15:51+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
-"Language-Team: Slovenský <nomail>\n"
+"POT-Creation-Date: 2009-12-31 15:39+0100\n"
+"PO-Revision-Date: 2009-12-31 19:09+0200\n"
+"Last-Translator: Marcel Pol <mpol@gmx.net>\n"
+"Language-Team: Dutch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/plugin.c:45 src/plugin.c:64 src/vcal_prefs.c:645
 msgid "vCalendar"
@@ -32,98 +37,100 @@ msgid ""
 "meetings and calendars, publish your free/busy information and retrieve that "
 "information from others."
 msgstr ""
-"Tento zásuvný modul zapína obsluhu správ vCalendar podobným spôsobom ako to "
-"poskytuje Evolution alebo Outlook.\n"
+"Deze plugin maakt het mogelijk vCalendar berichten af te handelen, zoals "
+"deze gemaakt worden door Evolution of Outlook.\n"
 "\n"
-"Keď je načítaný, vytvorí v zozname zložiek schránku vCalendar, v ktorej budú "
-"stretnutia, ktoré ste prijali alebo vytvorili.\n"
-"Požiadavky na stretnutie, ktoré prijmete, budú zobrazené v príslušnej podobe "
-"a Vy ich budete môcť prijať alebo odmietnuť.\n"
-"Pre vytvorenie stretnutie kliknite pravým tlačidlom na zložku vCalendar "
-"alebo Stretnutia a zvoľte \"Nové stretnutie...\".\n"
+"Wanneer geladen, zal het een vCalendar mailbox aanmaken in de Mappen Lijst, "
+"welke volgemaakt wordt met afspraken die u hebt geaccepteerd of gemaakt.\n"
+"Afspraak verzoeken die u ontvangt zullen gepresenteerd worden en u bent "
+"mogelijk ze te accepteren of te weigeren.\n"
+"Om een nieuwe afspraak aan te maken rechts-klik op de vCalendar of Afspraken "
+"map en kies \"Nieuwe afspraak...\".\n"
 "\n"
-"Môžete sa tiež prihlásiť k externým kanálom webCal, exporovať svoje "
-"stretnutia a kalendáre, zverejňovať informácie o svojom čase a prijímať "
-"informácie od iných."
+"Het is ook mogelijk te in te schrijven op webCal feeds, uw afspraken en "
+"agenda te exporteren, uw vrij/bezet informatie te publiceren, en die "
+"informatie op te halen van anderen."
 
 #: src/plugin.c:102
 msgid "Calendar"
-msgstr "Kalendár"
+msgstr "Agenda"
 
 #: src/vcalendar.c:94
 msgid "Create meeting from message..."
-msgstr "Vytvoriť zo správy stretnutie..."
+msgstr "Maak afspraak van bericht..."
 
 #: src/vcalendar.c:114
 #, c-format
 msgid ""
 "You are about to create %d meetings, one by one. Do you want to continue?"
-msgstr "Vytvárate %d stretnutia, jedno po druhom. Chcete pokračovať?"
+msgstr ""
+"U bent bezig om %d afspraken aan te maken, een voor een. Wilt u doorgaan?"
 
 #: src/vcalendar.c:119
 msgid "Warning"
-msgstr "Upozornenie"
+msgstr "Waarschuwing"
 
 #: src/vcalendar.c:133
 msgid "Creating meeting..."
-msgstr "Vytváranie stretnutia..."
+msgstr "Maak afspraak aan..."
 
 #: src/vcalendar.c:152
 msgid "no subject"
-msgstr "bez predmetu"
+msgstr "geen onderwerp"
 
 #: src/vcalendar.c:386
 msgid "Accept"
-msgstr "Prijať"
+msgstr "Accepteer"
 
 #: src/vcalendar.c:387
 msgid "Tentatively accept"
-msgstr "Nezávezne prijať"
+msgstr "Voorlopig accepteren"
 
 #: src/vcalendar.c:388
 msgid "Decline"
-msgstr "Odmietnuť"
+msgstr "Afwijzen"
 
 #: src/vcalendar.c:475
 msgid "You have a Todo item."
-msgstr "Máte položku ToDo."
+msgstr "U hebt een Todo item"
 
 #: src/vcalendar.c:476 src/vcalendar.c:483 src/vcalendar.c:488
 #: src/vcalendar.c:496 src/vcalendar.c:505 src/vcalendar.c:743
 msgid "Details follow:"
-msgstr "Detaily:"
+msgstr "Details volgen:"
 
 #: src/vcalendar.c:482
 msgid "You have created a meeting."
-msgstr "Vytvorili ste stretnutie."
+msgstr "U hebt een afspraak aangemaakt."
 
 #: src/vcalendar.c:487
 msgid "You have been invited to a meeting."
-msgstr "Boli ste pozvaný na stretnutie."
+msgstr "U bent uitgenodigd voor een afspraak."
 
 #: src/vcalendar.c:495
 msgid "A meeting to which you had been invited has been cancelled."
-msgstr "Stretnutie, na ktoré ste boli pozvaný, bolo zrušené."
+msgstr "Een afspraak waar u voor uitgenodigd was is afgezegd."
 
 #: src/vcalendar.c:504
 msgid "You have been forwarded an appointment."
-msgstr "Boli ste poslaný na stretnutie."
+msgstr "U hebt een afspraak doorgestuurd gekregen."
 
 #: src/vcalendar.c:557
 #, c-format
 msgid "%s <span weight=\"bold\">(this event recurs)</span>"
-msgstr "%s <span weight=\"bold\">(udalosť sa opakuje)</span>"
+msgstr "%s <span weight=\"bold\">(deze gebeurtenis keert terug)</span>"
 
 #: src/vcalendar.c:563
 #, c-format
 msgid ""
 "%s <span weight=\"bold\">(this event is part of a recurring event)</span>"
 msgstr ""
-"%s <span weight=\"bold\">(táto udalosť je časťou opakovanej udalosti)</span>"
+"%s <span weight=\"bold\">(deze gebeurtenis is onderdeel van een terugkerende "
+"gebeurtenis)</span>"
 
 #: src/vcalendar.c:742
 msgid "You have received an answer to an unknown meeting proposal."
-msgstr "Prijali ste odpoveď na neznámu ponuku na stretnutie."
+msgstr "U hebt antwoord ontvangen op een onbekende afspraak voorstel."
 
 #: src/vcalendar.c:746
 #, c-format
@@ -131,163 +138,165 @@ msgid ""
 "You have received an answer to a meeting proposal.\n"
 "%s has %s the invitation whose details follow:"
 msgstr ""
-"Prijali ste odpoveď na ponuku na stretnutie.\n"
-"%s je %s pozvaný s týmito podrobnosťami:"
+"U hebt antwoord ontvangen op een afspraak voorstel.\n"
+"%s heeft %s de uitnodiging met de volgende details:"
 
 #: src/vcalendar.c:825
 msgid "Error - could not get the calendar MIME part."
-msgstr "Chyba: Nemožno získať MIME časť kalendára."
+msgstr "Fout - kon niet het agenda MIME deel krijgen."
 
 #: src/vcalendar.c:832
 msgid "Error - no calendar part found."
-msgstr "Chyba: Nenájdená kalendárová časť."
+msgstr "Fout - geen agenda deel gevonden."
 
 #: src/vcalendar.c:846
 msgid "Error - Unknown calendar component type."
-msgstr "Chyba: Neznámy typ kalendárového komponentu."
+msgstr "Fout - Onbekend agenda component type."
 
 #: src/vcalendar.c:975
 msgid "Send a notification to the attendees"
-msgstr ""
+msgstr "Stuur een notificatie naar de genodigden"
 
 #: src/vcalendar.c:984
 msgid "Cancel meeting"
-msgstr "Zrušiť stretnutie"
+msgstr "Zeg afspraak af"
 
 #: src/vcalendar.c:985
 msgid "Are you sure you want to cancel this meeting?"
-msgstr "Naozaj chcete zrušiť toto stretnutie?"
+msgstr "Wet u zeker dat u deze afspraak wilt afzeggen?"
 
 #: src/vcalendar.c:1080
 msgid "No account found"
-msgstr "Účet nenájdený"
+msgstr "Geen account gevonden"
 
 #: src/vcalendar.c:1081
 msgid ""
 "You have no account matching any attendee.\n"
 "Do you want to reply anyway ?"
 msgstr ""
+"U hebt geen account dat overeenkomt met een genodigde.\n"
+"Wilt u toch antwoorden?"
 
 #: src/vcalendar.c:1083
 msgid "+Reply anyway"
-msgstr "+Odpovedať i tak"
+msgstr "+Toch antwoorden"
 
 #: src/vcalendar.c:1212
 msgid "Answer"
-msgstr "Odpovedať"
+msgstr "Antwoord"
 
 #: src/vcalendar.c:1213
 msgid "Edit meeting..."
-msgstr "Upraviť stretnutie..."
+msgstr "Pas afspraak aan..."
 
 #: src/vcalendar.c:1214
 msgid "Cancel meeting..."
-msgstr "Zrušiť stretnutie..."
+msgstr "Zeg afspraak af..."
 
 #: src/vcalendar.c:1215
 msgid "Launch website"
-msgstr "Pozrieť weovú stránku"
+msgstr "Ga naar website"
 
 #: src/vcalendar.c:1219
 msgid "You are already busy at this time."
-msgstr "V tej dobe ste obsadený."
+msgstr "U bent al bezet op dit moment."
 
 #: src/vcalendar.c:1258 src/vcal_meeting_gtk.c:1727
 msgid "Event:"
-msgstr "Udalosť:"
+msgstr "Gebeurtenis:"
 
 #: src/vcalendar.c:1259 src/vcal_meeting_gtk.c:1705
 #: src/vcal_meeting_gtk.c:1716
 msgid "Organizer:"
-msgstr "Organizátor:"
+msgstr "Agenda:"
 
 #: src/vcalendar.c:1260 src/vcal_meeting_gtk.c:1708
 #: src/vcal_meeting_gtk.c:1718
 msgid "Location:"
-msgstr "Miesto:"
+msgstr "Lokatie:"
 
 #: src/vcalendar.c:1261 src/vcal_meeting_gtk.c:1706
 #: src/vcal_meeting_gtk.c:1717
 msgid "Summary:"
-msgstr "Zhrnutie:"
+msgstr "Samenvatting:"
 
 #: src/vcalendar.c:1262
 msgid "Starting:"
-msgstr "Začiatok:"
+msgstr "Start:"
 
 #: src/vcalendar.c:1263
 msgid "Ending:"
-msgstr "Koniec:"
+msgstr "Einde:"
 
 #: src/vcalendar.c:1264 src/vcal_meeting_gtk.c:1709
 #: src/vcal_meeting_gtk.c:1719
 msgid "Description:"
-msgstr "Popis:"
+msgstr "Beschrijving:"
 
 #: src/vcalendar.c:1265 src/vcal_meeting_gtk.c:1710
 #: src/vcal_meeting_gtk.c:1720
 msgid "Attendees:"
-msgstr ""
+msgstr "Genodigden:"
 
 #: src/vcalendar.c:1267
 msgid "Action:"
-msgstr "Akcia:"
+msgstr "Actie:"
 
 #: src/vcal_folder.c:160
 msgid "_New meeting..."
-msgstr "_Nové stretnutie..."
+msgstr "_Nieuwe afspraak..."
 
 #: src/vcal_folder.c:161
 msgid "_Export calendar..."
-msgstr "_Exportovať kalendár..."
+msgstr "_Exporteer agenda..."
 
 #: src/vcal_folder.c:162
 msgid "_Subscribe to webCal..."
-msgstr "Prihlá_siť sa do webCal..."
+msgstr "_Schrijf u in voor webCal..."
 
 #: src/vcal_folder.c:163
 msgid "_Unsubscribe..."
-msgstr "_Odhlásiť sa..."
+msgstr "_Meld u af..."
 
 #: src/vcal_folder.c:164
 msgid "_Rename..."
-msgstr "P_remenovať..."
+msgstr "_Hernoem..."
 
 #: src/vcal_folder.c:165
 msgid "U_pdate subscriptions"
-msgstr ""
+msgstr "_Ververs inschrijvingen"
 
 #: src/vcal_folder.c:166
 msgid "_List view"
-msgstr "Zobrazenie _zoznamu"
+msgstr "_Lijst beeld"
 
 #: src/vcal_folder.c:167
 msgid "_Week view"
-msgstr "_Týždenný pohľad"
+msgstr "_Week beeld"
 
 #: src/vcal_folder.c:168
 msgid "_Month view"
-msgstr "_Mesačný pohľad"
+msgstr "_Maand beeld"
 
 #: src/vcal_folder.c:1428
 msgid "in the past"
-msgstr ""
+msgstr "in het verleden"
 
 #: src/vcal_folder.c:1431
 msgid "today"
-msgstr "dnes"
+msgstr "vandaag"
 
 #: src/vcal_folder.c:1434
 msgid "tomorrow"
-msgstr "zajtra"
+msgstr "morgen"
 
 #: src/vcal_folder.c:1437
 msgid "this week"
-msgstr "tento týždeň"
+msgstr "deze week"
 
 #: src/vcal_folder.c:1440
 msgid "later"
-msgstr "neskôr"
+msgstr "later"
 
 #: src/vcal_folder.c:1444
 #, c-format
@@ -296,34 +305,34 @@ msgid ""
 "These are the events planned %s:\n"
 msgstr ""
 "\n"
-"Toto sú plánované udalosti %s:\n"
+"Dit zijn de dingen gepland %s:\n"
 
 #: src/vcal_folder.c:1536
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
-msgstr "Časový limit (%d sekúnd) pripojenia k %s\n"
+msgstr "Timeout (%d secondes) verbinden met %s\n"
 
 #: src/vcal_folder.c:1545
 msgid "401 (Authorisation required)"
-msgstr "401 (Vyžadovaná autorizácia)"
+msgstr "401 (Authorisatie vereist)"
 
 #: src/vcal_folder.c:1548
 msgid "403 (Unauthorised)"
-msgstr "403 (Neautorizované)"
+msgstr "403 (Niet geautoriseerd)"
 
 #: src/vcal_folder.c:1551
 msgid "404 (Not found)"
-msgstr "404 (Nenájdené)"
+msgstr "404 (Niet gevonden)"
 
 #: src/vcal_folder.c:1554
 #, c-format
 msgid "Error %ld"
-msgstr "Chyba %ld"
+msgstr "Fout %ld"
 
 #: src/vcal_folder.c:1591
 #, c-format
 msgid "Fetching '%s'..."
-msgstr "Získavanie '%s'..."
+msgstr "Ophalen '%s'..."
 
 #: src/vcal_folder.c:1757
 #, c-format
@@ -333,7 +342,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Nemožno pristupovať k Webcal URL:\n"
+"Kon de Webcal URL niet ophalen:\n"
 "%s:\n"
 "\n"
 "%s"
@@ -341,7 +350,7 @@ msgstr ""
 #: src/vcal_folder.c:1758 src/vcal_folder.c:1762 src/vcal_folder.c:1773
 #: src/vcal_folder.c:1776
 msgid "Unknown error"
-msgstr "Neznáma chyba"
+msgstr "Onbekende fout"
 
 #: src/vcal_folder.c:1761
 #, c-format
@@ -351,7 +360,7 @@ msgid ""
 "\n"
 "%s\n"
 msgstr ""
-"Nemožno pristupovať k Webcal URL:\n"
+"Kon de Webcal URL niet ophalen:\n"
 "%s:\n"
 "\n"
 "%s\n"
@@ -363,7 +372,7 @@ msgid ""
 "%s\n"
 "%s"
 msgstr ""
-"Táto URL nevyzerá ako WebCal URL:\n"
+"Deze URL lijkt niet op een WebCal URL:\n"
 "%s\n"
 "%s"
 
@@ -374,227 +383,227 @@ msgid ""
 "%s\n"
 "%s\n"
 msgstr ""
-"Táto URL nevyzerá ako WebCal URL:\n"
+"Deze URL lijkt niet op een WebCal URL:\n"
 "%s\n"
 "%s\n"
 
 #: src/vcal_folder.c:1831
 msgid "Claws Mail needs network access in order to update the Webcal feed."
-msgstr "Claws Mail potrebuje na aktualizáciu kanála Webcal sieťový prístup."
+msgstr "Claws Mail heeft netwerk toegang nodig om de Webcal feed te verversen."
 
 #: src/vcal_folder.c:1850
 msgid "Claws Mail needs network access in order to update the subscription."
-msgstr ""
+msgstr "Claws Mail heeft netwerk toegang nodig om de abonnering te vernieuwen."
 
 #: src/vcal_folder.c:1862
 msgid "Subscribe to WebCal"
-msgstr "Prihlásiť sa do WebCal"
+msgstr "Abonneren op WebCal"
 
 #: src/vcal_folder.c:1862
 msgid "Enter the WebCal URL:"
-msgstr "Zadajte WebCal URL:"
+msgstr "Voer de WebCal URL in:"
 
 #: src/vcal_folder.c:1874
 msgid "Could not parse the URL."
-msgstr "Nemožno spracovať URL."
+msgstr "Kon de URL niet verwerken."
 
 #: src/vcal_folder.c:1903
 msgid "Do you really want to unsubscribe?"
-msgstr "Naozaj sa chcete odhlásiť?"
+msgstr "Wilt u echt uitschrijven?"
 
 #: src/vcal_folder.c:1904
 msgid "Delete folder"
-msgstr "Zmazať zložku"
+msgstr "Verwijder map"
 
 #: src/vcal_folder.c:1925
 #, c-format
 msgid "Can't remove the folder '%s'."
-msgstr "Nemožno premenovať zložku '%s'."
+msgstr "Kan de map '%s' niet verwijderen."
 
 #: src/vcal_folder.c:1968
 #, c-format
 msgid "Input new name for '%s':"
-msgstr "Zadajte nové meno pre'%s':"
+msgstr "Voer nieuwe naam in voor '%s':"
 
 #: src/vcal_folder.c:1969
 msgid "Rename folder"
-msgstr "Premenovať zložku"
+msgstr "Hernoem map"
 
 #: src/vcal_folder.c:1976
 #, c-format
 msgid "'%c' can't be included in folder name."
-msgstr "Meno zložky nemôže obsahovať '%c'."
+msgstr "'%c' kan geen onderdeel zijn van de mapnaam."
 
 #: src/vcal_folder.c:1983
 #, c-format
 msgid "The folder '%s' already exists."
-msgstr "Zložka '%s' už existuje."
+msgstr "De map '%s' bestaat al."
 
 #: src/vcal_folder.c:1989
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."
 msgstr ""
-"Zloýka nemôže byť premenovaná.\n"
-"Nové meno zložky nie je dovolené."
+"De map kon niet hernoemd worden.\n"
+"De nieuwe mapnaam wordt niet toegestaan."
 
 #: src/vcal_manager.c:98
 msgid "accepted"
-msgstr "priajté"
+msgstr "geaccepteerd"
 
 #: src/vcal_manager.c:99
 msgid "tentatively accepted"
-msgstr "nezáväzne prijaté"
+msgstr "voorlopig geaccepteerd"
 
 #: src/vcal_manager.c:100
 msgid "declined"
-msgstr "odmietnuté"
+msgstr "afgewezen"
 
 #: src/vcal_manager.c:101
 msgid "did not answer"
-msgstr "neodpovedal"
+msgstr "niet beantwoord"
 
 #: src/vcal_manager.c:102 src/vcal_manager.c:135
 msgid "unknown"
-msgstr "neznáme"
+msgstr "onbekend"
 
 #: src/vcal_manager.c:131
 msgid "individual"
-msgstr "individuálne"
+msgstr "individueel"
 
 #: src/vcal_manager.c:132
 msgid "group"
-msgstr "skupina"
+msgstr "groep"
 
 #: src/vcal_manager.c:133
 msgid "resource"
-msgstr ""
+msgstr "bron"
 
 #: src/vcal_manager.c:134
 msgid "room"
-msgstr "miestnosť"
+msgstr "kamer"
 
 #: src/vcal_manager.c:545
 msgid "Past"
-msgstr ""
+msgstr "Vorige"
 
 #: src/vcal_manager.c:548
 msgid "Today"
-msgstr "Dnes"
+msgstr "Vandaag"
 
 #: src/vcal_manager.c:551
 msgid "Tomorrow"
-msgstr "Zajtra"
+msgstr "Morgen"
 
 #: src/vcal_manager.c:554
 msgid "This week"
-msgstr "Tento týždeň"
+msgstr "Deze week"
 
 #: src/vcal_manager.c:557
 msgid "Later"
-msgstr "Neskôr"
+msgstr "Later"
 
 #: src/vcal_manager.c:1220
 msgid "Accepted: "
-msgstr "Prijaté:"
+msgstr "Geaccepteerd: "
 
 #: src/vcal_manager.c:1222
 msgid "Declined: "
-msgstr "Odmietnuté:"
+msgstr "Afgewezen: "
 
 #: src/vcal_manager.c:1224
 msgid "Tentatively Accepted: "
-msgstr "Nezávezne prijaté:"
+msgstr "Voorlopig Geaccepteerd: "
 
 #: src/vcal_meeting_gtk.c:288
 msgid "Use <tab> to autocomplete from addressbook"
-msgstr "Na autodoplnenie z adresára použite <tab>"
+msgstr "Gebruik <tab> om aan te vullen vanuit het adresboek"
 
 #: src/vcal_meeting_gtk.c:306
 msgid "Individual"
-msgstr "Individuálne"
+msgstr "Individueel"
 
 #: src/vcal_meeting_gtk.c:307
 msgid "Group"
-msgstr "Skupina"
+msgstr "Groep"
 
 #: src/vcal_meeting_gtk.c:308
 msgid "Resource"
-msgstr ""
+msgstr "Bron"
 
 #: src/vcal_meeting_gtk.c:309
 msgid "Room"
-msgstr "Miestnosť"
+msgstr "Kamer"
 
 #: src/vcal_meeting_gtk.c:322
 msgid "Add..."
-msgstr "Pridať..."
+msgstr "Toevoegen..."
 
 #: src/vcal_meeting_gtk.c:323
 msgid "Remove"
-msgstr "Odstrániť"
+msgstr "Verwijderen"
 
 #: src/vcal_meeting_gtk.c:781
 msgid ""
 "The following person(s) are busy at the time of your planned meeting:\n"
 "- "
 msgstr ""
-"Nasledujúca osoba(y) sú v čase Vami plánovaného stretnutia obsadené:\n"
+"De volgende persoon(en) zijn bezet op het moment van de geplande afspraak:\n"
 "- "
 
 #: src/vcal_meeting_gtk.c:782 src/vcal_meeting_gtk.c:874
 #: src/vcal_meeting_gtk.c:960
 msgid "You"
-msgstr "Vy"
+msgstr "U"
 
 #: src/vcal_meeting_gtk.c:783
 msgid "You are busy at the time of your planned meeting"
-msgstr "V čase plánovaného stretnutia ste zaneprázdnený"
+msgstr "U bent bezet op het moment van de geplande afspraak"
 
 #: src/vcal_meeting_gtk.c:785
 #, c-format
 msgid "%s is busy at the time of your planned meeting"
-msgstr "%s je v čase plánovaného stretnutia ste zaneprázdnený"
+msgstr "%s is bezet op het moment van de geplande afspraak"
 
 #: src/vcal_meeting_gtk.c:787
 #, c-format
 msgid "%d hour sooner"
-msgstr "%d hodnu skôr"
+msgstr "%d uur eerder"
 
 #: src/vcal_meeting_gtk.c:789
 #, c-format
 msgid "%d hours sooner"
-msgstr "%d hodím skôr"
+msgstr "%d uur eerder"
 
 #: src/vcal_meeting_gtk.c:791
 #, c-format
 msgid "%d hours and %d minutes sooner"
-msgstr "%d hodín a %d minúť skôr"
+msgstr "%d uur en %d minuten eerder"
 
 #: src/vcal_meeting_gtk.c:793
 #, c-format
 msgid "%d minutes sooner"
-msgstr "%d minutút skôr"
+msgstr "%d minuten eerder"
 
 #: src/vcal_meeting_gtk.c:798
 #, c-format
 msgid "%d hour later"
-msgstr "%d hodinu neskôr"
+msgstr "%d uur later"
 
 #: src/vcal_meeting_gtk.c:800
 #, c-format
 msgid "%d hours later"
-msgstr "%d hodím neskôr"
+msgstr "%d uur later"
 
 #: src/vcal_meeting_gtk.c:802
 #, c-format
 msgid "%d hours and %d minutes later"
-msgstr "%d hodín a %d minút neskôr"
+msgstr "%d uur en %d minuten later"
 
 #: src/vcal_meeting_gtk.c:804
 #, c-format
 msgid "%d minutes later"
-msgstr "%d minúť neskôr"
+msgstr "%d minuten later"
 
 #: src/vcal_meeting_gtk.c:810
 #, c-format
@@ -605,7 +614,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Všetci budú dostupní %s alebo %s."
+"Iedereen zou beschikbaar zijn op %s of %s."
 
 #: src/vcal_meeting_gtk.c:812
 #, c-format
@@ -616,7 +625,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Všetci budú dostupní %s."
+"Iedereen zou beschikbaar zijn op %s."
 
 #: src/vcal_meeting_gtk.c:814
 msgid ""
@@ -627,136 +636,134 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Nie je možné stretnúť sa so všetkými v predchádzajúcich alebo nasledujúcich "
-"6 hodinách."
+"Het is niet mogelijk deze afspraak te hebben met iedereen in de vorige of "
+"de volgende 6 uur."
 
 #: src/vcal_meeting_gtk.c:819
 #, c-format
 msgid "would be available %s or %s"
-msgstr "bude dostupný %s alebo %s"
+msgstr "is beschikbaar %s of %s"
 
 #: src/vcal_meeting_gtk.c:821
 #, c-format
 msgid "would be available %s"
-msgstr "bude dostupný %s"
+msgstr "is beschikbaar %s"
 
 #: src/vcal_meeting_gtk.c:823 src/vcal_meeting_gtk.c:887
 #: src/vcal_meeting_gtk.c:957
 msgid "not available"
-msgstr "nedostupný"
+msgstr "niet beschikbaar"
 
 #: src/vcal_meeting_gtk.c:826
 #, c-format
 msgid ", but would be available %s or %s."
-msgstr ", ale bude dostupný %s alebo %s."
+msgstr ", maar zou beschikbaar zijn %s of %s."
 
 #: src/vcal_meeting_gtk.c:828
 #, c-format
 msgid ", but would be available %s."
-msgstr ", ale bude dostupný %s."
+msgstr ", maar zou beschikbaar zijn %s."
 
 #: src/vcal_meeting_gtk.c:830
 msgid ", and isn't available in the previous or next 6 hours."
-msgstr ", a nebude dostupný ani predchádzajúcich, ani nasledujúcich 6 hodín."
+msgstr ", en is niet beschikbaar in de vorige of volgende 6 uur."
 
 #: src/vcal_meeting_gtk.c:890
 msgid "available"
-msgstr "dostupný"
+msgstr "beschikbaar"
 
 #: src/vcal_meeting_gtk.c:892 src/vcal_meeting_gtk.c:1138
 msgid "Free/busy retrieval failed"
-msgstr "Zlyhalo získanie obsadenosti"
+msgstr "Vrij/bezet ophalen mislukt"
 
 #: src/vcal_meeting_gtk.c:974
 msgid "Not everyone is available"
-msgstr "Nikto nie je dostupný"
+msgstr "Niet iedereen is beschikbaar"
 
 #: src/vcal_meeting_gtk.c:975
 msgid "Send anyway"
-msgstr "Poslať i tak"
+msgstr "Verstuur toch"
 
 #: src/vcal_meeting_gtk.c:986
 msgid "Not everyone is available. See tooltips for more info..."
-msgstr "Nikto nie je dostupný. Pozrite si tooltipy s ďalšími informáciami..."
+msgstr "Niet iedereen is beschikbaar. Zie tooltips voor meer info..."
 
 #: src/vcal_meeting_gtk.c:1147
 msgid "Available"
-msgstr "Dostupný"
+msgstr "Beschikbaar"
 
 #: src/vcal_meeting_gtk.c:1160 src/vcal_meeting_gtk.c:1167
 #: src/vcal_meeting_gtk.c:1175
 msgid "Everyone is available."
-msgstr "Všetci sú dostupní."
+msgstr "Iedereen is beschikbaar."
 
 #: src/vcal_meeting_gtk.c:1176
 msgid ""
 "Everyone seems available, but some free/busy information failed to be "
 "retrieved."
 msgstr ""
-"Všetci vyzerajú byť dostupní, ale niektoré informácie o dostupnosti sa "
-"nepodarilo získať."
+"Iedereen lijkt beschikbaar, maar sommige vrij/bezet informatie kon "
+"niet opgehaald worden."
 
 #: src/vcal_meeting_gtk.c:1348
 msgid ""
 "Could not send the meeting invitation.\n"
 "Check the recipients."
 msgstr ""
-"Nemožno poslať pozvánku na stretnutie.\n"
-"Skontrolujte adresárov."
+"Kon de uitnodiging niet versturen.\n"
+"Controleer de ontvangers."
 
 #: src/vcal_meeting_gtk.c:1465
 msgid "Save & Send"
-msgstr "Uložiť a Poslať"
+msgstr "Opslaan en verzenden"
 
 #: src/vcal_meeting_gtk.c:1466
 msgid "Check availability"
-msgstr "Overiť dostupnosť"
+msgstr "Controleer beschikbaarheid"
 
 #: src/vcal_meeting_gtk.c:1589
 msgid "<b>Starts at:</b> "
-msgstr "<b>Začína o:</b> "
+msgstr "<b>Begint om:</b>"
 
 #: src/vcal_meeting_gtk.c:1594 src/vcal_meeting_gtk.c:1616
 msgid "<b> on:</b>"
-msgstr ""
+msgstr "<b> om:</b>"
 
 #: src/vcal_meeting_gtk.c:1611
 msgid "<b>Ends at:</b> "
-msgstr "<b>Končí o:</b> "
+msgstr "<b>Eindigt om:</b> "
 
 #: src/vcal_meeting_gtk.c:1650
 msgid "New meeting"
-msgstr "Nové stretnutie"
+msgstr "Nieuwe afspraak"
 
 #: src/vcal_meeting_gtk.c:1652
 #, c-format
 msgid "%s - Edit meeting"
-msgstr "%s - Upravuje stretnutie"
+msgstr "%s - Pas afspraak aan"
 
 #: src/vcal_meeting_gtk.c:1707 src/vcal_meeting_gtk.c:1731
 msgid "Time:"
-msgstr "Čas:"
+msgstr "Tijd:"
 
 #: src/vcal_meeting_gtk.c:1867
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d hodina"
-msgstr[1] "%d hodiny"
-msgstr[2] "%d hodín"
+msgstr[0] "%d uur"
+msgstr[1] "%d uur"
 
 #: src/vcal_meeting_gtk.c:1870
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minúta"
-msgstr[1] "%d minúty"
-msgstr[2] "%d minút"
+msgstr[0] "%d minuut"
+msgstr[1] "%d minuten"
 
 #: src/vcal_meeting_gtk.c:1881
 #, c-format
 msgid "Upcoming event: %s"
-msgstr "Nadchádzajúca udalosť: %s"
+msgstr "Eerstvolgende afspraak: %s"
 
 #: src/vcal_meeting_gtk.c:1882
 #, c-format
@@ -768,10 +775,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Zanedlho máte mať stretnutie alebo inú udalosť.\n"
-"Začína sa o %s a končí %s neskúr.\n"
-"Miesto: %s\n"
-"Viac informácií:\n"
+"U hebt binnenkort een afspraak.\n"
+"Het begint om %s en eindigt %s later.\n"
+"Lokatie: %s\n"
+"Meer informatie:\n"
 "\n"
 "%s"
 
@@ -779,111 +786,110 @@ msgstr ""
 #, c-format
 msgid "Remind me in %d minute"
 msgid_plural "Remind me in %d minutes"
-msgstr[0] "Pripomeň mi za %d minútu"
-msgstr[1] "Pripomeň mi za %d minúty"
-msgstr[2] "Pripomeň mi za %d minút"
+msgstr[0] "Herinner me over %d minuut"
+msgstr[1] "Herinner me over %d minuten"
 
 #: src/vcal_meeting_gtk.c:2025
 msgid "Empty calendar"
-msgstr "Prázdnykalendár"
+msgstr "Lege agenda"
 
 #: src/vcal_meeting_gtk.c:2026
 msgid "There is nothing to export."
-msgstr "Nie je čo exportovať."
+msgstr "Er is niets te exporteren."
 
 #: src/vcal_meeting_gtk.c:2066
 msgid "Could not export the calendar."
-msgstr "Nemožno exportovať kalendár."
+msgstr "Kon de agenda niet exporteren"
 
 #: src/vcal_meeting_gtk.c:2083
 msgid "Export calendar to ICS"
-msgstr "Export kalendára do ICS"
+msgstr "Exporteer agenda nar ICS"
 
 #: src/vcal_meeting_gtk.c:2105
 #, c-format
 msgid "Couldn't export calendar to '%s'\n"
-msgstr "Nemožno exportovať kalendár do '%s'\n"
+msgstr "Kon agenda niet exporteren naar '%s'\n"
 
 #: src/vcal_meeting_gtk.c:2221
 msgid "Could not export the freebusy info."
-msgstr "Nemožno exportovať informácie o obsadenosti."
+msgstr "Kon de vrij/bezet info niet exporteren."
 
 #: src/vcal_meeting_gtk.c:2252
 #, c-format
 msgid "Couldn't export free/busy to '%s'\n"
-msgstr "Nemožno exportovať obsadenosť do '%s'\n"
+msgstr "Kon vrij/bezet niet exporteren naar '%s'\n"
 
 #: src/vcal_prefs.c:255
 msgid "Reminders"
-msgstr "Pripomienky"
+msgstr "Herinneringen"
 
 #: src/vcal_prefs.c:264
 msgid "Alert me"
-msgstr "Upozorni ma"
+msgstr "Waarschuw me"
 
 #: src/vcal_prefs.c:276
 msgid "minutes before an event"
-msgstr "minút pre udalosťou"
+msgstr "minuten voor een afspraak"
 
 #: src/vcal_prefs.c:288
 msgid "Calendar export"
-msgstr "Export kalendára"
+msgstr "Agenda export"
 
 #: src/vcal_prefs.c:299
 msgid "Automatically export calendar to"
-msgstr "Automaticky exportovať kalendár do"
+msgstr "Automatisch agenda exporteren naar"
 
 #: src/vcal_prefs.c:308 src/vcal_prefs.c:414
 msgid "You can export to a local file or URL"
-msgstr "Kalendár môžete exportovať do lokálneho súboru alebo URL"
+msgstr "U kunt naar een lokaal bestand of URL exporteren"
 
 #: src/vcal_prefs.c:310
 msgid "Specify a local file or URL (http://server/path/file.ics)"
-msgstr "Zadajte umiestnenie súboru alebo URL (http://server/path/file.ics)"
+msgstr "Geef een lokaal bestand of URL op (http://server/path/file.ics)"
 
 #: src/vcal_prefs.c:318 src/vcal_prefs.c:424
 msgid "User ID"
-msgstr "Používateľské ID"
+msgstr "Gebruikers ID"
 
 #: src/vcal_prefs.c:326 src/vcal_prefs.c:432
 msgid "Password"
-msgstr "Heslo"
+msgstr "Wachtwoord"
 
 #: src/vcal_prefs.c:340
 msgid "Include webcal subscriptions in export"
-msgstr ""
+msgstr "Voeg webcal inschrijvingen bij het exporteren in"
 
 #: src/vcal_prefs.c:350
 msgid "Command to run after calendar export"
-msgstr "Príkaz na spustenie po exporte kalendára"
+msgstr "Opdracht om te draaien na het exporteren van de agenda"
 
 #: src/vcal_prefs.c:379
 msgid "Register Claws' calendar in XFCE's Orage clock"
-msgstr "Zaregistrovať Claws kalendár v XFCE's Orage clock"
+msgstr "Registreer Claws' agenda in XFCE's Orage klok"
 
 #: src/vcal_prefs.c:381
 msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
-msgstr "Umožniť Orage (verzia vyššia ako 4.4) prístup ku kalendáru Claws Mail"
+msgstr "Sta Orage (versie 4.4 of nieuwer) toe om Claws Mail's agaenda in te zien"
 
 #: src/vcal_prefs.c:393
 msgid "Free/Busy information"
-msgstr "Informácie obsadenosti"
+msgstr "Vrij/Bezet informatie"
 
 #: src/vcal_prefs.c:405
 msgid "Automatically export free/busy status to"
-msgstr "Automaticky exportovať stav obsadenosti do"
+msgstr "Automatisch exporteren van vrij/bezet status naar"
 
 #: src/vcal_prefs.c:416
 msgid "Specify a local file or URL (http://server/path/file.ifb)"
-msgstr "zadajte lokálny súbor alebo URL (http://server/path/file.ifb)"
+msgstr "Geef een lokaal bestand of URL (http://server/path/file.ifb) op"
 
 #: src/vcal_prefs.c:446
 msgid "Command to run after free/busy status export"
-msgstr "Príkaz, spustený po exporte obsadenosti"
+msgstr "Opdracht om te draaien na het exporteren van vrij/bezet status"
 
 #: src/vcal_prefs.c:473
 msgid "Get free/busy status of others from"
-msgstr "Získať stav obsadenosti ostatných z "
+msgstr "Haal vrij/bezet status van anderen van"
 
 #: src/vcal_prefs.c:481
 #, c-format
@@ -891,88 +897,88 @@ msgid ""
 "Specify a local file or URL (http://server/path/file.ifb). Use %u for the "
 "left part of the email address, %d for the domain"
 msgstr ""
-"Zadajte lokálny súbor alebo URL (http://server/path/file.ifb). Použite %u "
-"pre ľavú časť emailovej adresy, %d pre doménu"
+"Geef een lokaal bestand of URL (http://server/path/file.ifb) op. Gebruik "
+"%u voor het linker deel van het e-mail adres, %d voor het domein"
 
 #: src/vcal_prefs.c:644
 msgid "Plugins"
-msgstr "Zásuvné moduly"
+msgstr "Plugins"
 
 #: src/day-view.c:403 src/month-view.c:424
 msgid "Unknown"
-msgstr "Neznáme"
+msgstr "Onbekend"
 
 #: src/day-view.c:594 src/month-view.c:694
 msgid "Start"
-msgstr "Začiatok"
+msgstr "Start"
 
 #: src/day-view.c:607 src/month-view.c:707
 msgid "Show"
-msgstr "Zobraziť"
+msgstr "Laat zien"
 
 #: src/day-view.c:615 src/month-view.c:715
 msgid "days"
-msgstr "dní"
+msgstr "dagen"
 
 #: src/month-view.c:104
 msgid "Monday"
-msgstr "Pondelok"
+msgstr "Maandag"
 
 #: src/month-view.c:105
 msgid "Tuesday"
-msgstr "Utorok"
+msgstr "Dinsdag"
 
 #: src/month-view.c:106
 msgid "Wednesday"
-msgstr "Streda"
+msgstr "Woensdag"
 
 #: src/month-view.c:107
 msgid "Thursday"
-msgstr "Štvrtok"
+msgstr "Donderdag"
 
 #: src/month-view.c:108
 msgid "Friday"
-msgstr "Piatok"
+msgstr "Vrijdag"
 
 #: src/month-view.c:109
 msgid "Saturday"
-msgstr "Sobota"
+msgstr "Zaterdag"
 
 #: src/month-view.c:110
 msgid "Sunday"
-msgstr "Nedeľa"
+msgstr "Zondag"
 
 #: src/month-view.c:113
 msgid "January"
-msgstr "Január"
+msgstr "Januari"
 
 #: src/month-view.c:114
 msgid "February"
-msgstr "Február"
+msgstr "Februari"
 
 #: src/month-view.c:115
 msgid "March"
-msgstr "Marec"
+msgstr "Maart"
 
 #: src/month-view.c:116
 msgid "April"
-msgstr "Apríl"
+msgstr "April"
 
 #: src/month-view.c:117
 msgid "May"
-msgstr "Máj"
+msgstr "Mei"
 
 #: src/month-view.c:118
 msgid "June"
-msgstr "Jún"
+msgstr "Juni"
 
 #: src/month-view.c:119
 msgid "July"
-msgstr "Júl"
+msgstr "Juli"
 
 #: src/month-view.c:120
 msgid "August"
-msgstr "August"
+msgstr "Augustus"
 
 #: src/month-view.c:121
 msgid "September"
@@ -980,7 +986,7 @@ msgstr "September"
 
 #: src/month-view.c:122
 msgid "October"
-msgstr "Október"
+msgstr "Oktober"
 
 #: src/month-view.c:123
 msgid "November"
@@ -992,12 +998,12 @@ msgstr "December"
 
 #: src/month-view.c:802
 msgid "Week number"
-msgstr "Číslo týždňa"
+msgstr "Weeknummer"
 
 #: src/month-view.c:900
 msgid "Previous month"
-msgstr "Minulý mesiac"
+msgstr "Vorige maand"
 
 #: src/month-view.c:923
 msgid "Next month"
-msgstr "Ďalší mesiac"
+msgstr "Volgende maand"

@@ -1,14 +1,14 @@
 # Spanish translation of vCalendar plugin.
-# Copyright (C) 2005-2009 Ricardo Mones
+# Copyright (C) 2005-2010 Ricardo Mones
 # This file is distributed under the same license as the vCalendar package.
-# Ricardo Mones <ricardo@mones.org>, 2005-2007.
+# Ricardo Mones <ricardo@mones.org>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: vCalendar 2.0.5\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2009-06-26 18:40+0100\n"
-"PO-Revision-Date: 2009-07-02 21:36+0200\n"
+"POT-Creation-Date: 2010-01-04 12:07+0100\n"
+"PO-Revision-Date: 2010-01-04 19:28+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
@@ -445,71 +445,71 @@ msgstr ""
 "La carpeta no se pudo renombrar.\n"
 "El nuevo nombre no está permitido."
 
-#: src/vcal_manager.c:94
+#: src/vcal_manager.c:98
 msgid "accepted"
 msgstr "aceptada"
 
-#: src/vcal_manager.c:95
+#: src/vcal_manager.c:99
 msgid "tentatively accepted"
 msgstr "aceptada provisionalmente"
 
-#: src/vcal_manager.c:96
+#: src/vcal_manager.c:100
 msgid "declined"
 msgstr "rehusada"
 
-#: src/vcal_manager.c:97
+#: src/vcal_manager.c:101
 msgid "did not answer"
 msgstr "no respondió"
 
-#: src/vcal_manager.c:98 src/vcal_manager.c:131
+#: src/vcal_manager.c:102 src/vcal_manager.c:135
 msgid "unknown"
 msgstr "desconocida"
 
-#: src/vcal_manager.c:127
+#: src/vcal_manager.c:131
 msgid "individual"
 msgstr "individuo"
 
-#: src/vcal_manager.c:128
+#: src/vcal_manager.c:132
 msgid "group"
 msgstr "grupo"
 
-#: src/vcal_manager.c:129
+#: src/vcal_manager.c:133
 msgid "resource"
 msgstr "recurso"
 
-#: src/vcal_manager.c:130
+#: src/vcal_manager.c:134
 msgid "room"
 msgstr "lugar"
 
-#: src/vcal_manager.c:541
+#: src/vcal_manager.c:545
 msgid "Past"
 msgstr "Pasado"
 
-#: src/vcal_manager.c:544
+#: src/vcal_manager.c:548
 msgid "Today"
 msgstr "Hoy"
 
-#: src/vcal_manager.c:547
+#: src/vcal_manager.c:551
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: src/vcal_manager.c:550
+#: src/vcal_manager.c:554
 msgid "This week"
 msgstr "Esta semana"
 
-#: src/vcal_manager.c:553
+#: src/vcal_manager.c:557
 msgid "Later"
 msgstr "Más tarde"
 
-#: src/vcal_manager.c:1216
+#: src/vcal_manager.c:1220
 msgid "Accepted: "
 msgstr "Aceptada: "
 
-#: src/vcal_manager.c:1218
+#: src/vcal_manager.c:1222
 msgid "Declined: "
 msgstr "Rehusada: "
 
-#: src/vcal_manager.c:1220
+#: src/vcal_manager.c:1224
 msgid "Tentatively Accepted: "
 msgstr "Aceptada provisionalmente: "
 
@@ -904,19 +904,19 @@ msgstr ""
 msgid "Plugins"
 msgstr "Módulos"
 
-#: src/day-view.c:403 src/month-view.c:414
+#: src/day-view.c:403 src/month-view.c:424
 msgid "Unknown"
 msgstr "Desconocida"
 
-#: src/day-view.c:594 src/month-view.c:684
+#: src/day-view.c:594 src/month-view.c:694
 msgid "Start"
 msgstr "Inicio"
 
-#: src/day-view.c:607 src/month-view.c:697
+#: src/day-view.c:607 src/month-view.c:707
 msgid "Show"
 msgstr "Mostrar"
 
-#: src/day-view.c:615 src/month-view.c:705
+#: src/day-view.c:615 src/month-view.c:715
 msgid "days"
 msgstr "días"
 
@@ -996,14 +996,14 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
-#: src/month-view.c:792
+#: src/month-view.c:802
 msgid "Week number"
 msgstr "N.º de semana"
 
-#: src/month-view.c:890
+#: src/month-view.c:900
 msgid "Previous month"
 msgstr "Mes anterior"
 
-#: src/month-view.c:913
+#: src/month-view.c:923
 msgid "Next month"
 msgstr "Mes siguiente"
