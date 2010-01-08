@@ -1,65 +1,65 @@
-# translation of Spam Report to Slovak
-# Copyright (C) 2007 Andrej Kacian
-# This file is distributed under the same license as the Spam Report package.
+# Slavko <slavino@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: spam_report\n"
-"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:50+0000\n"
-"PO-Revision-Date: 2007-11-18 14:52+0100\n"
-"Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
-"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"Project-Id-Version: spam_report_plugin\n"
+"Report-Msgid-Bugs-To: colin@colino.net\n"
+"POT-Creation-Date: 2010-01-01 19:06+0000\n"
+"PO-Revision-Date: 2010-01-02 18:20+0100\n"
+"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
 
-#: src/spam_report.c:213
+#: src/spam_report.c:296
 msgid "Reporting spam..."
-msgstr "Ohlasujem spam..."
+msgstr "Ohlasovanie SPAM..."
 
-#: src/spam_report.c:247
-msgid "/Message/Report spam online"
-msgstr "/Správa/Ohlásiť spam online"
+#: src/spam_report.c:331
+msgid "Report spam online..."
+msgstr "Online ohlasovanie SPAM..."
 
-#: src/spam_report.c:255
-msgid "/Report spam online"
-msgstr "/Ohlásiť spam online"
-
-#: src/spam_report.c:272 src/spam_report.c:316 src/spam_report_prefs.c:78
+#: src/spam_report.c:350 src/spam_report.c:391 src/spam_report_prefs.c:79
 msgid "SpamReport"
-msgstr "Ohlasovač spamu"
+msgstr "SpamReport"
 
-#: src/spam_report.c:321
+#: src/spam_report.c:396
 msgid ""
-"This plugin reports spam to various places. Currently only spam-signal.fr is "
-"supported."
+"This plugin reports spam to various places.\n"
+"Currently the following sites or methods are supported:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
 msgstr ""
-"Tento plugin dokáže ohlásiť spam online na rôzne miesta. V súčasnosti je "
-"podporovaný len spam-signal.fr."
+"Tento zásuvný modul ohlasuje na rôzne miesta SPAM.\n"
+"Aktuálne sú podporované tieto stránky alebo metódy:\n"
+"\n"
+" * spam-signal.fr\n"
+" * spamcop.net\n"
+" * lists.debian.org nomination system"
 
-#: src/spam_report.c:343
+#: src/spam_report.c:421
 msgid "Spam reporting"
-msgstr "Ohlasovanie spamu"
+msgstr "Hlásenie SPAM"
 
-#: src/spam_report_prefs.c:77
+#: src/spam_report_prefs.c:78
 msgid "Plugins"
-msgstr "Pluginy"
+msgstr "Zásuvné moduly"
 
-#: src/spam_report_prefs.c:120
+#: src/spam_report_prefs.c:121
 msgid "Enabled"
-msgstr "Povolený"
+msgstr "Zapnuté"
 
-#: src/spam_report_prefs.c:147
+#: src/spam_report_prefs.c:148
 msgid "Forward to:"
 msgstr "Preposlať na:"
 
-#: src/spam_report_prefs.c:150
+#: src/spam_report_prefs.c:151
 msgid "Username:"
-msgstr "Používateľské meno:"
+msgstr "Meno:"
 
-#: src/spam_report_prefs.c:161
+#: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "Heslo:"
-

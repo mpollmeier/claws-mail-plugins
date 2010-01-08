@@ -1,3 +1,15 @@
+2010-01-08 [paul]	0.3.9cvs2
+
+	* configure.ac
+	* po/nl.po
+		added by Marcel Pol
+	* po/ca.po
+	* po/es.po
+	* po/fi.po
+	* po/sk.po
+		updated by Miquel Oliete, Ricrado Mones Lastra, Tommi Pirinen,
+		Slavko
+
 2009-11-11 [pawel]	0.3.9cvs1
 
 	* src/spam_report.c
