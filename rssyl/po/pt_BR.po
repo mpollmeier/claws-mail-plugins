@@ -1,59 +1,60 @@
 # Brazilian Portuguese translation of  Claws Mail RSSyl plugin
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006, 2007, 2008, 2009.
+# Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail RSSyl plugin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-11-16 17:39+0100\n"
-"PO-Revision-Date: 2009-03-05 09:34-0300\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Brazilian Portuguese\n"
+"POT-Creation-Date: 2009-10-31 17:30+0100\n"
+"PO-Revision-Date: 2010-01-07 07:23-0200\n"
+"Last-Translator: Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 
-#: src/feed.c:111
+#: src/feed.c:123
 msgid "Cannot open temporary file"
 msgstr "Não foi possível abrir o arquivo temporário"
 
-#: src/feed.c:122
+#: src/feed.c:134
 msgid "Cannot init libCURL"
 msgstr "Não foi possível iniciar a libCURL"
 
-#: src/feed.c:213
+#: src/feed.c:228
 msgid "401 (Authorisation required)"
 msgstr "401 (Requer autorização)"
 
-#: src/feed.c:216
+#: src/feed.c:231
 msgid "403 (Unauthorised)"
 msgstr "403 (Não autorizado)"
 
-#: src/feed.c:219
+#: src/feed.c:234
 msgid "404 (Not found)"
 msgstr "404 (Não encontrado)"
 
-#: src/feed.c:222
+#: src/feed.c:237
 #, c-format
 msgid "Error %ld"
 msgstr "Erro %ld"
 
-#: src/feed.c:287
+#: src/feed.c:302
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Obtendo '%s'..."
 
-#: src/feed.c:346
+#: src/feed.c:361
 msgid "Malformed feed"
 msgstr "Fonta malformatada"
 
-#: src/feed.c:1051
+#: src/feed.c:1131
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Atualizando a fonte '%s'"
 
-#: src/feed.c:1066
+#: src/feed.c:1146
 #, c-format
 msgid ""
 "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch "
@@ -62,35 +63,26 @@ msgstr ""
 "RSSyl: A obtenção de comentários não é suportada para fontes RDF. Não foi "
 "possível obter os comentários de '%s'"
 
-#: src/feed.c:1074
-#, c-format
-msgid ""
-"RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
-"comments of '%s'"
-msgstr ""
-"RSSyl: A obtenção de comentários não é suportada para fontes Atom. Não foi "
-"possível obter os comentários de '%s'"
-
-#: src/feed.c:1080
+#: src/feed.c:1155
 msgid "This feed format is not supported yet."
 msgstr "O formato dessa fonte (feed) não é suportado ainda."
 
-#: src/feed.c:1111
+#: src/feed.c:1186
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1231
+#: src/feed.c:1306
 #, c-format
 msgid "%ld byte"
 msgid_plural "%ld bytes"
 msgstr[0] "%ld byte"
 msgstr[1] "%ld bytes"
 
-#: src/feed.c:1234
+#: src/feed.c:1309
 msgid "size unknown"
 msgstr "tamanho desconhecido"
 
-#: src/feed.c:1385
+#: src/feed.c:1479
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -99,11 +91,11 @@ msgstr ""
 "RSSyl: Não foi possível atualizar a fonte %s:\n"
 "%s\n"
 
-#: src/feed.c:1537
+#: src/feed.c:1651
 msgid "You are already subscribed to this feed."
 msgstr "Você já está assinando esta fonte."
 
-#: src/feed.c:1548
+#: src/feed.c:1662
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -112,11 +104,11 @@ msgstr ""
 "Não foi possível buscar a URL '%s':\n"
 "%s"
 
-#: src/feed.c:1549 src/feed.c:1553
+#: src/feed.c:1663 src/feed.c:1667
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/feed.c:1553
+#: src/feed.c:1667
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -125,12 +117,12 @@ msgstr ""
 "Não foi possível buscar a URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1567
+#: src/feed.c:1683
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Não foi possível assinar a fonte '%s'."
 
-#: src/feed.c:1670 src/rssyl_cb_menu.c:280
+#: src/feed.c:1786 src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
 msgstr[0] "O Claws Mail necessita de acesso à rede para atualizar a fonte."
@@ -164,7 +156,13 @@ msgstr "RSSyl: Atualizando a fonte %s\n"
 #: src/feed.h:26
 #, c-format
 msgid "RSSyl: Feed update finished: %s\n"
-msgstr "RSSyl: Atualização da fonte finalizada: %s\n"
+msgstr "RSSyl: A atualização da fonte foi finalizada: %s\n"
+
+#: src/feed.h:27
+msgid "RSSyl: Feed update aborted, application is exiting.\n"
+msgstr ""
+"RSSyl: A atualização da fonte foi abortada, a aplicação está sendo encerrada."
+"\n"
 
 #: src/plugin.c:68
 msgid ""
@@ -445,7 +443,8 @@ msgstr "Caminho para o arquivo de cookies"
 
 #: src/rssyl_prefs.c:145
 msgid "Path to Netscape-style cookies.txt file containing your cookies"
-msgstr "Caminho para o arquivo cookies.txt (estilo Netscape), contendo seus cookies"
+msgstr ""
+"Caminho para o arquivo cookies.txt (estilo Netscape), contendo seus cookies"
 
 #: src/rssyl.h:8
 msgid "RSSyl"
@@ -455,3 +454,9 @@ msgstr "RSSyl"
 msgid "My Feeds"
 msgstr "Minhas fontes"
 
+#~ msgid ""
+#~ "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
+#~ "comments of '%s'"
+#~ msgstr ""
+#~ "RSSyl: A obtenção de comentários não é suportada para fontes Atom. Não "
+#~ "foi possível obter os comentários de '%s'"

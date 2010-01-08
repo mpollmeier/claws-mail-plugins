@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rssyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-12-12 11:39+0000\n"
-"PO-Revision-Date: 2008-12-13 21:24+0100\n"
+"POT-Creation-Date: 2010-01-01 19:06+0000\n"
+"PO-Revision-Date: 2010-01-01 21:37+0100\n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,64 +16,59 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=3; plural=(((n%100>=10 && n%100<=14) || (n%10>5)) ? 2 : (n%10>=2 && n%10<=4) ? 1 : 0);\n"
 
-#: src/feed.c:111
+#: src/feed.c:123
 msgid "Cannot open temporary file"
 msgstr "Nepodařilo se otevřít pomocný soubor"
 
-#: src/feed.c:122
+#: src/feed.c:134
 msgid "Cannot init libCURL"
 msgstr "Nepodařilo se inicializovat knihovnu libCURL"
 
-#: src/feed.c:213
+#: src/feed.c:228
 msgid "401 (Authorisation required)"
 msgstr "401 (Požadována autorizace)"
 
-#: src/feed.c:216
+#: src/feed.c:231
 msgid "403 (Unauthorised)"
 msgstr "403 (Neautorizováno)"
 
-#: src/feed.c:219
+#: src/feed.c:234
 msgid "404 (Not found)"
 msgstr "404 (Nenalezeno)"
 
-#: src/feed.c:222
+#: src/feed.c:237
 #, c-format
 msgid "Error %ld"
 msgstr "Chyba %ld"
 
-#: src/feed.c:287
+#: src/feed.c:302
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Stahuji '%s'..."
 
-#: src/feed.c:346
+#: src/feed.c:361
 msgid "Malformed feed"
 msgstr "Poškozený kanál"
 
-#: src/feed.c:1051
+#: src/feed.c:1131
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Aktualizuji kanál '%s'..."
 
-#: src/feed.c:1066
+#: src/feed.c:1146
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Pro RDF kanály není stahování komentářů podporováno. Nepodařilo se stáhnout komentáře pro '%s'."
 
-#: src/feed.c:1074
-#, c-format
-msgid "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch comments of '%s'"
-msgstr "RSSyl: Pro Atom kanály není stahování komentářů podporováno. Nepodařilo se stáhnout komentáře pro '%s'."
-
-#: src/feed.c:1080
+#: src/feed.c:1155
 msgid "This feed format is not supported yet."
 msgstr "Formát tohoto kanálu zatím není podporován."
 
-#: src/feed.c:1111
+#: src/feed.c:1186
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1231
+#: src/feed.c:1306
 #, c-format
 msgid "%ld byte"
 msgid_plural "%ld bytes"
@@ -81,11 +76,11 @@ msgstr[0] "%ld bajt"
 msgstr[1] "%ld bajty"
 msgstr[2] "%ld bajtů"
 
-#: src/feed.c:1234
+#: src/feed.c:1309
 msgid "size unknown"
 msgstr "neznámá velikost"
 
-#: src/feed.c:1385
+#: src/feed.c:1479
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -94,11 +89,11 @@ msgstr ""
 "RSSyl: Nepodarilo sa aktualizovať kanál %s:\n"
 "%s\n"
 
-#: src/feed.c:1537
+#: src/feed.c:1651
 msgid "You are already subscribed to this feed."
 msgstr "Tento kanál už odebíráte."
 
-#: src/feed.c:1548
+#: src/feed.c:1662
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -107,12 +102,12 @@ msgstr ""
 "Nepodařilo se stáhnout URL '%s':\n"
 "%s"
 
-#: src/feed.c:1549
-#: src/feed.c:1553
+#: src/feed.c:1663
+#: src/feed.c:1667
 msgid "Unknown error"
 msgstr "Neznámá chyba"
 
-#: src/feed.c:1553
+#: src/feed.c:1667
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -121,12 +116,12 @@ msgstr ""
 "Nepodařilo se stáhnout URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1567
+#: src/feed.c:1683
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Nepodařilo se přihlásit k odběru kanálu '%s'."
 
-#: src/feed.c:1670
+#: src/feed.c:1786
 #: src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
@@ -163,6 +158,10 @@ msgstr "RSSyl: Aktualizuji kanál %s\n"
 #, c-format
 msgid "RSSyl: Feed update finished: %s\n"
 msgstr "RSSyl: Aktualizace dokončena: %s\n"
+
+#: src/feed.h:27
+msgid "RSSyl: Feed update aborted, application is exiting.\n"
+msgstr "RSSyl: Feed update zrušen, aplikace se ukončí.\n"
 
 #: src/plugin.c:68
 msgid ""
@@ -448,6 +447,12 @@ msgstr "RSSyl"
 msgid "My Feeds"
 msgstr "Moje kanály"
 
+#~ msgid ""
+#~ "RSSyl: Fetching comments is not supported for Atom feeds. Cannot fetch "
+#~ "comments of '%s'"
+#~ msgstr ""
+#~ "RSSyl: Pro Atom kanály není stahování komentářů podporováno. Nepodařilo "
+#~ "se stáhnout komentáře pro '%s'."
 #~ msgid "/Refresh feed"
 #~ msgstr "/Aktualizovat kanál"
 #~ msgid "/Refresh all feeds"
