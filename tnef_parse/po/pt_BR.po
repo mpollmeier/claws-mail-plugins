@@ -3,19 +3,22 @@
 # This file is distributed under the same license as the Claws Mail package.
 #
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
+# Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: tnef_parse\n"
-"Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2007-11-19 09:48+0000\n"
-"PO-Revision-Date: 2007-11-23 00:00-0200\n"
-"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: CM translators <claws-mail-translators@dotsrc.org>\n"
+"Report-Msgid-Bugs-To: andrej@kacian.sk\n"
+"POT-Creation-Date: 2009-10-12 17:37+0200\n"
+"PO-Revision-Date: 2010-01-07 07:25-0200\n"
+"Last-Translator: Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/tnef_parse.c:65
+#: src/tnef_parse.c:64
 #, c-format
 msgid ""
 "\n"
@@ -28,39 +31,39 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/tnef_parse.c:67
+#: src/tnef_parse.c:66
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/tnef_parse.c:116
+#: src/tnef_parse.c:115
 msgid "Failed to write the part data."
 msgstr "Não foi possível escrever os dados da parte."
 
-#: src/tnef_parse.c:158
+#: src/tnef_parse.c:157
 msgid "Failed to parse VCalendar data."
 msgstr "Não foi possível analisar os dados do VCalendar."
 
-#: src/tnef_parse.c:194
+#: src/tnef_parse.c:193
 msgid "Failed to parse VTask data."
 msgstr "Não foi possível analisar os dados do VTask."
 
-#: src/tnef_parse.c:240
+#: src/tnef_parse.c:243
 msgid "Failed to parse VCard data."
 msgstr "Não foi possível analisar os dados do VCard."
 
-#: src/tnef_parse.c:377 src/tnef_parse.c:401
+#: src/tnef_parse.c:386 src/tnef_parse.c:410
 msgid "TNEF Parser"
 msgstr "Analisador TNEF"
 
-#: src/tnef_parse.c:406
+#: src/tnef_parse.c:415
 msgid ""
 "This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
 "\n"
-"The plugin uses the Ytnef library, which is is copyright 2002-2007 by "
-"Randall Hand <yerase@yerot.com>"
+"The plugin uses the Ytnef library, which is copyright 2002-2007 by Randall "
+"Hand <yerase@yerot.com>"
 msgstr ""
-"Esse plugin do Claws Mail permite a leitura de anexos application/ms-tnef.\n"
+"Este plugin do Claws Mail permite a leitura de anexos application/ms-tnef.\n"
 "\n"
-"Esse plugin usa a biblioteca Ytnef, que possui copyright 2002-2007 por "
+"O plugin usa a biblioteca Ytnef, que possui copyright 2002-2007 por "
 "Randall Hand <yerase@yerot.com>"
 

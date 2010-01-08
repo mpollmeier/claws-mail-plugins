@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-12-12 11:42+0000\n"
+"POT-Creation-Date: 2010-01-01 19:07+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: \n"
@@ -44,16 +44,16 @@ msgstr "Selhalo parsování VTask dat."
 msgid "Failed to parse VCard data."
 msgstr "Selhalo parsování VCard dat."
 
-#: src/tnef_parse.c:384
-#: src/tnef_parse.c:408
+#: src/tnef_parse.c:386
+#: src/tnef_parse.c:410
 msgid "TNEF Parser"
 msgstr "TNEF Parser"
 
-#: src/tnef_parse.c:413
+#: src/tnef_parse.c:415
 msgid ""
 "This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
 "\n"
-"The plugin uses the Ytnef library, which is is copyright 2002-2007 by Randall Hand <yerase@yerot.com>"
+"The plugin uses the Ytnef library, which is copyright 2002-2007 by Randall Hand <yerase@yerot.com>"
 msgstr ""
 "Zásuvný modul umožňuje Claws Mailu číst ms-tnef přílohy.\n"
 "\n"

@@ -35,3 +35,4 @@
 ( cvs diff -u -r 1.1.2.33 -r 1.1.2.34 configure.ac;  diff -u /dev/null po/es.po;  ) > 0.3.5cvs1.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/tnef_parse.c;  ) > 0.3.5cvs2.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fr.po;  ) > 0.3.5cvs3.patchset
+( cvs diff -u -r 1.1.2.37 -r 1.1.2.38 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ca.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ja.po;  diff -u /dev/null po/nl.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.3.6cvs1.patchset

@@ -1,21 +1,18 @@
-# translation of tnef_parse to Slovak
-# This file is distributed under the same license as the tnef_parse package.
-# Andrej Kacian <andrej@kacian.sk>, 2007.
+# Slavko <slavino@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: tnef_parse\n"
+"Project-Id-Version: tnef_parse_plugin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2007-11-12 06:51+0000\n"
-"PO-Revision-Date: 2007-11-18 14:57+0100\n"
-"Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
-"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"POT-Creation-Date: 2010-01-01 19:07+0000\n"
+"PO-Revision-Date: 2010-01-02 15:49+0100\n"
+"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
 
-#: src/tnef_parse.c:65
+#: src/tnef_parse.c:64
 #, c-format
 msgid ""
 "\n"
@@ -24,48 +21,42 @@ msgid ""
 "%s\n"
 msgstr ""
 "\n"
-"Claws Mail TNEF parser:\n"
+"Claws Mail TNEF Analyzátor:\n"
 "\n"
 "%s\n"
 
-#: src/tnef_parse.c:67
+#: src/tnef_parse.c:66
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/tnef_parse.c:116
+#: src/tnef_parse.c:115
 msgid "Failed to write the part data."
-msgstr "Nepodarilo sa zapísať dáta."
+msgstr "Zlyhal zápis časti dát."
 
-#: src/tnef_parse.c:158
+#: src/tnef_parse.c:157
 msgid "Failed to parse VCalendar data."
-msgstr "Nepodarilo sa prečítať VCalendar dáta."
+msgstr "Zlyhalo spracovanie dát VCalendar."
 
-#: src/tnef_parse.c:194
+#: src/tnef_parse.c:193
 msgid "Failed to parse VTask data."
-msgstr "Nepodarilo sa prečítať VTask dáta."
+msgstr "Zlyhalo spracovanie dát VTask."
 
-#: src/tnef_parse.c:240
+#: src/tnef_parse.c:243
 msgid "Failed to parse VCard data."
-msgstr "Nepodarilo sa prečítať VCard dáta."
+msgstr "Zlyhalo spracovanie dát VCard."
 
-#: src/tnef_parse.c:377 src/tnef_parse.c:401
+#: src/tnef_parse.c:386 src/tnef_parse.c:410
 msgid "TNEF Parser"
-msgstr "TNEF Parser"
+msgstr "TNEF Analyzátor"
 
-#: src/tnef_parse.c:406
+#: src/tnef_parse.c:415
 msgid ""
 "This Claws Mail plugin allows you to read application/ms-tnef attachments.\n"
 "\n"
-"The plugin uses the Ytnef library, which is is copyright 2002-2007 by "
-"Randall Hand <yerase@yerot.com>"
+"The plugin uses the Ytnef library, which is copyright 2002-2007 by Randall "
+"Hand <yerase@yerot.com>"
 msgstr ""
-"Tento Claws Mail plugin Vám umožňuje pracovať prílohy vo formáte\n"
-"application/ms-tnef.\n"
+"Tento zásuvný modul umožňuje čítať prílohy application/ms-tnef.\n"
 "\n"
-"Používa knižnicu Ytnef, na ktorú má copyright 2002-2007 Randall Hand "
-"<yerase@yerot.com>"
-
-#: src/tnef_parse.c:429
-msgid "application/ms-tnef"
-msgstr "application/ms-tnef"
-
+"Tento zásuvný modul používa knižnicu Ytnef, ktorá je copyright 2002-2007 by "
+"Randall Hand <yerase@yerot.com>"
