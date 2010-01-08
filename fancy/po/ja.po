@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2009-06-26 18:33+0100\n"
-"PO-Revision-Date: 2009-06-29 00:17+0900\n"
+"POT-Creation-Date: 2010-01-01 19:01+0000\n"
+"PO-Revision-Date: 2010-01-02 20:31+0900\n"
 "Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
 "Language-Team: Japanese <kazken3@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/fancy_viewer.c:151
+#: src/fancy_viewer.c:168
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -20,28 +20,28 @@ msgstr ""
 "印刷に失敗しました:\n"
 " %s"
 
-#: src/fancy_viewer.c:179
+#: src/fancy_viewer.c:196
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
 msgstr "HTMLの印刷は、プログラム'html2ps'がインストールされている場合のみ可能です。"
 
-#: src/fancy_viewer.c:184
+#: src/fancy_viewer.c:201
 msgid "Filename is null."
 msgstr "ファイルネームがnullです。"
 
-#: src/fancy_viewer.c:199
+#: src/fancy_viewer.c:217
 msgid "Conversion to postscript failed."
 msgstr "Postscriptの変換に失敗しました。"
 
-#: src/fancy_viewer.c:206
+#: src/fancy_viewer.c:224
 msgid "Print"
 msgstr "印刷"
 
-#: src/fancy_viewer.c:227
+#: src/fancy_viewer.c:245
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "プリンター %s はPostScriptファイルを受け付けません。"
 
-#: src/fancy_viewer.c:241
+#: src/fancy_viewer.c:259
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -50,60 +50,74 @@ msgstr ""
 "印刷に失敗しました:\n"
 "%s"
 
-#: src/fancy_viewer.c:475
-msgid "Search the Web"
-msgstr "Webを検索"
+#: src/fancy_viewer.c:474
+msgid "Load images"
+msgstr "画像をロード"
 
-#: src/fancy_viewer.c:490
-msgid "Open in Browser"
-msgstr "ブラウザで開く"
+#: src/fancy_viewer.c:478
+msgid "Unblock links"
+msgstr "リンクをブロック"
 
-#: src/fancy_viewer.c:500
-#: src/fancy_viewer.c:533
-msgid "Open Image"
-msgstr "画像を開く"
-
-#: src/fancy_viewer.c:509
-msgid "Copy Link"
-msgstr "リンクをコピー"
-
-#: src/fancy_viewer.c:522
-msgid "Download Link"
-msgstr "リンクをダウンロード"
-
-#: src/fancy_viewer.c:545
-msgid "Save Image As"
-msgstr "画像を保存する"
-
-#: src/fancy_viewer.c:556
-msgid "Copy Image"
-msgstr "画像のコピー"
-
-#: src/fancy_viewer.c:772
-msgid "Fancy"
-msgstr "Fancy"
-
-#: src/fancy_viewer.c:793
-msgid "Fancy HTML Viewer"
-msgstr "Fancy HTMLビューワー"
-
-#: src/fancy_prefs.c:78
-msgid "Plugins"
-msgstr "プラグイン"
-
-#: src/fancy_prefs.c:115
-msgid "Auto-Load images"
-msgstr "自動的に画像をロードする"
-
-#: src/fancy_prefs.c:121
-msgid "Block external links"
-msgstr "外部リンクをブロックする"
-
-#: src/fancy_prefs.c:127
+#: src/fancy_viewer.c:482
+#: src/fancy_prefs.c:135
 msgid "Enable Javascript"
 msgstr "Javascriptを有効にする"
 
-#: src/fancy_prefs.c:133
+#: src/fancy_viewer.c:485
+#: src/fancy_prefs.c:141
 msgid "Enable Plugins"
 msgstr "プラグインを有効にする"
+
+#: src/fancy_viewer.c:488
+#: src/fancy_prefs.c:147
+msgid "Open links with external browser"
+msgstr "外部ブラウザでリンクを開く"
+
+#: src/fancy_viewer.c:642
+msgid "Search the Web"
+msgstr "Webを検索"
+
+#: src/fancy_viewer.c:658
+msgid "Open in Browser"
+msgstr "ブラウザで開く"
+
+#: src/fancy_viewer.c:668
+msgid "Open Image"
+msgstr "画像を開く"
+
+#: src/fancy_viewer.c:677
+msgid "Copy Link"
+msgstr "リンクをコピー"
+
+#: src/fancy_viewer.c:690
+msgid "Download Link"
+msgstr "リンクをダウンロード"
+
+#: src/fancy_viewer.c:701
+msgid "Save Image As"
+msgstr "画像を保存する"
+
+#: src/fancy_viewer.c:711
+msgid "Copy Image"
+msgstr "画像のコピー"
+
+#: src/fancy_viewer.c:944
+msgid "Fancy"
+msgstr "Fancy"
+
+#: src/fancy_viewer.c:965
+msgid "Fancy HTML Viewer"
+msgstr "Fancy HTMLビューワー"
+
+#: src/fancy_prefs.c:84
+msgid "Plugins"
+msgstr "プラグイン"
+
+#: src/fancy_prefs.c:123
+msgid "Auto-Load images"
+msgstr "自動的に画像をロードする"
+
+#: src/fancy_prefs.c:129
+msgid "Block external links"
+msgstr "外部リンクをブロックする"
 

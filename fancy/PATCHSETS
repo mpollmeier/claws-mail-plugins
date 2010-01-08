@@ -32,3 +32,4 @@
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/fancy_viewer.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/fancy_prefs.h;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/fancy_prefs.c;  ) > 0.9.8cvs1.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/fancy_viewer.h;  cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/fancy_viewer.c;  ) > 0.9.8cvs2.patchset
 ( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/fancy_viewer.c;  ) > 0.9.8cvs3.patchset
+( cvs diff -u -r 1.1.2.38 -r 1.1.2.39 configure.ac;  diff -u /dev/null po/ca.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/hu.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/id.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ja.po;  diff -u /dev/null po/nl.po;  diff -u /dev/null po/sk.po;  ) > 0.9.8cvs4.patchset

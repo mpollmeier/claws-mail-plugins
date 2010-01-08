@@ -1,3 +1,18 @@
+2010-01-08 [paul]	0.9.8cvs4
+
+	* configure.ac
+	* po/ca.po
+	* po/nl.po
+	* po/sk.po
+		added by Miquel Oliete, Marcel Pol, and Slavko
+	* po/cs.po
+	* po/fi.po
+	* po/hu.po
+	* po/id.po
+	* po/ja.po
+		updated by David Vachulka, Tommi Pirinen, Pader Rezso,
+		MSulchan Darmawan, kazken3
+
 2009-11-20 [iwkse]	0.9.8cvs3
 
 	* src/fancy_viewer.c
