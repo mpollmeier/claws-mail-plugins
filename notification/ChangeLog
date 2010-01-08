@@ -1,3 +1,20 @@
+2010-01-08 [paul]	0.23cvs13
+
+	* configure.ac
+	* po/nl.po
+	* po/sk.po
+		added by Marcel Pol and Slavko
+	* po/ca.po
+	* po/cs.po
+	* po/fi.po
+	* po/hu.po
+	* po/id.po
+	* po/ja.po
+	* po/pt_BR.po
+		updated by Miquel Oliete, David Vachulka, Tommi Pirinen,
+		Pader Rezso, MSulchan Darmawan, kazken3, and Frederico
+		Goncalves Guimaraes
+
 2010-01-05 [colin]	0.23cvs12
 
 	* po/fr.po

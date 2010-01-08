@@ -1,238 +1,239 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Holger Berndt
-# This file is distributed under the same license as the PACKAGE package.
-# Páder Rezső (rezso) <rezso@rezso.net>, 2007-2010.
-#
+# Slavko <slavino@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: Notification plugin for Claws Mail\n"
+"Project-Id-Version: notification_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
 "POT-Creation-Date: 2010-01-01 19:04+0000\n"
-"PO-Revision-Date: 2010-01-01 22:08+0100\n"
-"Last-Translator: rezso <rezso@rezso.net>\n"
-"Language-Team:  <NONE>\n"
+"PO-Revision-Date: 2010-01-02 15:46+0100\n"
+"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
+"Content-Transfer-Encoding: UTF-8\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/notification_banner.c:90
 msgid "_Reply"
-msgstr "_Válasz"
+msgstr "_Odpovedať"
 
 #: src/notification_banner.c:351
 msgid "Folder:"
-msgstr "Mappa:"
+msgstr "Zložka:"
 
 #: src/notification_foldercheck.c:476
 msgid "Select folder(s)"
-msgstr "Könyvtár(ak) kiválasztása"
+msgstr "Vyberte zložky"
 
 #: src/notification_foldercheck.c:580
 msgid "select recursively"
-msgstr "rekurzív kijelölés"
+msgstr "vybrať aj podzložky"
 
 #: src/notification_lcdproc.c:137
 msgid "New"
-msgstr "Új"
+msgstr "Nové"
 
 #: src/notification_lcdproc.c:141
 msgid "Unread"
-msgstr "Olvasatlan"
+msgstr "Neprečítané"
 
 #: src/notification_lcdproc.c:145
 msgid "Total"
-msgstr "Összesen"
+msgstr "Celkom"
 
 #: src/notification_lcdproc.c:151
 msgid "No new messages"
-msgstr "Nincs új üzenet"
+msgstr "Žiadne nové správy"
 
-#: src/notification_plugin.c:216
-#: src/notification_plugin.c:418
-#: src/notification_prefs.c:393
-#: src/notification_prefs.c:407
-#: src/notification_prefs.c:425
-#: src/notification_prefs.c:442
-#: src/notification_prefs.c:459
-#: src/notification_prefs.c:476
-#: src/notification_prefs.c:493
-#: src/notification_prefs.c:510
+#: src/notification_plugin.c:216 src/notification_plugin.c:418
+#: src/notification_prefs.c:393 src/notification_prefs.c:407
+#: src/notification_prefs.c:425 src/notification_prefs.c:442
+#: src/notification_prefs.c:459 src/notification_prefs.c:476
+#: src/notification_prefs.c:493 src/notification_prefs.c:510
 msgid "Notification"
-msgstr "Értesítés"
+msgstr "Upozornenia"
 
 #: src/notification_plugin.c:221
 msgid "The Notification plugin needs threading support."
-msgstr "Az Értesítő plugin threading támogatást igényel."
+msgstr "Zásuvný modul Upozornenia potrebuje podporu vlákien (threading)."
 
 #: src/notification_plugin.c:228
 msgid "Failed to register folder item update hook in the Notification plugin"
-msgstr "Mappaelem frissítési szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti item "
+"update "
 
 #: src/notification_plugin.c:236
 msgid "Failed to register folder update hook in the Notification plugin"
-msgstr "Mappafrissítési szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti folder "
+"update"
 
 #: src/notification_plugin.c:246
 msgid "Failed to register msginfo update hook in the Notification plugin"
-msgstr "Üzenetinformáció frissítési szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti msginfo "
+"update"
 
 #: src/notification_plugin.c:256
 msgid "Failed to register offline switch hook in the Notification plugin"
-msgstr "Kapcsolat nélküli váltás szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti offline "
+"switch"
 
 #: src/notification_plugin.c:267
 msgid "Failed to register main window close hook in the Notification plugin"
-msgstr "Főablak bezárási szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti window "
+"close"
 
 #: src/notification_plugin.c:280
 msgid "Failed to register got iconified hook in the Notification plugin"
-msgstr "Ikonméretre váltási szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti iconified"
 
 #: src/notification_plugin.c:293
 msgid "Failed to register account list changed hook in the Notification plugin"
-msgstr "Fióklista változási szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti account "
+"list changed"
 
 #: src/notification_plugin.c:306
 msgid "Failed to register theme change hook int the Notification plugin"
-msgstr "Témaváltási szabálylánc regisztrálása nem sikerült az Értesítő pluginben"
+msgstr ""
+"V zásuvnom module Upozornenia zlyhala registrácia obsluhy udalosti theme "
+"change"
 
 #: src/notification_plugin.c:423
 msgid ""
-"This plugin provides various ways to notify the user of new and unread email.\n"
+"This plugin provides various ways to notify the user of new and unread "
+"email.\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"A plugin többféle módon lehetővé teszi a felhasználó értesítését az új és olvasatlan levelekről.\n"
-"Örömmel veszek minden visszajelzést a <berndth@gmx.de> címre."
+"Tento zásuvný modul poskytuje rôzne spôsoby upozorňovania používateľa o "
+"novej a neprečítanej pošte.\n"
+"Spätná väzba na <berndth@gmx.de> je vítaná."
 
 #: src/notification_plugin.c:446
 msgid "Various tools"
-msgstr "Egyéb eszközök"
+msgstr "Rôzne nástroje"
 
 #: src/notification_popup.c:304
 msgid "New Mail message"
-msgstr "Új e-mail"
+msgstr "Nová správa"
 
-#: src/notification_popup.c:306
-#: src/notification_popup.c:603
+#: src/notification_popup.c:306 src/notification_popup.c:603
 #: src/notification_trayicon.c:818
 msgid "(No From)"
-msgstr "(Nincs feladó)"
+msgstr "(bez Odosielateľa)"
 
-#: src/notification_popup.c:308
-#: src/notification_popup.c:607
+#: src/notification_popup.c:308 src/notification_popup.c:607
 #: src/notification_trayicon.c:821
 msgid "(No Subject)"
-msgstr "(Nincs tárgy)"
+msgstr "(bez Predmetu)"
 
 #: src/notification_popup.c:325
 msgid "New News post"
-msgstr "Új hírüzenet"
+msgstr "Nová správa News"
 
 #: src/notification_popup.c:326
 msgid "A new message arrived"
-msgstr "Új üzenet érkezett"
+msgstr "Prišla nová správa"
 
 #: src/notification_popup.c:329
 msgid "New Calendar message"
-msgstr "Új Naptár (esemény) üzenet"
+msgstr "Nová správa kalendára"
 
-#: src/notification_popup.c:330
-#: src/notification_trayicon.c:839
+#: src/notification_popup.c:330 src/notification_trayicon.c:839
 msgid "A new calendar message arrived"
-msgstr "Új naptár (esemény) üzenet érkezett"
+msgstr "Prišla nová správa kalendára"
 
 #: src/notification_popup.c:333
 msgid "New RSS feed article"
-msgstr "Új RSS hírcsatorna üzenet"
+msgstr "Nový článok RSS"
 
-#: src/notification_popup.c:334
-#: src/notification_trayicon.c:842
+#: src/notification_popup.c:334 src/notification_trayicon.c:842
 msgid "A new article in a RSS feed arrived"
-msgstr "Új cikk érkezett egy RSS hírcsatornába"
+msgstr "Prišiel nový článok RSS"
 
 #: src/notification_popup.c:337
 msgid "New unknown message"
-msgstr "Új ismeretlen üzenet"
+msgstr "Nová neznáma správa"
 
 #: src/notification_popup.c:338
 msgid "Unknown message type arrived"
-msgstr "Ismeretlen típusú üzenet érkezett"
+msgstr "Prišla nová neznáma správa"
 
 #: src/notification_popup.c:474
 msgid "Mail message"
-msgstr "E-mail"
+msgstr "Správa"
 
-#: src/notification_popup.c:475
-#: src/notification_popup.c:481
+#: src/notification_popup.c:475 src/notification_popup.c:481
 #, c-format
 msgid "%d new message arrived"
 msgid_plural "%d new messages arrived"
-msgstr[0] "%d új üzenet érkezett"
-msgstr[1] "%d új üzenet érkezett"
+msgstr[0] "Prišla %d nová správa"
+msgstr[1] "Prišli %d nové správy"
+msgstr[2] "Prišlo %d nových správ"
 
 #: src/notification_popup.c:480
 msgid "News message"
-msgstr "Hír üzenet"
+msgstr "Správa News"
 
 #: src/notification_popup.c:486
 msgid "Calendar message"
-msgstr "Naptár üzenet"
+msgstr "Správa kalendára"
 
-#: src/notification_popup.c:487
-#: src/notification_trayicon.c:876
+#: src/notification_popup.c:487 src/notification_trayicon.c:876
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
-msgstr[0] "%d új naptár üzenet érkezett"
-msgstr[1] "%d új naptár üzenet érkezett"
+msgstr[0] "Prišla %d nová správa kalendára"
+msgstr[1] "Prišli %d nové správy kalendára"
+msgstr[2] "Prišlo %d nových správ kalendára"
 
 #: src/notification_popup.c:492
 msgid "RSS news feed"
-msgstr "RSS hírcsatorna"
+msgstr "Kanál RSS"
 
 #: src/notification_popup.c:493
 #, c-format
 msgid "%d new article in a RSS feed arrived"
 msgid_plural "%d new articles in a RSS feed arrived"
-msgstr[0] "%d cikk érkezett egy RSS hírcsatornába"
-msgstr[1] "%d cikk érkezett egy RSS hírcsatornába"
+msgstr[0] "Prišiel %d nový článok RSS"
+msgstr[1] "Prišli %d nové články RSS"
+msgstr[2] "Prišlo %d nových článkov RSS"
 
 #: src/notification_popup.c:554
 #, c-format
 msgid "%d new message"
 msgid_plural "%d new messages"
-msgstr[0] "%d új üzenet"
-msgstr[1] "%d új üzenet"
+msgstr[0] "%d nová správa"
+msgstr[1] "%d nové správy"
+msgstr[2] "%d nových správ"
 
-#: src/notification_prefs.c:392
-#: src/notification_prefs.c:406
-#: src/notification_prefs.c:424
-#: src/notification_prefs.c:441
-#: src/notification_prefs.c:458
-#: src/notification_prefs.c:475
-#: src/notification_prefs.c:492
-#: src/notification_prefs.c:509
+#: src/notification_prefs.c:392 src/notification_prefs.c:406
+#: src/notification_prefs.c:424 src/notification_prefs.c:441
+#: src/notification_prefs.c:458 src/notification_prefs.c:475
+#: src/notification_prefs.c:492 src/notification_prefs.c:509
 msgid "Plugins"
-msgstr "Pluginek"
+msgstr "Zásuvné moduly"
 
 #: src/notification_prefs.c:408
 msgid "Hotkeys"
-msgstr "Gyorsbillentyűk"
+msgstr "Klávesové skratky"
 
 #: src/notification_prefs.c:426
 msgid "Banner"
-msgstr "Banner"
+msgstr "Titulkový pruh"
 
 #: src/notification_prefs.c:443
 msgid "Popup"
-msgstr "Felugró"
+msgstr "Vyskakovacie okno"
 
 #: src/notification_prefs.c:460
 msgid "Command"
-msgstr "Parancs"
+msgstr "Vykonať príkaz"
 
 #: src/notification_prefs.c:477
 msgid "LCD"
@@ -240,11 +241,11 @@ msgstr "LCD"
 
 #: src/notification_prefs.c:494
 msgid "SysTrayicon"
-msgstr "Rendszertálca-ikon"
+msgstr "SysTrayicon"
 
 #: src/notification_prefs.c:511
 msgid "Indicator"
-msgstr "Jelző"
+msgstr "Indikátor"
 
 #: src/notification_prefs.c:563
 msgid ""
@@ -252,206 +253,194 @@ msgid ""
 "Notification Plugin: Failed to write plugin configuration to file\n"
 msgstr ""
 "\n"
-"Értesítő plugin: a plugin konfiguráció fájlba írása nem sikerült\n"
+"Zásuvný modul Upozornenia: Zlyhal zápis konfigurácie modulu do súboru\n"
 
 #: src/notification_prefs.c:590
 msgid "Include folder types"
-msgstr "Figyelembe vett mappatípusok"
+msgstr "Zahrnúť tieto typy zložiek"
 
 #: src/notification_prefs.c:600
 msgid "Mail folders"
-msgstr "Levélmappák"
+msgstr "Poštové zložky"
 
 #: src/notification_prefs.c:608
 msgid "News folders"
-msgstr "Hírmappák"
+msgstr "Diskusné skupiny"
 
 #: src/notification_prefs.c:616
 msgid "RSS folders"
-msgstr "RSS mappák"
+msgstr "RSS kanály"
 
 #: src/notification_prefs.c:624
 msgid "Calendar folders"
-msgstr "Naptár mappák"
+msgstr "Zložky kalendára"
 
 #: src/notification_prefs.c:632
 msgid "These settings overwrite folder-specific selections."
-msgstr "E beállítások felülbírálják a mappaspecifikus kijelöléseket."
+msgstr "Tieto nastavenia prepisujú nastavenia zložiek."
 
 #: src/notification_prefs.c:643
 msgid "Global notification settings"
-msgstr "Globális értesítési beállítások"
+msgstr "Globálne nastavenie upozorení"
 
 #: src/notification_prefs.c:653
 msgid "Set window manager urgency hint when new messages exist"
-msgstr "Az ablakkezelő 'sürgős' jelzésének beállítása új üzenet esetén"
+msgstr "Nastaviť 'urgency hint' správcu okien, ak existujú nové správy"
 
 #: src/notification_prefs.c:662
 msgid "Set window manager urgency hint when unread messages exist"
-msgstr "Az ablakkezelő 'sürgős' jelzésének beállítása olvasatlan üzenet esetén"
+msgstr "Nastaviť 'urgency hint' správcu okien, ak existujú neprečítané správy"
 
 #: src/notification_prefs.c:672
 msgid "Use sound theme"
-msgstr "Hangtéma használata"
+msgstr "Použiť zvukovú tému"
 
 #: src/notification_prefs.c:734
 msgid "Show banner"
-msgstr "Banner megjelenítése"
+msgstr "Zobraziť titulkový pruh"
 
 #: src/notification_prefs.c:739
 msgid "Never"
-msgstr "Soha"
+msgstr "Nikdy"
 
 #: src/notification_prefs.c:741
 msgid "Always"
-msgstr "Mindig"
+msgstr "Vždy"
 
 #: src/notification_prefs.c:743
 msgid "Only when not empty"
-msgstr "Csak ha nem üres"
+msgstr "Len ak nie je prázdny"
 
 #: src/notification_prefs.c:761
 msgid "slow"
-msgstr "lassú"
+msgstr "pomaly"
 
 #: src/notification_prefs.c:765
 msgid "fast"
-msgstr "gyors"
+msgstr "rýchlo"
 
 #: src/notification_prefs.c:769
 msgid "Banner speed"
-msgstr "Banner sebessége"
+msgstr "Rýchlosť titulkového pruhu"
 
 #: src/notification_prefs.c:787
 msgid "Maximum number of messages (0 means unlimited)"
-msgstr "Üzenetek maximális száma (0: korlátlan)"
+msgstr "Maximálny počet správ (0 znamená neobmedzené)"
 
 #: src/notification_prefs.c:801
 msgid "Banner width in pixels (0 means screen size)"
-msgstr "Banner mérete képontban (0 a képernyő méretét jelenti)"
+msgstr "Šírka titulkového pruhu v pixeloch (0 znamená veľkosť obrazovky)"
 
 #: src/notification_prefs.c:814
 msgid "Include unread mails in banner"
-msgstr "Olvasatlan levelek számának kijelzése a bannerben"
+msgstr "Zobraziť neprečítané správy"
 
 #: src/notification_prefs.c:822
 msgid "Make banner sticky"
-msgstr "\"Ragadós\" banner"
+msgstr "Titulkový pruh na všetky plochy"
 
-#: src/notification_prefs.c:832
-#: src/notification_prefs.c:1030
-#: src/notification_prefs.c:1302
-#: src/notification_prefs.c:1537
+#: src/notification_prefs.c:832 src/notification_prefs.c:1030
+#: src/notification_prefs.c:1302 src/notification_prefs.c:1537
 msgid "Only include selected folders"
-msgstr "Csak a kijelölt mappák figyelembevétele"
+msgstr "Zahrnúť len vybraté zložky"
 
-#: src/notification_prefs.c:841
-#: src/notification_prefs.c:1039
-#: src/notification_prefs.c:1311
-#: src/notification_prefs.c:1546
+#: src/notification_prefs.c:841 src/notification_prefs.c:1039
+#: src/notification_prefs.c:1311 src/notification_prefs.c:1546
 msgid "Select folders..."
-msgstr "Könyvtárak kiválasztása..."
+msgstr "Vybrať zložky..."
 
-#: src/notification_prefs.c:851
-#: src/notification_prefs.c:1071
+#: src/notification_prefs.c:851 src/notification_prefs.c:1071
 msgid "Use custom colors"
-msgstr "Egyéni színek használata"
+msgstr "Použiť vlastné farby"
 
-#: src/notification_prefs.c:864
-#: src/notification_prefs.c:1084
+#: src/notification_prefs.c:864 src/notification_prefs.c:1084
 msgid "Foreground"
-msgstr "Előtér"
+msgstr "Popredie"
 
-#: src/notification_prefs.c:870
-#: src/notification_prefs.c:1090
+#: src/notification_prefs.c:870 src/notification_prefs.c:1090
 msgid "Foreground color"
-msgstr "Előtér színe"
+msgstr "Farba popredia"
 
-#: src/notification_prefs.c:875
-#: src/notification_prefs.c:1095
+#: src/notification_prefs.c:875 src/notification_prefs.c:1095
 msgid "Background"
-msgstr "Háttér"
+msgstr "Pozadie"
 
-#: src/notification_prefs.c:881
-#: src/notification_prefs.c:1101
+#: src/notification_prefs.c:881 src/notification_prefs.c:1101
 msgid "Background color"
-msgstr "Háttérszín"
+msgstr "Farba pozadia"
 
 #: src/notification_prefs.c:994
 msgid "Enable popup"
-msgstr "Popup engedélyezése"
+msgstr "Zapnúť vyskakovacie okno"
 
-#: src/notification_prefs.c:1011
-#: src/notification_prefs.c:1592
+#: src/notification_prefs.c:1011 src/notification_prefs.c:1592
 msgid "Popup timeout:"
-msgstr "Popup késleltetése:"
+msgstr "Časový limit zobrazenia okna:"
 
-#: src/notification_prefs.c:1021
-#: src/notification_prefs.c:1293
+#: src/notification_prefs.c:1021 src/notification_prefs.c:1293
 #: src/notification_prefs.c:1601
 msgid "seconds"
-msgstr "másodperc"
+msgstr "sekúnd"
 
 #: src/notification_prefs.c:1050
 msgid "Make popup sticky"
-msgstr "\"Ragadós\" popup"
+msgstr "Vyskakovacie okno na všetky plochy"
 
 #: src/notification_prefs.c:1060
 msgid "Set popup window width and position"
-msgstr "Popup ablak szélességének és poziciójának beállítása"
+msgstr "Nastaviť šírku a pozíciu okna"
 
 #: src/notification_prefs.c:1065
 msgid "(the window manager is free to ignore this)"
-msgstr "(az ablakkezelő figyelmen kívül hagyhatja)"
+msgstr "(správca okien to môže ignorovať)"
 
-#: src/notification_prefs.c:1113
-#: src/notification_prefs.c:1604
+#: src/notification_prefs.c:1113 src/notification_prefs.c:1604
 msgid "Display folder name"
-msgstr "Mappa nevének megjelenítése"
+msgstr "Zobraziť meno zložky"
 
 #: src/notification_prefs.c:1178
 msgid "Sample popup window"
-msgstr "Példa felugró ablak"
+msgstr "Ukážkové vyskakovacie okno"
 
 #: src/notification_prefs.c:1184
 msgid "Done"
-msgstr "Kész"
+msgstr "Hotovo"
 
 #: src/notification_prefs.c:1253
 msgid "Enable command"
-msgstr "Parancs engedélyezése"
+msgstr "Zapnúť vykonanie príkazu"
 
 #: src/notification_prefs.c:1270
 msgid "Command to execute:"
-msgstr "Végrehajtandó parancs:"
+msgstr "Príkaz:"
 
 #: src/notification_prefs.c:1283
 msgid "Block command after execution for"
-msgstr "Parancs tiltása végrehajtás után:"
+msgstr "Blokovať príkaz po vykonaní počas"
 
 #: src/notification_prefs.c:1390
 msgid "Enable LCD"
-msgstr "LCD engedélyezése"
+msgstr "Zapnúť LCD"
 
 #: src/notification_prefs.c:1409
 msgid "Hostname:Port of LCDd server:"
-msgstr "Hostnév: LCDd szerver port:"
+msgstr "Hostname:Port servera LCDd:"
 
 #: src/notification_prefs.c:1494
 msgid "Enable Trayicon"
-msgstr "Tálcaikon engedélyezése"
+msgstr "Zapnúť ikonu v systémovej lište"
 
 #: src/notification_prefs.c:1510
 msgid "Hide at start-up"
-msgstr "Elrejtés induláskor"
+msgstr "Skryť pri štarte"
 
 #: src/notification_prefs.c:1518
 msgid "Close to tray"
-msgstr "Bezárás a tálcára"
+msgstr "Zatvoriť do systémovej lišty"
 
 #: src/notification_prefs.c:1526
 msgid "Hide when iconified"
-msgstr "Elrejtés ikonméretnél"
+msgstr "Skryť pri minimalizácii"
 
 #. TRANSLATORS: "Toaster" does not refer to the kitchen appliance.
 #. A toast is a small passive (non-focus-stealing)
@@ -461,115 +450,117 @@ msgstr "Elrejtés ikonméretnél"
 #. http://en.wikipedia.org/wiki/Toast_(computing)
 #: src/notification_prefs.c:1563
 msgid "Passive toaster popup"
-msgstr "Passzív toaster popup"
+msgstr "Pasívne vyskakovacie okno"
 
 #: src/notification_prefs.c:1574
 msgid "Enable Popup"
-msgstr "Popup engedélyezése"
+msgstr "Zapnúť vyskakovacie okno"
 
 #: src/notification_prefs.c:1792
 msgid "Add to Indicator Applet"
-msgstr "Hozzáadás az Indicator (jelző) applet-hez"
+msgstr "Pridať do apletu Indikátor"
 
 #: src/notification_prefs.c:1806
 msgid "Hide mainwindow when minimized"
-msgstr "Fő ablak elrejtése ikonméretnél"
+msgstr "Pri minimalizácii skryť hlavné okno"
 
 #: src/notification_prefs.c:1812
 msgid "Register Claws Mail"
-msgstr "Claws Mail regisztrálása"
+msgstr "Registrovať Claws Mail"
 
 #: src/notification_prefs.c:1873
 msgid "Enable global hotkeys"
-msgstr "Általános gyorsbillentyűk engedélyezése"
+msgstr "Povoliť globálne klávesové skratky"
 
 #: src/notification_prefs.c:1898
 msgid "Toggle minimize:"
-msgstr "Ikonméretre váltás:"
+msgstr "Prepnúť minimalizované:"
 
 #: src/notification_trayicon.c:98
 msgid "_Get Mail"
-msgstr "E-mail _fogadása"
+msgstr "P_rijať poštu"
 
 #: src/notification_trayicon.c:100
 msgid "_Email"
-msgstr "_E-mail"
+msgstr "_Pošta"
 
 #: src/notification_trayicon.c:101
 msgid "E_mail from account"
-msgstr "E-_mail vétele fiókról"
+msgstr "Pošta _z účtu"
 
 #: src/notification_trayicon.c:102
 msgid "Open A_ddressbook"
-msgstr "_Címjegyzék megnyitása"
+msgstr "Otvoriť _Adresár"
 
 #: src/notification_trayicon.c:103
 msgid "E_xit Claws Mail"
-msgstr "Claws Mail _bezárása"
+msgstr "S_končiť Claws Mail"
 
 #: src/notification_trayicon.c:108
 msgid "_Work Offline"
-msgstr "Kapcsolat _nélküli munka"
+msgstr "Pra_covať odpojený"
 
 #: src/notification_trayicon.c:110
 msgid "Show Trayicon Notifications"
-msgstr "Tálca ikon értesítések megjelenítése"
+msgstr "Zobraziť upozornenia ikony"
 
 #: src/notification_trayicon.c:252
 #, c-format
 msgid "New %d, Unread: %d, Total: %d"
-msgstr "%d új, %d olvasatlan, összesen: %d "
+msgstr "Nové %d, Neprečítané: %d, Celkom: %d"
 
 #: src/notification_trayicon.c:346
 msgid "Untitled"
-msgstr "Cím nélküli"
+msgstr "Nepomenované"
 
 #: src/notification_trayicon.c:490
 msgid "Exit"
-msgstr "Kilépés"
+msgstr "Skončiť"
 
 #: src/notification_trayicon.c:490
 msgid "Exit Claws Mail?"
-msgstr "Kilépés a Claws Mail-ból?"
+msgstr "Skončiť Claws Mail?"
 
 #: src/notification_trayicon.c:789
 msgid "New mail message"
-msgstr "Új e-mail"
+msgstr "Nová poštová správa"
 
 #: src/notification_trayicon.c:791
 msgid "New news post"
-msgstr "Új hírüzenet"
+msgstr "Nová diskusná správa"
 
 #: src/notification_trayicon.c:793
 msgid "New calendar message"
-msgstr "Új naptár (esemény) üzenet"
+msgstr "Nová správa kalendára"
 
 #: src/notification_trayicon.c:795
 msgid "New article in RSS feed"
-msgstr "Új cikk érkezett egy RSS hírcsatornába"
+msgstr "Nový článok RSS"
 
 #: src/notification_trayicon.c:798
 msgid "New messages arrived"
-msgstr "Új üzenet érkezett"
+msgstr "Prišla nová správa"
 
 #: src/notification_trayicon.c:854
 #, c-format
 msgid "%d new mail message arrived"
 msgid_plural "%d new mail messages arrived"
-msgstr[0] "%d új e-mail érkezett"
-msgstr[1] "%d új e-mail érkezett"
+msgstr[0] "Prišla %d nová poštová správa"
+msgstr[1] "Prišli %d nové poštové správy"
+msgstr[2] "Prišlo %d nových poštových správ"
 
 #: src/notification_trayicon.c:865
 #, c-format
 msgid "%d new news post arrived"
 msgid_plural "%d new news posts arrived"
-msgstr[0] "%d új hírüzenet érkezett"
-msgstr[1] "%d új hírüzenet érkezett"
+msgstr[0] "Prišla %d nová diskusná správa"
+msgstr[1] "Prišli %d nové diskusné správy"
+msgstr[2] "Prišlo %d nových diskusných správ"
 
 #: src/notification_trayicon.c:887
 #, c-format
 msgid "%d new article in RSS feeds arrived"
 msgid_plural "%d new articles in RSS feeds arrived"
-msgstr[0] "%d cikk érkezett egy RSS hírcsatornába"
-msgstr[1] "%d cikk érkezett egy RSS hírcsatornába"
-
+msgstr[0] "Prišiel %d nový článok RSS"
+msgstr[1] "Prišli %d nové články RSS"
+msgstr[2] "Prišlo %d nových článkov RSS"
