@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2009-04-13 16:45+0700\n"
+"POT-Creation-Date: 2010-01-01 19:03+0000\n"
 "PO-Revision-Date: 2009-06-29 11:38+0700\n"
 "Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
 "Language-Team:  <claws-mail-translators@dotsrc.org>\n"
@@ -15,11 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gtkhtml2_prefs.c:70
-#: src/gtkhtml2_prefs.c:210
-#: src/gtkhtml2_prefs.c:226
-#: src/gtkhtml2_prefs.c:312
-#: src/gtkhtml2_viewer.c:188
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:210 src/gtkhtml2_prefs.c:226
+#: src/gtkhtml2_prefs.c:312 src/gtkhtml2_viewer.c:188
 msgid "Any"
 msgstr "Apa saja"
 
@@ -115,26 +112,27 @@ msgstr ""
 
 #: src/gtkhtml2_viewer.c:1157
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
-msgstr "Mencetak format HTML memungkinkan jika aplikasi 'html2ps' telah terpasang."
+msgstr ""
+"Mencetak format HTML memungkinkan jika aplikasi 'html2ps' telah terpasang."
 
 #: src/gtkhtml2_viewer.c:1162
 msgid "Filename is null."
 msgstr "Nama berkas tidak ada."
 
-#: src/gtkhtml2_viewer.c:1177
+#: src/gtkhtml2_viewer.c:1178
 msgid "Conversion to postscript failed."
 msgstr "Konversi ke postscript gagal."
 
-#: src/gtkhtml2_viewer.c:1184
+#: src/gtkhtml2_viewer.c:1185
 msgid "Print"
 msgstr "Cetak"
 
-#: src/gtkhtml2_viewer.c:1205
+#: src/gtkhtml2_viewer.c:1206
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "Pencetak %s tidak menerima berkas PostScript."
 
-#: src/gtkhtml2_viewer.c:1221
+#: src/gtkhtml2_viewer.c:1222
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -143,12 +141,10 @@ msgstr ""
 "Gagal mencetak:\n"
 "%s"
 
-#: src/gtkhtml2_viewer.c:1382
-#: src/gtkhtml2_viewer.c:1419
+#: src/gtkhtml2_viewer.c:1383 src/gtkhtml2_viewer.c:1420
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Penampil GtkHtml2 HTML"
 
-#: src/gtkhtml2_viewer.c:1424
+#: src/gtkhtml2_viewer.c:1425
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Pengaya ini membaca pesan HTML menggunakan widget gtkhtml2rendering."
-

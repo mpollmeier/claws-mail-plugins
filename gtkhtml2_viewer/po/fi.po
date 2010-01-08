@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2009-07-01 16:31+0300\n"
-"PO-Revision-Date: 2009-07-01 16:37+0300\n"
+"POT-Creation-Date: 2010-01-02 22:10+0200\n"
+"PO-Revision-Date: 2010-01-03 00:26+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -119,20 +119,20 @@ msgstr "Tulostamiseen tarvitaan html2ps-ohjelma."
 msgid "Filename is null."
 msgstr "Tiedostonimi on null."
 
-#: src/gtkhtml2_viewer.c:1177
+#: src/gtkhtml2_viewer.c:1178
 msgid "Conversion to postscript failed."
 msgstr "Muunnos postscript-muotoon epäonnistui."
 
-#: src/gtkhtml2_viewer.c:1184
+#: src/gtkhtml2_viewer.c:1185
 msgid "Print"
 msgstr "Tulosta"
 
-#: src/gtkhtml2_viewer.c:1205
+#: src/gtkhtml2_viewer.c:1206
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "Tulostin %s ei tue PostScript-tiedostoja"
 
-#: src/gtkhtml2_viewer.c:1221
+#: src/gtkhtml2_viewer.c:1222
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -141,11 +141,11 @@ msgstr ""
 "Tulostus epäonnistui:\n"
 "%s"
 
-#: src/gtkhtml2_viewer.c:1382 src/gtkhtml2_viewer.c:1419
+#: src/gtkhtml2_viewer.c:1383 src/gtkhtml2_viewer.c:1420
 msgid "GtkHtml2 HTML Viewer"
 msgstr "GtkHtml2 HTML‐näytin"
 
-#: src/gtkhtml2_viewer.c:1424
+#: src/gtkhtml2_viewer.c:1425
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
 "Tämä liitännäinen piirtää HTML‐viestit käyttäen gtkhtml2rendering‐"

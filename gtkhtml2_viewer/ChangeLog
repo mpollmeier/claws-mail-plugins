@@ -1,3 +1,18 @@
+2010-01-08 [paul]	0.25.0cvs2
+
+	* configure.ac
+	* po/nl.po
+		added by Marcel Pol
+	* po/ca.po
+	* po/cs.po
+	* po/es.po
+	* po/fi.po
+	* po/id.po
+	* po/ja.po
+	* po/sk.po
+		updated by Miquel Oliete, David Vachulka, Ricrado Mones Lastra,
+		Tommi Pirinen, MSulchan Darmawan, kazken3, Slavko
+
 2009-10-20 [colin]	0.25.0cvs1
 
 	* libgtkhtml/css/html.css.h

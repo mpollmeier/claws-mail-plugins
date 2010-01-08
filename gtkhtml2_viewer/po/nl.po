@@ -1,102 +1,107 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Dutch translations for gtkhtml2_viewer package
+# Engelse vertalingen voor het pakket gtkhtml2_viewer.
+# Copyright (C) 2009 Andrej Kacian
+# This file is distributed under the same license as the gtkhtml2_viewer package.
+# Marcel Pol <mpol@gmx.net>, 2009.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: gtkhtlml2_plugin\n"
+"Project-Id-Version: gtkhtml2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2010-01-01 19:03+0000\n"
-"PO-Revision-Date: 2010-01-02 18:16+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
-"Language-Team: Slovenský <nomail>\n"
+"POT-Creation-Date: 2009-07-12 13:17+0200\n"
+"PO-Revision-Date: 2009-07-12 13:17+0200\n"
+"Last-Translator: Marcel Pol <mpol@gmx.net>\n"
+"Language-Team: Dutch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:210 src/gtkhtml2_prefs.c:226
 #: src/gtkhtml2_prefs.c:312 src/gtkhtml2_viewer.c:188
 msgid "Any"
-msgstr "Všetky"
+msgstr "Elke"
 
 #: src/gtkhtml2_prefs.c:102
 msgid "Plugins"
-msgstr "Zásuvné moduly"
+msgstr "Plugins"
 
 #: src/gtkhtml2_prefs.c:103
 msgid "GtkHtml2 Viewer"
-msgstr "Zobrazovač GtkHtml2"
+msgstr "GtkHtml2 Weergever"
 
 #: src/gtkhtml2_prefs.c:165
 msgid "Cache cleared."
-msgstr "Vyrovnávacia pamäť vymazaná."
+msgstr "Cache gewist."
 
 #: src/gtkhtml2_prefs.c:191
 msgid "Automatically load remote images"
-msgstr "Automaticky načítať vzdialené obrázky"
+msgstr "Automatisch laden van externe afbeeldingen"
 
 #: src/gtkhtml2_prefs.c:206
 msgid "Only for senders found in address book"
-msgstr "Len pre odosielateľov z Adresára"
+msgstr "Alleen voor afzenders uit het adresboek"
 
 #: src/gtkhtml2_prefs.c:214
 msgid "Select ..."
-msgstr "Vybrať..."
+msgstr "Selecteer ..."
 
 #: src/gtkhtml2_prefs.c:235
 msgid "Cache remote images locally"
-msgstr "Vzdialené obrázky do vyrovnávacej pamäte"
+msgstr "Cache externe afbeeldingen lokaal"
 
 #: src/gtkhtml2_prefs.c:242
 msgid "Clear image cache on exit"
-msgstr "Pri skončení vymazať pamäť obrázkov"
+msgstr "Wis afbeeldingen cache bij afsluiten"
 
 #: src/gtkhtml2_prefs.c:249
 msgid "Clear image cache now"
-msgstr "Vymazať pamäť obrázkov teraz"
+msgstr "Wis afbeeldingen cache nu"
 
 #: src/gtkhtml2_viewer.c:116
 msgid "_Open with Web browser"
-msgstr "_Otvoriť vo webovom prehliadači"
+msgstr "_Open met Web bladerprogramma"
 
 #: src/gtkhtml2_viewer.c:117
 msgid "Copy this _link"
-msgstr "Kopírovať od_kaz"
+msgstr "Kopieer deze _koppeling"
 
 #: src/gtkhtml2_viewer.c:118
 msgid "Zoom _in"
-msgstr "Pr_iblížiť"
+msgstr "Zoom _in"
 
 #: src/gtkhtml2_viewer.c:119
 msgid "Zoom _out"
-msgstr "_Oddialiť"
+msgstr "Zoom _uit"
 
 #: src/gtkhtml2_viewer.c:807
 #, c-format
 msgid "Timeout connecting to %s\n"
-msgstr "Vypršal časový limit pripojenia k %s\n"
+msgstr "Tijd verstreken tijdens verbinden met %s\n"
 
 #: src/gtkhtml2_viewer.c:882
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
 msgstr ""
-"Vzdialené obrázky existujú, ale podľa vašich nastavení \n"
-"neboli načítané."
+"Externe afbeeldingen bestaan, maar zijn niet geladen\n"
+"in overeenstemming met uw voorkeuren."
 
 #: src/gtkhtml2_viewer.c:884
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
 msgstr ""
-"Vzdialené obrázky existujú, ale pretože ste odpojený \n"
-"neboli načítané."
+"Externe afbeeldingen bestaan, maar zijn niet geladen\n"
+"omdat u off-line bent."
 
 #: src/gtkhtml2_viewer.c:886
 msgid "Remote images exist, but loading them failed."
-msgstr "Vzdialené obrázky existujú, ale ich načítanie zlyhalo."
+msgstr "Externe afbeeldingen bestaan, maar het laden is mislukt."
 
 #: src/gtkhtml2_viewer.c:890
 msgid "Load images"
-msgstr "načítať obrázky"
+msgstr "Laad afbeeldingen"
 
 #: src/gtkhtml2_viewer.c:1126
 #, c-format
@@ -104,29 +109,29 @@ msgid ""
 "Printing failed:\n"
 " %s"
 msgstr ""
-"Tlačenie zlyhalo:\n"
+"Printen mislukt:\n"
 " %s"
 
 #: src/gtkhtml2_viewer.c:1157
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
-msgstr "Tlač HTML je možná len, ak je nainštalovaný program 'html2ps'."
+msgstr "HTML printen kan alleen als het programma 'html2ps' is geinstalleerd."
 
 #: src/gtkhtml2_viewer.c:1162
 msgid "Filename is null."
-msgstr "Meno súboru je prázdne."
+msgstr "Bestandsnaam is niet ingevuld."
 
 #: src/gtkhtml2_viewer.c:1178
 msgid "Conversion to postscript failed."
-msgstr "Zlyhala konverzia do postscript"
+msgstr "Conversie naar postscript is mislukt."
 
 #: src/gtkhtml2_viewer.c:1185
 msgid "Print"
-msgstr "Tlačiť"
+msgstr "Printen"
 
 #: src/gtkhtml2_viewer.c:1206
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
-msgstr "Tlačiareň %s neprijíma súbory PostScript."
+msgstr "Printer %s accepteert geen PostScript bestanden."
 
 #: src/gtkhtml2_viewer.c:1222
 #, c-format
@@ -134,14 +139,15 @@ msgid ""
 "Printing failed:\n"
 "%s"
 msgstr ""
-"Tlačenie zlyhalo:\n"
+"Printen mislukt:\n"
 "%s"
 
 #: src/gtkhtml2_viewer.c:1383 src/gtkhtml2_viewer.c:1420
 msgid "GtkHtml2 HTML Viewer"
-msgstr "GtkHtml2 HTML Zobrazovač"
+msgstr "GtkHtml2 HTML Weergever"
 
 #: src/gtkhtml2_viewer.c:1425
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr ""
-"Tento zásuvný modul zobrazuje HTML správy pomocou widgetu gtkhtml2rendering."
+"Deze plugin geeft HTML mail weer met gebruik van de gtkhtml2 "
+"render widget"

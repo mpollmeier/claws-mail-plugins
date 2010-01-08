@@ -137,3 +137,4 @@
 ( cvs diff -u -r 1.1.2.84 -r 1.1.2.85 src/gtkhtml2_viewer.c;  ) > 0.24.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.85 -r 1.1.2.86 src/gtkhtml2_viewer.c;  ) > 0.24.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/css/html.css.h;  ) > 0.25.0cvs1.patchset
+( cvs diff -u -r 1.1.2.179 -r 1.1.2.180 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/ca.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/cs.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/es.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ja.po;  diff -u /dev/null po/nl.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/sk.po;  ) > 0.25.0cvs2.patchset

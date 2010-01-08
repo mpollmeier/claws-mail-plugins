@@ -1,152 +1,159 @@
 # Catalan translation of gtkhtml2_viewer plugin.
 # Copyright (C) YEAR Andrej Kacian
-# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
+# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GTKHTML2 viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2008-09-26 08:54+0100\n"
-"PO-Revision-Date: 2008-02-22 18:55+0100\n"
+"POT-Creation-Date: 2010-01-01 19:03+0000\n"
+"PO-Revision-Date: 2010-01-05 00:21+0100\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:213 src/gtkhtml2_prefs.c:229
-#: src/gtkhtml2_prefs.c:315 src/gtkhtml2_viewer.c:184
+#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:210 src/gtkhtml2_prefs.c:226
+#: src/gtkhtml2_prefs.c:312 src/gtkhtml2_viewer.c:188
 msgid "Any"
 msgstr "Algun(a)"
 
 #: src/gtkhtml2_prefs.c:102
 msgid "Plugins"
-msgstr "Mï¿½duls"
+msgstr "Mòduls"
 
 #: src/gtkhtml2_prefs.c:103
 msgid "GtkHtml2 Viewer"
 msgstr "Visor GtkHtml2"
 
-#: src/gtkhtml2_prefs.c:168
+#: src/gtkhtml2_prefs.c:165
 msgid "Cache cleared."
-msgstr "Memï¿½ria intermitja inicialitzada."
+msgstr "Memòria intermitja inicialitzada."
 
-#: src/gtkhtml2_prefs.c:194
-msgid "Load remote images in mails"
-msgstr "Carregar imatges remotes dins dels correus"
+#: src/gtkhtml2_prefs.c:191
+msgid "Automatically load remote images"
+msgstr "Carrega automàticament imatges remotes"
 
-#: src/gtkhtml2_prefs.c:209
-msgid "Only for senders found in address book/folder"
-msgstr "Nomï¿½s per remitents trobats a l'agenda/carpeta"
+#: src/gtkhtml2_prefs.c:206
+msgid "Only for senders found in address book"
+msgstr "Només per remitents trobats al llibre d'adreces"
 
-#: src/gtkhtml2_prefs.c:217
+#: src/gtkhtml2_prefs.c:214
 msgid "Select ..."
 msgstr "Selecciona ..."
 
-#: src/gtkhtml2_prefs.c:238
+#: src/gtkhtml2_prefs.c:235
 msgid "Cache remote images locally"
 msgstr "Emmagatzemat imatges remotes en local"
 
-#: src/gtkhtml2_prefs.c:245
-msgid "Clear images cache when quitting"
-msgstr "Esborrar imatges emmagatzemades al sortir."
+#: src/gtkhtml2_prefs.c:242
+msgid "Clear image cache on exit"
+msgstr "Esborrar memòria cau d'imatges al sortir"
 
-#: src/gtkhtml2_prefs.c:252
+#: src/gtkhtml2_prefs.c:249
 msgid "Clear image cache now"
 msgstr "Esborrar imatges emmagatzemades ara"
 
-#: src/gtkhtml2_viewer.c:112
+#: src/gtkhtml2_viewer.c:116
 msgid "_Open with Web browser"
 msgstr "_Obrir amb Navegador web"
 
-#: src/gtkhtml2_viewer.c:113
+#: src/gtkhtml2_viewer.c:117
 msgid "Copy this _link"
-msgstr "Copiar aquest en_llaï¿½"
+msgstr "Copiar aquest en_llaç"
 
-#: src/gtkhtml2_viewer.c:114
+#: src/gtkhtml2_viewer.c:118
 msgid "Zoom _in"
 msgstr "Apro_pa"
 
-#: src/gtkhtml2_viewer.c:115
+#: src/gtkhtml2_viewer.c:119
 msgid "Zoom _out"
 msgstr "All_unya"
 
-#: src/gtkhtml2_viewer.c:786
+#: src/gtkhtml2_viewer.c:807
 #, c-format
 msgid "Timeout connecting to %s\n"
 msgstr "Temps d'espera connectant a %s excedit\n"
 
-#: src/gtkhtml2_viewer.c:858
+#: src/gtkhtml2_viewer.c:882
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "according to your preferences."
 msgstr ""
-"Les imatges remotes existeixen, perï¿½ no han estat carregades\n"
-"d'acord amb les vostres preferï¿½ncies."
+"Les imatges remotes existeixen, però no han estat carregades\n"
+"d'acord amb les vostres preferències."
 
-#: src/gtkhtml2_viewer.c:860
+#: src/gtkhtml2_viewer.c:884
 msgid ""
 "Remote images exist, but weren't loaded\n"
 "because you are offline."
 msgstr ""
-"Les imatges remotes existeixen, perï¿½ no han estat carregades\n"
-"perque esteu sense connexiï¿½."
+"Les imatges remotes existeixen, però no han estat carregades\n"
+"perque esteu sense connexió."
 
-#: src/gtkhtml2_viewer.c:862
+#: src/gtkhtml2_viewer.c:886
 msgid "Remote images exist, but loading them failed."
-msgstr "Les imatges remotes existeixen, perï¿½ ha fallat la cï¿½rrega."
+msgstr "Les imatges remotes existeixen, però ha fallat la càrrega."
 
-#: src/gtkhtml2_viewer.c:866
+#: src/gtkhtml2_viewer.c:890
 msgid "Load images"
 msgstr "Carrega imatges"
 
-#: src/gtkhtml2_viewer.c:1102
+#: src/gtkhtml2_viewer.c:1126
 #, c-format
 msgid ""
 "Printing failed:\n"
 " %s"
 msgstr ""
-"Impressiï¿½ fallida:\n"
+"Impressió fallida:\n"
 " %s"
 
-#: src/gtkhtml2_viewer.c:1133
+#: src/gtkhtml2_viewer.c:1157
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
 msgstr ""
-"Imprimir HTML nomï¿½s ï¿½s possible si el programa 'html2ps' estï¿½ instalï¿½lat."
+"Imprimir HTML només és possible si el programa 'html2ps' està instal·lat."
 
-#: src/gtkhtml2_viewer.c:1138
+#: src/gtkhtml2_viewer.c:1162
 msgid "Filename is null."
 msgstr "Nom d'arxiu null."
 
-#: src/gtkhtml2_viewer.c:1153
+#: src/gtkhtml2_viewer.c:1178
 msgid "Conversion to postscript failed."
-msgstr "Conversiï¿½ a postcript fallida."
+msgstr "Conversió a postcript fallida."
 
-#: src/gtkhtml2_viewer.c:1160
+#: src/gtkhtml2_viewer.c:1185
 msgid "Print"
 msgstr "Imprimir"
 
-#: src/gtkhtml2_viewer.c:1181
+#: src/gtkhtml2_viewer.c:1206
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "La impresora %s no accepta arxius PostScript."
 
-#: src/gtkhtml2_viewer.c:1197
+#: src/gtkhtml2_viewer.c:1222
 #, c-format
 msgid ""
 "Printing failed:\n"
 "%s"
 msgstr ""
-"Imporessiï¿½ fallida:\n"
+"Imporessió fallida:\n"
 "%s"
 
-#: src/gtkhtml2_viewer.c:1354 src/gtkhtml2_viewer.c:1391
+#: src/gtkhtml2_viewer.c:1383 src/gtkhtml2_viewer.c:1420
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Visor HTML per GtkHtml2"
 
-#: src/gtkhtml2_viewer.c:1396
+#: src/gtkhtml2_viewer.c:1425
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
-msgstr "Aquest mï¿½dul dibuixa correus HTML usant el control gtkhtml2rendering."
+msgstr "Aquest mòdul dibuixa correus HTML usant el control gtkhtml2rendering."
+
+#~ msgid "Load remote images in mails"
+#~ msgstr "Carregar imatges remotes dins dels correus"
+
+#~ msgid "Clear images cache when quitting"
+#~ msgstr "Esborrar imatges emmagatzemades al sortir."
 
 #~ msgid "text/html"
 #~ msgstr "text/html"
