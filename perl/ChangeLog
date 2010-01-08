@@ -1,9 +1,13 @@
+2010-01-08 [paul]	0.9.17
+
+	0.9.17 released
+
 2009-11-11 [pawel]	0.9.16cvs1
 
 	* src/perl_plugin.c
 		sync with core
 
-2008-10-09 [paul]	0.9.16
+2009-10-09 [paul]	0.9.16
 
 	0.9.16 released
 
