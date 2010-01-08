@@ -1,100 +1,97 @@
-# Copyright (C) 2007 Ricardo Mones
-# This file is distributed under the same license as the attachwarner package.
-# Andrej Kacian <andrej@kacian.sk>, 2007.
+# Slavko <slavino@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: attachwarner\n"
+"Project-Id-Version: attachwarner_plugin\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2007-11-12 06:46+0000\n"
-"PO-Revision-Date: 2007-11-18 14:38+0100\n"
-"Last-Translator: Andrej Kacian <andrej@kacian.sk>\n"
-"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"POT-Creation-Date: 2010-01-01 18:59+0000\n"
+"PO-Revision-Date: 2010-01-02 18:11+0100\n"
+"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Content-Transfer-Encoding: UTF-8\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/attachwarner.c:257
+#: src/attachwarner.c:272
 msgid "+_Send"
-msgstr "+_Odoslať"
+msgstr "+Po_slať"
 
-#: src/attachwarner.c:259
+#: src/attachwarner.c:274
 msgid "+_Queue"
-msgstr "+_Do Fronty"
+msgstr "+_Poslať neskôr"
 
-#: src/attachwarner.c:262
+#: src/attachwarner.c:277
 #, c-format
 msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. %s it anyway?"
 msgstr ""
-"V texte správy, ktorú chcete odoslať je spomenutá príloha, ale nebol k nej "
-"pripojený žiadny súbor. %s aj napriek tomu:"
+"V správe, ktorú posielate je spomenutá príloha, ale nebol pridaný žiadny "
+"súbor. %s i tak?"
 
-#: src/attachwarner.c:263
+#: src/attachwarner.c:278
 msgid "Send"
-msgstr "Odoslať správu"
+msgstr "Poslať"
 
-#: src/attachwarner.c:263
+#: src/attachwarner.c:278
 msgid "Queue"
-msgstr "Zaradiť správu do fronty"
+msgstr "Poslať neskôr"
 
-#: src/attachwarner.c:264
+#: src/attachwarner.c:279
 msgid "Attachment warning"
-msgstr "Pozor, príloha"
+msgstr "Prílohové upozornenie"
 
-#: src/attachwarner.c:287 src/attachwarner.c:324 src/attachwarner.c:376
+#: src/attachwarner.c:306 src/attachwarner.c:343 src/attachwarner.c:395
 msgid "Attach warner"
-msgstr "Pripomínač príloh"
+msgstr "Upozornenie na prílohu"
 
-#: src/attachwarner.c:294
+#: src/attachwarner.c:313
 msgid "Failed to register check before send hook"
-msgstr "Nepodarilo sa zaregistrovať hook \"check before send\""
+msgstr "Zlyhala registrácia funkcia ne obsluhu udalosti 'check before send'"
 
-#: src/attachwarner.c:334
+#: src/attachwarner.c:353
 msgid ""
 "Warns user if some reference to attachments is found in the message text and "
 "no file is attached."
 msgstr ""
-"Pripomenie používateľovi, ak v správe spomína prílohu, ale zabudne k správe "
-"pripojiť súbor."
+"Upozorňuje používateľa, ak bola v tele správy spomenutá príloha a nebol "
+"pripojený žiadny súbor."
 
-#: src/attachwarner_prefs.c:45
+#: src/attachwarner_prefs.c:48
 msgid "attach"
 msgstr "pripojiť"
 
-#: src/attachwarner_prefs.c:71
+#: src/attachwarner_prefs.c:73
 msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
 msgstr ""
-"Varovať, ak sa v správe nachádzajú tieto regulérne výrazy:\n"
-"(jeden na každý riadok)"
+"Upozorniť pri nájdení týchto regulárnych výrazov:\n"
+"(jeden v riadku)"
 
-#: src/attachwarner_prefs.c:90
+#: src/attachwarner_prefs.c:92
 msgid "Skip quoted lines"
 msgstr "Preskočiť citácie"
 
-#: src/attachwarner_prefs.c:97
+#: src/attachwarner_prefs.c:99
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "Pri hľadaní zadaných regulérnych výrazov preskakovať citácie"
+msgstr "Z hľadania regulárnych výrazov vynechá citácie"
 
-#: src/attachwarner_prefs.c:100
+#: src/attachwarner_prefs.c:102
 msgid "Skip forwards and redirections"
-msgstr "Preskočiť text preposlaných a presmerovaných správ"
+msgstr "Preskočiť Posielanie ďalej a Predávanie"
 
-#: src/attachwarner_prefs.c:107
-msgid "Don't check for missing attachments when forwarding or redirecting messages"
+#: src/attachwarner_prefs.c:109
+msgid ""
+"Don't check for missing attachments when forwarding or redirecting messages"
 msgstr ""
-"Pri hľadaní zadaných regulérnych výrazov preskakovať text preposlaných a "
-"presmerovaných správ"
+"Nekontroluje chýbajúce prílohy pri správach Posielaných ďalej a "
+"Preposielaných"
 
-#: src/attachwarner_prefs.c:180
+#: src/attachwarner_prefs.c:182
 msgid "Plugins"
-msgstr "Pluginy"
+msgstr "Zásuvné moduly"
 
-#: src/attachwarner_prefs.c:181
+#: src/attachwarner_prefs.c:183
 msgid "Attach Warner"
-msgstr "Pripomínač príloh"
-
+msgstr "Upozornenie na prílohu"

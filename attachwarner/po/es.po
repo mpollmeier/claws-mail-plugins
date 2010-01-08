@@ -1,5 +1,5 @@
 # Spanish translation for attachwarner plugin
-# Copyright (C) 2006-2009 Ricardo Mones 
+# Copyright (C) 2006-2010 Ricardo Mones 
 # This file is distributed under the same license as the attachwarner package.
 # Ricardo Mones <ricardo@mones.org>, 2006.
 #
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2009-06-26 18:31+0100\n"
-"PO-Revision-Date: 2009-06-30 19:17+0100\n"
+"POT-Creation-Date: 2010-01-04 11:56+0100\n"
+"PO-Revision-Date: 2010-01-04 19:28+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
