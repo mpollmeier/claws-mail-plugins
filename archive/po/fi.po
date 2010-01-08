@@ -1,27 +1,28 @@
-# Claws Mail Archive plugin Spanish translation
-# Copyright (C) 2008-2010 Ricardo Mones, Michael Rasmussen
-# This file is distributed under the same license as the claws-mail package.
-# Ricardo Mones <ricardo@mones.org>, 2008.
+# Finnish translations for GNU archive package.
+# Copyright (C) 2010 Michael Rasmussen
+# This file is distributed under the same license as the GNU archive package.
+#  <flammie@iki.fi>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: archive\n"
+"Project-Id-Version: GNU archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2010-01-04 11:55+0100\n"
-"PO-Revision-Date: 2010-01-04 19:28+0100\n"
-"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
-"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"POT-Creation-Date: 2010-01-02 22:21+0200\n"
+"PO-Revision-Date: 2010-01-02 22:46+0200\n"
+"Last-Translator:  Flammie Pirinen <flammie@iki.fi>\n"
+"Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/archiver.c:40 src/archiver_prefs.c:90
 msgid "Mail Archiver"
-msgstr "Archivado de correos"
+msgstr "Sähköpostin arkistointi"
 
 #: src/archiver.c:51
 msgid "Create Archive..."
-msgstr "Crear archivo..."
+msgstr "Luo arkisto..."
 
 #: src/archiver.c:117
 msgid ""
@@ -53,78 +54,77 @@ msgid ""
 "Default options can be set in /Configuration/Preferences/Plugins/Mail "
 "Archiver"
 msgstr ""
-"Este módulo añade funcionalidad de archivado a Claws Mail.\n"
+"Tämä liitännäinen lisää sähköpostien arkistoinnin Claws Mailiin.\n"
 "\n"
-"Le permite seleccionar una carpeta de correo que desee archivar, escoger un "
-"nombre, un formato y una ubicación para el archivo. Las subcarpetas se puede "
-"incluir, así como una suma MD5 para cada fichero del archivo. También están "
-"disponibles varias opciones de archivado.\n"
+"Sen avulla voi valita postihakemiston arkistoitavaksi, ja tiedoston ja "
+"pakkausformaatin. Alihakemistot voidaan sisällyttää ja tiedoista ottaa "
+"MD5-tarkistussummat. Arkistoille on useita asetuksia.\n"
 "\n"
-"El archivo se puede almacenar como:\n"
+"Arkistot voi tallentaa seuraaviin paketteihin:"
 "\tTAR\n"
 "\tPAX\n"
 "\tSHAR\n"
 "\tCPIO\n"
 "\n"
-"El archivo se puede comprimir usando:\n"
+"Arkistot voi tiivistää seuraavin algoritmein:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\tCOMPRESS\n"
 "\n"
-"Los archivos se pueden recuperar con cualquier herramienta estándar que "
-"soporte el formato y la compresión elegidas.\n"
+"Arkistot voi sitten palauttaa käytetyn paketin ja pakkausformaatin "
+"työkaluilla.\n"
 "\n"
-"Los formatos de carpeta soportados son MH, IMAP, RSSyl y vCalendar.\n"
+"Hakemistotyypit, joita voi pakata, ovat MH, IMAP, RSSyl ja vKalenteri.\n"
 "\n"
-"Para activar la funcionalidad de archivado use /Herramientas/Crear archivo\n"
+"Arkistoinnin saa käyttöön valikosta Työkalut→Luo arkisto\n"
 "\n"
-"Las opciones predeterminadas se pueden establecer en /Configuración/"
-"Preferencias/Módulos/Archivado de correos"
+"Asetuksia voi muuttaa valikosta Asetukset→Asetukset→Liitännäiset→Sähköpostin "
+"arkistointi"
 
 #: src/archiver.c:149
 msgid "Archiver"
-msgstr "Archivador"
+msgstr "Arkistointi"
 
 #: src/archiver_gtk.c:101
 msgid "Archiving"
-msgstr "Archivando"
+msgstr "Arkistoidaan"
 
 #: src/archiver_gtk.c:119
 msgid "Press Cancel button to stop archiving"
-msgstr "Pulse el botón Cancelar para detener el archivado"
+msgstr "Pysäytä arkistointi valitsemalla peru"
 
 #: src/archiver_gtk.c:135
 msgid "Archiving:"
-msgstr "Archivando:"
+msgstr "Arkistoidaan:"
 
 #: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
-msgstr "Debe seleccionar una carpeta y un archivo"
+msgstr "Kansio ja arkisto pitää valita"
 
 #: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
-msgstr "%s : ya existe. ¿Continuar igualmente?"
+msgstr "%s on olemassa, jatketaanko?"
 
 #: src/archiver_gtk.c:515
 #, c-format
 msgid "%s: Is a link. Cannot continue"
-msgstr "%s: es un enlace. No se puede continuar"
+msgstr "%s on linkki, ei voida jatkaa."
 
 #: src/archiver_gtk.c:518
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
-msgstr "%s: es un directorio. No se puede continuar"
+msgstr "%s on hakemisto, ei voida jatkaa."
 
 #: src/archiver_gtk.c:521
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
-msgstr "%s: no hay permisos. No se puede continuar"
+msgstr "ei oikeuksia kohteeseen %s, ei voida jatkaa."
 
 #: src/archiver_gtk.c:524
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
-msgstr "%s: error desconocido. No se puede continuar"
+msgstr "Tuntematon virhe kohteessa %s, ei voida jatkaa"
 
 #: src/archiver_gtk.c:561
 #, c-format
@@ -132,8 +132,8 @@ msgid ""
 "Not a valid file name:\n"
 "%s."
 msgstr ""
-"Nombre de fichero inválido:\n"
-"%s."
+"Tiedostonimi ei ole toimiva:\n"
+"%s"
 
 #: src/archiver_gtk.c:574
 #, c-format
@@ -141,8 +141,8 @@ msgid ""
 "Not a valid Claws Mail folder:\n"
 "%s."
 msgstr ""
-"Nombre de carpeta de Claws Mail inválida:\n"
-"%s."
+"Claws Mail -kansio ei ole toimiva:\n"
+"%s"
 
 #: src/archiver_gtk.c:603
 #, c-format
@@ -153,188 +153,185 @@ msgid ""
 "\n"
 "Continue anyway?"
 msgstr ""
-"Fallo al añadir los ficheros en la carpeta\n"
-"Ficheros en la carpeta: %d\n"
-"Ficheros en la lista:   %d\n"
+"Tiedostojen lisääminen kansioon epäonnistui\n"
+"Tiedostoja kansiossa: %d\n"
+"Tiedostoja listassa:  %d\n"
 "\n"
-"¿Continuar igualmente?"
+"Jatketaanko?"
 
 #: src/archiver_gtk.c:707
 msgid "Archive result"
-msgstr "Resultado del archivado"
+msgstr "Arkistoinnin tulos"
 
 #: src/archiver_gtk.c:733
 msgid "Attributes"
-msgstr "Atributos"
+msgstr "Attribuutit"
 
 #: src/archiver_gtk.c:737
 msgid "Values"
-msgstr "Valores"
+msgstr "Arvot"
 
 #: src/archiver_gtk.c:746
 msgid "Archive"
-msgstr "Archivo"
+msgstr "Arkisto"
 
 #: src/archiver_gtk.c:752
 msgid "Archive format"
-msgstr "Formato de archivo"
+msgstr "Arkistomuoto"
 
 #: src/archiver_gtk.c:759
 msgid "Compression method"
-msgstr "Método de compresión"
+msgstr "Pakkausalgoritmi"
 
 #: src/archiver_gtk.c:767
 msgid "Number of files"
-msgstr "Nombre de fichero"
+msgstr "Tiedostoja"
 
 #: src/archiver_gtk.c:775
 msgid "Archive Size"
-msgstr "Tamaño del archivo"
+msgstr "Arkiston koko"
 
 #: src/archiver_gtk.c:783
 msgid "Folder Size"
-msgstr "Tamaño de la carpeta"
+msgstr "Kansion koko"
 
 #: src/archiver_gtk.c:792
 msgid "Compression level"
-msgstr "Nivel de compresión"
+msgstr "Pakkausaste"
 
 #: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "Yes"
-msgstr "Sí"
+msgstr "Kyllä"
 
 #: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "No"
-msgstr "No"
+msgstr "Ei"
 
 #: src/archiver_gtk.c:800
 msgid "MD5 checksum"
-msgstr "Suma de control MD5"
+msgstr "MD5-summa"
 
 #: src/archiver_gtk.c:808
 msgid "Descriptive names"
-msgstr "Nombres descriptivos"
+msgstr "Kuvaavat nimet"
 
 #: src/archiver_gtk.c:816
 msgid "Delete selected files"
-msgstr "Borrar los ficheros seleccionados"
+msgstr "Poista valitut tiedostot"
 
 #: src/archiver_gtk.c:825 src/archiver_gtk.c:1208
 msgid "Select mails before"
-msgstr "Seleccionar correos antes de"
+msgstr "Valitse viestit ensin"
 
 #: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
-msgstr ""
-"Seleccione un nombre para el archivo (el sufijo debería reflejar el tipo "
-"como .tgz)"
+msgstr "Valitse tiedostonimi arkistolla [käytä formaatin mukaista tarkennetta, "
+"kuten .tgz:aa]"
 
 #: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
-msgstr "%ld de %ld"
+msgstr "%ld/%ld"
 
 #: src/archiver_gtk.c:989
 msgid "Create Archive"
-msgstr "Crear un archivo"
+msgstr "Luo arkisto"
 
 #: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
-msgstr "Parámetros de archivado"
+msgstr "Anna arkistoinnin argumentit"
 
 #: src/archiver_gtk.c:1017
 msgid "Folder to archive"
-msgstr "Carpeta a archivar"
+msgstr "Arkistoitava kansio"
 
 #: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
-msgstr "Carpeta que es la raíz del archivo"
+msgstr "Arkiston säilytyshakemisto"
 
 #: src/archiver_gtk.c:1026
 msgid "_Browse"
-msgstr "_Explorar"
+msgstr "_Selaa"
 
 #: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
-msgstr ""
-"Pulse este botón para seleccionar la carpeta que será la raíz del archivo"
+msgstr "Valitse tästä kansio joka on arkiston juuri"
 
 #: src/archiver_gtk.c:1035
 msgid "Name for archive"
-msgstr "Nombre del archivo"
+msgstr "Nimi arkistolle"
 
 #: src/archiver_gtk.c:1041
 msgid "Archive location and name"
-msgstr "Ubicación y nombre del archivo"
+msgstr "Arkiston sijainti ja nimi"
 
 #: src/archiver_gtk.c:1043 src/archiver_prefs.c:196
 msgid "_Select"
-msgstr "_Seleccionar"
+msgstr "_Valitse"
 
 #: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
-msgstr ""
-"Pulse este botón para seleccionar un nombre y ubicación para el archivo"
+msgstr "Valitse tästä nimi ja sijainti arkistolle"
 
 #: src/archiver_gtk.c:1048
 msgid "Choose compression"
-msgstr "Elija la compresión"
+msgstr "Valitse pakkaus"
 
 #: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
-msgstr "Utilizar compresión ZIP en el archivo"
+msgstr "Valitse tästä ZIP-pakkaus"
 
 #: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
-msgstr "Utilizar compresión BZIP2 en el archivo"
+msgstr "Valitse tästä BZIP2-pakkaus"
 
 #: src/archiver_gtk.c:1076
 msgid "Choose this to use Compress compression for your archive"
-msgstr "Utilizar compresión Compress en el archivo"
+msgstr "Valitse tästä Compress-pakkaus"
 
 #: src/archiver_gtk.c:1080
 msgid "_None"
-msgstr "_Ninguna"
+msgstr "_Ei mitään"
 
 #: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
-msgstr "No utilizar compresión en el archivo"
+msgstr "Valitse tämä poistaaksesi pakkaus käytöstä"
 
 #: src/archiver_gtk.c:1106
 msgid "Choose format"
-msgstr "Elegir formato"
+msgstr "Valitse formaatti"
 
 #: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
-msgstr "Utilizar el formato TAR en el archivo"
+msgstr "Valitse tästä TAR paketin muodoksi"
 
 #: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
-msgstr "Utilizar el formato SHAR en el archivo"
+msgstr "Valitse tästä SHAR paketin muodoksi"
 
 #: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
-msgstr "Utilizar el formato CPIO en el archivo"
+msgstr "Valitse tästä CPIO paketin muodoksi"
 
 #: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
-msgstr "Utilizar el formato PAX en el archivo"
+msgstr "Valitse tästä PAX paketin muodoksi"
 
 #: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
-msgstr "Opciones adicionales"
+msgstr "Muut asetukset"
 
 #: src/archiver_gtk.c:1169
 msgid "_Recursive"
-msgstr "_Recursivo"
+msgstr "_Rekursiivinen"
 
 #: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
-msgstr "Incluir las subcarpetas en el archivo"
+msgstr "Valitse tästä ottaaksesi mukaan alikansiot"
 
 #: src/archiver_gtk.c:1175
 msgid "_MD5sum"
-msgstr "Suma de control _MD5"
+msgstr "_MD5-summa"
 
 #: src/archiver_gtk.c:1179
 msgid ""
@@ -342,13 +339,12 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archive"
 msgstr ""
-"Añadir una suma de control MD5 para cada fichero en el archivo.\n"
-"Cuidado: esta opción incrementa dramáticamente el tiempo que se tardará\n"
-"en crear el archivo"
+"Valitse tästä laskeaksesti MD5-summat jokaiselle arkiston tiedostolle.\n"
+"Huomaa, että tämä valinta kasvattaa arkiston kokoa ja käsittelyaikaa."
 
 #: src/archiver_gtk.c:1183
 msgid "R_ename"
-msgstr "R_enombrar"
+msgstr "_Uudelleennimeä"
 
 #: src/archiver_gtk.c:1187 src/archiver_prefs.c:331
 msgid ""
@@ -356,116 +352,114 @@ msgid ""
 "The naming scheme: date_from@to@subject.\n"
 "Names will be truncated to max 96 characters"
 msgstr ""
-"Utilizar nombres descriptivos para cada fichero en el archivo.\n"
-"El esquema de nombrado es: fecha_desde@para@asunto.\n"
-"Los nombres se truncarán a un máximo de 96 caracteres."
+"Valitse tämä käyttääksesi kuvaavia nimiä arkiston tiedostoille.\n"
+"Nimeämistapa: päiväys_lähettäjä@vastaanottaja@otsikko.\n"
+"Nimet lyhennetään 96 merkkiin"
 
 #: src/archiver_gtk.c:1191
 msgid "_Delete"
-msgstr "_Borrar"
+msgstr "_Poista"
 
 #: src/archiver_gtk.c:1195
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
 msgstr ""
-"Borrar los correos después del archivado.\n"
-"Actualmente sólo soporta IMAP4, mbox local y POP3"
+"Valitse tästä poistaaksesi viestit arkistoinnin jälkeen\n"
+"Tämä toimii vain IMAP4-, POP3- ja paikallisille postilaatikoille"
 
 #: src/archiver_gtk.c:1199
 msgid "Selection options"
-msgstr "Opciones de selección"
+msgstr "Valintojen asetukset"
 
 #: src/archiver_gtk.c:1215
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
 msgstr ""
-"Seleccionar correos antes de una fecha dada\n"
-"El formato de fecha debe ser ISO-8601 (AAAA-MM-DD)"
+"Valitse viestit ennen päivää\n"
+"Päivän on oltava ISO 8601-muodossa [VVVV-KK-PP]"
 
 #: src/archiver_prefs.c:89
 msgid "Plugins"
-msgstr "Módulos"
+msgstr "Liitännäiset"
 
 #: src/archiver_prefs.c:125
 msgid "Select destination folder"
-msgstr "Seleccione un directorio de destino"
+msgstr "Valitse kohdekansio"
 
 #: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
-msgstr "'%s' no es un directorio."
+msgstr "%s ei ole hakemisto"
 
 #: src/archiver_prefs.c:188
 msgid "Default save folder"
-msgstr "Directorio de destino por defecto"
+msgstr "Oletustallennuskansio"
 
 #: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
-msgstr ""
-"Pulse este botón para seleccionar la ubicación predeterminada para guardar "
-"los archivos"
+msgstr "Valitse tästä oletuskansio arkistoille"
 
 #: src/archiver_prefs.c:209
 msgid "Default compression"
-msgstr "Compresión por defecto"
+msgstr "Oletuspakkaus"
 
 #: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
-msgstr "Utilizar la compresión ZIP por defecto"
+msgstr "Valitse tästä ZIP-pakkaus oletukseksi"
 
 #: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
-msgstr "Utilizar la compresión BZIP2 por defecto"
+msgstr "Valitse tästä BZIP2-pakkaus oletukseksi"
 
 #: src/archiver_prefs.c:236
 msgid "Choose this option to use COMPRESS compression by default"
-msgstr "Utilizar la compresión COMPRESS por defecto"
+msgstr "Valitse tästä COMPRESS-pakkaus oletukseksi"
 
 #: src/archiver_prefs.c:239
 msgid "None"
-msgstr "Ninguna"
+msgstr "Ei mitään"
 
 #: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
-msgstr "No comprimir el archivo por defecto"
+msgstr "Valits tästä poistaaksesi pakkaus käytöstä oletuksena"
 
 #: src/archiver_prefs.c:263
 msgid "Default format"
-msgstr "Formato por defecto"
+msgstr "Oletusmuoto"
 
 #: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
-msgstr "Utilizar el formato TAR por defecto"
+msgstr "Valitse tästä TAR-paketti oletukseksi"
 
 #: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
-msgstr "Utilizar el formato SHAR por defecto"
+msgstr "Valitse tästä SHAR-paketti oletukseksi"
 
 #: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
-msgstr "Utilizar el formato CPIO por defecto"
+msgstr "Valitse tästä CPIO-paketti oletukseksi"
 
 #: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
-msgstr "Utilizar el formato PAX por defecto"
+msgstr "Valitse tästä PAX-paketti oletukseksi"
 
 #: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
-msgstr "Opciones adicionales por defecto"
+msgstr "Oletusasetukset muille asetuksille"
 
 #: src/archiver_prefs.c:320
 msgid "Recursive"
-msgstr "Recursivo"
+msgstr "Rekursiivinen"
 
 #: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
-msgstr "Incluir por defecto las subcarpetas en los archivos"
+msgstr "Valitse tästä sisällyttääksesi alikansiot oletuksena"
 
 #: src/archiver_prefs.c:323
 msgid "MD5sum"
-msgstr "Suma de control MD5"
+msgstr "MD5-summa"
 
 #: src/archiver_prefs.c:325
 msgid ""
@@ -474,19 +468,18 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Incluir por defecto las sumas de control MD5 para cada fichero de los "
-"archivos.\n"
-"Cuidado: esto incrementará dramáticamente el tiempo necesario\n"
-"para crear los archivos"
+"Valitse tästä MD5-sumamt kaikille tiedostoille oletuksena.\n"
+"Tämä lisää arkistojentekoaikaa merkittävästi."
 
 #: src/archiver_prefs.c:329
 msgid "Rename"
-msgstr "Renombrar"
+msgstr "Uudelleennimeä"
 
 #: src/archiver_prefs.c:335
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Poista"
 
 #: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
-msgstr "Borrar los correos después de efectuar el archivado"
+msgstr "Valitset tämä poistaaksesi viestit arkistoinnin lopuksi"
+

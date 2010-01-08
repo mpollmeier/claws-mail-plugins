@@ -1,20 +1,21 @@
 # Catalan translations of archive.
 # Copyright (C) YEAR Michael Rasmussen
-# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2008.
+# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2008, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2008-10-08 00:32+0200\n"
-"PO-Revision-Date: 2008-10-02 12:00+0100\n"
+"POT-Creation-Date: 2010-01-01 18:57+0000\n"
+"PO-Revision-Date: 2010-01-03 21:29+0100\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/archiver.c:40 src/archiver_prefs.c:85
+#: src/archiver.c:40 src/archiver_prefs.c:90
 msgid "Mail Archiver"
 msgstr "Arxivador de correu"
 
@@ -40,6 +41,7 @@ msgid ""
 "The archive can be compressed using:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "The archives can be restored with any standard tool that supports the chosen "
 "format and compression.\n"
@@ -54,9 +56,10 @@ msgstr ""
 "Aquest mòdul afegeix característiques d'arxivar a Claws Mail.\n"
 "\n"
 "Et permet seleccionar una carpeta de correu que voleu que sigui arxivada i "
-"després seleccionar un nom, format i localització de l'arxiu. Les "
-"subcarpetes seran incloses i checksums MD5 poden ser afegits per cada arxiu "
-"dins l'arxiu. Varies opcions per arxivar estan també disponibles.\n"
+"després seleccionar un nom, format i localització per a l'arxiu. Les "
+"subcarpetes poden ser incloses i checksums MD5 poden ser afegits per cada "
+"arxiu dins l'arxiu. "
+"Varies opcions per arxivar estan també disponibles.\n"
 "\n"
 "Els arxius poden ser guardar com a:\n"
 "\tTAR\n"
@@ -67,6 +70,7 @@ msgstr ""
 "L'arxiu pot ser comprimit usant:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
+"\tCOMPRESS\n"
 "\n"
 "Els arxius poden ser restauratsamb qualsevol eina estandard que suporti el "
 "format i la compressió escollida.\n"
@@ -78,32 +82,52 @@ msgstr ""
 "Les opcions per defecte poden ser activades a /Configuració/Preferències/"
 "Mòduls/Correu Arxivador"
 
-#: src/archiver.c:146
+#: src/archiver.c:149
 msgid "Archiver"
 msgstr "Arxivador"
 
-#: src/archiver_gtk.c:93
+#: src/archiver_gtk.c:101
 msgid "Archiving"
 msgstr "Arxivant"
 
-#: src/archiver_gtk.c:111
+#: src/archiver_gtk.c:119
 msgid "Press Cancel button to stop archiving"
 msgstr "Prem el botó Cancel·lar per aturar l'acció d'arxivar"
 
-#: src/archiver_gtk.c:127
+#: src/archiver_gtk.c:135
 msgid "Archiving:"
 msgstr "Arxivant:"
 
-#: src/archiver_gtk.c:454
+#: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
 msgstr "S'ha de seleccionar una carpeta i un arxiu"
 
-#: src/archiver_gtk.c:467
+#: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
 msgstr "%s: Existeix. Continuar de totes maneres?"
 
-#: src/archiver_gtk.c:481
+#: src/archiver_gtk.c:515
+#, c-format
+msgid "%s: Is a link. Cannot continue"
+msgstr "%s: És un enllaç. No es pot continuar"
+
+#: src/archiver_gtk.c:518
+#, c-format
+msgid "%s: Is a directory. Cannot continue"
+msgstr "%s: És un directori. No es pot continuar"
+
+#: src/archiver_gtk.c:521
+#, c-format
+msgid "%s: Missing permissions. Cannot continue"
+msgstr "%s: Permisos no trobats. No es pot continuar"
+
+#: src/archiver_gtk.c:524
+#, c-format
+msgid "%s: Unknown error. Cannot continue"
+msgstr "%s: Error desconegut. No es pot continuar"
+
+#: src/archiver_gtk.c:561
 #, c-format
 msgid ""
 "Not a valid file name:\n"
@@ -112,7 +136,7 @@ msgstr ""
 "No es un nou d'arxiu vàlid:\n"
 "%s."
 
-#: src/archiver_gtk.c:494
+#: src/archiver_gtk.c:574
 #, c-format
 msgid ""
 "Not a valid Claws Mail folder:\n"
@@ -121,7 +145,7 @@ msgstr ""
 "No es una carpeta de Claws Mail vàlida:\n"
 "%s."
 
-#: src/archiver_gtk.c:521
+#: src/archiver_gtk.c:603
 #, c-format
 msgid ""
 "Adding files in folder failed\n"
@@ -136,171 +160,184 @@ msgstr ""
 "\n"
 "Continuar de totes maneres?"
 
-#: src/archiver_gtk.c:621
+#: src/archiver_gtk.c:707
 msgid "Archive result"
 msgstr "Resultat d'arxivar"
 
-#: src/archiver_gtk.c:647
+#: src/archiver_gtk.c:733
 msgid "Attributes"
 msgstr "Atributes"
 
-#: src/archiver_gtk.c:651
+#: src/archiver_gtk.c:737
 msgid "Values"
 msgstr "Valors"
 
-#: src/archiver_gtk.c:660
+#: src/archiver_gtk.c:746
 msgid "Archive"
 msgstr "Arxiu"
 
-#: src/archiver_gtk.c:666
+#: src/archiver_gtk.c:752
 msgid "Archive format"
 msgstr "Format d'arxiu"
 
-#: src/archiver_gtk.c:673
+#: src/archiver_gtk.c:759
 msgid "Compression method"
 msgstr "Mètode de compressió"
 
-#: src/archiver_gtk.c:681
+#: src/archiver_gtk.c:767
 msgid "Number of files"
 msgstr "Número d'arxius"
 
-#: src/archiver_gtk.c:689
+#: src/archiver_gtk.c:775
 msgid "Archive Size"
 msgstr "Tamany de l'arxiu"
 
-#: src/archiver_gtk.c:697
+#: src/archiver_gtk.c:783
 msgid "Folder Size"
 msgstr "Tamany de la carpeta"
 
-#: src/archiver_gtk.c:706
+#: src/archiver_gtk.c:792
 msgid "Compression level"
 msgstr "Nivell de compressió"
 
-#: src/archiver_gtk.c:711 src/archiver_gtk.c:719
+#: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "Yes"
 msgstr "Si"
 
-#: src/archiver_gtk.c:711 src/archiver_gtk.c:719
+#: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "No"
 msgstr "No"
 
-#: src/archiver_gtk.c:714
+#: src/archiver_gtk.c:800
 msgid "MD5 checksum"
 msgstr "Checksum MD5"
 
-#: src/archiver_gtk.c:722
+#: src/archiver_gtk.c:808
 msgid "Descriptive names"
 msgstr "Noms descriptius"
 
-#: src/archiver_gtk.c:797
+#: src/archiver_gtk.c:816
+msgid "Delete selected files"
+msgstr "Esborrar els arxis seleccionats"
+
+#: src/archiver_gtk.c:825 src/archiver_gtk.c:1208
+msgid "Select mails before"
+msgstr "Seleccionar els missatges abans"
+
+#: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr ""
 "Seleccionar nom d'arxiu per arxivar [el sufixe hauria de reflectir l'arxiu "
 "com per exemple .tgz]"
 
-#: src/archiver_gtk.c:845
+#: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
 msgstr "%ld de %ld"
 
-#: src/archiver_gtk.c:883
+#: src/archiver_gtk.c:989
 msgid "Create Archive"
 msgstr "Crear arxiu"
 
-#: src/archiver_gtk.c:898
+#: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
 msgstr "Introduir argument de l'arxivador"
 
-#: src/archiver_gtk.c:911
+#: src/archiver_gtk.c:1017
 msgid "Folder to archive"
 msgstr "Carpeta a arxivar"
 
-#: src/archiver_gtk.c:918
+#: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
 msgstr "Carpeta la qual es l'arrel de l'arxiu"
 
-#: src/archiver_gtk.c:920
+#: src/archiver_gtk.c:1026
 msgid "_Browse"
 msgstr "_Veure"
 
-#: src/archiver_gtk.c:923
+#: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
 msgstr ""
 "Premeu aquest botó per seleccionar la carpeta la qual serà arrel de l'arxiu"
 
-#: src/archiver_gtk.c:929
+#: src/archiver_gtk.c:1035
 msgid "Name for archive"
 msgstr "Nom per l'arxiu"
 
-#: src/archiver_gtk.c:935
+#: src/archiver_gtk.c:1041
 msgid "Archive location and name"
 msgstr "Nom i localització de l'arxiu"
 
-#: src/archiver_gtk.c:937 src/archiver_prefs.c:187
+#: src/archiver_gtk.c:1043 src/archiver_prefs.c:196
 msgid "_Select"
 msgstr "_Seleccionar"
 
-#: src/archiver_gtk.c:940
+#: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
 msgstr "Premeu aquest botó per seleccionar un nom i localització per l'arxiu"
 
-#: src/archiver_gtk.c:942
+#: src/archiver_gtk.c:1048
 msgid "Choose compression"
 msgstr "Escollir compressió"
 
-#: src/archiver_gtk.c:955
+#: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
 msgstr "Escolliu aquesta opció per usar compressió ZIP per l'arxiu"
 
-#: src/archiver_gtk.c:962
+#: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
 msgstr "Escolliu aquesta opció per usar compressió BZIP2 per l'arxiu"
 
-#: src/archiver_gtk.c:972
+#: src/archiver_gtk.c:1076
+msgid "Choose this to use Compress compression for your archive"
+msgstr ""
+"Escolliu aquesta opció per usar compressió Compress per al vostre arxiu"
+
+#: src/archiver_gtk.c:1080
 msgid "_None"
 msgstr "_Cap"
 
-#: src/archiver_gtk.c:976
+#: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
 msgstr "Escolliu aquesta opció per deshabilitat la compressió de l'arxiu"
 
-#: src/archiver_gtk.c:993
+#: src/archiver_gtk.c:1106
 msgid "Choose format"
 msgstr "Escollir format"
 
-#: src/archiver_gtk.c:1006
+#: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
 msgstr "Escolliu aquesta opció per usar TAR com a format de l'arxiu"
 
-#: src/archiver_gtk.c:1013
+#: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
 msgstr "Escolliu aquesta opció per usar SHAR com a format de l'arxiu"
 
-#: src/archiver_gtk.c:1020
+#: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
 msgstr "Escolliu aquesta opció per usar CPIO com a format de l'arxiu"
 
-#: src/archiver_gtk.c:1027
+#: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
 msgstr "Escolliu aquesta opció per usar PAX com a format de l'arxiu"
 
-#: src/archiver_gtk.c:1047
+#: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
 msgstr "Opcions varies"
 
-#: src/archiver_gtk.c:1056
+#: src/archiver_gtk.c:1169
 msgid "_Recursive"
 msgstr "_Recursiu"
 
-#: src/archiver_gtk.c:1060
+#: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
 msgstr "Escolliu aquesta opció per incloure subcarpetes a l'arxiu"
 
-#: src/archiver_gtk.c:1062
+#: src/archiver_gtk.c:1175
 msgid "_MD5sum"
 msgstr "_MD5sum"
 
-#: src/archiver_gtk.c:1066
+#: src/archiver_gtk.c:1179
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archive.\n"
 "Be aware though, that this dramatically increases the time it\n"
@@ -310,11 +347,11 @@ msgstr ""
 "Tot i aixó aneu amb compte, això incrementarà substancialment el temps usat\n"
 "per crear els arxius"
 
-#: src/archiver_gtk.c:1070
+#: src/archiver_gtk.c:1183
 msgid "R_ename"
 msgstr "R_enombrar"
 
-#: src/archiver_gtk.c:1074 src/archiver_prefs.c:308
+#: src/archiver_gtk.c:1187 src/archiver_prefs.c:331
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
@@ -323,86 +360,114 @@ msgstr ""
 "Esquema de nomenglatura: data_desde@a@assumpte.\n"
 "Els noms seran truncats a un màxim de 96 caràcters"
 
-#: src/archiver_prefs.c:84
+#: src/archiver_gtk.c:1191
+msgid "_Delete"
+msgstr "_Esborrar"
+
+#: src/archiver_gtk.c:1195
+msgid ""
+"Choose this option to delete mails after archiving\n"
+"At this point only handles IMAP4, Local mbox and POP3"
+msgstr ""
+"Escolliu aquesta opció per esborrar els missatges abans d'arxivar-los\n"
+"En aquest punt només es tractem IMAP4, Bústia local i POP3"
+
+#: src/archiver_gtk.c:1199
+msgid "Selection options"
+msgstr "Opcions de selecció"
+
+#: src/archiver_gtk.c:1215
+msgid ""
+"Select emails before a certain date\n"
+"Date must comply to ISO-8601 [YYYY-MM-DD]"
+msgstr ""
+"Seleccioneu missatges d'abans d'una certa data\n"
+"La data ha de complir la ISO-8601 [AAAA-MM-DD]"
+
+#: src/archiver_prefs.c:89
 msgid "Plugins"
 msgstr "Moduls"
 
-#: src/archiver_prefs.c:120
+#: src/archiver_prefs.c:125
 msgid "Select destination folder"
 msgstr "Seleccionar carpeta de destinació"
 
-#: src/archiver_prefs.c:126
+#: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
 msgstr "'%s' no es una carpeta."
 
-#: src/archiver_prefs.c:179
+#: src/archiver_prefs.c:188
 msgid "Default save folder"
 msgstr "Carpeta on guardar per defecte"
 
-#: src/archiver_prefs.c:191
+#: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
 msgstr ""
 "Premeu aquest botó per seleccionar la localització per defecte per guardar "
 "arxius"
 
-#: src/archiver_prefs.c:200
+#: src/archiver_prefs.c:209
 msgid "Default compression"
 msgstr "Compressió per defecte"
 
-#: src/archiver_prefs.c:212
+#: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
 msgstr "Escolliu aquesta opció per usar compressió ZIP per defecte"
 
-#: src/archiver_prefs.c:219
+#: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
 msgstr "Escolliu aquesta opció per usar compressió BZIP2 per defecte"
 
-#: src/archiver_prefs.c:221
+#: src/archiver_prefs.c:236
+msgid "Choose this option to use COMPRESS compression by default"
+msgstr "Escolliu aquesta opció per usar compressió COMPRESS per defecte"
+
+#: src/archiver_prefs.c:239
 msgid "None"
 msgstr "Cap"
 
-#: src/archiver_prefs.c:226
+#: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
 msgstr "Escolliu aquesta opció per deshabilitar la compressió per defecte"
 
-#: src/archiver_prefs.c:240
+#: src/archiver_prefs.c:263
 msgid "Default format"
 msgstr "Format per defecte"
 
-#: src/archiver_prefs.c:252
+#: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
 msgstr "Escolliu aquesta opció per usar el format TAR per defecte"
 
-#: src/archiver_prefs.c:259
+#: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
 msgstr "Escolliu aqyesta opció per usar el format SHAR per defecte"
 
-#: src/archiver_prefs.c:266
+#: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
 msgstr "Escolliu aquesta opció per usar el format CPIO per defecte"
 
-#: src/archiver_prefs.c:273
+#: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
 msgstr "Escolliu aquesta opció per usar el format PAX per defecte"
 
-#: src/archiver_prefs.c:290
+#: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
 msgstr "Opcions variades per defecte"
 
-#: src/archiver_prefs.c:297
+#: src/archiver_prefs.c:320
 msgid "Recursive"
 msgstr "Recursiu"
 
-#: src/archiver_prefs.c:299
+#: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
 msgstr "Escolliu aquesta opció per incloure subcarpetes als arxius per defecte"
 
-#: src/archiver_prefs.c:300
+#: src/archiver_prefs.c:323
 msgid "MD5sum"
 msgstr "MD5sum"
 
-#: src/archiver_prefs.c:302
+#: src/archiver_prefs.c:325
 msgid ""
 "Choose this option to add MD5 checksums for each file in the archives by "
 "default.\n"
@@ -414,6 +479,15 @@ msgstr ""
 "Tot i aixó aneu amb compte, això incrementarà substancialment el temps usat\n"
 "per crear els arxius"
 
-#: src/archiver_prefs.c:306
+#: src/archiver_prefs.c:329
 msgid "Rename"
 msgstr "Renombrar"
+
+#: src/archiver_prefs.c:335
+msgid "Delete"
+msgstr "Esborrar"
+
+#: src/archiver_prefs.c:337
+msgid "Choose this option to delete mails after archiving"
+msgstr "Escolliu aquesta opció per esborrar missatge després d'arxivar-los"
+

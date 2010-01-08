@@ -1,27 +1,24 @@
-# Claws Mail Archive plugin Spanish translation
-# Copyright (C) 2008-2010 Ricardo Mones, Michael Rasmussen
-# This file is distributed under the same license as the claws-mail package.
-# Ricardo Mones <ricardo@mones.org>, 2008.
-#
+# Slavko <slavino@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: archive\n"
+"Project-Id-Version: archive_plugin\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2010-01-04 11:55+0100\n"
-"PO-Revision-Date: 2010-01-04 19:28+0100\n"
-"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
-"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"POT-Creation-Date: 2010-01-01 18:57+0000\n"
+"PO-Revision-Date: 2010-01-02 18:09+0100\n"
+"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/archiver.c:40 src/archiver_prefs.c:90
 msgid "Mail Archiver"
-msgstr "Archivado de correos"
+msgstr "Archivácia pošty"
 
 #: src/archiver.c:51
 msgid "Create Archive..."
-msgstr "Crear archivo..."
+msgstr "Vytvoriť archív..."
 
 #: src/archiver.c:117
 msgid ""
@@ -53,78 +50,77 @@ msgid ""
 "Default options can be set in /Configuration/Preferences/Plugins/Mail "
 "Archiver"
 msgstr ""
-"Este módulo añade funcionalidad de archivado a Claws Mail.\n"
+"tento zásuvný modul pridáva do Claws Mail možnosti archivácie.\n"
 "\n"
-"Le permite seleccionar una carpeta de correo que desee archivar, escoger un "
-"nombre, un formato y una ubicación para el archivo. Las subcarpetas se puede "
-"incluir, así como una suma MD5 para cada fichero del archivo. También están "
-"disponibles varias opciones de archivado.\n"
+"Umožňuje zvoliť poštovú zložku, ktorú chcete archivovať a zvoliť meno, "
+"formát a umiestnenie archívu. Umožňuje zahrnúť podzložky a pridať kontrolný "
+"súčet MD5 pre každý súbor v archíve. Dostupné sú viaceré voľby archivácie.\n"
 "\n"
-"El archivo se puede almacenar como:\n"
+"Archív môže byť vytvorený ako:\n"
 "\tTAR\n"
 "\tPAX\n"
 "\tSHAR\n"
 "\tCPIO\n"
 "\n"
-"El archivo se puede comprimir usando:\n"
+"Archív môže byť komprimovaný pomocou:\n"
 "\tGZIP/ZIP\n"
 "\tBZIP2\n"
 "\tCOMPRESS\n"
 "\n"
-"Los archivos se pueden recuperar con cualquier herramienta estándar que "
-"soporte el formato y la compresión elegidas.\n"
+"Archívy môžu byť obnovené pomocou štandardných nástrojov, ktoré podporujú "
+"zvolený formát a kompresiu.\n"
 "\n"
-"Los formatos de carpeta soportados son MH, IMAP, RSSyl y vCalendar.\n"
+"Zásuvný modul podporuje so zložkami typu MH, IMAP, RSSyl a vCalendar.\n"
 "\n"
-"Para activar la funcionalidad de archivado use /Herramientas/Crear archivo\n"
+"Pre aktiváciu archivácie prejdite do /Nástroje/Vytvoriť archív\n"
 "\n"
-"Las opciones predeterminadas se pueden establecer en /Configuración/"
-"Preferencias/Módulos/Archivado de correos"
+"Predvolené nastavenia možno nastaviť v /Konfigurácia/Nastavenia/Zásuvné "
+"moduly/Archivácia pošty"
 
 #: src/archiver.c:149
 msgid "Archiver"
-msgstr "Archivador"
+msgstr "Archivátor"
 
 #: src/archiver_gtk.c:101
 msgid "Archiving"
-msgstr "Archivando"
+msgstr "Archivácia"
 
 #: src/archiver_gtk.c:119
 msgid "Press Cancel button to stop archiving"
-msgstr "Pulse el botón Cancelar para detener el archivado"
+msgstr "Pre zastavenie archivácie stlačte tlačidlo Zrušiť"
 
 #: src/archiver_gtk.c:135
 msgid "Archiving:"
-msgstr "Archivando:"
+msgstr "Archivácia:"
 
 #: src/archiver_gtk.c:503
 msgid "Folder and archive must be selected"
-msgstr "Debe seleccionar una carpeta y un archivo"
+msgstr "Musíte vybrať zložku a archív"
 
 #: src/archiver_gtk.c:512
 #, c-format
 msgid "%s: Exists. Continue anyway?"
-msgstr "%s : ya existe. ¿Continuar igualmente?"
+msgstr "%s: existuje. Pokračovať?"
 
 #: src/archiver_gtk.c:515
 #, c-format
 msgid "%s: Is a link. Cannot continue"
-msgstr "%s: es un enlace. No se puede continuar"
+msgstr "%s: je odkaz. Nemožno pokračovať"
 
 #: src/archiver_gtk.c:518
 #, c-format
 msgid "%s: Is a directory. Cannot continue"
-msgstr "%s: es un directorio. No se puede continuar"
+msgstr "%s: je adresár. Nemožno pokračovať"
 
 #: src/archiver_gtk.c:521
 #, c-format
 msgid "%s: Missing permissions. Cannot continue"
-msgstr "%s: no hay permisos. No se puede continuar"
+msgstr "%s: Nedostatočné práva. Nemožno pokračovať"
 
 #: src/archiver_gtk.c:524
 #, c-format
 msgid "%s: Unknown error. Cannot continue"
-msgstr "%s: error desconocido. No se puede continuar"
+msgstr "%s: Neznáma chyba. Nemožno pokračovať"
 
 #: src/archiver_gtk.c:561
 #, c-format
@@ -132,7 +128,7 @@ msgid ""
 "Not a valid file name:\n"
 "%s."
 msgstr ""
-"Nombre de fichero inválido:\n"
+"Neplatné meno súboru:\n"
 "%s."
 
 #: src/archiver_gtk.c:574
@@ -141,7 +137,7 @@ msgid ""
 "Not a valid Claws Mail folder:\n"
 "%s."
 msgstr ""
-"Nombre de carpeta de Claws Mail inválida:\n"
+"Neplatná zložka Claws Mail:\n"
 "%s."
 
 #: src/archiver_gtk.c:603
@@ -153,188 +149,185 @@ msgid ""
 "\n"
 "Continue anyway?"
 msgstr ""
-"Fallo al añadir los ficheros en la carpeta\n"
-"Ficheros en la carpeta: %d\n"
-"Ficheros en la lista:   %d\n"
+"Zlyhalo pridanie súborov v zložke\n"
+"Súbory v zložke: %d\n"
+"Súbory v zozname:   %d\n"
 "\n"
-"¿Continuar igualmente?"
+"Pokračovať?"
 
 #: src/archiver_gtk.c:707
 msgid "Archive result"
-msgstr "Resultado del archivado"
+msgstr "Výsledok archívu"
 
 #: src/archiver_gtk.c:733
 msgid "Attributes"
-msgstr "Atributos"
+msgstr "Atribúty"
 
 #: src/archiver_gtk.c:737
 msgid "Values"
-msgstr "Valores"
+msgstr "Hodnoty"
 
 #: src/archiver_gtk.c:746
 msgid "Archive"
-msgstr "Archivo"
+msgstr "Archív"
 
 #: src/archiver_gtk.c:752
 msgid "Archive format"
-msgstr "Formato de archivo"
+msgstr "Formát archívu"
 
 #: src/archiver_gtk.c:759
 msgid "Compression method"
-msgstr "Método de compresión"
+msgstr "Kompresná metóda"
 
 #: src/archiver_gtk.c:767
 msgid "Number of files"
-msgstr "Nombre de fichero"
+msgstr "Počet súborov"
 
 #: src/archiver_gtk.c:775
 msgid "Archive Size"
-msgstr "Tamaño del archivo"
+msgstr "Veľkosť archívu"
 
 #: src/archiver_gtk.c:783
 msgid "Folder Size"
-msgstr "Tamaño de la carpeta"
+msgstr "Veľkosť zložky"
 
 #: src/archiver_gtk.c:792
 msgid "Compression level"
-msgstr "Nivel de compresión"
+msgstr "Úroveň kompresie"
 
 #: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "Yes"
-msgstr "Sí"
+msgstr "Áno"
 
 #: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "No"
-msgstr "No"
+msgstr "Nie"
 
 #: src/archiver_gtk.c:800
 msgid "MD5 checksum"
-msgstr "Suma de control MD5"
+msgstr "Kontrolný súčet MD5"
 
 #: src/archiver_gtk.c:808
 msgid "Descriptive names"
-msgstr "Nombres descriptivos"
+msgstr "Popisné mená"
 
 #: src/archiver_gtk.c:816
 msgid "Delete selected files"
-msgstr "Borrar los ficheros seleccionados"
+msgstr "Zmazať zvolené súbory"
 
 #: src/archiver_gtk.c:825 src/archiver_gtk.c:1208
 msgid "Select mails before"
-msgstr "Seleccionar correos antes de"
+msgstr "Najprv vyberať správy"
 
 #: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
 msgstr ""
-"Seleccione un nombre para el archivo (el sufijo debería reflejar el tipo "
-"como .tgz)"
+"Vyberte meno súboru archívu [prípona musí zodpovedať archívu, napr. .tgz]"
 
 #: src/archiver_gtk.c:949
 #, c-format
 msgid "%ld of %ld"
-msgstr "%ld de %ld"
+msgstr "%ld z %ld"
 
 #: src/archiver_gtk.c:989
 msgid "Create Archive"
-msgstr "Crear un archivo"
+msgstr "Vytvoriť archív"
 
 #: src/archiver_gtk.c:1004
 msgid "Enter Archiver arguments"
-msgstr "Parámetros de archivado"
+msgstr "zadajte argumenty archivátora"
 
 #: src/archiver_gtk.c:1017
 msgid "Folder to archive"
-msgstr "Carpeta a archivar"
+msgstr "Zložka pre archiváciu"
 
 #: src/archiver_gtk.c:1024
 msgid "Folder which is the root of the archive"
-msgstr "Carpeta que es la raíz del archivo"
+msgstr "Koreňová zložka pre archív"
 
 #: src/archiver_gtk.c:1026
 msgid "_Browse"
-msgstr "_Explorar"
+msgstr "_Prechádzať"
 
 #: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
-msgstr ""
-"Pulse este botón para seleccionar la carpeta que será la raíz del archivo"
+msgstr "Týmto tlačidlom vyberiete zložku, ktorá je koreňom archívu"
 
 #: src/archiver_gtk.c:1035
 msgid "Name for archive"
-msgstr "Nombre del archivo"
+msgstr "Meno archívu"
 
 #: src/archiver_gtk.c:1041
 msgid "Archive location and name"
-msgstr "Ubicación y nombre del archivo"
+msgstr "Umiestnenie a meno archívu"
 
 #: src/archiver_gtk.c:1043 src/archiver_prefs.c:196
 msgid "_Select"
-msgstr "_Seleccionar"
+msgstr "Zv_oliť"
 
 #: src/archiver_gtk.c:1046
 msgid "Click this button to select a name and location for the archive"
-msgstr ""
-"Pulse este botón para seleccionar un nombre y ubicación para el archivo"
+msgstr "Týmto tlačidlom vyberiete zložku meno a umiestnenie archívu"
 
 #: src/archiver_gtk.c:1048
 msgid "Choose compression"
-msgstr "Elija la compresión"
+msgstr "Zvoľte kompresiu"
 
 #: src/archiver_gtk.c:1061
 msgid "Choose this option to use ZIP compression for the archive"
-msgstr "Utilizar compresión ZIP en el archivo"
+msgstr "Zvoľte túto možnosť pre kompresiu archívu vo formáte ZIP"
 
 #: src/archiver_gtk.c:1068
 msgid "Choose this option to use BZIP2 compression for the archive"
-msgstr "Utilizar compresión BZIP2 en el archivo"
+msgstr "Zvoľte túto možnosť pre kompresiu archívu vo formáte BZIP2"
 
 #: src/archiver_gtk.c:1076
 msgid "Choose this to use Compress compression for your archive"
-msgstr "Utilizar compresión Compress en el archivo"
+msgstr "Zvoľte túto možnosť pre kompresiu archívu vo formáte Compress"
 
 #: src/archiver_gtk.c:1080
 msgid "_None"
-msgstr "_Ninguna"
+msgstr "Žiad_na"
 
 #: src/archiver_gtk.c:1084
 msgid "Choose this option to disable compression for the archive"
-msgstr "No utilizar compresión en el archivo"
+msgstr "Zvoľte túto možnosť pre vypnutie kompresie archívu"
 
 #: src/archiver_gtk.c:1106
 msgid "Choose format"
-msgstr "Elegir formato"
+msgstr "Vyberte formát"
 
 #: src/archiver_gtk.c:1119
 msgid "Choose this option to use TAR as format for the archive"
-msgstr "Utilizar el formato TAR en el archivo"
+msgstr "Choose this option to use TAR as format for the archive"
 
 #: src/archiver_gtk.c:1126
 msgid "Choose this to use SHAR as format for the archive"
-msgstr "Utilizar el formato SHAR en el archivo"
+msgstr "Zvoľte túto možnosť pre kompresiu archívu vo formáte SHAR"
 
 #: src/archiver_gtk.c:1133
 msgid "Choose this option to use CPIO as format for the archive"
-msgstr "Utilizar el formato CPIO en el archivo"
+msgstr "Zvoľte túto možnosť pre kompresiu archívu vo formáte CPIO"
 
 #: src/archiver_gtk.c:1140
 msgid "Choose this option to use PAX as format for the archive"
-msgstr "Utilizar el formato PAX en el archivo"
+msgstr "Zvoľte túto možnosť pre kompresiu archívu vo formáte PAX"
 
 #: src/archiver_gtk.c:1160
 msgid "Miscellaneous options"
-msgstr "Opciones adicionales"
+msgstr "Rôzne voľby"
 
 #: src/archiver_gtk.c:1169
 msgid "_Recursive"
-msgstr "_Recursivo"
+msgstr "_Rekurzívne"
 
 #: src/archiver_gtk.c:1173
 msgid "Choose this option to include subfolders in the archive"
-msgstr "Incluir las subcarpetas en el archivo"
+msgstr "Zvoľte túto možnosť pre zahrnutie podzložiek do archívu"
 
 #: src/archiver_gtk.c:1175
 msgid "_MD5sum"
-msgstr "Suma de control _MD5"
+msgstr "_MD5sum"
 
 #: src/archiver_gtk.c:1179
 msgid ""
@@ -342,13 +335,14 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archive"
 msgstr ""
-"Añadir una suma de control MD5 para cada fichero en el archivo.\n"
-"Cuidado: esta opción incrementa dramáticamente el tiempo que se tardará\n"
-"en crear el archivo"
+"Zvoľte túto možnosť pre pridanie kontrolného súčtu MD5 pre každý súbor v "
+"archíve.\n"
+"Používajte s rozvahou, pretože dramaticky zvyšuje čas potrebný \n"
+"na vytvorenie archívu"
 
 #: src/archiver_gtk.c:1183
 msgid "R_ename"
-msgstr "R_enombrar"
+msgstr "Pr_emenovať"
 
 #: src/archiver_gtk.c:1187 src/archiver_prefs.c:331
 msgid ""
@@ -356,116 +350,115 @@ msgid ""
 "The naming scheme: date_from@to@subject.\n"
 "Names will be truncated to max 96 characters"
 msgstr ""
-"Utilizar nombres descriptivos para cada fichero en el archivo.\n"
-"El esquema de nombrado es: fecha_desde@para@asunto.\n"
-"Los nombres se truncarán a un máximo de 96 caracteres."
+"Zvoľte túto možnosť pre použitie popisných mien pre každý súbor v archíve.\n"
+"Súbory budú pomenované v tvare: dátum_od@komu@predmet.\n"
+"Mená budú skrátené na maximálne 96 znakov"
 
 #: src/archiver_gtk.c:1191
 msgid "_Delete"
-msgstr "_Borrar"
+msgstr "_Zmazať"
 
 #: src/archiver_gtk.c:1195
 msgid ""
 "Choose this option to delete mails after archiving\n"
 "At this point only handles IMAP4, Local mbox and POP3"
 msgstr ""
-"Borrar los correos después del archivado.\n"
-"Actualmente sólo soporta IMAP4, mbox local y POP3"
+"Zvoľte túto možnosť pre zmazanie správ po ich archivácii\n"
+"Momentálne pracuje len pre IMAP4, lokálny mbox a POP3"
 
 #: src/archiver_gtk.c:1199
 msgid "Selection options"
-msgstr "Opciones de selección"
+msgstr "Voľby výberu"
 
 #: src/archiver_gtk.c:1215
 msgid ""
 "Select emails before a certain date\n"
 "Date must comply to ISO-8601 [YYYY-MM-DD]"
 msgstr ""
-"Seleccionar correos antes de una fecha dada\n"
-"El formato de fecha debe ser ISO-8601 (AAAA-MM-DD)"
+"Vybrať emaily pre daným dátumom\n"
+"Dátum musí vyhovovať ISO-8601 [RRRR-MM-DD]"
 
 #: src/archiver_prefs.c:89
 msgid "Plugins"
-msgstr "Módulos"
+msgstr "Zásuvné moduly"
 
 #: src/archiver_prefs.c:125
 msgid "Select destination folder"
-msgstr "Seleccione un directorio de destino"
+msgstr "Zvoľte cieľovú zložku"
 
 #: src/archiver_prefs.c:131
 #, c-format
 msgid "'%s' is not a directory."
-msgstr "'%s' no es un directorio."
+msgstr "'%s' nie je adresár."
 
 #: src/archiver_prefs.c:188
 msgid "Default save folder"
-msgstr "Directorio de destino por defecto"
+msgstr "Predvolený adresár pre uloženie"
 
 #: src/archiver_prefs.c:200
 msgid "Click this button to select the default location for saving archives"
 msgstr ""
-"Pulse este botón para seleccionar la ubicación predeterminada para guardar "
-"los archivos"
+"Týmto tlačidlom vyberiete predvolené umiestnenie pre ukladanie archívov"
 
 #: src/archiver_prefs.c:209
 msgid "Default compression"
-msgstr "Compresión por defecto"
+msgstr "Predvolená kompresia"
 
 #: src/archiver_prefs.c:221
 msgid "Choose this option to use ZIP compression by default"
-msgstr "Utilizar la compresión ZIP por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie ZIP"
 
 #: src/archiver_prefs.c:228
 msgid "Choose this option to use BZIP2 compression by default"
-msgstr "Utilizar la compresión BZIP2 por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie BZIP2"
 
 #: src/archiver_prefs.c:236
 msgid "Choose this option to use COMPRESS compression by default"
-msgstr "Utilizar la compresión COMPRESS por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie COMPRESS"
 
 #: src/archiver_prefs.c:239
 msgid "None"
-msgstr "Ninguna"
+msgstr "Žiadna"
 
 #: src/archiver_prefs.c:244
 msgid "Choose this option to disable compression by default"
-msgstr "No comprimir el archivo por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené zakázanie kompresie."
 
 #: src/archiver_prefs.c:263
 msgid "Default format"
-msgstr "Formato por defecto"
+msgstr "Predvolený formát"
 
 #: src/archiver_prefs.c:275
 msgid "Choose this option to use the TAR format by default"
-msgstr "Utilizar el formato TAR por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie TAR"
 
 #: src/archiver_prefs.c:282
 msgid "Choose this option to use the SHAR format by default"
-msgstr "Utilizar el formato SHAR por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie SHAR"
 
 #: src/archiver_prefs.c:289
 msgid "Choose this option to use the CPIO format by default"
-msgstr "Utilizar el formato CPIO por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie CPIO"
 
 #: src/archiver_prefs.c:296
 msgid "Choose this option to use the PAX format by default"
-msgstr "Utilizar el formato PAX por defecto"
+msgstr "Zvoľte túto možnosť pre predvolené použitie kompresie PAX"
 
 #: src/archiver_prefs.c:313
 msgid "Default miscellaneous options"
-msgstr "Opciones adicionales por defecto"
+msgstr "Rôzne predvolené možnosti"
 
 #: src/archiver_prefs.c:320
 msgid "Recursive"
-msgstr "Recursivo"
+msgstr "Rekurzívne"
 
 #: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
-msgstr "Incluir por defecto las subcarpetas en los archivos"
+msgstr "Zvoľte túto možnosť pre predvolené zahrnutie podzložiek do archívu"
 
 #: src/archiver_prefs.c:323
 msgid "MD5sum"
-msgstr "Suma de control MD5"
+msgstr "MD5sum"
 
 #: src/archiver_prefs.c:325
 msgid ""
@@ -474,19 +467,19 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Incluir por defecto las sumas de control MD5 para cada fichero de los "
-"archivos.\n"
-"Cuidado: esto incrementará dramáticamente el tiempo necesario\n"
-"para crear los archivos"
+"Zvoľte túto možnosť pre pridanie kontrolného súčtu MD5 pre každý súbor v "
+"archíve.\n"
+"Používajte s rozvahou, pretože dramaticky zvyšuje čas potrebný \n"
+"na vytvorenie archívu"
 
 #: src/archiver_prefs.c:329
 msgid "Rename"
-msgstr "Renombrar"
+msgstr "Premenovať"
 
 #: src/archiver_prefs.c:335
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Zmazať"
 
 #: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
-msgstr "Borrar los correos después de efectuar el archivado"
+msgstr "Zvoľte túto možnosť pre zmazanie správ po archivácii"
