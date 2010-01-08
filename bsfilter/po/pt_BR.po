@@ -1,20 +1,21 @@
-# Finnish translations for bsfilter_plugin package.
-# Copyright (C) 2009 Ricardo Mones
-# This file is distributed under the same license as the bsfilter_plugin package.
-#  <flammie@iki.fi>, 2009.
+# Copyright (C) YEAR Ricardo Mones
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Frederico Gonçalves Guimarães, 2010.
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: bsfilter_plugin\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2010-01-02 22:10+0200\n"
-"PO-Revision-Date: 2010-01-02 22:58+0200\n"
-"Last-Translator:  <flammie@iki.fi>\n"
-"Language-Team: Finnish\n"
+"POT-Creation-Date: 2009-10-12 17:26+0200\n"
+"PO-Revision-Date: 2010-01-05 21:38-0200\n"
+"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/bsfilter.c:78 src/bsfilter_gtk.c:393
 msgid "Bsfilter"
@@ -23,15 +24,15 @@ msgstr "Bsfilter"
 #: src/bsfilter.c:103 src/bsfilter_gtk.c:193 src/bsfilter_gtk.c:258
 #: src/bsfilter_gtk.c:318
 msgid "Any"
-msgstr "Mikä tahansa"
+msgstr "Qualquer"
 
 #: src/bsfilter.c:295
 msgid "Bsfilter: fetching body..."
-msgstr "Bsfilter: haetaan sisältöosiota..."
+msgstr "Bsfilter: obtendo o corpo..."
 
 #: src/bsfilter.c:304
 msgid "Bsfilter: filtering message..."
-msgstr "Bsfilter: suodatetaan viestiä..."
+msgstr "Bsfilter: filtrando a mensagem..."
 
 #: src/bsfilter.c:389
 msgid ""
@@ -40,27 +41,29 @@ msgid ""
 "Use \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\" to train Bsfilter with "
 "a few hundred spam and ham messages."
 msgstr ""
-"Bsfilter ei osannut suodattaa viestiä. Tämä johtunee siitä ettei siinä ole "
-"opittuja asioita.\n"
-"Käytä toimintoja Merkitse→Merkitse roskapostiksi ja Merkitse→Merkitse ei-"
-"roskapostiksi muutamalle sadalle roskapostille ja oikealle viestille "
-"Treenataksesi Bsfilteriä."
+"O plugin Bsfilter não conseguiu filtrar a mensagem. A causa provável do erro "
+"é que ele ainda não aprendeu com nenhuma mensagem.\n"
+"Use \"/Marcar/Marcar como spam\" e \"/Marcar/Marcar como não-spam\" para "
+"treinar o Bsfilter com algumas centenas de spams e não-spams."
 
 #: src/bsfilter.c:396
 #, c-format
 msgid ""
 "The Bsfilter plugin couldn't filter a message. The command `%s` couldn't be "
 "run."
-msgstr "Bsfilter ei voinut suodattaa viestiä. Komentoa %s ei voitu suorittaa."
+msgstr ""
+"O plugin do Bsfilter não conseguiu filtrar a mensagem. Não foi possível "
+"executar "
+"o comando `%s`."
 
 #: src/bsfilter.c:497
 msgid "Bsfilter: learning from message..."
-msgstr "Bsfilter: opitaan viestistä..."
+msgstr "Bsfilter: aprendendo com a mensagem..."
 
 #: src/bsfilter.c:507
 #, c-format
 msgid "Learning failed; `%s` returned with status %d."
-msgstr "Oppiminen ei onnistunut: %s palautti arvon %d."
+msgstr "Falha no aprendizado; `%s` retornou o status %d."
 
 #: src/bsfilter.c:641
 msgid ""
@@ -77,105 +80,110 @@ msgid ""
 "\n"
 "Options can be found in /Configuration/Preferences/Plugins/Bsfilter"
 msgstr ""
-"Tällä liitännäiselllä voi tarkistaa kaikki viestit IMAP-, paikallisiin tai "
-"POP-tileihin roskapostin varalta Bsfilterin avulla. Tarvitset asennetun "
-"Bsfilterin käyttääksesi.\n"
+"Este plugin pode procurar por spams em todas as mensagens recebidas em "
+"contas IMAP, LOCAL ou POP, usando o Bsfilter. Você precisa ter o Bsfilter "
+"instalado na sua máquina.\n"
 "\n"
-"Ennen kuin Bsfilter tunnistaa roskapostia, sitä pitää opettaa merkitsemällä "
-"joitain satoja viestejä valikoista Merkitse→Merkitse roskapostiksi ja "
-"Merkitse→Merkitse ei-roskapostiksi.\n"
+"Antes do Bsfilter ser capaz de reconhecer mensagens como spam, você deve "
+"treiná-lo, marcando algumas centenas de spams e mensagens legítimas, usando "
+"as opções \"/Marcar/Marcar como spam\" e \"/Marcar/Marcar como não-spam\".\n"
 "\n"
-"Kun viesti tunnistetaan roskapostiksi se tallennetaan erilliseen kansioon\n"
+"Quando uma mensagem é identificada como spam, ela pode ser excluída ou "
+"salva em uma pasta especialmente designada.\n"
 "\n"
-"Asetukset löytyvät valikosta Asetukset→Asetukset→Liitännäiset→Bsfilter"
+"As opções podem ser encontradas em "
+"/Configuração/Preferências/Plugins/Bsfilter."
 
 #: src/bsfilter.c:674
 msgid "Spam detection"
-msgstr "Roskapostin tunnistus"
+msgstr "Detecção de spam"
 
 #: src/bsfilter.c:675
 msgid "Spam learning"
-msgstr "Roskapostin opinta"
+msgstr "Aprendizado de spam"
 
 #: src/bsfilter_gtk.c:139
 msgid "Process messages on receiving"
-msgstr "Käsittele viestit saapuessa"
+msgstr "Processar as mensagens no recebimento"
 
 #: src/bsfilter_gtk.c:147
 msgid "Maximum size"
-msgstr "Enimmäiskoko"
+msgstr "Tamanho máximo"
 
 #: src/bsfilter_gtk.c:156
 msgid "Messages larger than this will not be checked"
-msgstr "Viesti jotka ovat tätä suurempia jätetään tarkastamatta"
+msgstr "Mensagens maiores que isso não serão verificadas"
 
 #: src/bsfilter_gtk.c:159
 msgid "KB"
-msgstr "Kt"
+msgstr "Kb"
 
 #: src/bsfilter_gtk.c:167
 msgid "Save spam in"
-msgstr "Tallenna roskapostit kohteeseen"
+msgstr "Salvar spam em"
 
 #: src/bsfilter_gtk.c:175
 msgid ""
 "Folder for storing identified spam. Leave empty to use the trash folder."
 msgstr ""
-"Kansio jossa tunnistettu roskaposti säilötään. Tyhjä arvo tarkoittaa "
-"roskakoria."
+"Pasta para armazenar os spams identificados. Deixe em branco para "
+"enviar para a Lixeira."
 
 #: src/bsfilter_gtk.c:177
 msgid "_Browse"
-msgstr "_Selaa"
+msgstr "_Navegar"
 
 #: src/bsfilter_gtk.c:181
 msgid "Click this button to select a folder for storing spam"
-msgstr "Paina tätä nappia valitaksesi roskapostin säilytyskansio"
+msgstr "Clique neste botão para selecionar a pasta para armazenar spam"
 
 #: src/bsfilter_gtk.c:187
 msgid "Whitelist senders found in address book/folder"
-msgstr "Osoitekirja on whitelistillä"
+msgstr "Colocar remetentes do seu Livro de Endereços na lista branca"
 
 #: src/bsfilter_gtk.c:191
 msgid ""
 "Messages coming from your address book contacts will be received in the "
 "normal folder even if detected as spam"
 msgstr ""
-"Viestit jotka tulevat osoitekirjan osoitteesta tallennetaan tavan kansioihin "
-"vaikka ne olisivatkin roskapostia"
+"Mensagens oriundas de contatos do seu livro de endereços serão recebidas "
+"na pasta normal, mesmo se forem detectadas como spam"
 
 #: src/bsfilter_gtk.c:197
 msgid "Select ..."
-msgstr "Valitse ..."
+msgstr "Selecionar..."
 
 #: src/bsfilter_gtk.c:201
 msgid "Click this button to select a book or folder in the address book"
-msgstr "Paina tätä nappia valitaksesi osoitekirjan tai kansion"
+msgstr ""
+"Clique neste botão para selecionar um livro ou pasta no Livro de Endereços"
 
 #: src/bsfilter_gtk.c:203
 msgid "Learn whitelisted emails as ham"
-msgstr "Opi whitelistiltä tulevat viestit ei-roskapostina"
+msgstr "Interprete e-mails da lista branca como não-spam"
 
 #: src/bsfilter_gtk.c:205
 msgid ""
 "If Bsfilter thought an email was spam or unsure, but it was whitelisted, "
 "learn it as ham."
 msgstr ""
-"Jos Bsfilter tunnistaa whitelistiltä tulevan viedtin roskapostiksi tai ei "
-"tunnista sitä, opi se ei-roskapostina"
+"Se o Bsfilter identificar um e-mail como spam ou incerto, mas ele estiver "
+"na lista branca, será interpretado como não-spam."
 
 #: src/bsfilter_gtk.c:214
 msgid "Bsfilter call"
-msgstr "Bsfilterin komento"
+msgstr "Comando do Bsfilter"
 
 #: src/bsfilter_gtk.c:222
 msgid "Path to bsfilter executable"
-msgstr "Polku bsfilter-ohjelmaan"
+msgstr "Caminho parra o executável do Bsfilter"
 
 #: src/bsfilter_gtk.c:228
 msgid "Mark spam as read"
-msgstr "Merkitse roskaposti luetuksi"
+msgstr "Marcar o spam como lido"
 
 #: src/bsfilter_gtk.c:392
 msgid "Plugins"
-msgstr "Liitännäiset"
+msgstr "Plugins"
+
+

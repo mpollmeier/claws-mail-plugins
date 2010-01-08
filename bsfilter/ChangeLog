@@ -1,3 +1,15 @@
+2010-01-08 [paul]	1.0.2cvs1
+
+	* configure.ac
+	* po/ca.po
+	* po/nl.po
+	* po/pt_BR.po
+	* po/sk.po
+		added by Miquel Oliete, Marcel Pol, Frederico Goncalves Guimaraes,
+		and Slavko
+	* po/fi.po
+		updated by Tommi Pirinen
+
 2009-10-09 [paul]	1.0.2
 
 	1.0.2 released

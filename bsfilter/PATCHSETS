@@ -1,3 +1,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 Makefile.am;  ) > 1.0.0cvs1.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 configure.ac;  diff -u /dev/null po/es.po;  diff -u /dev/null po/fi.po;  diff -u /dev/null po/hu.po;  diff -u /dev/null po/id.po;  diff -u /dev/null po/it.po;  diff -u /dev/null po/ja.po;  diff -u /dev/null po/ru.po;  ) > 1.0.0cvs2.patchset
 ( diff -u /dev/null po/cs.po;  ) > 1.0.1cvs1.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 configure.ac;  diff -u /dev/null po/ca.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  diff -u /dev/null po/nl.po;  diff -u /dev/null po/pt_BR.po;  diff -u /dev/null po/sk.po;  ) > 1.0.2cvs1.patchset
