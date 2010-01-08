@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2008-09-26 08:47+0100\n"
-"PO-Revision-Date: 2008-02-07 23:54+0001\n"
+"POT-Creation-Date: 2010-01-01 18:57+0000\n"
+"PO-Revision-Date: 2010-01-04 18:57+0001\n"
 "Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
 "MIME-Version: 1.0\n"
@@ -110,10 +110,10 @@ msgstr "Intermitent quan linteracció amb l'usuari és requerida"
 msgid "Plugins"
 msgstr "Mòduls"
 
-#: src/acpi_notifier.c:862
+#: src/acpi_notifier.c:866
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Aquest mòdul controla diferents diodes de correu ACPI."
 
-#: src/acpi_notifier.c:883
+#: src/acpi_notifier.c:887
 msgid "Laptop LED"
 msgstr "Diode de portàtil"

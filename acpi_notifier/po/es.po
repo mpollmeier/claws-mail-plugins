@@ -1,5 +1,5 @@
 # Spanish translation for acpi_notifier package.
-# Copyright (C) 2005-2009 Ricardo Mones
+# Copyright (C) 2005-2010 Ricardo Mones
 # This file is distributed under the same license as the acpi_notifier package.
 # Ricardo Mones <ricardo@mones.org>, 2005.
 #
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2009-06-26 18:28+0100\n"
-"PO-Revision-Date: 2009-06-30 18:57+0100\n"
+"POT-Creation-Date: 2010-01-04 11:55+0100\n"
+"PO-Revision-Date: 2010-01-04 19:28+0100\n"
 "Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
 "Language-Team: Ricardo Mones <ricardo@mones.org>\n"
 "MIME-Version: 1.0\n"
