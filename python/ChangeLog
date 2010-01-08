@@ -1,3 +1,19 @@
+2010-01-08 [paul]	0.2cvs21
+
+	* configure.ac
+	* po/ca.po
+	* po/cs.po
+	* po/fi.po
+	* po/hu.po
+	* po/id.po
+	* po/ja.po
+	* po/nl.po
+	* po/pt_BR.po
+	* po/sk.po
+		added by Miquel Oliete, David Vachulka, Tommi Pirinen, Pader Rezso,
+		MSulchan Darmawan, kazken3, Marcel Pol, Frederico Goncalves Guimaraes,
+		and Slavko
+
 2010-01-05 [holger]	0.2cvs20
 
 	* src/python_plugin.c

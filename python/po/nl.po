@@ -1,0 +1,52 @@
+# Dutch translations for python package
+# Nederlandse vertalingen voor het pakket python.
+# This file is distributed under the same license as the python package.
+# Marcel Pol <mpol@gmx.net>, 2009-2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail Geolocation plugin\n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2009-12-31 17:39+0100\n"
+"PO-Revision-Date: 2009-12-31 17:23+0100\n"
+"Last-Translator: Macel Pol <mpol@gmx.net\n"
+"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#: src/python_plugin.c:319 src/python_plugin.c:437
+msgid "Python scripts"
+msgstr "Python scripts"
+
+#: src/python_plugin.c:432
+msgid "Show Python console..."
+msgstr "Geef Python console weer..."
+
+#: src/python_plugin.c:438
+msgid "Refresh"
+msgstr "Verversen"
+
+#: src/python_plugin.c:503 src/python_plugin.c:554
+msgid "Python"
+msgstr "Python"
+
+#: src/python_plugin.c:509
+msgid "Failed to register compose create hook int the Python plugin"
+msgstr "Registreren van compose create haak in de Python plugin mislukt"
+
+#: src/python_plugin.c:559
+msgid ""
+"This plugin provides Python integration features.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome."
+msgstr ""
+"Deze plugin biedt Python integratie mogelijkheden.\n"
+"\n"
+"Feedback naar <berndth@gmx.de> is welkom."
+
+#: src/python_plugin.c:581
+msgid "Python integration"
+msgstr "Python integratie"
+

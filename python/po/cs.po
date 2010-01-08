@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2010-01-01 19:05+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(((n%100>=10 && n%100<=14) || (n%10>5)) ? 2 : (n%10>=2 && n%10<=4) ? 1 : 0);\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#: src/python_plugin.c:319
+#: src/python_plugin.c:437
+msgid "Python scripts"
+msgstr "Skripty v Pythonu"
+
+#: src/python_plugin.c:432
+msgid "Show Python console..."
+msgstr "Zobrazit konzoli Pythonu..."
+
+#: src/python_plugin.c:438
+msgid "Refresh"
+msgstr "Obnovit"
+
+#: src/python_plugin.c:503
+#: src/python_plugin.c:554
+msgid "Python"
+msgstr "Python"
+
+#: src/python_plugin.c:509
+msgid "Failed to register compose create hook int the Python plugin"
+msgstr "Selhala registrace vytvoření v zásuvném modulu Python"
+
+#: src/python_plugin.c:559
+msgid ""
+"This plugin provides Python integration features.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome."
+msgstr ""
+"Zásuvný modul umožňuje integraci Pythonu.\n"
+"\n"
+"Zpětná vazba k <berndth@gmx.de> je vítána."
+
+#: src/python_plugin.c:581
+msgid "Python integration"
+msgstr "Integrace Pythonu"
+

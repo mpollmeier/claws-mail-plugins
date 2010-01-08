@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2010-01-01 19:05+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
+"Language-Team: Japanese <kazken3@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/python_plugin.c:319
+#: src/python_plugin.c:437
+msgid "Python scripts"
+msgstr "Pythonスクリプト"
+
+#: src/python_plugin.c:432
+msgid "Show Python console..."
+msgstr "Pythonコンソールを表示..."
+
+#: src/python_plugin.c:438
+msgid "Refresh"
+msgstr "リフレッシュ"
+
+#: src/python_plugin.c:503
+#: src/python_plugin.c:554
+msgid "Python"
+msgstr "Python"
+
+#: src/python_plugin.c:509
+msgid "Failed to register compose create hook int the Python plugin"
+msgstr "Pythonプラグインにあるcompose create hookの登録に失敗しました"
+
+#: src/python_plugin.c:559
+msgid ""
+"This plugin provides Python integration features.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome."
+msgstr ""
+"このプラグインはPythonとの統合機能を提供します。\n"
+"\n"
+"<berndth@gmx.de>へのフィードバックを歓迎します。"
+
+#: src/python_plugin.c:581
+msgid "Python integration"
+msgstr "Pythonとの統合"
+
