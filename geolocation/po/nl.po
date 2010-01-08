@@ -1,0 +1,80 @@
+# Dutch translations for geolocation package
+# Nederlandse vertalingen voor het pakket geolocation.
+# Copyright (C) 2009 Holger Berndt 
+# This file is distributed under the same license as the geolocation package.
+# Marcel Pol <mpol@gmx.net>, 2009-2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail Geolocation plugin\n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2009-12-31 17:23+0100\n"
+"PO-Revision-Date: 2009-12-31 17:23+0100\n"
+"Last-Translator: Macel Pol <mpol@gmx.net\n"
+"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#. TRANSLATORS: The two numbers are latitude and longitude coordinates
+#: src/geolocation_plugin.c:314
+#, c-format
+msgid "Found location: (%.2f,%.2f)"
+msgstr "Gevonden locatie: (%.2f, %.2f)"
+
+#. TRANSLATORS: The IP address is appended to the string
+#: src/geolocation_plugin.c:331
+msgid "Could not resolve location of IP address "
+msgstr "Kon lokatie van IP-adres niet oplossen "
+
+#: src/geolocation_plugin.c:470
+msgid "Try to locate sender"
+msgstr "Probeer afzender te lokaliseren"
+
+#: src/geolocation_plugin.c:495 src/geolocation_plugin.c:567
+msgid "GeoLocation"
+msgstr "Geolokatie"
+
+#: src/geolocation_plugin.c:500 src/geolocation_plugin.c:507
+#, c-format
+msgid "Could not create regular expression: %s\n"
+msgstr "Kon reguliere expressie niet aanmaken: %s\n"
+
+#: src/geolocation_plugin.c:515
+msgid "Failed to register messageview_show hook in the GeoLocation plugin"
+msgstr "Registreren van messageview_show haak in de GeoLokatie plugin mislukt"
+
+#: src/geolocation_plugin.c:572
+msgid ""
+"This plugin provides GeoLocation functionality for Claws Mail.\n"
+"\n"
+"Warning: It is technically impossible to derive the geographic location of "
+"senders from their E-Mails with any amount of certainty. The results "
+"presented by this plugin are only rough estimates. In particular, mailing "
+"list managers often strip sender information from the mails, so mails from "
+"mailing lists may be assigned to the location of the mailing list server "
+"instead of the mail sender.\n"
+"When in doubt, don't trust the results of this plugin, and don't rely on "
+"this information to divorce your spouse.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital "
+"quarrels)."
+msgstr ""
+" Deze plugin biedt GeoLokatie functionaliteit aan Claws Mail.\n"
+"\n"
+"Waarschuwing: Het is technisch onmogelijk om de geografische lokatie van "
+"afzenders met enige zekerheid vast te stellen. Het resultaat geleverd door "
+"deze plugin is een ruwe schatting. Mailinglijst managers in het bijzonder "
+"verwijderen vaak informatie van de afzender van de e-mails, wat ervoor kan "
+"zorgen dat deze e-mails weergegeven worden als van de lokatie van de "
+"mailinglijst server ipv. de afzender.\n"
+"In geval van twijfel, vertrouw niet op de resultaten van deze plugin, en "
+"vertrouw niet op deze informatie om van je vrouw te scheiden.\n"
+"\n"
+"Feedback naar <berndth@gmx.de> is welkom (maar alleen als het niet over "
+"echtscheidingen gaat)."
+
+#: src/geolocation_plugin.c:605
+msgid "GeoLocation integration"
+msgstr "GeoLokatie integratie"

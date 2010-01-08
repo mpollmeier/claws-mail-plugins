@@ -1,0 +1,86 @@
+# Copyright (C) YEAR Holger Berndt
+# This file is distributed under the same license as the PACKAGE package.
+# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2010-01-01 19:02+0000\n"
+"PO-Revision-Date: 2010-01-05 00:17+0100\n"
+"Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. TRANSLATORS: The two numbers are latitude and longitude coordinates
+#: src/geolocation_plugin.c:314
+#, c-format
+msgid "Found location: (%.2f,%.2f)"
+msgstr "Localització trobada: (%.2f, %.2f)"
+
+#. TRANSLATORS: The IP address is appended to the string
+#: src/geolocation_plugin.c:331
+msgid "Could not resolve location of IP address "
+msgstr "No s'ha pogut resoldre la localització de la adreça IP"
+
+#: src/geolocation_plugin.c:470
+msgid "Try to locate sender"
+msgstr "Intentant localitzar l'emisor"
+
+#: src/geolocation_plugin.c:495 src/geolocation_plugin.c:567
+msgid "GeoLocation"
+msgstr "GeoLocalització"
+
+#: src/geolocation_plugin.c:500 src/geolocation_plugin.c:507
+#, c-format
+msgid "Could not create regular expression: %s\n"
+msgstr "No s'ha pogut crear l'expressió regular: %s\n"
+
+#: src/geolocation_plugin.c:515
+msgid "Failed to register messageview_show hook in the GeoLocation plugin"
+msgstr ""
+"Error al registrar l'enllaç de mostrar_vista del missatge en el mòdul de "
+"GeoLocalització"
+
+#: src/geolocation_plugin.c:572
+msgid ""
+"This plugin provides GeoLocation functionality for Claws Mail.\n"
+"\n"
+"Warning: It is technically impossible to derive the geographic location of "
+"senders from their E-Mails with any amount of certainty. The results "
+"presented by this plugin are only rough estimates. In particular, mailing "
+"list managers often strip sender information from the mails, so mails from "
+"mailing lists may be assigned to the location of the mailing list server "
+"instead of the mail sender.\n"
+"When in doubt, don't trust the results of this plugin, and don't rely on "
+"this information to divorce your spouse.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital "
+"quarrels)."
+msgstr ""
+"Aquest mòdul proveeix de la funcionalitat de GeoLocalització per Claws Mail."
+"\n"
+"\n"
+"Avís: És tècnicament impossible derivar la localització geogràfica dels "
+"emisors "
+"desde els seus correus amb una certa fiabilitat. Els resultats mostrats per "
+"aquest mòdul són només aproximacions. En particular, els administradors "
+"de llistes de correu recullen informació de l'emisor desde els correus, per "
+"tant els "
+"missatges de les llistes de correu poden ser assignats a la localització "
+"del servidor de "
+"la llista de correu enlloc de la de l'emisor.\n"
+"Quan dubteu, no us en fieu dels resultats d'aquests mòduls i no confieu en "
+"aquesta "
+"informació per divorciar-vos de la vostra esposa.\n"
+"\n"
+"Impressions a <berndth@gmx.de> són benvingudes (però només si no son sobre "
+"baralles maritals)."
+
+#: src/geolocation_plugin.c:605
+msgid "GeoLocation integration"
+msgstr "Integració de GeoLocalització"
+

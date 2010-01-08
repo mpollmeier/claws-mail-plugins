@@ -1,0 +1,68 @@
+# Indonesian translation of GeoLocation plugin
+# Copyright (C) 2009 Holger Berndt
+# This file is distributed under the same license as the GeoLocation package.
+# MSulchan Darmawan <bleketux@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GeoLocation Plugins\n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2010-01-01 19:02+0000\n"
+"PO-Revision-Date: 2010-01-06 22:35+0700\n"
+"Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
+"Language-Team: <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#. TRANSLATORS: The two numbers are latitude and longitude coordinates
+#: src/geolocation_plugin.c:314
+#, c-format
+msgid "Found location: (%.2f,%.2f)"
+msgstr "Lokasi ditemukan: (%.2f,%.2f)"
+
+#. TRANSLATORS: The IP address is appended to the string
+#: src/geolocation_plugin.c:331
+msgid "Could not resolve location of IP address "
+msgstr "Tidak dapat menemukan lokasi dari alamat IP"
+
+#: src/geolocation_plugin.c:470
+msgid "Try to locate sender"
+msgstr "Mencoba menentukan lokasi pengirim"
+
+#: src/geolocation_plugin.c:495
+#: src/geolocation_plugin.c:567
+msgid "GeoLocation"
+msgstr "GeoLokasi"
+
+#: src/geolocation_plugin.c:500
+#: src/geolocation_plugin.c:507
+#, c-format
+msgid "Could not create regular expression: %s\n"
+msgstr "Tidak dapat membuat ekpresi regular: %s\n"
+
+#: src/geolocation_plugin.c:515
+msgid "Failed to register messageview_show hook in the GeoLocation plugin"
+msgstr "Gagal melakukan registrasi kaitan messageview_show pada pengaya GeoLokasi"
+
+#: src/geolocation_plugin.c:572
+msgid ""
+"This plugin provides GeoLocation functionality for Claws Mail.\n"
+"\n"
+"Warning: It is technically impossible to derive the geographic location of senders from their E-Mails with any amount of certainty. The results presented by this plugin are only rough estimates. In particular, mailing list managers often strip sender information from the mails, so mails from mailing lists may be assigned to the location of the mailing list server instead of the mail sender.\n"
+"When in doubt, don't trust the results of this plugin, and don't rely on this information to divorce your spouse.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital quarrels)."
+msgstr ""
+"Pengaya ini menyediakan fungsi GeoLokasi untuk Claws Mail.\n"
+"\n"
+"Peringatan: Secara teknis tidak mungkin untuk menentukan lokasi geografis pengirim berdasar Surat mereka. Hasil yang ditampilkan oleh pengaya ini hanya perkiraan saja. Secara umum, pengelola milis sering menghapus informasi pengirim dari surat, sehingga surat dari milis kadang mengambil lokasi server milis bukannya lokasi si pengirim surat.\n"
+"Jika ragu, jangan percayai hasil pengaya ini, dan jangan bergantung pada informasi ini untuk menceraikan spouse anda.\n"
+"\n"
+"Informasi lanjut ke <berndth@gmx.de> sangat diterima (bukan tentang pernikahan quarrels)."
+
+#: src/geolocation_plugin.c:605
+msgid "GeoLocation integration"
+msgstr "Integrasi GeoLokasi"
+

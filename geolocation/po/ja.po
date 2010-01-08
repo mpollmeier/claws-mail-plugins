@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: berndth@gmx.de\n"
+"POT-Creation-Date: 2010-01-01 19:02+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: kentaro kazuhama <kazken3@gmail.com>\n"
+"Language-Team: Japanese <kazken3@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. TRANSLATORS: The two numbers are latitude and longitude coordinates
+#: src/geolocation_plugin.c:314
+#, c-format
+msgid "Found location: (%.2f,%.2f)"
+msgstr "位置を見つけました: (%.2f,%.2f)"
+
+#. TRANSLATORS: The IP address is appended to the string
+#: src/geolocation_plugin.c:331
+msgid "Could not resolve location of IP address "
+msgstr "IPアドレスの位置を解決で来ませんでした"
+
+#: src/geolocation_plugin.c:470
+msgid "Try to locate sender"
+msgstr "送信者を探してみる"
+
+#: src/geolocation_plugin.c:495
+#: src/geolocation_plugin.c:567
+msgid "GeoLocation"
+msgstr "GeoLocation"
+
+#: src/geolocation_plugin.c:500
+#: src/geolocation_plugin.c:507
+#, c-format
+msgid "Could not create regular expression: %s\n"
+msgstr "正規表現を生成で来ませんでした: %s\n"
+
+#: src/geolocation_plugin.c:515
+msgid "Failed to register messageview_show hook in the GeoLocation plugin"
+msgstr "GeoLocationプラグインのmessageview_show hookの登録に失敗しました"
+
+#: src/geolocation_plugin.c:572
+msgid ""
+"This plugin provides GeoLocation functionality for Claws Mail.\n"
+"\n"
+"Warning: It is technically impossible to derive the geographic location of senders from their E-Mails with any amount of certainty. The results presented by this plugin are only rough estimates. In particular, mailing list managers often strip sender information from the mails, so mails from mailing lists may be assigned to the location of the mailing list server instead of the mail sender.\n"
+"When in doubt, don't trust the results of this plugin, and don't rely on this information to divorce your spouse.\n"
+"\n"
+"Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital quarrels)."
+msgstr ""
+"このプラグインはClaws Mail向けにGeoLocationの機能を提供します。\n"
+"\n"
+"注意: どんなに確認を持ったとしても、メールから送信者の地理的な位置を得ることは技術的に不可能です。このプラグインによって提供された結果は、おおよその結果に過ぎません。特に、メーリングリストの管理者がしばしば送信者情報をメールから剥ぎ取っているのは、メーリングリストからのメールがメール送信者の代わりにメーリングリストサーバの位置を割り当てているかもしれないためです。\n"
+"疑わしい場合は、このプラグインの結果を信用せず、離婚するためにこの情報をあてにしないでください。\n"
+"\n"
+"<berndth@gmx.de>へのフィードバックを歓迎します(夫婦喧嘩に関するもので無い場合のみ)。"
+
+#: src/geolocation_plugin.c:605
+msgid "GeoLocation integration"
+msgstr "GeoLocation統合"
+

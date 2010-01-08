@@ -1,3 +1,18 @@
+2010-01-08 [paul]	0.0.1cvs12
+
+	* configure.ac
+	* po/ca.po
+	* po/cs.po
+	* po/fi.po
+	* po/hu.po
+	* po/id.po
+	* po/ja.po
+	* po/nl.po
+	* po/sk.po
+		added by Miquel Oliete, David Vachulka, Tommi Pirinen,
+		Pader Rezso, MSulchan Darmawan, kazken3, Marcel Pol,
+		and Slavko
+
 2010-01-06 [mones]	0.0.1cvs11
 
 	* src/geolocation_plugin.c
