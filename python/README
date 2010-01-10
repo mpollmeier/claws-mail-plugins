@@ -1,19 +1,18 @@
-This plugin offers a Python scripting access to Claws Mail.
+This plugin offers Python scripting access to Claws Mail.
 
 Python code can be entered interactively into an embedded Python
-console, or stored in scripts.
+console, or stored in scripts. 
+
+These scripts are then available via the menu. You can assign
+keyboard shortcuts to them just like it is done with other menu items.
+You can also put buttons for script invokation into the toolbars
+using Claws Mail's builtin toolbar editor.
 
 You can provide scripts working on the main window by placing files
 into ~/.claws-mail/python-scripts/main.
-The scripts are then accessible via the menu of the main window.
 
-You can also provide scripts working on an opened compose window
-by placing files into ~/.claws-mail/python-scripts/compose. The
-compose window object is then available in the variable
-clawsmail.compose_window.
-
-It's also possible to place scripts in the toolbars via the
-toolbar editor.
+You can also provide scripts working on an open compose window
+by placing files into ~/.claws-mail/python-scripts/compose.
 
 The folder ~/.claws-mail/python-scripts/auto/ may contain some
 scripts that are automatically executed when certain events
@@ -31,71 +30,4 @@ are recognised:
   shutdown
   	Executed at plugin unload
 
-A few examples follow.
-
-========================== 8< ===========================
-# Send the same mail to a list of people, one at a time.
-# As this is normal Python code, the message contents and 
-# the addresses could also come from an external source 
-# (such as a file, or a database).
-
-addresses = ["mail1@example.tld", "mail2@example.tld", "mail3@example.tld"]
-
-for address in addresses:
-
-    # The argument for the constructor is an email address on which
-    # the sending account is selected.
-    # It's also possible to use the default constructor without arguments,
-    # in which case the same rules as on a menu click one "New message"
-    # are applied.
-    cw = clawsmail.ComposeWindow("berndth@gmx.de")
-    
-    # Add a recipient. There are also add_Cc and add_Bcc functions.
-    cw.add_To(address)
-    
-    # Set the subject of the message
-    cw.set_subject("Mass mail")
-    
-    # For the message body, access to the GtkTextView is granted in ComposeWindow.text.
-    buffer = cw.text.get_buffer()
-    buffer.set_text("This is an automatic message")
-    
-    # Access to the GtkUIManager is also provided
-    action_group = cw.ui_manager.get_action_groups()[0]
-    action_group.get_action("Message/SendLater").activate()
-
-# Finally, the action group of the main window can be used to send the messages out
-clawsmail.get_mainwindow_action_group().get_action("Message/SendQueue").activate()
-
-========================== 8< ===========================
-
-# Batch processing: Apply an action (here: marking as read) to all messages
-# recursively starting from the currently selected folder. 
-
-# Define the function to deal with individual folders
-def deal_with_folder(folder):
-    # Get actions for selecting all messages, and marking the selection as read
-    action_group = clawsmail.get_mainwindow_action_group();
-    select_all_action = action_group.get_action("Edit/SelectAll")
-    mark_read_action = action_group.get_action("Message/Mark/MarkRead")
-    
-    # Select given folder
-    clawsmail.folderview_select_folder(folder)
-    
-    # Search for messages with age greater than 28 days
-    clawsmail.quicksearch_search("ag 28", clawsmail.QUICK_SEARCH_EXTENDED)
-    
-    # Mark all messages in the search result as read
-    select_all_action.activate()
-    mark_read_action.activate()
-
-
-# Get selected folder, the subtree below it, and call above function for all folders
-root = clawsmail.get_folderview_selected_folder()
-# Get a tree of subfolders. The argument could also be a string of a mailbox name,
-# or left out for a list of mailbox trees.
-tree = clawsmail.get_folder_tree(root)
-
-# Call above function for all folders.
-tree.traverse(deal_with_folder)
-
+For example scripts, browse the "examples" subdirectory.
