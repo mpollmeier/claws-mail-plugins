@@ -23,3 +23,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/nodetype.c;  ) > 0.3cvs1.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/python_plugin.c;  ) > 0.3cvs2.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/clawsmailmodule.c;  ) > 0.3cvs3.patchset
+( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/clawsmailmodule.c;  ) > 0.3cvs4.patchset

@@ -30,6 +30,7 @@
 #include <pygobject.h>
 #include <pygtk/pygtk.h>
 
+#include "main.h"
 #include "mainwindow.h"
 #include "summaryview.h"
 #include "quicksearch.h"
@@ -351,6 +352,14 @@ static PyObject* get_summaryview_selected_message_list(PyObject *self, PyObject 
   return result;
 }
 
+static PyObject* is_exiting(PyObject *self, PyObject *args)
+{
+  if(claws_is_exiting())
+    Py_RETURN_TRUE;
+  else
+    Py_RETURN_FALSE;
+}
+
 static PyMethodDef ClawsMailMethods[] = {
     /* public */
     {"get_mainwindow_action_group",  get_mainwindow_action_group, METH_NOARGS, "Get action group of main window menu."},
@@ -361,6 +370,7 @@ static PyMethodDef ClawsMailMethods[] = {
     {"quicksearch_search", quicksearch_search, METH_VARARGS, "Perform a quicksearch."},
     {"quicksearch_clear", quicksearch_clear, METH_NOARGS, "Clear the quicksearch."},
     {"get_summaryview_selected_message_list", get_summaryview_selected_message_list, METH_NOARGS, "Get selected message list."},
+    {"is_exiting", is_exiting, METH_NOARGS, "Returns True if Claws Mail is currently exiting."},
 
      /* private */
      {"__gobj", private_wrap_gobj, METH_VARARGS, "Wraps a C GObject"},

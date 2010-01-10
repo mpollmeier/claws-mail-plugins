@@ -1,3 +1,9 @@
+2010-01-10 [holger]	0.3cvs4
+
+	* src/clawsmailmodule.c
+		Add is_exiting function, for avoiding
+		unnecessary cleanups in the shutdown script
+
 2010-01-10 [holger]	0.3cvs3
 
 	* src/clawsmailmodule.c
