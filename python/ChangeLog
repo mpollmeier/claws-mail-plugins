@@ -1,3 +1,15 @@
+2010-01-10 [holger]	0.3cvs6
+
+	* examples/README.examples
+	* examples/auto/shutdown
+	* examples/auto/startup
+	* examples/compose/Macro
+	* examples/main/Mass
+	* examples/main/Print
+	* examples/main/Recusively
+	* src/python_plugin.c
+		Last commit aborted, try it again
+
 2010-01-10 [holger]	0.3cvs5
 
 	* README
