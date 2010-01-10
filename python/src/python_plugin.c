@@ -470,7 +470,7 @@ static GtkActionEntry mainwindow_tools_python_actions[] = {
     {"Tools/PythonScripts", NULL, N_("Python scripts") },
     {"Tools/PythonScripts/Refresh", NULL, N_("Refresh"),
         NULL, NULL, G_CALLBACK(refresh_python_scripts_menus) },
-    {"Tools/PythonScripts/Browse", NULL, "Browse",
+    {"Tools/PythonScripts/Browse", NULL, N_("Browse"),
         NULL, NULL, G_CALLBACK(browse_python_scripts_dir) },
     {"Tools/PythonScripts/---", NULL, "---" },
 };
@@ -600,6 +600,9 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
   return _("This plugin provides Python integration features.\n"
+           "\nFor the most up-to-date API documentation, type\n"
+           "\n help(clawsmail)\n"
+           "\nin the interactive Python console under Tools -> Show Python console.\n"
            "\nFeedback to <berndth@gmx.de> is welcome.");
 }
 

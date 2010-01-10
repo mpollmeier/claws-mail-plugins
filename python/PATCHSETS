@@ -21,3 +21,4 @@
 ( cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/python_plugin.c;  ) > 0.2cvs20.patchset
 ( cvs diff -u -r 1.1.2.37 -r 1.1.2.38 configure.ac;  diff -u /dev/null po/ca.po;  diff -u /dev/null po/cs.po;  diff -u /dev/null po/fi.po;  diff -u /dev/null po/hu.po;  diff -u /dev/null po/id.po;  diff -u /dev/null po/ja.po;  diff -u /dev/null po/nl.po;  diff -u /dev/null po/pt_BR.po;  diff -u /dev/null po/sk.po;  ) > 0.2cvs21.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/nodetype.c;  ) > 0.3cvs1.patchset
+( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/python_plugin.c;  ) > 0.3cvs2.patchset
