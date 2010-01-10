@@ -76,6 +76,17 @@ static PyObject *get_mainwindow_action_group(PyObject *self, PyObject *args)
     return NULL;
 }
 
+static PyObject *get_mainwindow_ui_manager(PyObject *self, PyObject *args)
+{
+  MainWindow *mainwin;
+
+  mainwin =  mainwindow_get_mainwindow();
+  if(mainwin)
+    return get_gobj_from_address(mainwin->ui_manager);
+  else
+    return NULL;
+}
+
 static PyObject *get_folderview_selected_folder(PyObject *self, PyObject *args)
 {
   MainWindow *mainwin;
@@ -343,6 +354,7 @@ static PyObject* get_summaryview_selected_message_list(PyObject *self, PyObject 
 static PyMethodDef ClawsMailMethods[] = {
     /* public */
     {"get_mainwindow_action_group",  get_mainwindow_action_group, METH_NOARGS, "Get action group of main window menu."},
+    {"get_mainwindow_ui_manager",  get_mainwindow_ui_manager, METH_NOARGS, "Get ui manager of main window."},
     {"get_folder_tree",  get_folder_tree, METH_VARARGS, "Get folder tree."},
     {"get_folderview_selected_folder",  get_folderview_selected_folder, METH_NOARGS, "Get selected folder in folderview."},
     {"folderview_select_folder",  folderview_select_folder, METH_VARARGS, "Select folder in folderview. Takes an argument of type Folder."},

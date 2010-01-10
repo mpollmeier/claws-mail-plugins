@@ -1,3 +1,8 @@
+2010-01-10 [holger]	0.3cvs3
+
+	* src/clawsmailmodule.c
+		Add accessor for main window ui manager
+
 2010-01-10 [holger]	0.3cvs2
 
 	* src/python_plugin.c
