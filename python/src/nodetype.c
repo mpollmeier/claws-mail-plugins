@@ -29,7 +29,7 @@ PyMODINIT_FUNC initnode(PyObject *module)
   PyObject *dict;
   PyObject *res;
   const char *cmd =
-      "class Node:\n"
+      "class Node(object):\n"
       "    def __init__(self):\n"
       "        self.data = None\n"
       "        self.children = []\n"
@@ -64,6 +64,10 @@ PyMODINIT_FUNC initnode(PyObject *module)
       "\n";
 
   dict = PyModule_GetDict(module);
+
+  if(PyDict_GetItemString(dict, "__builtins__") == NULL)
+    PyDict_SetItemString(dict, "__builtins__", PyEval_GetBuiltins());
+
   res = PyRun_String(cmd, Py_file_input, dict, dict);
   Py_XDECREF(res);
 }

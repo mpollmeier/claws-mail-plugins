@@ -1,3 +1,8 @@
+2010-01-10 [holger]	0.3cvs1
+
+	* src/nodetype.c
+		Make Node a new-style class
+
 2010-01-08 [paul]	0.3
 
 	0.3 released
