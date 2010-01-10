@@ -603,6 +603,10 @@ const gchar *plugin_desc(void)
            "\nFor the most up-to-date API documentation, type\n"
            "\n help(clawsmail)\n"
            "\nin the interactive Python console under Tools -> Show Python console.\n"
+           "\nThe source distribution of this plugin comes with various example scripts "
+           "in the \"examples\" subdirectory. If you wrote a script that you would be "
+           "interested in sharing, feel free to send it to me to have it considered "
+           "for inclusion in the examples.\n"
            "\nFeedback to <berndth@gmx.de> is welcome.");
 }
 

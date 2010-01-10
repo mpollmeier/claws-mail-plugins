@@ -1,3 +1,26 @@
+2010-01-10 [holger]	0.3cvs8
+
+	* src/python_plugin.c
+	* examples/README.examples
+	* examples/auto/startup
+	* examples/compose/Macro
+	* examples/main/Mass
+	* examples/main/Print
+	* examples/main/Recusively
+		Trying again
+
+2010-01-10 [holger]	0.3cvs7
+
+	* src/python_plugin.c
+	* examples/README.examples
+	* examples/auto/shutdown
+	* examples/auto/startup
+	* examples/compose/Macro
+	* examples/main/Mass
+	* examples/main/Print
+	* examples/main/Recusively
+		3rd try
+
 2010-01-10 [holger]	0.3cvs6
 
 	* examples/README.examples
