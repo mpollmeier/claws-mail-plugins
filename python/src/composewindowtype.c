@@ -370,24 +370,86 @@ static PyObject* ComposeWindow_save_message_to(clawsmail_ComposeWindowObject *se
 }
 
 static PyMethodDef ComposeWindow_methods[] = {
-    {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS, "Set subject to text."},
-    {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS, "Get subject"},
-    {"set_from", (PyCFunction)ComposeWindow_set_from, METH_VARARGS, "Set from header entry to text."},
-    {"get_from", (PyCFunction)ComposeWindow_get_from, METH_NOARGS, "Get from header entry"},
-    {"add_To",  (PyCFunction)ComposeWindow_add_To,  METH_VARARGS, "Append another To header."},
-    {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS, "Append another Cc header."},
-    {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS, "Append another Bcc header."},
-    {"attach",  (PyCFunction)ComposeWindow_attach, METH_VARARGS, "Attach a list of files."},
-    {"get_header_list", (PyCFunction)ComposeWindow_get_header_list, METH_NOARGS, "Get list of headers."},
-    {"add_header", (PyCFunction)ComposeWindow_add_header, METH_VARARGS, "Add a custom header."},
-    {"get_account_selection", (PyCFunction)ComposeWindow_get_account_selection, METH_NOARGS, "Get account selection widget."},
-    {"save_message_to", (PyCFunction)ComposeWindow_save_message_to, METH_VARARGS, "Save message to folder"},
+    {"set_subject", (PyCFunction)ComposeWindow_set_subject, METH_VARARGS,
+     "set_subject(text) - set subject to text\n"
+     "\n"
+     "Set the subject to text. text must be a string."},
+
+    {"get_subject", (PyCFunction)ComposeWindow_get_subject, METH_NOARGS,
+     "get_subject() - get subject\n"
+     "\n"
+     "Get a string of the current subject entry."},
+
+    {"set_from", (PyCFunction)ComposeWindow_set_from, METH_VARARGS,
+     "set_from(text) - set From header entry to text\n"
+     "\n"
+     "Set the From header entry to text. text must be a string.\n"
+     "Beware: No sanity checking is performed."},
+
+    {"get_from", (PyCFunction)ComposeWindow_get_from, METH_NOARGS,
+     "get_from - get From header entry\n"
+     "\n"
+     "Get a string of the current From header entry."},
+    
+    {"add_To",  (PyCFunction)ComposeWindow_add_To,  METH_VARARGS,
+     "add_To(text) - append another To header with text\n"
+     "\n"
+     "Add another header line with the combo box set to To:, and the\n"
+     "content set to text."},
+
+    {"add_Cc",  (PyCFunction)ComposeWindow_add_Cc,  METH_VARARGS,
+     "add_Cc(text) - append another Cc header with text\n"
+     "\n"
+     "Add another header line with the combo box set to Cc:, and the\n"
+     "content set to text."},
+
+    {"add_Bcc", (PyCFunction)ComposeWindow_add_Bcc, METH_VARARGS,
+     "add_Bcc(text) - append another Bcc header with text\n"
+     "\n"
+     "Add another header line with the combo box set to Bcc:, and the\n"
+     "content set to text."},
+
+    {"add_header", (PyCFunction)ComposeWindow_add_header, METH_VARARGS,
+     "add_header(headername, text) - add a custom header\n"
+     "\n"
+     "Adds a custom header with the header set to headername, and the\n"
+     "contents set to text."},
+
+    {"get_header_list", (PyCFunction)ComposeWindow_get_header_list, METH_NOARGS,
+     "get_header_list() - get list of headers\n"
+     "\n"
+     "Gets a list of headers that are currently defined in the compose window.\n"
+     "The return value is a list of tuples, where the first tuple element is\n"
+     "the header name (entry in the combo box) and the second element is the contents."},
+
+    {"attach",  (PyCFunction)ComposeWindow_attach, METH_VARARGS,
+     "attach(filenames) - attach a list of files\n"
+     "\n"
+     "Attach files to the mail. The filenames argument is a list of\n"
+     "string of the filenames that are being attached."},
+
+    {"get_account_selection", (PyCFunction)ComposeWindow_get_account_selection, METH_NOARGS,
+     "get_account_selection() - get account selection widget\n"
+     "\n"
+     "Returns the account selection combo box as a gtk.ComboBox (TODO: is this true?)"},
+
+    {"save_message_to", (PyCFunction)ComposeWindow_save_message_to, METH_VARARGS,
+     "save_message_to(folder) - save message to folder id\n"
+     "\n"
+     "Set the folder where the sent message will be saved to. folder may be\n"
+     "a Folder, a string of the folder identifier (e.g. #mh/foo/bar), or\n"
+     "None is which case the message will not be saved at all."},
+
     {NULL}
 };
 
 static PyMemberDef ComposeWindow_members[] = {
-    {"ui_manager", T_OBJECT_EX, offsetof(clawsmail_ComposeWindowObject, ui_manager), 0, "gtk ui manager"},
-    {"text", T_OBJECT_EX, offsetof(clawsmail_ComposeWindowObject, text), 0, "text view widget"},
+    {"ui_manager", T_OBJECT_EX, offsetof(clawsmail_ComposeWindowObject, ui_manager), 0,
+     "ui_manager - the gtk.UIManager of the compose window"},
+
+    {"text", T_OBJECT_EX, offsetof(clawsmail_ComposeWindowObject, text), 0,
+     "text - the gtk.TextView widget of the message body"},
+
     {NULL}
 };
 

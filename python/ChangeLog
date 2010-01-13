@@ -1,3 +1,14 @@
+2010-01-13 [holger]	0.3cvs9
+
+	* src/python-hooks.c
+		Fix warning
+	* src/nodetype.c
+	* src/messageinfotype.c
+	* src/foldertype.c
+	* src/composewindowtype.c
+	* src/clawsmailmodule.c
+		Improve inline documentation
+
 2010-01-10 [holger]	0.3cvs8
 
 	* src/python_plugin.c

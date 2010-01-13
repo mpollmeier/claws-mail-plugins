@@ -20,8 +20,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <dlfcn.h>
-
 #include "config.h"
 
 #ifdef ENABLE_PYTHON
@@ -29,6 +27,8 @@
 #include <pygobject.h>
 #include <pygtk/pygtk.h>
 #endif // ENABLE_PYTHON
+
+#include <dlfcn.h>
 
 #include <signal.h>
 

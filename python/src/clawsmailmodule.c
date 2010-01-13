@@ -362,18 +362,68 @@ static PyObject* is_exiting(PyObject *self, PyObject *args)
 
 static PyMethodDef ClawsMailMethods[] = {
     /* public */
-    {"get_mainwindow_action_group",  get_mainwindow_action_group, METH_NOARGS, "Get action group of main window menu."},
-    {"get_mainwindow_ui_manager",  get_mainwindow_ui_manager, METH_NOARGS, "Get ui manager of main window."},
-    {"get_folder_tree",  get_folder_tree, METH_VARARGS, "Get folder tree."},
-    {"get_folderview_selected_folder",  get_folderview_selected_folder, METH_NOARGS, "Get selected folder in folderview."},
-    {"folderview_select_folder",  folderview_select_folder, METH_VARARGS, "Select folder in folderview. Takes an argument of type Folder."},
-    {"quicksearch_search", quicksearch_search, METH_VARARGS, "Perform a quicksearch."},
-    {"quicksearch_clear", quicksearch_clear, METH_NOARGS, "Clear the quicksearch."},
-    {"get_summaryview_selected_message_list", get_summaryview_selected_message_list, METH_NOARGS, "Get selected message list."},
-    {"is_exiting", is_exiting, METH_NOARGS, "Returns True if Claws Mail is currently exiting."},
+    {"get_mainwindow_action_group",  get_mainwindow_action_group, METH_NOARGS,
+     "get_mainwindow_action_group() - get action group of main window menu\n"
+     "\n"
+     "Returns the gtk.ActionGroup for the main window."},
+
+    {"get_mainwindow_ui_manager",  get_mainwindow_ui_manager, METH_NOARGS, 
+     "get_mainwindow_ui_manager() - get ui manager of main window\n"
+     "\n"
+     "Returns the gtk.UIManager for the main window."},
+
+    {"get_folder_tree",  get_folder_tree, METH_VARARGS,
+     "get_folder_tree([root]) - get a folder tree\n"
+     "\n"
+     "Without arguments, get a list of folder trees for all mailboxes.\n"
+     "\n"
+     "If the optional root argument is a string, it is supposed to be a\n"
+     "mailbox name. The function then returns a tree of folders of that mailbox.\n"
+     "\n"
+     "If the optional root argument is a clawsmail.Folder, the function\n"
+     "returns a tree of subfolders with the given folder as root element.\n"
+     "\n"
+     "In any case, a tree consists of elements of the type clawsmail.Node."},
+
+    {"get_folderview_selected_folder",  get_folderview_selected_folder, METH_NOARGS,
+     "get_folderview_selected_folder() - get selected folder in folderview\n"
+     "\n"
+     "Returns the currently selected folder as a clawsmail.Folder."},
+    {"folderview_select_folder",  folderview_select_folder, METH_VARARGS,
+     "folderview_select_folder(folder) - select folder in folderview\n"
+     "\n"
+     "Takes an argument of type clawsmail.Folder, and selects the corresponding folder."},
+
+    {"quicksearch_search", quicksearch_search, METH_VARARGS,
+     "quicksearch_search(string [, type]) - perform a quicksearch\n"
+     "\n"
+     "Perform a quicksearch of the given string. The optional type argument can be\n"
+     "one of clawsmail.QUICK_SEARCH_SUBJECT, clawsmail.QUICK_SEARCH_FROM, clawsmail.QUICK_SEARCH_TO,\n"
+     "clawsmail.QUICK_SEARCH_EXTENDED, clawsmail.QUICK_SEARCH_MIXED, or clawsmail.QUICK_SEARCH_TAG.\n"
+     "If it is omitted, the current selection is used. The string argument has to be a valid search\n"
+     "string corresponding to the type."},
+
+    {"quicksearch_clear", quicksearch_clear, METH_NOARGS,
+     "quicksearch_clear() - clear the quicksearch"},
+
+    {"get_summaryview_selected_message_list", get_summaryview_selected_message_list, METH_NOARGS,
+     "get_summaryview_selected_message_list() - get selected message list\n"
+     "\n"
+     "Get a list of clawsmail.MessageInfo objects of the current selection."},
+
+    {"is_exiting", is_exiting, METH_NOARGS,
+     "is_exiting() - test whether Claws Mail is currently exiting\n"
+     "\n"
+     "Returns True if Claws Mail is currently exiting. The most common usage for this is to skip\n"
+     "unnecessary cleanup tasks in a shutdown script when Claws Mail is exiting anyways. If the Python\n"
+     "plugin is explicitly unloaded, the shutdown script will still be called, but this function will\n"
+     "return False."},
 
      /* private */
-     {"__gobj", private_wrap_gobj, METH_VARARGS, "Wraps a C GObject"},
+     {"__gobj", private_wrap_gobj, METH_VARARGS,
+      "__gobj(ptr) - transforms a C GObject pointer into a PyGObject\n"
+      "\n"
+      "For internal usage only."},
 
     {NULL, NULL, 0, NULL}
 };
@@ -395,13 +445,20 @@ static void initmiscstuff(PyObject *module)
   Py_XDECREF(res);
 }
 
+
 void claws_mail_python_init(void)
 {
   if (!Py_IsInitialized())
       Py_Initialize();
 
   /* create module */
-  cm_module = Py_InitModule("clawsmail", ClawsMailMethods);
+  cm_module = Py_InitModule3("clawsmail", ClawsMailMethods,
+      "This module can be used to access some of Claws Mail's data structures\n"
+      "in order to extend or modify the user interface or automate repetitive tasks.\n"
+      "\n"
+      "Whenever possible, the interface works with standard GTK+ widgets\n"
+      "via the PyGTK bindings, so you can refer to the GTK+ / PyGTK documentation\n"
+      "to find out about all possible options.");
 
   /* initialize classes */
   initnode(cm_module);
@@ -415,6 +472,7 @@ void claws_mail_python_init(void)
   PyRun_SimpleString("import clawsmail\n");
   PyRun_SimpleString("clawsmail.compose_window = None\n");
 }
+
 
 void put_composewindow_into_module(Compose *compose)
 {

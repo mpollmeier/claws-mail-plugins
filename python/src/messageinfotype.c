@@ -108,19 +108,49 @@ static PyObject *is_forwarded(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef MessageInfo_methods[] = {
-  {"is_new",  is_new, METH_NOARGS, "Returns true if the new flag is set."},
-  {"is_unread",  is_unread, METH_NOARGS, "Returns true if the unread flag is set."},
-  {"is_marked",  is_marked, METH_NOARGS, "Returns true if the marked flag is set."},
-  {"is_replied",  is_replied, METH_NOARGS, "Returns true if the replied flag is set."},
-  {"is_locked",  is_locked, METH_NOARGS, "Returns true if the locked flag is set."},
-  {"is_forwarded",  is_forwarded, METH_NOARGS, "Returns true if the forwarded flag is set."},
+  {"is_new",  is_new, METH_NOARGS,
+   "is_new() - checks if the message is new\n"
+   "\n"
+   "Returns True if the new flag of the message is set."},
+
+  {"is_unread",  is_unread, METH_NOARGS, 
+   "is_unread() - checks if the message is unread\n"
+   "\n"
+   "Returns True if the unread flag of the message is set."},
+
+  {"is_marked",  is_marked, METH_NOARGS,
+   "is_marked() - checks if the message is marked\n"
+   "\n"
+   "Returns True if the marked flag of the message is set."},
+
+  {"is_replied",  is_replied, METH_NOARGS,
+   "is_replied() - checks if the message has been replied to\n"
+   "\n"
+   "Returns True if the replied flag of the message is set."},
+
+  {"is_locked",  is_locked, METH_NOARGS,
+   "is_locked() - checks if the message has been locked\n"
+   "\n"
+   "Returns True if the locked flag of the message is set."},
+
+  {"is_forwarded",  is_forwarded, METH_NOARGS,
+   "is_forwarded() - checks if the message has been forwarded\n"
+   "\n"
+   "Returns True if the forwarded flag of the message is set."},
+
   {NULL}
 };
 
 static PyMemberDef MessageInfo_members[] = {
-    {"from", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, from), 0, "from header"},
-    {"to", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, to), 0, "to header"},
-    {"subject", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, subject), 0, "subject header"},
+    {"from", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, from), 0,
+     "from - the From header of the message"},
+
+    {"to", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, to), 0,
+     "to - the To header of the message"},
+
+    {"subject", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, subject), 0,
+     "subject - the subject header of the message"},
+
     {NULL}
 };
 
@@ -146,7 +176,8 @@ static PyTypeObject clawsmail_MessageInfoType = {
     0,                         /* tp_setattro*/
     0,                         /* tp_as_buffer*/
     Py_TPFLAGS_DEFAULT,        /* tp_flags*/
-    "MessageInfo objects.",    /* tp_doc */
+    "A MessageInfo represents" /* tp_doc */
+    "a single message.",
     0,                         /* tp_traverse */
     0,                         /* tp_clear */
     0,                         /* tp_richcompare */

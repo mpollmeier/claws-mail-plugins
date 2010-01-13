@@ -65,14 +65,21 @@ static PyObject* Folder_get_identifier(clawsmail_FolderObject *self, PyObject *a
 }
 
 static PyMethodDef Folder_methods[] = {
-    {"get_identifier", (PyCFunction)Folder_get_identifier, METH_NOARGS, "Get identifier"},
+    {"get_identifier", (PyCFunction)Folder_get_identifier, METH_NOARGS,
+     "get_identifier() - get identifier\n"
+     "\n"
+     "Get identifier for folder as a string (e.g. #mh/foo/bar)."},
     {NULL}
 };
 
 static PyMemberDef Folder_members[] = {
-    {"name", T_OBJECT_EX, offsetof(clawsmail_FolderObject, name), 0, "name of folder"},
-    {"path", T_OBJECT_EX, offsetof(clawsmail_FolderObject, path), 0, "path of folder"},
-    {NULL}
+  {"name", T_OBJECT_EX, offsetof(clawsmail_FolderObject, name), 0,
+   "name - name of folder"},
+  
+  {"path", T_OBJECT_EX, offsetof(clawsmail_FolderObject, path), 0,
+   "path - path of folder"},
+  
+  {NULL}
 };
 
 static PyTypeObject clawsmail_FolderType = {
