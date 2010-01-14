@@ -1,3 +1,22 @@
+2010-01-14 [holger]	0.3cvs11
+
+	* ChangeLog
+	* PATCHSETS
+	* configure.ac
+	* examples/README.examples
+	* examples/auto/shutdown
+	* examples/auto/startup
+	* examples/compose/Macro
+	* examples/main/Mass
+	* examples/main/Print
+	* examples/main/Recusively
+		Test if commiting works now
+
+2010-01-13 [holger]	0.3cvs10
+
+	* examples/main/Mass mail
+		Add an example
+
 2010-01-13 [holger]	0.3cvs9
 
 	* src/python-hooks.c
