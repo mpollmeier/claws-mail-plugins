@@ -1,0 +1,36 @@
+This directory tree contains some example scripts. Feel free
+to copy them to the appropriate subdirectories under
+~/claws-mail/python-scripts and adjust them to your needs. 
+
+Unless otherwise noted in the respective files, all example snippets
+are in the public domain.
+
+Table of contents:
+==================
+
+* auto/startup
+  An example startup script. It demonstrates how to modify the menu of
+  Claws Mail's main window by adding a menu item under the Help menu
+  to generate and browse the API documentation of the plugin.
+  It also adds a menu item to mark a whole thread as read in the
+  Edit menu.
+  Also see auto/shutdown for cleanup.
+
+* auto/shutdown
+  Demonstrates how to clean up the stuff that has been introduced in
+  the auto/startup example.
+
+* main/Print action names to stdout
+  Prints the names of all actions that are currently in the
+  action group of Claws Mail's main window to standard output 
+
+* main/Recursively mark messages as read
+  Demonstrates how to perform actions to a directory tree under the
+  currently selected folder in the main window.
+
+* main/Mass mail
+  Demonstrates how to automate composing of mails, and sending them out
+
+* compose/Macro Expansion
+  Demonstrates how to do text expansion in the compose window
+  mail body editor

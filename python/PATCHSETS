@@ -31,3 +31,5 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/python-hooks.c;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/nodetype.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/messageinfotype.c;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/foldertype.c;  cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/composewindowtype.c;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/clawsmailmodule.c;  ) > 0.3cvs9.patchset
 ( cvs diff -u -r  -r 1 examples/main/Mass;  ) > 0.3cvs10.patchset
 ( cvs diff -u -r 1.1.2.47 -r 1.1.2.48 ChangeLog;  cvs diff -u -r 1.1.2.29 -r 1.1.2.30 PATCHSETS;  cvs diff -u -r 1.1.2.47 -r 1.1.2.48 configure.ac;  diff -u /dev/null examples/README.examples;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 examples/auto/shutdown;  diff -u /dev/null examples/auto/startup;  cvs diff -u -r  -r 1 examples/compose/Macro;  cvs diff -u -r  -r 1 examples/main/Mass;  cvs diff -u -r  -r 1 examples/main/Print;  cvs diff -u -r  -r 1 examples/main/Recusively;  ) > 0.3cvs11.patchset
+( diff -u /dev/null examples/README.examples;  ) > 0.3cvs12.patchset
+( diff -u /dev/null examples/README.examples;  ) > 0.3cvs13.patchset
