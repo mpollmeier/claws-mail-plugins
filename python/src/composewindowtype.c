@@ -431,7 +431,7 @@ static PyMethodDef ComposeWindow_methods[] = {
     {"get_account_selection", (PyCFunction)ComposeWindow_get_account_selection, METH_NOARGS,
      "get_account_selection() - get account selection widget\n"
      "\n"
-     "Returns the account selection combo box as a gtk.ComboBox (TODO: is this true?)"},
+     "Returns the account selection combo box as a gtk.ComboBox"},
 
     {"save_message_to", (PyCFunction)ComposeWindow_save_message_to, METH_VARARGS,
      "save_message_to(folder) - save message to folder id\n"

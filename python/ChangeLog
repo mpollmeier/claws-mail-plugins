@@ -1,3 +1,15 @@
+2010-01-15 [holger]	0.3cvs14
+
+	* examples/auto/shutdown
+	* examples/auto/startup
+	* examples/compose/Macro
+	* examples/main/Mass
+	* examples/main/Print
+	* examples/main/Recusively
+		Add examples
+	* src/composewindowtype.c
+		Documentation fix
+
 2010-01-15 [holger]	0.3cvs13
 
 	* examples/README.examples
