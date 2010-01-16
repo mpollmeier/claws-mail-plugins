@@ -1,3 +1,9 @@
+2010-01-16 [mones]	0.3cvs15
+
+	* configure.ac
+	* po/es.po
+		Added Spanish translation
+
 2010-01-15 [holger]	0.3cvs14
 
 	* examples/auto/shutdown
