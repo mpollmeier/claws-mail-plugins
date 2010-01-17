@@ -154,7 +154,7 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 	MimeInfo *info, *parent, *gparent, *partinfo;
 	GNode *child;
 	gint att_all = 0, att_removed = 0, msgnum;
-	gboolean to_removal;
+	gboolean to_removal, iter_valid=TRUE;
 	
 	newmsg = procmsg_msginfo_copy(attremover->msginfo);
 	info = procmime_scan_message(newmsg);
@@ -167,25 +167,32 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 		return;
 	}
 	
-	while (partinfo) {
+	while (partinfo && iter_valid) {
+		if (partinfo->type == MIMETYPE_MULTIPART) {
+    			partinfo = procmime_mimeinfo_next(partinfo);
+			continue;
+		}
+			
 		att_all++;
 		gtk_tree_model_get(model, &iter, ATT_REMOVER_TOGGLE,
 				   &to_removal, -1);
 		if (!to_removal) {
 			partinfo = procmime_mimeinfo_next(partinfo);
-			gtk_tree_model_iter_next(model, &iter);
+			iter_valid = gtk_tree_model_iter_next(model, &iter);
 			continue;
 		}
 		
 		parent = (MimeInfo *) partinfo->node->parent->data;
 		gparent = (MimeInfo *) parent->node->parent->data;
 
-		/* multipart/alternative and multipart/mixed make sense
+		/* multipart/{alternative,mixed,related} make sense
 		   only when they have at least 2 nodes, remove them
 		   and move their nodes one level up if otherwise  */
 		if ((!strcmp(parent->subtype, "alternative") &&
 			g_node_n_children(parent->node) <= 2) ||
 			(!strcmp(parent->subtype, "mixed") &&
+			g_node_n_children(parent->node) <= 2) ||
+			(!strcmp(parent->subtype, "related") &&
 			g_node_n_children(parent->node) <= 2) ||
 			!strcmp(parent->subtype, "signed"))
 		{
@@ -200,7 +207,7 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 		
 		parent = partinfo;
 		partinfo = procmime_mimeinfo_next(partinfo);
-		gtk_tree_model_iter_next(model, &iter);
+		iter_valid = gtk_tree_model_iter_next(model, &iter);
 
 		g_node_unlink(parent->node);
 		g_node_destroy(parent->node);
@@ -246,6 +253,11 @@ static void fill_attachment_store(GtkTreeView *list_view, MimeInfo *partinfo)
 		return;
 		
 	while (partinfo) {
+		if (partinfo->type == MIMETYPE_MULTIPART) {
+    			partinfo = procmime_mimeinfo_next(partinfo);
+			continue;
+		}
+			
 		content_type = procmime_get_content_type_str(
 					partinfo->type, partinfo->subtype);
 		
