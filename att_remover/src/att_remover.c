@@ -215,6 +215,20 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 	}
 
 	partinfo = find_first_text_part(info);
+	if (strcmp(partinfo->subtype, "plain") && partinfo->node->next) {
+		parent = partinfo;
+		while (1) {
+			if (!strcmp(parent->subtype, "plain")) {
+				partinfo = parent;
+				break;
+			}
+			if (parent->node->next)
+				parent = (MimeInfo *) parent->node->next->data;
+			else
+				break;
+		}
+	}	
+
 	if (partinfo->node->prev) {
 		parent = (MimeInfo *) partinfo->node->parent->data;
 		g_node_unlink(partinfo->node);
