@@ -214,12 +214,20 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 		att_removed++;
 	}
 
+	partinfo = find_first_text_part(info);
+	if (partinfo->node->prev) {
+		parent = (MimeInfo *) partinfo->node->parent->data;
+		g_node_unlink(partinfo->node);
+		g_node_prepend(parent->node, partinfo->node);
+	}
+
 	msgnum = save_new_message(attremover->msginfo, newmsg, info,
 			 (att_all - att_removed > 0));
 	if (msgnum > 0)
 		summary_select_by_msgnum(mainwin->summaryview, msgnum);
 
 	gtk_widget_destroy(attremover->window);
+	procmsg_msginfo_free(newmsg);
 }
 
 static void remove_toggled_cb(GtkCellRendererToggle *cell, gchar *path_str,
