@@ -19,3 +19,4 @@
 ( cvs diff -u -r 1.1.2.20 -r 1.1.2.21 src/att_remover.c;  ) > 1.0.9cvs1.patchset
 ( cvs diff -u -r 1.1.2.38 -r 1.1.2.39 configure.ac;  ) > 1.0.9cvs2.patchset
 ( cvs diff -u -r 1.1.2.21 -r 1.1.2.22 src/att_remover.c;  ) > 1.0.10cvs1.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 commitHelper;  ) > 1.0.11cvs1.patchset
