@@ -35,3 +35,4 @@
 ( diff -u /dev/null examples/README.examples;  ) > 0.3cvs13.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 examples/auto/shutdown;  diff -u /dev/null examples/auto/startup;  cvs diff -u -r  -r 1 examples/compose/Macro;  cvs diff -u -r  -r 1 examples/main/Mass;  cvs diff -u -r  -r 1 examples/main/Print;  cvs diff -u -r  -r 1 examples/main/Recusively;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/composewindowtype.c;  ) > 0.3cvs14.patchset
 ( cvs diff -u -r 1.1.2.50 -r 1.1.2.51 configure.ac;  diff -u /dev/null po/es.po;  ) > 0.3cvs15.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/es.po;  ) > 0.3cvs16.patchset

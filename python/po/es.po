@@ -33,7 +33,7 @@ msgstr "Python"
 
 #: src/python_plugin.c:509
 msgid "Failed to register compose create hook int the Python plugin"
-msgstr "Error al registrar el enlace de crear componedor en el mÛdulo Python"
+msgstr "Error al registrar el enlace de crear componedor en el m√≥dulo Python"
 
 #: src/python_plugin.c:559
 msgid ""
@@ -41,11 +41,11 @@ msgid ""
 "\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Este mÛdulo proporciona funcionalidades de integraciÛn con Python.\n"
+"Este m√≥dulo proporciona funcionalidades de integraci√≥n con Python.\n"
 "\n"
-"Cualquier sugerencias para <berndth@gmx.de> ser· bienvenida."
+"Cualquier sugerencias para <berndth@gmx.de> ser√° bienvenida."
 
 #: src/python_plugin.c:581
 msgid "Python integration"
-msgstr "IntegraciÛn con Python"
+msgstr "Integraci√≥n con Python"
 
