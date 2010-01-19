@@ -1,3 +1,9 @@
+2010-01-19 [pawel]	1.0.11cvs5
+
+	* src/att_remover.c
+		Readd forgotten freeze/thaw and busy cursor while removing
+		selected attachments
+
 2010-01-17 [pawel]	1.0.11cvs4
 
 	* src/att_remover.c

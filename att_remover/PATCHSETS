@@ -23,3 +23,4 @@
 ( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/att_remover.c;  ) > 1.0.11cvs2.patchset
 ( cvs diff -u -r 1.1.2.23 -r 1.1.2.24 src/att_remover.c;  ) > 1.0.11cvs3.patchset
 ( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/att_remover.c;  ) > 1.0.11cvs4.patchset
+( cvs diff -u -r 1.1.2.25 -r 1.1.2.26 src/att_remover.c;  ) > 1.0.11cvs5.patchset

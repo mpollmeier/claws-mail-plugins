@@ -148,6 +148,7 @@ static gint save_new_message(MsgInfo *oldmsg, MsgInfo *newmsg, MimeInfo *info,
 static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
+	SummaryView *summaryview = mainwin->summaryview;
 	GtkTreeModel *model = attremover->model;
 	GtkTreeIter iter;
 	MsgInfo *newmsg;
@@ -166,6 +167,11 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 		procmsg_msginfo_free(newmsg);
 		return;
 	}
+
+	main_window_cursor_wait(mainwin);
+	gtk_cmclist_freeze(GTK_CMCLIST(summaryview->ctree));
+	folder_item_update_freeze();
+	inc_lock();
 	
 	while (partinfo && iter_valid) {
 		if (partinfo->type == MIMETYPE_MULTIPART) {
@@ -237,11 +243,16 @@ static void remove_attachments_cb(GtkWidget *widget, AttRemover *attremover)
 
 	msgnum = save_new_message(attremover->msginfo, newmsg, info,
 			 (att_all - att_removed > 0));
+			 
+	inc_unlock();
+	folder_item_update_thaw();
+	gtk_cmclist_thaw(GTK_CMCLIST(summaryview->ctree));
+	main_window_cursor_normal(mainwin);
+
 	if (msgnum > 0)
-		summary_select_by_msgnum(mainwin->summaryview, msgnum);
+		summary_select_by_msgnum(summaryview, msgnum);
 
 	gtk_widget_destroy(attremover->window);
-	procmsg_msginfo_free(newmsg);
 }
 
 static void remove_toggled_cb(GtkCellRendererToggle *cell, gchar *path_str,
