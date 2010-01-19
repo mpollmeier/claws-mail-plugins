@@ -36,3 +36,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 examples/auto/shutdown;  diff -u /dev/null examples/auto/startup;  cvs diff -u -r  -r 1 examples/compose/Macro;  cvs diff -u -r  -r 1 examples/main/Mass;  cvs diff -u -r  -r 1 examples/main/Print;  cvs diff -u -r  -r 1 examples/main/Recusively;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/composewindowtype.c;  ) > 0.3cvs14.patchset
 ( cvs diff -u -r 1.1.2.50 -r 1.1.2.51 configure.ac;  diff -u /dev/null po/es.po;  ) > 0.3cvs15.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/es.po;  ) > 0.3cvs16.patchset
+( cvs diff -u -r 1.1.2.52 -r 1.1.2.53 configure.ac;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/clawsmailmodule.c;  cvs diff -u -r 1.1.2.15 -r 1.1.2.16 src/python_plugin.c;  ) > 0.3cvs17.patchset
