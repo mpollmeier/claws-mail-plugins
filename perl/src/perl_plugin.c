@@ -866,6 +866,26 @@ static XS(XS_ClawsMail_age_lower)
     XSRETURN_NO;
 }
 
+/* ClawsMail::C::make_sure_folder_exists(char*) */
+static XS(XS_ClawsMail_make_sure_folder_exists)
+{
+  gchar *identifier;
+  FolderItem *item;
+
+  dXSARGS;
+  if(items != 1) {
+    g_warning("Perl Plugin: Wrong number of arguments to ClawsMail::C::make_sure_folder_exists");
+    XSRETURN_UNDEF;
+  }
+
+  identifier = SvPV_nolen(ST(0));
+  item = folder_get_item_from_identifier(identifier);
+  if(item)
+    XSRETURN_YES;
+  else
+    XSRETURN_NO;
+}
+
 /* ClawsMail::C::addr_in_addressbook(char* [, char*]) */
 static XS(XS_ClawsMail_addr_in_addressbook)
 {
@@ -1371,6 +1391,8 @@ EXTERN_C void xs_init(pTHX)
   newXS("ClawsMail::C::hide",         XS_ClawsMail_hide,         "ClawsMail::C");
   newXS("ClawsMail::C::forward",      XS_ClawsMail_forward,      "ClawsMail::C");
   newXS("ClawsMail::C::redirect",     XS_ClawsMail_redirect,     "ClawsMail::C");
+  newXS("ClawsMail::C::make_sure_folder_exists",
+	XS_ClawsMail_make_sure_folder_exists,"ClawsMail::C");
   newXS("ClawsMail::C::addr_in_addressbook",
 	XS_ClawsMail_addr_in_addressbook,"ClawsMail::C");
   newXS("ClawsMail::C::open_mail_file",
@@ -1914,7 +1936,7 @@ static int perl_init(void)
 "our @EXPORT = (\n"
 "    	       qw(SA_is_spam extract_addresses move_to_trash abort),\n"
 "    	       qw(addr_in_addressbook from_in_addressbook),\n"
-"    	       qw(get_attribute_value),\n"
+"    	       qw(get_attribute_value make_sure_folder_exists),\n"
 "    	       );\n"
 "# Spam\n"
 "sub SA_is_spam {\n"
@@ -1938,6 +1960,10 @@ static int perl_init(void)
 "sub move_to_trash {\n"
 "    ClawsMail::C::move_to_trash();\n"
 "    ClawsMail::Filter::Action::stop(1);\n"
+"}\n"
+"# make sure a folder with a given id exists\n"
+"sub make_sure_folder_exists {\n"
+"    ClawsMail::C::make_sure_folder_exists(@_);\n"
 "}\n"
 "# abort: stop() and do not continue with built-in filtering\n"
 "sub abort {\n"
@@ -2054,7 +2080,7 @@ gint plugin_init(gchar **error)
   *env  = NULL;
 
   /* version check */
-	if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,3,13),
+	if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,4,6),
 				VERSION_NUMERIC, "Perl", error))
 		return -1;
 

@@ -1,3 +1,10 @@
+2010-01-19 [holger]	0.9.17cvs1
+
+	* cm_perl.pod
+	* configure.ac
+	* src/perl_plugin.c
+		Add "make_sure_folder_exists" function
+
 2010-01-08 [paul]	0.9.17
 
 	0.9.17 released

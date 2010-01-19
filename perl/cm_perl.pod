@@ -69,7 +69,8 @@ DESCRIPTIONS">, below.
  header, body, filepath, extract_addresses,
  move_to_trash, abort, addr_in_addressbook,
  from_in_addressbook, get_attribute_value, SA_is_spam,
- exit, manual, filter_log, filter_log_verbosity
+ exit, manual, make_sure_folder_exists,
+ filter_log, filter_log_verbosity
 
 =back
 
@@ -477,6 +478,11 @@ Perl's own 'exit' command, since it would exit Claws Mail.
 
 Returns a true value if the filter script was invoked manually,
 that is, via the Tools menu.
+
+=item make_sure_folder_exists IDENTIFIER
+
+Returns a true value if the folder with id IDENTIFIER (e.g. #mh/Mail/foo/bar)
+exists or could be created.
 
 =item filter_log SECTION, TEXT
 

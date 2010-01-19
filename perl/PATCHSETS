@@ -32,3 +32,4 @@
 ( cvs diff -u -r 1.19.2.58 -r 1.19.2.59 configure.ac;  ) > 0.9.14cvs2.patchset
 ( cvs diff -u -r 1.19.2.29 -r 1.19.2.30 src/perl_plugin.c;  ) > 0.9.15cvs1.patchset
 ( cvs diff -u -r 1.19.2.31 -r 1.19.2.32 src/perl_plugin.c;  ) > 0.9.16cvs1.patchset
+( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 cm_perl.pod;  cvs diff -u -r 1.19.2.65 -r 1.19.2.66 configure.ac;  cvs diff -u -r 1.19.2.32 -r 1.19.2.33 src/perl_plugin.c;  ) > 0.9.17cvs1.patchset
