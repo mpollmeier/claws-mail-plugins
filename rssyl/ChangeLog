@@ -1,3 +1,8 @@
+2010-01-19 [ticho]	0.26.0cvs1
+
+	* src/rssyl.c
+		Added toolbar item for 'refresh all feeds' to main window.
+
 2010-01-08 [paul]	0.26
 
 	0.26 released

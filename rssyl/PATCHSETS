@@ -176,3 +176,4 @@
 ( cvs diff -u -r 1.1.2.112 -r 1.1.2.113 src/feed.c;  ) > 0.25.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 po/fr.po;  ) > 0.25.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.246 -r 1.1.2.247 configure.ac;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/ca.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/cs.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/es.po;  cvs diff -u -r 1.1.2.14 -r 1.1.2.15 po/fi.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ja.po;  diff -u /dev/null po/nl.po;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 po/pt_BR.po;  cvs diff -u -r 1.1.2.18 -r 1.1.2.19 po/sk.po;  ) > 0.25.0cvs10.patchset
+( cvs diff -u -r 1.1.2.24 -r 1.1.2.25 src/rssyl.c;  ) > 0.26.0cvs1.patchset

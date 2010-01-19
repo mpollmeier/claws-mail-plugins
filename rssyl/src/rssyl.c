@@ -32,6 +32,8 @@
 
 #include "procheader.h"
 #include "common/utils.h"
+#include "toolbar.h"
+#include "prefs_toolbar.h"
 
 #include "gettext.h"
 #include "main.h"
@@ -100,9 +102,15 @@ static gboolean rssyl_refresh_all_feeds_deferred(gpointer data)
 	return FALSE;
 }
 
+static void rssyl_toolbar_cb_refresh_all(gpointer parent, const gchar *item_name, gpointer data)
+{
+	rssyl_update_all_feeds();
+}
+
 void rssyl_init(void)
 {
 	folder_register_class(rssyl_folder_get_class());
+
 	rssyl_gtk_init();
 
 	rssyl_make_rc_dir();
@@ -114,6 +122,9 @@ void rssyl_init(void)
 	if( existing_tree_found == FALSE )
 		rssyl_create_default_mailbox();
 
+	prefs_toolbar_register_plugin_item(TOOLBAR_MAIN, "RSSyl",
+			_("Refresh all feeds"), rssyl_toolbar_cb_refresh_all, NULL);
+
 	rssyl_opml_export();
 
 	if( rssyl_prefs_get()->refresh_on_startup &&
@@ -123,6 +134,8 @@ void rssyl_init(void)
 
 void rssyl_done(void)
 {
+	prefs_toolbar_unregister_plugin_item(TOOLBAR_MAIN, "RSSyl",
+			_("Refresh all feeds"));
 	rssyl_prefs_done();
 	rssyl_gtk_done();
 	if (!claws_is_exiting())
