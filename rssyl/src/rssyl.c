@@ -104,7 +104,7 @@ static gboolean rssyl_refresh_all_feeds_deferred(gpointer data)
 
 static void rssyl_toolbar_cb_refresh_all(gpointer parent, const gchar *item_name, gpointer data)
 {
-	rssyl_update_all_feeds();
+	rssyl_refresh_all_feeds();
 }
 
 void rssyl_init(void)
