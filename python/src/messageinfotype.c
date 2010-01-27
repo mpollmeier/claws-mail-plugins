@@ -59,9 +59,9 @@ static PyObject* MessageInfo_str(PyObject *self)
 {
   PyObject *str;
   str = PyString_FromString("MessageInfo: ");
-  PyString_ConcatAndDel(&str, PyObject_GetAttrString(self, "from"));
+  PyString_ConcatAndDel(&str, PyObject_GetAttrString(self, "From"));
   PyString_ConcatAndDel(&str, PyString_FromString(" / "));
-  PyString_ConcatAndDel(&str, PyObject_GetAttrString(self, "subject"));
+  PyString_ConcatAndDel(&str, PyObject_GetAttrString(self, "Subject"));
   return str;
 }
 
@@ -142,14 +142,14 @@ static PyMethodDef MessageInfo_methods[] = {
 };
 
 static PyMemberDef MessageInfo_members[] = {
-    {"from", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, from), 0,
-     "from - the From header of the message"},
+    {"From", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, from), 0,
+     "From - the From header of the message"},
 
-    {"to", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, to), 0,
-     "to - the To header of the message"},
+    {"To", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, to), 0,
+     "To - the To header of the message"},
 
-    {"subject", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, subject), 0,
-     "subject - the subject header of the message"},
+    {"Subject", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, subject), 0,
+     "Subject - the subject header of the message"},
 
     {NULL}
 };
@@ -233,9 +233,9 @@ PyObject* clawsmail_msginfo_new(MsgInfo *msginfo)
   if(!ff)
     return NULL;
 
-  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->from, "from");
-  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->to, "to");
-  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->subject, "subject");
+  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->from, "From");
+  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->to, "To");
+  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->subject, "Subject");
 
   ff->msginfo = msginfo;
   return (PyObject*)ff;

@@ -21,6 +21,7 @@
 #include "pluginconfig.h"
 
 #include "foldertype.h"
+#include "messageinfotype.h"
 
 #include <structmember.h>
 
@@ -64,11 +65,39 @@ static PyObject* Folder_get_identifier(clawsmail_FolderObject *self, PyObject *a
   return Py_BuildValue("s", folder_item_get_identifier(self->folderitem));
 }
 
+static PyObject* Folder_get_messages(clawsmail_FolderObject *self, PyObject *args)
+{
+  GSList *msglist, *walk;
+  PyObject *retval;
+  Py_ssize_t pos;
+
+  msglist = folder_item_get_msg_list(self->folderitem);
+  retval = PyTuple_New(g_slist_length(msglist));
+  if(!retval) {
+    procmsg_msg_list_free(msglist);
+    Py_INCREF(Py_None);
+    return Py_None;
+  }
+  
+  for(pos = 0, walk = msglist; walk; walk = walk->next, ++pos) {
+    PyObject *msg;
+    msg = clawsmail_msginfo_new(walk->data);
+    PyTuple_SET_ITEM(retval, pos, msg);
+  }
+  procmsg_msg_list_free(msglist);
+  
+  return retval;
+}
+
 static PyMethodDef Folder_methods[] = {
     {"get_identifier", (PyCFunction)Folder_get_identifier, METH_NOARGS,
      "get_identifier() - get identifier\n"
      "\n"
      "Get identifier for folder as a string (e.g. #mh/foo/bar)."},
+    {"get_messages", (PyCFunction)Folder_get_messages, METH_NOARGS,
+     "get_messages() - get a tuple of messages in folder\n"
+     "\n"
+     "Get a tuple of MessageInfos for the folder."},
     {NULL}
 };
 
