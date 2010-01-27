@@ -1,3 +1,8 @@
+2010-01-27 [holger]	0.3cvs19
+
+	* examples/auto/startup
+		Add D-Bus interface example
+
 2010-01-27 [holger]	0.3cvs18
 
 	* src/foldertype.c

@@ -58,6 +58,35 @@ def add_mark_thread_read_menu_item():
     mainwindow_merge_ids.append(merge_id)
     mainwindow_actions.append(action)
 
+def add_dbus_interface():
+    # exports an interface to Claws Mail on the session D-Bus
+    #
+    # Example invokation to trigger an update of the summary view from the command line:
+    # dbus-send --session --type=method_call --dest=org.ClawsMail.PythonPlugin /org/ClawsMail/PythonPlugin org.ClawsMail.PythonPlugin.MainWindow.TriggerGtkAction string:'View/UpdateSummary'
+    try:
+        import dbus
+        import dbus.service
+        from dbus.mainloop.glib import DBusGMainLoop    
+    except ImportError:
+        print 'Cannot setup D-Bus interface: D-Bus Python bindings not available.'
+        return None
+        
+    class ClawsMailService(dbus.service.Object):
+        @dbus.service.method("org.ClawsMail.PythonPlugin.MainWindow", in_signature='s', out_signature='')
+        def TriggerGtkAction(self, action_path):
+            action = clawsmail.get_mainwindow_action_group().get_action(action_path)
+            if action:
+                action.activate()
+            else:
+                print 'No such action:', action_path
+                
+    loop = DBusGMainLoop(set_as_default=True)
+    session_bus = dbus.SessionBus()
+    name = dbus.service.BusName("org.ClawsMail.PythonPlugin", session_bus)
+    object = ClawsMailService(session_bus, '/org/ClawsMail/PythonPlugin')
+    return name
+
 # call the functions that have been defined above, or comment the functions that you want to omit
 add_python_documentation_menu_item()
 add_mark_thread_read_menu_item()
+dbus_interface = add_dbus_interface()
