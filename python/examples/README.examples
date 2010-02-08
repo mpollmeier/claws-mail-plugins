@@ -14,6 +14,8 @@ Table of contents:
   to generate and browse the API documentation of the plugin.
   It also adds a menu item to mark a whole thread as read in the
   Edit menu.
+  Furthermore, it shows how to build a D-Bus bridge to Claws Mail
+  that other processes can use to trigger Claws Mail events.
   Also see auto/shutdown for cleanup.
 
 * auto/shutdown
