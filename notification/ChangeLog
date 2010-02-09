@@ -1,3 +1,9 @@
+2010-02-09 [holger]	0.24cvs1
+
+	* configure.ac
+	* src/notification_foldercheck.c
+		Drop support for GTK+ < 2.10
+
 2010-01-08 [paul]	0.24
 
 	0.24 released

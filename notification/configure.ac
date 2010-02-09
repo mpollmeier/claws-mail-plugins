@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=24
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -147,7 +147,7 @@ AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
 dnl Check for GTK+
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10)
 
 dnl Check for libnotify support
 LIBNOTIFY_REQUIRED=0.4.3

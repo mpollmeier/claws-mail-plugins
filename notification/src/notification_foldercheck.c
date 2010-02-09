@@ -523,10 +523,8 @@ static void foldercheck_create_window(SpecificFolderArrayEntry *entry)
 				  FOLDERCHECK_FOLDERNAME);
   gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(entry->treeview),
 				  prefs_common_get_prefs()->use_stripes_everywhere);
-#if GTK_CHECK_VERSION(2,10,0)
   gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(entry->treeview),
 				  prefs_common_get_prefs()->enable_dotted_lines);
-#endif
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(entry->treeview));
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
