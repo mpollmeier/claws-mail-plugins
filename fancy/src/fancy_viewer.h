@@ -54,6 +54,10 @@
 #include <curl/curlver.h>
 #endif
 
+#ifdef HAVE_LIBSOUP_GNOME
+#include <libsoup/soup-gnome.h>
+#endif
+
 typedef struct _FancyViewer FancyViewer;
 struct _FancyViewer
 {

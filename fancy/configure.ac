@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=9
 MICRO_VERSION=9
-EXTRA_VERSION=1
+EXTRA_VERSION=2
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -104,6 +104,15 @@ PKG_CHECK_MODULES(WEBKIT, webkit-1.0, ,
           AC_MSG_ERROR([Can't find GTK+ WebKit library.]))
 AC_SUBST(WEBKIT_LIBS)
 AC_SUBST(WEBKIT_CFLAGS)
+
+dnl Check for libsoup-gnome
+PKG_CHECK_MODULES(LIBSOUP_GNOME, libsoup-gnome-2.4, ac_cv_enable_soup_gnome=yes, ac_cv_enable_soup_gnome=no)        
+    if test x$ac_cv_enable_soup_gnome = xyes; then
+		AC_DEFINE(HAVE_LIBSOUP_GNOME, 1, Define if you want soup gnome proxy support)
+    fi
+AC_SUBST(LIBSOUP_GNOME_CFLAGS)
+AC_SUBST(LIBSOUP_GNOME_LIBS)
+
 
 dnl Find curl-config
 AC_PATH_PROG(CURL_CONFIG, curl-config, no)

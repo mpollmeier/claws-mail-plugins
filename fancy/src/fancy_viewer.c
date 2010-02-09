@@ -20,6 +20,10 @@
 #include <fancy_viewer.h>
 #include <fancy_prefs.h>
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #if USE_PRINTUNIX
 #include <alertpanel.h>
 #include <printing.h>
@@ -31,6 +35,7 @@
 #include <gtk/gtkprintunixdialog.h>
 #endif
 #endif
+
 
 static void 
 load_start_cb (WebKitWebView *view, gint progress, FancyViewer *viewer);
@@ -805,6 +810,14 @@ static MimeViewer *fancy_viewer_create(void)
     viewer->mimeviewer.scroll_page = fancy_scroll_page;
     viewer->mimeviewer.scroll_one_line = fancy_scroll_one_line;
     viewer->view = WEBKIT_WEB_VIEW(webkit_web_view_new());
+
+#ifdef HAVE_LIBSOUP_GNOME    
+    SoupSession *session;
+    session = webkit_get_default_session();
+ /* Use GNOME proxy settings through libproxy */
+	soup_session_add_feature_by_type (session, SOUP_TYPE_PROXY_RESOLVER_GNOME);    
+#endif
+    
     viewer->settings = webkit_web_settings_new();    
     viewer->scrollwin = gtk_scrolled_window_new(NULL, NULL);
     viewer->tag = -1;
