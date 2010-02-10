@@ -1,3 +1,10 @@
+2010-02-10 [iwkse]	0.9.9cvs3
+
+	* configure.ac
+	* src/Makefile.am
+            Add a version check to libsoup-gnome
+            Commit the forgotten Makefile.am
+
 2010-02-09 [sal]	0.9.9cvs2
 
 	* src/fancy_viewer.c

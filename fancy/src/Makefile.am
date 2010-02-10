@@ -13,7 +13,8 @@ fancy_la_LDFLAGS = \
     -avoid-version -module \
     $(GTK_LIBS) \
     $(GTKPRINTUNIX_LIBS) \
-    $(WEBKIT_LIBS)
+    $(WEBKIT_LIBS) \
+    $(LIBSOUP_GNOME_LIBS)
 
 INCLUDES = \
     -I$(top_srcdir)/src \
@@ -28,4 +29,5 @@ AM_CPPFLAGS = \
     $(OPENSSL_CFLAGS) \
     $(GTKPRINTUNIX_CFLAGS) \
     $(WEBKIT_CFLAGS) \
+    $(LIBSOUP_GNOME_CFLAGS) \
     -DLOCALEDIR=\""$(localedir)"\"
