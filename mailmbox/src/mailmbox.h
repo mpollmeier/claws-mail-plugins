@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox.h,v 1.2.2.2 2008-03-12 17:41:50 colinler Exp $
+ * $Id: mailmbox.h,v 1.2.2.3 2010-02-10 07:39:45 colin Exp $
  */
 
 #ifndef MAILMBOX_H
@@ -52,11 +52,11 @@ claws_mailmbox_append_message(struct claws_mailmbox_folder * folder,
 			const char * data, size_t len);
 
 int claws_mailmbox_fetch_msg(struct claws_mailmbox_folder * folder,
-		       uint32_t num, char ** result,
+		       uint32_t num, const char ** result,
 		       size_t * result_len);
 
 int claws_mailmbox_fetch_msg_headers(struct claws_mailmbox_folder * folder,
-			       uint32_t num, char ** result,
+			       uint32_t num, const char ** result,
 			       size_t * result_len);
 
 void claws_mailmbox_fetch_result_free(char * msg);
@@ -118,11 +118,11 @@ int claws_mailmbox_validate_read_lock(struct claws_mailmbox_folder * folder);
 /* fetch message */
 
 int claws_mailmbox_fetch_msg_no_lock(struct claws_mailmbox_folder * folder,
-			       uint32_t num, char ** result,
+			       uint32_t num, const char ** result,
 			       size_t * result_len);
 
 int claws_mailmbox_fetch_msg_headers_no_lock(struct claws_mailmbox_folder * folder,
-				       uint32_t num, char ** result,
+				       uint32_t num, const char ** result,
 				       size_t * result_len);
 
 /* append message */

@@ -1,3 +1,14 @@
+2010-02-10 [colin]	1.14.3cvs1
+
+	* src/mailimf.c
+	* src/mailmbox.c
+	* src/mailmbox.h
+	* src/mailmbox_folder.c
+		Fix bug 2111, 's_claws_mailmbox_fetch_msg() heap 
+		corruption'. Thanks to Cindy Matthews for the
+		catch. Also, correctly mark const pointers to 
+		avoid doing it again.
+
 2008-12-19 [paul]	1.14.3
 
 	1.14.3 released

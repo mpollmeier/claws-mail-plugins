@@ -30,7 +30,7 @@
  */
 
 /*
- * $Id: mailmbox.c,v 1.3.2.2 2008-03-12 17:41:50 colinler Exp $
+ * $Id: mailmbox.c,v 1.3.2.3 2010-02-10 07:39:45 colin Exp $
  */
 
 #include "mailmbox.h"
@@ -202,7 +202,7 @@ void claws_mailmbox_timestamp(struct claws_mailmbox_folder * folder)
 
 int claws_mailmbox_open(struct claws_mailmbox_folder * folder)
 {
-  int fd;
+  int fd = -1;
   int read_only;
 
   if (!folder->mb_read_only) {
@@ -579,8 +579,8 @@ static char * write_fixed_message(char * str,
   cur_src = message + cur_token;
   left = size - cur_token;
   while (left > 0) {
-    size_t count;
-    const char * next;
+    size_t count = 0;
+    const char * next = NULL;
 
     str = write_fixed_line(str, cur_src, left, &next, &count);
     
@@ -821,7 +821,7 @@ claws_mailmbox_append_message(struct claws_mailmbox_folder * folder,
 /* ********************************************************************** */
 
 int claws_mailmbox_fetch_msg_no_lock(struct claws_mailmbox_folder * folder,
-			       uint32_t num, char ** result,
+			       uint32_t num, const char ** result,
 			       size_t * result_len)
 {
   struct claws_mailmbox_msg_info * info;
@@ -856,7 +856,7 @@ int claws_mailmbox_fetch_msg_no_lock(struct claws_mailmbox_folder * folder,
 }
 
 int claws_mailmbox_fetch_msg_headers_no_lock(struct claws_mailmbox_folder * folder,
-				       uint32_t num, char ** result,
+				       uint32_t num, const char ** result,
 				       size_t * result_len)
 {
   struct claws_mailmbox_msg_info * info;
@@ -891,12 +891,12 @@ int claws_mailmbox_fetch_msg_headers_no_lock(struct claws_mailmbox_folder * fold
 }
 
 int claws_mailmbox_fetch_msg(struct claws_mailmbox_folder * folder,
-		       uint32_t num, char ** result,
+		       uint32_t num, const char ** result,
 		       size_t * result_len)
 {
   MMAPString * mmapstr;
   int res;
-  char * data;
+  const char * data;
   size_t len;
   int r;
   size_t fixed_size;
@@ -955,12 +955,12 @@ int claws_mailmbox_fetch_msg(struct claws_mailmbox_folder * folder,
 }
 
 int claws_mailmbox_fetch_msg_headers(struct claws_mailmbox_folder * folder,
-			       uint32_t num, char ** result,
+			       uint32_t num, const char ** result,
 			       size_t * result_len)
 {
   MMAPString * mmapstr;
   int res;
-  char * data;
+  const char * data;
   size_t len;
   int r;
   size_t fixed_size;
@@ -1047,7 +1047,7 @@ int claws_mailmbox_copy_msg_list(struct claws_mailmbox_folder * dest_folder,
 
   for(i = 0 ; i < carray_count(tab) ; i ++) {
     struct claws_mailmbox_append_info * append_info;
-    char * data;
+    const char * data;
     size_t len;
     uint32_t uid;
 

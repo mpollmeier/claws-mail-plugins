@@ -428,7 +428,7 @@ static gchar *s_claws_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint 
 	gchar *file;
         int r;
         struct claws_mailmbox_folder * mbox;
-        char * data;
+        const char * data;
         size_t len;
         FILE * f;
         mode_t old_mask;
@@ -457,29 +457,26 @@ static gchar *s_claws_mailmbox_fetch_msg(Folder *folder, FolderItem *item, gint 
         f = fopen(file, "w");
         umask(old_mask);
         if (f == NULL)
-                goto free_data;
+                goto free;
         
         r = fwrite(data, 1, len, f);
         if (r == 0)
                 goto close;
         
         fclose(f);
-        free(data);
         
 	return file;
         
  close:
         fclose(f);
         unlink(file);
- free_data:
-        free(data);
  free:
         free(file);
         return NULL;
 }
 
 static MsgInfo *claws_mailmbox_parse_msg(guint uid,
-    char * data, size_t len, FolderItem *_item)
+    const char * data, size_t len, FolderItem *_item)
 {
 	MsgInfo *msginfo;
 	MsgFlags flags;
@@ -528,7 +525,7 @@ static MsgInfo *claws_mailmbox_get_msginfo(Folder *folder,
 {
 	MsgInfo *msginfo;
         int r;
-        char * data;
+        const char * data;
         size_t len;
         struct claws_mailmbox_folder * mbox;
 
@@ -582,7 +579,7 @@ static GSList *claws_mailmbox_get_msginfos(Folder *folder, FolderItem *item,
         ret = NULL;
         
         for (cur = msgnum_list ; cur != NULL ; cur = g_slist_next(cur)) {
-                char * data;
+                const char * data;
                 size_t len;
                 gint num;
                 MsgInfo *msginfo;
