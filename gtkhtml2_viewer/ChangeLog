@@ -1,3 +1,9 @@
+2010-02-10 [colin]	0.26.0cvs1
+
+	* libgtkhtml/layout/htmlboxtext.c
+		Fix bug 2103, 'Crash when clicking on a message'
+		Got workaround function from gtkhtml3.14.
+
 2010-01-08 [paul]	0.26
 
 	0.26 released

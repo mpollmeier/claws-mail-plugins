@@ -337,6 +337,81 @@ html_box_text_get_extents (HtmlBox *self, PangoRectangle *log_rect)
  * Set must_relayout if font_spec or white_space in the box style is changed.
  */
 
+/**
+ * pango_glyph_string_get_logical_widths:
+ * @glyphs: a #PangoGlyphString
+ * @text: the text corresponding to the glyphs
+ * @length: the length of @text, in bytes
+ * @embedding_level: the embedding level of the string
+ * @logical_widths: an array whose length is g_utf8_strlen (text, length)
+ *                  to be filled in with the resulting character widths.
+ *
+ * Given a #PangoGlyphString resulting from pango_shape() and the corresponding
+ * text, determine the screen width corresponding to each character. When
+ * multiple characters compose a single cluster, the width of the entire
+ * cluster is divided equally among the characters.
+ **/
+
+static void
+html_tmp_fix_pango_glyph_string_get_logical_widths (PangoGlyphString *glyphs,
+						    const gchar       *text,
+						    gint               length,
+						    gint               embedding_level,
+						    gint              *logical_widths)
+{
+  gint i, j;
+  gint last_cluster = 0;
+  gint width = 0;
+  gint last_cluster_width = 0;
+  const gchar *p = text;		/* Points to start of current cluster */
+
+  /* printf ("html_tmp_fix_pango_glyph_string_get_logical_widths"); */
+
+  for (i=0; i<=glyphs->num_glyphs; i++)
+    {
+      gint glyph_index = (embedding_level % 2 == 0) ? i : glyphs->num_glyphs - i - 1;
+
+      /* If this glyph belongs to a new cluster, or we're at the end, find
+       * the start of the next cluster, and assign the widths for this cluster.
+       */
+      if (i == glyphs->num_glyphs || p != text + glyphs->log_clusters[glyph_index])
+	{
+	  gint next_cluster = last_cluster;
+
+	  if (i < glyphs->num_glyphs)
+	    {
+	      while (p < text + glyphs->log_clusters[glyph_index])
+		{
+		  next_cluster++;
+		  p = g_utf8_next_char (p);
+		}
+	    }
+	  else
+	    {
+	      while (p < text + length)
+		{
+		  next_cluster++;
+		  p = g_utf8_next_char (p);
+		}
+	    }
+
+	  for (j = last_cluster; j < next_cluster; j++) {
+	    logical_widths[j] = (width - last_cluster_width) / (next_cluster - last_cluster);
+	    /* printf (" %d", logical_widths [j]); */
+	  }
+
+	  if (last_cluster != next_cluster) {
+		  last_cluster = next_cluster;
+		  last_cluster_width = width;
+	  }
+	}
+
+      if (i < glyphs->num_glyphs)
+	width += glyphs->glyphs[glyph_index].geometry.width;
+    }
+  /* printf ("\n"); */
+}
+
 static void
 html_box_text_recalc_items (HtmlBoxText *text,
 			    HtmlFontSpecification *font_spec,
@@ -445,7 +520,7 @@ html_box_text_recalc_items (HtmlBoxText *text,
 			
 			pango_shape (canon, canon_len, &data->item->analysis, glyphs);
 			data->log_widths = g_new (PangoGlyphUnit, num_chars);
-			pango_glyph_string_get_logical_widths (glyphs,
+			html_tmp_fix_pango_glyph_string_get_logical_widths (glyphs,
 							       canon, canon_len,
 							       data->item->analysis.level,
 							       data->log_widths);
