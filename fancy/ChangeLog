@@ -1,3 +1,8 @@
+2010-02-19 [iwkse]	0.9.9cvs5
+
+	* src/fancy_viewer.c
+            A better check to WebKit's version
+
 2010-02-19 [iwkse]	0.9.9cvs4
 
 	* src/fancy_viewer.c

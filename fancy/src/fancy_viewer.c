@@ -400,7 +400,7 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
     viewer->load_page = TRUE;
     return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
 }
-#if (WEBKIT_MICRO_VERSION > 13)
+#if WEBKIT_CHECK_VERSION (1,1,14)
 static void resource_request_starting_cb(WebKitWebView			*view, 
 										 WebKitWebFrame			*frame,
 										 WebKitWebResource		*resource,
@@ -787,7 +787,7 @@ static gint keypress_events_cb (GtkWidget *widget, GdkEventKey *event,
     }
     return FALSE;
 }
-#if (WEBKIT_MICRO_VERSION < 12)
+#if !WEBKIT_CHECK_VERSION (1,1,12)
 static gboolean release_button_cb (WebKitWebView *view, GdkEvent *ev, 
                                    gpointer data)
 {
@@ -949,13 +949,13 @@ static MimeViewer *fancy_viewer_create(void)
                      G_CALLBACK(load_progress_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "navigation-requested",
                      G_CALLBACK(navigation_requested_cb), viewer);
-#if (WEBKIT_MICRO_VERSION > 13)
+#if WEBKIT_CHECK_VERSION (1,1,14)
 	g_signal_connect(G_OBJECT(viewer->view), "resource-request-starting",
 					 G_CALLBACK(resource_request_starting_cb), viewer);
 #endif
     g_signal_connect(G_OBJECT(viewer->view), "populate-popup",
                      G_CALLBACK(populate_popup_cb), viewer);
-#if (WEBKIT_MICRO_VERSION < 12)
+#if !WEBKIT_CHECK_VERSION (1,1,12)
     g_signal_connect(G_OBJECT(viewer->view), "button-release-event",
                      G_CALLBACK(release_button_cb), viewer);
 #endif
