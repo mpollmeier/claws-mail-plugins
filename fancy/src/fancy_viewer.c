@@ -400,8 +400,43 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
     viewer->load_page = TRUE;
     return WEBKIT_NAVIGATION_RESPONSE_ACCEPT;
 }
+#if (WEBKIT_MICRO_VERSION > 13)
+static void resource_request_starting_cb(WebKitWebView			*view, 
+										 WebKitWebFrame			*frame,
+										 WebKitWebResource		*resource,
+										 WebKitNetworkRequest	*request,
+										 WebKitNetworkResponse	*response,
+										 FancyViewer			*viewer)
+{
+	const gchar *uri = webkit_network_request_get_uri(request);
+	gchar *filename;
+	gchar *name;
+	const gchar *tmp;
+	gint err;
+	MimeInfo *partinfo = viewer->to_load;
+	filename = viewer->filename;
+	if (!g_ascii_strncasecmp(uri, "cid:", 4)) {
+		while (partinfo) {
+			tmp = procmime_mimeinfo_get_parameter(partinfo, "name");
+			name = g_strconcat("cid:", tmp, NULL);
+			if (!g_ascii_strcasecmp(uri, name)) {
+				filename = procmime_get_tmp_file_name(partinfo);
+				if ((err = procmime_get_part(filename, partinfo)) < 0)
+					alertpanel_error(_("Couldn't save the part of multipart message: %s"),
+										strerror(-err));
+				gchar *file_uri = g_strconcat("file://", filename, NULL);
+				webkit_network_request_set_uri(request, file_uri);
+				g_free(file_uri);
+				g_free(filename);
+			}
+			g_free(name);
+			partinfo = procmime_mimeinfo_next(partinfo);
+		}
+	}
+}
+#endif
 static gboolean fancy_text_search(MimeViewer *_viewer, gboolean backward, 
-                                     const gchar *str, gboolean case_sens)
+                                  const gchar *str, gboolean case_sens)
 {
     return webkit_web_view_search_text(((FancyViewer*)_viewer)->view, str,
                                          case_sens, !backward, TRUE);
@@ -914,6 +949,10 @@ static MimeViewer *fancy_viewer_create(void)
                      G_CALLBACK(load_progress_cb), viewer);
     g_signal_connect(G_OBJECT(viewer->view), "navigation-requested",
                      G_CALLBACK(navigation_requested_cb), viewer);
+#if (WEBKIT_MICRO_VERSION > 13)
+	g_signal_connect(G_OBJECT(viewer->view), "resource-request-starting",
+					 G_CALLBACK(resource_request_starting_cb), viewer);
+#endif
     g_signal_connect(G_OBJECT(viewer->view), "populate-popup",
                      G_CALLBACK(populate_popup_cb), viewer);
 #if (WEBKIT_MICRO_VERSION < 12)
