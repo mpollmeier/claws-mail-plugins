@@ -1,3 +1,9 @@
+2010-02-19 [ticho]	0.26.0cvs3
+
+	* src/parsers.c
+		Handle empty <item></item> in RSS2 feeds. Fixes bug #2123,
+		reported by Dâniel Fraga.
+
 2010-01-26 [ticho]	0.26.0cvs2
 
 	* src/rssyl.c

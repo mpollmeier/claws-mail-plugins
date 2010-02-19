@@ -177,7 +177,10 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 
 	for( i = 0; i < result->nodesetval->nodeNr; i++ ) {
 		node = result->nodesetval->nodeTab[i];
-		n = node->children;
+		
+		if ((n = node->children) == NULL)
+			continue;
+
 		fitem = g_new0(RSSylFeedItem, 1);
 		fitem->media = NULL;
 		fitem->date = 0;
