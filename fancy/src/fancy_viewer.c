@@ -410,17 +410,17 @@ static void resource_request_starting_cb(WebKitWebView			*view,
 {
 	const gchar *uri = webkit_network_request_get_uri(request);
 	gchar *filename;
-	gchar *name;
-	const gchar *tmp;
+	gchar *image;
 	gint err;
 	MimeInfo *partinfo = viewer->to_load;
+	
 	filename = viewer->filename;
-	if (!g_ascii_strncasecmp(uri, "cid:", 4)) {
-		while (partinfo) {
-			tmp = procmime_mimeinfo_get_parameter(partinfo, "name");
-			name = g_strconcat("cid:", tmp, NULL);
-			if (!g_ascii_strcasecmp(uri, name)) {
+	if ((!g_ascii_strncasecmp(uri, "cid:", 4)) || (!g_ascii_strncasecmp(uri, "mid:", 4))) {
+		image = g_strconcat("<", uri + 4, ">", NULL);
+		while ((partinfo = procmime_mimeinfo_next(partinfo)) != NULL) {
+			if (!g_ascii_strcasecmp(image, partinfo->id)) {
 				filename = procmime_get_tmp_file_name(partinfo);
+				if (!filename) return;
 				if ((err = procmime_get_part(filename, partinfo)) < 0)
 					alertpanel_error(_("Couldn't save the part of multipart message: %s"),
 										strerror(-err));
@@ -428,10 +428,10 @@ static void resource_request_starting_cb(WebKitWebView			*view,
 				webkit_network_request_set_uri(request, file_uri);
 				g_free(file_uri);
 				g_free(filename);
+				break;
 			}
-			g_free(name);
-			partinfo = procmime_mimeinfo_next(partinfo);
 		}
+		g_free(image);
 	}
 }
 #endif

@@ -1,3 +1,10 @@
+2010-02-23 [iwkse]	0.9.9cvs6
+
+	* src/fancy_viewer.c
+            Better fix for bug 2120: do not rely on
+            the partinfo name because it may be missing
+            Also support mid images
+
 2010-02-19 [iwkse]	0.9.9cvs5
 
 	* src/fancy_viewer.c

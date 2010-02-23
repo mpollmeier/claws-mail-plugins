@@ -38,3 +38,4 @@
 ( cvs diff -u -r 1.1.2.42 -r 1.1.2.43 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/Makefile.am;  ) > 0.9.9cvs3.patchset
 ( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/fancy_viewer.c;  ) > 0.9.9cvs4.patchset
 ( cvs diff -u -r 1.1.2.28 -r 1.1.2.29 src/fancy_viewer.c;  ) > 0.9.9cvs5.patchset
+( cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/fancy_viewer.c;  ) > 0.9.9cvs6.patchset
