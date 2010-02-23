@@ -1,3 +1,8 @@
+2010-02-23 [holger]	0.24cvs3
+
+	* src/notification_plugin.c
+		Fix type (thanks, Paul)
+
 2010-02-23 [holger]	0.24cvs2
 
 	* src/notification_plugin.c
