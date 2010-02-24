@@ -156,8 +156,8 @@ static PyMemberDef MessageInfo_members[] = {
     {"Subject", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, subject), 0,
      "Subject - the subject header of the message"},
 
-    {"Message-ID", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, msgid), 0,
-     "Message-ID - the Message-ID header of the message"},
+    {"MessageID", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, msgid), 0,
+     "MessageID - the Message-ID header of the message"},
 
     {NULL}
 };
