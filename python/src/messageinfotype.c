@@ -244,7 +244,7 @@ PyObject* clawsmail_msginfo_new(MsgInfo *msginfo)
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->from, "From");
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->to, "To");
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->subject, "Subject");
-  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->msgid, "Message-ID");
+  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->msgid, "MessageID");
 
   ff->msginfo = msginfo;
   return (PyObject*)ff;

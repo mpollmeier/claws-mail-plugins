@@ -1,3 +1,8 @@
+2010-02-24 [holger]	0.3cvs23
+
+	* src/messageinfotype.c
+		Fix previous fix
+
 2010-02-24 [holger]	0.3cvs22
 
 	* src/messageinfotype.c
