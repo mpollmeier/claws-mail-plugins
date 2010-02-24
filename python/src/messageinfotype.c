@@ -29,6 +29,7 @@ typedef struct {
     PyObject *from;
     PyObject *to;
     PyObject *subject;
+    PyObject *msgid;
     MsgInfo *msginfo;
 } clawsmail_MessageInfoObject;
 
@@ -38,6 +39,7 @@ static void MessageInfo_dealloc(clawsmail_MessageInfoObject* self)
   Py_XDECREF(self->from);
   Py_XDECREF(self->to);
   Py_XDECREF(self->subject);
+  Py_XDECREF(self->msgid);
   self->ob_type->tp_free((PyObject*)self);
 }
 
@@ -51,6 +53,9 @@ static int MessageInfo_init(clawsmail_MessageInfoObject *self, PyObject *args, P
 
   Py_INCREF(Py_None);
   self->subject = Py_None;
+
+  Py_INCREF(Py_None);
+  self->msgid = Py_None;
 
   return 0;
 }
@@ -151,6 +156,9 @@ static PyMemberDef MessageInfo_members[] = {
     {"Subject", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, subject), 0,
      "Subject - the subject header of the message"},
 
+    {"Message-ID", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, msgid), 0,
+     "Message-ID - the Message-ID header of the message"},
+
     {NULL}
 };
 
@@ -236,6 +244,7 @@ PyObject* clawsmail_msginfo_new(MsgInfo *msginfo)
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->from, "From");
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->to, "To");
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->subject, "Subject");
+  MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->msgid, "Message-ID");
 
   ff->msginfo = msginfo;
   return (PyObject*)ff;

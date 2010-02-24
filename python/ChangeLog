@@ -1,3 +1,8 @@
+2010-02-24 [holger]	0.3cvs21
+
+	* src/messageinfotype.c
+		Add accessor for Message-ID
+
 2010-02-08 [holger]	0.3cvs20
 
 	* examples/README.examples
