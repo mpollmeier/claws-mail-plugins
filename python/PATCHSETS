@@ -44,3 +44,4 @@
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/messageinfotype.c;  ) > 0.3cvs22.patchset
 ( cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/messageinfotype.c;  ) > 0.3cvs23.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 examples/README.examples;  cvs diff -u -r  -r 1 examples/main/Create;  cvs diff -u -r  -r 1 examples/main/Open;  ) > 0.3cvs24.patchset
+( cvs diff -u -r  -r 1 examples/main/Create;  ) > 0.3cvs25.patchset

@@ -36,7 +36,7 @@ def add_note(msg):
         win.set_title("Reminder")
         win.connect("destroy", gtk.main_quit)
         win.set_position(gtk.WIN_POS_CENTER)
-        table = gtk.Table(2,5)
+        table = gtk.Table(2,7)
         win.add(table)
         table.attach(gtk.Label(desc), 0, 2, 0, 1)
         # no reminder
@@ -73,11 +73,16 @@ def add_note(msg):
         entry = gtk.Entry()
         button.connect("clicked", custom, win, entry)
         table.attach(entry, 1, 2, 4, 5)
+        
+        # "Show note" toggle option
+        table.attach(gtk.HSeparator(), 0, 2, 5, 6)
+        cb = gtk.CheckButton("Show note")
+        table.attach(cb, 0, 2, 6, 7)
 
         win.show_all()
         win.present()
         gtk.main()
-        return get_reminder.reminder
+        return (get_reminder.reminder, cb.get_active())
     
     title = msg.Subject
     # set up contents: opening tag
@@ -86,7 +91,7 @@ def add_note(msg):
     content.append(title)
     content.append("\n\n")
     # reminder if wanted
-    reminder = get_reminder("\n".join([msg.From, msg.Subject]))
+    (reminder, show_note) = get_reminder("\n".join([msg.From, msg.Subject]))
     if reminder == None:
         return
     if reminder:
@@ -110,7 +115,8 @@ def add_note(msg):
     uri = rc_iface.CreateNamedNote(title)
     rc_iface.SetNoteContentsXml(uri, "".join(content))
     rc_iface.DisplayNote(uri)
-    rc_iface.HideNote(uri)
+    if not show_note:
+        rc_iface.HideNote(uri)
 
 
 # iterate over all notes
