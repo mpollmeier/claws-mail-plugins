@@ -75,7 +75,6 @@ static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer);
 static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external);
 static void fancy_create_popup_prefs_menu(FancyViewer *viewer);
-static void fancy_prefs_cache_init(FancyViewer *viewer);
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -344,45 +343,36 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
                         WebKitNetworkRequest *netreq, FancyViewer *viewer)
 {
 
-    if (viewer->cache_prefs_auto_load_images != fancy_prefs.auto_load_images) {
-        viewer->cache_prefs_auto_load_images = fancy_prefs.auto_load_images;
-        if (!fancy_prefs.auto_load_images && !viewer->override_prefs_images) {
-            g_object_set(viewer->settings, 
-						"auto-load-images", FALSE, NULL);
-            webkit_web_view_set_settings(viewer->view, viewer->settings);
-        }
-        else {
-            g_object_set(viewer->settings, 
-						"auto-load-images", TRUE, NULL);
-            webkit_web_view_set_settings(viewer->view, viewer->settings);
-        }
+    if (!fancy_prefs.auto_load_images && !viewer->override_prefs_images) {
+        g_object_set(viewer->settings, 
+                    "auto-load-images", FALSE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    else {
+        g_object_set(viewer->settings, 
+                    "auto-load-images", TRUE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
     }
 
-    if (viewer->cache_prefs_enable_scripts != fancy_prefs.enable_scripts) {
-        viewer->cache_prefs_enable_scripts = fancy_prefs.enable_scripts;
-        if (!fancy_prefs.enable_scripts && !viewer->override_prefs_scripts) {
-            g_object_set(viewer->settings, 
-						"enable-scripts", FALSE, NULL);
-            webkit_web_view_set_settings(viewer->view, viewer->settings);
-        }
-        else {
-            g_object_set(viewer->settings, 
-						"enable-scripts", TRUE, NULL);
-            webkit_web_view_set_settings(viewer->view, viewer->settings);
-        }
+    if (!fancy_prefs.enable_scripts && !viewer->override_prefs_scripts) {
+        g_object_set(viewer->settings, 
+                    "enable-scripts", FALSE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
     }
-    if (viewer->cache_prefs_enable_plugins != fancy_prefs.enable_plugins) {
-        viewer->cache_prefs_enable_plugins = fancy_prefs.enable_plugins;
-        if (!fancy_prefs.enable_plugins && !viewer->override_prefs_plugins) {
-            g_object_set(viewer->settings, 
-                         "enable-plugins", FALSE, NULL);
-            webkit_web_view_set_settings(viewer->view, viewer->settings);
-        }
-        else {
-            g_object_set(viewer->settings, 
-                         "enable-plugins", TRUE, NULL);
-            webkit_web_view_set_settings(viewer->view, viewer->settings);
-        }
+    else {
+        g_object_set(viewer->settings, 
+                    "enable-scripts", TRUE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    if (!fancy_prefs.enable_plugins && !viewer->override_prefs_plugins) {
+        g_object_set(viewer->settings, 
+                        "enable-plugins", FALSE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
+    }
+    else {
+        g_object_set(viewer->settings, 
+                        "enable-plugins", TRUE, NULL);
+        webkit_web_view_set_settings(viewer->view, viewer->settings);
     }
 
     if (fancy_prefs.block_extern_content && !viewer->override_prefs_block_extern_content) {
@@ -444,8 +434,8 @@ static gboolean fancy_text_search(MimeViewer *_viewer, gboolean backward,
 
 static void fancy_auto_load_images_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
+    gtk_widget_set_sensitive(GTK_WIDGET(item), FALSE);
     viewer->override_prefs_images = TRUE;
-	viewer->cache_prefs_auto_load_images = !fancy_prefs.auto_load_images;
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_images = FALSE;
 }
@@ -455,14 +445,12 @@ static void fancy_block_extern_content_activated(GtkMenuItem *item, FancyViewer 
 static void fancy_enable_scripts_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
     viewer->override_prefs_scripts = TRUE;
-	viewer->cache_prefs_enable_scripts = !fancy_prefs.enable_scripts;
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_scripts = FALSE;
 }
 static void fancy_enable_plugins_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
     viewer->override_prefs_plugins = TRUE;
-	viewer->cache_prefs_enable_plugins = !fancy_prefs.enable_plugins;
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_plugins = FALSE;
 }
@@ -818,11 +806,6 @@ static void zoom_out_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer)
     webkit_web_view_zoom_out(viewer->view);
 }
 
-static void fancy_prefs_cache_init(FancyViewer *viewer) {
-    viewer->cache_prefs_auto_load_images = !fancy_prefs.auto_load_images;
-    viewer->cache_prefs_enable_plugins   = !fancy_prefs.enable_plugins;
-    viewer->cache_prefs_enable_scripts   = !fancy_prefs.enable_scripts;
-}
 static MimeViewer *fancy_viewer_create(void)
 {
     FancyViewer    *viewer;
@@ -973,7 +956,6 @@ static MimeViewer *fancy_viewer_create(void)
                      G_CALLBACK(keypress_events_cb), viewer);
 
     viewer->filename = NULL;
-    fancy_prefs_cache_init(viewer);
     return (MimeViewer *) viewer;
 }
 

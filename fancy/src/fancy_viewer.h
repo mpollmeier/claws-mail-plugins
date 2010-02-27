@@ -96,10 +96,6 @@ struct _FancyViewer
     gboolean          override_prefs_plugins;
     gboolean          override_prefs_external;
 
-    gboolean          cache_prefs_auto_load_images;
-    gboolean          cache_prefs_enable_scripts;
-    gboolean          cache_prefs_enable_plugins;
-
     gchar             *cur_link;
     gchar             *filename;
     MimeInfo          *to_load;

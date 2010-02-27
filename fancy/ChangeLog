@@ -1,3 +1,9 @@
+2010-02-27 [iwkse]	0.9.9cvs8
+
+	* src/fancy_viewer.c
+	* src/fancy_viewer.h
+            Do not use cache for preferences
+
 2010-02-27 [iwkse]	0.9.9cvs7
 
 	* src/fancy_prefs.h
