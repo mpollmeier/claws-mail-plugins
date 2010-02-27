@@ -1,3 +1,11 @@
+2010-02-27 [iwkse]	0.9.9cvs7
+
+	* src/fancy_prefs.h
+	* src/fancy_prefs.c
+	* src/fancy_viewer.h
+	* src/fancy_viewer.c
+            Better naming for blocking external content preference
+
 2010-02-23 [iwkse]	0.9.9cvs6
 
 	* src/fancy_viewer.c

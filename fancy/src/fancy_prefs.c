@@ -46,7 +46,7 @@ typedef struct _FancyPrefsPage FancyPrefsPage;
 struct _FancyPrefsPage {
     PrefsPage page;
     GtkWidget *auto_load_images;
-    GtkWidget *block_links;
+    GtkWidget *block_extern_content;
     GtkWidget *enable_scripts;
     GtkWidget *enable_plugins;
     GtkWidget *open_external;
@@ -55,7 +55,7 @@ struct _FancyPrefsPage {
 static PrefParam param[] = {
         {"auto_load_images", "FALSE", &fancy_prefs.auto_load_images, P_BOOL, 
          NULL, NULL, NULL},
-        {"block_links", "TRUE", &fancy_prefs.block_links, P_BOOL, NULL, 
+        {"block_extern_content", "TRUE", &fancy_prefs.block_extern_content, P_BOOL, NULL, 
          NULL, NULL},
         {"enable_scripts", "FALSE", &fancy_prefs.enable_scripts, P_BOOL, NULL, 
          NULL, NULL},
@@ -126,9 +126,9 @@ static void create_fancy_prefs_page(PrefsPage *page, GtkWindow *window,
     gtk_box_pack_start(GTK_BOX(vbox), checkbox1, FALSE, FALSE, 0);
     gtk_widget_show(checkbox1);
 
-    checkbox2 = gtk_check_button_new_with_label(_("Block external links"));
+    checkbox2 = gtk_check_button_new_with_label(_("Block external content"));
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox2),
-                                 fancy_prefs.block_links);
+                                 fancy_prefs.block_extern_content);
     gtk_box_pack_start(GTK_BOX(vbox), checkbox2, FALSE, FALSE, 0);
     gtk_widget_show(checkbox2);
     
@@ -151,7 +151,7 @@ static void create_fancy_prefs_page(PrefsPage *page, GtkWindow *window,
     gtk_widget_show(checkbox5);
 
     prefs_page->auto_load_images = checkbox1;
-    prefs_page->block_links = checkbox2;
+    prefs_page->block_extern_content = checkbox2;
     prefs_page->enable_scripts = checkbox3;
     prefs_page->enable_plugins = checkbox4;
     prefs_page->open_external = checkbox5;
@@ -192,8 +192,8 @@ static void save_fancy_prefs_page(PrefsPage *page)
         
         fancy_prefs.auto_load_images = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->auto_load_images));
-        fancy_prefs.block_links = gtk_toggle_button_get_active
-                (GTK_TOGGLE_BUTTON(prefs_page->block_links));
+        fancy_prefs.block_extern_content = gtk_toggle_button_get_active
+                (GTK_TOGGLE_BUTTON(prefs_page->block_extern_content));
         fancy_prefs.enable_scripts = gtk_toggle_button_get_active
                 (GTK_TOGGLE_BUTTON(prefs_page->enable_scripts));
         fancy_prefs.enable_plugins = gtk_toggle_button_get_active

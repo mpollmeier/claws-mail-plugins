@@ -296,7 +296,7 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     FancyViewer *viewer = (FancyViewer *) _viewer;
     GtkAdjustment *vadj;
     viewer->load_page = FALSE;    
-    viewer->override_prefs_block_links = FALSE;
+    viewer->override_prefs_block_extern_content = FALSE;
     viewer->override_prefs_external = FALSE;
     webkit_web_view_open(viewer->view, "about:blank");
     debug_print("fancy_clear_viewer\n");
@@ -385,7 +385,7 @@ navigation_requested_cb(WebKitWebView *view, WebKitWebFrame *frame,
         }
     }
 
-    if (fancy_prefs.block_links && !viewer->override_prefs_block_links) {
+    if (fancy_prefs.block_extern_content && !viewer->override_prefs_block_extern_content) {
         if (viewer->load_page)
             return WEBKIT_NAVIGATION_RESPONSE_IGNORE; 
     } 
@@ -449,8 +449,8 @@ static void fancy_auto_load_images_activated(GtkMenuItem *item, FancyViewer *vie
     webkit_web_view_reload (viewer->view);
     viewer->override_prefs_images = FALSE;
 }
-static void fancy_block_links_activated(GtkMenuItem *item, FancyViewer *viewer) {
-    viewer->override_prefs_block_links = TRUE;
+static void fancy_block_extern_content_activated(GtkMenuItem *item, FancyViewer *viewer) {
+    viewer->override_prefs_block_extern_content = TRUE;
 }
 static void fancy_enable_scripts_activated(GtkMenuItem *item, FancyViewer *viewer) {
     viewer->load_page = FALSE;
@@ -487,10 +487,10 @@ static gboolean fancy_prefs_cb(GtkWidget *widget, GdkEventButton *ev, FancyViewe
             gtk_widget_set_sensitive(viewer->enable_plugins, FALSE);
         else
             gtk_widget_set_sensitive(viewer->enable_plugins, TRUE);
-        if (fancy_prefs.block_links)
-            gtk_widget_set_sensitive(viewer->block_links, TRUE);
+        if (fancy_prefs.block_extern_content)
+            gtk_widget_set_sensitive(viewer->block_extern_content, TRUE);
         else
-            gtk_widget_set_sensitive(viewer->block_links, FALSE);
+            gtk_widget_set_sensitive(viewer->block_extern_content, FALSE);
         if (fancy_prefs.open_external)
             gtk_widget_set_sensitive(viewer->open_external, FALSE);
         else
@@ -506,7 +506,7 @@ static gboolean fancy_prefs_cb(GtkWidget *widget, GdkEventButton *ev, FancyViewe
 static void fancy_create_popup_prefs_menu(FancyViewer *viewer) {
     GtkWidget *auto_load_images;
     GtkWidget *item_image, *item_image2, *item_image3, *item_image4, *item_image5;
-    GtkWidget *block_links;
+    GtkWidget *block_extern_content;
     GtkWidget *enable_scripts;
     GtkWidget *enable_plugins;
     GtkWidget *open_external;
@@ -515,9 +515,9 @@ static void fancy_create_popup_prefs_menu(FancyViewer *viewer) {
     item_image = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(auto_load_images), item_image);
 
-    block_links = gtk_image_menu_item_new_with_label(_("Unblock links"));
+    block_extern_content = gtk_image_menu_item_new_with_label(_("Unblock external content"));
     item_image2 = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(block_links), item_image2);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(block_extern_content), item_image2);
 
     enable_scripts = gtk_image_menu_item_new_with_label(_("Enable Javascript"));
     item_image3 = gtk_image_new_from_stock(GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU);
@@ -531,8 +531,8 @@ static void fancy_create_popup_prefs_menu(FancyViewer *viewer) {
 
     g_signal_connect(G_OBJECT(auto_load_images), "activate",
                      G_CALLBACK (fancy_auto_load_images_activated), viewer);
-    g_signal_connect(G_OBJECT(block_links), "activate",
-                     G_CALLBACK (fancy_block_links_activated), viewer);
+    g_signal_connect(G_OBJECT(block_extern_content), "activate",
+                     G_CALLBACK (fancy_block_extern_content_activated), viewer);
     g_signal_connect(G_OBJECT(enable_scripts), "activate",
                      G_CALLBACK (fancy_enable_scripts_activated), viewer);
     g_signal_connect(G_OBJECT(enable_plugins), "activate",
@@ -541,7 +541,7 @@ static void fancy_create_popup_prefs_menu(FancyViewer *viewer) {
                      G_CALLBACK (fancy_open_external_activated), viewer);
 
     gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), auto_load_images);
-    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), block_links);
+    gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), block_extern_content);
     gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), enable_scripts);
     gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), enable_plugins);
     gtk_menu_shell_append(GTK_MENU_SHELL(viewer->fancy_prefs_menu), open_external);
@@ -552,7 +552,7 @@ static void fancy_create_popup_prefs_menu(FancyViewer *viewer) {
     viewer->auto_load_images = auto_load_images;
     viewer->enable_scripts = enable_scripts;
     viewer->enable_plugins = enable_plugins;
-    viewer->block_links = block_links;
+    viewer->block_extern_content = block_extern_content;
     viewer->open_external = open_external;
 
 }
@@ -681,7 +681,7 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                                 "Search the Web")) {
             gtk_label_set_text(GTK_LABEL(menul), _("Search the Web"));
                 
-            if (fancy_prefs.block_links) {
+            if (fancy_prefs.block_extern_content) {
                 gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
             } else {
                 viewer->cur_link = NULL;

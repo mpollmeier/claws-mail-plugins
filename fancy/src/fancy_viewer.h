@@ -83,7 +83,7 @@ struct _FancyViewer
     GtkWidget         *auto_load_images;
     GtkWidget         *enable_scripts;
     GtkWidget         *enable_plugins;
-    GtkWidget         *block_links;
+    GtkWidget         *block_extern_content;
     GtkWidget         *open_external;
 
     GtkWidget         *progress;
@@ -91,7 +91,7 @@ struct _FancyViewer
     gboolean          load_page;
     gboolean          printing;
     gboolean          override_prefs_images;
-    gboolean          override_prefs_block_links;
+    gboolean          override_prefs_block_extern_content;
     gboolean          override_prefs_scripts;
     gboolean          override_prefs_plugins;
     gboolean          override_prefs_external;

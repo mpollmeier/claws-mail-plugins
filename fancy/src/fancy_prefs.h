@@ -29,7 +29,7 @@ struct _FancyPrefs
     WebKitWebSettings *web_settings;
     
     gboolean auto_load_images;
-    gboolean block_links;
+    gboolean block_extern_content;
     gboolean enable_scripts;
     gboolean enable_plugins;
     gboolean open_external;
