@@ -1,3 +1,9 @@
+2010-03-01 [iwkse]	0.9.9cvs9
+
+	* src/fancy_viewer.c
+            Fixes sensitivity on preferences's menu after a
+            preference's override
+
 2010-02-27 [iwkse]	0.9.9cvs8
 
 	* src/fancy_viewer.c
