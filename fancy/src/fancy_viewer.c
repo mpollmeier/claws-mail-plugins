@@ -91,7 +91,6 @@ static GtkWidget *fancy_get_widget(MimeViewer *_viewer)
 static gint fancy_show_mimepart_real(MimeViewer *_viewer)
 {
     FancyViewer *viewer = (FancyViewer *) _viewer;
-    
     MessageView *messageview = ((MimeViewer *)viewer)->mimeview 
                     ? ((MimeViewer *)viewer)->mimeview->messageview 
                     : NULL;
@@ -677,7 +676,11 @@ static void copy_image_cb(GtkWidget *widget, FancyViewer *viewer)
 {
     debug_print("Not Yet Implemented\n");
 }
-
+static void import_feed_cb(GtkWidget *widget, FancyViewer *viewer)
+{
+    if (!folder_subscribe(viewer->cur_link))
+		alertpanel_error(_("%s is a malformed or not supported feed"), viewer->cur_link);
+}
 static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
 {
     const gchar *g_name = gtk_widget_get_name(GTK_WIDGET(menuitem));
@@ -723,14 +726,8 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                     "Copy Link Location" )) {
             gtk_label_set_text(GTK_LABEL(menul), _("Copy Link"));
-/*          GtkWidget *rssyl = gtk_image_menu_item_new();
-            GtkWidget *img = gtk_image_new_from_stock(GTK_STOCK_ADD, 
-                                                      GTK_ICON_SIZE_MENU);
-            gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(rssyl), img);
-            GtkWidget *rssyll = gtk_bin_get_child(GTK_BIN(rssyl));
-            gtk_label_set_text(GTK_LABEL(rssyll), "Import Feed");
-            gtk_widget_show(GTK_WIDGET(rssyl));*/
         }
+    
             
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 
                                                    "Download Linked File" )) {
@@ -771,9 +768,21 @@ static gboolean populate_popup_cb (WebKitWebView *view, GtkWidget *menu,
                                    FancyViewer *viewer)
 {
     /*FIXME hack..until webkit does not give the proper way to handle it*/
+    Plugin *plugin = plugin_get_loaded_by_name("RSSyl");
     gtk_container_foreach(GTK_CONTAINER(menu), 
                           (GtkCallback)viewer_menu_handler, 
                           viewer);
+            if (plugin) {
+                GtkWidget *rssyl = gtk_image_menu_item_new_with_label(_("Import feed"));
+                GtkWidget *img = gtk_image_new_from_stock(GTK_STOCK_ADD, 
+                                                          GTK_ICON_SIZE_MENU);
+                gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(rssyl), img);
+                gtk_widget_show(GTK_WIDGET(rssyl));
+                gtk_menu_shell_append(GTK_MENU_SHELL(menu), rssyl);    
+                g_signal_connect(G_OBJECT(rssyl), "activate",
+                                G_CALLBACK(import_feed_cb),
+                                (gpointer *) viewer);
+            }
     return TRUE;
 }
 

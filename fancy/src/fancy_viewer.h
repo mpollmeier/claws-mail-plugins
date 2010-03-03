@@ -44,7 +44,7 @@
 #include "menu.h"
 #include "defs.h"
 #include "utils.h"
-
+#include "folder.h"
 #ifdef USE_PTHREAD
 #include <pthread.h>
 #endif
