@@ -711,6 +711,7 @@ static void download_link_cb(GtkWidget *widget, FancyViewer *viewer)
     if (viewer->curlfile) viewer->curlfile = NULL;
     if (viewer->stream) viewer->stream = NULL;
     viewer->curlfile = (const gchar *)g_strdup(fname);
+    g_free(filename);
     g_free(fname);
 
     if (!viewer->curlfile) return;
