@@ -75,6 +75,12 @@ static void zoom_100_cb(GtkWidget *widget, GdkEvent *ev, FancyViewer *viewer);
 static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer);
 static WebKitNavigationResponse fancy_open_uri (FancyViewer *viewer, gboolean external);
 static void fancy_create_popup_prefs_menu(FancyViewer *viewer);
+#ifdef HAVE_LIBCURL
+static size_t download_file_curl_write_cb(void *buffer, size_t size, 
+                                          size_t nmemb, void *data);
+static void *download_file_curl (void *data);
+static void download_file_cb(GtkWidget *widget, FancyViewer *viewer);
+#endif
 
 /*FIXME substitute webkitwebsettings.cpp functions with their API when available */
 gchar* webkit_web_view_get_selected_text(WebKitWebView* webView);
@@ -657,7 +663,7 @@ static void open_in_browser_cb(GtkWidget *widget, FancyViewer *viewer)
     open_uri(viewer->cur_link, prefs_common_get_uri_cmd());
 }
 #ifdef HAVE_LIBCURL
-static size_t download_link_curl_write_cb(void *buffer, size_t size, 
+static size_t download_file_curl_write_cb(void *buffer, size_t size, 
                                     size_t nmemb, void *data)
 {
     FancyViewer *viewer = (FancyViewer *)data;
@@ -668,7 +674,7 @@ static size_t download_link_curl_write_cb(void *buffer, size_t size,
     }
    return fwrite(buffer, size, nmemb, viewer->stream);
 }
-static void *download_link_curl (void *data)
+static void *download_file_curl (void *data)
 {
     CURL *curl;
     CURLcode res;
@@ -679,7 +685,7 @@ static void *download_link_curl (void *data)
 
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, viewer->cur_link);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, download_link_curl_write_cb);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, download_file_curl_write_cb);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, viewer);
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
         res = curl_easy_perform(curl);
@@ -697,7 +703,7 @@ static void *download_link_curl (void *data)
     return NULL;
 #endif
 }
-static void download_link_cb(GtkWidget *widget, FancyViewer *viewer)
+static void download_file_cb(GtkWidget *widget, FancyViewer *viewer)
 {
 #ifdef USE_PTHREAD
     pthread_t curljob;
@@ -717,20 +723,15 @@ static void download_link_cb(GtkWidget *widget, FancyViewer *viewer)
     if (!viewer->curlfile) return;
     
 #ifdef USE_PTHREAD
-    result = pthread_create(&curljob, NULL, download_link_curl, (void *)viewer);
+    result = pthread_create(&curljob, NULL, download_file_curl, (void *)viewer);
     if (result)   
         alertpanel_error("ERROR; return code from pthread_create() is %d\n", result);
 #else
-    download_link_curl((void *)viewer);
+    download_file_curl((void *)viewer);
 #endif
 }
 #endif
 static void open_image_cb(GtkWidget *widget, FancyViewer *viewer)
-{
-    debug_print("Not Yet Implemented\n");
-}
-
-static void save_image_cb(GtkWidget *widget, FancyViewer *viewer)
 {
     debug_print("Not Yet Implemented\n");
 }
@@ -810,7 +811,7 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                 }
             }
             g_signal_connect(G_OBJECT(m_dlink), "activate",
-                            G_CALLBACK(download_link_cb),
+                            G_CALLBACK(download_file_cb),
                             (gpointer *) viewer);
 #else
             gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
@@ -822,9 +823,24 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
 
             gtk_label_set_text(GTK_LABEL(menul), _("Save Image As"));
                 
+#ifdef HAVE_LIBCURL
             GtkImageMenuItem *m_simage = GTK_IMAGE_MENU_ITEM(menuitem);
+            if (!fancy_prefs.block_extern_content) {
+                gtk_widget_set_sensitive(GTK_WIDGET(menul), TRUE);
+            }
+            else {
+                if (viewer->override_prefs_block_extern_content) {
+                    gtk_widget_set_sensitive(GTK_WIDGET(menul), TRUE);
+                }
+                else {
+                    gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
+                }
+            }
             g_signal_connect(G_OBJECT(m_simage), "activate", 
-                             G_CALLBACK(save_image_cb), (gpointer *) viewer);
+                             G_CALLBACK(download_file_cb), (gpointer *) viewer);
+#else
+            gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
+#endif
         }
 
         if (!g_ascii_strcasecmp(gtk_label_get_text(GTK_LABEL(menul)), 

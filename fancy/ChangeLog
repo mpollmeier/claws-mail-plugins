@@ -1,3 +1,8 @@
+2010-03-04 [iwkse]	0.9.9cvs14
+
+	* src/fancy_viewer.c
+		Add support for save image
+
 2010-03-04 [iwkse]	0.9.9cvs13
 
 	* src/fancy_viewer.c
