@@ -796,21 +796,21 @@ static void viewer_menu_handler(GtkWidget *menuitem, FancyViewer *viewer)
                 
             gtk_label_set_text(GTK_LABEL(menul), _("Download Link"));
 #ifdef HAVE_LIBCURL
+            GtkImageMenuItem *m_dlink = GTK_IMAGE_MENU_ITEM(menuitem);
             if (!fancy_prefs.block_extern_content) {
                 gtk_widget_set_sensitive(GTK_WIDGET(menul), TRUE);
             }
             else {
                 if (viewer->override_prefs_block_extern_content) {
                     gtk_widget_set_sensitive(GTK_WIDGET(menul), TRUE);
-                    GtkImageMenuItem *m_dlink = GTK_IMAGE_MENU_ITEM(menuitem);
-                    g_signal_connect(G_OBJECT(m_dlink), "activate",
-                                    G_CALLBACK(download_link_cb),
-                                    (gpointer *) viewer);
                 }
                 else {
                     gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
                 }
             }
+            g_signal_connect(G_OBJECT(m_dlink), "activate",
+                            G_CALLBACK(download_link_cb),
+                            (gpointer *) viewer);
 #else
             gtk_widget_set_sensitive(GTK_WIDGET(menul), FALSE);
 #endif
