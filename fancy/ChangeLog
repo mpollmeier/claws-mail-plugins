@@ -1,3 +1,9 @@
+2010-03-04 [iwkse]	0.9.9cvs11
+
+	* src/fancy_viewer.h
+	* src/fancy_viewer.c
+		Add basic support for download file
+
 2010-03-03 [iwkse]	0.9.9cvs10
 
 	* src/fancy_viewer.c

@@ -52,6 +52,7 @@
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
 #include <curl/curlver.h>
+#include "filesel.h"
 #endif
 
 #ifdef HAVE_LIBSOUP_GNOME
@@ -96,6 +97,10 @@ struct _FancyViewer
     gboolean          override_prefs_plugins;
     gboolean          override_prefs_external;
 
+#ifdef HAVE_LIBCURL
+    const gchar       *curlfile;
+    FILE              *stream;
+#endif
     gchar             *cur_link;
     gchar             *filename;
     MimeInfo          *to_load;
