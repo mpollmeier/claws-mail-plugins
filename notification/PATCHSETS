@@ -147,3 +147,4 @@
 ( cvs diff -u -r 1.1.2.186 -r 1.1.2.187 configure.ac;  cvs diff -u -r 1.1.2.13 -r 1.1.2.14 src/notification_foldercheck.c;  ) > 0.24cvs1.patchset
 ( cvs diff -u -r 1.1.2.38 -r 1.1.2.39 src/notification_plugin.c;  ) > 0.24cvs2.patchset
 ( cvs diff -u -r 1.1.2.39 -r 1.1.2.40 src/notification_plugin.c;  ) > 0.24cvs3.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 .cvsignore;  ) > 0.24cvs4.patchset
