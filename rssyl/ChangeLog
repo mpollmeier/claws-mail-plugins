@@ -1,3 +1,9 @@
+2010-03-18 [ticho]	0.26.0cvs4
+
+	* src/rssyl_gtk.c
+	* src/rssyl_prefs.c
+		Fix runtime warnings regarding page_size of GtkAdjustment widgets.
+
 2010-02-19 [ticho]	0.26.0cvs3
 
 	* src/parsers.c

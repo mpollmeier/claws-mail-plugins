@@ -105,7 +105,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 			GTK_FILL, 0, 0, 0);
 
 	refresh_adj = gtk_adjustment_new(rssyl_prefs.refresh,
-			0, 100000, 1, 10, 10);
+			0, 100000, 1, 10, 0);
 	refresh = gtk_spin_button_new(GTK_ADJUSTMENT(refresh_adj), 1, 0);
 	gtk_table_attach(GTK_TABLE(table), refresh, 1, 2, 0, 1,
 			GTK_FILL, 0, 0, 0);
@@ -118,7 +118,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 			GTK_FILL, 0, 0, 0);
 
 	expired_adj = gtk_adjustment_new(rssyl_prefs.expired,
-			-1, 100000, 1, 10, 10);
+			-1, 100000, 1, 10, 0);
 	expired = gtk_spin_button_new(GTK_ADJUSTMENT(expired_adj), 1, 0);
 	gtk_table_attach(GTK_TABLE(table), expired, 1, 2, 1, 2,
 			GTK_FILL, 0, 0, 0);

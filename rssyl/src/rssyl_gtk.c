@@ -274,7 +274,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* Refresh interval spinbutton */
 	fetch_comments_for_adj = gtk_adjustment_new(ritem->fetch_comments_for,
-			-1, 100000, 1, 10, 10);
+			-1, 100000, 1, 10, 0);
 	feedprop->fetch_comments_for = gtk_spin_button_new(GTK_ADJUSTMENT(fetch_comments_for_adj),
 			1, 0);
 
@@ -285,7 +285,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 
 	/* Refresh interval spinbutton */
 	refresh_adj = gtk_adjustment_new(refresh,
-			0, 100000, 1, 10, 10);
+			0, 100000, 1, 10, 0);
 	feedprop->refresh_interval = gtk_spin_button_new(GTK_ADJUSTMENT(refresh_adj),
 			1, 0);
 
