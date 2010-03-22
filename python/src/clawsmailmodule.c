@@ -124,28 +124,6 @@ static PyObject *folderview_select_folder(PyObject *self, PyObject *args)
   return Py_None;
 }
 
-static PyObject* get_folder_from_identifier(PyObject *self, PyObject *args)
-{
-  FolderItem *item;
-  const char *identifier;
-  char create = 0;
-
-  if(!PyArg_ParseTuple(args, "s|b", &identifier, &create))
-    return NULL;
-
-  if(create == 0)
-    item = folder_find_item_from_identifier(identifier);
-  else
-    item = folder_get_item_from_identifier(identifier);
-
-  if(item)
-    return clawsmail_folder_new(item);
-  else {
-    Py_INCREF(Py_None);
-    return Py_None;
-  }
-}
-
 static gboolean setup_folderitem_node(GNode *item_node, GNode *item_parent, PyObject **pyparent)
 {
   PyObject *pynode, *children;
@@ -415,15 +393,6 @@ static PyMethodDef ClawsMailMethods[] = {
      "folderview_select_folder(folder) - select folder in folderview\n"
      "\n"
      "Takes an argument of type clawsmail.Folder, and selects the corresponding folder."},
-
-    {"get_folder_from_identifier", get_folder_from_identifier, METH_VARARGS,
-     "get_folder_from_identifier(identifier, [create_if_not_existing]) - get a folder from an identifier\n"
-     "\n"
-     "The identifier is an id string (e.g. '#mh/Mail/foo/bar'). If the folder doesn't exit,\n"
-     "the function returns None, except when the optional parameter create_if_not_existing is True,\n"
-     "(default: False) in which case the folder will be created an returned if it doesn't yet exist.\n"
-     "\n"
-     "Note that even in this case, the function returns None if folder creation failed."},
 
     {"quicksearch_search", quicksearch_search, METH_VARARGS,
      "quicksearch_search(string [, type]) - perform a quicksearch\n"

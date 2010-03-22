@@ -1,3 +1,11 @@
+2010-03-22 [holger]	0.3cvs26
+
+	* src/clawsmailmodule.c
+		Get rid of get_folder_from_identifier() member function
+	* src/foldertype.c
+		Add constructor arguments to Folder() init function:
+		clawsmail.Folder(folder_identifier [, create_if_not_existing])
+
 2010-02-25 [holger]	0.3cvs25
 
 	* examples/main/Create Tomboy Note

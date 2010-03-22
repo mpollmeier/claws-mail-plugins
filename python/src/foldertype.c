@@ -41,15 +41,64 @@ static void Folder_dealloc(clawsmail_FolderObject* self)
   self->ob_type->tp_free((PyObject*)self);
 }
 
+#define FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(self,fis, pms)    \
+  do {                                                              \
+    if(fis) {                                                       \
+      PyObject *str;                                                \
+      str = PyString_FromString(fis);                               \
+      if(str) {                                                     \
+        int retval;                                                 \
+        retval = PyObject_SetAttrString((PyObject*)self, pms, str); \
+        Py_DECREF(str);                                             \
+        if(retval == -1)                                            \
+          goto err;                                                 \
+      }                                                             \
+    }                                                               \
+  } while(0)
+
 static int Folder_init(clawsmail_FolderObject *self, PyObject *args, PyObject *kwds)
 {
+  const char *ss = NULL;
+  FolderItem *folderitem = NULL;
+  char create = 0;
+
+  /* optional constructor argument: folderitem id string */
+  if(!PyArg_ParseTuple(args, "|sb", &ss, &create))
+    return -1;
+  
   Py_INCREF(Py_None);
   self->name = Py_None;
-
+  
   Py_INCREF(Py_None);
   self->path = Py_None;
 
+  if(ss) {
+    if(create == 0) {
+      folderitem = folder_find_item_from_identifier(ss);
+      if(!folderitem) {
+        PyErr_SetString(PyExc_ValueError, "A folder with that path does not exist, and the create parameter was False.");
+        return -1;
+      }
+    }
+    else {
+      folderitem = folder_get_item_from_identifier(ss);
+      if(!folderitem) {
+        PyErr_SetString(PyExc_IOError, "A folder with that path does not exist, and could not be created.");
+        return -1;
+      }
+    }
+  }
+
+  if(folderitem) {
+    FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(self, folderitem->name, "name");
+    FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(self, folderitem->path, "path");
+    self->folderitem = folderitem;
+  }
+
   return 0;
+
+ err:
+  return -1;
 }
 
 static PyObject* Folder_str(PyObject *self)
@@ -62,7 +111,14 @@ static PyObject* Folder_str(PyObject *self)
 
 static PyObject* Folder_get_identifier(clawsmail_FolderObject *self, PyObject *args)
 {
-  return Py_BuildValue("s", folder_item_get_identifier(self->folderitem));
+  PyObject *obj;
+  gchar *id;
+  if(!self->folderitem)
+    return NULL;
+  id = folder_item_get_identifier(self->folderitem);
+  obj = Py_BuildValue("s", id);
+  g_free(id);
+  return obj;
 }
 
 static PyObject* Folder_get_messages(clawsmail_FolderObject *self, PyObject *args)
@@ -70,6 +126,9 @@ static PyObject* Folder_get_messages(clawsmail_FolderObject *self, PyObject *arg
   GSList *msglist, *walk;
   PyObject *retval;
   Py_ssize_t pos;
+
+  if(!self->folderitem)
+    return NULL;
 
   msglist = folder_item_get_msg_list(self->folderitem);
   retval = PyTuple_New(g_slist_length(msglist));
@@ -133,7 +192,11 @@ static PyTypeObject clawsmail_FolderType = {
     0,                         /* tp_setattro*/
     0,                         /* tp_as_buffer*/
     Py_TPFLAGS_DEFAULT,        /* tp_flags*/
-    "Folder objects.",         /* tp_doc */
+    "Folder objects.\n\n"      /* tp_doc */
+    "The __init__ function takes two optional arguments:\n"
+    "folder = Folder(identifier, [create_if_not_existing=False])\n"
+    "The identifier is an id string (e.g. '#mh/Mail/foo/bar'),"
+    "create_if_not_existing is a boolean expression.",
     0,                         /* tp_traverse */
     0,                         /* tp_clear */
     0,                         /* tp_richcompare */
@@ -163,41 +226,21 @@ PyMODINIT_FUNC initfolder(PyObject *module)
     PyModule_AddObject(module, "Folder", (PyObject*)&clawsmail_FolderType);
 }
 
-#define FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(fis, pms)       \
-  do {                                                            \
-    if(fis) {                                                     \
-      PyObject *str;                                              \
-      str = PyString_FromString(fis);                             \
-      if(str) {                                                   \
-        int retval;                                               \
-        retval = PyObject_SetAttrString((PyObject*)ff, pms, str); \
-        Py_DECREF(str);                                           \
-        if(retval == -1)                                          \
-          goto err;                                               \
-      }                                                           \
-    }                                                             \
-  } while(0)
-
 PyObject* clawsmail_folder_new(FolderItem *folderitem)
 {
   clawsmail_FolderObject *ff;
+  PyObject *arglist;
+  gchar *id;
 
   if(!folderitem)
     return NULL;
 
-  ff = (clawsmail_FolderObject*) PyObject_CallObject((PyObject*) &clawsmail_FolderType, NULL);
-  if(!ff)
-    return NULL;
-
-  FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(folderitem->name, "name");
-  FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(folderitem->path, "path");
-
-  ff->folderitem = folderitem;
+  id = folder_item_get_identifier(folderitem);
+  arglist = Py_BuildValue("(s)", id);
+  g_free(id);
+  ff = (clawsmail_FolderObject*) PyObject_CallObject((PyObject*) &clawsmail_FolderType, arglist);
+  Py_DECREF(arglist);
   return (PyObject*)ff;
-
-err:
-  Py_XDECREF(ff);
-  return NULL;
 }
 
 FolderItem* clawsmail_folder_get_item(PyObject *self)
