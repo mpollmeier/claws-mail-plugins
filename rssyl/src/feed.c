@@ -526,6 +526,7 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 	tmptitle = rssyl_strreplace(*title, "/", "\\");
 	dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, RSSYL_DIR,
 			G_DIR_SEPARATOR_S, tmptitle, NULL);
+	g_free(tmptitle);
 
 	if( !is_dir_exist(dir) ) {
 		if( make_dir(dir) < 0 ) {
@@ -535,8 +536,6 @@ xmlDocPtr rssyl_fetch_feed(const gchar *url, time_t last_update, gchar **title, 
 			return NULL;
 		}
 	}
-
-	g_free(tmptitle);
 
 	g_free(rootnode);
 	g_free(dir);

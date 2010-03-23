@@ -130,7 +130,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(refresh_on_startup),
 			rssyl_prefs.refresh_on_startup);
 	gtk_table_attach(GTK_TABLE(table), refresh_on_startup, 0, 2, 3, 4,
-			GTK_FILL, 0, 0, 0);
+			GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	label = gtk_label_new(_("Path to cookies file"));
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5,
@@ -140,7 +140,7 @@ static void create_rssyl_prefs_page(PrefsPage *page,
 	cookies_path = gtk_entry_new ();
 	gtk_entry_set_text(GTK_ENTRY(cookies_path), rssyl_prefs.cookies_path);
 	gtk_table_attach(GTK_TABLE(table), cookies_path, 1, 2, 4, 5,
-			GTK_FILL, 0, 0, 0);
+			GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	CLAWS_SET_TIP(cookies_path,
 			_("Path to Netscape-style cookies.txt file containing your cookies"));
 

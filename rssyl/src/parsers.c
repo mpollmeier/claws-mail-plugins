@@ -435,7 +435,7 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			}
 
 			/* Date published - ISO8701 format */
-			if( !strcmp(n->name, "issued") ) {
+			if( !strcmp(n->name, "published") ) {
 				content = xmlNodeGetContent(n);
 				fitem->date_published = parseISO8601Date(content);
 				xmlFree(content);
