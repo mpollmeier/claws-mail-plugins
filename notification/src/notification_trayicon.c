@@ -39,6 +39,7 @@
 #include "addrindex.h"
 #include "gtk/manage_window.h"
 #include "common/utils.h"
+#include "gtk/gtkutils.h"
 
 static GdkPixbuf* notification_trayicon_create(void);
 
@@ -296,7 +297,7 @@ gboolean notification_trayicon_main_window_close(gpointer source, gpointer data)
       MainWindow *mainwin = mainwindow_get_mainwindow();
 
       *close_allowed = FALSE;
-      if(mainwin && GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window)))
+      if(mainwin && gtkut_widget_get_visible(GTK_WIDGET(mainwin->window)))
 	main_window_hide(mainwin);
     }
   }
@@ -312,7 +313,7 @@ gboolean notification_trayicon_main_window_got_iconified(gpointer source,
     return FALSE;
 
   if(notify_config.trayicon_hide_when_iconified &&
-     mainwin && GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))
+     mainwin && gtkut_widget_get_visible(GTK_WIDGET(mainwin->window))
      && !gtk_window_get_skip_taskbar_hint(GTK_WINDOW(mainwin->window))) {
     gtk_window_set_skip_taskbar_hint(GTK_WINDOW(mainwin->window), TRUE);
   }

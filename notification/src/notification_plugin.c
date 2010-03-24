@@ -29,6 +29,7 @@
 #include "procmsg.h"
 #include "mainwindow.h"
 #include "main.h"
+#include "gtk/gtkutils.h"
 
 #include "gettext.h"
 
@@ -212,7 +213,7 @@ gint plugin_init(gchar **error)
   bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
   /* Version check */
-  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,3,22),
+  if(!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,5,38),
 			   VERSION_NUMERIC, _("Notification"), error))
     return -1;
 
@@ -340,7 +341,7 @@ gint plugin_init(gchar **error)
     MainWindow *mainwin = mainwindow_get_mainwindow();
 
 		g_idle_add(trayicon_startup_idle,NULL);
-    if(mainwin && GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window)))
+    if(mainwin && gtkut_widget_get_visible(GTK_WIDGET(mainwin->window)))
       main_window_hide(mainwin);
     main_set_show_at_startup(FALSE);
   }

@@ -1,3 +1,13 @@
+2010-03-24 [pawel]	0.24cvs5
+
+	* commitHelper
+		- Portability fixes
+		- Add my name
+	* src/notification_core.c
+	* src/notification_plugin.c
+	* src/notification_trayicon.c
+		Fix build with GTK+ 2.19
+
 2010-03-16 [holger]	0.24cvs4
 
 	* .cvsignore

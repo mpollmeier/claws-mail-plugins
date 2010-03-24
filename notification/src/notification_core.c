@@ -19,6 +19,7 @@
 
 #include "folder.h"
 #include "codeconv.h"
+#include "gtk/gtkutils.h"
 
 #include "notification_core.h"
 #include "notification_plugin.h"
@@ -79,7 +80,7 @@ void notification_toggle_hide_show_window(void)
   if((mainwin = mainwindow_get_mainwindow()) == NULL)
     return;
 
-  if(GTK_WIDGET_VISIBLE(GTK_WIDGET(mainwin->window))) {
+  if(gtkut_widget_get_visible(GTK_WIDGET(mainwin->window))) {
     if((gdk_window_get_state(GTK_WIDGET(mainwin->window)->window)&GDK_WINDOW_STATE_ICONIFIED)
        || mainwindow_is_obscured()) {
       notification_show_mainwindow(mainwin);
