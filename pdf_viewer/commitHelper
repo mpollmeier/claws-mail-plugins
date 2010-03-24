@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 args=`echo $@`
 tmpfile=${0##*/}.tmp
 
@@ -70,8 +70,11 @@ fi;
 if [ "$name" == "salvatore" ]; then
 	name="iwkse";
 fi;
+if [ "$name" == "corn" ]; then
+	name="pawel";
+fi;
 
-log="`date --utc +%Y-%m-%d` [$name]\t$nextsversion\n\n"
+log="`date -u +%Y-%m-%d` [$name]\t$nextsversion\n\n"
 for line in $files; do
 	file=`echo $line | cut -d' ' -f2`
 	dir=`dirname $file`

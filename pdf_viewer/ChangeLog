@@ -1,3 +1,11 @@
+2010-03-24 [pawel]	0.9.1cvs10
+
+	* commitHelper
+		- Portability fixes
+		- Add my name
+	* src/poppler_viewer.c
+		Fix build with GTK+ 2.19
+
 2009-07-03 [paul]	0.9.1cvs9
 
 	* configure.ac

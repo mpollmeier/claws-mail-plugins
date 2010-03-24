@@ -22,6 +22,7 @@
 #include "poppler_viewer.h"
 #include "printing.h"
 #include "prefs_common.h"
+#include "gtk/gtkutils.h"
 
 static FileType pdf_viewer_mimepart_get_type(MimeInfo *partinfo);
 static MimeViewerFactory pdf_viewer_factory;
@@ -478,7 +479,7 @@ static void pdf_viewer_set_index_button_sensitive(PdfViewer *viewer)
 {
 	viewer->pdf_index  = poppler_index_iter_new(viewer->pdf_doc);
 	if (viewer->pdf_index) {	
-		if (!GTK_WIDGET_IS_SENSITIVE(viewer->doc_index)) {
+		if (!gtkut_widget_is_sensitive(viewer->doc_index)) {
 			gtk_widget_set_sensitive(viewer->doc_index, TRUE);
 		}
 	}
@@ -1906,7 +1907,7 @@ gint plugin_init(gchar **error)
 
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,5,0,47),
+	if (!check_plugin_version(MAKE_NUMERIC_VERSION(3,7,5,38),
 		    VERSION_NUMERIC, _("PDF Viewer"), error)) return -1;
 	
 	mimeview_register_viewer_factory(&pdf_viewer_factory);
