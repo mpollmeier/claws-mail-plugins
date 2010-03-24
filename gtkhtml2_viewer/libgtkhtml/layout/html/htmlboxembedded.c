@@ -26,6 +26,7 @@
 #include "layout/htmlbox.h"
 #include "layout/html/htmlboxembedded.h"
 #include "view/htmlview.h"
+#include "gtk/gtkutils.h"
 
 static HtmlBoxClass *parent_class = NULL;
 
@@ -87,7 +88,7 @@ html_box_embedded_paint (HtmlBox *self, HtmlPainter *painter, GdkRectangle *area
 		if(new_x != embedded->abs_x || new_y != embedded->abs_y) {
 			
 			gtk_layout_move (GTK_LAYOUT (embedded->view), embedded->widget, new_x, new_y);
-			if (! (GTK_WIDGET_FLAGS(embedded->widget) & GTK_VISIBLE))
+			if (!gtkut_widget_get_visible(embedded->widget))
 				gtk_widget_show (embedded->widget);
 			embedded->abs_x = new_x;
 			embedded->abs_y = new_y;

@@ -1,6 +1,7 @@
 INCLUDES = \
 	-I$(top_srcdir)/libgtkhtml \
 	-I$(top_srcdir) \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GTKHTML2_CFLAGS) 
 
 noinst_LTLIBRARIES = libhtmllayouthtml.la

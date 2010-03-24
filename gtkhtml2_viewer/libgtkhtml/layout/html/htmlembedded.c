@@ -22,6 +22,7 @@
 
 #include <string.h>
 
+#include "gtk/gtkutils.h"
 #include "layout/html/htmlembedded.h"
 
 struct _HtmlEmbeddedPrivate {
@@ -58,7 +59,7 @@ html_embedded_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	
 	bin = GTK_BIN (widget);
 
-	if (bin->child && GTK_WIDGET_VISIBLE (bin->child)) {
+	if (bin->child && gtkut_widget_get_visible (bin->child)) {
 		gtk_widget_size_allocate(bin->child, allocation);
 	}
 	widget->allocation = *allocation;

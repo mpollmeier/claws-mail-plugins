@@ -25,6 +25,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "gtk/gtkutils.h"
+
 #include "document/htmlfocusiterator.h"
 #include "document/htmldocument.h"
 #include "dom/core/dom-node.h"
@@ -866,7 +868,7 @@ cursor_blinks (HtmlView *view)
 	GtkSettings *settings = gtk_widget_get_settings (GTK_WIDGET (view));
 	gboolean blink;
 
-	if (GTK_WIDGET_HAS_FOCUS (view) &&
+	if (gtkut_widget_has_focus (GTK_WIDGET(view)) &&
 	    cursor_showing &&
 	    html_view_get_selection_bound (view) == html_view_get_cursor_position (view)) {
 		g_object_get (settings, "gtk-cursor-blink", &blink, NULL);
@@ -892,7 +894,7 @@ show_cursor (HtmlView *view)
 	if (!html_view_get_cursor_visible (view)) {
 		html_view_set_cursor_visible (view, 1);
 
-		if (GTK_WIDGET_HAS_FOCUS (view) && 
+		if (gtkut_widget_has_focus (GTK_WIDGET(view)) && 
 		    (html_view_get_selection_bound (view) == html_view_get_cursor_position (view)))
 			gtk_widget_queue_draw (GTK_WIDGET (view));
 	}
@@ -904,7 +906,7 @@ hide_cursor (HtmlView *view)
 	if (html_view_get_cursor_visible (view)) {
 		html_view_set_cursor_visible (view, 0);
 
-		if (GTK_WIDGET_HAS_FOCUS (view) && 
+		if (gtkut_widget_has_focus (GTK_WIDGET(view)) && 
 		    html_view_get_selection_bound (view) == html_view_get_cursor_position (view))
 			gtk_widget_queue_draw (GTK_WIDGET (view));
 	}
@@ -923,13 +925,13 @@ blink_cb (gpointer data)
 
 	view = HTML_VIEW (data);
 
-	if (!GTK_WIDGET_HAS_FOCUS (view)) {
+	if (!gtkut_widget_has_focus (GTK_WIDGET(view))) {
 		g_warning ("HtmlView - did not receive focus-out-event. If you\n"
 			   "connect a handler to this signal, it must return\n"
 			   "FALSE so the entry gets the event as well");
 	}
 
-	g_assert (GTK_WIDGET_HAS_FOCUS (view));
+	g_assert (gtkut_widget_has_focus (GTK_WIDGET(view)));
 	g_assert (html_view_get_selection_bound (view) == html_view_get_cursor_position (view));
 
 	if (html_view_get_cursor_visible (view)) {
@@ -1767,7 +1769,7 @@ html_view_relayout (HtmlView *view)
 		view->relayout_idle_id = 0;
 	}
 
-	if (GTK_WIDGET_HAS_FOCUS (view)) {
+	if (gtkut_widget_has_focus (GTK_WIDGET(view))) {
 		if (view->document->focus_element == NULL &&
 		    view->document->dom_document) {
 			html_document_update_focus_element (view->document, html_focus_iterator_next_element (view->document->dom_document, NULL));
@@ -1864,7 +1866,7 @@ html_view_paint (HtmlView *view, GdkRectangle *area)
 		/* Check that the document has not been deleted */
 		if (view->root->dom_node) {
 			html_box_paint (view->root, view->painter, area, 0, 0);
-			if (GTK_WIDGET_HAS_FOCUS (view) &&
+			if (gtkut_widget_has_focus (GTK_WIDGET(view)) &&
 			    (html_view_get_selection_bound (view) == html_view_get_cursor_position (view)) &&
 			    html_view_get_cursor_visible (view))
 				html_view_draw_cursor (view);
@@ -2336,7 +2338,7 @@ html_view_expose (GtkWidget *widget, GdkEventExpose *event)
 
 	view = HTML_VIEW (widget);
 
-	if (!GTK_WIDGET_DRAWABLE (widget) || (event->window != GTK_LAYOUT (view)->bin_window))
+	if (!gtkut_widget_is_drawable (widget) || (event->window != GTK_LAYOUT (view)->bin_window))
 		return FALSE;
 
 	html_view_paint (view, &event->area);
@@ -2386,7 +2388,7 @@ html_view_button_press (GtkWidget *widget, GdkEventButton *event)
 		return FALSE;
 	html_view_set_button (view, event->button);
 
-	if (!GTK_WIDGET_HAS_FOCUS (widget))
+	if (!gtkut_widget_has_focus (widget))
 		gtk_widget_grab_focus (widget);
 	
 	html_event_button_press (view, event);
@@ -2555,7 +2557,7 @@ html_view_focus (GtkWidget *widget, GtkDirectionType direction)
 
 	/* Handle special case when we haven't any focusable elements */
 	if (new_focus_element == NULL) {
-		if (!GTK_WIDGET_HAS_FOCUS (widget)) {
+		if (!gtkut_widget_has_focus (widget)) {
 			gtk_widget_grab_focus (widget);
 			return TRUE;
 		} 

@@ -1,3 +1,16 @@
+2010-03-24 [pawel]	0.26.0cvs2
+
+	* commitHelper
+		- Portability fixes
+		- Add my name
+	* libgtkhtml/layout/html/Makefile.am
+	* libgtkhtml/layout/html/htmlboxembedded.c
+	* libgtkhtml/layout/html/htmlembedded.c
+	* libgtkhtml/view/Makefile.am
+	* libgtkhtml/view/htmlview.c
+	* src/gtkhtml2_viewer.c
+		Fix build with GTK+ 2.19
+
 2010-02-10 [colin]	0.26.0cvs1
 
 	* libgtkhtml/layout/htmlboxtext.c
