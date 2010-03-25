@@ -1,6 +1,7 @@
 INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/libgtkhtml \
+	$(CLAWS_MAIL_CFLAGS) \
 	$(GTKHTML2_CFLAGS) \
 	$(GAILUTIL_CFLAGS) \
 	-DG_LOG_DOMAIN=\"HtmlA11y\"

@@ -19,6 +19,8 @@
 
 #include <string.h>
 
+#include "gtk/gtkutils.h"
+
 #include "htmlviewaccessible.h"
 #include "htmlviewaccessiblefactory.h"
 #include <libgtkhtml/layout/htmlboxinline.h>
@@ -285,7 +287,7 @@ html_view_accessible_grab_focus_cb (GtkWidget *widget)
 	focus_object = html_view_accessible_get_focus_object (widget, &link_index);
 
 	obj = gtk_widget_get_accessible (widget);
-	if (GTK_WIDGET_HAS_FOCUS (widget)) {
+	if (gtkut_widget_has_focus (widget)) {
 		if (focus_object) {
 			atk_focus_tracker_notify (focus_object);
 			g_signal_emit_by_name (focus_object, "link-selected", link_index);
@@ -385,7 +387,7 @@ html_view_accessible_ref_state_set (AtkObject *obj)
 	debug_dump_boxes (view->root, 0, FALSE, NULL);
 #endif
 
-	if (view->document->focus_element && GTK_WIDGET_HAS_FOCUS (widget))
+	if (view->document->focus_element && gtkut_widget_has_focus (widget))
 		atk_state_set_remove_state (state_set, ATK_STATE_FOCUSED);
 
 	return state_set;	
