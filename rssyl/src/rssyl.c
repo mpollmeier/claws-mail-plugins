@@ -284,6 +284,7 @@ static FolderItem *rssyl_item_new(Folder *folder)
 	ritem->default_expired_num = TRUE;
 	ritem->fetch_comments = FALSE;
 	ritem->fetch_comments_for = -1;
+	ritem->silent_update = 0;
 	ritem->refresh_interval = rssyl_prefs_get()->refresh;
 	ritem->refresh_id = 0;
 	ritem->expired_num = rssyl_prefs_get()->expired;

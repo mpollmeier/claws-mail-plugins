@@ -91,12 +91,15 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 			gchar *tmp, *t_prop = NULL;
 			node = result->nodesetval->nodeTab[i];
 			tmp = xmlGetProp(node, RSSYL_PROP_NAME);
+
 			if( !strcmp(tmp, item->name) ) {
 				debug_print("RSSyl: XML - updating node for '%s'\n", item->name);
+
 				xmlSetProp(node, RSSYL_PROP_NAME, item->name);
 				xmlSetProp(node, RSSYL_PROP_OFFICIAL_NAME, 
 						ritem->official_name?ritem->official_name:item->name);
 				xmlSetProp(node, RSSYL_PROP_URL, ritem->url);
+
 				xmlSetProp(node, RSSYL_PROP_DEF_REFRESH, (def_ri ? "1" : "0") );
 				if( !def_ri ) {
 					t_prop = g_strdup_printf("%d", ritem->refresh_interval);
@@ -104,6 +107,7 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 							t_prop );
 					g_free(t_prop);
 				}
+
 				xmlSetProp(node, RSSYL_PROP_DEF_EXPIRED, (def_ex ? "1" : "0") );
 				if( !def_ex ) {
 					t_prop = g_strdup_printf("%d", ritem->expired_num);
@@ -111,11 +115,16 @@ void rssyl_store_feed_props(RSSylFolderItem *ritem)
 							t_prop );
 					g_free(t_prop);
 				}
-				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS, ritem->fetch_comments?"1":"0");
+				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS,
+						(ritem->fetch_comments ? "1" : "0"));
 				t_prop = g_strdup_printf("%d", ritem->fetch_comments_for);
-				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS_FOR,
-						t_prop );
+				xmlSetProp(node, RSSYL_PROP_FETCH_COMMENTS_FOR, t_prop);
 				g_free(t_prop);
+
+				t_prop = g_strdup_printf("%d", ritem->silent_update);
+				xmlSetProp(node, RSSYL_PROP_SILENT_UPDATE, t_prop);
+				g_free(t_prop);
+
 				found = TRUE;
 			}
 			xmlFree(tmp);
@@ -255,6 +264,16 @@ void rssyl_get_feed_props(RSSylFolderItem *ritem)
 				if( tmp ) {
 					tmpi = atoi(tmp);
 					ritem->fetch_comments_for = tmpi;
+				}
+				xmlFree(tmp);
+				tmp = NULL;
+
+				/* silent_update */
+				tmp = xmlGetProp(node, RSSYL_PROP_SILENT_UPDATE);
+				tmpi = 0;
+				if( tmp ) {
+					tmpi = atoi(tmp);
+					ritem->silent_update = tmpi;
 				}
 				xmlFree(tmp);
 				tmp = NULL;

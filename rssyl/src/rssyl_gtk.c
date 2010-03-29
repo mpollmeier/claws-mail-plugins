@@ -229,7 +229,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	GtkWidget *vbox, *urllabel, *urlframe, *urlalign, *table, *refresh_label,
 						*expired_label, *hsep, *sep, *bbox, *cancel_button, *cancel_align,
 						*cancel_hbox, *cancel_image, *cancel_label, *ok_button, *ok_align,
-						*ok_hbox, *ok_image, *ok_label;
+						*ok_hbox, *ok_image, *ok_label, *silent_update_label;
 	GtkObject *refresh_adj, *expired_adj, *fetch_comments_for_adj;
 	gint refresh, expired;
 	gint row = 0;
@@ -290,7 +290,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			1, 0);
 
 	/* Expired num spinbutton */
-	expired_adj = gtk_adjustment_new(ritem->expired_num, -1, 100000, 1, 10, 10);
+	expired_adj = gtk_adjustment_new(ritem->expired_num, -1, 100000, 1, 10, 0);
 	feedprop->expired_num = gtk_spin_button_new(GTK_ADJUSTMENT(expired_adj),
 			1, 0);
 
@@ -319,7 +319,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_container_add(GTK_CONTAINER(urlalign), feedprop->url);
 
 	/* Table for remaining properties */
-	table = gtk_table_new(7, 2, FALSE);
+	table = gtk_table_new(8, 2, FALSE);
 	gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
 	/* Fetch comments - checkbutton */
@@ -343,8 +343,8 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_table_attach(GTK_TABLE(table), feedprop->fetch_comments_for, 1, 2, row, row+1,
 			(GtkAttachOptions) (0),
 			(GtkAttachOptions) (0), 10, 5);
-	row++;
 
+	row++;
 	hsep = gtk_hseparator_new();
 	gtk_widget_set_size_request(hsep, -1, 10);
 	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, row, row+1,
@@ -410,6 +410,37 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_table_attach(GTK_TABLE(table), feedprop->expired_num, 1, 2, row, row+1,
 			(GtkAttachOptions) (0),
 			(GtkAttachOptions) (0), 10, 5);
+
+	row++;
+	hsep = gtk_hseparator_new();
+	gtk_widget_set_size_request(hsep, -1, 10);
+	gtk_table_attach(GTK_TABLE(table), hsep, 0, 2, row, row+1,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	row++;
+	/* Silent update - label */
+	silent_update_label =
+		gtk_label_new(_("<b>If an item changes, do not mark it as unread:</b>"));
+	gtk_label_set_use_markup(GTK_LABEL(silent_update_label), TRUE);
+	gtk_misc_set_alignment(GTK_MISC(silent_update_label), 0, 0.5);
+	gtk_table_attach(GTK_TABLE(table), silent_update_label, 0, 1, row, row+1,
+			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			(GtkAttachOptions) (0), 10, 5);
+
+	/* Silent update - combobox */
+	feedprop->silent_update = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(feedprop->silent_update),
+			_("Always mark as unread"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(feedprop->silent_update),
+			_("If only its text changed"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(feedprop->silent_update),
+			_("Never mark as unread"));
+	gtk_table_attach(GTK_TABLE(table), feedprop->silent_update, 1, 2, row, row+1,
+			(GtkAttachOptions) (0),
+			(GtkAttachOptions) (0), 10, 5);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(feedprop->silent_update),
+			ritem->silent_update);
 
 	/* Separator above the button box */
 	sep = gtk_hseparator_new();
@@ -559,6 +590,11 @@ void rssyl_gtk_prop_store(RSSylFolderItem *ritem)
 
 	old_ex = ritem->expired_num;
 	ritem->expired_num = x;
+
+	ritem->silent_update =
+		gtk_combo_box_get_active(GTK_COMBO_BOX(ritem->feedprop->silent_update));
+	if( ritem->silent_update < 0 )
+		ritem->silent_update = 0;
 
 	rssyl_store_feed_props(ritem);
 

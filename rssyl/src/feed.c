@@ -1015,22 +1015,14 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 	return 1;
 }
 
-static gboolean rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *new_item)
-{
-	/* if both have text ... */
-	if( old_item->text && new_item->text ) {
-		if( strcmp(old_item->text, new_item->text) ) {	/* ... compare texts */
-			debug_print("item texts differ\n");
-			return TRUE;
-		}
-	} else {
-		/* if atleast one has some text, they differ */
-		if( old_item->text || new_item->text ) {
-			debug_print("+/- text\n");
-			return TRUE;
-		}
-	}
+enum {
+	ITEM_UNCHANGED,
+	ITEM_CHANGED_TEXTONLY,
+	ITEM_CHANGED
+};
 
+static gint rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *new_item)
+{
 	/* if both have title ... */
 	if( old_item->title && new_item->title ) {
 		gchar *old = conv_unmime_header(old_item->title, CS_UTF_8);
@@ -1038,16 +1030,16 @@ static gboolean rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *
 		if( strcmp(old, new) ) {	/* ... compare "unmimed" titles */
 			g_free(old);
 			g_free(new);
-			debug_print("item titles differ\n");
-			return TRUE;
+			debug_print("RSSyl: item titles differ\n");
+			return ITEM_CHANGED;
 		}
 		g_free(old);
 		g_free(new);
 	} else {
 		/* if atleast one has a title, they differ */
 		if( old_item->title || new_item->title ) {
-			debug_print("+/- title\n");
-			return TRUE;
+			debug_print("RSSyl: +/- title\n");
+			return ITEM_CHANGED;
 		}
 	}
 
@@ -1058,31 +1050,54 @@ static gboolean rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *
 		if( strcmp(old, new) ) {	/* ... compare "unmimed" authors */
 			g_free(old);
 			g_free(new);
-			debug_print("item authors differ\n");
-			return TRUE;
+			debug_print("RSSyl: item authors differ\n");
+			return ITEM_CHANGED;
 		}
 		g_free(old);
 		g_free(new);
 	} else {
 		/* if atleast one has author, they differ */
 		if( old_item->author || new_item->author ) {
-			debug_print("+/- author\n");
-			return TRUE;
+			debug_print("RSSyl: +/- author\n");
+			return ITEM_CHANGED;
+		}
+	}
+
+	/* if both have text ... */
+	if( old_item->text && new_item->text ) {
+		if( strcmp(old_item->text, new_item->text) ) {	/* ... compare texts */
+			debug_print("RSSyl: item texts differ\n");
+			return ITEM_CHANGED_TEXTONLY;
+		}
+	} else {
+		/* if atleast one has some text, they differ */
+		if( old_item->text || new_item->text ) {
+			debug_print("RSSyl: +/- text\n");
+			return ITEM_CHANGED_TEXTONLY;
 		}
 	}
 
 	/* they don't seem to differ */
-	return FALSE;
+	return ITEM_UNCHANGED;
 }
 
 /* rssyl_feed_item_exists()
  *
  * Returns 1 if a feed item already exists locally, 2 if there's a changed
- * item with link that already belongs to existing item, 0 if item is new.
+ * item with link that already belongs to existing item, 3 if only item's
+ * text has changed, 0 if item is new.
  */
+enum {
+	EXISTS_NEW,
+	EXISTS_UNCHANGED,
+	EXISTS_CHANGED,
+	EXISTS_CHANGED_TEXTONLY
+};
+
 static guint rssyl_feed_item_exists(RSSylFolderItem *ritem,
 		RSSylFeedItem *fitem, RSSylFeedItem **oldfitem)
 {
+	gint changed;
 	GSList *item = NULL;
 	RSSylFeedItem *efitem = NULL;
 	g_return_val_if_fail(ritem != NULL, FALSE);
@@ -1094,9 +1109,12 @@ static guint rssyl_feed_item_exists(RSSylFolderItem *ritem,
 	if( (item = g_slist_find_custom(ritem->contents,
 					(gconstpointer)fitem, (GCompareFunc)rssyl_cb_feed_compare)) ) {
 		efitem = (RSSylFeedItem *)item->data;
-		if(  rssyl_feed_item_changed(efitem, fitem) ) {
+		if( (changed = rssyl_feed_item_changed(efitem, fitem)) > EXISTS_NEW ) {
 			*oldfitem = efitem;
-			return 2;
+			if (changed == ITEM_CHANGED_TEXTONLY)
+				return EXISTS_CHANGED_TEXTONLY;
+			else
+				return EXISTS_CHANGED;
 		}
 		return 1;
 	}
@@ -1190,7 +1208,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 		debug_print("RSSyl: This item already exists, skipping...\n");
 		return FALSE;
 	}
-	if( dif == 2 && oldfitem != NULL ) {
+	if( dif >= 2 && oldfitem != NULL ) {
 		debug_print("RSSyl: Item changed, removing old one and adding new...\n");
 		ritem->contents = g_slist_remove(ritem->contents, oldfitem);
 		g_remove(oldfitem->realpath);
@@ -1323,14 +1341,17 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 
 	err |= (fclose(f) == EOF);
 
-	flags->perm_flags = MSG_NEW | MSG_UNREAD;
-	flags->tmp_flags = 0;
-
 	if (!err) {
 		g_return_val_if_fail(template != NULL, FALSE);
 		d = folder_item_add_msg(&ritem->item, template, flags, TRUE);
 	}
 	g_free(template);
+
+	if (ritem->silent_update == 2
+			|| (ritem->silent_update == 1 && dif == EXISTS_CHANGED_TEXTONLY))
+		procmsg_msginfo_unset_flags(
+				folder_item_get_msginfo((FolderItem *)ritem, d), MSG_NEW | MSG_UNREAD, 0);
+	else
 	
 	debug_print("RSSyl: folder_item_add_msg(): %d, err %d\n", d, err);
 
