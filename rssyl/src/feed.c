@@ -970,7 +970,8 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		const RSSylFeedItem *b)
 {
-	gboolean date_publ_eq = FALSE, link_eq = FALSE;
+	gboolean date_publ_eq = FALSE, link_eq = FALSE, title_eq = FALSE;
+	gboolean no_link = FALSE, no_title = FALSE;
 
 	if( a == NULL || b == NULL )
 		return 1;
@@ -985,19 +986,25 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		return 1;
 	}
 
-	/* Ok, we have no ID to aid us. Let's have a look at item timestamps
-	 * and item link. */
+	/* Ok, we have no ID to aid us. Let's have a look at item timestamps,
+	 * item link and title. */
+	if( (a->link != NULL) && (b->link != NULL) ) {
+		if( strcmp(a->link, b->link) == 0 )
+			link_eq = TRUE;
+	} else
+		no_link = TRUE;
 
-	if( ((a->link != NULL) && (b->link != NULL) &&
-				(strcmp(a->link, b->link) == 0)) ) {
-		link_eq = TRUE;
-	}
+	if( (a->title != NULL) && (b->title != NULL) ) {
+		if( strcmp(a->title, b->title) == 0 )
+			title_eq = TRUE;
+	} else
+		no_title = TRUE;
 
 	/* If there's no 'published' timestamp for the item, we can only judge
-	 * by item link - 'modified' timestamp can have changed if the item was
-	 * updated recently. */
+	 * by item link and title - 'modified' timestamp can have changed if the
+	 * item was updated recently. */
 	if( a->date_published <= 0 ) {
-		if( link_eq == TRUE )
+		if( link_eq && (title_eq || no_title) )
 			return 0;
 	}
 
@@ -1008,7 +1015,12 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 
 	/* If 'published' time and item link match, it is reasonable to assume
 	 * it's this item. */
-	if( link_eq && date_publ_eq )
+	if( (link_eq || no_link) && date_publ_eq )
+		return 0;
+
+	/* Last ditch effort - if everything else is missing, at least titles
+	 * should match. */
+	if( title_eq )
 		return 0;
 
 	/* We don't know this item. */

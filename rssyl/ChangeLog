@@ -1,3 +1,9 @@
+2010-04-11 [ticho]	0.26.0cvs7
+
+	* src/feed.c
+		Improve feed item comparing algorithm to better cope with feeds
+		with scarce item metadata.
+
 2010-03-29 [ticho]	0.26.0cvs6
 
 	* src/feed.c
