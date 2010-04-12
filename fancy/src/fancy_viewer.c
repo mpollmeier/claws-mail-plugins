@@ -419,7 +419,10 @@ static void resource_request_starting_cb(WebKitWebView			*view,
 		while ((partinfo = procmime_mimeinfo_next(partinfo)) != NULL) {
 			if (!g_ascii_strcasecmp(image, partinfo->id)) {
 				filename = procmime_get_tmp_file_name(partinfo);
-				if (!filename) return;
+				if (!filename) {
+                    g_free(image);
+                    return;
+                }
 				if ((err = procmime_get_part(filename, partinfo)) < 0)
 					alertpanel_error(_("Couldn't save the part of multipart message: %s"),
 										strerror(-err));
