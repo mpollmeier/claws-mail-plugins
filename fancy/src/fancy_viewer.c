@@ -300,7 +300,7 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     FancyViewer *viewer = (FancyViewer *) _viewer;
     GtkAdjustment *vadj;
     viewer->load_page = FALSE;    
-    viewer->cur_link = NULL;
+	viewer->cur_link = NULL;
     viewer->override_prefs_block_extern_content = FALSE;
     viewer->override_prefs_external = FALSE;
     viewer->override_prefs_images = FALSE;
@@ -420,9 +420,9 @@ static void resource_request_starting_cb(WebKitWebView			*view,
 			if (!g_ascii_strcasecmp(image, partinfo->id)) {
 				filename = procmime_get_tmp_file_name(partinfo);
 				if (!filename) {
-                    g_free(image);
-                    return;
-                }
+					g_free(image);
+					return;
+				}
 				if ((err = procmime_get_part(filename, partinfo)) < 0)
 					alertpanel_error(_("Couldn't save the part of multipart message: %s"),
 										strerror(-err));
