@@ -1,3 +1,8 @@
+2010-04-12 [iwkse]	0.9.9cvs15
+
+	* src/fancy_viewer.c
+            Fix bug 2160: Open links with external browser
+
 2010-03-04 [iwkse]	0.9.9cvs14
 
 	* src/fancy_viewer.c

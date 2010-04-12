@@ -300,6 +300,7 @@ static void fancy_clear_viewer(MimeViewer *_viewer)
     FancyViewer *viewer = (FancyViewer *) _viewer;
     GtkAdjustment *vadj;
     viewer->load_page = FALSE;    
+    viewer->cur_link = NULL;
     viewer->override_prefs_block_extern_content = FALSE;
     viewer->override_prefs_external = FALSE;
     viewer->override_prefs_images = FALSE;
