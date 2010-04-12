@@ -26,14 +26,14 @@ typedef struct _FancyPrefs FancyPrefs;
 
 struct _FancyPrefs
 {
-    WebKitWebSettings *web_settings;
-    
-    gboolean auto_load_images;
-    gboolean block_extern_content;
-    gboolean enable_scripts;
-    gboolean enable_plugins;
-    gboolean open_external;
-    gint zoom_level;
+	WebKitWebSettings *web_settings;
+	
+	gboolean auto_load_images;
+	gboolean block_extern_content;
+	gboolean enable_scripts;
+	gboolean enable_plugins;
+	gboolean open_external;
+	gint zoom_level;
 };
 
 extern FancyPrefs fancy_prefs;

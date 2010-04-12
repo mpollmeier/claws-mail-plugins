@@ -62,52 +62,52 @@
 typedef struct _FancyViewer FancyViewer;
 struct _FancyViewer
 {
-    MimeViewer        mimeviewer;
-    GtkWidget         *scrollwin;
-    WebKitWebView     *view;
-    GtkWidget         *vbox;  
-    GtkWidget         *l_link;
-    /* Zoom Widgets  */
-    GtkWidget         *zoom_100;
-    GtkWidget         *ev_zoom_100;
-    GtkWidget         *zoom_in;
-    GtkWidget         *ev_zoom_in;
-    GtkWidget         *zoom_out;
-    GtkWidget         *ev_zoom_out;
-    GtkWidget         *stop_loading;
-    GtkWidget         *ev_stop_loading;
-    /* Preferences Widgets  */
-    GtkWidget         *fancy_prefs;
-    GtkWidget         *ev_fancy_prefs;
-    GtkWidget         *fancy_prefs_menu;
-    /* Menu Items */
-    GtkWidget         *auto_load_images;
-    GtkWidget         *enable_scripts;
-    GtkWidget         *enable_plugins;
-    GtkWidget         *block_extern_content;
-    GtkWidget         *open_external;
+	MimeViewer        mimeviewer;
+	GtkWidget         *scrollwin;
+	WebKitWebView     *view;
+	GtkWidget         *vbox;  
+	GtkWidget         *l_link;
+	/* Zoom Widgets  */
+	GtkWidget         *zoom_100;
+	GtkWidget         *ev_zoom_100;
+	GtkWidget         *zoom_in;
+	GtkWidget         *ev_zoom_in;
+	GtkWidget         *zoom_out;
+	GtkWidget         *ev_zoom_out;
+	GtkWidget         *stop_loading;
+	GtkWidget         *ev_stop_loading;
+	/* Preferences Widgets  */
+	GtkWidget         *fancy_prefs;
+	GtkWidget         *ev_fancy_prefs;
+	GtkWidget         *fancy_prefs_menu;
+	/* Menu Items */
+	GtkWidget         *auto_load_images;
+	GtkWidget         *enable_scripts;
+	GtkWidget         *enable_plugins;
+	GtkWidget         *block_extern_content;
+	GtkWidget         *open_external;
 
-    GtkWidget         *progress;
-    WebKitWebSettings *settings;    
-    gboolean          load_page;
-    gboolean          printing;
-    gboolean          override_prefs_images;
-    gboolean          override_prefs_block_extern_content;
-    gboolean          override_prefs_scripts;
-    gboolean          override_prefs_plugins;
-    gboolean          override_prefs_external;
+	GtkWidget         *progress;
+	WebKitWebSettings *settings;    
+	gboolean          load_page;
+	gboolean          printing;
+	gboolean          override_prefs_images;
+	gboolean          override_prefs_block_extern_content;
+	gboolean          override_prefs_scripts;
+	gboolean          override_prefs_plugins;
+	gboolean          override_prefs_external;
 
 #ifdef HAVE_LIBCURL
-    const gchar       *curlfile;
-    FILE              *stream;
+	const gchar       *curlfile;
+	FILE              *stream;
 #endif
-    gchar             *cur_link;
-    gchar             *filename;
-    MimeInfo          *to_load;
-    gulong            doc_handle;
-    gint              tag;
-    gint              loading;
-    gint              stop_previous;
+	gchar             *cur_link;
+	gchar             *filename;
+	MimeInfo          *to_load;
+	gulong            doc_handle;
+	gint              tag;
+	gint              loading;
+	gint              stop_previous;
 };
 #define OPEN_INTERNAL FALSE
 #define OPEN_EXTERNAL TRUE

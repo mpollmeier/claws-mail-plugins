@@ -1,3 +1,11 @@
+2010-04-12 [iwkse]	0.9.9cvs18
+
+	* src/fancy_viewer.c
+	* src/fancy_viewer.h
+	* src/fancy_prefs.c
+	* src/fancy_prefs.h
+            :set noexpandtab
+
 2010-04-12 [iwkse]	0.9.9cvs17
 
 	* src/fancy_viewer.c
