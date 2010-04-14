@@ -1,3 +1,9 @@
+2010-04-14 [ticho]	0.26.0cvs9
+
+	* src/feed.c
+		Fix issue with incorrect comparing of mime-encoded titles.
+		Fix corner case issue with different items with same title.
+
 2010-04-14 [ticho]	0.26.0cvs8
 
 	* src/parsers.c

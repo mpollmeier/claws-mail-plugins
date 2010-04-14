@@ -972,6 +972,7 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 {
 	gboolean date_publ_eq = FALSE, link_eq = FALSE, title_eq = FALSE;
 	gboolean no_link = FALSE, no_title = FALSE;
+	gchar *atit = NULL, *btit = NULL;
 
 	if( a == NULL || b == NULL )
 		return 1;
@@ -995,8 +996,12 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		no_link = TRUE;
 
 	if( (a->title != NULL) && (b->title != NULL) ) {
-		if( strcmp(a->title, b->title) == 0 )
+		atit = conv_unmime_header(a->title, CS_UTF_8);
+		btit = conv_unmime_header(b->title, CS_UTF_8);
+		if( strcmp(atit, btit) == 0 )
 			title_eq = TRUE;
+		g_free(atit);
+		g_free(btit);
 	} else
 		no_title = TRUE;
 
@@ -1020,7 +1025,7 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 
 	/* Last ditch effort - if everything else is missing, at least titles
 	 * should match. */
-	if( title_eq )
+	if( no_link && title_eq )
 		return 0;
 
 	/* We don't know this item. */
@@ -1270,7 +1275,7 @@ gboolean rssyl_add_feed_item(RSSylFolderItem *ritem, RSSylFeedItem *fitem)
 				strlen("Subject: "), FALSE, CS_UTF_8);
 			err |= (fprintf(f, "Subject: %s\n", tmp) < 0);
 		} else
-			err |= (fprintf(f, "Subject: %s\n", tmp) < 0);
+			err |= (fprintf(f, "Subject: %s\n", fitem->title) < 0);
 	}
 
 	if( (tmpurl = fitem->link) == NULL ) {
