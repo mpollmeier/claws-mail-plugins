@@ -14,7 +14,8 @@ fancy_la_LDFLAGS = \
     $(GTK_LIBS) \
     $(GTKPRINTUNIX_LIBS) \
     $(WEBKIT_LIBS) \
-    $(LIBSOUP_GNOME_LIBS)
+    $(LIBSOUP_GNOME_LIBS) \
+    $(CURL_LIBS)
 
 INCLUDES = \
     -I$(top_srcdir)/src \
@@ -30,4 +31,5 @@ AM_CPPFLAGS = \
     $(GTKPRINTUNIX_CFLAGS) \
     $(WEBKIT_CFLAGS) \
     $(LIBSOUP_GNOME_CFLAGS) \
+    $(CURL_CFLAGS) \
     -DLOCALEDIR=\""$(localedir)"\"

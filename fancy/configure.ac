@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=9
 MICRO_VERSION=9
-EXTRA_VERSION=18
+EXTRA_VERSION=19
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -115,21 +115,9 @@ AC_SUBST(LIBSOUP_GNOME_LIBS)
 
 
 dnl Find curl-config
-AC_PATH_PROG(CURL_CONFIG, curl-config, no)
-if test x$CURL_CONFIG = xno ; then
-    AC_MSG_ERROR([*** curl-config not found. Please install curl along with its development files.])
-fi
-CURL_CFLAGS="`$CURL_CONFIG --cflags`"
-
-CFLAGS="$CFLAGS $CURL_CFLAGS"
-
-CPPFLAGS="$CPPFLAGS $CURL_CFLAGS"
-AC_CHECK_HEADER(curl/curl.h, [], [AC_MSG_ERROR(libcurl headers are missing)])
-
-CURL_LIBS="`$CURL_CONFIG --libs`"
-
-LIBS="$LIBS $CURL_LIBS"
-AC_CHECK_LIB(curl,curl_global_init,,[AC_MSG_ERROR(curl libs are missing)])
+PKG_CHECK_MODULES(CURL, libcurl)
+AC_SUBST(CURL_LIBS)
+AC_SUBST(CURL_CFLAGS)
 
 dnl check for pthread support
 AC_ARG_ENABLE(pthread,
