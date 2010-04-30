@@ -2,14 +2,14 @@
 # Engelse vertalingen voor het pakket fancy.
 # Copyright (C) 2009 Salvatore De Paolis
 # This file is distributed under the same license as the fancy package.
-# Marcel Pol <mpol@gmx.net>, 2009.
+# Marcel Pol <mpol@gmx.net>, 2009-2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fancy\n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2009-12-31 15:39+0100\n"
-"PO-Revision-Date: 2009-12-31 12:38+0200\n"
+"POT-Creation-Date: 2010-04-24 10:55+0200\n"
+"PO-Revision-Date: 2010-04-24 12:38+0200\n"
 "Last-Translator: Marcel Pol <mpol@gmx.net>\n"
 "Language-Team: Dutch\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/fancy_viewer.c:168
+#: src/fancy_viewer.c:178
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -26,28 +26,28 @@ msgstr ""
 "Printen mislukt:\n"
 " %s"
 
-#: src/fancy_viewer.c:196
+#: src/fancy_viewer.c:206
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
 msgstr "HTML printen kan alleen als het 'html2ps' programma geinstalleerd is."
 
-#: src/fancy_viewer.c:201
+#: src/fancy_viewer.c:211
 msgid "Filename is null."
 msgstr "Bestandsnaam is niet ingevuld."
 
-#: src/fancy_viewer.c:217
+#: src/fancy_viewer.c:227
 msgid "Conversion to postscript failed."
 msgstr "Conversie naar postscript mislukt."
 
-#: src/fancy_viewer.c:224
+#: src/fancy_viewer.c:234
 msgid "Print"
 msgstr "Printen"
 
-#: src/fancy_viewer.c:245
+#: src/fancy_viewer.c:255
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "Printer %s accepteert geen Postscript bestanden."
 
-#: src/fancy_viewer.c:259
+#: src/fancy_viewer.c:269
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -56,59 +56,82 @@ msgstr ""
 "Printen mislukt:\n"
 "%s"
 
-#: src/fancy_viewer.c:474
+#: src/fancy_viewer.c:421
+#, c-format
+msgid "Couldn't save the part of multipart message: %s"
+msgstr "Kon een deel van het bericht niet opslaan: %s"
+
+#: src/fancy_viewer.c:528
 msgid "Load images"
 msgstr "Laad afbeeldingen"
 
-#: src/fancy_viewer.c:478
-msgid "Unblock links"
-msgstr "De-blokkeer externe koppelingen"
+#: src/fancy_viewer.c:532
+msgid "Unblock external content"
+msgstr "Blokkeer externe inhoud"
 
-#: src/fancy_viewer.c:482 src/fancy_prefs.c:135
+#: src/fancy_viewer.c:536 src/fancy_prefs.c:135
 msgid "Enable Javascript"
 msgstr "Zet Javascript Aan"
 
-#: src/fancy_viewer.c:485 src/fancy_prefs.c:141
+#: src/fancy_viewer.c:539 src/fancy_prefs.c:141
 msgid "Enable Plugins"
 msgstr "Zet Plugins Aan"
 
-#: src/fancy_viewer.c:488 src/fancy_prefs.c:147
+#: src/fancy_viewer.c:542 src/fancy_prefs.c:147
 msgid "Open links with external browser"
 msgstr "Open links met externe browser"
 
-#: src/fancy_viewer.c:642
+#: src/fancy_viewer.c:693
+#, c-format
+msgid "An error occurred: %d\n"
+msgstr "Een fout gebeurde: %d\n"
+
+#: src/fancy_viewer.c:713
+msgid "Save as"
+msgstr "Sla Op Als"
+
+#: src/fancy_viewer.c:744
+#, c-format
+msgid "%s is a malformed or not supported feed"
+msgstr "%s is een foutgevormde of niet-ondersteunde feed"
+
+#: src/fancy_viewer.c:755
 msgid "Search the Web"
 msgstr "Zoeken op het Web"
 
-#: src/fancy_viewer.c:658
+#: src/fancy_viewer.c:771
 msgid "Open in Browser"
 msgstr "Open in Bladerprogramma"
 
-#: src/fancy_viewer.c:668
+#: src/fancy_viewer.c:781
 msgid "Open Image"
 msgstr "Open Afbeelding"
 
-#: src/fancy_viewer.c:677
+#: src/fancy_viewer.c:790
 msgid "Copy Link"
 msgstr "Kopieer Koppeling"
 
-#: src/fancy_viewer.c:690
+#: src/fancy_viewer.c:796
 msgid "Download Link"
 msgstr "Haal Koppeling Op"
 
-#: src/fancy_viewer.c:701
+#: src/fancy_viewer.c:821
 msgid "Save Image As"
 msgstr "Sla Afbeelding Op Als"
 
-#: src/fancy_viewer.c:711
+#: src/fancy_viewer.c:846
 msgid "Copy Image"
 msgstr "Kopieer Afbeelding"
 
-#: src/fancy_viewer.c:944
+#: src/fancy_viewer.c:866
+msgid "Import feed"
+msgstr "Importeer feed"
+
+#: src/fancy_viewer.c:1089
 msgid "Fancy"
 msgstr "Fancy"
 
-#: src/fancy_viewer.c:965
+#: src/fancy_viewer.c:1107
 msgid "Fancy HTML Viewer"
 msgstr "Fancy HTML Weergever"
 
@@ -121,5 +144,6 @@ msgid "Auto-Load images"
 msgstr "Auto-Laad Afbeeldingen"
 
 #: src/fancy_prefs.c:129
-msgid "Block external links"
-msgstr "Blokkeer externe koppelingen"
+msgid "Block external content"
+msgstr "Blokkeer externe inhoud"
+

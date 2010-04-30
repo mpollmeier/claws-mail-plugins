@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2010-01-01 19:01+0000\n"
+"POT-Creation-Date: 2010-04-24 08:53+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: \n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: src/fancy_viewer.c:168
+#: src/fancy_viewer.c:178
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -20,28 +20,28 @@ msgstr ""
 "Tisk selhal:\n"
 " %s"
 
-#: src/fancy_viewer.c:196
+#: src/fancy_viewer.c:206
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
 msgstr "Tisk HTML je možný jen s nainstalovaným programem 'html2ps'"
 
-#: src/fancy_viewer.c:201
+#: src/fancy_viewer.c:211
 msgid "Filename is null."
 msgstr "Jméno souboru je prázdné"
 
-#: src/fancy_viewer.c:217
+#: src/fancy_viewer.c:227
 msgid "Conversion to postscript failed."
 msgstr "Konverze do postscript selhala."
 
-#: src/fancy_viewer.c:224
+#: src/fancy_viewer.c:234
 msgid "Print"
 msgstr "Tisk"
 
-#: src/fancy_viewer.c:245
+#: src/fancy_viewer.c:255
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "Tiskárna %s neakceptuje PostScript soubory."
 
-#: src/fancy_viewer.c:259
+#: src/fancy_viewer.c:269
 #, c-format
 msgid ""
 "Printing failed:\n"
@@ -50,62 +50,85 @@ msgstr ""
 "Tisk selhal:\n"
 "%s"
 
-#: src/fancy_viewer.c:474
+#: src/fancy_viewer.c:421
+#, c-format
+msgid "Couldn't save the part of multipart message: %s"
+msgstr "Část zprávy nemohla být uložena: %s"
+
+#: src/fancy_viewer.c:528
 msgid "Load images"
 msgstr "Načíst obrázky"
 
-#: src/fancy_viewer.c:478
-msgid "Unblock links"
-msgstr "Odblokovat odkazy"
+#: src/fancy_viewer.c:532
+msgid "Unblock external content"
+msgstr "Odblokovat externí obsah"
 
-#: src/fancy_viewer.c:482
+#: src/fancy_viewer.c:536
 #: src/fancy_prefs.c:135
 msgid "Enable Javascript"
 msgstr "Povolit Javascript"
 
-#: src/fancy_viewer.c:485
+#: src/fancy_viewer.c:539
 #: src/fancy_prefs.c:141
 msgid "Enable Plugins"
 msgstr "Povolit zásuvné moduly"
 
-#: src/fancy_viewer.c:488
+#: src/fancy_viewer.c:542
 #: src/fancy_prefs.c:147
 msgid "Open links with external browser"
 msgstr "Otevřít odkazy v externím prohlížeči"
 
-#: src/fancy_viewer.c:642
+#: src/fancy_viewer.c:693
+#, c-format
+msgid "An error occurred: %d\n"
+msgstr "Nastala chyba: %d\n"
+
+#: src/fancy_viewer.c:713
+msgid "Save as"
+msgstr "Uložit jako"
+
+#: src/fancy_viewer.c:744
+#, c-format
+msgid "%s is a malformed or not supported feed"
+msgstr "%s je poškozený nebo není podporovaný kanál"
+
+#: src/fancy_viewer.c:755
 msgid "Search the Web"
 msgstr "Prohledat web"
 
-#: src/fancy_viewer.c:658
+#: src/fancy_viewer.c:771
 msgid "Open in Browser"
 msgstr "Otevřít v prohlížeči"
 
-#: src/fancy_viewer.c:668
+#: src/fancy_viewer.c:781
 msgid "Open Image"
 msgstr "Otevřít obrázek"
 
-#: src/fancy_viewer.c:677
+#: src/fancy_viewer.c:790
 msgid "Copy Link"
 msgstr "Kopírovat odkaz"
 
-#: src/fancy_viewer.c:690
+#: src/fancy_viewer.c:796
 msgid "Download Link"
 msgstr "Stáhnout odkaz"
 
-#: src/fancy_viewer.c:701
+#: src/fancy_viewer.c:821
 msgid "Save Image As"
 msgstr "Uložit obrázek jako"
 
-#: src/fancy_viewer.c:711
+#: src/fancy_viewer.c:846
 msgid "Copy Image"
 msgstr "Kopírovat obrázek"
 
-#: src/fancy_viewer.c:944
+#: src/fancy_viewer.c:866
+msgid "Import feed"
+msgstr "Načíst kanál"
+
+#: src/fancy_viewer.c:1089
 msgid "Fancy"
 msgstr "Fancy"
 
-#: src/fancy_viewer.c:965
+#: src/fancy_viewer.c:1107
 msgid "Fancy HTML Viewer"
 msgstr "Fancy HTML prohlížeč"
 
@@ -118,6 +141,8 @@ msgid "Auto-Load images"
 msgstr "Automaticky načíst obrázky"
 
 #: src/fancy_prefs.c:129
-msgid "Block external links"
-msgstr "Blokovat externí odkazy"
+msgid "Block external content"
+msgstr "Blokovat externí obsah"
 
+#~ msgid "Unblock links"
+#~ msgstr "Odblokovat odkazy"
