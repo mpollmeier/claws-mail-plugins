@@ -1,16 +1,18 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Slovak language file for bsfilter_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: bsfilter_plugin\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2010-01-01 19:00+0000\n"
-"PO-Revision-Date: 2010-01-02 18:07+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"PO-Revision-Date: 2010-04-24 11:46+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/bsfilter.c:78 src/bsfilter_gtk.c:393
 msgid "Bsfilter"
@@ -81,10 +83,10 @@ msgstr ""
 "niekoľko sto správ SPAM a HAM pomocou \"/Značka/Označiť ako spam\" a \"/"
 "Značka/Označiť ako ham\".\n"
 "\n"
-"When a message is identified as spam it can be deleted or saved in a "
-"specially designated folder.\n"
+"Keď je správa identifikovaná ako SPAM, môže byť zmazaná alebo uložená do "
+"určeného priečinka.\n"
 "\n"
-"Options can be found in /Configuration/Preferences/Plugins/Bsfilter"
+"Voľby môžete nájsť v /Nastavenie/Nastavenia/Zásuvné moduly/Bsfilter"
 
 #: src/bsfilter.c:674
 msgid "Spam detection"
