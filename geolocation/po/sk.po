@@ -1,15 +1,18 @@
-# Slavko <slavino@slavino.sk>, 2010.
+# Slovak language file for geolocation_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: geolocation_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2010-01-01 19:02+0000\n"
-"PO-Revision-Date: 2010-01-02 18:12+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"POT-Creation-Date: 2010-04-24 08:54+0100\n"
+"PO-Revision-Date: 2010-04-24 11:55+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. TRANSLATORS: The two numbers are latitude and longitude coordinates
 #: src/geolocation_plugin.c:314
@@ -24,7 +27,7 @@ msgstr "Nemožno určiť umiestnenie IP adresy "
 
 #: src/geolocation_plugin.c:470
 msgid "Try to locate sender"
-msgstr "Skúsiť lokalizoať odosielateľa"
+msgstr "Skúsiť lokalizovať odosielateľa"
 
 #: src/geolocation_plugin.c:495 src/geolocation_plugin.c:567
 msgid "GeoLocation"
@@ -38,7 +41,7 @@ msgstr "Nemožno vytvoriť regulárny výraz: %s\n"
 #: src/geolocation_plugin.c:515
 msgid "Failed to register messageview_show hook in the GeoLocation plugin"
 msgstr ""
-"V zásuvnom module GeoLocation plugin zlyhala registrácie obsluhy udalosti "
+"V zásuvnom module GeoLocation zlyhala registrácia obsluhy udalosti "
 "messageview_show"
 
 #: src/geolocation_plugin.c:572
@@ -57,13 +60,13 @@ msgid ""
 "Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital "
 "quarrels)."
 msgstr ""
-"Tento zásuvný modul funkciu GeoLocation pre Claws Mail.\n"
+"Tento zásuvný modul poskytuje pre Claws Mail funkciu GeoLocation.\n"
 "\n"
 "Upozornenie: Je nemožné s istotou určiť geografické umiestnenie odosielateľa "
 "z jeho emailov. Výsledok prezentovaný týmto zásuvným modulom je len hrubý "
 "odhad. Napríklad, správcovia maillistov často z emailov odstraňujú "
 "informácie o odosielateľovi, preto emailom z takýchto maillistov môže byť "
-"priradené umiestnenie servera mailistu, namiesto odosielateľa emailu.\n"
+"priradené umiestnenie servera maillistu, namiesto odosielateľa emailu.\n"
 "V prípade pochybností, nedôverujte výsledkom tohoto zásuvného modulu a "
 "nespoliehajte sa na tieto informácie pri rozvode so svojim partnerom.\n"
 "\n"
@@ -73,3 +76,4 @@ msgstr ""
 #: src/geolocation_plugin.c:605
 msgid "GeoLocation integration"
 msgstr "Integrácia GeoLocation"
+
