@@ -126,3 +126,4 @@
 ( cvs diff -u -r 1.1.2.88 -r 1.1.2.89 src/poppler_viewer.c;  cvs diff -u -r 1.1.2.12 -r 1.1.2.13 src/poppler_viewer.h;  ) > 0.9.1cvs8.patchset
 ( cvs diff -u -r 1.1.2.136 -r 1.1.2.137 configure.ac;  diff -u /dev/null po/cs.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/fi.po;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 po/hu.po;  diff -u /dev/null po/id.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/it.po;  diff -u /dev/null po/ja.po;  diff -u /dev/null po/ru.po;  ) > 0.9.1cvs9.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 commitHelper;  cvs diff -u -r 1.1.2.89 -r 1.1.2.90 src/poppler_viewer.c;  ) > 0.9.1cvs10.patchset
+( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fi.po;  ) > 0.9.1cvs11.patchset
