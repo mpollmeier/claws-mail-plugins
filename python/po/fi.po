@@ -1,14 +1,14 @@
 # Finnish translations for python_plugin package.
 # Copyright (C) 2010 Holger Berndt
 # This file is distributed under the same license as the python_plugin package.
-#  <flammie@iki.fi>, 2010.
+# Flammie Pirinen <flammie@iki.fi>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: python_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
 "POT-Creation-Date: 2010-01-03 00:30+0200\n"
-"PO-Revision-Date: 2010-01-03 00:32+0200\n"
+"PO-Revision-Date: 2010-04-25 17:52+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"

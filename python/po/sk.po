@@ -1,47 +1,77 @@
-# Slavko <slavino@slavino.sk>, 2010.
+# Slovak language file for python_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: python_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2010-01-01 19:05+0000\n"
-"PO-Revision-Date: 2010-01-02 18:18+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"POT-Creation-Date: 2010-04-24 08:57+0100\n"
+"PO-Revision-Date: 2010-04-24 12:10+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/python_plugin.c:319 src/python_plugin.c:437
+#: src/python_plugin.c:337 src/python_plugin.c:470
 msgid "Python scripts"
 msgstr "Skripty Python"
 
-#: src/python_plugin.c:432
+#: src/python_plugin.c:465
 msgid "Show Python console..."
 msgstr "Zobraziť konzolu Python..."
 
-#: src/python_plugin.c:438
+#: src/python_plugin.c:471
 msgid "Refresh"
 msgstr "Obnoviť"
 
-#: src/python_plugin.c:503 src/python_plugin.c:554
+#: src/python_plugin.c:473
+msgid "Browse"
+msgstr "Prechádzať"
+
+#: src/python_plugin.c:543 src/python_plugin.c:597
 msgid "Python"
 msgstr "Python"
 
-#: src/python_plugin.c:509
+#: src/python_plugin.c:549
 msgid "Failed to register compose create hook int the Python plugin"
 msgstr ""
-"V zásuvnom module Python zlyhala registrácia obsluhy udalosti compose create"
+"V zásuvnom module Python zlyhala registrácia obsluhy udalosti 'compose "
+"create'"
 
-#: src/python_plugin.c:559
+#: src/python_plugin.c:602
 msgid ""
 "This plugin provides Python integration features.\n"
 "\n"
+"For the most up-to-date API documentation, type\n"
+"\n"
+" help(clawsmail)\n"
+"\n"
+"in the interactive Python console under Tools -> Show Python console.\n"
+"\n"
+"The source distribution of this plugin comes with various example scripts in "
+"the \"examples\" subdirectory. If you wrote a script that you would be "
+"interested in sharing, feel free to send it to me to have it considered for "
+"inclusion in the examples.\n"
+"\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Tento zásuvný modul poskytuje integráciu funkcií Python.\n"
+"Tento zásuvný modul poskytuje možnosť integrácie Python.\n"
+"\n"
+"K aktuálnej dokumentácii API sa môžete dostať zadaním\n"
+"\n"
+" help(clawsmail)\n"
+"\n"
+"v interaktívnej konzole Python v Nástroje -> Zobraziť konzolu Python.\n"
+"\n"
+"Zdrojová distribúcia tohoto zásuvného modulu obsahuje rôzny príklady "
+"skriptov v adresári \"examples\". Ak napíšete skript, ktorý by mohol byť "
+"užitočný aj ostatným, pokojne mi ho pošlite a ja zvážim jeho zahrnutie do "
+"príkladov.\n"
 "\n"
 "Spätná väzba na <berndth@gmx.de> je vítaná."
 
-#: src/python_plugin.c:581
+#: src/python_plugin.c:631
 msgid "Python integration"
 msgstr "Integrácia Python"

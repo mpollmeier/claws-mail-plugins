@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2010-01-01 19:05+0000\n"
+"POT-Creation-Date: 2010-04-24 08:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: \n"
@@ -13,39 +13,67 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: src/python_plugin.c:319
-#: src/python_plugin.c:437
+#: src/python_plugin.c:337
+#: src/python_plugin.c:470
 msgid "Python scripts"
 msgstr "Skripty v Pythonu"
 
-#: src/python_plugin.c:432
+#: src/python_plugin.c:465
 msgid "Show Python console..."
 msgstr "Zobrazit konzoli Pythonu..."
 
-#: src/python_plugin.c:438
+#: src/python_plugin.c:471
 msgid "Refresh"
 msgstr "Obnovit"
 
-#: src/python_plugin.c:503
-#: src/python_plugin.c:554
+#: src/python_plugin.c:473
+msgid "Browse"
+msgstr "Procházet"
+
+#: src/python_plugin.c:543
+#: src/python_plugin.c:597
 msgid "Python"
 msgstr "Python"
 
-#: src/python_plugin.c:509
+#: src/python_plugin.c:549
 msgid "Failed to register compose create hook int the Python plugin"
 msgstr "Selhala registrace vytvoření v zásuvném modulu Python"
 
-#: src/python_plugin.c:559
+#: src/python_plugin.c:602
 msgid ""
 "This plugin provides Python integration features.\n"
+"\n"
+"For the most up-to-date API documentation, type\n"
+"\n"
+" help(clawsmail)\n"
+"\n"
+"in the interactive Python console under Tools -> Show Python console.\n"
+"\n"
+"The source distribution of this plugin comes with various example scripts in the \"examples\" subdirectory. If you wrote a script that you would be interested in sharing, feel free to send it to me to have it considered for inclusion in the examples.\n"
 "\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
 "Zásuvný modul umožňuje integraci Pythonu.\n"
 "\n"
+"Pro nejaktuálnější dokumentaci napište\n"
+"\n"
+" help(clawsmail)\n"
+"\n"
+"v interaktivní Pythonní konzoli v Nástroje -> Zobrazit konzoli Pythonu.\n"
+"\n"
+"Distribuční zdroj zásuvného modulu obsahuje několik vzorových skriptů v adresáři \"examples\". Jestliže napíšete skript, který by bylo zajímavé sdílet. Pošlete mi ho pro vložení mezi přiklady.\n"
+"\n"
 "Zpětná vazba k <berndth@gmx.de> je vítána."
 
-#: src/python_plugin.c:581
+#: src/python_plugin.c:631
 msgid "Python integration"
 msgstr "Integrace Pythonu"
 
+#~ msgid ""
+#~ "This plugin provides Python integration features.\n"
+#~ "\n"
+#~ "Feedback to <berndth@gmx.de> is welcome."
+#~ msgstr ""
+#~ "Zásuvný modul umožňuje integraci Pythonu.\n"
+#~ "\n"
+#~ "Zpětná vazba k <berndth@gmx.de> je vítána."

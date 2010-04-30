@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail python plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2010-01-01 19:05+0000\n"
-"PO-Revision-Date: 2010-01-01 22:09+0100\n"
+"POT-Creation-Date: 2010-04-24 08:57+0100\n"
+"PO-Revision-Date: 2010-04-24 16:15+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -18,39 +18,67 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/python_plugin.c:319
-#: src/python_plugin.c:437
+#: src/python_plugin.c:337
+#: src/python_plugin.c:470
 msgid "Python scripts"
 msgstr "Python scriptek"
 
-#: src/python_plugin.c:432
+#: src/python_plugin.c:465
 msgid "Show Python console..."
 msgstr "Python konzol megjelenítése..."
 
-#: src/python_plugin.c:438
+#: src/python_plugin.c:471
 msgid "Refresh"
 msgstr "Frissítés"
 
-#: src/python_plugin.c:503
-#: src/python_plugin.c:554
+#: src/python_plugin.c:473
+msgid "Browse"
+msgstr "Böngészés"
+
+#: src/python_plugin.c:543
+#: src/python_plugin.c:597
 msgid "Python"
 msgstr "Python"
 
-#: src/python_plugin.c:509
+#: src/python_plugin.c:549
 msgid "Failed to register compose create hook int the Python plugin"
 msgstr "A Python plugin szerkesztés szabályláncának regisztálása nem sikerült"
 
-#: src/python_plugin.c:559
+#: src/python_plugin.c:602
 msgid ""
 "This plugin provides Python integration features.\n"
 "\n"
+"For the most up-to-date API documentation, type\n"
+"\n"
+" help(clawsmail)\n"
+"\n"
+"in the interactive Python console under Tools -> Show Python console.\n"
+"\n"
+"The source distribution of this plugin comes with various example scripts in the \"examples\" subdirectory. If you wrote a script that you would be interested in sharing, feel free to send it to me to have it considered for inclusion in the examples.\n"
+"\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"A plugin Python integrációs lehetőségeket biztosít.\n"
+"A plugin Python scriptek, kódok használatát teszi lehetővé.\n"
 "\n"
-"Visszajelzések a <berndth@gmx.de> címre küldhetők."
+"A legfrissebb API dokumentáció elérhető a\n"
+"\n"
+" help(clawsmail)\n"
+"\n"
+"parancs használatával az interaktív Python konzolból (Eszközök -> Python konzol megjelenítése).\n"
+"\n"
+"A plugin forráskódja több példa scriptet tartalmaz az \"examples\" alkönyvtárban. Ha szeretnél megosztani másokkal egy saját scriptedet, küldd el nekem, és hozzáteszem a példákhoz.\n"
+"\n"
+"Örömmel veszek minden visszajelzést a <berndth@gmx.de> címre."
 
-#: src/python_plugin.c:581
+#: src/python_plugin.c:631
 msgid "Python integration"
 msgstr "Python integráció"
 
+#~ msgid ""
+#~ "This plugin provides Python integration features.\n"
+#~ "\n"
+#~ "Feedback to <berndth@gmx.de> is welcome."
+#~ msgstr ""
+#~ "A plugin Python integrációs lehetőségeket biztosít.\n"
+#~ "\n"
+#~ "Visszajelzések a <berndth@gmx.de> címre küldhetők."
