@@ -1,16 +1,18 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Slovak language file for tnef_parse_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: tnef_parse_plugin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2010-01-01 19:07+0000\n"
-"PO-Revision-Date: 2010-01-02 15:49+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"PO-Revision-Date: 2010-04-24 12:25+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/tnef_parse.c:64
 #, c-format
@@ -58,5 +60,6 @@ msgid ""
 msgstr ""
 "Tento zásuvný modul umožňuje čítať prílohy application/ms-tnef.\n"
 "\n"
-"Tento zásuvný modul používa knižnicu Ytnef, ktorá je copyright 2002-2007 by "
+"Zásuvný modul používa knižnicu Ytnef, ktorá má Copyright 2002-2007 by "
 "Randall Hand <yerase@yerot.com>"
+
