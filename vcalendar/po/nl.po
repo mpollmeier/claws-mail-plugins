@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: vcalendar\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2009-12-31 15:39+0100\n"
-"PO-Revision-Date: 2009-12-31 19:09+0200\n"
+"PO-Revision-Date: 2010-04-24 19:09+0200\n"
 "Last-Translator: Marcel Pol <mpol@gmx.net>\n"
 "Language-Team: Dutch\n"
 "MIME-Version: 1.0\n"
@@ -636,8 +636,8 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Het is niet mogelijk deze afspraak te hebben met iedereen in de vorige of "
-"de volgende 6 uur."
+"Het is niet mogelijk deze afspraak te hebben met iedereen in de vorige of de "
+"volgende 6 uur."
 
 #: src/vcal_meeting_gtk.c:819
 #, c-format
@@ -702,8 +702,8 @@ msgid ""
 "Everyone seems available, but some free/busy information failed to be "
 "retrieved."
 msgstr ""
-"Iedereen lijkt beschikbaar, maar sommige vrij/bezet informatie kon "
-"niet opgehaald worden."
+"Iedereen lijkt beschikbaar, maar sommige vrij/bezet informatie kon niet "
+"opgehaald worden."
 
 #: src/vcal_meeting_gtk.c:1348
 msgid ""
@@ -861,7 +861,7 @@ msgstr "Voeg webcal inschrijvingen bij het exporteren in"
 
 #: src/vcal_prefs.c:350
 msgid "Command to run after calendar export"
-msgstr "Opdracht om te draaien na het exporteren van de agenda"
+msgstr "Opdracht om te starten na het exporteren van de agenda"
 
 #: src/vcal_prefs.c:379
 msgid "Register Claws' calendar in XFCE's Orage clock"
@@ -869,7 +869,8 @@ msgstr "Registreer Claws' agenda in XFCE's Orage klok"
 
 #: src/vcal_prefs.c:381
 msgid "Allows Orage (version greater than 4.4) to see Claws Mail's calendar"
-msgstr "Sta Orage (versie 4.4 of nieuwer) toe om Claws Mail's agaenda in te zien"
+msgstr ""
+"Sta Orage (versie 4.4 of nieuwer) toe om Claws Mail's agaenda in te zien"
 
 #: src/vcal_prefs.c:393
 msgid "Free/Busy information"
@@ -885,7 +886,7 @@ msgstr "Geef een lokaal bestand of URL (http://server/path/file.ifb) op"
 
 #: src/vcal_prefs.c:446
 msgid "Command to run after free/busy status export"
-msgstr "Opdracht om te draaien na het exporteren van vrij/bezet status"
+msgstr "Opdracht om te starten na het exporteren van vrij/bezet status"
 
 #: src/vcal_prefs.c:473
 msgid "Get free/busy status of others from"
@@ -897,8 +898,8 @@ msgid ""
 "Specify a local file or URL (http://server/path/file.ifb). Use %u for the "
 "left part of the email address, %d for the domain"
 msgstr ""
-"Geef een lokaal bestand of URL (http://server/path/file.ifb) op. Gebruik "
-"%u voor het linker deel van het e-mail adres, %d voor het domein"
+"Geef een lokaal bestand of URL (http://server/path/file.ifb) op. Gebruik %u "
+"voor het linker deel van het e-mail adres, %d voor het domein"
 
 #: src/vcal_prefs.c:644
 msgid "Plugins"
