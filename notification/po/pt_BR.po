@@ -1,13 +1,14 @@
 # translation of Claws Mail Notification plugin to Brazilian Portuguese
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007, 2008, 2009.
 # Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>, 2010.
+# Frederico Gonçalves Guimarães, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail Notification plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2009-11-29 17:30+0100\n"
-"PO-Revision-Date: 2010-01-06 16:13-0200\n"
-"Last-Translator: Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>\n"
+"POT-Creation-Date: 2010-03-25 06:30+0100\n"
+"PO-Revision-Date: 2010-04-26 21:51-0300\n"
+"Last-Translator: Frederico Gonçalves Guimarães\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr "Pasta:"
 msgid "Select folder(s)"
 msgstr "Selecione a(s) pasta(s)"
 
-#: src/notification_foldercheck.c:580
+#: src/notification_foldercheck.c:578
 msgid "select recursively"
 msgstr "seleção recursiva"
 
@@ -47,7 +48,7 @@ msgstr "Total"
 msgid "No new messages"
 msgstr "Nenhuma mensagem nova"
 
-#: src/notification_plugin.c:216 src/notification_plugin.c:418
+#: src/notification_plugin.c:217 src/notification_plugin.c:419
 #: src/notification_prefs.c:393 src/notification_prefs.c:407
 #: src/notification_prefs.c:425 src/notification_prefs.c:442
 #: src/notification_prefs.c:459 src/notification_prefs.c:476
@@ -55,67 +56,73 @@ msgstr "Nenhuma mensagem nova"
 msgid "Notification"
 msgstr "Notificação"
 
-#: src/notification_plugin.c:221
+#: src/notification_plugin.c:222
 msgid "The Notification plugin needs threading support."
 msgstr "O plugin Notificação precisa suporte a agrupamento."
 
-#: src/notification_plugin.c:228
+#: src/notification_plugin.c:229
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de atualização de item da pasta no "
 "plugin Notificação"
 
-#: src/notification_plugin.c:236
+#: src/notification_plugin.c:237
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de atualização da pasta no plugin "
 "Notificação"
 
-#: src/notification_plugin.c:246
+#: src/notification_plugin.c:247
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de atualização msginfo no plugin "
 "Notificação"
 
-#: src/notification_plugin.c:256
+#: src/notification_plugin.c:257
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de desconexão no plugin Notificação"
 
-#: src/notification_plugin.c:267
+#: src/notification_plugin.c:268
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de encerramento da janela principal no "
 "plugin Notificação"
 
-#: src/notification_plugin.c:280
+#: src/notification_plugin.c:281
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de minimização no plugin Notificação"
 
-#: src/notification_plugin.c:293
+#: src/notification_plugin.c:294
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de mudança na lista de contas no plugin "
 "Notificação"
 
-#: src/notification_plugin.c:306
+#: src/notification_plugin.c:307
 msgid "Failed to register theme change hook int the Notification plugin"
 msgstr ""
 "Não foi possível registrar o gancho de alteração do tema no plugin "
 "Notificação"
 
-#: src/notification_plugin.c:423
+#: src/notification_plugin.c:424
 msgid ""
 "This plugin provides various ways to notify the user of new and unread "
 "email.\n"
+"The plugin is extensively configurable in the plugins section of the "
+"preferences dialog.\n"
+"\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"Esse plugin fornece várias formas de notificar o usuário sobre mensagens "
+"Este plugin fornece várias formas de notificar o usuário sobre mensagens "
 "novas e não lidas.\n"
+"Este plugin é amplamente configurável na seção de plugins da janela de "
+"preferências.\n"
+"\n"
 "Opiniões para <berndth@gmx.de> são bem-vindas."
 
-#: src/notification_plugin.c:446
+#: src/notification_plugin.c:449
 msgid "Various tools"
 msgstr "Várias ferramentas"
 
@@ -124,12 +131,12 @@ msgid "New Mail message"
 msgstr "Nova mensagem de e-mail"
 
 #: src/notification_popup.c:306 src/notification_popup.c:603
-#: src/notification_trayicon.c:818
+#: src/notification_trayicon.c:819
 msgid "(No From)"
 msgstr "(Sem remetente)"
 
 #: src/notification_popup.c:308 src/notification_popup.c:607
-#: src/notification_trayicon.c:821
+#: src/notification_trayicon.c:822
 msgid "(No Subject)"
 msgstr "(Sem assunto)"
 
@@ -145,7 +152,7 @@ msgstr "Chegou uma nova mensagem"
 msgid "New Calendar message"
 msgstr "Nova mensagem de Agenda"
 
-#: src/notification_popup.c:330 src/notification_trayicon.c:839
+#: src/notification_popup.c:330 src/notification_trayicon.c:840
 msgid "A new calendar message arrived"
 msgstr "Chegou uma nova mensagem de Agenda"
 
@@ -153,7 +160,7 @@ msgstr "Chegou uma nova mensagem de Agenda"
 msgid "New RSS feed article"
 msgstr "Novo artigo RSS"
 
-#: src/notification_popup.c:334 src/notification_trayicon.c:842
+#: src/notification_popup.c:334 src/notification_trayicon.c:843
 msgid "A new article in a RSS feed arrived"
 msgstr "Chegou um novo artigo de um alimentador RSS"
 
@@ -184,7 +191,7 @@ msgstr "Mensagem de Newsgroup"
 msgid "Calendar message"
 msgstr "Mensagem de Agenda"
 
-#: src/notification_popup.c:487 src/notification_trayicon.c:876
+#: src/notification_popup.c:487 src/notification_trayicon.c:877
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
@@ -479,86 +486,86 @@ msgstr "Habilitar teclas de atalho globais"
 msgid "Toggle minimize:"
 msgstr "Alternar minimizar:"
 
-#: src/notification_trayicon.c:98
+#: src/notification_trayicon.c:99
 msgid "_Get Mail"
 msgstr "_Obter mensagens"
 
-#: src/notification_trayicon.c:100
+#: src/notification_trayicon.c:101
 msgid "_Email"
 msgstr "_Mensagem"
 
-#: src/notification_trayicon.c:101
+#: src/notification_trayicon.c:102
 msgid "E_mail from account"
 msgstr "Mensagens da _conta"
 
-#: src/notification_trayicon.c:102
+#: src/notification_trayicon.c:103
 msgid "Open A_ddressbook"
 msgstr "Abrir o Livro de _Endereços"
 
-#: src/notification_trayicon.c:103
+#: src/notification_trayicon.c:104
 msgid "E_xit Claws Mail"
 msgstr "_Sair do Claws Mail"
 
-#: src/notification_trayicon.c:108
+#: src/notification_trayicon.c:109
 msgid "_Work Offline"
 msgstr "_Trabalhar desconectado"
 
-#: src/notification_trayicon.c:110
+#: src/notification_trayicon.c:111
 msgid "Show Trayicon Notifications"
 msgstr "Exibir aviso na área de notificações"
 
-#: src/notification_trayicon.c:252
+#: src/notification_trayicon.c:253
 #, c-format
 msgid "New %d, Unread: %d, Total: %d"
 msgstr "Novas %d, Não lidas: %d, Total: %d"
 
-#: src/notification_trayicon.c:346
+#: src/notification_trayicon.c:347
 msgid "Untitled"
 msgstr "Sem título"
 
-#: src/notification_trayicon.c:490
+#: src/notification_trayicon.c:491
 msgid "Exit"
 msgstr "Sair"
 
-#: src/notification_trayicon.c:490
+#: src/notification_trayicon.c:491
 msgid "Exit Claws Mail?"
 msgstr "Sair do Claws Mail?"
 
-#: src/notification_trayicon.c:789
+#: src/notification_trayicon.c:790
 msgid "New mail message"
 msgstr "Nova mensagem de e-mail"
 
-#: src/notification_trayicon.c:791
+#: src/notification_trayicon.c:792
 msgid "New news post"
 msgstr "Nova publicação de Newsgroup"
 
-#: src/notification_trayicon.c:793
+#: src/notification_trayicon.c:794
 msgid "New calendar message"
 msgstr "Nova mensagem de Agenda"
 
-#: src/notification_trayicon.c:795
+#: src/notification_trayicon.c:796
 msgid "New article in RSS feed"
 msgstr "Novo artigo de um alimentador RSS"
 
-#: src/notification_trayicon.c:798
+#: src/notification_trayicon.c:799
 msgid "New messages arrived"
 msgstr "Chegou uma nova mensagem"
 
-#: src/notification_trayicon.c:854
+#: src/notification_trayicon.c:855
 #, c-format
 msgid "%d new mail message arrived"
 msgid_plural "%d new mail messages arrived"
 msgstr[0] "Chegou %d nova mensagem"
 msgstr[1] "Chegaram %d novas mensagens"
 
-#: src/notification_trayicon.c:865
+#: src/notification_trayicon.c:866
 #, c-format
 msgid "%d new news post arrived"
 msgid_plural "%d new news posts arrived"
 msgstr[0] "Chegou %d nova publicação de Newsgroup"
 msgstr[1] "Chegou %d novas publicações de Newsgroup"
 
-#: src/notification_trayicon.c:887
+#: src/notification_trayicon.c:888
 #, c-format
 msgid "%d new article in RSS feeds arrived"
 msgid_plural "%d new articles in RSS feeds arrived"

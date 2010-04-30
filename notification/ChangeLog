@@ -1,3 +1,14 @@
+2010-04-30 [paul]	0.24cvs6
+
+	* po/cs.po
+	* po/fi.po
+	* po/hu.po
+	* po/nl.po
+	* po/pt_BR.po
+	* po/sk.po
+		updated by David Vachulka, Flammie Pirinen, Pader Rezso,
+		Marcel Pol, Frederico Goncalves Guimaraes, Slavko
+
 2010-03-24 [pawel]	0.24cvs5
 
 	* commitHelper
