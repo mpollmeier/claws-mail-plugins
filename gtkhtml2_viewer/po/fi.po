@@ -1,14 +1,14 @@
 # Finnish translations for gtkhtml package.
 # Copyright (C) 2006 Andrej Kacian
 # This file is distributed under the same license as the gtkhtml package.
-# Flammie Pirinen <flammie@iki.fi>, 2006—2008.
+# Flammie Pirinen <flammie@iki.fi>, 2006—2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml 2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2010-01-02 22:10+0200\n"
-"PO-Revision-Date: 2010-01-03 00:26+0200\n"
+"POT-Creation-Date: 2010-04-25 17:20+0300\n"
+"PO-Revision-Date: 2010-04-25 17:50+0300\n"
 "Last-Translator: Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"

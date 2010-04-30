@@ -1,3 +1,9 @@
+2010-04-30 [paul]	0.26.0cvs4
+
+	* po/fi.po
+	* po/sk.po
+		updated by Flammie Pirinen, Slavko
+
 2010-03-25 [pawel]	0.26.0cvs3
 
 	* libgtkhtml/a11y/Makefile.am
