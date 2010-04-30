@@ -1,16 +1,18 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Slovak language file for spam_report_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: spam_report_plugin\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2010-01-01 19:06+0000\n"
-"PO-Revision-Date: 2010-01-02 18:20+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"PO-Revision-Date: 2010-04-24 12:23+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/spam_report.c:296
 msgid "Reporting spam..."
@@ -18,7 +20,7 @@ msgstr "Ohlasovanie SPAM..."
 
 #: src/spam_report.c:331
 msgid "Report spam online..."
-msgstr "Online ohlasovanie SPAM..."
+msgstr "Ohlásiť SPAM online..."
 
 #: src/spam_report.c:350 src/spam_report.c:391 src/spam_report_prefs.c:79
 msgid "SpamReport"
@@ -33,12 +35,12 @@ msgid ""
 " * spamcop.net\n"
 " * lists.debian.org nomination system"
 msgstr ""
-"Tento zásuvný modul ohlasuje na rôzne miesta SPAM.\n"
+"Tento zásuvný modul ohlasuje SPAM na rôzne miesta.\n"
 "Aktuálne sú podporované tieto stránky alebo metódy:\n"
 "\n"
 " * spam-signal.fr\n"
 " * spamcop.net\n"
-" * lists.debian.org nomination system"
+" * nominačný systém lists.debian.org"
 
 #: src/spam_report.c:421
 msgid "Spam reporting"
@@ -63,3 +65,4 @@ msgstr "Meno:"
 #: src/spam_report_prefs.c:164
 msgid "Password:"
 msgstr "Heslo:"
+
