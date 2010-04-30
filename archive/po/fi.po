@@ -1,14 +1,14 @@
 # Finnish translations for GNU archive package.
 # Copyright (C) 2010 Michael Rasmussen
 # This file is distributed under the same license as the GNU archive package.
-#  <flammie@iki.fi>, 2010.
+# Flammie Pirinen <flammie@iki.fi>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2010-01-02 22:21+0200\n"
-"PO-Revision-Date: 2010-01-02 22:46+0200\n"
+"POT-Creation-Date: 2010-04-25 17:20+0300\n"
+"PO-Revision-Date: 2010-04-25 17:48+0300\n"
 "Last-Translator:  Flammie Pirinen <flammie@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,11 +57,10 @@ msgstr ""
 "Tämä liitännäinen lisää sähköpostien arkistoinnin Claws Mailiin.\n"
 "\n"
 "Sen avulla voi valita postihakemiston arkistoitavaksi, ja tiedoston ja "
-"pakkausformaatin. Alihakemistot voidaan sisällyttää ja tiedoista ottaa "
-"MD5-tarkistussummat. Arkistoille on useita asetuksia.\n"
+"pakkausformaatin. Alihakemistot voidaan sisällyttää ja tiedoista ottaa MD5-"
+"tarkistussummat. Arkistoille on useita asetuksia.\n"
 "\n"
-"Arkistot voi tallentaa seuraaviin paketteihin:"
-"\tTAR\n"
+"Arkistot voi tallentaa seuraaviin paketteihin:\tTAR\n"
 "\tPAX\n"
 "\tSHAR\n"
 "\tCPIO\n"
@@ -225,7 +224,8 @@ msgstr "Valitse viestit ensin"
 
 #: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
-msgstr "Valitse tiedostonimi arkistolla [käytä formaatin mukaista tarkennetta, "
+msgstr ""
+"Valitse tiedostonimi arkistolla [käytä formaatin mukaista tarkennetta, "
 "kuten .tgz:aa]"
 
 #: src/archiver_gtk.c:949
@@ -482,4 +482,3 @@ msgstr "Poista"
 #: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
 msgstr "Valitset tämä poistaaksesi viestit arkistoinnin lopuksi"
-
