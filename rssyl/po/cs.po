@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rssyl\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2010-01-01 19:06+0000\n"
-"PO-Revision-Date: 2010-01-01 21:37+0100\n"
+"POT-Creation-Date: 2010-04-24 08:58+0100\n"
+"PO-Revision-Date: 2010-04-24 13:20+0100\n"
 "Last-Translator: David Vachulka <david@konstrukce-cad.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,25 +50,25 @@ msgstr "Stahuji '%s'..."
 msgid "Malformed feed"
 msgstr "Poškozený kanál"
 
-#: src/feed.c:1131
+#: src/feed.c:1165
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Aktualizuji kanál '%s'..."
 
-#: src/feed.c:1146
+#: src/feed.c:1180
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Pro RDF kanály není stahování komentářů podporováno. Nepodařilo se stáhnout komentáře pro '%s'."
 
-#: src/feed.c:1155
+#: src/feed.c:1189
 msgid "This feed format is not supported yet."
 msgstr "Formát tohoto kanálu zatím není podporován."
 
-#: src/feed.c:1186
+#: src/feed.c:1220
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1306
+#: src/feed.c:1340
 #, c-format
 msgid "%ld byte"
 msgid_plural "%ld bytes"
@@ -76,11 +76,11 @@ msgstr[0] "%ld bajt"
 msgstr[1] "%ld bajty"
 msgstr[2] "%ld bajtů"
 
-#: src/feed.c:1309
+#: src/feed.c:1343
 msgid "size unknown"
 msgstr "neznámá velikost"
 
-#: src/feed.c:1479
+#: src/feed.c:1516
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -89,11 +89,11 @@ msgstr ""
 "RSSyl: Nepodarilo sa aktualizovať kanál %s:\n"
 "%s\n"
 
-#: src/feed.c:1651
+#: src/feed.c:1688
 msgid "You are already subscribed to this feed."
 msgstr "Tento kanál už odebíráte."
 
-#: src/feed.c:1662
+#: src/feed.c:1699
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -102,12 +102,12 @@ msgstr ""
 "Nepodařilo se stáhnout URL '%s':\n"
 "%s"
 
-#: src/feed.c:1663
-#: src/feed.c:1667
+#: src/feed.c:1700
+#: src/feed.c:1704
 msgid "Unknown error"
 msgstr "Neznámá chyba"
 
-#: src/feed.c:1667
+#: src/feed.c:1704
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -116,12 +116,12 @@ msgstr ""
 "Nepodařilo se stáhnout URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1683
+#: src/feed.c:1720
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Nepodařilo se přihlásit k odběru kanálu '%s'."
 
-#: src/feed.c:1786
+#: src/feed.c:1823
 #: src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
@@ -176,6 +176,11 @@ msgstr ""
 #: src/plugin.c:92
 msgid "RSS feed"
 msgstr "RSS kanál"
+
+#: src/rssyl.c:126
+#: src/rssyl.c:138
+msgid "Refresh all feeds"
+msgstr "Aktualizovat všechny kanály"
 
 #: src/rssyl_cb_menu.c:59
 msgid "Subscribe feed"
@@ -378,32 +383,48 @@ msgstr ""
 "<b>Počet ponechávaných starých zpráv:</b>\n"
 "<small>(Vložte -1, pokud chcete ponechat všechny staré zprávy.)</small>"
 
-#: src/rssyl_gtk.c:440
+#: src/rssyl_gtk.c:424
+msgid "<b>If an item changes, do not mark it as unread:</b>"
+msgstr "<b>Jestli se položka změní, neoznačovat jako nepřečtenou:</b>"
+
+#: src/rssyl_gtk.c:434
+msgid "Always mark as unread"
+msgstr "Vždy označit jako nepřečtené"
+
+#: src/rssyl_gtk.c:436
+msgid "If only its text changed"
+msgstr "Jen jestli se text změní"
+
+#: src/rssyl_gtk.c:438
+msgid "Never mark as unread"
+msgstr "Nikdy označit jako nepřečtené"
+
+#: src/rssyl_gtk.c:471
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/rssyl_gtk.c:461
+#: src/rssyl_gtk.c:492
 msgid "_OK"
 msgstr "_OK"
 
-#: src/rssyl_gtk.c:469
+#: src/rssyl_gtk.c:500
 msgid "Set feed properties"
 msgstr "Vlastnosti kanálu"
 
-#: src/rssyl_gtk.c:585
-#: src/rssyl_gtk.c:610
+#: src/rssyl_gtk.c:621
+#: src/rssyl_gtk.c:646
 msgid "Unsubscribe feed"
 msgstr "Odhlášení kanálu"
 
-#: src/rssyl_gtk.c:611
+#: src/rssyl_gtk.c:647
 msgid "Do you really want to remove feed"
 msgstr "Opravdu chcete odhlásit kanál"
 
-#: src/rssyl_gtk.c:617
+#: src/rssyl_gtk.c:653
 msgid "Remove cached entries"
 msgstr "Odstranit lokální (offline) kopie zpráv"
 
-#: src/rssyl_gtk.c:630
+#: src/rssyl_gtk.c:666
 msgid "_Unsubscribe"
 msgstr "_Odhlásit"
 
@@ -453,26 +474,36 @@ msgstr "Moje kanály"
 #~ msgstr ""
 #~ "RSSyl: Pro Atom kanály není stahování komentářů podporováno. Nepodařilo "
 #~ "se stáhnout komentáře pro '%s'."
+
 #~ msgid "/Refresh feed"
 #~ msgstr "/Aktualizovat kanál"
+
 #~ msgid "/Refresh all feeds"
 #~ msgstr "/Aktualizovat všechny kanály"
+
 #~ msgid "/Subscribe new feed..."
 #~ msgstr "/Odebírat nový kanál..."
+
 #~ msgid "/Unsubscribe feed..."
 #~ msgstr "/Odhlásit kanál..."
+
 #~ msgid "/Feed properties..."
 #~ msgstr "/Vlastnosti kanálu..."
+
 #~ msgid "/Rename..."
 #~ msgstr "/Přejmenovat složku..."
+
 #~ msgid "/Create new folder..."
 #~ msgstr "/Vytvořit novou složku..."
+
 #~ msgid "/Delete folder..."
 #~ msgstr "/Odstranit složku..."
+
 #~ msgid "/Remove folder tree..."
 #~ msgstr "/Odstranit strom složek..."
+
 #~ msgid "/File/Add mailbox/RSSyl..."
 #~ msgstr "/_Soubor/Přidat _mailbox/RSSyl..."
+
 #~ msgid "Timeout for downloading feeds in seconds"
 #~ msgstr "Časový limit pro stahování kanálů (v sekundách)"
-

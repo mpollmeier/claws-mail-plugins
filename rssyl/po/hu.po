@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSSyl plugin for Claws Mail\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2010-01-01 19:06+0000\n"
-"PO-Revision-Date: 2010-01-01 22:08+0100\n"
+"POT-Creation-Date: 2010-04-24 08:58+0100\n"
+"PO-Revision-Date: 2010-04-24 16:19+0100\n"
 "Last-Translator: rezso <rezso@rezso.net>\n"
 "Language-Team:  <NONE>\n"
 "MIME-Version: 1.0\n"
@@ -52,36 +52,36 @@ msgstr "'%s' vétele..."
 msgid "Malformed feed"
 msgstr "Hibásan formázott hírforrás"
 
-#: src/feed.c:1131
+#: src/feed.c:1165
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "'%s' hírforrás frissítése..."
 
-#: src/feed.c:1146
+#: src/feed.c:1180
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl: Hozzászólások vétele nem támogatott az RDF hírforrásoknál. '%s' hozzászólásai nem lesznek lekérdezve."
 
-#: src/feed.c:1155
+#: src/feed.c:1189
 msgid "This feed format is not supported yet."
 msgstr "A hírforrás formátuma nem támogatott."
 
-#: src/feed.c:1186
+#: src/feed.c:1220
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1306
+#: src/feed.c:1340
 #, c-format
 msgid "%ld byte"
 msgid_plural "%ld bytes"
 msgstr[0] "%ld bájt"
 msgstr[1] "%ld bájt"
 
-#: src/feed.c:1309
+#: src/feed.c:1343
 msgid "size unknown"
 msgstr "a méret nem állapítható meg"
 
-#: src/feed.c:1479
+#: src/feed.c:1516
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -90,11 +90,11 @@ msgstr ""
 "RSSyl: %s hírforrás nem frissíthető:\n"
 "%s\n"
 
-#: src/feed.c:1651
+#: src/feed.c:1688
 msgid "You are already subscribed to this feed."
 msgstr "Már feliratkoztál e hírforrásra."
 
-#: src/feed.c:1662
+#: src/feed.c:1699
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -103,12 +103,12 @@ msgstr ""
 "'%s' URL nem elérhető:\n"
 "%s"
 
-#: src/feed.c:1663
-#: src/feed.c:1667
+#: src/feed.c:1700
+#: src/feed.c:1704
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: src/feed.c:1667
+#: src/feed.c:1704
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -117,12 +117,12 @@ msgstr ""
 "'%s' URL nem elérhető:\n"
 "%s\n"
 
-#: src/feed.c:1683
+#: src/feed.c:1720
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "'%s' hírforrás nem vehető fel."
 
-#: src/feed.c:1786
+#: src/feed.c:1823
 #: src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
@@ -176,6 +176,11 @@ msgstr ""
 #: src/plugin.c:92
 msgid "RSS feed"
 msgstr "RSS-hírcsatorna"
+
+#: src/rssyl.c:126
+#: src/rssyl.c:138
+msgid "Refresh all feeds"
+msgstr "Minden hírforrás frissítése"
 
 #: src/rssyl_cb_menu.c:59
 msgid "Subscribe feed"
@@ -378,32 +383,48 @@ msgstr ""
 "<b>Megtartandó lejárt bejegyzések száma:</b>\n"
 "<small>(Állítsd '-1'-re, ha meg akarod tartani a lejárt bejegyzéseket)</small>"
 
-#: src/rssyl_gtk.c:440
+#: src/rssyl_gtk.c:424
+msgid "<b>If an item changes, do not mark it as unread:</b>"
+msgstr "<b>Ha egy hír megváltozik, ne jelölje olvasatlannak:</b>"
+
+#: src/rssyl_gtk.c:434
+msgid "Always mark as unread"
+msgstr "Mindig jelölje olvasatlanként"
+
+#: src/rssyl_gtk.c:436
+msgid "If only its text changed"
+msgstr "Csak ha változott a szöveg"
+
+#: src/rssyl_gtk.c:438
+msgid "Never mark as unread"
+msgstr "Soha ne jelölje olvasatlanként"
+
+#: src/rssyl_gtk.c:471
 msgid "_Cancel"
 msgstr "_Mégsem"
 
-#: src/rssyl_gtk.c:461
+#: src/rssyl_gtk.c:492
 msgid "_OK"
 msgstr "_OK"
 
-#: src/rssyl_gtk.c:469
+#: src/rssyl_gtk.c:500
 msgid "Set feed properties"
 msgstr "Hírforrás beállításai"
 
-#: src/rssyl_gtk.c:585
-#: src/rssyl_gtk.c:610
+#: src/rssyl_gtk.c:621
+#: src/rssyl_gtk.c:646
 msgid "Unsubscribe feed"
 msgstr "Hírforrás törlése"
 
-#: src/rssyl_gtk.c:611
+#: src/rssyl_gtk.c:647
 msgid "Do you really want to remove feed"
 msgstr "Biztosan el akarod távolítani a hírforrást"
 
-#: src/rssyl_gtk.c:617
+#: src/rssyl_gtk.c:653
 msgid "Remove cached entries"
 msgstr "Gyorsítótárban lévő bejegyzések törlése"
 
-#: src/rssyl_gtk.c:630
+#: src/rssyl_gtk.c:666
 msgid "_Unsubscribe"
 msgstr "_Leiratkozás"
 
