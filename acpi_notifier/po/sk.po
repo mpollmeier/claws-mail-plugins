@@ -1,16 +1,18 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Slovak language file for acpi_notifier_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier_plugin\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
 "POT-Creation-Date: 2010-01-01 18:57+0000\n"
-"PO-Revision-Date: 2010-01-02 18:08+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"PO-Revision-Date: 2010-04-24 11:33+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/acpi_notifier.c:46
 msgid "Acpi Notifier"
@@ -21,7 +23,7 @@ msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
-"Zaistite načítanie modulu jadra 'acerhk'.\n"
+"Overte si, že je načítaný modulu jadra 'acerhk'.\n"
 "Môžete ho získať z http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
@@ -29,27 +31,27 @@ msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
-"Zaistite načítanie modulu jadra 'acer_acpi'.\n"
+"Overte si, že je načítaný modulu jadra 'acer_acpi'.\n"
 "Môžete ho získať z http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
-msgstr "Zaistite načítanie modulu jadra 'asus_laptop'."
+msgstr "Overte si, že je načítaný modul jadra 'asus_laptop'."
 
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Zaistite načítanie modulu jadra 'asus_acpi'."
+msgstr "Overte si, že je načítaný modul jadra 'asus_acpi'."
 
 #: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Zaistite načítanie modulu jadra 'ibm_acpi'."
+msgstr "Overte si, že je načítaný modul jadra 'ibm_acpi'."
 
 #: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
 msgstr ""
-"Zaistite nainštalovanie apanelc.\n"
+"Overte si, že je nainštalovaný apanelc.\n"
 "Môžete ho získať z http://apanel.sourceforge.net/"
 
 #: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
@@ -78,7 +80,7 @@ msgstr "bliká"
 
 #: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
-msgstr "zapnuté"
+msgstr "svieti"
 
 #: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
