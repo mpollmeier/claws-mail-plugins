@@ -1,16 +1,18 @@
-# Slavko <slavino@slavino.sk>, 2009, 2010.
+# Slovak language file for attachwarner_plugin
+# This file is distributed under the same license as the PACKAGE package.
+# Slavko <linux@slavino.sk>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner_plugin\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2010-01-01 18:59+0000\n"
-"PO-Revision-Date: 2010-01-02 18:11+0100\n"
-"Last-Translator: Slavko <slavino@slavino.sk>\n"
+"PO-Revision-Date: 2010-04-24 11:42+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovenský <nomail>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/attachwarner.c:272
 msgid "+_Send"
@@ -26,7 +28,7 @@ msgid ""
 "An attachment is mentioned in the mail you're sending, but no file was "
 "attached. %s it anyway?"
 msgstr ""
-"V správe, ktorú posielate je spomenutá príloha, ale nebol pridaný žiadny "
+"V správe, ktorú posielate je spomenutá príloha, ale nebol pripojený žiadny "
 "súbor. %s i tak?"
 
 #: src/attachwarner.c:278
@@ -39,7 +41,7 @@ msgstr "Poslať neskôr"
 
 #: src/attachwarner.c:279
 msgid "Attachment warning"
-msgstr "Prílohové upozornenie"
+msgstr "Upozornenie na prílohu"
 
 #: src/attachwarner.c:306 src/attachwarner.c:343 src/attachwarner.c:395
 msgid "Attach warner"
