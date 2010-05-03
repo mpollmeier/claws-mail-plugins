@@ -1884,7 +1884,7 @@ static void notify_create_hotkeys_page(PrefsPage *page, GtkWindow *window, gpoin
 
     /* description */
     label = gtk_label_new("");
-    markup = g_markup_printf_escaped("Examples for hotkeys include <b>%s</b> and <b>%s</b>", "<control><shift>F11", "<alt>N");
+    markup = g_markup_printf_escaped(_("Examples for hotkeys include <b>%s</b> and <b>%s</b>"), _("<control><shift>F11"), _("<alt>N"));
     gtk_label_set_markup(GTK_LABEL(label), markup);
     gtk_misc_set_alignment(GTK_MISC(label), 0., 0.);
     g_free(markup);

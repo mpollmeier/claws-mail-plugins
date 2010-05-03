@@ -150,3 +150,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 .cvsignore;  ) > 0.24cvs4.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 commitHelper;  cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/notification_core.c;  cvs diff -u -r 1.1.2.40 -r 1.1.2.41 src/notification_plugin.c;  cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/notification_trayicon.c;  ) > 0.24cvs5.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/cs.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fi.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/nl.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.24cvs6.patchset
+( cvs diff -u -r 1.1.2.193 -r 1.1.2.194 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_indicator.c;  cvs diff -u -r 1.1.2.38 -r 1.1.2.39 src/notification_prefs.c;  ) > 0.25cvs1.patchset

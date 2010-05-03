@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=25
 MICRO_VERSION=0
-EXTRA_VERSION=0
+EXTRA_VERSION=1
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -266,7 +266,7 @@ fi
 AC_MSG_RESULT($enable_lcdproc)
 
 dnl libindicate
-LIBINDICATE_REQUIRED=0.2.3
+LIBINDICATE_REQUIRED=0.3.0
 AC_ARG_ENABLE(indicator,
 	[  --disable-indicator     do not include libindicate support],
  	[enable_libindicate=$enableval], [enable_libindicate=auto])

@@ -1,3 +1,12 @@
+2010-05-03 [holger]	0.25cvs1
+
+	* configure.ac
+		Require libindicate >= 0.3.0 for indicator module support
+	* src/notification_indicator.c
+		Update according to libindicate changes
+	* src/notification_prefs.c
+		Mark a string for translation
+
 2010-05-01 [paul]	0.25
 
 	0.25 released

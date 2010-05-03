@@ -54,7 +54,7 @@ void notification_indicator_destroy(void)
 
 }
 
-static void show_claws_mail(gpointer dummy, gpointer data)
+static void show_claws_mail(IndicateIndicator *indicator, guint dummy, gpointer data)
 {
   MainWindow *mainwin;
 
