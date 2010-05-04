@@ -22,6 +22,9 @@ get_rc_dir
 get_tmp_file
 gtkutils_scroll_one_line
 gtkutils_scroll_page
+gtkut_widget_has_focus
+gtkut_widget_is_drawable
+gtkut_widget_get_visible
 is_dir_exist
 itos
 log_error

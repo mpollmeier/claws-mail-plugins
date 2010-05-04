@@ -142,3 +142,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 commitHelper;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libgtkhtml/layout/html/Makefile.am;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libgtkhtml/layout/html/htmlboxembedded.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/layout/html/htmlembedded.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 libgtkhtml/view/Makefile.am;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 libgtkhtml/view/htmlview.c;  cvs diff -u -r 1.1.2.86 -r 1.1.2.87 src/gtkhtml2_viewer.c;  ) > 0.26.0cvs2.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/a11y/Makefile.am;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 libgtkhtml/a11y/htmlviewaccessible.c;  ) > 0.26.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.13 -r 1.1.2.14 po/fi.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/sk.po;  ) > 0.26.0cvs4.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/claws.def;  ) > 0.27.0cvs1.patchset
