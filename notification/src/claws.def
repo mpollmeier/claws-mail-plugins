@@ -28,6 +28,7 @@ get_rc_dir
 gtkut_convert_int_to_gdk_color
 gtkut_stock_button_set_create
 gtkut_window_new
+gtkut_widget_get_visible
 inc_all_account_mail_cb
 main_set_show_at_startup
 mainwindow_get_mainwindow
