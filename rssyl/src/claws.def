@@ -31,6 +31,7 @@ folder_init
 folder_item_add_msg
 folder_item_append
 folder_item_get_identifier
+folder_item_get_msginfo
 folder_item_get_path
 folder_item_new
 folder_item_parent
@@ -82,11 +83,14 @@ prefs_gtk_unregister_page
 prefs_read_config
 prefs_set_block_label
 prefs_set_default
+prefs_toolbar_register_plugin_item
+prefs_toolbar_unregister_plugin_item
 prefs_write_open
 prefs_write_param
 procheader_date_parse
 procheader_parse_file
 procmsg_get_message_file
+procmsg_msginfo_unset_flags
 strtailchomp
 subst_for_shellsafe_filename
 summary_clear_all
