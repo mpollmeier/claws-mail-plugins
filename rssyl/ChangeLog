@@ -1,3 +1,9 @@
+2010-05-05 [ticho]	0.27.0cvs2
+
+	* src/feed.c
+		Allow all curl-supported HTTP encodings - currently identity, gzip
+		and deflate (zlib)
+
 2010-05-04 [colin]	0.27.0cvs1
 
 	* src/claws.def

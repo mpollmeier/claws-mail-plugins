@@ -153,6 +153,7 @@ static void *rssyl_fetch_feed_threaded(void *arg)
 	curl_easy_setopt(eh, CURLOPT_MAXREDIRS, 3);
 	curl_easy_setopt(eh, CURLOPT_TIMEOUT, prefs_common_get_prefs()->io_timeout_secs);
 	curl_easy_setopt(eh, CURLOPT_NOSIGNAL, 1);
+	curl_easy_setopt(eh, CURLOPT_ENCODING, "");
 #if LIBCURL_VERSION_NUM >= 0x070a00
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYPEER, 0);
 	curl_easy_setopt(eh, CURLOPT_SSL_VERIFYHOST, 0);
