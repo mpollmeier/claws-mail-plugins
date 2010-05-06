@@ -1,3 +1,10 @@
+2010-05-06 [colin]	2.0.8cvs1
+
+	* src/vcal_folder.c
+	* src/vcalendar.c
+		Fix bug 2185, 'vcalendar: segfault on startup 
+		(with corrupted folder structure)'
+
 2010-05-01 [paul]	2.0.8
 
 	2.0.8 released

@@ -1333,6 +1333,10 @@ void vcalendar_init(void)
 		END_TIMING();
 	}
 	if (folder) {
+		if (!folder->inbox) {
+			folder->klass->create_tree(folder);
+			folder_scan_tree(folder, TRUE);
+		}
 		if (folder->klass->scan_required(folder, folder->inbox)) {
 			START_TIMING("scanning folder");
 			folder_item_scan(folder->inbox);

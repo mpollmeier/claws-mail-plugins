@@ -1112,6 +1112,8 @@ static gboolean vcal_scan_required(Folder *folder, FolderItem *item)
 	struct stat s;
 	VCalFolderItem *vitem = (VCalFolderItem *)item;
 
+	g_return_val_if_fail(item != NULL, FALSE);
+
 	if (vitem->uri) {
 		return TRUE;
 	} else if (g_stat(vcal_manager_get_event_path(), &s) < 0) {
