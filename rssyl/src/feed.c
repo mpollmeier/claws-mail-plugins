@@ -971,7 +971,8 @@ void rssyl_read_existing(RSSylFolderItem *ritem)
 static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		const RSSylFeedItem *b)
 {
-	gboolean date_publ_eq = FALSE, link_eq = FALSE, title_eq = FALSE;
+	gboolean date_publ_eq = FALSE, date_eq = FALSE;
+	gboolean link_eq = FALSE, title_eq = FALSE;
 	gboolean no_link = FALSE, no_title = FALSE;
 	gchar *atit = NULL, *btit = NULL;
 
@@ -1009,7 +1010,7 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 	/* If there's no 'published' timestamp for the item, we can only judge
 	 * by item link and title - 'modified' timestamp can have changed if the
 	 * item was updated recently. */
-	if( a->date_published <= 0 ) {
+	if( a->date_published <= 0 && a->date <= 0) {
 		if( link_eq && (title_eq || no_title) )
 			return 0;
 	}
@@ -1019,9 +1020,14 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		date_publ_eq = TRUE;
 	}
 
+	if( ((a->date > 0) && (b->date > 0) &&
+			(a->date == b->date)) ) {
+		date_eq = TRUE;
+	}
+
 	/* If 'published' time and item link match, it is reasonable to assume
 	 * it's this item. */
-	if( (link_eq || no_link) && date_publ_eq )
+	if( (link_eq || no_link) && (date_publ_eq || date_eq) )
 		return 0;
 
 	/* Last ditch effort - if everything else is missing, at least titles
@@ -1134,10 +1140,10 @@ static guint rssyl_feed_item_exists(RSSylFolderItem *ritem,
 			else
 				return EXISTS_CHANGED;
 		}
-		return 1;
+		return EXISTS_UNCHANGED;
 	}
 
-	return 0;
+	return EXISTS_NEW;
 }
 
 void rssyl_parse_feed(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)

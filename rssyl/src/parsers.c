@@ -258,7 +258,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				fitem->date = procheader_date_parse(NULL, content, 0);
 				xmlFree(content);
 				if( fitem->date > 0 ) {
-					debug_print("RSSyl: XML - item date found\n" );
+					debug_print("RSSyl: XML - item date found: %d\n", fitem->date);
 				} else
 					fitem->date = 0;
 			}

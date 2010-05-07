@@ -1,3 +1,9 @@
+2010-05-07 [ticho]	0.27.0cvs3
+
+	* src/feed.c
+	* src/parsers.c
+		Fix logic error in comparing non-Atom feed item dates.
+
 2010-05-05 [ticho]	0.27.0cvs2
 
 	* src/feed.c
