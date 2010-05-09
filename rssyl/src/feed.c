@@ -1010,7 +1010,7 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 	/* If there's no 'published' timestamp for the item, we can only judge
 	 * by item link and title - 'modified' timestamp can have changed if the
 	 * item was updated recently. */
-	if( a->date_published <= 0 && a->date <= 0) {
+	if( b->date_published <= 0 && b->date <= 0) {
 		if( link_eq && (title_eq || no_title) )
 			return 0;
 	}

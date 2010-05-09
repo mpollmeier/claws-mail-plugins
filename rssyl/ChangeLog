@@ -1,3 +1,9 @@
+2010-05-09 [ticho]	0.27.0cvs4
+
+	* src/feed.c
+		Check presence of timestamp on newly parsed feed item, not on our
+		stored item.
+
 2010-05-07 [ticho]	0.27.0cvs3
 
 	* src/feed.c
