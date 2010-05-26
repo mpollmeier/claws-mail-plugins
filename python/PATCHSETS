@@ -47,3 +47,4 @@
 ( cvs diff -u -r  -r 1 examples/main/Create;  ) > 0.3cvs25.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 src/clawsmailmodule.c;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/foldertype.c;  ) > 0.3cvs26.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/cs.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.3cvs27.patchset
+( cvs diff -u -r 1.1.2.64 -r 1.1.2.65 configure.ac;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 src/clawsmailmodule.c;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 src/foldertype.c;  cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/messageinfotype.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/messageinfotype.h;  cvs diff -u -r 1.1.2.16 -r 1.1.2.17 src/python_plugin.c;  ) > 0.4cvs1.patchset

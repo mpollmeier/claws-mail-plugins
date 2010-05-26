@@ -30,6 +30,7 @@ typedef struct {
     PyObject *to;
     PyObject *subject;
     PyObject *msgid;
+    PyObject *filepath;
     MsgInfo *msginfo;
 } clawsmail_MessageInfoObject;
 
@@ -159,6 +160,9 @@ static PyMemberDef MessageInfo_members[] = {
     {"MessageID", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, msgid), 0,
      "MessageID - the Message-ID header of the message"},
 
+    {"FilePath", T_OBJECT_EX, offsetof(clawsmail_MessageInfoObject, filepath), 0,
+     "FilePath - path and filename of the message"},
+
     {NULL}
 };
 
@@ -230,9 +234,10 @@ PyMODINIT_FUNC initmessageinfo(PyObject *module)
     }                                                             \
   } while(0)
 
-PyObject* clawsmail_msginfo_new(MsgInfo *msginfo)
+PyObject* clawsmail_messageinfo_new(MsgInfo *msginfo)
 {
   clawsmail_MessageInfoObject *ff;
+  gchar *filepath;
 
   if(!msginfo)
     return NULL;
@@ -246,10 +251,29 @@ PyObject* clawsmail_msginfo_new(MsgInfo *msginfo)
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->subject, "Subject");
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->msgid, "MessageID");
 
+  filepath = procmsg_get_message_file_path(msginfo);
+  if(filepath) {
+    MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(filepath, "FilePath");
+    g_free(filepath);
+  }
+  else {
+    MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER("", "FilePath");
+  }
+
   ff->msginfo = msginfo;
   return (PyObject*)ff;
 
   err:
     Py_XDECREF(ff);
     return NULL;
+}
+
+PyTypeObject* clawsmail_messageinfo_get_type_object()
+{
+  return &clawsmail_MessageInfoType;
+}
+
+MsgInfo* clawsmail_messageinfo_get_msginfo(PyObject *self)
+{
+  return ((clawsmail_MessageInfoObject*)self)->msginfo;
 }

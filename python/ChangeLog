@@ -1,3 +1,15 @@
+2010-05-26 [holger]	0.4cvs1
+
+	* configure.ac
+	* src/clawsmailmodule.c
+	* src/foldertype.c
+	* src/messageinfotype.c
+	* src/messageinfotype.h
+	* src/python_plugin.c
+		Add function to select messages in the summary view,
+		and a FilePath accessor for MessageInfo objecs.
+		Bump required Claws Mail version.
+
 2010-05-01 [paul]	0.4
 
 	0.4 released

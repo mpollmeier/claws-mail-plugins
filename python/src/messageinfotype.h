@@ -27,6 +27,9 @@
 #endif
 
 PyMODINIT_FUNC initmessageinfo(PyObject *module);
-PyObject* clawsmail_msginfo_new(MsgInfo *msginfo);
+
+PyObject* clawsmail_messageinfo_new(MsgInfo *msginfo);
+MsgInfo* clawsmail_messageinfo_get_msginfo(PyObject *self);
+PyTypeObject* clawsmail_messageinfo_get_type_object();
 
 #endif /* MESSAGEINFOTYPE_H */

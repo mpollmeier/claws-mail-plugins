@@ -322,6 +322,45 @@ static PyObject* quicksearch_clear(PyObject *self, PyObject *args)
   return Py_None;
 }
 
+static PyObject* summaryview_select_messages(PyObject *self, PyObject *args)
+{
+  PyObject *olist;
+  MainWindow *mainwin;
+  Py_ssize_t size, iEl;
+  GSList *msginfos;
+
+  mainwin = mainwindow_get_mainwindow();
+  if(!mainwin || !mainwin->summaryview) {
+    PyErr_SetString(PyExc_LookupError, "SummaryView not found");
+    return NULL;
+  }
+
+  if(!PyArg_ParseTuple(args, "O!", &PyList_Type, &olist)) {
+    PyErr_SetString(PyExc_LookupError, "Argument must be a list of MessageInfo objects.");
+    return NULL;
+  }
+
+  msginfos = NULL;
+  size = PyList_Size(olist);
+  for(iEl = 0; iEl < size; iEl++) {
+    PyObject *element = PyList_GET_ITEM(olist, iEl);
+
+    if(!element || !PyObject_TypeCheck(element, clawsmail_messageinfo_get_type_object())) {
+      PyErr_SetString(PyExc_LookupError, "Argument must be a list of MessageInfo objects.");
+      return NULL;
+    }
+
+    msginfos = g_slist_prepend(msginfos, clawsmail_messageinfo_get_msginfo(element));
+  }
+
+  summary_unselect_all(mainwin->summaryview);
+  summary_select_by_msg_list(mainwin->summaryview, msginfos);
+  g_slist_free(msginfos);
+
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
 static PyObject* get_summaryview_selected_message_list(PyObject *self, PyObject *args)
 {
   MainWindow *mainwin;
@@ -341,7 +380,7 @@ static PyObject* get_summaryview_selected_message_list(PyObject *self, PyObject 
   list = summary_get_selected_msg_list(mainwin->summaryview);
   for(walk = list; walk; walk = walk->next) {
     PyObject *msg;
-    msg = clawsmail_msginfo_new(walk->data);
+    msg = clawsmail_messageinfo_new(walk->data);
     if(PyList_Append(result, msg) == -1) {
       Py_DECREF(result);
       return NULL;
@@ -410,6 +449,11 @@ static PyMethodDef ClawsMailMethods[] = {
      "get_summaryview_selected_message_list() - get selected message list\n"
      "\n"
      "Get a list of clawsmail.MessageInfo objects of the current selection."},
+
+    {"summaryview_select_messages", summaryview_select_messages, METH_VARARGS,
+     "summaryview_select_messages(message_list) - select a list of messages in the summary view\n"
+     "\n"
+     "Select a list of clawsmail.MessageInfo objects in the summary view."},
 
     {"is_exiting", is_exiting, METH_NOARGS,
      "is_exiting() - test whether Claws Mail is currently exiting\n"

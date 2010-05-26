@@ -140,7 +140,7 @@ static PyObject* Folder_get_messages(clawsmail_FolderObject *self, PyObject *arg
   
   for(pos = 0, walk = msglist; walk; walk = walk->next, ++pos) {
     PyObject *msg;
-    msg = clawsmail_msginfo_new(walk->data);
+    msg = clawsmail_messageinfo_new(walk->data);
     PyTuple_SET_ITEM(retval, pos, msg);
   }
   procmsg_msg_list_free(msglist);
