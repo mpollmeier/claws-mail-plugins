@@ -1,3 +1,8 @@
+2010-05-26 [holger]	0.4cvs3
+
+	* Makefile.am
+		Ship examples in tarball
+
 2010-05-26 [holger]	0.4cvs2
 
 	* examples/README.examples
