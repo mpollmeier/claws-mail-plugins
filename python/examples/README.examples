@@ -22,18 +22,18 @@ Table of contents:
   Demonstrates how to clean up the stuff that has been introduced in
   the auto/startup example.
 
-* main/Print action names to stdout
+* main/Print-action-names-to-stdout
   Prints the names of all actions that are currently in the
   action group of Claws Mail's main window to standard output 
 
-* main/Recursively mark messages as read
+* main/Recursively-mark-messages-as-read
   Demonstrates how to perform actions to a directory tree under the
   currently selected folder in the main window.
 
-* main/Mass mail
+* main/Mass-mail
   Demonstrates how to automate composing of mails, and sending them out
 
-* main/Create Tomboy Note
+* main/Create-Tomboy-Note
   Create a Tomboy note for each selected message, containing the
   subject as note title and a Claws Mail link in the body which
   links back to Claws Mail (requires the Claws Mail addin for Tomboy).
@@ -43,11 +43,11 @@ Table of contents:
   programs via D-Bus, as well as how to query additional information
   from the user using direct GTK+ programming.
 
-* main/Open Tomboy Notes
+* main/Open-Tomboy-Notes
   This example opens all Tomboy notes which link to any of the currently
   selected messages, and thus completes the round trip from the
-  "Create Tomboy Note" example.
+  "Create-Tomboy-Note" example.
 
-* compose/Macro Expansion
+* compose/Macro-Expansion
   Demonstrates how to do text expansion in the compose window
   mail body editor

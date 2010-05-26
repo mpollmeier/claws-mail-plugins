@@ -1,3 +1,21 @@
+2010-05-26 [holger]	0.4cvs2
+
+	* examples/README.examples
+	* examples/compose/Macro
+	* examples/compose/Macro-Expansion
+	* examples/main/Create
+	* examples/main/Create-Tomboy-Note
+	* examples/main/Mass
+	* examples/main/Mass-mail
+	* examples/main/Open
+	* examples/main/Open-Tomboy-Notes
+	* examples/main/Print
+	* examples/main/Print-action-names-to-stdout
+	* examples/main/Recusively
+	* examples/main/Recusively-mark-messages-as-read
+		File "renames" in order to be able to ship them
+		(hail cvs and autotools!)
+
 2010-05-26 [holger]	0.4cvs1
 
 	* configure.ac
