@@ -1,3 +1,9 @@
+2010-06-05 [holger]	0.4cvs4
+
+	* examples/auto/startup
+		Small fix for "mark thread as read" menu item example:
+		Restore previous selection
+
 2010-05-26 [holger]	0.4cvs3
 
 	* Makefile.am

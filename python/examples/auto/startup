@@ -40,9 +40,11 @@ def add_mark_thread_read_menu_item():
     # Adds an Edit -> Mark thread as read menu item
     def thread_read_cb(action):
         # callback for "Mark thread as read" action
+        selected_messages = clawsmail.get_summaryview_selected_message_list()
         group = clawsmail.get_mainwindow_action_group()
         group.get_action("Edit/SelectThread").activate()
         group.get_action("Message/Mark/MarkRead").activate()
+        clawsmail.summaryview_select_messages(selected_messages)        
 
     global mainwindow_merge_ids
     global mainwindow_actions
