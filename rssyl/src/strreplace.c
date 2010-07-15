@@ -112,7 +112,7 @@ gchar *rssyl_sanitize_string(gchar *str)
 	memset(new, '\0', strlen(str) + 1);
 
 	while( *c != '\0' ) {
-		if( !isspace(*c) || *c == ' ' ) {
+		if( !isspace(*c) || *c == ' ' || *c == '\n' ) {
 			*new_ptr = *c;
 			new_ptr++;
 		}
