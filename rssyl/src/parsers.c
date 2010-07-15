@@ -493,13 +493,14 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			}
 		} while( (n = n->next) != NULL);
 
-		if( fitem->link && fitem->title ) {
+		if( fitem->id && fitem->title && fitem->date ) {
 			if (rssyl_add_feed_item(ritem, fitem) == FALSE) {
 				rssyl_free_feeditem(fitem);
 				fitem = NULL;
 			}
 			count++;
-		}
+		} else
+			debug_print("RSSyl: Incomplete Atom entry, need at least 'id', 'title' and 'updated' tags\n");
 	}
 
 	return count;

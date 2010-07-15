@@ -191,3 +191,4 @@
 ( cvs diff -u -r 1.1.2.118 -r 1.1.2.119 src/feed.c;  cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/parsers.c;  ) > 0.27.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.119 -r 1.1.2.120 src/feed.c;  ) > 0.27.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/strreplace.c;  ) > 0.27.0cvs5.patchset
+( cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/parsers.c;  ) > 0.27.0cvs6.patchset
