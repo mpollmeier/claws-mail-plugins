@@ -327,6 +327,9 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			0, 2, row, row+1,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 10, 0);
+	g_signal_connect(G_OBJECT(feedprop->fetch_comments), "toggled",
+			G_CALLBACK(rssyl_fetch_comments_toggled_cb),
+			(gpointer)feedprop->fetch_comments_for);
 	row++;
 
 	/* Fetch comments for - label */
@@ -340,6 +343,8 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 			(GtkAttachOptions) (0), 10, 5);
 
 	/* Fetch comments for - spinbutton */
+	gtk_widget_set_sensitive(feedprop->fetch_comments_for,
+			ritem->fetch_comments);
 	gtk_table_attach(GTK_TABLE(table), feedprop->fetch_comments_for, 1, 2, row, row+1,
 			(GtkAttachOptions) (0),
 			(GtkAttachOptions) (0), 10, 5);

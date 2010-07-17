@@ -11,5 +11,7 @@ gboolean rssyl_default_refresh_interval_toggled_cb(GtkToggleButton *default_ri,
 		gpointer data);
 gboolean rssyl_default_expired_num_toggled_cb(GtkToggleButton *default_ex,
 		gpointer data);
+gboolean rssyl_fetch_comments_toggled_cb(GtkToggleButton *fetch_comments,
+		gpointer data);
 
 #endif /* __RSSYL_GTK_CB */

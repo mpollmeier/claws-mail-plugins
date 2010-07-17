@@ -118,3 +118,16 @@ gboolean rssyl_default_expired_num_toggled_cb(GtkToggleButton *default_ex,
 
 	return FALSE;
 }
+
+gboolean rssyl_fetch_comments_toggled_cb(GtkToggleButton *fetch_comments,
+		gpointer data)
+{
+	gboolean active = gtk_toggle_button_get_active(fetch_comments);
+	GtkWidget *num_comments = (GtkWidget *)data;
+
+	debug_print("fetch comments is %s\n", (active ? "ON" : "OFF") );
+
+	gtk_widget_set_sensitive(num_comments, active);
+
+	return FALSE;
+}
