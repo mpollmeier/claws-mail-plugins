@@ -101,7 +101,7 @@ gchar *rssyl_strreplace(gchar *source, gchar *pattern,
 	return new;
 }
 
-gchar *rssyl_sanitize_string(gchar *str)
+gchar *rssyl_sanitize_string(gchar *str, gboolean strip_nl)
 {
 	gchar *new = NULL, *c = str;
 	gchar *new_ptr;
@@ -112,7 +112,7 @@ gchar *rssyl_sanitize_string(gchar *str)
 	memset(new, '\0', strlen(str) + 1);
 
 	while( *c != '\0' ) {
-		if( !isspace(*c) || *c == ' ' || *c == '\n' ) {
+		if( !isspace(*c) || *c == ' ' || (!strip_nl && *c == '\n') ) {
 			*new_ptr = *c;
 			new_ptr++;
 		}

@@ -608,7 +608,7 @@ gchar *rssyl_format_string(gchar *str, gboolean replace_html, gboolean replace_r
 	else
 		tmp = g_strdup(str);
 
-	res = rssyl_sanitize_string(tmp);
+	res = rssyl_sanitize_string(tmp, replace_returns);
 	g_free(tmp);
 
 	g_strstrip(res);

@@ -1,3 +1,11 @@
+2010-07-17 [ticho]	0.27.0cvs7
+
+	* src/feed.c
+	* src/parsers.c
+	* src/strreplace.c
+	* src/strreplace.h
+		Strip newlines in fields where necessary (subject, links, ...)
+
 2010-07-15 [ticho]	0.27.0cvs6
 
 	* src/parsers.c

@@ -84,7 +84,7 @@ gint rssyl_parse_rdf(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				/* URL */
 				if( !xmlStrcmp(n->name, "link") ) {
 					content = xmlNodeGetContent(n);
-					fitem->link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+					fitem->link = rssyl_format_string(g_strdup(content), FALSE, TRUE);
 					xmlFree(content);
 					debug_print("RSSyl: XML - RDF link is '%s'\n", fitem->link);
 				}
@@ -234,7 +234,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* URL link to the original post */
 			if( !xmlStrcmp(n->name, "link") ) {
 				content = xmlNodeGetContent(n);
-				fitem->link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+				fitem->link = rssyl_format_string(g_strdup(content), FALSE, TRUE);
 				xmlFree(content);
 				debug_print("RSSyl: XML - item link: '%s'\n", fitem->link);
 			}
@@ -246,7 +246,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				fitem->id_is_permalink = FALSE;
 				if( !tmp || xmlStrcmp(tmp, "false") )	/* permalink? */
 					fitem->id_is_permalink = TRUE;
-				fitem->id = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+				fitem->id = rssyl_format_string(g_strdup(content), FALSE, TRUE);
 				xmlFree(content);
 				debug_print("RSSyl: XML - item guid: '%s'\n", fitem->id);
 				g_free(tmp);
@@ -258,7 +258,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 				fitem->date = procheader_date_parse(NULL, content, 0);
 				xmlFree(content);
 				if( fitem->date > 0 ) {
-					debug_print("RSSyl: XML - item date found: %d\n", fitem->date);
+					debug_print("RSSyl: XML - item date found: %d\n", (gint)fitem->date);
 				} else
 					fitem->date = 0;
 			}
@@ -314,7 +314,7 @@ gint rssyl_parse_rss(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* Comments */
 			if( !xmlStrcmp(n->name, "commentRSS") || !xmlStrcmp(n->name, "commentRss") ) {
 				content = xmlNodeGetContent(n);
-				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, TRUE);
 				xmlFree(content);
 				debug_print("RSSyl: XML - comments_link: '%s'\n", fitem->comments_link);
 			}
@@ -487,7 +487,7 @@ gint rssyl_parse_atom(xmlDocPtr doc, RSSylFolderItem *ritem, gchar *parent)
 			/* Comments */
 			if( !xmlStrcmp(n->name, "commentRSS") || !xmlStrcmp(n->name, "commentRss")) {
 				content = xmlNodeGetContent(n);
-				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, FALSE);
+				fitem->comments_link = rssyl_format_string(g_strdup(content), FALSE, TRUE);
 				xmlFree(content);
 				debug_print("RSSyl: XML - comments_link: '%s'\n", fitem->comments_link);
 			}
