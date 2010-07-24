@@ -25,6 +25,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "folderview.h"
 #include "alertpanel.h"
@@ -128,6 +129,26 @@ gboolean rssyl_fetch_comments_toggled_cb(GtkToggleButton *fetch_comments,
 	debug_print("fetch comments is %s\n", (active ? "ON" : "OFF") );
 
 	gtk_widget_set_sensitive(num_comments, active);
+
+	return FALSE;
+}
+
+gboolean rssyl_props_key_press_cb(GtkWidget *widget, GdkEventKey *event,
+		gpointer data)
+{
+	if (event) {
+		switch (event->keyval) {
+			case GDK_Escape:
+				rssyl_props_cancel_cb(widget, data);
+				return TRUE;
+			case GDK_Return:
+			case GDK_KP_Enter:
+				rssyl_props_ok_cb(widget, data);
+				return TRUE;
+			default:
+				break;
+		}
+	}
 
 	return FALSE;
 }

@@ -13,5 +13,7 @@ gboolean rssyl_default_expired_num_toggled_cb(GtkToggleButton *default_ex,
 		gpointer data);
 gboolean rssyl_fetch_comments_toggled_cb(GtkToggleButton *fetch_comments,
 		gpointer data);
+gboolean rssyl_props_key_press_cb(GtkWidget *widget, GdkEventKey *event,
+		gpointer data);
 
 #endif /* __RSSYL_GTK_CB */

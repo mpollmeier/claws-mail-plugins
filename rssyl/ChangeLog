@@ -1,3 +1,11 @@
+2010-07-24 [ticho]	0.27.0cvs9
+
+	* src/rssyl_cb_gtk.c
+	* src/rssyl_cb_gtk.h
+	* src/rssyl_gtk.c
+		Allow Escape and Enter keys to exit feed properties dialog with
+		appropriate action (cancel and confirm).
+
 2010-07-17 [ticho]	0.27.0cvs8
 
 	* src/rssyl_cb_gtk.c

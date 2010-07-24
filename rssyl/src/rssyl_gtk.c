@@ -507,6 +507,10 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	gtk_window_set_transient_for(GTK_WINDOW(feedprop->window),
 			GTK_WINDOW(mainwin->window) );
 
+	/* Attach callbacks to handle Enter and Escape keys */
+	g_signal_connect(G_OBJECT(feedprop->window), "key_press_event",
+			G_CALLBACK(rssyl_props_key_press_cb), ritem);
+
 	/* ...and voila! */
 	gtk_widget_show_all(feedprop->window);
 	gtk_widget_grab_default(ok_button);
