@@ -234,17 +234,9 @@ PyMODINIT_FUNC initmessageinfo(PyObject *module)
     }                                                             \
   } while(0)
 
-PyObject* clawsmail_messageinfo_new(MsgInfo *msginfo)
+static gboolean update_members(clawsmail_MessageInfoObject *ff, MsgInfo *msginfo)
 {
-  clawsmail_MessageInfoObject *ff;
   gchar *filepath;
-
-  if(!msginfo)
-    return NULL;
-
-  ff = (clawsmail_MessageInfoObject*) PyObject_CallObject((PyObject*) &clawsmail_MessageInfoType, NULL);
-  if(!ff)
-    return NULL;
 
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->from, "From");
   MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER(msginfo->to, "To");
@@ -260,12 +252,30 @@ PyObject* clawsmail_messageinfo_new(MsgInfo *msginfo)
     MSGINFO_STRING_TO_PYTHON_MESSAGEINFO_MEMBER("", "FilePath");
   }
 
-  ff->msginfo = msginfo;
-  return (PyObject*)ff;
+  return TRUE;
+err:
+  return FALSE;
+}
 
-  err:
+PyObject* clawsmail_messageinfo_new(MsgInfo *msginfo)
+{
+  clawsmail_MessageInfoObject *ff;
+
+  if(!msginfo)
+    return NULL;
+
+  ff = (clawsmail_MessageInfoObject*) PyObject_CallObject((PyObject*) &clawsmail_MessageInfoType, NULL);
+  if(!ff)
+    return NULL;
+
+  ff->msginfo = msginfo;
+
+  if(update_members(ff, msginfo))
+    return (PyObject*)ff;
+  else {
     Py_XDECREF(ff);
     return NULL;
+  }
 }
 
 PyTypeObject* clawsmail_messageinfo_get_type_object()

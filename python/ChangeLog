@@ -1,3 +1,9 @@
+2010-08-25 [holger]	0.4cvs5
+
+	* src/clawsmailmodule.c
+	* src/messageinfotype.c
+		Copying/moving of messages
+
 2010-06-05 [holger]	0.4cvs4
 
 	* examples/auto/startup

@@ -399,6 +399,86 @@ static PyObject* is_exiting(PyObject *self, PyObject *args)
     Py_RETURN_FALSE;
 }
 
+static gboolean get_message_list_for_move_or_copy(PyObject *messagelist, PyObject *folder, GSList **list)
+{
+  Py_ssize_t size, iEl;
+  FolderItem *folderitem;
+  
+  *list = NULL;
+
+  folderitem = clawsmail_folder_get_item(folder);
+  if(!folderitem) {
+    PyErr_SetString(PyExc_LookupError, "Brokern Folder object.");
+    return FALSE;
+  }
+
+  size = PyList_Size(messagelist);
+  for(iEl = 0; iEl < size; iEl++) {
+    PyObject *element = PyList_GET_ITEM(messagelist, iEl);
+    MsgInfo *msginfo;
+
+    if(!element || !PyObject_TypeCheck(element, clawsmail_messageinfo_get_type_object())) {
+      PyErr_SetString(PyExc_TypeError, "Argument must be a list of MessageInfo objects.");
+      return FALSE;
+    }
+    
+    msginfo = clawsmail_messageinfo_get_msginfo(element);
+    if(!msginfo) {
+      PyErr_SetString(PyExc_LookupError, "Broken MessageInfo object.");
+      return FALSE;
+    }
+   
+    procmsg_msginfo_set_to_folder(msginfo, folderitem);
+    *list = g_slist_prepend(*list, msginfo);
+  }
+ 
+  return TRUE;
+}
+
+static PyObject* move_or_copy_messages(PyObject *self, PyObject *args, gboolean move)
+{
+  PyObject *messagelist;
+  PyObject *folder;
+  int retval;
+  GSList *list = NULL;
+  
+  retval = PyArg_ParseTuple(args, "O!O!",
+    &PyList_Type, &messagelist,
+    clawsmail_folder_get_type_object(), &folder);
+  if(!retval )
+    return NULL;  
+
+  folder_item_update_freeze();
+  
+  if(!get_message_list_for_move_or_copy(messagelist, folder, &list))
+    goto err;
+  
+  if(move)   
+    procmsg_move_messages(list);
+  else
+    procmsg_copy_messages(list);
+      
+  folder_item_update_thaw();
+  g_slist_free(list);
+  Py_RETURN_NONE;
+
+err:
+  folder_item_update_thaw();
+  g_slist_free(list);
+  return NULL;
+}
+
+static PyObject* move_messages(PyObject *self, PyObject *args)
+{
+  return move_or_copy_messages(self, args, TRUE);
+}
+
+
+static PyObject* copy_messages(PyObject *self, PyObject *args)
+{
+  return move_or_copy_messages(self, args, FALSE);
+}
+
 static PyMethodDef ClawsMailMethods[] = {
     /* public */
     {"get_mainwindow_action_group",  get_mainwindow_action_group, METH_NOARGS,
@@ -462,6 +542,18 @@ static PyMethodDef ClawsMailMethods[] = {
      "unnecessary cleanup tasks in a shutdown script when Claws Mail is exiting anyways. If the Python\n"
      "plugin is explicitly unloaded, the shutdown script will still be called, but this function will\n"
      "return False."},
+
+    {"move_messages", move_messages, METH_VARARGS,
+     "move_messages(message_list, target_folder) - move a list of messages to a target folder\n"
+     "\n"
+     "Move a list of clawsmail.MessageInfo objects to a target folder.\n"
+     "The target_folder argument has to be a clawsmail.Folder object."},
+
+    {"copy_messages", copy_messages, METH_VARARGS,
+     "copy_messages(message_list, target_folder) - copy a list of messages to a target folder\n"
+     "\n"
+     "Copy a list of clawsmail.MessageInfo objects to a target folder.\n"
+     "The target_folder argument has to be a clawsmail.Folder object."},
 
      /* private */
      {"__gobj", private_wrap_gobj, METH_VARARGS,
