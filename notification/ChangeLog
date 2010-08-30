@@ -1,3 +1,9 @@
+2010-08-30 [ticho]	0.25cvs3
+
+	* src/notification_trayicon.c
+		Use correct translation domain for popup strings and trayicon
+		context menu.
+
 2010-05-04 [colin]	0.25cvs2
 
 	* src/claws.def

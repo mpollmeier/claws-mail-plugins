@@ -152,3 +152,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/cs.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fi.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/nl.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.24cvs6.patchset
 ( cvs diff -u -r 1.1.2.193 -r 1.1.2.194 configure.ac;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/notification_indicator.c;  cvs diff -u -r 1.1.2.38 -r 1.1.2.39 src/notification_prefs.c;  ) > 0.25cvs1.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/claws.def;  ) > 0.25cvs2.patchset
+( cvs diff -u -r 1.1.2.31 -r 1.1.2.32 src/notification_trayicon.c;  ) > 0.25cvs3.patchset

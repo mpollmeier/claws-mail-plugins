@@ -360,6 +360,12 @@ static GdkPixbuf* notification_trayicon_create(void)
 {
   GdkPixbuf *trayicon_nomail;
 	GtkActionGroup *action_group;
+#ifdef ENABLE_NLS
+	char *tdomain = strdup(textdomain(NULL)); /* Store current translation domain. */
+
+	/* Set our gettext translation domain for menuitems below. */
+	textdomain(TEXTDOMAIN);
+#endif.
 
   trayicon_nomail = notification_pixbuf_get(NOTIFICATION_TRAYICON_NOMAIL);
 
@@ -397,6 +403,12 @@ static GdkPixbuf* notification_trayicon_create(void)
 
 	traymenu_popup = gtk_menu_item_get_submenu(GTK_MENU_ITEM(
 				gtk_ui_manager_get_widget(gtkut_ui_manager(), "/Menus/SysTrayiconPopup")));
+
+#ifdef ENABLE_NLS
+	/* Restore previous translation domain, as to not break stuff. */
+	textdomain(tdomain);
+	g_free(tdomain);
+#endif
 
   return trayicon_nomail;
 }
