@@ -479,6 +479,12 @@ void python_menu_init(void)
 {
   MainWindow *mainwin;
   guint id;
+#ifdef ENABLE_NLS
+	char *tdomain = strdup(textdomain(NULL)); /* Store current translation domain. */
+
+	/* Set our gettext translation domain for menu items below. */
+	textdomain(TEXTDOMAIN);
+#endif
 
   mainwin =  mainwindow_get_mainwindow();
 
@@ -504,6 +510,12 @@ void python_menu_init(void)
   MENUITEM_ADDUI_ID_MANAGER(mainwin->ui_manager, "/Menu/Tools/PythonScripts", "Separator1",
       "Tools/PythonScripts/---", GTK_UI_MANAGER_SEPARATOR, id)
   menu_id_list = g_slist_prepend(menu_id_list, GUINT_TO_POINTER(id));
+
+#ifdef ENABLE_NLS
+	/* Restore previous translation domain, as to not break stuff. */
+	textdomain(tdomain);
+	g_free(tdomain);
+#endif
 
   refresh_python_scripts_menus(NULL, NULL);
 }

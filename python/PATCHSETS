@@ -52,3 +52,4 @@
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 Makefile.am;  ) > 0.4cvs3.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 examples/auto/startup;  ) > 0.4cvs4.patchset
 ( cvs diff -u -r 1.1.2.11 -r 1.1.2.12 src/clawsmailmodule.c;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 src/messageinfotype.c;  ) > 0.4cvs5.patchset
+( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 src/python_plugin.c;  ) > 0.4cvs6.patchset

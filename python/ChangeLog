@@ -1,3 +1,8 @@
+2010-08-30 [ticho]	0.4cvs6
+
+	* src/python_plugin.c
+		Use correct translation domain for main window menu strings.
+
 2010-08-25 [holger]	0.4cvs5
 
 	* src/clawsmailmodule.c
