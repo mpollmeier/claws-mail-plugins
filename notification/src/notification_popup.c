@@ -472,25 +472,25 @@ static gboolean notification_libnotify_add_msg(MsgInfo *msginfo,
   switch(nftype) {
   case F_TYPE_MAIL:
     summary = _("Mail message");
-    text = g_strdup_printf(ngettext("%d new message arrived",
+    text = g_strdup_printf(dngettext(TEXTDOMAIN, "%d new message arrived",
 				    "%d new messages arrived",
 				    ppopup->count), ppopup->count);
     break;
   case F_TYPE_NEWS:
     summary = _("News message");
-    text = g_strdup_printf( ngettext("%d new message arrived",
+    text = g_strdup_printf( dngettext(TEXTDOMAIN, "%d new message arrived",
                                      "%d new messages arrived",
 				     ppopup->count), ppopup->count);
     break;
   case F_TYPE_CALENDAR:
     summary = _("Calendar message");
-    text = g_strdup_printf( ngettext("%d new calendar message arrived",
+    text = g_strdup_printf( dngettext(TEXTDOMAIN, "%d new calendar message arrived",
                                      "%d new calendar messages arrived",
 				     ppopup->count), ppopup->count);
     break;
   case F_TYPE_RSS:
     summary = _("RSS news feed");
-    text = g_strdup_printf( ngettext("%d new article in a RSS feed arrived",
+    text = g_strdup_printf( dngettext(TEXTDOMAIN, "%d new article in a RSS feed arrived",
                                      "%d new articles in a RSS feed arrived",
 				     ppopup->count), ppopup->count);
     break;
@@ -551,7 +551,7 @@ static gboolean notification_popup_add_msg(MsgInfo *msginfo)
   if(ppopup->label2)
     gtk_widget_destroy(ppopup->label2);
 
-  message = g_strdup_printf(ngettext("%d new message",
+  message = g_strdup_printf(dngettext(TEXTDOMAIN, "%d new message",
 				     "%d new messages",
 				     ppopup->count), ppopup->count);
   gtk_label_set_text(GTK_LABEL(ppopup->label1), message);

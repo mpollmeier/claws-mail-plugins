@@ -365,7 +365,7 @@ static GdkPixbuf* notification_trayicon_create(void)
 
 	/* Set our gettext translation domain for menuitems below. */
 	textdomain(TEXTDOMAIN);
-#endif.
+#endif
 
   trayicon_nomail = notification_pixbuf_get(NOTIFICATION_TRAYICON_NOMAIL);
 
@@ -864,7 +864,7 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
     utf8_str = g_strdup("");
 
     if(popup.num_mail) {
-      msg = g_strdup_printf(ngettext("%d new mail message arrived",
+      msg = g_strdup_printf(dngettext(TEXTDOMAIN, "%d new mail message arrived",
 		      		     "%d new mail messages arrived",
 		            popup.num_mail),
 			    popup.num_mail);
@@ -875,7 +875,7 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       str_empty = FALSE;
     }
     if(popup.num_news) {
-      msg = g_strdup_printf(ngettext("%d new news post arrived",
+      msg = g_strdup_printf(dngettext(TEXTDOMAIN, "%d new news post arrived",
 		      		     "%d new news posts arrived",
 		            popup.num_news),
 			    popup.num_news);
@@ -886,7 +886,7 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       str_empty = FALSE;
     }
     if(popup.num_calendar) {
-      msg = g_strdup_printf(ngettext("%d new calendar message arrived",
+      msg = g_strdup_printf(dngettext(TEXTDOMAIN, "%d new calendar message arrived",
 		      		     "%d new calendar messages arrived",
 		            popup.num_calendar),
 			    popup.num_calendar);
@@ -897,7 +897,7 @@ static gchar* notification_trayicon_popup_assemble_body(MsgInfo *msginfo)
       str_empty = FALSE;
     }
     if(popup.num_rss) {
-      msg = g_strdup_printf(ngettext("%d new article in RSS feeds arrived",
+      msg = g_strdup_printf(dngettext(TEXTDOMAIN, "%d new article in RSS feeds arrived",
 		      		     "%d new articles in RSS feeds arrived",
 		            popup.num_rss),
 			    popup.num_rss);
