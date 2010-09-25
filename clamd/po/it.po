@@ -1,0 +1,188 @@
+# Italian translation for the ClamAV plugin for Claws Mail
+# Copyright (C) 2008 Andrea Spadaccini
+# This file is distributed under the same license as the clamav-plugin package.
+# Andrea Spadaccini <a.spadaccini@catania.linux.it>, 2008
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 3.3.0\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2008-05-12 15:54+0200\n"
+"PO-Revision-Date: 2008-02-07 18:03+0100\n"
+"Last-Translator: Andrea Spadaccini <a.spadaccini@catania.linux.it>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/clamav_plugin.c:44 src/clamav_plugin_gtk.c:353
+msgid "Clam AntiVirus"
+msgstr "Clam Antivirus"
+
+#: src/clamav_plugin.c:96
+msgid ""
+"Scanning\n"
+"No socket information.\n"
+"Antivirus disabled."
+msgstr ""
+
+#: src/clamav_plugin.c:100
+msgid ""
+"Scanning\n"
+"Clamd does not respond to ping.\n"
+"Is clamd running?"
+msgstr ""
+
+#: src/clamav_plugin.c:107
+#, c-format
+msgid ""
+"Scanning error:\n"
+"%s"
+msgstr ""
+
+#: src/clamav_plugin.c:141
+msgid "ClamAV: scanning message..."
+msgstr "ClamAV: scansione del messaggio..."
+
+#: src/clamav_plugin.c:213
+msgid "Failed to register mail filtering hook"
+msgstr ""
+"Errore durante la registrazione dell'hook per il filtraggio dei messaggi"
+
+#: src/clamav_plugin.c:233 src/clamav_plugin.c:249
+msgid ""
+"Init\n"
+"No socket information.\n"
+"Antivirus disabled."
+msgstr ""
+
+#: src/clamav_plugin.c:237 src/clamav_plugin.c:253
+msgid ""
+"Init\n"
+"Clamd does not respond to ping.\n"
+"Is clamd running?"
+msgstr ""
+
+#: src/clamav_plugin.c:285
+#, fuzzy
+msgid ""
+"This plugin uses Clam AntiVirus to scan all messages that are received from "
+"an IMAP, LOCAL or POP account.\n"
+"\n"
+"When a message attachment is found to contain a virus it can be deleted or "
+"saved in a specially designated folder.\n"
+"\n"
+"Because this plugin communicates with clamd via a socket then there are some "
+"minimum requirements to the permissions for your home folder and the .claws-"
+"mail folder. All users at least need to be given execute permissions on "
+"these folders.\n"
+"\n"
+"Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus"
+msgstr ""
+"Questo plugin utilizza l'Antivirus Clam per analizzare tutti i messaggi "
+"ricevuti da account IMAP, LOCAL o POP.\n"
+"\n"
+"Quando viene trovato un allegato contenente un virus, esso può essere "
+"eliminato o conservato in una cartella designata appositamente.\n"
+"\n"
+"Le opzioni possono essere trovate in /Configurazione/Preferenze/Plugin/Clam "
+"AntiVirus"
+
+#: src/clamav_plugin.c:317
+msgid "Virus detection"
+msgstr "Rilevamento virus"
+
+#: src/clamav_plugin_gtk.c:162
+msgid "Enable virus scanning"
+msgstr "Abilita scansione virus"
+
+#: src/clamav_plugin_gtk.c:172
+msgid "Maximum attachment size"
+msgstr "Massima dimensione dell'allegato"
+
+#: src/clamav_plugin_gtk.c:183
+msgid "Message attachments larger than this will not be scanned"
+msgstr "Gli allegati più grandi non saranno analizzati"
+
+#: src/clamav_plugin_gtk.c:187
+msgid "MB"
+msgstr "MB"
+
+#: src/clamav_plugin_gtk.c:196
+msgid "Save infected mail in"
+msgstr "Salva i messaggi con virus in"
+
+#: src/clamav_plugin_gtk.c:200
+msgid "Save mail that contains viruses"
+msgstr "Salva messaggi che contengono virus"
+
+#: src/clamav_plugin_gtk.c:208
+msgid ""
+"Folder for storing infected mail. Leave empty to use the default trash folder"
+msgstr ""
+"Cartella per conservare i messaggi infetti. Non riempire per utilizzare il "
+"cestino"
+
+#: src/clamav_plugin_gtk.c:212
+msgid "_Browse"
+msgstr "_Sfoglia"
+
+#: src/clamav_plugin_gtk.c:216
+msgid "Click this button to select a folder for storing infected mail"
+msgstr ""
+"Clicca su questo pulsante per selezionare una cartella per contenere i "
+"messaggi infetti"
+
+#: src/clamav_plugin_gtk.c:224
+msgid "Where is clamd.conf"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:232
+msgid ""
+"Full path to clamd.conf. If this field is not empty then the plugin has been "
+"able to locate the file automatically"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:236
+#, fuzzy
+msgid "Br_owse"
+msgstr "_Sfoglia"
+
+#: src/clamav_plugin_gtk.c:240
+#, fuzzy
+msgid "Click this button to select full path to clamd.conf"
+msgstr ""
+"Clicca su questo pulsante per selezionare una cartella per contenere i "
+"messaggi infetti"
+
+#: src/clamav_plugin_gtk.c:248
+msgid "Check permission for folders and adjust if necessary"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:261
+#, fuzzy
+msgid "Click this button to check and adjust folder permissions"
+msgstr ""
+"Clicca su questo pulsante per selezionare una cartella per contenere i "
+"messaggi infetti"
+
+#: src/clamav_plugin_gtk.c:328
+msgid ""
+"New config\n"
+"No socket information.\n"
+"Antivirus disabled."
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:332
+msgid ""
+"New config\n"
+"Clamd does not respond to ping.\n"
+"Is clamd running?"
+msgstr ""
+
+#: src/clamav_plugin_gtk.c:352
+msgid "Plugins"
+msgstr "Plugin"
+
+#~ msgid "Scan archive contents"
+#~ msgstr "Analizza contenuti dell'archivio"
