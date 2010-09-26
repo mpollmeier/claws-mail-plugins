@@ -71,6 +71,17 @@ static Clamd_Socket* Socket = NULL;
 static int sock;
 static gchar* folder = NULL;
 
+/**
+ *  clamd commands used
+ *  prefixing with either z or n is recommended
+ *  z <=> null terminated command
+ *  n <=> newline terminated command
+ */
+static const gchar ping[] = "nPING\n";
+static const gchar version[] = "nVERSION\n";
+static const gchar scan[] = "nSCAN";
+static const gchar contscan[] = "nCONTSCAN";
+
 void clamd_create_config(const gchar* path) {
 	FILE* conf;
 	char buf[1024];
@@ -191,10 +202,6 @@ static void create_socket() {
 	struct sockaddr_in addr_i;
 	struct hostent *hp;
 
-	/*if (sock > 0) {
-		close_socket();
-		sock = 0;
-	}*/
 	memset(&addr_u, 0, sizeof(addr_u));
 	memset(&addr_i, 0, sizeof(addr_i));
 	debug_print("socket->type: %d\n", Socket->type);
@@ -247,7 +254,6 @@ static void copy_socket(Clamd_Socket* sock) {
 }
 
 Clamd_Stat clamd_init(Clamd_Socket* config) {
-	const gchar ping[] = "PING\n";
 	gchar buf[BUFSIZ];
 	int n_read;
 	gboolean connect = FALSE;
@@ -274,7 +280,22 @@ Clamd_Stat clamd_init(Clamd_Socket* config) {
 		debug_print("Ping result: %s\n", buf);
 		if (strcmp("PONG", buf) == 0)
 			connect = TRUE;
-		/*memset(buf, '\0', sizeof(buf));*/
+	}
+	close_socket();
+	create_socket();
+	if (sock < 0) {
+	    debug_print("no connection\n");
+	    return NO_CONNECTION;
+	}
+	if (write(sock, version, strlen(version)) == -1) {
+	    debug_print("no connection\n");
+	    return NO_CONNECTION;
+	}
+	memset(buf, '\0', sizeof(buf));
+        while ((n_read = read(sock, buf, BUFSIZ)) > 0) {
+	    if (buf[strlen(buf) - 1] == '\n')
+		buf[strlen(buf) - 1] = '\0';
+	    debug_print("Version: %s\n", buf);
 	}
 	close_socket();
 	return (connect) ? OK : NO_CONNECTION;
@@ -295,7 +316,7 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 		debug_print("no connection\n");
 		return NO_CONNECTION;
 	}
-	command = g_strdup_printf("SCAN %s\n", path);
+	command = g_strconcat(scan, " ", path, "\n", NULL);
 	debug_print("command: %s\n", command);
 	if (write(sock, command, strlen(command)) == -1) {
 		debug_print("no connection\n");
@@ -335,7 +356,7 @@ GSList* clamd_verify_dir(const gchar* path) {
 		debug_print("No socket\n");
 		return list;
 	}
-	command = g_strdup_printf("CONTSCAN %s\n", path);
+	command = g_strconcat(contscan, path, "\n", NULL);
 	debug_print("command: %s\n", command);
 	if (write(sock, command, strlen(command)) == -1) {
 		debug_print("No socket\n");

@@ -1,3 +1,11 @@
+2010-09-26 [michael]	3.4.0cvs4
+
+	* libclamd/clamd-plugin.c
+	    - Added clamav version info to init phase
+	    - Prifixed clamav commands according to recommendation
+	    - Defined all used clamav commands as static const
+
+
 2010-09-26 [michael]	3.4.0cvs3
 
 	* autogen.sh
