@@ -77,7 +77,7 @@ void clamd_create_config(const gchar* path) {
 	gchar* key = NULL;
 	gchar* value = NULL;
 
-	debug_print("%s : %s\n", folder, path);
+	/*debug_print("%s : %s\n", folder, path);*/
 	if (folder && strcmp(folder, path) == 0) {
 		debug_print("%s : %s - Identical. No need to read again\n", folder, path);
 		return;
@@ -191,10 +191,10 @@ static void create_socket() {
 	struct sockaddr_in addr_i;
 	struct hostent *hp;
 
-	if (sock > 0) {
+	/*if (sock > 0) {
 		close_socket();
 		sock = 0;
-	}
+	}*/
 	memset(&addr_u, 0, sizeof(addr_u));
 	memset(&addr_i, 0, sizeof(addr_i));
 	debug_print("socket->type: %d\n", Socket->type);
