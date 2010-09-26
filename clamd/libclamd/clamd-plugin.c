@@ -23,7 +23,13 @@
 #	include "config.h"
 #endif
 
+#include "defs.h"
+
 #include <glib.h>
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkutils.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -35,9 +41,17 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#include "clamd-plugin.h"
 #include "common/claws.h"
+#include "common/version.h"
+#include "plugin.h"
 #include "utils.h"
+#include "prefs.h"
+#include "folder.h"
+#include "prefs_gtk.h"
+#include "foldersel.h"
+#include "statusbar.h"
+#include "alertpanel.h"
+#include "clamd-plugin.h"
 
 /* needs to be generic */
 static const gchar* config_dirs[] = { 
@@ -63,11 +77,18 @@ void clamd_create_config(const gchar* path) {
 	gchar* key = NULL;
 	gchar* value = NULL;
 
+	debug_print("%s : %s\n", folder, path);
+	if (folder && strcmp(folder, path) == 0) {
+		debug_print("%s : %s - Identical. No need to read again\n", folder, path);
+		return;
+	}
+	g_free(folder);
+	folder = g_strdup(path);
 	debug_print("Opening %s to parse config file\n", path);
 	conf = fopen(path, "r");
 	if (!conf) {
-		g_error("%s: Unable to open", path);
-		/*alertpanel_error(_("%s: Unable to open\nclamd will be disabled"), path);*/
+		/*g_error("%s: Unable to open", path);*/
+		alertpanel_error(_("%s: Unable to open\nclamd will be disabled"), path);
 		return;
 	}
 	while (fgets(buf, sizeof(buf), conf)) {
@@ -124,8 +145,8 @@ void clamd_create_config(const gchar* path) {
 		}
 	}
 	if (! Socket && (Socket->socket.port || Socket->socket.path)) {
-		g_error("%s: Not able to find required information", path);
-		/*alertpanel_error(_("%s: Not able to find required information\nclamd will be disabled"), path);*/
+		/*g_error("%s: Not able to find required information", path);*/
+		alertpanel_error(_("%s: Not able to find required information\nclamd will be disabled"), path);
 	}
 	if (Socket && Socket->type == INET_SOCKET && Socket->socket.host == NULL)
 		Socket->socket.host = g_strdup("localhost");
@@ -170,6 +191,10 @@ static void create_socket() {
 	struct sockaddr_in addr_i;
 	struct hostent *hp;
 
+	if (sock > 0) {
+		close_socket();
+		sock = 0;
+	}
 	memset(&addr_u, 0, sizeof(addr_u));
 	memset(&addr_i, 0, sizeof(addr_i));
 	debug_print("socket->type: %d\n", Socket->type);

@@ -1,3 +1,21 @@
+2010-09-26 [michael]	3.4.0cvs3
+
+	* autogen.sh
+	* libclamd/Makefile.am
+	* libclamd/Makefile.in
+	* libclamd/clamd-plugin.c
+	* po/POTFILES.in
+	* po/clamd.pot
+	* po/en_GB.po
+	* po/es.po
+	* po/fi.po
+	* po/hu.po
+	* po/it.po
+	* src/clamav_plugin.c
+	* src/clamav_plugin_gtk.c
+	    Hardening the library. Using alertpanel to show
+	    info about found viruses. Added library to po.
+
 2010-09-25 [michael]	3.4.0cvs2
 
 	* AUTHORS

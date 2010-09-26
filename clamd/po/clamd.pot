@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2008-05-12 15:54+0200\n"
+"POT-Creation-Date: 2010-09-26 03:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,36 +35,41 @@ msgid ""
 "Is clamd running?"
 msgstr ""
 
-#: src/clamav_plugin.c:107
+#: src/clamav_plugin.c:104
+#, c-format
+msgid "Detected %s virus."
+msgstr ""
+
+#: src/clamav_plugin.c:108
 #, c-format
 msgid ""
 "Scanning error:\n"
 "%s"
 msgstr ""
 
-#: src/clamav_plugin.c:141
+#: src/clamav_plugin.c:142
 msgid "ClamAV: scanning message..."
 msgstr ""
 
-#: src/clamav_plugin.c:213
+#: src/clamav_plugin.c:214
 msgid "Failed to register mail filtering hook"
 msgstr ""
 
-#: src/clamav_plugin.c:233 src/clamav_plugin.c:249
+#: src/clamav_plugin.c:234 src/clamav_plugin.c:250
 msgid ""
 "Init\n"
 "No socket information.\n"
 "Antivirus disabled."
 msgstr ""
 
-#: src/clamav_plugin.c:237 src/clamav_plugin.c:253
+#: src/clamav_plugin.c:238 src/clamav_plugin.c:254
 msgid ""
 "Init\n"
 "Clamd does not respond to ping.\n"
 "Is clamd running?"
 msgstr ""
 
-#: src/clamav_plugin.c:285
+#: src/clamav_plugin.c:287
 msgid ""
 "This plugin uses Clam AntiVirus to scan all messages that are received from "
 "an IMAP, LOCAL or POP account.\n"
@@ -79,7 +85,7 @@ msgid ""
 "Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus"
 msgstr ""
 
-#: src/clamav_plugin.c:317
+#: src/clamav_plugin.c:319
 msgid "Virus detection"
 msgstr ""
 
@@ -162,4 +168,18 @@ msgstr ""
 
 #: src/clamav_plugin_gtk.c:352
 msgid "Plugins"
+msgstr ""
+
+#: libclamd/clamd-plugin.c:91
+#, c-format
+msgid ""
+"%s: Unable to open\n"
+"clamd will be disabled"
+msgstr ""
+
+#: libclamd/clamd-plugin.c:149
+#, c-format
+msgid ""
+"%s: Not able to find required information\n"
+"clamd will be disabled"
 msgstr ""

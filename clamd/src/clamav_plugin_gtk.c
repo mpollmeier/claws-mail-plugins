@@ -98,12 +98,12 @@ static void clamd_folder_cb(GtkWidget *widget, gpointer data)
 static void check_permission(gchar* folder) {
 	struct stat info;
 
-	stat(folder, &info);
+	g_stat(folder, &info);
 	mode_t perm = info.st_mode & ~(S_IFMT);
 	debug_print("%s: Old file permission: %05o\n", folder, perm);
 	if ((perm & S_IXOTH) != S_IXOTH) {
 		perm = perm | S_IXOTH;
-		chmod(folder, perm);
+		g_chmod(folder, perm);
 	}
 	debug_print("%s: New file permission: %05o\n", folder, perm);
 }

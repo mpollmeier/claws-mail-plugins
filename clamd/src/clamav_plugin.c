@@ -100,7 +100,8 @@ static gboolean scan_func(GNode *node, gpointer data)
 						alertpanel_warning(_("Scanning\nClamd does not respond to ping.\nIs clamd running?"));
 						break;
 					case VIRUS: 
-						debug_print("Detected %s virus.\n", clamd_get_virus_name(buf.msg));
+						g_warning("Detected %s virus.\n", clamd_get_virus_name(buf.msg));
+						alertpanel_warning(_("Detected %s virus."), clamd_get_virus_name(buf.msg));
 						break;
 					case SCAN_ERROR:
 						debug_print("Error: %s\n", buf.msg);

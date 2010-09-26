@@ -1,2 +1,3 @@
 src/clamav_plugin.c
 src/clamav_plugin_gtk.c
+libclamd/clamd-plugin.c
