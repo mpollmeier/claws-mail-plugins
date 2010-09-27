@@ -1,3 +1,9 @@
+2010-09-27 [michael]	3.4.0cvs6
+
+	* Makefile.in
+	    - Missing file
+
+
 2010-09-27 [michael]	3.4.0cvs5
 
 	* COPYING
