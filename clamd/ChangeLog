@@ -1,3 +1,13 @@
+2010-09-27 [michael]	3.4.0cvs5
+
+	* COPYING
+	* src/clamav_plugin.c
+	* src/clamav_plugin.h
+	* src/clamav_plugin_gtk.c
+	    - Changed license from GPLv2+ to GPLv3+
+	    - Changed copyright from 2003-2008 to 2003-2010
+
+
 2010-09-26 [michael]	3.4.0cvs4
 
 	* libclamd/clamd-plugin.c
