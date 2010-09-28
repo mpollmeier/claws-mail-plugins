@@ -44,12 +44,29 @@ struct _Clamd_Socket {
 	} socket;
 };
 
+typedef struct {
+	enum { AUTOMATIC, MANUAL } ConfigType;
+	union {
+		struct {
+			gchar*	folder;
+		} automatic;
+		struct {
+			gchar*	host;
+			int		port;
+		} manual;
+	};
+} Config;
+	
 typedef struct _response response;
 struct _response {
 	gchar* msg;
 };
 
-void clamd_create_config(const gchar* path);
+void clamd_create_config_automatic(const gchar* path);
+
+void clamd_create_config_manual(const gchar* host, int port);
+
+gchar* int2char(int i);
 
 /**
  * Function which looks for clamd.conf the default places
@@ -62,10 +79,10 @@ void clamd_create_config(const gchar* path);
 gboolean clamd_find_socket();
 
 /**
- * Function to get current folder for clamd.conf
- * @return the current folder for clamd.conf or <b>NULL</b>
+ * Function to get current configuration
+ * @return the current configuration for clamd or <b>NULL</b>
  */
-gchar* clamd_get_folder();
+Config* clamd_get_config();
 
 /**
  * Function to retrieve virus name from msg
@@ -117,5 +134,9 @@ void clamd_free_gslist(GSList* list);
  * Function which frees all memory assigned to clamd_plugin
  */
 void clamd_free();
+
+Config* clamd_config_new();
+
+void clamd_config_free(Config* c);
 
 #endif

@@ -21,6 +21,7 @@
 #define CLAMAV_PLUGIN_H 1
 
 #include <glib.h>
+#include "clamd-plugin.h"
 
 typedef struct _ClamAvConfig ClamAvConfig;
 
@@ -32,13 +33,17 @@ struct _ClamAvConfig
 /*	gboolean 	 clamav_enable_arc;*/
 	guint 		 clamav_max_size;
 	gboolean 	 clamav_recv_infected;
-	gchar 		*clamav_save_folder;
+	gchar		*clamav_save_folder;
+	gboolean	 clamd_config_type;
+	gchar		*clamd_host;
+	int			 clamd_port;
 	gchar		*clamd_config_folder;
 };
 
 ClamAvConfig *clamav_get_config		  (void);
 void	      clamav_save_config	  (void);
 void 	      clamav_set_message_callback (MessageCallback callback);
+Clamd_Stat	  clamd_prepare(void);
 gint	      clamav_gtk_init(void);
 void 	      clamav_gtk_done(void);
 

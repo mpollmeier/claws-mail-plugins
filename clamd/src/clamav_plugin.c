@@ -59,7 +59,13 @@ static PrefParam param[] = {
 	 NULL, NULL, NULL},
 	{"clamav_save_folder", NULL, &config.clamav_save_folder, P_STRING,
 	 NULL, NULL, NULL},
+	{"clamad_config_type", "TRUE", &config.clamd_config_type, P_BOOL,
+	 NULL, NULL, NULL},
 	{"clamd_config_folder", NULL, &config.clamd_config_folder, P_STRING,
+	 NULL, NULL, NULL},
+	{"clamd_host", NULL, &config.clamd_host, P_STRING,
+	 NULL, NULL, NULL},
+	{"clamd_port", NULL, &config.clamd_port, P_INT,
 	 NULL, NULL, NULL},
 
 	{NULL, NULL, NULL, P_OTHER, NULL, NULL, NULL}
@@ -166,6 +172,26 @@ static gboolean mail_filtering_hook(gpointer source, gpointer data)
 	return (result.status == OK) ? FALSE : TRUE;
 }
 
+Clamd_Stat clamd_prepare(void) {
+	debug_print("Creating socket\n");
+	if (config.clamd_host != NULL && config.clamd_port > 0) {
+		/* Manual configuration has highest priority */
+		debug_print("Using user input: %s:%d\n",
+			config.clamd_host, config.clamd_port);
+		clamd_create_config_manual(config.clamd_host, config.clamd_port);
+	}
+	else if (config.clamd_config_folder != NULL) {
+		debug_print("Using clamd.conf: %s\n", config.clamd_config_folder);
+		clamd_create_config_automatic(config.clamd_config_folder);
+	}
+	else {
+		if (! clamd_find_socket())
+			return NO_SOCKET;
+	}
+
+	return clamd_init(NULL);
+}
+
 ClamAvConfig *clamav_get_config(void)
 {
 	return &config;
@@ -189,7 +215,7 @@ void clamav_save_config(void)
 		prefs_file_close_revert(pfile);
 		return;
 	}
-        if (fprintf(pfile->fp, "\n") < 0) {
+    if (fprintf(pfile->fp, "\n") < 0) {
 		FILE_OP_ERROR(rcpath, "fprintf");
 		prefs_file_close_revert(pfile);
 	} else
@@ -224,39 +250,18 @@ gint plugin_init(gchar **error)
 
 	if (config.clamav_enable) {
 		debug_print("Creating socket\n");
-		if (config.clamd_config_folder != NULL) {
-			debug_print("clamd.conf: %s\n", config.clamd_config_folder);
-			clamd_create_config(config.clamd_config_folder);
-			Clamd_Stat status = clamd_init(NULL);
-			switch (status) {
-				case NO_SOCKET: 
-					g_warning("[init] No socket information");
-					alertpanel_error(_("Init\nNo socket information.\nAntivirus disabled."));
-					break;
-				case NO_CONNECTION:
-					g_warning("[init] Clamd does not respond to ping");
-					alertpanel_warning(_("Init\nClamd does not respond to ping.\nIs clamd running?"));
-					break;
-				default:
-					break;
-			}
-		}
-		else {
-			if (clamd_find_socket()) {
-				Clamd_Stat status = clamd_init(NULL);
-				switch (status) {
-					case NO_SOCKET: 
-						g_warning("[init] No socket information");
-						alertpanel_error(_("Init\nNo socket information.\nAntivirus disabled."));
-						break;
-					case NO_CONNECTION:
-						g_warning("[init] Clamd does not respond to ping");
-						alertpanel_warning(_("Init\nClamd does not respond to ping.\nIs clamd running?"));
-						break;
-					default:
-						break;
-				}
-			}
+		Clamd_Stat status = clamd_prepare();
+		switch (status) {
+			case NO_SOCKET: 
+				g_warning("[init] No socket information");
+				alertpanel_error(_("Init\nNo socket information.\nAntivirus disabled."));
+				break;
+			case NO_CONNECTION:
+				g_warning("[init] Clamd does not respond to ping");
+				alertpanel_warning(_("Init\nClamd does not respond to ping.\nIs clamd running?"));
+				break;
+			default:
+				break;
 		}
 	}
 

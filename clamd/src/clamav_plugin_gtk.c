@@ -50,8 +50,13 @@ struct ClamAvPage
 	GtkWidget *max_size;
 	GtkWidget *recv_infected;
 	GtkWidget *save_folder;
+	GtkWidget *config_type;
 	GtkWidget *config_folder;
+	GtkWidget *config_host;
+	GtkWidget *config_port;
 };
+
+static GtkWidget *hbox_auto1, *hbox_auto2, *hbox_manual1, *hbox_manual2;
 
 static void foldersel_cb(GtkWidget *widget, gpointer data)
 {
@@ -125,6 +130,59 @@ static void folder_permission_cb(GtkWidget *widget, gpointer data) {
 	}
 }
 
+static void clamav_show_config(Config* config) {
+	if (config->ConfigType == MANUAL) {
+		gtk_widget_hide(hbox_auto1);
+		gtk_widget_hide(hbox_auto2);
+		gtk_widget_show(hbox_manual1);
+		gtk_widget_show(hbox_manual2);
+	}
+	else {
+		gtk_widget_hide(hbox_manual1);
+		gtk_widget_hide(hbox_manual2);
+		gtk_widget_show(hbox_auto1);
+		gtk_widget_show(hbox_auto2);
+	}
+}
+
+static void setting_type_cb(GtkWidget *widget, gpointer data) {
+	gboolean state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	struct ClamAvPage *page = (struct ClamAvPage *) data;
+	Config* c;
+	gint newpos = 0;
+
+	/* Reset configuration */
+	debug_print("Resetting configuration\n");
+	gtk_editable_delete_text(GTK_EDITABLE(page->config_folder), 0, -1);
+	gtk_editable_delete_text(GTK_EDITABLE(page->config_host), 0, -1);
+	gtk_editable_delete_text(GTK_EDITABLE(page->config_port), 0, -1);
+	clamav_save_config();
+
+	c = clamd_config_new();
+	if (state) {
+		/* Automatic configuration */
+		debug_print("Setting clamd to automatic configuration\n");
+		if (clamd_find_socket()) {
+			clamd_config_free(c);
+			c = clamd_get_config();
+			if (c->ConfigType == AUTOMATIC) {
+				gtk_editable_insert_text(GTK_EDITABLE(page->config_folder),
+					c->automatic.folder, strlen(c->automatic.folder), &newpos);
+				clamav_save_config();
+			}
+			c = clamd_config_new();
+		}
+		c->ConfigType = AUTOMATIC;
+	}
+	else {
+		/* Manual configuration */
+		debug_print("Setting clamd to manual configuration\n");
+		c->ConfigType = MANUAL;
+	}
+	clamav_show_config(c);
+	clamd_config_free(c);
+}
+
 static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpointer data)
 {
 	struct ClamAvPage *page = (struct ClamAvPage *) _page;
@@ -143,10 +201,15 @@ static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpoi
   	GtkWidget *save_folder_select;
 	GtkWidget *clamd_conf_label;
 	GtkWidget *config_folder;
+	GtkWidget *config_host;
+	GtkWidget *config_port;
 	GtkWidget *config_folder_select;
 	GtkWidget *blank;
 	GtkWidget *permission_label;
 	GtkWidget *permission_select;
+	GtkWidget *host_label;
+	GtkWidget *port_label;
+	GtkWidget *setting_type;
 	GtkTooltips *tooltips;
 
 	tooltips = gtk_tooltips_new();
@@ -217,17 +280,30 @@ static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpoi
 			     NULL);
  	SET_TOGGLE_SENSITIVITY (enable_clamav, save_folder_select);
 
-  	hbox1 = gtk_hbox_new (FALSE, 8);
+	hbox1 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox1);
 	gtk_box_pack_start (GTK_BOX (vbox2), hbox1, FALSE, FALSE, 0);
 
+ 	setting_type = gtk_check_button_new_with_label(_("Automatic configuration"));
+ 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(setting_type), TRUE);
+	gtk_widget_show (setting_type);
+	gtk_box_pack_start (GTK_BOX (hbox1), setting_type, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, setting_type,
+			     _("Should configuration be done automatic or manual"),
+			     NULL);
+ 	SET_TOGGLE_SENSITIVITY (enable_clamav, setting_type);
+	
+  	hbox_auto1 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox_auto1);
+	gtk_box_pack_start (GTK_BOX (vbox2), hbox_auto1, FALSE, FALSE, 0);
+
  	clamd_conf_label = gtk_label_new(_("Where is clamd.conf"));
 	gtk_widget_show (clamd_conf_label);
-	gtk_box_pack_start (GTK_BOX (hbox1), clamd_conf_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_auto1), clamd_conf_label, FALSE, FALSE, 0);
 
 	config_folder = gtk_entry_new ();
 	gtk_widget_show (config_folder);
-	gtk_box_pack_start (GTK_BOX (hbox1), config_folder, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_auto1), config_folder, TRUE, TRUE, 0);
 	gtk_tooltips_set_tip(tooltips, config_folder,
 			     _("Full path to clamd.conf. If this field is not empty then the plugin has been able to locate the file automatically"),
 			     NULL);
@@ -235,34 +311,75 @@ static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpoi
 
 	config_folder_select = gtkut_get_browse_directory_btn(_("Br_owse"));
 	gtk_widget_show (config_folder_select);
-  	gtk_box_pack_start (GTK_BOX (hbox1), config_folder_select, FALSE, FALSE, 0);
+  	gtk_box_pack_start (GTK_BOX (hbox_auto1), config_folder_select, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, config_folder_select,
 			     _("Click this button to select full path to clamd.conf"),
 			     NULL);
  	SET_TOGGLE_SENSITIVITY (enable_clamav, config_folder_select);
 
-  	hbox1 = gtk_hbox_new (FALSE, 8);
-	gtk_widget_show (hbox1);
-	gtk_box_pack_start (GTK_BOX (vbox2), hbox1, FALSE, FALSE, 0);
+  	hbox_auto2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox_auto2);
+	gtk_box_pack_start (GTK_BOX (vbox2), hbox_auto2, FALSE, FALSE, 0);
 
  	permission_label = gtk_label_new(_("Check permission for folders and adjust if necessary"));
 	gtk_widget_show (permission_label);
-	gtk_box_pack_start (GTK_BOX (hbox1), permission_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_auto2), permission_label, FALSE, FALSE, 0);
 
 	blank = gtk_label_new("");
 	gtk_widget_show (blank);
-	gtk_box_pack_start (GTK_BOX (hbox1), blank, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_auto2), blank, TRUE, TRUE, 0);
 
 	permission_select = gtk_button_new_from_stock(GTK_STOCK_FIND_AND_REPLACE);
 			/*gtk_button_new_with_mnemonic(_("_Check Permission"));*/
 	gtk_widget_show (permission_select);
-  	gtk_box_pack_start (GTK_BOX (hbox1), permission_select, FALSE, FALSE, 0);
+  	gtk_box_pack_start (GTK_BOX (hbox_auto2), permission_select, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, permission_select,
 			     _("Click this button to check and adjust folder permissions"),
 			     NULL);
  	SET_TOGGLE_SENSITIVITY (enable_clamav, permission_select);
 
-	config = clamav_get_config();
+  	hbox_manual1 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox_manual1);
+	gtk_box_pack_start (GTK_BOX (vbox2), hbox_manual1, FALSE, FALSE, 0);
+
+ 	host_label = gtk_label_new(_("Remote Host"));
+	gtk_widget_show (host_label);
+	gtk_box_pack_start (GTK_BOX (hbox_manual1), host_label, FALSE, FALSE, 0);
+
+	config_host = gtk_entry_new ();
+	gtk_widget_show (config_host);
+	gtk_box_pack_start (GTK_BOX (hbox_manual1), config_host, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, config_host,
+			     _("Hostname or IP for remote host running clamav daemon"),
+			     NULL);
+ 	SET_TOGGLE_SENSITIVITY (enable_clamav, config_host);
+
+	blank = gtk_label_new("");
+	gtk_widget_show (blank);
+	gtk_box_pack_start (GTK_BOX (hbox_manual1), blank, TRUE, TRUE, 0);
+
+  	hbox_manual2 = gtk_hbox_new (FALSE, 8);
+	gtk_widget_show (hbox_manual2);
+	gtk_box_pack_start (GTK_BOX (vbox2), hbox_manual2, FALSE, FALSE, 0);
+
+ 	port_label = gtk_label_new(_("Port"));
+	gtk_widget_show (port_label);
+	gtk_box_pack_start (GTK_BOX (hbox_manual2), port_label, FALSE, FALSE, 0);
+
+	config_port = gtk_entry_new ();
+	gtk_entry_set_width_chars(GTK_ENTRY(config_port), 5);
+	gtk_entry_set_max_length(GTK_ENTRY(config_port), 5);
+	gtk_widget_show (config_port);
+	gtk_box_pack_start (GTK_BOX (hbox_manual2), config_port, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltips, config_port,
+			     _("Port number where clamav daemon is listening"),
+			     NULL);
+
+	blank = gtk_label_new("");
+	gtk_widget_show (blank);
+	gtk_box_pack_start (GTK_BOX (hbox_manual2), blank, TRUE, TRUE, 0);
+
+ 	SET_TOGGLE_SENSITIVITY (enable_clamav, config_port);
 
 	g_signal_connect(G_OBJECT(save_folder_select), "clicked", 
 			 G_CALLBACK(foldersel_cb), page);
@@ -270,26 +387,55 @@ static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpoi
 			 G_CALLBACK(clamd_folder_cb), page);
 	g_signal_connect(G_OBJECT(permission_select), "clicked",
 			 G_CALLBACK(folder_permission_cb), page);
+	g_signal_connect(G_OBJECT(setting_type), "clicked",
+			 G_CALLBACK(setting_type_cb), page);
+
+	config = clamav_get_config();
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enable_clamav), config->clamav_enable);
 /*	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enable_arc), config->clamav_enable_arc);*/
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(max_size), (float) config->clamav_max_size);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(recv_infected), config->clamav_recv_infected);
+
+	Config* c = clamd_get_config();
 	if (config->clamav_save_folder != NULL)
 		gtk_entry_set_text(GTK_ENTRY(save_folder), config->clamav_save_folder);
-	if (config->clamd_config_folder == NULL) {
-		if (clamd_find_socket())
-			config->clamd_config_folder = clamd_get_folder();
+	if (config->clamd_host && strlen(config->clamd_host) > 0 && config->clamd_port > 0) {
+		gtk_entry_set_text(GTK_ENTRY(config_host), config->clamd_host);
+		gchar* s = int2char(config->clamd_port);
+		gtk_entry_set_text(GTK_ENTRY(config_port), s);
+		g_free(s);
+		/* activate manual checkbox and blind folder */
+		debug_print("Showing manual configuration and hiding automatic configuration\n");
+		clamav_show_config(c);
 	}
-	if (config->clamd_config_folder != NULL)
+	else if (config->clamd_config_folder == NULL || strlen(config->clamd_config_folder) == 0) {
+		if (clamd_find_socket()) {
+			Config* c = clamd_get_config();
+			if (c->ConfigType == AUTOMATIC) {
+				config->clamd_config_folder = c->automatic.folder;
+				/* deactivate manual checkbox and blind host and port */
+				debug_print("Showing automatic configuration and hiding manual configuration\n");
+				clamav_show_config(c);
+			}
+		}
+	}
+	else {
 		gtk_entry_set_text(GTK_ENTRY(config_folder), config->clamd_config_folder);
+		/* deactivate manual checkbox and blind host and port */
+		debug_print("Showing automatic configuration and hiding manual configuration\n");
+		clamav_show_config(c);
+	}
 
 	page->enable_clamav = enable_clamav;
 /*	page->enable_arc = enable_arc;*/
 	page->max_size = max_size;
 	page->recv_infected = recv_infected;
 	page->save_folder = save_folder;
+	page->config_type = setting_type;
 	page->config_folder = config_folder;
+	page->config_host = config_host;
+	page->config_port = config_port;
 	page->page.widget = vbox1;
 }
 
@@ -314,14 +460,15 @@ static void clamav_save_func(PrefsPage *_page)
 	config->clamav_recv_infected = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->recv_infected));
 	g_free(config->clamav_save_folder);
 	config->clamav_save_folder = gtk_editable_get_chars(GTK_EDITABLE(page->save_folder), 0, -1);
+	config->clamd_config_type = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(page->config_type));
 	g_free(config->clamd_config_folder);
 	config->clamd_config_folder = gtk_editable_get_chars(GTK_EDITABLE(page->config_folder), 0, -1);
+	g_free(config->clamd_host);
+	config->clamd_host = gtk_editable_get_chars(GTK_EDITABLE(page->config_host), 0, -1);
+	config->clamd_port = atoi(gtk_entry_get_text(GTK_ENTRY(page->config_port)));
 
-	if (config->clamav_enable && config->clamd_config_folder != NULL) {
-		debug_print("Creating socket\n");
-		debug_print("clamd.conf: %s\n", config->clamd_config_folder);
-		clamd_create_config(config->clamd_config_folder);
-		Clamd_Stat status = clamd_init(NULL);
+	if (config->clamav_enable) {
+		Clamd_Stat status = clamd_prepare();
 		switch (status) {
 			case NO_SOCKET: 
 				g_warning("[New config] No socket information");

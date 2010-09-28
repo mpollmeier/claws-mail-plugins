@@ -1,3 +1,13 @@
+2010-09-28 [michael]	3.4.0cvs7
+
+	* libclamd/clamd-plugin.c
+	* libclamd/clamd-plugin.h
+	* src/clamav_plugin.c
+	* src/clamav_plugin.h
+	* src/clamav_plugin_gtk.c
+	    - Make configuration user configurable
+	    - Fix a bug which could cause an endless loop
+
 2010-09-27 [michael]	3.4.0cvs6
 
 	* Makefile.in

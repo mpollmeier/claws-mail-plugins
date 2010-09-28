@@ -69,7 +69,7 @@ static const gchar* clamd_tokens[] = {
 
 static Clamd_Socket* Socket = NULL;
 static int sock;
-static gchar* folder = NULL;
+static Config* config = NULL;
 
 /**
  *  clamd commands used
@@ -82,19 +82,30 @@ static const gchar version[] = "nVERSION\n";
 static const gchar scan[] = "nSCAN";
 static const gchar contscan[] = "nCONTSCAN";
 
-void clamd_create_config(const gchar* path) {
+void clamd_create_config_automatic(const gchar* path) {
 	FILE* conf;
 	char buf[1024];
 	gchar* key = NULL;
 	gchar* value = NULL;
 
 	/*debug_print("%s : %s\n", folder, path);*/
-	if (folder && strcmp(folder, path) == 0) {
-		debug_print("%s : %s - Identical. No need to read again\n", folder, path);
+	if (! path) {
+		g_warning("Missing path");
 		return;
 	}
-	g_free(folder);
-	folder = g_strdup(path);
+	if (config && config->ConfigType == AUTOMATIC &&
+			config->automatic.folder &&
+			strcmp(config->automatic.folder, path) == 0) {
+		debug_print("%s : %s - Identical. No need to read again\n",
+			config->automatic.folder, path);
+		return;
+	}
+	if (config)
+		clamd_config_free(config);
+	config = clamd_config_new();
+	
+	config->ConfigType = AUTOMATIC;
+	config->automatic.folder = g_strdup(path);
 	debug_print("Opening %s to parse config file\n", path);
 	conf = fopen(path, "r");
 	if (!conf) {
@@ -163,6 +174,39 @@ void clamd_create_config(const gchar* path) {
 		Socket->socket.host = g_strdup("localhost");
 }
 
+void clamd_create_config_manual(const gchar* host, int port) {
+	if (! host || port < 1) {
+		g_warning("Missing host or port < 1");
+		return;
+	}
+	if (config && config->ConfigType == MANUAL &&
+			config->manual.host && config->manual.port == port &&
+			strcmp(config->manual.host, host) == 0) {
+		debug_print("%s : %s and %d : %d - Identical. No need to read again\n",
+			config->manual.host, host, config->manual.port, port);
+		return;
+	}
+
+	if (config)
+		clamd_config_free(config);
+	config = clamd_config_new();
+	
+	config->ConfigType = MANUAL;
+	config->manual.host = g_strdup(host);
+	config->manual.port = port;
+	/* INET socket */
+	Socket = (Clamd_Socket *) malloc(sizeof(Clamd_Socket *));
+	if (Socket) {
+		Socket->type = INET_SOCKET;
+		Socket->socket.port = port;
+		Socket->socket.host = g_strdup(host);
+	}
+	else {
+		/*g_error("%s: Not able to find required information", path);*/
+		alertpanel_error(_("Could not create socket"));
+	}
+}
+
 gboolean clamd_find_socket() {
 	const gchar** config_dir = config_dirs;
 	gchar *clamd_conf = NULL;
@@ -177,15 +221,16 @@ gboolean clamd_find_socket() {
 	}
 	if (! clamd_conf)
 		return FALSE;
+
 	debug_print("Using %s to find configuration\n", clamd_conf);
-	folder = g_strdup(clamd_conf);
-	clamd_create_config(clamd_conf);
+	clamd_create_config_automatic(clamd_conf);
 	g_free(clamd_conf);
+
 	return TRUE;
 }
 
-gchar* clamd_get_folder() {
-	return folder;
+Config* clamd_get_config() {
+	return config;
 }
 
 Clamd_Socket* clamd_get_socket() {
@@ -202,6 +247,10 @@ static void create_socket() {
 	struct sockaddr_in addr_i;
 	struct hostent *hp;
 
+	if (! Socket) {
+		sock = -1;
+		return;
+	}
 	memset(&addr_u, 0, sizeof(addr_u));
 	memset(&addr_i, 0, sizeof(addr_i));
 	debug_print("socket->type: %d\n", Socket->type);
@@ -443,9 +492,32 @@ void clamd_free() {
 		g_free(Socket);
 		Socket = NULL;
 	}
-	if (folder) {
-	    g_free(folder);
-	    folder = NULL;
+	if (config) {
+	    clamd_config_free(config);
+	    config = NULL;
 	}
 }
 
+Config* clamd_config_new() {
+	return g_new0(Config, 1);
+}
+
+void clamd_config_free(Config* c) {
+	if (c->ConfigType == AUTOMATIC) {
+		g_free(c->automatic.folder);
+		c->automatic.folder = NULL;
+	}
+	else {
+		g_free(c->manual.host);
+		c->manual.host = NULL;
+	}
+	g_free(c);
+}
+
+gchar* int2char(int i) {
+	gchar* s = g_new0(gchar, 5);
+
+	sprintf(s, "%d", i);
+	
+	return s;
+}
