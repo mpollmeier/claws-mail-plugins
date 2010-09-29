@@ -1,3 +1,12 @@
+2010-09-29 [michael]	3.4.0cvs8
+
+	* libclamd/clamd-plugin.c
+	* libclamd/clamd-plugin.h
+	    - Added support for scan an stream of data
+	      using the command INSTREAM. INSTREAM is
+	      the only way to have a file scanned on
+	      a remote host.
+
 2010-09-28 [michael]	3.4.0cvs7
 
 	* libclamd/clamd-plugin.c

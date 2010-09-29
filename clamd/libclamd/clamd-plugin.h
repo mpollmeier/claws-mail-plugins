@@ -68,6 +68,8 @@ void clamd_create_config_manual(const gchar* host, int port);
 
 gchar* int2char(int i);
 
+gchar* long2char(long l);
+
 /**
  * Function which looks for clamd.conf the default places
  * and configures the plugin according to the information

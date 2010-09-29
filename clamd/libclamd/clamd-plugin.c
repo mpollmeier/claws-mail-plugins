@@ -36,6 +36,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <netinet/in.h>
 #include <sys/un.h>
 #include <arpa/inet.h>
@@ -81,6 +83,7 @@ static const gchar ping[] = "nPING\n";
 static const gchar version[] = "nVERSION\n";
 static const gchar scan[] = "nSCAN";
 static const gchar contscan[] = "nCONTSCAN";
+static const gchar instream[10] = "zINSTREAM\0";
 
 void clamd_create_config_automatic(const gchar* path) {
 	FILE* conf;
@@ -350,6 +353,86 @@ Clamd_Stat clamd_init(Clamd_Socket* config) {
 	return (connect) ? OK : NO_CONNECTION;
 }
 
+static Clamd_Stat clamd_stream_scan(
+		response* result, const gchar* path, gchar* res, ssize_t size) {
+	int fd;
+	ssize_t count;
+	gchar buf[BUFSIZ];
+	int n_read;
+	int32_t chunk;
+	
+	debug_print("Scanning: %s\n", path);
+	if (! g_file_test(path, G_FILE_TEST_EXISTS)) {
+		result->msg = g_strdup_printf("%s: File does not exist", path);
+		return SCAN_ERROR;
+	}
+
+	if (! res || size < 1) {
+		result->msg = g_strdup_printf("No buffer or buffer to small");
+		return SCAN_ERROR;
+	}
+	
+#ifdef _LARGE_FILES
+	fd = open(path, O_RDONLY, O_LARGEFILE);
+#else
+	fd = open(path, O_RDONLY);
+#endif
+
+	if (fd < 0) {
+		/*g_error("%s: Unable to open", path);*/
+		alertpanel_error(_("%s: Unable to open"), path);
+		return SCAN_ERROR;
+	}
+	
+	debug_print("command: %s\n", instream);
+	if (write(sock, instream, strlen(instream) + 1) == -1) {
+		close(fd);
+		return NO_CONNECTION;
+	}
+
+	memset(buf, '\0', sizeof(buf));
+
+	while ((count = read(fd, (void *) buf, sizeof(buf))) > 0) {
+		if (count == -1) {
+			close(fd);
+			result->msg = g_strdup_printf("%s: Error reading", path);
+			return SCAN_ERROR;
+		}
+		if (buf[strlen(buf) - 1] == '\n')
+			buf[strlen(buf) - 1] = '\0';
+		debug_print("read: %ld bytes\n", count);
+		
+		debug_print("chunk size: %ld\n", count);
+		chunk = htonl(count);
+		if (write(sock, &chunk, 4) == -1) {
+			close(fd);
+			return SCAN_ERROR;
+		}
+		if (write(sock, buf, count) == -1) {
+			close(fd);
+			return SCAN_ERROR;
+		}
+		memset(buf, '\0', sizeof(buf));
+	}
+	close(fd);
+	
+	chunk = htonl(0);
+	if (write(sock, &chunk, 4) == -1) {
+		return SCAN_ERROR;
+	}
+	
+	memset(res, '\0', size);
+	n_read = read(sock, res, size);
+	if (n_read < 0) {
+		return SCAN_ERROR;
+	}
+	debug_print("received: %d bytes\n", n_read);
+	if (res[size - 1] == '\n')
+			res[size - 1] = '\0';
+		
+	return OK;
+}
+
 Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 	gchar buf[BUFSIZ];
 	int n_read;
@@ -365,17 +448,27 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 		debug_print("no connection\n");
 		return NO_CONNECTION;
 	}
-	command = g_strconcat(scan, " ", path, "\n", NULL);
-	debug_print("command: %s\n", command);
-	if (write(sock, command, strlen(command)) == -1) {
-		debug_print("no connection\n");
-		stat = NO_CONNECTION;
-	}
-	g_free(command);
 	memset(buf, '\0', sizeof(buf));
-	while ((n_read = read(sock, buf, BUFSIZ)) > 0) {
-		if (buf[strlen(buf) - 1] == '\n')
-			buf[strlen(buf) - 1] = '\0';
+	if (Socket->type == INET_SOCKET) {
+		stat = clamd_stream_scan(result, path, (gchar *) &buf, BUFSIZ);
+		if (stat != OK) {
+			close_socket();
+			return stat;
+		}
+	}
+	else {
+		command = g_strconcat(scan, " ", path, "\n", NULL);
+		debug_print("command: %s\n", command);
+		if (write(sock, command, strlen(command)) == -1) {
+			debug_print("no connection\n");
+			stat = NO_CONNECTION;
+		}
+		g_free(command);
+		memset(buf, '\0', sizeof(buf));
+		while ((n_read = read(sock, buf, BUFSIZ)) > 0) {
+			if (buf[strlen(buf) - 1] == '\n')
+				buf[strlen(buf) - 1] = '\0';
+		}
 	}
 	debug_print("response: %s\n", buf);
 	if (strstr(buf, "ERROR")) {
@@ -391,6 +484,7 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 		result->msg = NULL;
 	}
 	close_socket();
+
 	return stat;
 }
 
@@ -399,6 +493,9 @@ GSList* clamd_verify_dir(const gchar* path) {
 	int n_read;
 	gchar* command;
 	GSList *list = NULL;
+
+	if (Socket->type == INET_SOCKET)
+		return list;
 
 	create_socket();
 	if (sock < 0) {
@@ -518,6 +615,16 @@ gchar* int2char(int i) {
 	gchar* s = g_new0(gchar, 5);
 
 	sprintf(s, "%d", i);
+	
+	return s;
+}
+
+gchar* long2char(long l) {
+	gchar* s = g_new0(gchar, 5);
+
+	debug_print("l: %ld\n", l);
+	sprintf(s, "%ld", l);
+	debug_print("s: %s\n", s);
 	
 	return s;
 }
