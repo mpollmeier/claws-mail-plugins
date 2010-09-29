@@ -173,11 +173,13 @@ static void setting_type_cb(GtkWidget *widget, gpointer data) {
 			c = clamd_config_new();
 		}
 		c->ConfigType = AUTOMATIC;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->config_type), TRUE);
 	}
 	else {
 		/* Manual configuration */
 		debug_print("Setting clamd to manual configuration\n");
 		c->ConfigType = MANUAL;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(page->config_type), FALSE);
 	}
 	clamav_show_config(c);
 	clamd_config_free(c);
@@ -285,7 +287,7 @@ static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpoi
 	gtk_box_pack_start (GTK_BOX (vbox2), hbox1, FALSE, FALSE, 0);
 
  	setting_type = gtk_check_button_new_with_label(_("Automatic configuration"));
- 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(setting_type), TRUE);
+ 	/*gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(setting_type), TRUE);*/
 	gtk_widget_show (setting_type);
 	gtk_box_pack_start (GTK_BOX (hbox1), setting_type, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltips, setting_type,
@@ -396,6 +398,7 @@ static void clamav_create_widget_func(PrefsPage * _page, GtkWindow *window, gpoi
 /*	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enable_arc), config->clamav_enable_arc);*/
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(max_size), (float) config->clamav_max_size);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(recv_infected), config->clamav_recv_infected);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(setting_type), config->clamd_config_type);
 
 	Config* c = clamd_get_config();
 	if (config->clamav_save_folder != NULL)

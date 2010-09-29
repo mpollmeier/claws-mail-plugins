@@ -9,7 +9,7 @@ dnl plugin version
 MAJOR_VERSION=3
 MINOR_VERSION=4
 MICRO_VERSION=0
-EXTRA_VERSION=8
+EXTRA_VERSION=9
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -58,6 +58,7 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_STRUCT_TM
 AC_C_CONST
+AC_SYS_LARGEFILE
 
 ALL_LINGUAS="en_GB es fi hu it"
 
