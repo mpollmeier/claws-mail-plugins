@@ -91,6 +91,7 @@ void clamd_create_config_automatic(const gchar* path) {
 	gchar* key = NULL;
 	gchar* value = NULL;
 
+	/*debug_set_mode(TRUE);*/
 	/*debug_print("%s : %s\n", folder, path);*/
 	if (! path) {
 		g_warning("Missing path");
@@ -147,34 +148,61 @@ void clamd_create_config_automatic(const gchar* path) {
 						return;
 					}
 				}
-				else {
+				else if (strcmp(clamd_tokens[1], token) == 0) {
 					/* INET socket */
-					if (!Socket) {
-						Socket = 
-							(Clamd_Socket *) malloc(sizeof(Clamd_Socket *));
+					Socket = (Clamd_Socket *) malloc(sizeof(Clamd_Socket *));
+					if (Socket) {
 						Socket->socket.path = NULL;
 						Socket->socket.host = NULL;
 						Socket->socket.port = -1;
-					}
-					if (Socket) {
 						Socket->type = INET_SOCKET;
-						if (strcmp(clamd_tokens[1], token) == 0)
-							Socket->socket.port = atoi(value);
-						else
-							Socket->socket.host = g_strdup(value);
+						Socket->socket.port = atoi(value);
+						Socket->socket.host = g_strdup("localhost");
 						g_free(value);
 						value = NULL;
+						debug_print("clamctl: %s:%d\n", 
+							Socket->socket.host, Socket->socket.port);
 					}
+					/* We must continue since TCPAddr could also be configured */
+				}
+				else if (strcmp(clamd_tokens[2], token) == 0) {
+					if (! Socket) {
+						Socket = (Clamd_Socket *) malloc(sizeof(Clamd_Socket *));
+						if (Socket) {
+							Socket->socket.path = NULL;
+							Socket->socket.host = NULL;
+							Socket->socket.port = 3310; /* default port */
+							Socket->type = INET_SOCKET;
+							Socket->socket.host = g_strdup(value);
+							g_free(value);
+							value = NULL;
+							debug_print("clamctl: %s:%d\n", 
+								Socket->socket.host, Socket->socket.port);
+						}
+					}
+					else {
+						Socket->type = INET_SOCKET;
+						if (Socket->socket.host)
+							g_free(Socket->socket.host);
+						Socket->socket.host = g_strdup(value);
+						g_free(value);
+						value = NULL;
+						if (Socket->socket.port == -1)
+							Socket->socket.port = 3310;
+						debug_print("clamctl: %s:%d\n", 
+							Socket->socket.host, Socket->socket.port);
+					}
+					/* We must continue since TCPSocket could also be configured */
 				}
 			}
 		}
 	}
+	fclose(conf);
 	if (! Socket && (Socket->socket.port || Socket->socket.path)) {
 		/*g_error("%s: Not able to find required information", path);*/
 		alertpanel_error(_("%s: Not able to find required information\nclamd will be disabled"), path);
 	}
-	if (Socket && Socket->type == INET_SOCKET && Socket->socket.host == NULL)
-		Socket->socket.host = g_strdup("localhost");
+	/*debug_set_mode(FALSE);*/
 }
 
 void clamd_create_config_manual(const gchar* host, int port) {
@@ -250,6 +278,7 @@ static void create_socket() {
 	struct sockaddr_in addr_i;
 	struct hostent *hp;
 
+	/*debug_set_mode(TRUE);*/
 	if (! Socket) {
 		sock = -1;
 		return;
@@ -289,6 +318,7 @@ static void create_socket() {
 			}
 			break;
 	}
+	/*debug_set_mode(FALSE);*/
 }
 
 static void copy_socket(Clamd_Socket* sock) {
@@ -310,6 +340,7 @@ Clamd_Stat clamd_init(Clamd_Socket* config) {
 	int n_read;
 	gboolean connect = FALSE;
 
+	/*debug_set_mode(TRUE);*/
 	if (config != NULL && Socket != NULL)
 		return NO_SOCKET;
 	if (config) {
@@ -350,6 +381,7 @@ Clamd_Stat clamd_init(Clamd_Socket* config) {
 	    debug_print("Version: %s\n", buf);
 	}
 	close_socket();
+	/*debug_set_mode(FALSE);*/
 	return (connect) ? OK : NO_CONNECTION;
 }
 

@@ -1,3 +1,16 @@
+2010-10-03 [michael]	3.4.0cvs11
+
+	* libclamd/clamd-plugin.c
+	    Fix broken automatic configuration.
+	    Now properly handle automatic configuration
+	    if the clamav-daemon if configured to use
+	    a TCP socket.
+	    This also means that using a remote clamav-
+	    daemon can also be configured automatically
+	    if a clamd.conf is found and the file has
+	    TCPSocket NUMBER and TCPAddr HOST/IP. See
+	    man clamd.conf.
+
 2010-10-03 [michael]	3.4.0cvs10
 
 	* src/clamav_plugin.c
