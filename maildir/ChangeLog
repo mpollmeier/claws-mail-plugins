@@ -1,3 +1,10 @@
+2010-10-03 [colin]	0.24.4cvs16
+
+	* configure.ac
+	* src/maildir.c
+	* src/plugin.c
+		Adapt to folder API changes of 3.7.6cvs53
+
  [fab]	0.24.4cvs15
 
 	* src/maildir.h

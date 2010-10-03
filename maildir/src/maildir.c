@@ -77,7 +77,7 @@ static gint maildir_remove_folder(Folder *folder, FolderItem *item);
 static gint maildir_rename_folder(Folder *folder, FolderItem *item,
 			     const gchar *name);
 static gint maildir_get_flags (Folder *folder,  FolderItem *item,
-			       MsgInfoList *msglist, GRelation *msgflags);
+			       MsgInfoList *msglist, GHashTable *msgflags);
 
 static gchar *filename_from_utf8(const gchar *path);
 static gchar *filename_to_utf8(const gchar *path);
@@ -1281,7 +1281,7 @@ static gint get_flags_for_msgdata(MessageData *msgdata, MsgPermFlags *flags)
 }
 
 static gint maildir_get_flags (Folder *folder,  FolderItem *item,
-			       MsgInfoList *msglist, GRelation *msgflags)
+			       MsgInfoList *msglist, GHashTable *msgflags)
 {
 	MsgInfoList	*elem;
 	MsgInfo		*msginfo;
@@ -1305,7 +1305,7 @@ static gint maildir_get_flags (Folder *folder,  FolderItem *item,
 
 		flags = flags | (msginfo->flags.perm_flags & 
 			~(MSG_MARKED | MSG_FORWARDED | MSG_REPLIED | MSG_UNREAD | ((flags & MSG_UNREAD) == 0 ? MSG_NEW : 0)));
-		g_relation_insert(msgflags, msginfo, GINT_TO_POINTER(flags));
+		g_hash_table_insert(msgflags, msginfo, GINT_TO_POINTER(flags));
 
 		uiddb_free_msgdata(msgdata);
 	}
