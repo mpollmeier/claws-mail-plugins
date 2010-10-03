@@ -492,7 +492,7 @@ static MsgInfo *rssyl_get_msginfo(Folder *folder, FolderItem *item, gint num)
 }
 
 static gint rssyl_add_msgs(Folder *folder, FolderItem *dest, GSList *file_list,
-		GRelation *relation)
+		GHashTable *relation)
 {
 	gchar *destfile;
 	GSList *cur;
@@ -521,7 +521,7 @@ static gint rssyl_add_msgs(Folder *folder, FolderItem *dest, GSList *file_list,
 		}
 
 		if( relation != NULL )
-			g_relation_insert(relation, fileinfo,
+			g_hash_table_insert(relation, fileinfo,
 					GINT_TO_POINTER(dest->last_num + 1) );
 		g_free(destfile);
 		dest->last_num++;
