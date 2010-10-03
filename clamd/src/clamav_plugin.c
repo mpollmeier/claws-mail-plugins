@@ -295,11 +295,18 @@ const gchar *plugin_desc(void)
 	       "When a message attachment is found to contain a virus it can be "
 	       "deleted or saved in a specially designated folder.\n"
 	       "\n"
-		   "Because this plugin communicates with clamd via a socket then "
-		   "there are some minimum requirements to the permissions for your "
-		   "home folder and the .claws-mail folder. All users at least need "
-		   "to be given execute permissions on these folders.\n"
-		   "\n"
+	       "Because this plugin communicates with clamd via a\n"
+	       "socket then there are some minimum requirements to\n"
+	       "the permissions for your home folder and the\n"
+	       ".claws-mail folder provided the clamav-daemon is\n"
+	       "configured to communicate via a unix socket. All\n"
+	       "users at least need to be given execute permissions\n"
+	       "on these folders.\n"
+	       "\n"
+	       "To avoid changing permissions you could configure\n"
+	       "the clamav-daemon to communicate via a TCP socket\n"
+	       "and choose manual configuration for clamd.\n" 
+	       "\n"
 	       "Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus");
 }
 

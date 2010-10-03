@@ -1,3 +1,11 @@
+2010-10-03 [michael]	3.4.0cvs10
+
+	* src/clamav_plugin.c
+	    Added info about using a TCP socket
+	    to communicate with clamav-daemon
+	    to avoid changing permissions on
+	    folders in the users home folder.
+
 2010-09-29 [michael]	3.4.0cvs9
 
 	* configure.ac
