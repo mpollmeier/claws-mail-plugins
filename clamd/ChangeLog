@@ -1,3 +1,8 @@
+2010-10-03 [michael]	3.4.0cvs12
+
+	* libclamd/clamd-plugin.c
+	    Fix SIGSEV when scan error in clamd_stream_scan
+
 2010-10-03 [michael]	3.4.0cvs11
 
 	* libclamd/clamd-plugin.c

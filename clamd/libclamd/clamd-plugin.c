@@ -471,6 +471,7 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 	gchar* command;
 	Clamd_Stat stat;
 
+	/*debug_set_mode(TRUE);*/
 	if (!result) {
 		result = malloc(sizeof(response *));
 		memset(result, '\0', sizeof(response *));
@@ -485,6 +486,8 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 		stat = clamd_stream_scan(result, path, (gchar *) &buf, BUFSIZ);
 		if (stat != OK) {
 			close_socket();
+			result->msg = g_strdup(buf);
+			/*debug_set_mode(FALSE);*/
 			return stat;
 		}
 	}
@@ -516,6 +519,7 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 		result->msg = NULL;
 	}
 	close_socket();
+	/*debug_set_mode(FALSE);*/
 
 	return stat;
 }
