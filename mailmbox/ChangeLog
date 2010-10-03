@@ -1,3 +1,10 @@
+2010-10-03 [colin]	1.14.4cvs1
+
+	* configure.ac
+	* src/mailmbox_folder.c
+	* src/plugin.c
+		Adapt to folder API changes of 3.7.6cvs53
+
 2008-05-01 [paul]	1.14.4
 
 	1.14.4 released

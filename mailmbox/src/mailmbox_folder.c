@@ -78,13 +78,13 @@ static gint claws_mailmbox_add_msg(Folder *folder, FolderItem *dest,
 
 static gint claws_mailmbox_add_msgs(Folder *folder, FolderItem *dest,
     GSList *file_list, 
-    GRelation *relation);
+    GHashTable *relation);
 
 static gint s_claws_mailmbox_copy_msg(Folder *folder,
     FolderItem *dest, MsgInfo *msginfo);
 
 static gint claws_mailmbox_copy_msgs(Folder *folder, FolderItem *dest, 
-    MsgInfoList *msglist, GRelation *relation);
+    MsgInfoList *msglist, GHashTable *relation);
 
 static gint claws_mailmbox_remove_msg(Folder *folder, FolderItem *item, gint num);
 
@@ -629,7 +629,7 @@ static gint claws_mailmbox_add_msg(Folder *folder, FolderItem *dest,
  
 static gint claws_mailmbox_add_msgs(Folder *folder, FolderItem *dest,
     GSList *file_list, 
-    GRelation *relation)
+    GHashTable *relation)
 { 
 	GSList *cur;
         gint last_num;
@@ -728,7 +728,7 @@ static gint claws_mailmbox_add_msgs(Folder *folder, FolderItem *dest,
                 msg = carray_get(mbox->mb_tab, carray_count(mbox->mb_tab) - 1);
 
                 if (relation != NULL)
-                        g_relation_insert(relation,
+                        g_hash_table_insert(relation,
                             fileinfo->msginfo != NULL ?
                             (gpointer) fileinfo->msginfo :
                             (gpointer) fileinfo,
@@ -772,7 +772,7 @@ static gint s_claws_mailmbox_copy_msg(Folder *folder,
 }
 
 static gint claws_mailmbox_copy_msgs(Folder *folder, FolderItem *dest, 
-    MsgInfoList *msglist, GRelation *relation)
+    MsgInfoList *msglist, GHashTable *relation)
 {
 	MsgInfo *msginfo;
 	GSList *file_list;
