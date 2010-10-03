@@ -386,7 +386,7 @@ Clamd_Stat clamd_init(Clamd_Socket* config) {
 }
 
 static Clamd_Stat clamd_stream_scan(
-		response* result, const gchar* path, gchar* res, ssize_t size) {
+		const gchar* path, gchar** res, ssize_t size) {
 	int fd;
 	ssize_t count;
 	gchar buf[BUFSIZ];
@@ -394,16 +394,22 @@ static Clamd_Stat clamd_stream_scan(
 	int32_t chunk;
 	
 	debug_print("Scanning: %s\n", path);
+
+	memset(buf, '\0', sizeof(buf));
+
+	if (! res || size < 1) {
+		return SCAN_ERROR;
+	}
+	if (! *res)
+		*res = g_new(gchar, size);
+	memset(*res, '\0', size);
+	
 	if (! g_file_test(path, G_FILE_TEST_EXISTS)) {
-		result->msg = g_strdup_printf(_("%s: File does not exist"), path);
+		*res = g_strconcat("ERROR -> ", path, _(": File does not exist"), NULL);
+		debug_print("res: %s\n", *res);
 		return SCAN_ERROR;
 	}
 
-	if (! res || size < 1) {
-		result->msg = g_strdup_printf(_("No buffer or buffer to small"));
-		return SCAN_ERROR;
-	}
-	
 #ifdef _LARGE_FILES
 	fd = open(path, O_RDONLY, O_LARGEFILE);
 #else
@@ -412,8 +418,7 @@ static Clamd_Stat clamd_stream_scan(
 
 	if (fd < 0) {
 		/*g_error("%s: Unable to open", path);*/
-		alertpanel_error(_("%s: Unable to open"), path);
-		result->msg = NULL;
+		*res = g_strconcat("ERROR -> ", path, _(": Unable to open"), NULL);
 		return SCAN_ERROR;
 	}
 	
@@ -423,12 +428,10 @@ static Clamd_Stat clamd_stream_scan(
 		return NO_CONNECTION;
 	}
 
-	memset(buf, '\0', sizeof(buf));
-
 	while ((count = read(fd, (void *) buf, sizeof(buf))) > 0) {
 		if (count == -1) {
 			close(fd);
-			result->msg = g_strdup_printf(_("%s: Error reading"), path);
+			*res = g_strconcat("ERROR -> ", path, _("%s: Error reading"), NULL);
 			return SCAN_ERROR;
 		}
 		if (buf[strlen(buf) - 1] == '\n')
@@ -439,12 +442,12 @@ static Clamd_Stat clamd_stream_scan(
 		chunk = htonl(count);
 		if (write(sock, &chunk, 4) == -1) {
 			close(fd);
-			result->msg = g_strdup(_("Socket write error"));
+			*res = g_strconcat("ERROR -> ", _("Socket write error"), NULL);
 			return SCAN_ERROR;
 		}
 		if (write(sock, buf, count) == -1) {
 			close(fd);
-			result->msg = g_strdup(_("Socket write error"));
+			*res = g_strconcat("ERROR -> ", _("Socket write error"), NULL);
 			return SCAN_ERROR;
 		}
 		memset(buf, '\0', sizeof(buf));
@@ -453,20 +456,17 @@ static Clamd_Stat clamd_stream_scan(
 	
 	chunk = htonl(0);
 	if (write(sock, &chunk, 4) == -1) {
-		result->msg = g_strdup(_("Socket write error"));
+		*res = g_strconcat("ERROR -> ", _("Socket write error"), NULL);
 		return SCAN_ERROR;
 	}
 	
-	memset(res, '\0', size);
-	n_read = read(sock, res, size);
+	debug_print("reading from socket\n");
+	n_read = read(sock, *res, size);
 	if (n_read < 0) {
-		result->msg = g_strdup(_("Socket read error"));
+		*res = g_strconcat("ERROR -> ", _("Socket read error"), NULL);
 		return SCAN_ERROR;
 	}
-	debug_print("received: %d bytes\n", n_read);
-	if (res[size - 1] == '\n')
-			res[size - 1] = '\0';
-		
+	debug_print("received: %s\n", *res);
 	return OK;
 }
 
@@ -488,13 +488,19 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 	}
 	memset(buf, '\0', sizeof(buf));
 	if (Socket->type == INET_SOCKET) {
-		stat = clamd_stream_scan(result, path, (gchar *) &buf, BUFSIZ);
+		gchar* tmp = g_new0(gchar, BUFSIZ);
+		stat = clamd_stream_scan(path, &tmp, BUFSIZ);
 		if (stat != OK) {
 			close_socket();
-			/*result->msg = g_strdup(buf);*/
+			result->msg = g_strdup(tmp);
+			g_free(tmp);
+			debug_print("result: %s\n", result->msg);
 			/*debug_set_mode(FALSE);*/
 			return stat;
 		}
+		debug_print("copy to buf: %s\n", tmp);
+		memcpy(&buf, tmp, BUFSIZ);
+		g_free(tmp);
 	}
 	else {
 		command = g_strconcat(scan, " ", path, "\n", NULL);
