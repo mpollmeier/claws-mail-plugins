@@ -1,3 +1,9 @@
+2010-10-03 [michael]	3.4.0cvs13
+
+	* libclamd/clamd-plugin.c
+	    Fix some more potential SIGSEV
+	    Add missing i18n strings
+
 2010-10-03 [michael]	3.4.0cvs12
 
 	* libclamd/clamd-plugin.c

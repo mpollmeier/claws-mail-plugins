@@ -395,12 +395,12 @@ static Clamd_Stat clamd_stream_scan(
 	
 	debug_print("Scanning: %s\n", path);
 	if (! g_file_test(path, G_FILE_TEST_EXISTS)) {
-		result->msg = g_strdup_printf("%s: File does not exist", path);
+		result->msg = g_strdup_printf(_("%s: File does not exist"), path);
 		return SCAN_ERROR;
 	}
 
 	if (! res || size < 1) {
-		result->msg = g_strdup_printf("No buffer or buffer to small");
+		result->msg = g_strdup_printf(_("No buffer or buffer to small"));
 		return SCAN_ERROR;
 	}
 	
@@ -413,6 +413,7 @@ static Clamd_Stat clamd_stream_scan(
 	if (fd < 0) {
 		/*g_error("%s: Unable to open", path);*/
 		alertpanel_error(_("%s: Unable to open"), path);
+		result->msg = NULL;
 		return SCAN_ERROR;
 	}
 	
@@ -427,7 +428,7 @@ static Clamd_Stat clamd_stream_scan(
 	while ((count = read(fd, (void *) buf, sizeof(buf))) > 0) {
 		if (count == -1) {
 			close(fd);
-			result->msg = g_strdup_printf("%s: Error reading", path);
+			result->msg = g_strdup_printf(_("%s: Error reading"), path);
 			return SCAN_ERROR;
 		}
 		if (buf[strlen(buf) - 1] == '\n')
@@ -438,10 +439,12 @@ static Clamd_Stat clamd_stream_scan(
 		chunk = htonl(count);
 		if (write(sock, &chunk, 4) == -1) {
 			close(fd);
+			result->msg = g_strdup(_("Socket write error"));
 			return SCAN_ERROR;
 		}
 		if (write(sock, buf, count) == -1) {
 			close(fd);
+			result->msg = g_strdup(_("Socket write error"));
 			return SCAN_ERROR;
 		}
 		memset(buf, '\0', sizeof(buf));
@@ -450,12 +453,14 @@ static Clamd_Stat clamd_stream_scan(
 	
 	chunk = htonl(0);
 	if (write(sock, &chunk, 4) == -1) {
+		result->msg = g_strdup(_("Socket write error"));
 		return SCAN_ERROR;
 	}
 	
 	memset(res, '\0', size);
 	n_read = read(sock, res, size);
 	if (n_read < 0) {
+		result->msg = g_strdup(_("Socket read error"));
 		return SCAN_ERROR;
 	}
 	debug_print("received: %d bytes\n", n_read);
@@ -486,7 +491,7 @@ Clamd_Stat clamd_verify_email(const gchar* path, response* result) {
 		stat = clamd_stream_scan(result, path, (gchar *) &buf, BUFSIZ);
 		if (stat != OK) {
 			close_socket();
-			result->msg = g_strdup(buf);
+			/*result->msg = g_strdup(buf);*/
 			/*debug_set_mode(FALSE);*/
 			return stat;
 		}
