@@ -1,3 +1,9 @@
+2010-10-06 [michael]	3.4.0cvs15
+
+	* libclamd/clamd-plugin.c
+	    Fix possible error it automatic configuration
+	    when using TCP socket
+
 2010-10-03 [michael]	3.4.0cvs14
 
 	* libclamd/clamd-plugin.c

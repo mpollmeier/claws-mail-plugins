@@ -150,16 +150,28 @@ void clamd_create_config_automatic(const gchar* path) {
 				}
 				else if (strcmp(clamd_tokens[1], token) == 0) {
 					/* INET socket */
-					Socket = (Clamd_Socket *) malloc(sizeof(Clamd_Socket *));
-					if (Socket) {
-						Socket->socket.path = NULL;
-						Socket->socket.host = NULL;
-						Socket->socket.port = -1;
+					if (! Socket) {
+						Socket = (Clamd_Socket *) malloc(sizeof(Clamd_Socket *));
+						if (Socket) {
+							Socket->socket.path = NULL;
+							Socket->socket.host = NULL;
+							Socket->socket.port = -1;
+							Socket->type = INET_SOCKET;
+							Socket->socket.port = atoi(value);
+							Socket->socket.host = g_strdup("localhost");
+							g_free(value);
+							value = NULL;
+							debug_print("clamctl: %s:%d\n", 
+								Socket->socket.host, Socket->socket.port);
+						}
+					}
+					else {
 						Socket->type = INET_SOCKET;
 						Socket->socket.port = atoi(value);
-						Socket->socket.host = g_strdup("localhost");
 						g_free(value);
 						value = NULL;
+						if (! Socket->socket.host)
+							Socket->socket.host = g_strdup("localhost");
 						debug_print("clamctl: %s:%d\n", 
 							Socket->socket.host, Socket->socket.port);
 					}
