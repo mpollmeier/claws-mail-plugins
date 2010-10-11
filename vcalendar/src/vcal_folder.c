@@ -1474,7 +1474,7 @@ struct CBuf {
 	gchar *str;
 };
 
-static int curl_recv(void *buf, size_t size, size_t nmemb, void *stream)
+static size_t curl_recv(void *buf, size_t size, size_t nmemb, void *stream)
 {
 	struct CBuf *buffer = (struct CBuf *)stream;
 	gchar *tmp = NULL;
