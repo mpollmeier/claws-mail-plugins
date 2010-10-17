@@ -196,3 +196,4 @@
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/rssyl_cb_gtk.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/rssyl_cb_gtk.h;  cvs diff -u -r 1.1.2.29 -r 1.1.2.30 src/rssyl_gtk.c;  ) > 0.27.0cvs8.patchset
 ( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/rssyl_cb_gtk.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/rssyl_cb_gtk.h;  cvs diff -u -r 1.1.2.30 -r 1.1.2.31 src/rssyl_gtk.c;  ) > 0.27.0cvs9.patchset
 ( cvs diff -u -r 1.1.2.268 -r 1.1.2.269 configure.ac;  cvs diff -u -r 1.1.2.28 -r 1.1.2.29 src/plugin.c;  cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/rssyl.c;  ) > 0.27.0cvs10.patchset
+( cvs diff -u -r 1.1.2.31 -r 1.1.2.32 src/rssyl_gtk.c;  ) > 0.27.0cvs11.patchset

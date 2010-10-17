@@ -482,7 +482,7 @@ static RSSylFeedProp *rssyl_gtk_prop_real(RSSylFolderItem *ritem)
 	/* OK button */
 	ok_button = gtk_button_new();
 	gtk_container_add(GTK_CONTAINER(bbox), ok_button);
-	GTK_WIDGET_SET_FLAGS(ok_button, GTK_CAN_DEFAULT );
+	gtkut_widget_set_can_default(ok_button, TRUE);
 
 	ok_align = gtk_alignment_new(0.5, 0.5, 0, 0);
 	gtk_container_add(GTK_CONTAINER(ok_button), ok_align);
@@ -629,7 +629,6 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 	dialog = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Unsubscribe feed"));
 	gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 
 	vbox = GTK_DIALOG(dialog)->vbox;
 
@@ -670,8 +669,8 @@ GtkWidget *rssyl_feed_removal_dialog(gchar *name, GtkWidget **rmcache_widget)
 
 	bno = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), bno, GTK_RESPONSE_NO);
-	GTK_WIDGET_SET_FLAGS(bno, GTK_CAN_DEFAULT);
-
+	gtkut_widget_set_can_default(bno, TRUE);
+	
 	byes = gtk_button_new_with_mnemonic(_("_Unsubscribe"));
 	gtk_dialog_add_action_widget(GTK_DIALOG(dialog), byes, GTK_RESPONSE_YES);
 
