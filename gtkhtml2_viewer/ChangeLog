@@ -1,3 +1,8 @@
+2010-10-18 [colin]	0.27.0cvs2
+
+	* libgtkhtml/layout/html/htmlboxembeddedentry.c
+		Undeprecate
+
 2010-05-04 [colin]	0.27.0cvs1
 
 	* src/claws.def

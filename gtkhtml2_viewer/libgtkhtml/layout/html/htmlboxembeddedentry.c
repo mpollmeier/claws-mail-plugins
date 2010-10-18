@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include "dom/html/dom-htmlinputelement.h"
 #include "layout/html/htmlboxembeddedentry.h"
+#include "gtk/gtkutils.h"
 
 static HtmlBoxClass *parent_class = NULL;
 
@@ -152,7 +153,7 @@ html_box_embedded_entry_new (HtmlView *view, HtmlBoxEmbeddedEntryType type)
 	html_box_embedded_set_view (HTML_BOX_EMBEDDED (result), view);
 	html_box_embedded_set_descent (HTML_BOX_EMBEDDED (result), 4);
 	html_box_embedded_set_widget (HTML_BOX_EMBEDDED (result), gtk_entry_new ());
-	GTK_WIDGET_SET_FLAGS(HTML_BOX_EMBEDDED (result)->widget, GTK_CAN_FOCUS);
+	gtkut_widget_set_can_focus(HTML_BOX_EMBEDDED (result)->widget, TRUE);
 
 	if (type == HTML_BOX_EMBEDDED_ENTRY_TYPE_PASSWORD)
 		gtk_entry_set_visibility (GTK_ENTRY(HTML_BOX_EMBEDDED (result)->widget), FALSE);
