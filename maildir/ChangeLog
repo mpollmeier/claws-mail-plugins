@@ -1,3 +1,8 @@
+2010-10-18 [colin]	0.24.4cvs17
+
+	* src/plugin.c
+		Fix warnings
+
 2010-10-03 [colin]	0.24.4cvs16
 
 	* configure.ac

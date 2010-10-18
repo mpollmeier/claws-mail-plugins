@@ -27,6 +27,7 @@
 
 #include "pluginconfig.h"
 #include "maildir.h"
+#include "maildir_gtk.h"
 #include "uiddb.h"
 #include "plugin.h"
 
