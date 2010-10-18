@@ -234,3 +234,4 @@
 ( cvs diff -u -r 1.1.2.17 -r 1.1.2.18 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/nl.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/sk.po;  ) > 2.0.7cvs1.patchset
 ( cvs diff -u -r 1.2.2.110 -r 1.2.2.111 src/vcal_folder.c;  cvs diff -u -r 1.2.2.89 -r 1.2.2.90 src/vcalendar.c;  ) > 2.0.8cvs1.patchset
 ( cvs diff -u -r 1.2.2.111 -r 1.2.2.112 src/vcal_folder.c;  ) > 2.0.8cvs2.patchset
+( cvs diff -u -r 1.1.2.22 -r 1.1.2.23 src/month-view.c;  ) > 2.0.8cvs3.patchset

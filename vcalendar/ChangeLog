@@ -1,3 +1,8 @@
+2010-10-18 [colin]	2.0.8cvs3
+
+	* src/month-view.c
+		Fix warnings
+
 2010-10-11 [colin]	2.0.8cvs2
 
 	* src/vcal_folder.c

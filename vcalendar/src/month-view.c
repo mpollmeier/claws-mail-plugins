@@ -816,7 +816,7 @@ static void build_month_view_table(month_win *mw)
     gint days;   /* number of days to show */
     int year, month, day;
     gint i = 0;
-    GtkWidget *label, *button;
+    GtkWidget *button;
     struct tm tm_date, tm_today;
     guint monthdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     GtkWidget *vp;
