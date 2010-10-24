@@ -3083,7 +3083,7 @@ html_view_abstract_view_init (DomAbstractViewIface *iface)
 static void
 html_view_init (HtmlView *view)
 {
-	GTK_WIDGET_SET_FLAGS (view, GTK_CAN_FOCUS);
+	gtkut_widget_set_can_focus(GTK_WIDGET(view), TRUE);
 	  
 	view->node_table = g_hash_table_new (g_direct_hash, g_direct_equal);
 	view->document = NULL;
