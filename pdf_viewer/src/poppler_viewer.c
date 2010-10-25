@@ -1421,9 +1421,13 @@ static void button_set_pixmap(GtkWidget *widg, char **button_image)
 {
 	GdkPixmap *pixmap;
 	GdkBitmap *mask;
+	GtkStyle *style;
 
-	pixmap = mask = NULL;
-	PIXMAP_CREATE(mainwindow_get_mainwindow()->window, pixmap, mask, button_image);
+	pixmap = mask = style = NULL;
+	gtk_widget_get_style(mainwindow_get_mainwindow()->window);
+		pixmap = gdk_pixmap_create_from_xpm_d
+			(mainwindow_get_mainwindow()->window->window, &mask,
+			 &style->bg[GTK_STATE_NORMAL], button_image);
 	gtk_container_add(GTK_CONTAINER(widg), 
 	gtk_image_new_from_pixmap(pixmap, mask));
 	gtk_widget_show_all(widg);

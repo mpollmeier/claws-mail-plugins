@@ -1,3 +1,9 @@
+2010-10-25 [wwp]	0.9.1cvs12
+
+	* src/poppler_viewer.c
+		Fix undefined PIXMAP_CREATE since 3.7.6cvs56, use the
+		definition as it was in gtkutil.c.
+
 2010-04-30 [paul]	0.9.1cvs11
 
 	* po/fi.po
