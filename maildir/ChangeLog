@@ -1,3 +1,8 @@
+2010-10-26 [colin]	0.24.4cvs18
+
+	* src/maildir_gtk.c
+		Fix copy/paste error
+
 2010-10-18 [colin]	0.24.4cvs17
 
 	* src/plugin.c
