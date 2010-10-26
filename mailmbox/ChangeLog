@@ -1,3 +1,8 @@
+2010-10-26 [colin]	1.14.4cvs2
+
+	* src/plugin_gtk.c
+		Fix copy-paste error.
+
 2010-10-03 [colin]	1.14.4cvs1
 
 	* configure.ac
