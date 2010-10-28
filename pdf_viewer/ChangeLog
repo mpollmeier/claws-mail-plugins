@@ -1,3 +1,8 @@
+2010-10-28 [wwp]	0.9.1cvs13
+
+	* src/poppler_viewer.c
+		Fix crash I gently introduced with 0.9.1cvs12 ;-).
+
 2010-10-25 [wwp]	0.9.1cvs12
 
 	* src/poppler_viewer.c
