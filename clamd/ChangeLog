@@ -1,3 +1,10 @@
+2010-10-31 [paul]	3.4.0cvs16
+
+	* Makefile.in
+	* libclamd/Makefile.in
+	* src/Makefile.in
+		remove auto-generated files
+
 2010-10-06 [michael]	3.4.0cvs15
 
 	* libclamd/clamd-plugin.c
