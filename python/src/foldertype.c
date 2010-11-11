@@ -30,6 +30,7 @@ typedef struct {
     PyObject_HEAD
     PyObject *name;
     PyObject *path;
+    PyObject *mailbox_name;
     FolderItem *folderitem;
 } clawsmail_FolderObject;
 
@@ -38,6 +39,7 @@ static void Folder_dealloc(clawsmail_FolderObject* self)
 {
   Py_XDECREF(self->name);
   Py_XDECREF(self->path);
+  Py_XDECREF(self->mailbox_name);
   self->ob_type->tp_free((PyObject*)self);
 }
 
@@ -72,6 +74,9 @@ static int Folder_init(clawsmail_FolderObject *self, PyObject *args, PyObject *k
   Py_INCREF(Py_None);
   self->path = Py_None;
 
+  Py_INCREF(Py_None);
+  self->mailbox_name = Py_None;
+
   if(ss) {
     if(create == 0) {
       folderitem = folder_find_item_from_identifier(ss);
@@ -92,6 +97,7 @@ static int Folder_init(clawsmail_FolderObject *self, PyObject *args, PyObject *k
   if(folderitem) {
     FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(self, folderitem->name, "name");
     FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(self, folderitem->path, "path");
+    FOLDERITEM_STRING_TO_PYTHON_FOLDER_MEMBER(self, folderitem->folder->name, "mailbox_name");
     self->folderitem = folderitem;
   }
 
@@ -167,6 +173,9 @@ static PyMemberDef Folder_members[] = {
   {"path", T_OBJECT_EX, offsetof(clawsmail_FolderObject, path), 0,
    "path - path of folder"},
   
+  {"mailbox_name", T_OBJECT_EX, offsetof(clawsmail_FolderObject, mailbox_name), 0,
+   "mailbox_name - name of the corresponding mailbox"},
+
   {NULL}
 };
 

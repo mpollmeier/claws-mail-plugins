@@ -1,3 +1,8 @@
+2010-11-11 [holger]	0.4cvs7
+
+	* src/foldertype.c
+		Add information about mailbox name to folder
+
 2010-08-30 [ticho]	0.4cvs6
 
 	* src/python_plugin.c
