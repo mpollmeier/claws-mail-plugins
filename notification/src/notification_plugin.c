@@ -103,6 +103,7 @@ static gboolean my_account_list_changed_hook(gpointer source,
 #ifdef NOTIFICATION_TRAYICON
   notification_update_msg_counts(NULL);
   retVal = notification_trayicon_account_list_changed(source, data);
+
 #endif
   return retVal;
 }
@@ -346,7 +347,6 @@ gint plugin_init(gchar **error)
     main_set_show_at_startup(FALSE);
   }
 #endif
-
   my_account_list_changed_hook(NULL,NULL);
 
   if(notify_config.urgency_hint_new || notify_config.urgency_hint_unread)

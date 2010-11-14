@@ -1,3 +1,10 @@
+2010-11-14 [holger]	0.25cvs5
+
+	* configure.ac
+	* src/notification_core.c
+	* src/notification_plugin.c
+		Don't disable deprecated symbols
+
 2010-08-30 [ticho]	0.25cvs4
 
 	* src/notification_popup.c

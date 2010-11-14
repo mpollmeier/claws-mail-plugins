@@ -112,7 +112,6 @@ void notification_update_msg_counts(FolderItem *removed_item)
   }
   msg_count_clear(&msg_count);
   g_hash_table_foreach(msg_count_hash, msg_count_update_from_hash, NULL);
-
 #ifdef NOTIFICATION_LCDPROC
   notification_update_lcdproc();
 #endif
