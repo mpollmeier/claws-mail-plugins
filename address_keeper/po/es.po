@@ -1,0 +1,70 @@
+# Spanish translation for Address Keeper plugin.
+# Copyright (C) 2010 Ricardo Mones
+# This file is distributed under the same license as the Address Keeper plugin.
+# Ricardo Mones <ricardo@mones.org>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: address_keeper\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2010-11-11 00:25+0100\n"
+"PO-Revision-Date: 2010-11-10 00:33+0100\n"
+"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
+"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/address_keeper.c:199
+msgid "Failed to register check before send hook"
+msgstr "Falló el registro de la función de comprobar antes de enviar"
+
+#: src/address_keeper.c:239
+msgid "Keeps all recipient addresses in an addressbook folder."
+msgstr ""
+"Mantiene todas las direcciones de destinatarios en una carpeta de la agenda."
+
+#: src/address_keeper.c:280 src/address_keeper_prefs.c:192
+msgid "Address Keeper"
+msgstr "Guardián de direcciones"
+
+#: src/address_keeper_prefs.c:90
+msgid "Keep to folder"
+msgstr "Guardar en carpeta"
+
+#: src/address_keeper_prefs.c:98
+msgid "Address book path where addresses are kept"
+msgstr "Ruta en la agenda donde se guardarán las direcciones"
+
+#: src/address_keeper_prefs.c:100
+msgid "Select..."
+msgstr "Seleccionar..."
+
+#: src/address_keeper_prefs.c:111
+msgid "Keep 'To' addresses"
+msgstr "Guardar direcciones de «Para»"
+
+#: src/address_keeper_prefs.c:115
+msgid "Keep addresses which appear in 'To' headers"
+msgstr "Guardar las direcciones que aparezcan en cabeceras «Para»"
+
+#: src/address_keeper_prefs.c:121
+msgid "Keep 'Cc' addresses"
+msgstr "Guardar direcciones de «Cc»"
+
+#: src/address_keeper_prefs.c:125
+msgid "Keep addresses which appear in 'Cc' headers"
+msgstr "Guardar las direcciones que aparezcan en cabeceras «Cc»"
+
+#: src/address_keeper_prefs.c:131
+msgid "Keep 'Bcc' addresses"
+msgstr "Guardar direcciones de «Bcc»"
+
+#: src/address_keeper_prefs.c:135
+msgid "Keep addresses which appear in 'Bcc' headers"
+msgstr "Guardar las direcciones que aparezcan en cabeceras «Bcc»"
+
+#: src/address_keeper_prefs.c:191
+msgid "Plugins"
+msgstr "Módulos"

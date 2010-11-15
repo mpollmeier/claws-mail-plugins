@@ -1,0 +1,10 @@
+Address Keeper: never forget a typed address
+--------------------------------------------
+
+This plugin allows saving outgoing addresses to a designated folder
+in the address book. Addresses are saved only if not found in the
+address book to avoid unwanted duplicates.
+
+Selecting which headers are scanned for keeping addresses is also
+supported (Any or several of 'To', 'Cc' or 'Bcc').
+
