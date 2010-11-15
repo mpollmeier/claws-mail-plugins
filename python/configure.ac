@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=0
-EXTRA_VERSION=8
+EXTRA_VERSION=9
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -53,9 +53,9 @@ if test x"$_gcc_psign" = xyes ; then
 fi
 
 CFLAGS="$CFLAGS -Wall"
-if test $USE_MAINTAINER_MODE = yes; then
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
-fi
+dnl if test $USE_MAINTAINER_MODE = yes; then
+dnl 	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
+dnl fi
 
 ALL_LINGUAS="ca cs es fi hu id ja nl pt_BR sk"
 
@@ -95,7 +95,7 @@ AC_SUBST(GLIB_LIBS)
 dnl Check for GTK+
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
 
-dnl Stolen from gtkparasite
+dnl Python and PyGTK
 AM_PATH_PYTHON([2.5], [
     AC_PATH_PROG(PYTHON_CONFIG, python$PYTHON_VERSION-config)
     if test x"$PYTHON_CONFIG" = x"" ; then
@@ -104,30 +104,26 @@ AM_PATH_PYTHON([2.5], [
     if test x"$PYTHON_CONFIG" != x""; then
         PYTHON_CFLAGS=`$PYTHON_CONFIG --includes`
         PYTHON_LIBS=`$PYTHON_CONFIG --libs`
+        PYTHON_PREFIX=`$PYTHON_CONFIG --prefix`
     else
-        PYTHON_CFLAGS=`$PYTHON $srcdir/python-config.py --includes`
-        PYTHON_LIBS=`$PYTHON $srcdir/python-config.py --libs`
+	   AC_MSG_ERROR(python-config not found. Maybe you need to install development packages for Python.)
     fi
 
-    # Kind of a hacky way to get this, but that's alright..
+    # libpython.so
     PYTHON_SHARED_LIB="libpython${PYTHON_VERSION}.so"
-    AC_SUBST(PYTHON_SHARED_LIB)
+	if test ! -f "$PYTHON_PREFIX/lib/$PYTHON_SHARED_LIB"; then
+	   AC_MSG_ERROR(Could not find Python shared libary: $PYTHON_SHARED_LIB does not exist. Maybe you need to install development packages for Python.)
+	fi
 
+	# PyGTK
     PKG_CHECK_MODULES(PYGTK,
                       [pygtk-2.0 >= 2.10.3],
                       [
-                        has_pygtk=yes
                         AC_DEFINE(ENABLE_PYTHON, [1], [Enable Python support])
-                      ],
-                      [has_pygtk=no])
-], [has_python=no])
+                      ])
+])
 
-AM_CONDITIONAL(ENABLE_PYTHON, [test x"$has_pygtk" = x"yes"])
-
-if test x"$has_pygtk" != x"yes"; then
-   AC_MSG_ERROR(PyGTK not found or not recent enough.)
-fi
-
+AC_SUBST(PYTHON_SHARED_LIB)
 AC_SUBST(PYTHON_CFLAGS)
 AC_SUBST(PYTHON_LIBS)
 AC_SUBST(PYGTK_CFLAGS)

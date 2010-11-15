@@ -1,3 +1,8 @@
+2010-11-15 [holger]	0.4cvs9
+
+	* configure.ac
+		Make test for Python more rigorous
+
 2010-11-15 [holger]	0.4cvs8
 
 	* examples/README.examples
