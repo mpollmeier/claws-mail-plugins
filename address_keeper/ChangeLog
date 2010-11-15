@@ -1,3 +1,8 @@
+2010-11-15 [wwp]	1.0.0cvs2
+
+	* po/.cvsignore
+		Add one .cvsignore filter more.
+
 2010-11-15 [wwp]	1.0.0cvs1
 
 	* .cvsignore

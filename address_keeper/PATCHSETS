@@ -1,1 +1,2 @@
 ( diff -u /dev/null .cvsignore;  diff -u /dev/null config/.cvsignore;  diff -u /dev/null src/.cvsignore;  ) > 1.0.0cvs1.patchset
+( diff -u /dev/null po/.cvsignore;  ) > 1.0.0cvs2.patchset
