@@ -178,7 +178,13 @@ static void addkeeper_prefs_save_func(PrefsPage * _page)
 	struct AddressKeeperPrefsPage *page = (struct AddressKeeperPrefsPage *) _page;
 	gchar *text;
 	text = gtk_entry_get_text(GTK_ENTRY(page->addressbook_folder));
-	addkeeperprefs.addressbook_folder = g_strdup(text);	
+	addkeeperprefs.addressbook_folder = g_strdup(text);
+	addkeeperprefs.keep_to_addrs = gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->keep_to_addrs_check));
+	addkeeperprefs.keep_cc_addrs = gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->keep_cc_addrs_check));
+	addkeeperprefs.keep_bcc_addrs = gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(page->keep_bcc_addrs_check));
 	addkeeper_save_config();
 }
 
