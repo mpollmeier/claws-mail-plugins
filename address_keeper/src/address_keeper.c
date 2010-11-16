@@ -37,15 +37,20 @@ static guint hook_id;
  */
 const gchar *get_name_from_addr(const gchar *addr)
 {
+	gchar *name = NULL;
+
 	if (addr == NULL || *addr == '\0')
 		return NULL;
-	gchar *name = strchr(addr, '@');
+	name = strchr(addr, '@');
+	if (name == NULL)
+		return NULL;
 	--name;
 	while (name >= addr && !g_ascii_isspace(*name)) --name;
 	while (name >= addr && g_ascii_isspace(*name)) --name;
-	if (name > addr) 
+	if (name > addr) {
 		++name; /* recover non-space char */
 		return g_strndup(addr, name - addr);
+	}
 	return NULL;
 }
 
@@ -57,9 +62,13 @@ const gchar *get_name_from_addr(const gchar *addr)
  */
 const gchar *get_comment_from_addr(const gchar *addr)
 {
+	gchar *comm = NULL;
+
 	if (addr == NULL || *addr == '\0')
 		return NULL;
-	gchar *comm = strchr(addr, '@');
+	comm = strchr(addr, '@');
+	if (comm == NULL)
+		return NULL;
 	++comm;
 	while (*comm && !g_ascii_isspace(*comm)) ++comm;
 	while (*comm && g_ascii_isspace(*comm)) ++comm;
@@ -77,16 +86,19 @@ const gchar *get_comment_from_addr(const gchar *addr)
  */
 void keep_if_unknown(AddressBookFile * abf, ItemFolder * folder, gchar *addr)
 {
+	gchar *clean_addr = NULL;
 	gchar *keepto = addkeeperprefs.addressbook_folder;
 
 	debug_print("checking addr '%s'\n", addr);
-	gchar *clean_addr = g_strdup(addr);
+	clean_addr = g_strdup(addr);
 	extract_address(clean_addr);
 	if (complete_matches_found(clean_addr) == 0) {
+		gchar *a_name;
+		gchar *a_comment;
 		debug_print("adding addr '%s' to addressbook '%s'\n",
 			    clean_addr, keepto);
-		gchar *a_name = get_name_from_addr(addr);
-		gchar *a_comment = get_comment_from_addr(addr);
+		a_name = get_name_from_addr(addr);
+		a_comment = get_comment_from_addr(addr);
 		if (!addrbook_add_contact(abf, folder, a_name, clean_addr, a_comment)) {
 			g_warning("contact could not been added\n");
 		}
@@ -117,6 +129,9 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 	ItemFolder *folder = NULL;
 	gchar *keepto = addkeeperprefs.addressbook_folder;
 	GSList *cur;
+	gchar *to_hdr;
+	gchar *cc_hdr;
+	gchar *bcc_hdr;
 
 	debug_print("address_keeper invoked!\n");
 	if (compose->batch)
@@ -137,9 +152,9 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 	}
 	abf = book->rawDataSource;
 
-	gchar *to_hdr = prefs_common_translated_header_name("To:");
-	gchar *cc_hdr = prefs_common_translated_header_name("Cc:");
-	gchar *bcc_hdr = prefs_common_translated_header_name("Bcc:");
+	to_hdr = prefs_common_translated_header_name("To:");
+	cc_hdr = prefs_common_translated_header_name("Cc:");
+	bcc_hdr = prefs_common_translated_header_name("Bcc:");
 
 	for (cur = compose->header_list; cur != NULL; cur = cur->next) {
 		gchar *header;

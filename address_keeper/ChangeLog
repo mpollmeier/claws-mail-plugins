@@ -1,3 +1,10 @@
+2010-11-16 [mones]	1.0.0cvs3
+
+	* src/address_keeper.c
+		Fix crashes with nameless and invalid addresses
+		Fix declarations portability issues
+		Thanks wwp for hints and testing ;-)
+
 2010-11-15 [wwp]	1.0.0cvs2
 
 	* po/.cvsignore
