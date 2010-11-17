@@ -1,3 +1,11 @@
+2010-11-17 [pawel]	0.27.0cvs12
+
+	* commitHelper
+		- date(1) portability fix
+		- add my alias
+	* src/feed.c
+		- plug memleak
+
 2010-10-17 [colin]	0.27.0cvs11
 
 	* src/rssyl_gtk.c

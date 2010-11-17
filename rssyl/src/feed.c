@@ -1681,8 +1681,6 @@ FolderItem *rssyl_subscribe_new_feed(FolderItem *parent, const gchar *url,
 	g_return_val_if_fail(parent != NULL, NULL);
 	g_return_val_if_fail(url != NULL, NULL);
 
-	myurl = g_strdup(url);
-
 	if (!strncmp(url, "feed://", 7))
 		myurl = g_strdup(url+7);
 	else if (!strncmp(url, "feed:", 5))
