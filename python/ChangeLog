@@ -1,3 +1,9 @@
+2010-11-18 [holger]	0.4cvs10
+
+	* configure.ac
+		Also look in lib64 for libpython.so.
+		Thanks to Charles A Edwards for the hint
+
 2010-11-15 [holger]	0.4cvs9
 
 	* configure.ac

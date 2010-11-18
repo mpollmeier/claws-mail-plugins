@@ -56,3 +56,4 @@
 ( cvs diff -u -r 1.1.2.7 -r 1.1.2.8 src/foldertype.c;  ) > 0.4cvs7.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 examples/README.examples;  ) > 0.4cvs8.patchset
 ( cvs diff -u -r 1.1.2.72 -r 1.1.2.73 configure.ac;  ) > 0.4cvs9.patchset
+( cvs diff -u -r 1.1.2.73 -r 1.1.2.74 configure.ac;  ) > 0.4cvs10.patchset

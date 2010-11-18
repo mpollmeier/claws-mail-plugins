@@ -10,7 +10,7 @@ dnl plugin version
 MAJOR_VERSION=0
 MINOR_VERSION=4
 MICRO_VERSION=0
-EXTRA_VERSION=9
+EXTRA_VERSION=10
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
@@ -111,7 +111,14 @@ AM_PATH_PYTHON([2.5], [
 
     # libpython.so
     PYTHON_SHARED_LIB="libpython${PYTHON_VERSION}.so"
-	if test ! -f "$PYTHON_PREFIX/lib/$PYTHON_SHARED_LIB"; then
+	found_libpython_so="no"
+	if test -f "$PYTHON_PREFIX/lib/$PYTHON_SHARED_LIB"; then
+		found_libpython_so="yes"
+	fi
+	if test -f "$PYTHON_PREFIX/lib64/$PYTHON_SHARED_LIB"; then
+		found_libpython_so="yes"
+	fi
+	if test x"$found_libpython_so" != x"yes"; then
 	   AC_MSG_ERROR(Could not find Python shared libary: $PYTHON_SHARED_LIB does not exist. Maybe you need to install development packages for Python.)
 	fi
 
