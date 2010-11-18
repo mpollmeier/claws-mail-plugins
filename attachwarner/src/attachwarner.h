@@ -1,7 +1,7 @@
 /*
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2006 Hiroyuki Yamamoto and the Claws Mail Team
- * Copyright (C) 2006 Ricardo Mones
+ * Copyright (C) 1999-2010 Hiroyuki Yamamoto and the Claws Mail Team
+ * Copyright (C) 2006-2010 Ricardo Mones
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

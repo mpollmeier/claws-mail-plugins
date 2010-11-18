@@ -1,3 +1,12 @@
+2010-11-18 [mones]	0.2.19cvs1
+
+	* src/attachwarner.c
+	* src/attachwarner.h
+	* src/attachwarner_prefs.c
+	* src/attachwarner_prefs.h
+		Fix misplaced debug_print (thanks wwp for noticing)
+		Update copyright header's year ranges
+
 2010-05-01 [paul]	0.2.19
 
 	0.2.19 released

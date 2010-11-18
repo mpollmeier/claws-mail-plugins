@@ -1,7 +1,7 @@
 /*
  * Claws Mail -- a GTK+ based, lightweight, and fast e-mail client
- * Copyright (C) 1999-2007 Hiroyuki Yamamoto and the Claws Mail Team
- * Copyright (C) 2006-2007 Ricardo Mones
+ * Copyright (C) 1999-2010 Hiroyuki Yamamoto and the Claws Mail Team
+ * Copyright (C) 2006-2010 Ricardo Mones
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -262,12 +262,12 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 
 	askuser = (does_not_have_attachments(compose)
 		   && are_attachments_mentioned(compose));
-	debug_print("we should ask user\n");
 	if (askuser) { 
 		AlertValue aval;
 		gchar *button_label;
 		gchar *message;
 		
+		debug_print("user has to decide\n");
 		if (compose->sending)
 			button_label = _("+_Send");
 		else
