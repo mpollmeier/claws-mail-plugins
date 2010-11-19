@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: notification\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2010-04-25 17:20+0300\n"
-"PO-Revision-Date: 2010-04-25 17:51+0300\n"
+"POT-Creation-Date: 2010-11-15 00:23+0200\n"
+"PO-Revision-Date: 2010-11-15 00:37+0200\n"
 "Last-Translator: Flammie Pirinen <flammie@gentoo.org>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -48,7 +49,7 @@ msgstr "Yhteensä"
 msgid "No new messages"
 msgstr "Ei uusia viesti"
 
-#: src/notification_plugin.c:217 src/notification_plugin.c:419
+#: src/notification_plugin.c:218 src/notification_plugin.c:419
 #: src/notification_prefs.c:393 src/notification_prefs.c:407
 #: src/notification_prefs.c:425 src/notification_prefs.c:442
 #: src/notification_prefs.c:459 src/notification_prefs.c:476
@@ -56,41 +57,41 @@ msgstr "Ei uusia viesti"
 msgid "Notification"
 msgstr "Ilmoitus"
 
-#: src/notification_plugin.c:222
+#: src/notification_plugin.c:223
 msgid "The Notification plugin needs threading support."
 msgstr "Ilmoitusliitännäinen vaatii säietuen."
 
-#: src/notification_plugin.c:229
+#: src/notification_plugin.c:230
 msgid "Failed to register folder item update hook in the Notification plugin"
 msgstr "Päivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:237
+#: src/notification_plugin.c:238
 msgid "Failed to register folder update hook in the Notification plugin"
 msgstr "Kansiopäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:247
+#: src/notification_plugin.c:248
 msgid "Failed to register msginfo update hook in the Notification plugin"
 msgstr "Viesti-info-koukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:257
+#: src/notification_plugin.c:258
 msgid "Failed to register offline switch hook in the Notification plugin"
 msgstr "Yhteydettömyyskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:268
+#: src/notification_plugin.c:269
 msgid "Failed to register main window close hook in the Notification plugin"
 msgstr ""
 "Ikkunan sulkemsiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:281
+#: src/notification_plugin.c:282
 msgid "Failed to register got iconified hook in the Notification plugin"
 msgstr "Pienentymiskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:294
+#: src/notification_plugin.c:295
 msgid "Failed to register account list changed hook in the Notification plugin"
 msgstr ""
 "Tililistapäivityskoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
-#: src/notification_plugin.c:307
+#: src/notification_plugin.c:308
 msgid "Failed to register theme change hook int the Notification plugin"
 msgstr "Teemakoukun rekisteröinti ilmoitusliitännäiselle epäonnistui"
 
@@ -117,12 +118,12 @@ msgid "New Mail message"
 msgstr "Uusi viesti"
 
 #: src/notification_popup.c:306 src/notification_popup.c:603
-#: src/notification_trayicon.c:819
+#: src/notification_trayicon.c:831
 msgid "(No From)"
 msgstr "(Lähettäjä puuttuu)"
 
 #: src/notification_popup.c:308 src/notification_popup.c:607
-#: src/notification_trayicon.c:822
+#: src/notification_trayicon.c:834
 msgid "(No Subject)"
 msgstr "(Aihe puuttuu)"
 
@@ -138,7 +139,7 @@ msgstr "Uusi viesti saapuu"
 msgid "New Calendar message"
 msgstr "Uusi kalenteriviesti"
 
-#: src/notification_popup.c:330 src/notification_trayicon.c:840
+#: src/notification_popup.c:330 src/notification_trayicon.c:852
 msgid "A new calendar message arrived"
 msgstr "Uusi kalenteriviesti saapui"
 
@@ -146,7 +147,7 @@ msgstr "Uusi kalenteriviesti saapui"
 msgid "New RSS feed article"
 msgstr "Uusi RSS‐syöte"
 
-#: src/notification_popup.c:334 src/notification_trayicon.c:843
+#: src/notification_popup.c:334 src/notification_trayicon.c:855
 msgid "A new article in a RSS feed arrived"
 msgstr "Uusi RSS‐syöte saapui"
 
@@ -177,7 +178,7 @@ msgstr "Nyyssiviesti"
 msgid "Calendar message"
 msgstr "Kalenteriviesti"
 
-#: src/notification_popup.c:487 src/notification_trayicon.c:877
+#: src/notification_popup.c:487 src/notification_trayicon.c:889
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
@@ -463,6 +464,19 @@ msgstr "Rekisteröi Claws Mailiin"
 msgid "Enable global hotkeys"
 msgstr "Salli yleiset pikanäppäimet"
 
+#: src/notification_prefs.c:1887
+#, c-format
+msgid "Examples for hotkeys include <b>%s</b> and <b>%s</b>"
+msgstr "Esimerkkejä pikanäppäimistä: <b>%s</b> ja <b>%s</b>"
+
+#: src/notification_prefs.c:1887
+msgid "<control><shift>F11"
+msgstr "<Ctrl><Shift>F11"
+
+#: src/notification_prefs.c:1887
+msgid "<alt>N"
+msgstr "<Alt>N"
+
 #: src/notification_prefs.c:1898
 msgid "Toggle minimize:"
 msgstr "Muuta pienennystä:"
@@ -504,49 +518,49 @@ msgstr "Uusia %d, Lukematta: %d, Yhteensä: %d"
 msgid "Untitled"
 msgstr "Nimeämätön"
 
-#: src/notification_trayicon.c:491
+#: src/notification_trayicon.c:503
 msgid "Exit"
 msgstr "Poistu"
 
-#: src/notification_trayicon.c:491
+#: src/notification_trayicon.c:503
 msgid "Exit Claws Mail?"
 msgstr "Poistu Claws Mailista?"
 
-#: src/notification_trayicon.c:790
+#: src/notification_trayicon.c:802
 msgid "New mail message"
 msgstr "Uusi sähköpostiviesti"
 
-#: src/notification_trayicon.c:792
+#: src/notification_trayicon.c:804
 msgid "New news post"
 msgstr "Uusi nyyssiviesti"
 
-#: src/notification_trayicon.c:794
+#: src/notification_trayicon.c:806
 msgid "New calendar message"
 msgstr "Uusi kalenteriviesti"
 
-#: src/notification_trayicon.c:796
+#: src/notification_trayicon.c:808
 msgid "New article in RSS feed"
 msgstr "Uusi RSS‐syötteen viesti"
 
-#: src/notification_trayicon.c:799
+#: src/notification_trayicon.c:811
 msgid "New messages arrived"
 msgstr "Uusia viestejä saapui"
 
-#: src/notification_trayicon.c:855
+#: src/notification_trayicon.c:867
 #, c-format
 msgid "%d new mail message arrived"
 msgid_plural "%d new mail messages arrived"
 msgstr[0] "%d uusi sähköpostiviesti saapunut"
 msgstr[1] "%d uutta sähköpostiviestiä saapunut"
 
-#: src/notification_trayicon.c:866
+#: src/notification_trayicon.c:878
 #, c-format
 msgid "%d new news post arrived"
 msgid_plural "%d new news posts arrived"
 msgstr[0] "%d uusi nyyssiviesti saapunut"
 msgstr[1] "%d uutta nyyssiviestiä saapunut"
 
-#: src/notification_trayicon.c:888
+#: src/notification_trayicon.c:900
 #, c-format
 msgid "%d new article in RSS feeds arrived"
 msgid_plural "%d new articles in RSS feeds arrived"

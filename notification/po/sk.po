@@ -1,17 +1,19 @@
 # Slovak language file for notification_plugin
 # This file is distributed under the same license as the PACKAGE package.
 # Slavko <linux@slavino.sk>, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: notification_plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2010-04-24 08:56+0100\n"
-"PO-Revision-Date: 2010-04-24 12:16+0200\n"
+"POT-Creation-Date: 2010-11-12 09:51+0000\n"
+"PO-Revision-Date: 2010-11-12 17:31+0100\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
-"Language-Team: Slovenský <nomail>\n"
+"Language-Team: Slovak <nomail>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
@@ -131,12 +133,12 @@ msgid "New Mail message"
 msgstr "Nová správa"
 
 #: src/notification_popup.c:306 src/notification_popup.c:603
-#: src/notification_trayicon.c:819
+#: src/notification_trayicon.c:831
 msgid "(No From)"
 msgstr "(bez Odosielateľa)"
 
 #: src/notification_popup.c:308 src/notification_popup.c:607
-#: src/notification_trayicon.c:822
+#: src/notification_trayicon.c:834
 msgid "(No Subject)"
 msgstr "(bez Predmetu)"
 
@@ -152,7 +154,7 @@ msgstr "Prišla nová správa"
 msgid "New Calendar message"
 msgstr "Nová správa kalendára"
 
-#: src/notification_popup.c:330 src/notification_trayicon.c:840
+#: src/notification_popup.c:330 src/notification_trayicon.c:852
 msgid "A new calendar message arrived"
 msgstr "Prišla nová správa kalendára"
 
@@ -160,7 +162,7 @@ msgstr "Prišla nová správa kalendára"
 msgid "New RSS feed article"
 msgstr "Nový článok kanála RSS"
 
-#: src/notification_popup.c:334 src/notification_trayicon.c:843
+#: src/notification_popup.c:334 src/notification_trayicon.c:855
 msgid "A new article in a RSS feed arrived"
 msgstr "Prišiel nový článok kanála RSS"
 
@@ -192,7 +194,7 @@ msgstr "Správa News"
 msgid "Calendar message"
 msgstr "Správa kalendára"
 
-#: src/notification_popup.c:487 src/notification_trayicon.c:877
+#: src/notification_popup.c:487 src/notification_trayicon.c:889
 #, c-format
 msgid "%d new calendar message arrived"
 msgid_plural "%d new calendar messages arrived"
@@ -480,6 +482,19 @@ msgstr "Registrovať Claws Mail"
 msgid "Enable global hotkeys"
 msgstr "Povoliť globálne klávesové skratky"
 
+#: src/notification_prefs.c:1887
+#, c-format
+msgid "Examples for hotkeys include <b>%s</b> and <b>%s</b>"
+msgstr "Príklady klávesových skratiek zahŕňajú <b>%s</b> a <b>%s</b>"
+
+#: src/notification_prefs.c:1887
+msgid "<control><shift>F11"
+msgstr "<control><shift>F11"
+
+#: src/notification_prefs.c:1887
+msgid "<alt>N"
+msgstr "<alt>N"
+
 #: src/notification_prefs.c:1898
 msgid "Toggle minimize:"
 msgstr "Prepnúť minimalizované:"
@@ -521,35 +536,35 @@ msgstr "Nové %d, Neprečítané: %d, Celkom: %d"
 msgid "Untitled"
 msgstr "Nepomenované"
 
-#: src/notification_trayicon.c:491
+#: src/notification_trayicon.c:503
 msgid "Exit"
 msgstr "Skončiť"
 
-#: src/notification_trayicon.c:491
+#: src/notification_trayicon.c:503
 msgid "Exit Claws Mail?"
 msgstr "Skončiť Claws Mail?"
 
-#: src/notification_trayicon.c:790
+#: src/notification_trayicon.c:802
 msgid "New mail message"
 msgstr "Nová poštová správa"
 
-#: src/notification_trayicon.c:792
+#: src/notification_trayicon.c:804
 msgid "New news post"
 msgstr "Nová diskusná správa"
 
-#: src/notification_trayicon.c:794
+#: src/notification_trayicon.c:806
 msgid "New calendar message"
 msgstr "Nová správa kalendára"
 
-#: src/notification_trayicon.c:796
+#: src/notification_trayicon.c:808
 msgid "New article in RSS feed"
 msgstr "Nový článok kanála RSS"
 
-#: src/notification_trayicon.c:799
+#: src/notification_trayicon.c:811
 msgid "New messages arrived"
 msgstr "Prišla nová správa"
 
-#: src/notification_trayicon.c:855
+#: src/notification_trayicon.c:867
 #, c-format
 msgid "%d new mail message arrived"
 msgid_plural "%d new mail messages arrived"
@@ -557,7 +572,7 @@ msgstr[0] "Prišla %d nová poštová správa"
 msgstr[1] "Prišli %d nové poštové správy"
 msgstr[2] "Prišlo %d nových poštových správ"
 
-#: src/notification_trayicon.c:866
+#: src/notification_trayicon.c:878
 #, c-format
 msgid "%d new news post arrived"
 msgid_plural "%d new news posts arrived"
@@ -565,11 +580,10 @@ msgstr[0] "Prišla %d nová diskusná správa"
 msgstr[1] "Prišli %d nové diskusné správy"
 msgstr[2] "Prišlo %d nových diskusných správ"
 
-#: src/notification_trayicon.c:888
+#: src/notification_trayicon.c:900
 #, c-format
 msgid "%d new article in RSS feeds arrived"
 msgid_plural "%d new articles in RSS feeds arrived"
 msgstr[0] "Prišiel %d nový článok kanála RSS"
 msgstr[1] "Prišli %d nové články kanála RSS"
 msgstr[2] "Prišlo %d nových článkov kanála RSS"
-
