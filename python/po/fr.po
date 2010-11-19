@@ -1,39 +1,39 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) YEAR Holger Berndt
 # This file is distributed under the same license as the PACKAGE package.
-# Páder Rezső (rezso) <rezso@rezso.net>, 2009-2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Claws Mail python plugin\n"
+"Project-Id-Version: Claws Mail Python plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
 "POT-Creation-Date: 2010-11-12 09:55+0000\n"
-"PO-Revision-Date: 2010-11-12 16:02+0100\n"
-"Last-Translator: rezso <rezso@rezso.net>\n"
-"Language-Team:  <NONE>\n"
+"PO-Revision-Date: 2010-11-15 09:56+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
 #: src/python_plugin.c:337
 #: src/python_plugin.c:470
 msgid "Python scripts"
-msgstr "Python scriptek"
+msgstr "Scripts Python"
 
 #: src/python_plugin.c:465
 msgid "Show Python console..."
-msgstr "Python konzol megjelenítése..."
+msgstr "Afficher la console Python.."
 
 #: src/python_plugin.c:471
 msgid "Refresh"
-msgstr "Frissítés"
+msgstr "Rafra�chir"
 
 #: src/python_plugin.c:473
 msgid "Browse"
-msgstr "Böngészés"
+msgstr "S�lectionner"
 
 #: src/python_plugin.c:555
 #: src/python_plugin.c:609
@@ -42,7 +42,7 @@ msgstr "Python"
 
 #: src/python_plugin.c:561
 msgid "Failed to register compose create hook int the Python plugin"
-msgstr "A Python plugin szerkesztés szabályláncának regisztálása nem sikerült"
+msgstr "Impossible d'enregistrer le hook \"compose create\" dans le module Python"
 
 #: src/python_plugin.c:614
 msgid ""
@@ -58,19 +58,19 @@ msgid ""
 "\n"
 "Feedback to <berndth@gmx.de> is welcome."
 msgstr ""
-"A plugin Python scriptek, kódok használatát teszi lehetővé.\n"
+"Ce module permet l'int�gration de fonctionnalit�s Python.\n"
 "\n"
-"A legfrissebb API dokumentáció elérhető a\n"
+"Pour consulter la documentation de l'API, tapez\n"
 "\n"
 " help(clawsmail)\n"
 "\n"
-"parancs használatával az interaktív Python konzolból (Eszközök -> Python konzol megjelenítése).\n"
+"dans la console interactive Python disponible dans Outils -> Afficher la console Python.\n"
 "\n"
-"A plugin forráskódja több példa scriptet tartalmaz az \"examples\" alkönyvtárban. Ha szeretnél megosztani másokkal egy saját scriptedet, küldd el nekem, és hozzáteszem a példákhoz.\n"
+"Vous trouverez de nombreux exemples de scripts Python dans le r�pertoire \"examples\" contenu dans les sources de ce module. Si vous avez �crit un script Python et souhaitez en faire b�n�ficier les autres utilisateurs, envoyez-le moi et je l'ajouterai volontiers dans le r�pertoire des exemples.\n"
 "\n"
-"Örömmel veszek minden visszajelzést a <berndth@gmx.de> címre."
+"Vos commentaires et retours sont les bienvenus aupr�s de <berndth@gmx.de>."
 
 #: src/python_plugin.c:643
 msgid "Python integration"
-msgstr "Python integráció"
+msgstr "Int�gration � Python"
 
