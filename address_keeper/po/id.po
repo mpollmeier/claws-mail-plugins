@@ -1,0 +1,72 @@
+# Indonesian translation of address_keeper package
+# Copyright (C) 2010 Ricardo Mones
+# This file is distributed under the same license as the address_keeper package.
+# MSulchan Darmawan <bleketux@gmail.com>, 2010.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: address_keeper\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2010-11-12 09:58+0000\n"
+"PO-Revision-Date: 2010-11-14 20:32+0700\n"
+"Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/address_keeper.c:199
+msgid "Failed to register check before send hook"
+msgstr "Gagal untuk mendaftarkan sebelum pengiriman kaitan"
+
+#: src/address_keeper.c:239
+msgid "Keeps all recipient addresses in an addressbook folder."
+msgstr "Pertahankan seluruh alamat penerima di dalam direktori bukualamat."
+
+#: src/address_keeper.c:280
+#: src/address_keeper_prefs.c:192
+msgid "Address Keeper"
+msgstr "Pemelihara alamat"
+
+#: src/address_keeper_prefs.c:90
+msgid "Keep to folder"
+msgstr "Tahan pada direktori"
+
+#: src/address_keeper_prefs.c:98
+msgid "Address book path where addresses are kept"
+msgstr "Jalur buku alamat dimana alamat dipelihara"
+
+#: src/address_keeper_prefs.c:100
+msgid "Select..."
+msgstr "Pilih..."
+
+#: src/address_keeper_prefs.c:111
+msgid "Keep 'To' addresses"
+msgstr "Pertahankan alamat 'Kepada'"
+
+#: src/address_keeper_prefs.c:115
+msgid "Keep addresses which appear in 'To' headers"
+msgstr "Pertahankan alamat yang ada di header 'Kepada'"
+
+#: src/address_keeper_prefs.c:121
+msgid "Keep 'Cc' addresses"
+msgstr "Pertahankan alamat 'Cc'"
+
+#: src/address_keeper_prefs.c:125
+msgid "Keep addresses which appear in 'Cc' headers"
+msgstr "Pertahankan alamat yang ada di header 'Cc'"
+
+#: src/address_keeper_prefs.c:131
+msgid "Keep 'Bcc' addresses"
+msgstr "Pertahankan alamat 'Bcc'"
+
+#: src/address_keeper_prefs.c:135
+msgid "Keep addresses which appear in 'Bcc' headers"
+msgstr "Pertahankan alamat yang ada di header 'Bcc'"
+
+#: src/address_keeper_prefs.c:191
+msgid "Plugins"
+msgstr "Pengaya"
+

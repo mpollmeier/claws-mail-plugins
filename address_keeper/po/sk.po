@@ -1,0 +1,74 @@
+# Slovak translations for address_keeper_plugin package
+# Slovenské preklady pre balík address_keeper_plugin.
+# Copyright (C) 2010 Ricardo Mones
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2010.
+# Slavko <linux@slavino.sk>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: address_keeper_plugin\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2010-11-12 09:58+0000\n"
+"PO-Revision-Date: 2010-11-12 18:08+0100\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
+"Language-Team: Slovak <nomail>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: src/address_keeper.c:199
+msgid "Failed to register check before send hook"
+msgstr "Zlyhala registrácia obsluhy udalosti 'check before send'"
+
+#: src/address_keeper.c:239
+msgid "Keeps all recipient addresses in an addressbook folder."
+msgstr "Uchováva adresy všetkých adresátov v zložke adresára."
+
+#: src/address_keeper.c:280 src/address_keeper_prefs.c:192
+msgid "Address Keeper"
+msgstr "Uchovávač adries"
+
+#: src/address_keeper_prefs.c:90
+msgid "Keep to folder"
+msgstr "Uchovať v zložke"
+
+#: src/address_keeper_prefs.c:98
+msgid "Address book path where addresses are kept"
+msgstr ""
+"Cesta k adresáru, kde majú byť uchované Address book path where addresses "
+"are kept"
+
+#: src/address_keeper_prefs.c:100
+msgid "Select..."
+msgstr "Vybrať..."
+
+#: src/address_keeper_prefs.c:111
+msgid "Keep 'To' addresses"
+msgstr "Uchovať adresy z „Komu”"
+
+#: src/address_keeper_prefs.c:115
+msgid "Keep addresses which appear in 'To' headers"
+msgstr "Uchovávať adresy, ktoré sa objavia v hlavičkách „Komu”"
+
+#: src/address_keeper_prefs.c:121
+msgid "Keep 'Cc' addresses"
+msgstr "Uchovať adresy z „Kópia”"
+
+#: src/address_keeper_prefs.c:125
+msgid "Keep addresses which appear in 'Cc' headers"
+msgstr "Uchovávať adresy, ktoré sa objavia v hlavičkách „Kópia”"
+
+#: src/address_keeper_prefs.c:131
+msgid "Keep 'Bcc' addresses"
+msgstr "Uchovať adresy zo „Slepá kópia”"
+
+#: src/address_keeper_prefs.c:135
+msgid "Keep addresses which appear in 'Bcc' headers"
+msgstr "Uchovávať adresy, ktoré sa objavia v hlavičkách „Slepá kópia”"
+
+#: src/address_keeper_prefs.c:191
+msgid "Plugins"
+msgstr "Zásuvné moduly"

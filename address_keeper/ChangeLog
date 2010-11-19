@@ -1,3 +1,18 @@
+2010-11-19 [paul]	1.0.0cvs4
+
+	* configure.ac
+	* po/ca.po
+	* po/cs.po
+	* po/fr.po
+	* po/hu.po
+	* po/id.po
+	* po/pt_BR.po
+	* po/sk.po
+	* po/uk.po
+		added by Miquel Oliete, David Vachulka,wwp, Pader Rezso,
+		MSulchan Darmawan, Frederico Goncalves Guimaraes, Slavko,
+		Yarema
+
 2010-11-16 [mones]	1.0.0cvs3
 
 	* src/address_keeper.c

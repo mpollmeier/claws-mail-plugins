@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Ricardo Mones
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Claws Mail Address Keeper plugin\n"
+"Report-Msgid-Bugs-To: ricardo@mones.org\n"
+"POT-Creation-Date: 2010-11-12 09:58+0000\n"
+"PO-Revision-Date: 2010-11-15 09:39+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+
+#: src/address_keeper.c:199
+msgid "Failed to register check before send hook"
+msgstr "Impossible d'enregistrer le hook send dans"
+
+#: src/address_keeper.c:239
+msgid "Keeps all recipient addresses in an addressbook folder."
+msgstr "Collecte les adresses et les conserve dans un dossier du carnet d'adresses."
+
+#: src/address_keeper.c:280
+#: src/address_keeper_prefs.c:192
+msgid "Address Keeper"
+msgstr "Collecteur d'adresses"
+
+#: src/address_keeper_prefs.c:90
+msgid "Keep to folder"
+msgstr "Dossier où conserver les adresses"
+
+#: src/address_keeper_prefs.c:98
+msgid "Address book path where addresses are kept"
+msgstr "Dossier du carnet d'adresse où conserver les adresses"
+
+#: src/address_keeper_prefs.c:100
+msgid "Select..."
+msgstr "Sélectionner.."
+
+#: src/address_keeper_prefs.c:111
+msgid "Keep 'To' addresses"
+msgstr "Collecter les adresses 'À'"
+
+#: src/address_keeper_prefs.c:115
+msgid "Keep addresses which appear in 'To' headers"
+msgstr "Collecter les adresses présentes dans les en-têtes 'De' ('To')"
+
+#: src/address_keeper_prefs.c:121
+msgid "Keep 'Cc' addresses"
+msgstr "Collecter les adresses 'Cc'"
+
+#: src/address_keeper_prefs.c:125
+msgid "Keep addresses which appear in 'Cc' headers"
+msgstr "Collecter les adresses présentes dans les en-têtes 'Cc'"
+
+#: src/address_keeper_prefs.c:131
+msgid "Keep 'Bcc' addresses"
+msgstr "Collecter les adresses 'Cci'"
+
+#: src/address_keeper_prefs.c:135
+msgid "Keep addresses which appear in 'Bcc' headers"
+msgstr "Collecter les adresses présentes dans les en-têtes 'Cci' ('Bcc')"
+
+#: src/address_keeper_prefs.c:191
+msgid "Plugins"
+msgstr "Modules"
+
