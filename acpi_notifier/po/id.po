@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acpi_notifier\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2009-06-23 21:28+0700\n"
+"POT-Creation-Date: 2010-11-12 09:44+0000\n"
 "PO-Revision-Date: 2009-06-29 11:37+0700\n"
 "Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
 "Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -56,9 +57,7 @@ msgstr ""
 "Pastikan bahwa anda memiliki apanelc terpasang.\n"
 "Anda bisa memperolehnya di http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:200
-#: src/acpi_notifier.c:206
-#: src/acpi_notifier.c:418
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "Berkas kontrol tidak ada."
 
@@ -74,27 +73,19 @@ msgstr " : surat belum dibaca"
 msgid " : new mail"
 msgstr " : surat baru"
 
-#: src/acpi_notifier.c:302
-#: src/acpi_notifier.c:308
-#: src/acpi_notifier.c:314
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
 msgstr "mati"
 
-#: src/acpi_notifier.c:304
-#: src/acpi_notifier.c:310
-#: src/acpi_notifier.c:316
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "berkedip"
 
-#: src/acpi_notifier.c:306
-#: src/acpi_notifier.c:312
-#: src/acpi_notifier.c:318
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
 msgstr "hidup"
 
-#: src/acpi_notifier.c:340
-#: src/acpi_notifier.c:349
-#: src/acpi_notifier.c:364
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
 msgstr "LED "
 
@@ -129,4 +120,3 @@ msgstr "Pengaya ini menangani berbagai LED surat ACPI."
 #: src/acpi_notifier.c:887
 msgid "Laptop LED"
 msgstr "LED Laptop"
-

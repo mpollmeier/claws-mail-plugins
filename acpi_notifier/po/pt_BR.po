@@ -1,17 +1,18 @@
-# translation of pt_BR.po to Português do Brasil
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006, 2007.
+# Brazilian Portuguese translation of Claws Mail ACPI Notifier plugin
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2006-2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: pt_BR\n"
+"Project-Id-Version: ACPI Notifier plugin\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2007-08-04 06:19+0200\n"
+"POT-Creation-Date: 2009-10-12 17:23+0200\n"
 "PO-Revision-Date: 2007-11-15 23:24-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Português do Brasil\n"
+"Language-Team: \n"
+"Language: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #: src/acpi_notifier.c:46
 msgid "Acpi Notifier"
@@ -53,9 +54,7 @@ msgstr ""
 "Certifique-se de que apanelc está instalado.\n"
 "Você pode obtê-lo em http://apanel.sourceforge.net/"
 
-#: src/acpi_notifier.c:200
-#: src/acpi_notifier.c:206
-#: src/acpi_notifier.c:418
+#: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
 msgstr "O arquivo de controle não existe."
 
@@ -71,27 +70,19 @@ msgstr " : mensagem não lida"
 msgid " : new mail"
 msgstr " : mensagem nova"
 
-#: src/acpi_notifier.c:302
-#: src/acpi_notifier.c:308
-#: src/acpi_notifier.c:314
+#: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
 msgstr "apagado"
 
-#: src/acpi_notifier.c:304
-#: src/acpi_notifier.c:310
-#: src/acpi_notifier.c:316
+#: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
 msgstr "piscando"
 
-#: src/acpi_notifier.c:306
-#: src/acpi_notifier.c:312
-#: src/acpi_notifier.c:318
+#: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
 msgstr "aceso"
 
-#: src/acpi_notifier.c:340
-#: src/acpi_notifier.c:349
-#: src/acpi_notifier.c:364
+#: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
 msgstr "LED "
 
@@ -115,15 +106,14 @@ msgstr " - Desligado: "
 msgid "Blink when user interaction is required"
 msgstr "Piscar quando for necessário uma intervenção do usuário"
 
-#: src/acpi_notifier.c:782
+#: src/acpi_notifier.c:783
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/acpi_notifier.c:861
+#: src/acpi_notifier.c:866
 msgid "This plugin handles various ACPI mail LEDs."
 msgstr "Esse plugin manipula diversos LED's de mensagens ACPI."
 
-#: src/acpi_notifier.c:882
+#: src/acpi_notifier.c:887
 msgid "Laptop LED"
 msgstr "LED do laptop"
-

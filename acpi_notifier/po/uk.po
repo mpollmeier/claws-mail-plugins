@@ -1,87 +1,87 @@
-# Catalan translation for acpi_notifier.
-# Copyright (C) YEAR Colin Leroy
-# Miquel Oliete i Baliarda <ktalanet@yahoo.es>, 2007.
-#
+# Ukrainian translation.
+# Copyright (C) 2010 The Claws Mail Team
+# This file is distributed under the same license as the claws-mail package.
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: acpi_notifier\n"
+"Project-Id-Version: claws-svn\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
-"POT-Creation-Date: 2010-11-12 09:44+0000\n"
-"PO-Revision-Date: 2010-11-17 18:57+0001\n"
-"Last-Translator: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
-"Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
-"Language: \n"
+"POT-Creation-Date: 2010-09-13 14:46+0200\n"
+"PO-Revision-Date: 2010-09-13 14:57+0100\n"
+"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
+"Language-Team: Ukrainian <translation@linux.org.ua>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\\n\n"
+
 
 #: src/acpi_notifier.c:46
 msgid "Acpi Notifier"
-msgstr "Notificador acpi"
+msgstr "Повідомлення Acpi"
 
 #: src/acpi_notifier.c:62
 msgid ""
 "Make sure that the kernel module 'acerhk' is loaded.\n"
 "You can get it from http://www.cakey.de/acerhk/"
 msgstr ""
-"Assegureu-vos de que el m�dul del nucli 'acerhk' est� carregat.\n"
-"Podeu obtenir-lo a http://www.cakey.de/acerhk/"
 
 #: src/acpi_notifier.c:64
 msgid ""
 "Make sure that the kernel module 'acer_acpi' is loaded.\n"
 "You can get it from http://code.google.com/p/aceracpi/"
 msgstr ""
-"Assegureu-vos de que el m�dul del nucli 'acer_acpi' est� carregat.\n"
-"Podeu obtenir-lo a http://code.google.com/p/aceracpi/"
+"Переконайтеся, що завантажений модуль ядра 'acer_acpi'.\n"
+"Ви можете отримати його з http://code.google.com/p/aceracpi/"
 
 #: src/acpi_notifier.c:66
 msgid "Make sure that the kernel module 'asus_laptop' is loaded."
-msgstr "Assegureu-vos de que el m�dul del nucli 'asus_laptop' est� carregat."
+msgstr "Переконайтеся, що завантажений модуль ядра 'asus_laptop'."
 
 #: src/acpi_notifier.c:67
 msgid "Make sure that the kernel module 'asus_acpi' is loaded."
-msgstr "Assegureu-vos de que el m�dul del nucli 'asus_acpi' est� carregat."
+msgstr "Переконайтеся, що завантажений модуль ядра 'asus_acpi'."
 
 #: src/acpi_notifier.c:68
 msgid "Make sure that the kernel module 'ibm_acpi' is loaded."
-msgstr "Assegureu-vos de que el m�dul del nucli 'ibm_acpi' est� carregat."
+msgstr "Переконайтеся, що завантажений модуль ядра 'ibm_acpi'."
 
 #: src/acpi_notifier.c:69
 msgid ""
 "Make sure that you have apanelc installed.\n"
 "You can get it from http://apanel.sourceforge.net/"
 msgstr ""
-"Assegureu-vos de que teniu apanelc instal�lat.\n"
-"Podeu obtenir-lo a http://apanel.sourceforge.net/"
+"Переконайтесь, що встановлено apanelc.\n"
+"Ви можете отримати його з http://apanel.sourceforge.net/"
 
 #: src/acpi_notifier.c:200 src/acpi_notifier.c:206 src/acpi_notifier.c:418
 msgid "Control file doesn't exist."
-msgstr "L'arxiu de control no existeix."
+msgstr "Контрольний файл не існує."
 
 #: src/acpi_notifier.c:298
 msgid " : no new or unread mail"
-msgstr " : cap missatge nou o sense llegir"
+msgstr " : немає нових або непрочитаних листів"
 
 #: src/acpi_notifier.c:299
 msgid " : unread mail"
-msgstr " : missatge no llegit"
+msgstr " : непрочитаний лист"
 
 #: src/acpi_notifier.c:300
 msgid " : new mail"
-msgstr " : nou missatge"
+msgstr " : новий лист"
 
 #: src/acpi_notifier.c:302 src/acpi_notifier.c:308 src/acpi_notifier.c:314
 msgid "off"
-msgstr "desactivat"
+msgstr "виключено"
 
 #: src/acpi_notifier.c:304 src/acpi_notifier.c:310 src/acpi_notifier.c:316
 msgid "blinking"
-msgstr "intermitent"
+msgstr "блимання"
 
 #: src/acpi_notifier.c:306 src/acpi_notifier.c:312 src/acpi_notifier.c:318
 msgid "on"
-msgstr "activat"
+msgstr "включено"
 
 #: src/acpi_notifier.c:340 src/acpi_notifier.c:349 src/acpi_notifier.c:364
 msgid "LED "
@@ -89,32 +89,32 @@ msgstr "LED"
 
 #: src/acpi_notifier.c:379
 msgid "ACPI type: "
-msgstr "Tipus ACPI: "
+msgstr "Тип ACPI: "
 
 #: src/acpi_notifier.c:388
 msgid "ACPI file: "
-msgstr "Arxiu ACPI: "
+msgstr "Файл ACPI: "
 
 #: src/acpi_notifier.c:399
 msgid "values - On: "
-msgstr "valors - Activat: "
+msgstr "значення - Вкл: "
 
 #: src/acpi_notifier.c:404
 msgid " - Off: "
-msgstr " - Desactivat: "
+msgstr " - Викл: "
 
 #: src/acpi_notifier.c:426
 msgid "Blink when user interaction is required"
-msgstr "Intermitent quan linteracci� amb l'usuari �s requerida"
+msgstr "Блимати, коли потрібно втручання користувача?"
 
 #: src/acpi_notifier.c:783
 msgid "Plugins"
-msgstr "M�duls"
+msgstr "Додатки"
 
 #: src/acpi_notifier.c:866
 msgid "This plugin handles various ACPI mail LEDs."
-msgstr "Aquest m�dul controla diferents diodes de correu ACPI."
+msgstr "Цей додаток повідомляє про стан пошти через LED (світлодіоди)"
 
 #: src/acpi_notifier.c:887
 msgid "Laptop LED"
-msgstr "Diode de port�til"
+msgstr "Світлодіоди (LED) нотбуку"
