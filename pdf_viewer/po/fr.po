@@ -4,16 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1\n"
+"Project-Id-Version: Claws Mail PDF Viewer plugin\n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2008-11-28 10:10+0100\n"
-"PO-Revision-Date: 2008-04-18 08:51+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: fr <fr@li.org>\n"
+"POT-Creation-Date: 2008-09-23 10:13+0200\n"
+"PO-Revision-Date: 2010-11-15 09:56+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
 #: src/poppler_viewer.c:554
 msgid "Filename:"
@@ -37,11 +39,11 @@ msgstr "Auteur :"
 
 #: src/poppler_viewer.c:560
 msgid "Keywords:"
-msgstr "Mots clÃ©s :"
+msgstr "Mots clés :"
 
 #: src/poppler_viewer.c:561
 msgid "Creator:"
-msgstr "CrÃ©ateur :"
+msgstr "Créateur :"
 
 #: src/poppler_viewer.c:562
 msgid "Producer:"
@@ -49,11 +51,11 @@ msgstr "Producteur :"
 
 #: src/poppler_viewer.c:565
 msgid "Created:"
-msgstr "CrÃ©Ã© :"
+msgstr "Créé :"
 
 #: src/poppler_viewer.c:569
 msgid "Modified:"
-msgstr "ModifiÃ© :"
+msgstr "Modifié :"
 
 #: src/poppler_viewer.c:572
 msgid "Format:"
@@ -61,7 +63,7 @@ msgstr "Format :"
 
 #: src/poppler_viewer.c:573
 msgid "Optimized:"
-msgstr "OptimisÃ© :"
+msgstr "Optimisé :"
 
 #: src/poppler_viewer.c:1024
 msgid "PDF Viewer Plugin"
@@ -83,7 +85,8 @@ msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: src/poppler_viewer.c:1578 src/poppler_viewer.c:1798
+#: src/poppler_viewer.c:1578
+#: src/poppler_viewer.c:1798
 msgid "Document Index"
 msgstr "Index du document"
 
@@ -93,11 +96,11 @@ msgstr "Nom"
 
 #: src/poppler_viewer.c:1766
 msgid "First Page"
-msgstr "PremiÃ¨re page"
+msgstr "Première page"
 
 #: src/poppler_viewer.c:1769
 msgid "Previous Page"
-msgstr "Page prÃ©cÃ©dente"
+msgstr "Page précédente"
 
 #: src/poppler_viewer.c:1772
 msgid "Next Page"
@@ -105,7 +108,7 @@ msgstr "Page suivante"
 
 #: src/poppler_viewer.c:1775
 msgid "Last Page"
-msgstr "DerniÃ¨re page"
+msgstr "Dernière page"
 
 #: src/poppler_viewer.c:1778
 msgid "Zoom In"
@@ -113,23 +116,23 @@ msgstr "Zoomer"
 
 #: src/poppler_viewer.c:1780
 msgid "Zoom Out"
-msgstr "DÃ©zoomer"
+msgstr "Dézoomer"
 
 #: src/poppler_viewer.c:1783
 msgid "Fit Page"
-msgstr "Adapter Ã  la taille"
+msgstr "Adapter à la taille"
 
 #: src/poppler_viewer.c:1786
 msgid "Fit Page Width"
-msgstr "Adapter Ã  la largeur"
+msgstr "Adapter à la largeur"
 
 #: src/poppler_viewer.c:1789
 msgid "Rotate Left"
-msgstr "Pivoter Ã  gauche"
+msgstr "Pivoter à gauche"
 
 #: src/poppler_viewer.c:1792
 msgid "Rotate Right"
-msgstr "Pivoter Ã  droite"
+msgstr "Pivoter à droite"
 
 #: src/poppler_viewer.c:1795
 msgid "Document Info"
@@ -137,25 +140,25 @@ msgstr "Informations"
 
 #: src/poppler_viewer.c:1800
 msgid "Page Number"
-msgstr "NumÃ©ro de page"
+msgstr "Numéro de page"
 
 #: src/poppler_viewer.c:1802
 msgid "Zoom Factor"
 msgstr "Facteur de zoom"
 
-#: src/poppler_viewer.c:1910
+#: src/poppler_viewer.c:1905
 #, c-format
 msgid ""
-"This plugin enables the viewing of PDF and PostScript attachments using the "
-"Poppler %s Lib and the gs tool.\n"
+"This plugin enables the viewing of PDF and PostScript attachments using the Poppler %s Lib and the gs tool.\n"
 "\n"
 "Any feedback is welcome: iwkse@claws-mail.org"
 msgstr ""
-"Ce module permet de lire des fichiers joints PDF et PostScript, avec la "
-"bibliothÃ¨que Poppler %s et l'outil gs.\n"
+"Ce module permet de lire des fichiers joints PDF et PostScript, avec la bibliothèque Poppler %s et l'outil gs.\n"
 "\n"
 "Retours bienvenus: iwkse@claws-mail.org"
 
-#: src/poppler_viewer.c:1918 src/poppler_viewer.c:1933
+#: src/poppler_viewer.c:1914
+#: src/poppler_viewer.c:1929
 msgid "PDF Viewer"
 msgstr "Lecteur PDF"
+

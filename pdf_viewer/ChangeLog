@@ -1,3 +1,10 @@
+2010-11-19 [paul]	0.9.1cvs14
+
+	* po/es.po
+	* po/fi.po
+	* po/fr.po
+		updated by Ricardo Mones, Flammie Pirinen, wwp
+
 2010-10-28 [wwp]	0.9.1cvs13
 
 	* src/poppler_viewer.c

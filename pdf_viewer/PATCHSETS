@@ -129,3 +129,4 @@
 ( cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fi.po;  ) > 0.9.1cvs11.patchset
 ( cvs diff -u -r 1.1.2.90 -r 1.1.2.91 src/poppler_viewer.c;  ) > 0.9.1cvs12.patchset
 ( cvs diff -u -r 1.1.2.91 -r 1.1.2.92 src/poppler_viewer.c;  ) > 0.9.1cvs13.patchset
+( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/es.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fi.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/fr.po;  ) > 0.9.1cvs14.patchset
