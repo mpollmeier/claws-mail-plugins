@@ -1,3 +1,8 @@
+2010-11-19 [paul]	3.4.0cvs17
+
+	* po/clamd.pot
+		should not be in CVS, removed
+
 2010-10-31 [paul]	3.4.0cvs16
 
 	* Makefile.in
