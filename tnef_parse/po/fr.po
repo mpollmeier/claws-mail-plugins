@@ -5,15 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Claws Mail TNEF Parser\n"
+"Project-Id-Version: Claws Mail TNEF Parser plugin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2009-10-06 11:11+0200\n"
-"PO-Revision-Date: 2009-10-06 11:20+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: FR <colin@colino.net>\n"
+"PO-Revision-Date: 2010-11-15 09:55+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
 #: src/tnef_parse.c:64
 #, c-format
@@ -30,23 +33,23 @@ msgstr ""
 
 #: src/tnef_parse.c:66
 msgid "Unknown error"
-msgstr "Erreur non spÃ©cifiÃ©e"
+msgstr "Erreur non spécifiée"
 
 #: src/tnef_parse.c:115
 msgid "Failed to write the part data."
-msgstr "Impossible d'Ã©crire les donnÃ©es de la piÃ¨ce."
+msgstr "Impossible d'écrire les données de la pièce."
 
 #: src/tnef_parse.c:157
 msgid "Failed to parse VCalendar data."
-msgstr "Impossible de dÃ©coder les donnÃ©es VCalendar."
+msgstr "Impossible de décoder les données VCalendar."
 
 #: src/tnef_parse.c:193
 msgid "Failed to parse VTask data."
-msgstr "Impossible de dÃ©coder les donnÃ©es VTask."
+msgstr "Impossible de décoder les données VTask."
 
 #: src/tnef_parse.c:243
 msgid "Failed to parse VCard data."
-msgstr "Impossible de dÃ©coder les donnÃ©es VCard."
+msgstr "Impossible de décoder les données VCard."
 
 #: src/tnef_parse.c:386
 #: src/tnef_parse.c:410
@@ -59,7 +62,7 @@ msgid ""
 "\n"
 "The plugin uses the Ytnef library, which is copyright 2002-2007 by Randall Hand <yerase@yerot.com>"
 msgstr ""
-"Ce module de Claws Mail permet de dÃ©coder les piÃ¨ces jointes de type application/ms-tnef.\n"
+"Ce module de Claws Mail permet de décoder les pièces jointes de type application/ms-tnef.\n"
 "\n"
-"Ce module utilise la bibliothÃ¨que Ytnef, qui est copyright 2002-2008 Randall Hand <yerase@yerot.com>"
+"Ce module utilise la bibliothèque Ytnef, qui est copyright 2002-2008 Randall Hand <yerase@yerot.com>"
 

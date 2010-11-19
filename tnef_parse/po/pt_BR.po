@@ -1,22 +1,18 @@
-# tnef parser translation.
-# Copyright (C) 2007 Colin Leroy
-# This file is distributed under the same license as the Claws Mail package.
+# Brazilian Portuguese translation of TNEF parser plugin
+# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007-2010.
 #
-# Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2007.
-# Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: tnef_parse\n"
+"Project-Id-Version: TNEF Parser plugin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
 "POT-Creation-Date: 2009-10-12 17:37+0200\n"
 "PO-Revision-Date: 2010-01-07 07:25-0200\n"
-"Last-Translator: Frederico Goncalves Guimaraes <fredgg@pbh.gov.br>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
+"Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
+"Language-Team: \n"
+"Language: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/tnef_parse.c:64
 #, c-format
@@ -64,6 +60,5 @@ msgid ""
 msgstr ""
 "Este plugin do Claws Mail permite a leitura de anexos application/ms-tnef.\n"
 "\n"
-"O plugin usa a biblioteca Ytnef, que possui copyright 2002-2007 por "
-"Randall Hand <yerase@yerot.com>"
-
+"O plugin usa a biblioteca Ytnef, que possui copyright 2002-2007 por Randall "
+"Hand <yerase@yerot.com>"
