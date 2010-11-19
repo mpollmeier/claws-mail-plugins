@@ -1,3 +1,9 @@
+2010-11-19 [iwkse]	0.9.10cvs2
+
+	* src/fancy_viewer.c
+		Better explaination of the description,
+		thanks to Paul :)
+
 2010-11-19 [paul]	0.9.10cvs1
 
 	* po/ca.po

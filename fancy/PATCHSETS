@@ -54,3 +54,4 @@
 ( cvs diff -u -r 1.1.2.58 -r 1.1.2.59 configure.ac;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/Makefile.am;  ) > 0.9.9cvs19.patchset
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/cs.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/nl.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.9.9cvs20.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ca.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/hu.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/id.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/sk.po;  ) > 0.9.10cvs1.patchset
+( cvs diff -u -r 1.1.2.42 -r 1.1.2.43 src/fancy_viewer.c;  ) > 0.9.10cvs2.patchset

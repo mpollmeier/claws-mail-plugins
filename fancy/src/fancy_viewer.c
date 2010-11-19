@@ -1088,6 +1088,12 @@ gint plugin_init(gchar **error)
 	if (!check_plugin_version(MAKE_NUMERIC_VERSION(2,9,2,72),
 							  VERSION_NUMERIC, _("Fancy"), error))
 		return -1;
+	gchar *directory = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S,
+				"fancy", NULL);
+	if (!is_dir_exist(directory))
+		make_dir (directory);
+	g_free(directory);
+
 	fancy_prefs_init();
     
 	mimeview_register_viewer_factory(&fancy_viewer_factory);
@@ -1110,8 +1116,11 @@ const gchar *plugin_name(void)
 const gchar *plugin_desc(void)
 {
 	return g_strdup_printf("This plugin renders HTML mail using the WebKit " 
-						   "%d.%d.%d library.", WEBKIT_MAJOR_VERSION, 
-						   WEBKIT_MINOR_VERSION, WEBKIT_MICRO_VERSION);
+						   "%d.%d.%d library.\nBy default all remote content is "
+						   "blocked and images are not automatically loaded. Options "
+						   "can be found in /Configuration/Preferences/Plugins/Fancy", 
+						   WEBKIT_MAJOR_VERSION, WEBKIT_MINOR_VERSION, 
+						   WEBKIT_MICRO_VERSION);
 }
 
 const gchar *plugin_type(void)
