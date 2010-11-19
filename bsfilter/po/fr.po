@@ -5,113 +5,98 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Bsfilter plugin\n"
+"Project-Id-Version: Claws Mail BSFilter plugin\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2009-03-19 10:15+0100\n"
-"PO-Revision-Date: 2009-03-19 09:33+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"POT-Creation-Date: 2010-11-12 09:47+0000\n"
+"PO-Revision-Date: 2010-11-15 11:42+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
-#: src/bsfilter.c:78 src/bsfilter_gtk.c:393
+#: src/bsfilter.c:78
+#: src/bsfilter_gtk.c:393
 msgid "Bsfilter"
 msgstr "Bsfilter"
 
-#: src/bsfilter.c:103 src/bsfilter_gtk.c:193 src/bsfilter_gtk.c:258
+#: src/bsfilter.c:103
+#: src/bsfilter_gtk.c:193
+#: src/bsfilter_gtk.c:258
 #: src/bsfilter_gtk.c:318
 msgid "Any"
-msgstr "Tous"
+msgstr "Quelconque"
 
 #: src/bsfilter.c:295
 msgid "Bsfilter: fetching body..."
-msgstr "Bsfilter: rÃ©cupÃ©ration du corps du message..."
+msgstr "Bsfilter : récupération du message.."
 
 #: src/bsfilter.c:304
 msgid "Bsfilter: filtering message..."
-msgstr "Bsfilter: Filtrage du message..."
+msgstr "Bsfilter : filtrage du message.."
 
 #: src/bsfilter.c:389
 msgid ""
-"The Bsfilter plugin couldn't filter a message. The probable cause of the "
-"error is that it didn't learn from any mail.\n"
-"Use \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\" to train Bsfilter with "
-"a few hundred spam and ham messages."
+"The Bsfilter plugin couldn't filter a message. The probable cause of the error is that it didn't learn from any mail.\n"
+"Use \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\" to train Bsfilter with a few hundred spam and ham messages."
 msgstr ""
-"Le plugin Bsfilter n'a pu filtrer un message. La cause probable est que "
-"l'apprentissage n'a pas Ã©tÃ© fait.\n"
-"Utilisez \"/Marquer/comme pourriel\" et \"/Marquer/comme courrier lÃ©gitime\" "
-"pour entraÃ®ner Bsfilter avec quelques dizaines de spams et de messages "
-"lÃ©gitimes."
+"Erreur lors du traitement d'un message par le module Bsfilter. La cause probable de cette erreur est que Bsfilter n'a encore subi aucun apprentissage.\n"
+"Utilisez \"Marquer/Marquer comme pourriel\" et \"Marquer/Marquer comme courrier légitime\" sur quelques centaines de messages afin de faire l'apprentissage de Bsfilter."
 
 #: src/bsfilter.c:396
 #, c-format
-msgid ""
-"The Bsfilter plugin couldn't filter a message. The command `%s` couldn't be "
-"run."
-msgstr ""
-"Le plugin Bsfilter n'a pu filtrer un message. La commande `%s` n'a pu Ãªtre "
-"exÃ©cutÃ©e."
+msgid "The Bsfilter plugin couldn't filter a message. The command `%s` couldn't be run."
+msgstr "Erreur lors du traitement d'un message par le module Bsfilter. La commande `%s` n'a pu être exécutée."
 
 #: src/bsfilter.c:497
 msgid "Bsfilter: learning from message..."
-msgstr "Bsfilter: Apprentissage..."
+msgstr "Bsfilter : apprentissage à partir du message.."
 
 #: src/bsfilter.c:507
 #, c-format
 msgid "Learning failed; `%s` returned with status %d."
-msgstr "Ã‰chec de l'apprentissage ; `%s` est sorti avec le statut %d."
+msgstr "Erreur lors de l'apprentissage; le code retour de `%s` est %d."
 
 #: src/bsfilter.c:641
 msgid ""
-"This plugin can check all messages that are received from an IMAP, LOCAL or "
-"POP account for spam using Bsfilter. You will need Bsfilter installed "
-"locally.\n"
+"This plugin can check all messages that are received from an IMAP, LOCAL or POP account for spam using Bsfilter. You will need Bsfilter installed locally.\n"
 "\n"
-"Before Bsfilter can recognize spam messages, you have to train it by marking "
-"a few hundred spam and ham messages with the use of \"/Mark/Mark as spam\" "
-"and \"/Mark/Mark as ham\".\n"
+"Before Bsfilter can recognize spam messages, you have to train it by marking a few hundred spam and ham messages with the use of \"/Mark/Mark as spam\" and \"/Mark/Mark as ham\".\n"
 "\n"
-"When a message is identified as spam it can be deleted or saved in a "
-"specially designated folder.\n"
+"When a message is identified as spam it can be deleted or saved in a specially designated folder.\n"
 "\n"
 "Options can be found in /Configuration/Preferences/Plugins/Bsfilter"
 msgstr ""
-"Ce plugin vÃ©rifie la spamicitÃ© des messages reÃ§us via des comptes IMAP, "
-"Local ou POP. Il nÃ©cessite Bsfilter installÃ© localement.\n"
+"Ce module utilise Bsfilter afin de déterminer si les messages reçus par les comptes IMAP, LOCAL et POP sont des pourriels ou du courrier légitime. Une installation locale et valide de Bsfilter est nécessaire.\n"
 "\n"
-"Avant que Bsfilter puisse reconnaÃ®tre des spams, il faut l'entraÃ®ner avec \"/"
-"Marquer/comme pourriel\" et \"/Marquer/comme courrier lÃ©gitime\" sur "
-"quelques dizaines de spams et de messages lÃ©gitimes.\n"
+"Afin que Bsfilter puisse distinguer les pourriels des courriers légitimes, il est nécessaire de lui faire subir un apprentissage en utilisant les commandes \"Marquer/Marquer comme pourriel\" et \"Marquer/Marquer comme courrier légitime\" sur quelques centaines de messages.\n"
 "\n"
-"Quand un courriel est identifiÃ© comme spam, il peut Ãªtre effacÃ© ou "
-"enregistrÃ© dans un dossier spÃ©cifique.\n"
+"Quand un pourriel est identifié, il est possible de l'effacer de façon permanente ou de le conserver dans un dossier spécifique (par défaut: la corbeille).\n"
 "\n"
-"Les options de configurations sont dans /Configuration/PrÃ©fÃ©rences/Modules/"
-"Bsfilter."
+"Ce module est paramétrable via les options situées sous Configuration/Préférences/Modules/Bsfilter"
 
 #: src/bsfilter.c:674
 msgid "Spam detection"
-msgstr "Analyse anti-SPAMs"
+msgstr "Détection de pourriel"
 
 #: src/bsfilter.c:675
 msgid "Spam learning"
-msgstr "Apprentissage de SPAMs"
+msgstr "Apprentissage à partir de pourriel"
 
 #: src/bsfilter_gtk.c:139
 msgid "Process messages on receiving"
-msgstr "Analyse des messages Ã  la rÃ©ception"
+msgstr "Traitement des messages à leur réception"
 
 #: src/bsfilter_gtk.c:147
 msgid "Maximum size"
-msgstr "Taille maximale de message"
+msgstr "Taille maximale"
 
 #: src/bsfilter_gtk.c:156
 msgid "Messages larger than this will not be checked"
-msgstr "Les messages d'un volume supÃ©rieur ne seront pas analysÃ©s."
+msgstr "Définit la taille maximale de message à traiter"
 
 #: src/bsfilter_gtk.c:159
 msgid "KB"
@@ -119,71 +104,57 @@ msgstr "Ko"
 
 #: src/bsfilter_gtk.c:167
 msgid "Save spam in"
-msgstr "Enregistrer le pourriel dans"
+msgstr "Enregistrer les pourriels dans"
 
 #: src/bsfilter_gtk.c:175
-msgid ""
-"Folder for storing identified spam. Leave empty to use the trash folder."
-msgstr ""
-"Dossier de stockage du pourriel. Veuillez laisser le champ vide pour "
-"utiliser la corbeille."
+msgid "Folder for storing identified spam. Leave empty to use the trash folder."
+msgstr "Dossier où conserver les pourriels. Laissez ce champ vide pour utiliser la corbeille."
 
 #: src/bsfilter_gtk.c:177
 msgid "_Browse"
-msgstr "_Parcourir"
+msgstr "Sélectionner"
 
 #: src/bsfilter_gtk.c:181
 msgid "Click this button to select a folder for storing spam"
-msgstr "SÃ©lectionner un dossier de stockage pour le pourriel"
+msgstr "Cliquer ce bouton pour sélectionner le dossier de stockage des pourriels"
 
 #: src/bsfilter_gtk.c:187
 msgid "Whitelist senders found in address book/folder"
-msgstr "Liste blanche si Exp. prÃ©sent dans le carnet"
+msgstr "Considérer en liste blanche si l'expéditeur est dans le carnet d'adresse"
 
 #: src/bsfilter_gtk.c:191
-msgid ""
-"Messages coming from your address book contacts will be received in the "
-"normal folder even if detected as spam"
-msgstr ""
-"Les messages provenant de contacts prÃ©sents dans votre carnet d'adresses "
-"seront reÃ§us dans un dossier normal mÃªme s'ils sont dÃ©tectÃ©s comme pourriels."
+msgid "Messages coming from your address book contacts will be received in the normal folder even if detected as spam"
+msgstr "Les messages dont l'expéditeur est dans votre carnet d'adresse seront considérés comme légitimes même si Bsfilter les considère a priori comme des pourriels"
 
 #: src/bsfilter_gtk.c:197
 msgid "Select ..."
-msgstr "Parcourir..."
+msgstr "Sélectionner.."
 
 #: src/bsfilter_gtk.c:201
 msgid "Click this button to select a book or folder in the address book"
-msgstr ""
-"Veuillez utiliser ce bouton pour sÃ©lectionner un carnet ou dossier de votre "
-"carnet d'adresse."
+msgstr "Cliquer ce bouton pour sélectionner un carnet ou dossier du carnet d'adresse"
 
 #: src/bsfilter_gtk.c:203
 msgid "Learn whitelisted emails as ham"
-msgstr ""
-"Faire apprendre les messages provenant de liste blanche comme lÃ©gitimes"
+msgstr "Considérer les messages en liste blanche comme courriers légitimes lors de l'apprentissage"
 
 #: src/bsfilter_gtk.c:205
-msgid ""
-"If Bsfilter thought an email was spam or unsure, but it was whitelisted, "
-"learn it as ham."
-msgstr ""
-"Si Bsfilter pense qu'un message est un pourriel ou incertain, mais qu'il "
-"fait partie de la liste blanche, le faire apprendre comme un courriel "
-"lÃ©gitime."
+msgid "If Bsfilter thought an email was spam or unsure, but it was whitelisted, learn it as ham."
+msgstr "Si Bsfilter a classé un message en tant que pourriel ou \"incertain\" mais qu'il est en liste blanche, s'en souvenir comme d'un message légitime"
 
 #: src/bsfilter_gtk.c:214
 msgid "Bsfilter call"
-msgstr "Programme Bsfilter"
+msgstr "Appel à Bsfilter"
 
 #: src/bsfilter_gtk.c:222
 msgid "Path to bsfilter executable"
-msgstr "Chemin vers l'exÃ©cutable bsfilter"
+msgstr "Chemin complet vers l'exécutable bsfilter"
 
 #: src/bsfilter_gtk.c:228
 msgid "Mark spam as read"
-msgstr "Marquer le pourriel comme lu"
+msgstr "Marquer les pourriels comme lus"
 
 #: src/bsfilter_gtk.c:392
 msgid "Plugins"
 msgstr "Modules"
+
