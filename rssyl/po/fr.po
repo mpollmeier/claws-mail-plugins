@@ -25,19 +25,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: sylpheed-claws-rssyl-plugin-0.6.1cvs7\n"
+"Project-Id-Version: Claws Mail RSSyl plygin\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2010-01-05 14:15+0100\n"
-"PO-Revision-Date: 2010-01-05 14:27+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team:  <sylpheed-claws-translators@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2010-11-12 09:55+0000\n"
+"PO-Revision-Date: 2010-11-12 12:55+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"Plural-Forms: nplurals=2; plural=n>1;\n"
 
 #: src/feed.c:123
 msgid "Cannot open temporary file"
@@ -47,62 +46,62 @@ msgstr "Impossible d'ouvrir un fichier temporaire"
 msgid "Cannot init libCURL"
 msgstr "Impossible d'initialiser libCURL"
 
-#: src/feed.c:228
+#: src/feed.c:229
 msgid "401 (Authorisation required)"
 msgstr "401 (Autorisation requise)"
 
-#: src/feed.c:231
+#: src/feed.c:232
 msgid "403 (Unauthorised)"
 msgstr "403 (Non autorisé)"
 
-#: src/feed.c:234
+#: src/feed.c:235
 msgid "404 (Not found)"
 msgstr "404 (Non trouvé)"
 
-#: src/feed.c:237
+#: src/feed.c:238
 #, c-format
 msgid "Error %ld"
 msgstr "Erreur %ld"
 
-#: src/feed.c:302
+#: src/feed.c:303
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Récupération de '%s'..."
 
-#: src/feed.c:361
+#: src/feed.c:362
 msgid "Malformed feed"
 msgstr "Flux mal formé"
 
-#: src/feed.c:1131
+#: src/feed.c:1172
 #, c-format
 msgid "Refreshing feed '%s'..."
 msgstr "Mise à jour du flux '%s'..."
 
-#: src/feed.c:1146
+#: src/feed.c:1187
 #, c-format
 msgid "RSSyl: Fetching comments is not supported for RDF feeds. Cannot fetch comments of '%s'"
 msgstr "RSSyl : La récupération des commentaires n'est pas possible pour les flux RDF. Impossible de récupérer les commentaires de '%s'."
 
-#: src/feed.c:1155
+#: src/feed.c:1196
 msgid "This feed format is not supported yet."
 msgstr "Le format de ce flux n'est pas encore supporté."
 
-#: src/feed.c:1186
+#: src/feed.c:1227
 msgid "N/A"
 msgstr "N/A"
 
-#: src/feed.c:1306
+#: src/feed.c:1347
 #, c-format
 msgid "%ld byte"
 msgid_plural "%ld bytes"
 msgstr[0] "%ld octet"
 msgstr[1] "%ld octets"
 
-#: src/feed.c:1309
+#: src/feed.c:1350
 msgid "size unknown"
 msgstr "taille inconnue"
 
-#: src/feed.c:1479
+#: src/feed.c:1523
 #, c-format
 msgid ""
 "RSSyl: Cannot update feed %s:\n"
@@ -111,11 +110,11 @@ msgstr ""
 "RSSyl: Impossible de mettre à jour le flux %s:\n"
 "%s\n"
 
-#: src/feed.c:1651
+#: src/feed.c:1695
 msgid "You are already subscribed to this feed."
 msgstr "Vous êtes déjà abonné à ce flux."
 
-#: src/feed.c:1662
+#: src/feed.c:1706
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -124,12 +123,12 @@ msgstr ""
 "Impossible d'atteindre l'URL '%s':\n"
 "%s"
 
-#: src/feed.c:1663
-#: src/feed.c:1667
+#: src/feed.c:1707
+#: src/feed.c:1711
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: src/feed.c:1667
+#: src/feed.c:1711
 #, c-format
 msgid ""
 "Couldn't fetch URL '%s':\n"
@@ -138,12 +137,12 @@ msgstr ""
 "Impossible d'atteindre l'URL '%s':\n"
 "%s\n"
 
-#: src/feed.c:1683
+#: src/feed.c:1727
 #, c-format
 msgid "Can't subscribe feed '%s'."
 msgstr "Impossible de s'abonner au flux '%s'."
 
-#: src/feed.c:1786
+#: src/feed.c:1830
 #: src/rssyl_cb_menu.c:280
 msgid "Claws Mail needs network access in order to update the feed."
 msgid_plural "Claws Mail needs network access in order to update the feeds."
@@ -197,6 +196,11 @@ msgstr ""
 #: src/plugin.c:92
 msgid "RSS feed"
 msgstr "flux RSS"
+
+#: src/rssyl.c:126
+#: src/rssyl.c:138
+msgid "Refresh all feeds"
+msgstr "Mettre à jour tous les flux"
 
 #: src/rssyl_cb_menu.c:59
 msgid "Subscribe feed"
@@ -375,7 +379,7 @@ msgstr "Récupérer les commentaires si possible"
 msgid "<b>Source URL:</b>"
 msgstr "<b>URL source :</b>"
 
-#: src/rssyl_gtk.c:333
+#: src/rssyl_gtk.c:336
 msgid ""
 "<b>Fetch comments on posts aged less than:</b>\n"
 "<small>(In days; set to -1 to fetch all comments)</small>"
@@ -383,7 +387,7 @@ msgstr ""
 "<b>Récupérer les commentaires sur les articles de moins de :</b>\n"
 "<small>(En jours ; -1 pour récupérer tous les commentaires)</small>"
 
-#: src/rssyl_gtk.c:365
+#: src/rssyl_gtk.c:370
 msgid ""
 "<b>Refresh interval in minutes:</b>\n"
 "<small>(Set to 0 to disable automatic refreshing for this feed)</small>"
@@ -391,7 +395,7 @@ msgstr ""
 "<b>Intervalle de mise à jour, en minutes :</b>\n"
 "<small>(Saisissez 0 pour désactiver la mise à jour automatique de ce flux)</small>"
 
-#: src/rssyl_gtk.c:398
+#: src/rssyl_gtk.c:403
 msgid ""
 "<b>Number of expired entries to keep:</b>\n"
 "<small>(Set to -1 if you want to keep expired entries)</small>"
@@ -399,32 +403,48 @@ msgstr ""
 "<b>Nombre d'articles expirés à conserver :</b>\n"
 "<small>(Saisissez -1 pour tout conserver)</small>"
 
-#: src/rssyl_gtk.c:440
+#: src/rssyl_gtk.c:429
+msgid "<b>If an item changes, do not mark it as unread:</b>"
+msgstr "<b>Si un article change, le marquer comme lu :</b>"
+
+#: src/rssyl_gtk.c:439
+msgid "Always mark as unread"
+msgstr "Toujours marquer comme lu"
+
+#: src/rssyl_gtk.c:441
+msgid "If only its text changed"
+msgstr "Seulement si le texte a changé"
+
+#: src/rssyl_gtk.c:443
+msgid "Never mark as unread"
+msgstr "Ne jamais marquer comme lu"
+
+#: src/rssyl_gtk.c:476
 msgid "_Cancel"
 msgstr "A_nnuler"
 
-#: src/rssyl_gtk.c:461
+#: src/rssyl_gtk.c:497
 msgid "_OK"
 msgstr "_Valider"
 
-#: src/rssyl_gtk.c:469
+#: src/rssyl_gtk.c:505
 msgid "Set feed properties"
 msgstr "Propriétés du flux"
 
-#: src/rssyl_gtk.c:585
-#: src/rssyl_gtk.c:610
+#: src/rssyl_gtk.c:630
+#: src/rssyl_gtk.c:654
 msgid "Unsubscribe feed"
 msgstr "Se désabonner du flux"
 
-#: src/rssyl_gtk.c:611
+#: src/rssyl_gtk.c:655
 msgid "Do you really want to remove feed"
 msgstr "Voulez-vous vraiment vous désabonner du flux"
 
-#: src/rssyl_gtk.c:617
+#: src/rssyl_gtk.c:661
 msgid "Remove cached entries"
 msgstr "Supprimer les articles en cache"
 
-#: src/rssyl_gtk.c:630
+#: src/rssyl_gtk.c:674
 msgid "_Unsubscribe"
 msgstr "Se _désabonner"
 
