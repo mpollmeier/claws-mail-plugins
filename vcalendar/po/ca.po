@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
-"POT-Creation-Date: 2010-01-01 19:09+0000\n"
-"PO-Revision-Date: 2010-01-05 00:52+0100\n"
+"POT-Creation-Date: 2010-11-12 09:57+0000\n"
+"PO-Revision-Date: 2010-11-17 23:49+0100\n"
 "Last-Translator: Miquel Oliete <ktalanet@yahoo.es>\n"
 "Language-Team: Miquel Oliete i Baliarda <ktalanet@yahoo.es>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -276,27 +277,27 @@ msgstr "_Vista setmanal"
 msgid "_Month view"
 msgstr "Vista _mensual"
 
-#: src/vcal_folder.c:1428
+#: src/vcal_folder.c:1430
 msgid "in the past"
 msgstr "en el passat"
 
-#: src/vcal_folder.c:1431
+#: src/vcal_folder.c:1433
 msgid "today"
 msgstr "avui"
 
-#: src/vcal_folder.c:1434
+#: src/vcal_folder.c:1436
 msgid "tomorrow"
 msgstr "demà"
 
-#: src/vcal_folder.c:1437
+#: src/vcal_folder.c:1439
 msgid "this week"
 msgstr "aquesta setmana"
 
-#: src/vcal_folder.c:1440
+#: src/vcal_folder.c:1442
 msgid "later"
 msgstr "més tard"
 
-#: src/vcal_folder.c:1444
+#: src/vcal_folder.c:1446
 #, c-format
 msgid ""
 "\n"
@@ -305,34 +306,34 @@ msgstr ""
 "\n"
 "Aquests són els events planejats %s:\n"
 
-#: src/vcal_folder.c:1536
+#: src/vcal_folder.c:1538
 #, c-format
 msgid "Timeout (%d seconds) connecting to %s\n"
 msgstr "Excedit el temps (%d segons) connectant a %s\n"
 
-#: src/vcal_folder.c:1545
+#: src/vcal_folder.c:1547
 msgid "401 (Authorisation required)"
 msgstr "401 (Autorització requerida)"
 
-#: src/vcal_folder.c:1548
+#: src/vcal_folder.c:1550
 msgid "403 (Unauthorised)"
 msgstr "403 (No autoritzat)"
 
-#: src/vcal_folder.c:1551
+#: src/vcal_folder.c:1553
 msgid "404 (Not found)"
 msgstr "404 (No trobat)"
 
-#: src/vcal_folder.c:1554
+#: src/vcal_folder.c:1556
 #, c-format
 msgid "Error %ld"
 msgstr "Error %ld"
 
-#: src/vcal_folder.c:1591
+#: src/vcal_folder.c:1593
 #, c-format
 msgid "Fetching '%s'..."
 msgstr "Obtenint '%s'..."
 
-#: src/vcal_folder.c:1757
+#: src/vcal_folder.c:1759
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -345,12 +346,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/vcal_folder.c:1758 src/vcal_folder.c:1762 src/vcal_folder.c:1773
-#: src/vcal_folder.c:1776
+#: src/vcal_folder.c:1760 src/vcal_folder.c:1764 src/vcal_folder.c:1775
+#: src/vcal_folder.c:1778
 msgid "Unknown error"
 msgstr "Error desconegut"
 
-#: src/vcal_folder.c:1761
+#: src/vcal_folder.c:1763
 #, c-format
 msgid ""
 "Could not retrieve the Webcal URL:\n"
@@ -363,7 +364,7 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/vcal_folder.c:1772
+#: src/vcal_folder.c:1774
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -374,7 +375,7 @@ msgstr ""
 "%s\n"
 "%s"
 
-#: src/vcal_folder.c:1775
+#: src/vcal_folder.c:1777
 #, c-format
 msgid ""
 "This URL does not look like a WebCal URL:\n"
@@ -385,59 +386,59 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: src/vcal_folder.c:1831
+#: src/vcal_folder.c:1833
 msgid "Claws Mail needs network access in order to update the Webcal feed."
 msgstr "Claws Mail necessita accés a xarxa per actualitzar el feed de Webcal."
 
-#: src/vcal_folder.c:1850
+#: src/vcal_folder.c:1852
 msgid "Claws Mail needs network access in order to update the subscription."
 msgstr "Claws Mail necessita accés a xarxa per actualitzar la subscripció."
 
-#: src/vcal_folder.c:1862
+#: src/vcal_folder.c:1864
 msgid "Subscribe to WebCal"
 msgstr "Subscriure's a WebCal"
 
-#: src/vcal_folder.c:1862
+#: src/vcal_folder.c:1864
 msgid "Enter the WebCal URL:"
 msgstr "Entreu la URL de WebCal:"
 
-#: src/vcal_folder.c:1874
+#: src/vcal_folder.c:1876
 msgid "Could not parse the URL."
 msgstr "No s'ha pogut processar la URL."
 
-#: src/vcal_folder.c:1903
+#: src/vcal_folder.c:1905
 msgid "Do you really want to unsubscribe?"
 msgstr "Realment voleu desubscriure-vos"
 
-#: src/vcal_folder.c:1904
+#: src/vcal_folder.c:1906
 msgid "Delete folder"
 msgstr "Esborrar carpeta"
 
-#: src/vcal_folder.c:1925
+#: src/vcal_folder.c:1927
 #, c-format
 msgid "Can't remove the folder '%s'."
 msgstr "No es pot esborrar la carpeta '%s'."
 
-#: src/vcal_folder.c:1968
+#: src/vcal_folder.c:1970
 #, c-format
 msgid "Input new name for '%s':"
 msgstr "Entreu un nou nom per '%s':"
 
-#: src/vcal_folder.c:1969
+#: src/vcal_folder.c:1971
 msgid "Rename folder"
 msgstr "Renombrar carpeta"
 
-#: src/vcal_folder.c:1976
+#: src/vcal_folder.c:1978
 #, c-format
 msgid "'%c' can't be included in folder name."
 msgstr "'%c' no pot ser inclòs en el nom de la carpeta."
 
-#: src/vcal_folder.c:1983
+#: src/vcal_folder.c:1985
 #, c-format
 msgid "The folder '%s' already exists."
 msgstr "La carpeta '%s' ja existeix."
 
-#: src/vcal_folder.c:1989
+#: src/vcal_folder.c:1991
 msgid ""
 "The folder could not be renamed.\n"
 "The new folder name is not allowed."

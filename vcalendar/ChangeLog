@@ -1,3 +1,16 @@
+2010-11-19 [paul]	2.0.8cvs4
+
+	* po/ca.po
+	* po/es.po
+	* po/fi.po
+	* po/fr.po
+	* po/id.po
+	* po/pt_BR.po
+	* po/sk.po
+		updated by Miquel Oliete, Ricardo Mones,
+		Flammie Pirinen, wwp, MSulchan Darmawan,
+		Frederico Goncalves Guimaraes, Slavko
+
 2010-10-18 [colin]	2.0.8cvs3
 
 	* src/month-view.c
