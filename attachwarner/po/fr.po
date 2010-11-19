@@ -4,15 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AttachWarner\n"
+"Project-Id-Version: Claws Mail Attach Warner plugin\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2008-11-28 10:10+0100\n"
-"PO-Revision-Date: 2008-04-18 09:39+0100\n"
-"Last-Translator: Tristan Chabredier wwp subscript@free.fr\n"
-"Language-Team: fr <colin@colino.net>\n"
+"PO-Revision-Date: 2010-11-15 09:56+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
 #: src/attachwarner.c:272
 msgid "+_Send"
@@ -24,12 +27,8 @@ msgstr "Envoyer plus tard"
 
 #: src/attachwarner.c:277
 #, c-format
-msgid ""
-"An attachment is mentioned in the mail you're sending, but no file was "
-"attached. %s it anyway?"
-msgstr ""
-"Une piÃ¨ce jointe est mentionnÃ©e dans l'email que vous envoyez, mais aucun "
-"fichier n'est joint. %s tout de mÃªme ?"
+msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
+msgstr "Une pièce jointe est mentionnée dans l'email que vous envoyez, mais aucun fichier n'est joint. %s tout de même ?"
 
 #: src/attachwarner.c:278
 msgid "Send"
@@ -41,9 +40,11 @@ msgstr "Envoyer plus tard"
 
 #: src/attachwarner.c:279
 msgid "Attachment warning"
-msgstr "PiÃ¨ces jointes - avertissement"
+msgstr "Pièces jointes - avertissement"
 
-#: src/attachwarner.c:306 src/attachwarner.c:343 src/attachwarner.c:395
+#: src/attachwarner.c:306
+#: src/attachwarner.c:343
+#: src/attachwarner.c:395
 msgid "Attach warner"
 msgstr "Attach warner"
 
@@ -52,12 +53,8 @@ msgid "Failed to register check before send hook"
 msgstr "Impossible d'enregistrer le hook \"check before send\""
 
 #: src/attachwarner.c:353
-msgid ""
-"Warns user if some reference to attachments is found in the message text and "
-"no file is attached."
-msgstr ""
-"VÃ©rifie la prÃ©sence de fichiers joints lorsqu'ils sont mentionnÃ©s dans le "
-"texte."
+msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
+msgstr "Vérifie la présence de fichiers joints lorsqu'ils sont mentionnés dans le texte."
 
 #: src/attachwarner_prefs.c:48
 msgid "attach"
@@ -68,29 +65,24 @@ msgid ""
 "Warn when matching the following regular expressions:\n"
 "(one per line)"
 msgstr ""
-"PrÃ©venir lorsque les expressions rÃ©guliÃ¨res suivantes sont prÃ©sentes:\n"
+"Prévenir lorsque les expressions régulières suivantes sont présentes:\n"
 "(une par ligne)"
 
 #: src/attachwarner_prefs.c:92
 msgid "Skip quoted lines"
-msgstr "Ne pas vÃ©rifier les citations"
+msgstr "Ne pas vérifier les citations"
 
 #: src/attachwarner_prefs.c:99
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr ""
-"Les expressions rÃ©guliÃ¨res ci-dessus ne seront pas vÃ©rifiÃ©es dans les "
-"citations"
+msgstr "Les expressions régulières ci-dessus ne seront pas vérifiées dans les citations"
 
 #: src/attachwarner_prefs.c:102
 msgid "Skip forwards and redirections"
-msgstr "Ne pas vÃ©rifier les messages transfÃ©rÃ©s ou redirigÃ©s"
+msgstr "Ne pas vérifier les messages transférés ou redirigés"
 
 #: src/attachwarner_prefs.c:109
-msgid ""
-"Don't check for missing attachments when forwarding or redirecting messages"
-msgstr ""
-"Les expressions rÃ©guliÃ¨res ci-dessus ne seront pas vÃ©rifiÃ©es dans les "
-"messages transfÃ©rÃ©s ainsi que dans les redirections"
+msgid "Don't check for missing attachments when forwarding or redirecting messages"
+msgstr "Les expressions régulières ci-dessus ne seront pas vérifiées dans les messages transférés ainsi que dans les redirections"
 
 #: src/attachwarner_prefs.c:182
 msgid "Plugins"
@@ -99,3 +91,4 @@ msgstr "Modules"
 #: src/attachwarner_prefs.c:183
 msgid "Attach Warner"
 msgstr "Attach Warner"
+

@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: attachwarner\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
-"POT-Creation-Date: 2009-04-13 16:34+0700\n"
+"POT-Creation-Date: 2010-11-12 09:47+0000\n"
 "PO-Revision-Date: 2009-06-29 11:37+0700\n"
 "Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
 "Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,8 +26,12 @@ msgstr "+_Antri"
 
 #: src/attachwarner.c:277
 #, c-format
-msgid "An attachment is mentioned in the mail you're sending, but no file was attached. %s it anyway?"
-msgstr "Sebuah lampiran disebutkan dalam surat yang anda kirim, tapi tidak ada berkas yang dilampirkan. Tetap %s saja ?"
+msgid ""
+"An attachment is mentioned in the mail you're sending, but no file was "
+"attached. %s it anyway?"
+msgstr ""
+"Sebuah lampiran disebutkan dalam surat yang anda kirim, tapi tidak ada "
+"berkas yang dilampirkan. Tetap %s saja ?"
 
 #: src/attachwarner.c:278
 msgid "Send"
@@ -40,9 +45,7 @@ msgstr "Antrian"
 msgid "Attachment warning"
 msgstr "Peringatan lampiran"
 
-#: src/attachwarner.c:306
-#: src/attachwarner.c:343
-#: src/attachwarner.c:395
+#: src/attachwarner.c:306 src/attachwarner.c:343 src/attachwarner.c:395
 msgid "Attach warner"
 msgstr "Pengingat lampiran"
 
@@ -51,8 +54,12 @@ msgid "Failed to register check before send hook"
 msgstr "Gagal untuk registrasi pemeriksaan sebelum mengirim kaitan"
 
 #: src/attachwarner.c:353
-msgid "Warns user if some reference to attachments is found in the message text and no file is attached."
-msgstr "Peringatkan pengguna jika ditemukan referensi lampiran pada teks pesan namun tidak ada berkas yang dilampirkan."
+msgid ""
+"Warns user if some reference to attachments is found in the message text and "
+"no file is attached."
+msgstr ""
+"Peringatkan pengguna jika ditemukan referensi lampiran pada teks pesan namun "
+"tidak ada berkas yang dilampirkan."
 
 #: src/attachwarner_prefs.c:48
 msgid "attach"
@@ -72,15 +79,19 @@ msgstr "Abaikan baris yang dikutip"
 
 #: src/attachwarner_prefs.c:99
 msgid "Exclude quoted lines from checking for the regular expressions above"
-msgstr "Keluarkan baris yang di kutip dari pemeriksaan ekspresi reguler di atas"
+msgstr ""
+"Keluarkan baris yang di kutip dari pemeriksaan ekspresi reguler di atas"
 
 #: src/attachwarner_prefs.c:102
 msgid "Skip forwards and redirections"
 msgstr "Abaikan teruskan dan redireksi"
 
 #: src/attachwarner_prefs.c:109
-msgid "Don't check for missing attachments when forwarding or redirecting messages"
-msgstr "Jangan periksa lampiran yang tidak ditemukan ketika meneruskan atau meredirek pesan"
+msgid ""
+"Don't check for missing attachments when forwarding or redirecting messages"
+msgstr ""
+"Jangan periksa lampiran yang tidak ditemukan ketika meneruskan atau "
+"meredirek pesan"
 
 #: src/attachwarner_prefs.c:182
 msgid "Plugins"
@@ -89,4 +100,3 @@ msgstr "Pengaya"
 #: src/attachwarner_prefs.c:183
 msgid "Attach Warner"
 msgstr "Pengingat Lampiran"
-
