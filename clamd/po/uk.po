@@ -1,0 +1,211 @@
+# Ukrainian translation.
+# Copyright (C) 2010 The Claws Mail Team
+# This file is distributed under the same license as the claws-mail package.
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: claws-svn\n"
+"Report-Msgid-Bugs-To: paul@claws-mail.org\n"
+"POT-Creation-Date: 2010-09-13 14:46+0200\n"
+"PO-Revision-Date: 2010-11-17 23:35+0100\n"
+"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
+"Language-Team: Ukrainian <translation@linux.org.ua>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\\n\n"
+
+#: src/clamav_plugin.c:44
+#: src/clamav_plugin_gtk.c:353
+msgid "Clam AntiVirus"
+msgstr "Clam Антивірус"
+
+#: src/clamav_plugin.c:96
+msgid ""
+"Scanning\n"
+"No socket information.\n"
+"Antivirus disabled."
+msgstr ""
+"Сканування\n"
+"Немає інформації про сокет.\n"
+"Антивірус відключено."
+
+#: src/clamav_plugin.c:100
+msgid ""
+"Scanning\n"
+"Clamd does not respond to ping.\n"
+"Is clamd running?"
+msgstr ""
+"Сканування\n"
+"Clamd не відповідає на запити.\n"
+"Чи clamd запущений?"
+
+#: src/clamav_plugin.c:104
+#, c-format
+msgid "Detected %s virus."
+msgstr "Знайдено %s вірус."
+
+#: src/clamav_plugin.c:108
+#, c-format
+msgid ""
+"Scanning error:\n"
+"%s"
+msgstr ""
+"Помилка сканування:\n"
+"%s"
+
+#: src/clamav_plugin.c:142
+msgid "ClamAV: scanning message..."
+msgstr "ClamAV: повідомлення сканування..."
+
+#: src/clamav_plugin.c:214
+msgid "Failed to register mail filtering hook"
+msgstr "Не можу зареєструвати фільтр пошти"
+
+#: src/clamav_plugin.c:234
+#: src/clamav_plugin.c:250
+msgid ""
+"Init\n"
+"No socket information.\n"
+"Antivirus disabled."
+msgstr ""
+"Ініціалізація\n"
+"Немає інформації про сокет.\n"
+"Антивірус відключено."
+
+#: src/clamav_plugin.c:238
+#: src/clamav_plugin.c:254
+msgid ""
+"Init\n"
+"Clamd does not respond to ping.\n"
+"Is clamd running?"
+msgstr ""
+"Ініціалізація\n"
+"Clamd не відповідає на запити.\n"
+"Чи clamd запущений?"
+
+#: src/clamav_plugin.c:287
+msgid ""
+"This plugin uses Clam AntiVirus to scan all messages that are received from an IMAP, LOCAL or POP account.\n"
+"\n"
+"When a message attachment is found to contain a virus it can be deleted or saved in a specially designated folder.\n"
+"\n"
+"Because this plugin communicates with clamd via a socket then there are some minimum requirements to the permissions for your home folder and the .claws-mail folder. All users at least need to be given execute permissions on these folders.\n"
+"\n"
+"Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus"
+msgstr ""
+"Цей додатоквикористовує Clam Антивірус для сканування всіх повідомлень, отриманих з IMAP, LOCAL або POP рахунку.\n"
+"\n"
+"Коли знайдено долучення, яке містить вірус, воно буде вилучено або збережено у відповідну спеціальну теку.\n"
+"\n"
+"Оскільки цей додаток зв’язується з clamd за допомогою сокету, то існують деякі мінімальні вимоги до прав доступу Вагої домашньої теки і теки .claws-mail. Всі користувачі як мінімум повинні мати права до запуску в цих теках.\n"
+"\n"
+"Налаштування можна знайти в /Конфігурація/Налаштування/Додатки/Clam Антивірус"
+
+#: src/clamav_plugin.c:319
+msgid "Virus detection"
+msgstr "Знаходження вірусів"
+
+#: src/clamav_plugin_gtk.c:162
+msgid "Enable virus scanning"
+msgstr "Включити сканування вірусів"
+
+#: src/clamav_plugin_gtk.c:172
+msgid "Maximum attachment size"
+msgstr "Максимальний розмір долучень"
+
+#: src/clamav_plugin_gtk.c:183
+msgid "Message attachments larger than this will not be scanned"
+msgstr "Повідомлення з долученнями більшими за цей розмір не будуть скановані"
+
+#: src/clamav_plugin_gtk.c:187
+msgid "MB"
+msgstr "MB"
+
+#: src/clamav_plugin_gtk.c:196
+msgid "Save infected mail in"
+msgstr "Зберегти інфіковані листи у"
+
+#: src/clamav_plugin_gtk.c:200
+msgid "Save mail that contains viruses"
+msgstr "Зберегти листи, що містять віруси"
+
+#: src/clamav_plugin_gtk.c:208
+msgid "Folder for storing infected mail. Leave empty to use the default trash folder"
+msgstr "Тека для збереження інфікованих листів. Не заповнюйте для використання теки смітника по замовчуванню"
+
+#: src/clamav_plugin_gtk.c:212
+msgid "_Browse"
+msgstr "_Переглянути"
+
+#: src/clamav_plugin_gtk.c:216
+msgid "Click this button to select a folder for storing infected mail"
+msgstr "Натисніть цю кнопку для вибору теки для збереження інфікованих листів"
+
+#: src/clamav_plugin_gtk.c:224
+msgid "Where is clamd.conf"
+msgstr "Де є clamd.conf"
+
+#: src/clamav_plugin_gtk.c:232
+msgid "Full path to clamd.conf. If this field is not empty then the plugin has been able to locate the file automatically"
+msgstr "Повний шлях до clamd.conf. Якщо це поле не заповнене, тоді додаток спробує знайти цей файл автоматично"
+
+#: src/clamav_plugin_gtk.c:236
+msgid "Br_owse"
+msgstr "П_оказати"
+
+#: src/clamav_plugin_gtk.c:240
+msgid "Click this button to select full path to clamd.conf"
+msgstr "Натисніть цю кнопку для вибору повного шляху до clamd.conf"
+
+#: src/clamav_plugin_gtk.c:248
+msgid "Check permission for folders and adjust if necessary"
+msgstr "Перевірте права доступу для тек і поправте при необхідності"
+
+#: src/clamav_plugin_gtk.c:261
+msgid "Click this button to check and adjust folder permissions"
+msgstr "Натисніть цю кнопку для перевірки і виправлення прав доступу для тек"
+
+#: src/clamav_plugin_gtk.c:328
+msgid ""
+"New config\n"
+"No socket information.\n"
+"Antivirus disabled."
+msgstr ""
+"Нова конфігурація\n"
+"Немає інформації про сокет.\n"
+"Антивірус виключений."
+
+#: src/clamav_plugin_gtk.c:332
+msgid ""
+"New config\n"
+"Clamd does not respond to ping.\n"
+"Is clamd running?"
+msgstr ""
+"Нова конфігурація\n"
+"Clamd не відповідає на запити.\n"
+"Чи clamd запущений?"
+
+#: src/clamav_plugin_gtk.c:352
+msgid "Plugins"
+msgstr "Додатки"
+
+#: libclamd/clamd-plugin.c:91
+#, c-format
+msgid ""
+"%s: Unable to open\n"
+"clamd will be disabled"
+msgstr ""
+"%s: Не можу відкрити\n"
+"clamd буде виключено"
+
+#: libclamd/clamd-plugin.c:149
+#, c-format
+msgid ""
+"%s: Not able to find required information\n"
+"clamd will be disabled"
+msgstr ""
+"%s: Не можу знайти потрібну інформацію\n"
+"clamd буде виключено"
+

@@ -1,24 +1,27 @@
-# Clamav plugin Spanish translation.
-# Copyright (C) 2008 the Claws Mail team
-# This file is distributed under the same license as the Claws Mail package.
-# Ricardo Mones <ricardo@mones.org>, 2008.
+# Slovak translations for clamd_plugin package
+# Slovenské preklady pre balík clamd_plugin.
+# Copyright (C) 2010 the Claws Mail team
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2010.
+# Slavko <linux@slavino.sk>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: clamav 3.2.0cvs76\n"
+"Project-Id-Version: clamd_plugin\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
 "POT-Creation-Date: 2010-09-26 03:10+0200\n"
-"PO-Revision-Date: 2010-11-17 19:28+0100\n"
-"Last-Translator: Ricardo Mones <ricardo@mones.org>\n"
-"Language-Team: Ricardo Mones <ricardo@mones.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2010-11-14 16:15+0100\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
+"Language-Team: Slovak <nomail>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/clamav_plugin.c:44 src/clamav_plugin_gtk.c:353
 msgid "Clam AntiVirus"
-msgstr "Antivirus Clam"
+msgstr "Clam AntiVírus"
 
 #: src/clamav_plugin.c:96
 msgid ""
@@ -26,9 +29,9 @@ msgid ""
 "No socket information.\n"
 "Antivirus disabled."
 msgstr ""
-"Escaneando\n"
-"No hay informaci�n de socket.\n"
-"Antivirus desactivado."
+"Skenovanie\n"
+"Chýbajú informácie o sokete.\n"
+"Antivírus vypnutý."
 
 #: src/clamav_plugin.c:100
 msgid ""
@@ -36,14 +39,14 @@ msgid ""
 "Clamd does not respond to ping.\n"
 "Is clamd running?"
 msgstr ""
-"Escaneando\n"
-"Clamd no responde al ping.\n"
-"�Est� clamd ejecut�ndose?"
+"Skenovanie\n"
+"Clamd neodpovedá na ping.\n"
+"Je clamd spustený?"
 
 #: src/clamav_plugin.c:104
 #, c-format
 msgid "Detected %s virus."
-msgstr "Detectado virus %s."
+msgstr "Zistený vírus %s."
 
 #: src/clamav_plugin.c:108
 #, c-format
@@ -51,16 +54,16 @@ msgid ""
 "Scanning error:\n"
 "%s"
 msgstr ""
-"Error escaneando:\n"
+"Chyba skenovania:\n"
 "%s"
 
 #: src/clamav_plugin.c:142
 msgid "ClamAV: scanning message..."
-msgstr "ClamAV: escaneando mensaje..."
+msgstr "ClamAV: správa skenovania..."
 
 #: src/clamav_plugin.c:214
 msgid "Failed to register mail filtering hook"
-msgstr "Fall� el registro de la funci�n de filtrado de correo"
+msgstr "Zlyhala registrácia obsluhy udalosti 'mail filtering'"
 
 #: src/clamav_plugin.c:234 src/clamav_plugin.c:250
 msgid ""
@@ -68,9 +71,9 @@ msgid ""
 "No socket information.\n"
 "Antivirus disabled."
 msgstr ""
-"Inicio\n"
-"No hay informaci�n de socket.\n"
-"Antivirus desactivado."
+"Inicializácia\n"
+"Chýbajú informácie o sokete.\n"
+"Antivírus vypnutý."
 
 #: src/clamav_plugin.c:238 src/clamav_plugin.c:254
 msgid ""
@@ -78,9 +81,9 @@ msgid ""
 "Clamd does not respond to ping.\n"
 "Is clamd running?"
 msgstr ""
-"Inicio\n"
-"Clamd no responde al ping.\n"
-"�Est� clamd ejecut�ndose?"
+"Inicializácia\n"
+"Clamd neodpovedá na ping.\n"
+"Je clamd spustený?"
 
 #: src/clamav_plugin.c:287
 msgid ""
@@ -97,93 +100,90 @@ msgid ""
 "\n"
 "Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus"
 msgstr ""
-"Este m�dulo utiliza el antivirus Clam para escanear todos los mensajes "
-"recibidos de cuentas IMAP, POP o locales.\n"
+"Tento zásuvný modul používa Clam AntiVirus na skenovanie všetkých správ, "
+"ktoré sú prijaté z IMAP, LOCAL alebo POP účtov.\n"
 "\n"
-"Cuando se encuentra un virus en alg�n archivo adjunto se puede borrar o "
-"guardar en una carpeta designada al efecto.\n"
+"Ak príloha správy obsahuje vírus, táto môže byť zmazaná alebo uložená v "
+"zadanej zložke.\n"
 "\n"
-"Debido a que el m�dulo se comunica con clamd a trav�s de un socket hay unos "
-"requisitos m�nimos para los permisos de su carpeta de usuario y la carpeta "
-"�.claws-mail�. Es necesario que �stas tengan permiso de ejecuci�n para todos "
-"los usuarios.\n"
+"Pretože tento zásuvný modul komunikuje s clamd pomocou soketu, existujú isté "
+"špeciálne minimálne požiadavky na práva vášho domovského adresára a "
+"adresára .claws-mail. Tieto adresáre musia povoľovať všetkým používateľom "
+"aspoň práva na vykonávanie (execute).\n"
 "\n"
-"Las opciones se encuentran en �/Configuraci�n/Preferencias/M�dulos/Antivirus "
-"Clam�"
+"Voľby možno nájsť v menu Nastavenie/Nastavenia/Zásuvné moduly/Clam AntiVírus"
 
 #: src/clamav_plugin.c:319
 msgid "Virus detection"
-msgstr "Detecci�n de virus"
+msgstr "Detekcia vírusu"
 
 #: src/clamav_plugin_gtk.c:162
 msgid "Enable virus scanning"
-msgstr "Activar el escaneado de virus"
+msgstr "Zapnúť skenovanie vírusov"
 
 #: src/clamav_plugin_gtk.c:172
 msgid "Maximum attachment size"
-msgstr "Tama�o m�ximo del adjunto"
+msgstr "Maximálna veľkosť prílohy"
 
 #: src/clamav_plugin_gtk.c:183
 msgid "Message attachments larger than this will not be scanned"
-msgstr "Los adjuntos mayores de este tama�o no se escanear�n"
+msgstr "Prílohy správy, ktoré sú väčšie ako táto hodnota, nebudú skenované"
 
 #: src/clamav_plugin_gtk.c:187
 msgid "MB"
-msgstr "Mb"
+msgstr "MB"
 
 #: src/clamav_plugin_gtk.c:196
 msgid "Save infected mail in"
-msgstr "Guardar el correo infectado en"
+msgstr "Uložiť nakazené emaily v"
 
 #: src/clamav_plugin_gtk.c:200
 msgid "Save mail that contains viruses"
-msgstr "Guardar el correo que contiene virus"
+msgstr "Uložiť emaily, ktoré obsahujú vírusy"
 
 #: src/clamav_plugin_gtk.c:208
 msgid ""
 "Folder for storing infected mail. Leave empty to use the default trash folder"
 msgstr ""
-"Carpeta para almacenar el correo infectado. D�jela vac�a para usar la "
-"papelera por defecto"
+"Zložka na uchovávanie nakazených emailov. Nechajte prázdne, ak chcete použiť "
+"predvolenú zložku koša"
 
 #: src/clamav_plugin_gtk.c:212
 msgid "_Browse"
-msgstr "_Examinar"
+msgstr "_Prechádzať"
 
 #: src/clamav_plugin_gtk.c:216
 msgid "Click this button to select a folder for storing infected mail"
 msgstr ""
-"Pulse este bot�n para seleccionar una carpeta donde almacenar el correo "
-"infectado"
+"Kliknite na toto tlačidlo a vyberte zložku na uloženie nakazených emailov"
 
 #: src/clamav_plugin_gtk.c:224
 msgid "Where is clamd.conf"
-msgstr "�D�nde est� �clamd.conf�?"
+msgstr "Kde sa nachádza clamd.conf"
 
 #: src/clamav_plugin_gtk.c:232
 msgid ""
 "Full path to clamd.conf. If this field is not empty then the plugin has been "
 "able to locate the file automatically"
 msgstr ""
-"Ruta completa a �clamd.conf�. Si este campo no est� vac�o entonces el m�dulo "
-"fue capaz de encontrar el fichero autom�ticamente"
+"Úplná cesta ku clamd.conf. Ak toto pole nie je prázdne, potom zásuvný modul "
+"dokázal nájsť súbor automaticky"
 
 #: src/clamav_plugin_gtk.c:236
 msgid "Br_owse"
-msgstr "_Examinar"
+msgstr "Prechádzať"
 
 #: src/clamav_plugin_gtk.c:240
 msgid "Click this button to select full path to clamd.conf"
-msgstr ""
-"Pulse este bot�n para seleccionar la ruta completa a �clamd.conf�"
+msgstr "Kliknite na toto tlačidlo a vyberte úplnú cestu ku clamd.conf"
 
 #: src/clamav_plugin_gtk.c:248
 msgid "Check permission for folders and adjust if necessary"
-msgstr "Compruebe los permisos de las carpetas y aj�stelos si es necesario"
+msgstr "Skontrolovať práva zložiek a ak je to potrebné, upraviť ich"
 
 #: src/clamav_plugin_gtk.c:261
 msgid "Click this button to check and adjust folder permissions"
-msgstr "Pulse este bot�n para comprobar y ajustar los permisos de las carpetas"
+msgstr "Kliknite na toto tlačidlo na kontrolu a úpravu práv zložky"
 
 #: src/clamav_plugin_gtk.c:328
 msgid ""
@@ -191,9 +191,9 @@ msgid ""
 "No socket information.\n"
 "Antivirus disabled."
 msgstr ""
-"Nueva configuraci�n\n"
-"No hay informaci�n de socket.\n"
-"Antivirus desactivado."
+"Nové nastavenie\n"
+"Chýbajú informácie o sokete.\n"
+"Antivírus vypnutý."
 
 #: src/clamav_plugin_gtk.c:332
 msgid ""
@@ -201,13 +201,13 @@ msgid ""
 "Clamd does not respond to ping.\n"
 "Is clamd running?"
 msgstr ""
-"Nueva configuraci�n\n"
-"Clamd no responde al ping.\n"
-"�Est� clamd ejecut�ndose?"
+"Nové nastavenie\n"
+"Clamd neodpovedá na ping.\n"
+"Je clamd spustený?"
 
 #: src/clamav_plugin_gtk.c:352
 msgid "Plugins"
-msgstr "M�dulos"
+msgstr "Zásuvné moduly"
 
 #: libclamd/clamd-plugin.c:91
 #, c-format
@@ -215,8 +215,8 @@ msgid ""
 "%s: Unable to open\n"
 "clamd will be disabled"
 msgstr ""
-"%s: No se puede abrir\n"
-"Se desactivar� clamd"
+"%s: Nemožno otvoriť\n"
+"clamd bude vypnutý"
 
 #: libclamd/clamd-plugin.c:149
 #, c-format
@@ -224,6 +224,5 @@ msgid ""
 "%s: Not able to find required information\n"
 "clamd will be disabled"
 msgstr ""
-"%s: No se puede encontrar la informaci�n requerida\n"
-"Se desactivar� clamd"
-
+"%s: Nemožno nájsť požadované informácie\n"
+"clamd bude vypnutý"

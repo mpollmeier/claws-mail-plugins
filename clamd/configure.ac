@@ -60,7 +60,7 @@ AC_STRUCT_TM
 AC_C_CONST
 AC_SYS_LARGEFILE
 
-ALL_LINGUAS="en_GB es fi hu it"
+ALL_LINGUAS="cs en_GB es fi fr hu id it pt_BR sk uk"
 
 AC_DEFINE_UNQUOTED(TEXTDOMAIN, "$PACKAGE", [Gettext textdomain])
 

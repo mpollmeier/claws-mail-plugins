@@ -1,27 +1,26 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR the Claws Mail team
-# This file is distributed under the same license as the PACKAGE package.
-# Páder Rezső (rezso) <rezso@rezso.net>, 2010.
+# Indonesian translation of clamd package
+# Copyright (C) 2010 the Claws Mail team
+# This file is distributed under the same license as the clamd package.
+# MSulchan Darmawan <bleketux@gmail.com>, 2010.
+#
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Claws Mail Clamd plugin\n"
+"Project-Id-Version: clamd\n"
 "Report-Msgid-Bugs-To: paul@claws-mail.org\n"
 "POT-Creation-Date: 2010-09-26 03:10+0200\n"
-"PO-Revision-Date: 2010-11-17 13:59+0100\n"
-"Last-Translator: rezso <rezso@rezso.net>\n"
-"Language-Team:  <NONE>\n"
+"PO-Revision-Date: 2010-11-14 21:01+0700\n"
+"Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
 
 #: src/clamav_plugin.c:44
 #: src/clamav_plugin_gtk.c:353
 msgid "Clam AntiVirus"
-msgstr "Clam AntiVirus"
+msgstr "AntiVirus Clam"
 
 #: src/clamav_plugin.c:96
 msgid ""
@@ -29,9 +28,9 @@ msgid ""
 "No socket information.\n"
 "Antivirus disabled."
 msgstr ""
-"Ellenőrzés\n"
-"Nincs socket információ.\n"
-"Az antivírus letiltva."
+"Memindai\n"
+"Tidak ada informasi soket.\n"
+"Antivirus dinonaktifkan."
 
 #: src/clamav_plugin.c:100
 msgid ""
@@ -39,14 +38,14 @@ msgid ""
 "Clamd does not respond to ping.\n"
 "Is clamd running?"
 msgstr ""
-"Ellenőrzés\n"
-"A clamd nem felel a pingre.\n"
-"Fut a clamd?"
+"Memindai\n"
+"Clamd tidak membalas ping.\n"
+"Apakah clamd berjalan?"
 
 #: src/clamav_plugin.c:104
 #, c-format
 msgid "Detected %s virus."
-msgstr "%s vírust találtam."
+msgstr "Terdeteksi %s virus."
 
 #: src/clamav_plugin.c:108
 #, c-format
@@ -54,16 +53,16 @@ msgid ""
 "Scanning error:\n"
 "%s"
 msgstr ""
-"Ellenőrzési hiba:\n"
+"Pemindaian salah:\n"
 "%s"
 
 #: src/clamav_plugin.c:142
 msgid "ClamAV: scanning message..."
-msgstr "ClamAV: üzenet vizsgálata..."
+msgstr "ClamAV:memindai pesan..."
 
 #: src/clamav_plugin.c:214
 msgid "Failed to register mail filtering hook"
-msgstr "A levélszűrési szabálylánc regisztrálása nem sikerült"
+msgstr "Gagal mendaftarkan kait penyaringan surat"
 
 #: src/clamav_plugin.c:234
 #: src/clamav_plugin.c:250
@@ -73,8 +72,8 @@ msgid ""
 "Antivirus disabled."
 msgstr ""
 "Init\n"
-"Nincs socket információ.\n"
-"Az antivírus letiltva."
+"Tidak ada informasi soket.\n"
+"Antivirus dinonaktifkan."
 
 #: src/clamav_plugin.c:238
 #: src/clamav_plugin.c:254
@@ -84,8 +83,8 @@ msgid ""
 "Is clamd running?"
 msgstr ""
 "Init\n"
-"A clamd nem felel a pingre.\n"
-"Fut a clamd?"
+"Clamd tidak membalas ping.\n"
+"Apakah clamd berjalan?"
 
 #: src/clamav_plugin.c:287
 msgid ""
@@ -97,29 +96,29 @@ msgid ""
 "\n"
 "Options can be found in /Configuration/Preferences/Plugins/Clam AntiVirus"
 msgstr ""
-"A plugin Clam AntiVirus használatával ellenőrzi az IMAP, LOCAL vagy POP fiókról érkező leveleket.\n"
+"Pengaya ini menggunakan AntiVirus Clam untuk memindai seluruh pesan yang diterima dari akun IMAP, LOCAL atau POP.\n"
 "\n"
-"Ha a levél melléklete vírusos, törölhető, vagy egy külön kijelölt mappába menthető.\n"
+"Ketika lampiran pesan ditemukan mengandung virus, dapat dihapus atau disimpan pada direktori khusus.\n"
 "\n"
-"Mivel a plugin a clamd-vel socket-en keresztül kommunikál, van néhány minimális jogosultsági követelmény a home és a .claws-mail mappákra. Legalább futtatási (belépési) jogosultság kell e mappákra minden felhasználónak.\n"
+"Karena pengaya ini berkomunikasi dengan clamd melalui soket maka ada kebutuhan minimum untuk hak akses ke direktori rumah dan direktori .claws-mail. Seluruh pengguna setidaknya diberikan akses eksekusi pada direktori ini.\n"
 "\n"
-"A plugin beállítása a /Beállítások/Beállítások/Pluginek/Clam AntiVirus menüpontban lehetséges."
+"Pilihan dapat diatur di /Konfigurasi/Pengaturan/Pengaya/AntiVirus Clam"
 
 #: src/clamav_plugin.c:319
 msgid "Virus detection"
-msgstr "Vírusfigyelés"
+msgstr "Deteksi virus"
 
 #: src/clamav_plugin_gtk.c:162
 msgid "Enable virus scanning"
-msgstr "Víruskeresés engedélyezése"
+msgstr "Aktifkan pemindaian virus"
 
 #: src/clamav_plugin_gtk.c:172
 msgid "Maximum attachment size"
-msgstr "Melléklet maximális mérete"
+msgstr "Ukuran maksimum lampiran"
 
 #: src/clamav_plugin_gtk.c:183
 msgid "Message attachments larger than this will not be scanned"
-msgstr "Az ennél nagyobb melléklettel rendelkező levelek nem lesznek ellenőrizve"
+msgstr "Lampiran pesan yang lebih besar dari ini tidak akan di pindai"
 
 #: src/clamav_plugin_gtk.c:187
 msgid "MB"
@@ -127,47 +126,47 @@ msgstr "MB"
 
 #: src/clamav_plugin_gtk.c:196
 msgid "Save infected mail in"
-msgstr "Fertőzött e-mail mentése ide:"
+msgstr "Simpan surat terinfeksi dalam"
 
 #: src/clamav_plugin_gtk.c:200
 msgid "Save mail that contains viruses"
-msgstr "Vírusokat tartalmazó levelek mentése"
+msgstr "Simpan surat yang mengandung virus"
 
 #: src/clamav_plugin_gtk.c:208
 msgid "Folder for storing infected mail. Leave empty to use the default trash folder"
-msgstr "A fertőzött leveleket tároló mappa. Az alapértelmezett kuka mappa használatához hagyd üresen"
+msgstr "Direktori untuk menyimpan pesan terinfeksi. Biarkan kosong untuk menggunakan direktori sampah standar"
 
 #: src/clamav_plugin_gtk.c:212
 msgid "_Browse"
-msgstr "_Böngészés"
+msgstr "_Jelajah"
 
 #: src/clamav_plugin_gtk.c:216
 msgid "Click this button to select a folder for storing infected mail"
-msgstr "A fertőzött leveket tároló mappa kiválasztása"
+msgstr "Klik tombol ini untuk memilih direktori  tempat surat terinfeksi"
 
 #: src/clamav_plugin_gtk.c:224
 msgid "Where is clamd.conf"
-msgstr "A clamd.conf helye"
+msgstr "Dimana clamd.conf"
 
 #: src/clamav_plugin_gtk.c:232
 msgid "Full path to clamd.conf. If this field is not empty then the plugin has been able to locate the file automatically"
-msgstr "A clamd.conf teljes elérési útja. Ha ez a mező nem üres, akkor a plugin automatikusan megtalálta a fájlt."
+msgstr "Jalur lengkap ke clamd.conf. Jika tidak kosong maka pengaya dapat menentukan lokasi berkas secara otomatis"
 
 #: src/clamav_plugin_gtk.c:236
 msgid "Br_owse"
-msgstr "Bö_ngészés"
+msgstr "Jelaja_h"
 
 #: src/clamav_plugin_gtk.c:240
 msgid "Click this button to select full path to clamd.conf"
-msgstr "A clamd.conf teljes elérési útjának kiválasztása"
+msgstr "Klik tombol ini untuk memilih jalur lengkap ke clamd.conf"
 
 #: src/clamav_plugin_gtk.c:248
 msgid "Check permission for folders and adjust if necessary"
-msgstr "Mappák jogosultságainak ellenőrzése, és szükség esetén beállítása"
+msgstr "Periksa hak akses untuk direktori dan sesuaikan jika diperlukan"
 
 #: src/clamav_plugin_gtk.c:261
 msgid "Click this button to check and adjust folder permissions"
-msgstr "Mappák jogosultságainak ellenőrzése és beállítása"
+msgstr "Klik tombol ini untuk memeriksa dan menyesuaikan hak akses direktori"
 
 #: src/clamav_plugin_gtk.c:328
 msgid ""
@@ -175,9 +174,9 @@ msgid ""
 "No socket information.\n"
 "Antivirus disabled."
 msgstr ""
-"Új beállítások\n"
-"Nincs socket információ.\n"
-"Az antivírus letiltva."
+"Konfigurasi baru\n"
+"Tidak ada informasi soket.\n"
+"Antivirus dinonaktifkan."
 
 #: src/clamav_plugin_gtk.c:332
 msgid ""
@@ -185,13 +184,13 @@ msgid ""
 "Clamd does not respond to ping.\n"
 "Is clamd running?"
 msgstr ""
-"Új beállítások\n"
-"A clamd nem felel a pingre.\n"
-"Fut a clamd?"
+"Konfigurasi baru\n"
+"Clamd tidak membalas ping\n"
+"Apakah clamd berjalan?"
 
 #: src/clamav_plugin_gtk.c:352
 msgid "Plugins"
-msgstr "Pluginek"
+msgstr "Pengaya"
 
 #: libclamd/clamd-plugin.c:91
 #, c-format
@@ -199,8 +198,8 @@ msgid ""
 "%s: Unable to open\n"
 "clamd will be disabled"
 msgstr ""
-"%s: nem nyitható meg\n"
-"a clamd tiltva lesz"
+"%s: Tidak dapat dibuka\n"
+"clamd akan dinonaktifkan"
 
 #: libclamd/clamd-plugin.c:149
 #, c-format
@@ -208,6 +207,6 @@ msgid ""
 "%s: Not able to find required information\n"
 "clamd will be disabled"
 msgstr ""
-"%s: a szükséges információ nem található\n"
-"a clamd tiltva lesz"
+"%s: Tidak dapat menemukan informasi yang dibutuhkan\n"
+"clamd akan di nonaktifkan"
 
