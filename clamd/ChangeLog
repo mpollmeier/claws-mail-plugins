@@ -1,3 +1,19 @@
+2010-11-19 [michael]	3.5.0cvs2
+
+	* configure.ac
+	* PATCHSETS
+	  Bump version number to be in sync with CVS
+	  The file PATCHSETS which is a requirement
+	  for commitHelper was missing (therefore no
+	  cvs1 in CVS)
+
+2010-11-19 [michael]	3.5.0cvs1
+
+	* configure.ac
+	  increment version number so it
+	  matches version number on claws-mail.org
+
+
 2010-11-19 [paul]	3.4.0cvs17
 
 	* configure.ac
