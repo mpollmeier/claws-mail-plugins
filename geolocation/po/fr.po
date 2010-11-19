@@ -1,50 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Holger Berndt
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail Geolocation plugin\n"
 "Report-Msgid-Bugs-To: berndth@gmx.de\n"
-"POT-Creation-Date: 2009-10-06 11:23+0200\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"POT-Creation-Date: 2010-11-12 09:50+0000\n"
+"PO-Revision-Date: 2010-11-15 09:37+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
 
 #. TRANSLATORS: The two numbers are latitude and longitude coordinates
-#: src/geolocation_plugin.c:334
+#: src/geolocation_plugin.c:314
 #, c-format
 msgid "Found location: (%.2f,%.2f)"
-msgstr "Localisation effectuÃ©e : (%.2f, %.2f)"
+msgstr "Emplacement trouvé : (%.2f,%.2f)"
 
 #. TRANSLATORS: The IP address is appended to the string
-#: src/geolocation_plugin.c:351
+#: src/geolocation_plugin.c:331
 msgid "Could not resolve location of IP address "
-msgstr "Impossible de localiser l'adresse IP "
+msgstr "Impossible de déterminer l'emplacement de l'adresse IP "
 
-#: src/geolocation_plugin.c:490
+#: src/geolocation_plugin.c:470
 msgid "Try to locate sender"
-msgstr "Essayer de localiser l'Ã©metteur"
+msgstr "Essai de géo-localisation de l'émetteur"
 
-#: src/geolocation_plugin.c:515
-#: src/geolocation_plugin.c:587
+#: src/geolocation_plugin.c:495
+#: src/geolocation_plugin.c:567
 msgid "GeoLocation"
 msgstr "GeoLocation"
 
-#: src/geolocation_plugin.c:520
-#: src/geolocation_plugin.c:527
+#: src/geolocation_plugin.c:500
+#: src/geolocation_plugin.c:507
 #, c-format
 msgid "Could not create regular expression: %s\n"
-msgstr "Impossible de crÃ©er l'expression rÃ©guliÃ¨re : %s\n"
+msgstr "Impossible de créer l'expression régulière : %s\n"
 
-#: src/geolocation_plugin.c:535
+#: src/geolocation_plugin.c:515
 msgid "Failed to register messageview_show hook in the GeoLocation plugin"
-msgstr "Impossible d'enregistrer le hook messageview_show dans le module GeoLocation"
+msgstr "Impossible d'enregistrer le hook \"messageview_show\" dans le module GeoLocation"
 
-#: src/geolocation_plugin.c:592
+#: src/geolocation_plugin.c:572
 msgid ""
 "This plugin provides GeoLocation functionality for Claws Mail.\n"
 "\n"
@@ -53,14 +57,13 @@ msgid ""
 "\n"
 "Feedback to <berndth@gmx.de> is welcome (but only if it's not about marital quarrels)."
 msgstr ""
-"Ce module fournit une fonctionnalitÃ© de gÃ©olocation pour Claws Mail.\n"
+"Ce module permet de géo-localiser l'émetteur d'un email à partir de Claws Mail.\n"
 "\n"
-"Attention : Il est techniquement impossible de dÃ©terminer la localisation gÃ©ographique d'un expÃ©diteur de courriel avec une quelconque certitude. Les rÃ©sultats prÃ©sentÃ©s par ce module sont des estimations. En particulier, certains gestionnaires de listes de diffusion enlÃ¨vent les informations de l'Ã©metteur du courriel avant de le rÃ©-Ã©mettre, et les courriels de ces listes sembleront tous provenir du serveur de liste.\n"
-"Dans le doute, ne prenez pas les rÃ©sultats de ce module pour argent comptant, et Ã©vitez de divorcer sur la base de ses informations.\n"
+"Avertissement : il n'est pas possible de vérifier ni de certifier une géo-localisation réalisée à partir d'un email.Les résultats apportés par ce module ne peuvent donc qu'être considérés comme des éléments d'information approximatifs, sans valeur de preuve ni encore moins légale. C'est notamment le cas des messages ayant transité via des listes de diffusion, dont les gestionnaires tronquent ou transforment souvent les informations relatives à l'émetteur des messages. Dans ce cas la géo-localisation peut être soit impossible, soit révéler l'emplacement du gestionnaire de liste de diffusion lui-même au lieu de l'émetteur du message ou encore une toute autre valeur non pertinente.\n"
 "\n"
-"Les commentaires sont les bienvenus Ã  l'adresse <berndth@gmx.de> (sauf demandes de conseils conjuguaux)."
+"Commentaires et retours sont les bienvenus auprès de <berndth@gmx.de> is welcome (seulement s'il n'est pas question de querelles de couples)."
 
-#: src/geolocation_plugin.c:625
+#: src/geolocation_plugin.c:605
 msgid "GeoLocation integration"
-msgstr "IntÃ©gration GÃ©oLocation"
+msgstr "Intégration de la géo-localisation"
 

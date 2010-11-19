@@ -1,3 +1,16 @@
+2010-11-19 [paul]	0.0.3cvs2
+
+	* configure.ac
+	* po/pt_BR.po
+		added by Frederico Goncalves Guimaraes
+	* po/ca.po
+	* po/fi.po
+	* po/fr.po
+	* po/id.po
+	* po/sk.po
+		updated by Miquel Oliete, Flammie Pirinen, wwp,
+		MSulchan Darmawan, Slavko
+
 2010-11-15 [holger]	0.0.3cvs1
 
 	* configure.ac
