@@ -1,17 +1,18 @@
-# Brazilian Portuguese translation of  Claws Mail Archive plugin.
+# Brazilian Portuguese translation of Claws Mail Archiver plugin.
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2008, 2009.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version:  Claws Mail Archive plugin\n"
+"Project-Id-Version: Archiver plugin\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2009-03-06 17:22+0100\n"
+"POT-Creation-Date: 2009-10-12 17:24+0200\n"
 "PO-Revision-Date: 2009-03-05 08:49-0300\n"
 "Last-Translator: Frederico Goncalves Guimaraes <frederico@teia.bio.br>\n"
-"Language-Team: Brazilian Portuguese\n"
+"Language-Team: \n"
+"Language: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #: src/archiver.c:40 src/archiver_prefs.c:90
 msgid "Mail Archiver"
@@ -55,8 +56,8 @@ msgstr ""
 "\n"
 "Ele habilita a seleção de uma pasta de mensagens que você deseja empacotar, "
 "a seleção de um nome, formato e localização para o pacote. Subpastas podem "
-"ser incluídas e somas de checagem MD5 podem ser adicionadas para cada arquivo "
-"no pacote. Existem várias opções de empacotamento.\n"
+"ser incluídas e somas de checagem MD5 podem ser adicionadas para cada "
+"arquivo no pacote. Existem várias opções de empacotamento.\n"
 "\n"
 "Os pacotes podem ser armazenados como:\n"
 "\tTAR\n"
@@ -485,4 +486,3 @@ msgstr "Excluir"
 #: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
 msgstr "Selecione essa opção para excluir as mensagens após o empacotamento"
-

@@ -56,3 +56,4 @@
 ( cvs diff -u -r 1.1.2.27 -r 1.1.2.28 src/archiver_gtk.c;  ) > 0.6.5cvs2.patchset
 ( cvs diff -u -r 1.1.2.67 -r 1.1.2.68 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/es.po;  diff -u /dev/null po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/nl.po;  diff -u /dev/null po/sk.po;  ) > 0.6.5cvs3.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fi.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  ) > 0.6.6cvs1.patchset
+( cvs diff -u -r 1.1.2.71 -r 1.1.2.72 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/ca.po;  cvs diff -u -r 1.1.2.5 -r 1.1.2.6 po/es.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/pt_BR.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/sk.po;  diff -u /dev/null po/uk.po;  ) > 0.6.7cvs1.patchset

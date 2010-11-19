@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: archive\n"
 "Report-Msgid-Bugs-To: mir@datanom.net\n"
-"POT-Creation-Date: 2009-06-25 13:29+0700\n"
+"POT-Creation-Date: 2010-11-12 09:46+0000\n"
 "PO-Revision-Date: 2009-06-29 11:37+0700\n"
 "Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
 "Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/archiver.c:40
-#: src/archiver_prefs.c:90
+#: src/archiver.c:40 src/archiver_prefs.c:90
 msgid "Mail Archiver"
 msgstr "Pengarsip Surat"
 
@@ -28,7 +28,10 @@ msgstr "Buat Arsip..."
 msgid ""
 "This plugin adds archiving features to Claws Mail.\n"
 "\n"
-"It enables you to select a mail folder that you want to be archived, and then choose a name, format and location for the archive. Subfolders can be included and MD5 checksums can be added for each file in the archive. Several archiving options are also available.\n"
+"It enables you to select a mail folder that you want to be archived, and "
+"then choose a name, format and location for the archive. Subfolders can be "
+"included and MD5 checksums can be added for each file in the archive. "
+"Several archiving options are also available.\n"
 "\n"
 "The archive can be stored as:\n"
 "\tTAR\n"
@@ -41,17 +44,22 @@ msgid ""
 "\tBZIP2\n"
 "\tCOMPRESS\n"
 "\n"
-"The archives can be restored with any standard tool that supports the chosen format and compression.\n"
+"The archives can be restored with any standard tool that supports the chosen "
+"format and compression.\n"
 "\n"
 "The supported folder types are MH, IMAP, RSSyl and vCalendar.\n"
 "\n"
 "To activate the archiving feature go to /Tools/Create Archive\n"
 "\n"
-"Default options can be set in /Configuration/Preferences/Plugins/Mail Archiver"
+"Default options can be set in /Configuration/Preferences/Plugins/Mail "
+"Archiver"
 msgstr ""
 "Pengaya ini menambahkan fitur pengarsipan pada Claws Mail.\n"
 "\n"
-"Pengaya ini memperbolehkan anda untuk memilih direktori surat yang akan anda arsipkan, dan kemudian memilih nama, format, dan lokasi arsip.  Sub direktori dapat diikutsertakan dan ceksum MD5 dapat ditambahkan untuk setiap berkas di dalam arsip. Beberapa pilihan pengarsipan juga tersedia.\n"
+"Pengaya ini memperbolehkan anda untuk memilih direktori surat yang akan anda "
+"arsipkan, dan kemudian memilih nama, format, dan lokasi arsip.  Sub "
+"direktori dapat diikutsertakan dan ceksum MD5 dapat ditambahkan untuk setiap "
+"berkas di dalam arsip. Beberapa pilihan pengarsipan juga tersedia.\n"
 "\n"
 "Arsip dapat di buat sebagai:\n"
 "\tTAR\n"
@@ -64,13 +72,15 @@ msgstr ""
 "\tBZIP2\n"
 "\tCOMPRESS\n"
 "\n"
-"Arsip dapat dibuka dengan setiap aplikasi standar yang mendukung format dan teknik kompresi yang dipilih.\n"
+"Arsip dapat dibuka dengan setiap aplikasi standar yang mendukung format dan "
+"teknik kompresi yang dipilih.\n"
 "\n"
 "Tipe direktori yang didukunga adalah MH, IMAP, RSSyl dan vCalendar.\n"
 "\n"
 "Untuk mengaktifkan fitur pengarsipan silahkan ke /Alat/Buat Arsip\n"
 "\n"
-"Pilihan standar dapat diatur di /Konfigurasi/Pengaturan/Pengaya/Pengarsip Surat"
+"Pilihan standar dapat diatur di /Konfigurasi/Pengaturan/Pengaya/Pengarsip "
+"Surat"
 
 #: src/archiver.c:149
 msgid "Archiver"
@@ -190,15 +200,11 @@ msgstr "Ukuran Direktori"
 msgid "Compression level"
 msgstr "Tingkat kompresi"
 
-#: src/archiver_gtk.c:797
-#: src/archiver_gtk.c:805
-#: src/archiver_gtk.c:813
+#: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "Yes"
 msgstr "Ya"
 
-#: src/archiver_gtk.c:797
-#: src/archiver_gtk.c:805
-#: src/archiver_gtk.c:813
+#: src/archiver_gtk.c:797 src/archiver_gtk.c:805 src/archiver_gtk.c:813
 msgid "No"
 msgstr "Tidak"
 
@@ -214,14 +220,14 @@ msgstr "Nama deskriptif"
 msgid "Delete selected files"
 msgstr "Hapus berkas terpilih"
 
-#: src/archiver_gtk.c:825
-#: src/archiver_gtk.c:1208
+#: src/archiver_gtk.c:825 src/archiver_gtk.c:1208
 msgid "Select mails before"
 msgstr "Pilih surat sebelum"
 
 #: src/archiver_gtk.c:901
 msgid "Select file name for archive [suffix should reflect archive like .tgz]"
-msgstr "Pilih nama berkas untuk arsip [akhiran mencerminkan arsip seperti .tgz]"
+msgstr ""
+"Pilih nama berkas untuk arsip [akhiran mencerminkan arsip seperti .tgz]"
 
 #: src/archiver_gtk.c:949
 #, c-format
@@ -250,7 +256,9 @@ msgstr "_Jelajah"
 
 #: src/archiver_gtk.c:1029
 msgid "Click this button to select a folder which is to be root of the archive"
-msgstr "Klik tombol ini untuk memilih direktori yang menjadi direktori utama dari arsip"
+msgstr ""
+"Klik tombol ini untuk memilih direktori yang menjadi direktori utama dari "
+"arsip"
 
 #: src/archiver_gtk.c:1035
 msgid "Name for archive"
@@ -260,8 +268,7 @@ msgstr "Nama untuk arsip"
 msgid "Archive location and name"
 msgstr "Nama dan lokasi arsip"
 
-#: src/archiver_gtk.c:1043
-#: src/archiver_prefs.c:196
+#: src/archiver_gtk.c:1043 src/archiver_prefs.c:196
 msgid "_Select"
 msgstr "_Pilih"
 
@@ -335,7 +342,8 @@ msgid ""
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archive"
 msgstr ""
-"Ambil pilihan ini untuk menambah ceksum MD5 untuk setiap berkas dalam arsip.\n"
+"Ambil pilihan ini untuk menambah ceksum MD5 untuk setiap berkas dalam "
+"arsip.\n"
 "Namun waspadalah, hal ini meningkatkan waktu\n"
 "pembuatan arsip secara drastis"
 
@@ -343,14 +351,14 @@ msgstr ""
 msgid "R_ename"
 msgstr "G_anti nama"
 
-#: src/archiver_gtk.c:1187
-#: src/archiver_prefs.c:331
+#: src/archiver_gtk.c:1187 src/archiver_prefs.c:331
 msgid ""
 "Choose this option to use descriptive names for each file in the archive.\n"
 "The naming scheme: date_from@to@subject.\n"
 "Names will be truncated to max 96 characters"
 msgstr ""
-"Ambil pilihan ini untuk menggunakan nama deskriptif untuk setiap berkas dalam arsip.\n"
+"Ambil pilihan ini untuk menggunakan nama deskriptif untuk setiap berkas "
+"dalam arsip.\n"
 "Skema nama: tanggal_dari@ke@subyek.\n"
 "Nama akan dipotong sampai maksimum 96 karakter"
 
@@ -453,7 +461,8 @@ msgstr "Rekursif"
 
 #: src/archiver_prefs.c:322
 msgid "Choose this option to include subfolders in the archives by default"
-msgstr "Ambil pilihan ini untuk secara standar menyertakan subdirektori kedalam arsip"
+msgstr ""
+"Ambil pilihan ini untuk secara standar menyertakan subdirektori kedalam arsip"
 
 #: src/archiver_prefs.c:323
 msgid "MD5sum"
@@ -461,11 +470,13 @@ msgstr "MD5sum"
 
 #: src/archiver_prefs.c:325
 msgid ""
-"Choose this option to add MD5 checksums for each file in the archives by default.\n"
+"Choose this option to add MD5 checksums for each file in the archives by "
+"default.\n"
 "Be aware though, that this dramatically increases the time it\n"
 "will take to create the archives"
 msgstr ""
-"Ambil pilihan ini untuk secara standar menambah ceksum MD5 untuk setiap berkas dalam arsip.\n"
+"Ambil pilihan ini untuk secara standar menambah ceksum MD5 untuk setiap "
+"berkas dalam arsip.\n"
 "Namun waspadalah, hal ini akan meningkatkan waktu\n"
 "pembuatan arsip secara drastis"
 
@@ -480,4 +491,3 @@ msgstr "Hapus"
 #: src/archiver_prefs.c:337
 msgid "Choose this option to delete mails after archiving"
 msgstr "Ambil pilihan ini untuk menghapus pesan setelah mengarsipkan"
-
