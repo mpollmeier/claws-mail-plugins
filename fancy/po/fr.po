@@ -1,127 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Salvatore De Paolis
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Claws Mail Fancy plugin\n"
 "Report-Msgid-Bugs-To: iwkse@claws-mail.org\n"
-"POT-Creation-Date: 2009-10-06 11:11+0200\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: Claws Mail <claws-mail-translators@dotsrc.org>\n"
+"POT-Creation-Date: 2010-11-12 09:49+0000\n"
+"PO-Revision-Date: 2010-11-12 16:28+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
 
-#: src/fancy_viewer.c:165
+#: src/fancy_viewer.c:178
 #, c-format
 msgid ""
 "Printing failed:\n"
 " %s"
 msgstr ""
-"L'impression a Ã©chouÃ© :\n"
+"Échec lors de l'impression :\n"
 " %s"
 
-#: src/fancy_viewer.c:193
+#: src/fancy_viewer.c:206
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
-msgstr "L'impression du HTML n'est possible que si le programme 'html2ps' est installÃ©."
+msgstr "L'impression de HTML n'est possible que si le programme 'html2ps' est installé."
 
-#: src/fancy_viewer.c:198
+#: src/fancy_viewer.c:211
 msgid "Filename is null."
-msgstr "Le nom du fichier est vide."
+msgstr "Le nom de fichier est null."
 
-#: src/fancy_viewer.c:214
+#: src/fancy_viewer.c:227
 msgid "Conversion to postscript failed."
-msgstr "Ã‰chec de la conversion postscript."
+msgstr "Échec de la conversion en PostScript."
 
-#: src/fancy_viewer.c:221
+#: src/fancy_viewer.c:234
 msgid "Print"
 msgstr "Imprimer"
 
-#: src/fancy_viewer.c:242
+#: src/fancy_viewer.c:255
 #, c-format
 msgid "Printer %s doesn't accept PostScript files."
 msgstr "L'imprimante %s n'accepte pas les fichiers PostScript."
 
-#: src/fancy_viewer.c:256
+#: src/fancy_viewer.c:269
 #, c-format
 msgid ""
 "Printing failed:\n"
 "%s"
 msgstr ""
-"L'impression a Ã©chouÃ© :\n"
+"Échec lors de l'impression :\n"
 "%s"
 
-#: src/fancy_viewer.c:455
+#: src/fancy_viewer.c:421
+#, c-format
+msgid "Couldn't save the part of multipart message: %s"
+msgstr "Impossible d'enregistrer la partie du message multipart : %s"
+
+#: src/fancy_viewer.c:528
 msgid "Load images"
 msgstr "Charger les images"
 
-#: src/fancy_viewer.c:459
-msgid "Unblock links"
-msgstr "DÃ©bloquer les liens"
+#: src/fancy_viewer.c:532
+msgid "Unblock external content"
+msgstr "Débloquer le contenu externe"
 
-#: src/fancy_viewer.c:463
-#: src/fancy_prefs.c:131
+#: src/fancy_viewer.c:536
+#: src/fancy_prefs.c:135
 msgid "Enable Javascript"
-msgstr "Activer Javascript"
+msgstr "Activer JavaScript"
 
-#: src/fancy_viewer.c:466
-#: src/fancy_prefs.c:137
+#: src/fancy_viewer.c:539
+#: src/fancy_prefs.c:141
 msgid "Enable Plugins"
 msgstr "Activer les modules"
 
-#: src/fancy_viewer.c:469
-#: src/fancy_prefs.c:143
+#: src/fancy_viewer.c:542
+#: src/fancy_prefs.c:147
 msgid "Open links with external browser"
-msgstr "Ouvrir les liens avec le navigateur"
+msgstr "Ouvrir les liens avec le navigateur externe"
 
-#: src/fancy_viewer.c:623
+#: src/fancy_viewer.c:693
+#, c-format
+msgid "An error occurred: %d\n"
+msgstr "Une erreur s'est produite : %d\n"
+
+#: src/fancy_viewer.c:713
+msgid "Save as"
+msgstr "Enregistrer sous"
+
+#: src/fancy_viewer.c:744
+#, c-format
+msgid "%s is a malformed or not supported feed"
+msgstr "%s est un flux invalide ou non supporté"
+
+#: src/fancy_viewer.c:755
 msgid "Search the Web"
-msgstr "Chercher sur le web"
+msgstr "Chercher sur le Web"
 
-#: src/fancy_viewer.c:638
+#: src/fancy_viewer.c:771
 msgid "Open in Browser"
-msgstr "Ouvrir dans le navigateur"
+msgstr "Ouvrir avec le navigateur"
 
-#: src/fancy_viewer.c:648
-#: src/fancy_viewer.c:681
+#: src/fancy_viewer.c:781
 msgid "Open Image"
 msgstr "Ouvrir l'image"
 
-#: src/fancy_viewer.c:657
+#: src/fancy_viewer.c:790
 msgid "Copy Link"
 msgstr "Copier le lien"
 
-#: src/fancy_viewer.c:670
+#: src/fancy_viewer.c:796
 msgid "Download Link"
-msgstr "Enregistrer le lien"
+msgstr "Télécharger le lien"
 
-#: src/fancy_viewer.c:693
+#: src/fancy_viewer.c:821
 msgid "Save Image As"
-msgstr "Enregistrer l'image"
+msgstr "Enregistrer l'image sous"
 
-#: src/fancy_viewer.c:704
+#: src/fancy_viewer.c:846
 msgid "Copy Image"
 msgstr "Copier l'image"
 
-#: src/fancy_viewer.c:934
+#: src/fancy_viewer.c:866
+msgid "Import feed"
+msgstr "Importer le flux"
+
+#: src/fancy_viewer.c:1089
 msgid "Fancy"
 msgstr "Fancy"
 
-#: src/fancy_viewer.c:955
+#: src/fancy_viewer.c:1107
 msgid "Fancy HTML Viewer"
-msgstr "Visualiseur HTML Fancy"
+msgstr "Fancy - rendu HTML"
 
-#: src/fancy_prefs.c:81
+#: src/fancy_prefs.c:84
 msgid "Plugins"
 msgstr "Modules"
 
-#: src/fancy_prefs.c:119
+#: src/fancy_prefs.c:123
 msgid "Auto-Load images"
 msgstr "Charger les images automatiquement"
 
-#: src/fancy_prefs.c:125
-msgid "Block external links"
-msgstr "Bloquer les liens externes"
+#: src/fancy_prefs.c:129
+msgid "Block external content"
+msgstr "Bloquer le contenu externe"
 
