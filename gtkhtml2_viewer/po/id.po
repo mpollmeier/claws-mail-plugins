@@ -7,16 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtkhtml2_viewer\n"
 "Report-Msgid-Bugs-To: andrej@kacian.sk\n"
-"POT-Creation-Date: 2010-01-01 19:03+0000\n"
-"PO-Revision-Date: 2009-06-29 11:38+0700\n"
+"POT-Creation-Date: 2010-11-12 09:51+0000\n"
+"PO-Revision-Date: 2010-11-14 21:04+0700\n"
 "Last-Translator: MSulchan Darmawan <bleketux@gmail.com>\n"
 "Language-Team:  <claws-mail-translators@dotsrc.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gtkhtml2_prefs.c:70 src/gtkhtml2_prefs.c:210 src/gtkhtml2_prefs.c:226
-#: src/gtkhtml2_prefs.c:312 src/gtkhtml2_viewer.c:188
+#: src/gtkhtml2_prefs.c:70
+#: src/gtkhtml2_prefs.c:210
+#: src/gtkhtml2_prefs.c:226
+#: src/gtkhtml2_prefs.c:312
+#: src/gtkhtml2_viewer.c:188
 msgid "Any"
 msgstr "Apa saja"
 
@@ -112,8 +116,7 @@ msgstr ""
 
 #: src/gtkhtml2_viewer.c:1157
 msgid "Printing HTML is only possible if the program 'html2ps' is installed."
-msgstr ""
-"Mencetak format HTML memungkinkan jika aplikasi 'html2ps' telah terpasang."
+msgstr "Mencetak format HTML memungkinkan jika aplikasi 'html2ps' telah terpasang."
 
 #: src/gtkhtml2_viewer.c:1162
 msgid "Filename is null."
@@ -141,10 +144,12 @@ msgstr ""
 "Gagal mencetak:\n"
 "%s"
 
-#: src/gtkhtml2_viewer.c:1383 src/gtkhtml2_viewer.c:1420
+#: src/gtkhtml2_viewer.c:1383
+#: src/gtkhtml2_viewer.c:1420
 msgid "GtkHtml2 HTML Viewer"
 msgstr "Penampil GtkHtml2 HTML"
 
 #: src/gtkhtml2_viewer.c:1425
 msgid "This plugin renders HTML mail using the gtkhtml2rendering widget."
 msgstr "Pengaya ini membaca pesan HTML menggunakan widget gtkhtml2rendering."
+
