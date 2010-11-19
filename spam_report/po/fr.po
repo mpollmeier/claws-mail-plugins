@@ -5,15 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Claws Mail SpamReport\n"
+"Project-Id-Version: Claws Mail SpamReport plugin\n"
 "Report-Msgid-Bugs-To: colin@colino.net\n"
 "POT-Creation-Date: 2009-06-26 08:44+0200\n"
-"PO-Revision-Date: 2009-06-26 08:46+0100\n"
-"Last-Translator: Colin Leroy <colin@colino.net>\n"
-"Language-Team: FR <colin@colino.net>\n"
+"PO-Revision-Date: 2010-11-15 09:56+0100\n"
+"Last-Translator: Tristan Chabredier (wwp) <subscript@free.fr>\n"
+"Language-Team:  <claws-mail-translators@dotsrc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 
 #: src/spam_report.c:296
 msgid "Reporting spam..."
@@ -38,11 +41,11 @@ msgid ""
 " * spamcop.net\n"
 " * lists.debian.org nomination system"
 msgstr ""
-"Ce module soumet les pourriels Ã  divers services anti-pourriel en ligne. Pour l'instant, les services suivants sont supportÃ©s :\n"
+"Ce module soumet les pourriels à divers services anti-pourriel en ligne. Pour l'instant, les services suivants sont supportés :\n"
 "\n"
 " * spam-signal.fr\n"
 " * spamcop.net\n"
-" * SystÃ¨me de nomination de lists.debian.org"
+" * Système de nomination de lists.debian.org"
 
 #: src/spam_report.c:421
 msgid "Spam reporting"
@@ -54,11 +57,11 @@ msgstr "Modules"
 
 #: src/spam_report_prefs.c:121
 msgid "Enabled"
-msgstr "ActivÃ©"
+msgstr "Activé"
 
 #: src/spam_report_prefs.c:148
 msgid "Forward to:"
-msgstr "TransfÃ©rer Ã  :"
+msgstr "Transférer à :"
 
 #: src/spam_report_prefs.c:151
 msgid "Username:"
