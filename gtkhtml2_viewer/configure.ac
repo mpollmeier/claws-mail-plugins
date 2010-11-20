@@ -7,9 +7,9 @@ PACKAGE=gtkhtml2_viewer
 
 dnl plugin version
 MAJOR_VERSION=0
-MINOR_VERSION=27
+MINOR_VERSION=28
 MICRO_VERSION=0
-EXTRA_VERSION=4
+EXTRA_VERSION=0
 
 if test \( $EXTRA_VERSION -eq 0 \); then
     if test \( $MICRO_VERSION -eq 0 \); then
