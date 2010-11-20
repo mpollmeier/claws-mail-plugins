@@ -58,3 +58,4 @@
 ( cvs diff -u -r 1.1.2.72 -r 1.1.2.73 configure.ac;  ) > 0.4cvs9.patchset
 ( cvs diff -u -r 1.1.2.73 -r 1.1.2.74 configure.ac;  ) > 0.4cvs10.patchset
 ( cvs diff -u -r 1.1.2.74 -r 1.1.2.75 configure.ac;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/ca.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/fi.po;  diff -u /dev/null po/fr.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/pt_BR.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/sk.po;  diff -u /dev/null po/uk.po;  ) > 0.4cvs11.patchset
+( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/python_plugin.c;  ) > 0.5cvs1.patchset
