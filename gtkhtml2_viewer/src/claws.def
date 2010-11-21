@@ -25,6 +25,7 @@ gtkutils_scroll_page
 gtkut_widget_has_focus
 gtkut_widget_is_drawable
 gtkut_widget_get_visible
+gtkut_widget_set_can_focus
 is_dir_exist
 itos
 log_error
