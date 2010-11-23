@@ -21,10 +21,9 @@
 #include "address_keeper.h"
 #include "address_keeper_prefs.h"
 #include "addr_compl.h"
+#include "addrbook.h"
 #include "codeconv.h"
 #include "prefs_common.h"
-#include "addrbook.h"
-#include "addr_compl.h"
 
 #include "pluginconfig.h"
 
