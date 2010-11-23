@@ -3,3 +3,4 @@
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/address_keeper.c;  ) > 1.0.0cvs3.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 configure.ac;  diff -u /dev/null po/ca.po;  diff -u /dev/null po/cs.po;  diff -u /dev/null po/fr.po;  diff -u /dev/null po/hu.po;  diff -u /dev/null po/id.po;  diff -u /dev/null po/pt_BR.po;  diff -u /dev/null po/sk.po;  diff -u /dev/null po/uk.po;  ) > 1.0.0cvs4.patchset
 ( cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/address_keeper.c;  ) > 1.0.1cvs1.patchset
+( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/address_keeper.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/address_keeper_prefs.c;  ) > 1.0.1cvs2.patchset

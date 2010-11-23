@@ -176,7 +176,7 @@ static void addkeeper_save_config(void)
 static void addkeeper_prefs_save_func(PrefsPage * _page)
 {
 	struct AddressKeeperPrefsPage *page = (struct AddressKeeperPrefsPage *) _page;
-	gchar *text;
+	const gchar *text;
 	text = gtk_entry_get_text(GTK_ENTRY(page->addressbook_folder));
 	addkeeperprefs.addressbook_folder = g_strdup(text);
 	addkeeperprefs.keep_to_addrs = gtk_toggle_button_get_active(
@@ -192,7 +192,6 @@ void address_keeper_prefs_init(void)
 {
 	static gchar *path[3];
 	gchar *rcpath;
-	gchar *tmp;
 	
 	path[0] = _("Plugins");
 	path[1] = _("Address Keeper");

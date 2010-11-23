@@ -1,3 +1,9 @@
+2010-11-23 [colin]	1.0.1cvs2
+
+	* src/address_keeper.c
+	* src/address_keeper_prefs.c
+		Fix remaining warnings
+
 2010-11-23 [wwp]	1.0.1cvs1
 
 	* src/address_keeper.c

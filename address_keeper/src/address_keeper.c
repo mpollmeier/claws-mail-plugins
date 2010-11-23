@@ -20,6 +20,7 @@
 
 #include "address_keeper.h"
 #include "address_keeper_prefs.h"
+#include "addr_compl.h"
 #include "codeconv.h"
 #include "prefs_common.h"
 #include "addrbook.h"
@@ -34,7 +35,8 @@ static guint hook_id;
  * Extracts name from an address.
  *
  * @param addr The full address.
- * @return The name found in the address or NULL if not found.
+ * @return The name found in the address as a newly allocated string, or NULL if
+ * not found.
  */
 gchar *get_name_from_addr(const gchar *addr)
 {
@@ -59,7 +61,8 @@ gchar *get_name_from_addr(const gchar *addr)
  * Extracts comment from an address.
  *
  * @param addr The full address.
- * @return The comment found in the address or NULL if not found.
+ * @return The comment found in the address as a newly allocated string, or NULL if
+ * not found.
  */
 gchar *get_comment_from_addr(const gchar *addr)
 {
