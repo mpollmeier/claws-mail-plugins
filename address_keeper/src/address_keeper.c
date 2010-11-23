@@ -23,6 +23,7 @@
 #include "codeconv.h"
 #include "prefs_common.h"
 #include "addrbook.h"
+#include "addr_compl.h"
 
 #include "pluginconfig.h"
 
@@ -35,7 +36,7 @@ static guint hook_id;
  * @param addr The full address.
  * @return The name found in the address or NULL if not found.
  */
-const gchar *get_name_from_addr(const gchar *addr)
+gchar *get_name_from_addr(const gchar *addr)
 {
 	gchar *name = NULL;
 
@@ -60,7 +61,7 @@ const gchar *get_name_from_addr(const gchar *addr)
  * @param addr The full address.
  * @return The comment found in the address or NULL if not found.
  */
-const gchar *get_comment_from_addr(const gchar *addr)
+gchar *get_comment_from_addr(const gchar *addr)
 {
 	gchar *comm = NULL;
 
@@ -129,9 +130,9 @@ gboolean my_before_send_hook(gpointer source, gpointer data)
 	ItemFolder *folder = NULL;
 	gchar *keepto = addkeeperprefs.addressbook_folder;
 	GSList *cur;
-	gchar *to_hdr;
-	gchar *cc_hdr;
-	gchar *bcc_hdr;
+	const gchar *to_hdr;
+	const gchar *cc_hdr;
+	const gchar *bcc_hdr;
 
 	debug_print("address_keeper invoked!\n");
 	if (compose->batch)

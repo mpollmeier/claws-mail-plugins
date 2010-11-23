@@ -1,3 +1,8 @@
+2010-11-23 [wwp]	1.0.1cvs1
+
+	* src/address_keeper.c
+	 Silent up some warnings, including a fix for bug 2305.
+
 2010-11-19 [paul]	1.0.1
 
 	* initial release!
