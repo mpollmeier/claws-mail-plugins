@@ -1,6 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Ricardo Mones
-# This file is distributed under the same license as the PACKAGE package.
+# Hungarian translation for Address Keeper plugin
+# Copyright (C) 2010 Ricardo Mones
+# This file is distributed under the same license as the address_keeper package.
 # Páder Rezső (rezso) <rezso@rezso.net>, 2010.
 #
 msgid ""

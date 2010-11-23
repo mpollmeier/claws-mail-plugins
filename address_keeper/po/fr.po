@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Ricardo Mones
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# French translation for Address Keeper plugin
+# Copyright (C) 2010 Ricardo Mones
+# This file is distributed under the same license as the address_keeper package.
+# Tristan Chabredier (wwp) <subscript@free.fr>, 2010.
 #
 msgid ""
 msgstr ""

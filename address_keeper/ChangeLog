@@ -1,3 +1,14 @@
+2010-11-23 [mones]	1.0.1cvs4
+
+	* po/fr.po
+	* po/hu.po
+	* po/id.po
+	* po/pt_BR.po
+	* po/sk.po
+		Updated header comments
+	* po/uk.po
+		Fixed translation, thanks Yarema.
+
 2010-11-23 [colin]	1.0.1cvs3
 
 	* src/address_keeper.c

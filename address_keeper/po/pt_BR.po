@@ -1,4 +1,6 @@
 # Brazilian Portuguese translation of Claws Mail Address Keeper plugin
+# Copyright (C) 2010 Ricardo Mones
+# This file is distributed under the same license as the address_keeper package.
 # Frederico Goncalves Guimaraes <frederico@teia.bio.br>, 2010.
 #
 msgid ""

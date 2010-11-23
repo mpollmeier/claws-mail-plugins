@@ -1,13 +1,12 @@
-# Slovak translations for address_keeper_plugin package
-# Slovenské preklady pre balík address_keeper_plugin.
+# Slovak translations for address_keeper plugin
+# Slovenské preklady pre balík address_keeper plugin.
 # Copyright (C) 2010 Ricardo Mones
-# This file is distributed under the same license as the PACKAGE package.
-# Automatically generated, 2010.
+# This file is distributed under the same license as the address_keeper package.
 # Slavko <linux@slavino.sk>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: address_keeper_plugin\n"
+"Project-Id-Version: address_keeper\n"
 "Report-Msgid-Bugs-To: ricardo@mones.org\n"
 "POT-Creation-Date: 2010-11-12 09:58+0000\n"
 "PO-Revision-Date: 2010-11-12 18:08+0100\n"
