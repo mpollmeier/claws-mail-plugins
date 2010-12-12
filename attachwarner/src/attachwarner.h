@@ -38,7 +38,6 @@ MatcherProp *	new_matcherprop		  (void);
 gboolean 	matcherprop_string_match  (MatcherProp *mp, gchar *str);
 gboolean 	are_attachments_mentioned (Compose *compose);
 gboolean 	does_not_have_attachments (Compose *compose);
-gboolean 	my_before_send_hook	  (gpointer source, gpointer data);
 
 gint 		plugin_init	  	  (gchar **error);
 gboolean	plugin_done		  (void);

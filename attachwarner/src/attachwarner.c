@@ -248,7 +248,7 @@ gboolean do_not_check_redirect_forward(int mode)
  * @return TRUE if no attachments are mentioned or files are attached,
  *         FALSE if attachments are mentioned and no files are attached.
  */
-gboolean my_before_send_hook(gpointer source, gpointer data)
+static gboolean attwarn_before_send_hook(gpointer source, gpointer data)
 {
 	Compose *compose = (Compose *)source;
 	gboolean askuser = FALSE;
@@ -307,7 +307,7 @@ gint plugin_init(gchar **error)
 		return -1;
 
 	hook_id = hooks_register_hook(COMPOSE_CHECK_BEFORE_SEND_HOOKLIST, 
-				      my_before_send_hook, NULL);
+				      attwarn_before_send_hook, NULL);
 	
 	if (hook_id == -1) {
 		*error = g_strdup(_("Failed to register check before send hook"));

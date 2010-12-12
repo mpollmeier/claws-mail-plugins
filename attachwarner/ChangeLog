@@ -1,3 +1,10 @@
+2010-12-12 [colin]	0.2.20cvs1
+
+	* src/attachwarner.c
+	* src/attachwarner.h
+		Staticalize hooklist callback (and make its name
+		less generic).
+
 2010-11-19 [paul]	0.2.20
 
 	0.2.20 released
