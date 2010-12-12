@@ -34,8 +34,6 @@
 
 #define PLUGIN_NAME	(_("Address Keeper"))
 
-static gboolean	addrk_before_send_hook	  (gpointer source, gpointer data);
-
 gint 		plugin_init	  	  (gchar **error);
 gboolean	plugin_done		  (void);
 const gchar *	plugin_name		  (void);
