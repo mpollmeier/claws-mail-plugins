@@ -1,3 +1,8 @@
+2010-12-12 [colin]	0.3.12cvs1
+
+	* src/spam_report.c
+		Remove unused variable
+
 2010-11-19 [paul]	0.3.12
 
 	0.3.12 released

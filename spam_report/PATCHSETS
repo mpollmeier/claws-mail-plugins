@@ -44,3 +44,4 @@
 ( cvs diff -u -r 1.1.2.55 -r 1.1.2.56 configure.ac;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/ca.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/es.po;  cvs diff -u -r 1.1.2.8 -r 1.1.2.9 po/fi.po;  diff -u /dev/null po/nl.po;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 po/sk.po;  ) > 0.3.9cvs2.patchset
 ( cvs diff -u -r 1.1.2.9 -r 1.1.2.10 po/fi.po;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/sk.po;  ) > 0.3.10cvs1.patchset
 ( cvs diff -u -r 1.1.2.59 -r 1.1.2.60 configure.ac;  cvs diff -u -r 1.1.2.3 -r 1.1.2.4 po/ca.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/es.po;  cvs diff -u -r 1.1.2.10 -r 1.1.2.11 po/fi.po;  cvs diff -u -r 1.1.2.6 -r 1.1.2.7 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/pt_BR.po;  cvs diff -u -r 1.1.2.4 -r 1.1.2.5 po/sk.po;  diff -u /dev/null po/uk.po;  ) > 0.3.11cvs1.patchset
+( cvs diff -u -r 1.1.2.18 -r 1.1.2.19 src/spam_report.c;  ) > 0.3.12cvs1.patchset

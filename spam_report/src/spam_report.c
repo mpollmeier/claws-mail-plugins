@@ -337,7 +337,6 @@ static guint main_menu_id = 0;
 gint plugin_init(gchar **error)
 {
 	MainWindow *mainwin = mainwindow_get_mainwindow();
-	SummaryView *summaryview = mainwin->summaryview;
 
 #ifdef G_OS_UNIX
 	bindtextdomain(TEXTDOMAIN, LOCALEDIR);
