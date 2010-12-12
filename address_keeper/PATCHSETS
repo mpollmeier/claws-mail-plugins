@@ -6,3 +6,4 @@
 ( cvs diff -u -r 1.1.2.3 -r 1.1.2.4 src/address_keeper.c;  cvs diff -u -r 1.1.2.2 -r 1.1.2.3 src/address_keeper_prefs.c;  ) > 1.0.1cvs2.patchset
 ( cvs diff -u -r 1.1.2.4 -r 1.1.2.5 src/address_keeper.c;  ) > 1.0.1cvs3.patchset
 ( cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/fr.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/hu.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/id.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/pt_BR.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/sk.po;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 po/uk.po;  ) > 1.0.1cvs4.patchset
+( cvs diff -u -r 1.1.2.5 -r 1.1.2.6 src/address_keeper.c;  cvs diff -u -r 1.1.2.1 -r 1.1.2.2 src/address_keeper.h;  ) > 1.0.2cvs1.patchset

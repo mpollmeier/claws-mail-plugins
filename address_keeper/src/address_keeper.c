@@ -95,6 +95,7 @@ void keep_if_unknown(AddressBookFile * abf, ItemFolder * folder, gchar *addr)
 	debug_print("checking addr '%s'\n", addr);
 	clean_addr = g_strdup(addr);
 	extract_address(clean_addr);
+	start_address_completion(NULL);
 	if (complete_matches_found(clean_addr) == 0) {
 		gchar *a_name;
 		gchar *a_comment;
@@ -113,6 +114,7 @@ void keep_if_unknown(AddressBookFile * abf, ItemFolder * folder, gchar *addr)
 		debug_print("found addr '%s' in addressbook '%s', skipping\n",
 			    clean_addr, keepto);
 	}
+	end_address_completion();
 	g_free(clean_addr);
 }
 
@@ -124,7 +126,7 @@ void keep_if_unknown(AddressBookFile * abf, ItemFolder * folder, gchar *addr)
  *
  * @return FALSE always: we're only annotating addresses.
  */
-gboolean my_before_send_hook(gpointer source, gpointer data)
+static gboolean addrk_before_send_hook(gpointer source, gpointer data)
 {
 	Compose *compose = (Compose *)source;
 	AddressDataSource *book = NULL;
@@ -211,7 +213,7 @@ gint plugin_init(gchar **error)
 		return -1;
 
 	hook_id = hooks_register_hook(COMPOSE_CHECK_BEFORE_SEND_HOOKLIST, 
-				      my_before_send_hook, NULL);
+				      addrk_before_send_hook, NULL);
 	
 	if (hook_id == -1) {
 		*error = g_strdup(_("Failed to register check before send hook"));

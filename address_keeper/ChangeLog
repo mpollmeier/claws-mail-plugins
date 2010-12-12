@@ -1,3 +1,10 @@
+2010-12-12 [mones]	1.0.2cvs1
+
+	* src/address_keeper.c
+	* src/address_keeper.h
+		Invalidate completion and make hook function local and
+		unambiguous. Fixes bug 2311 (addresses stored twice).
+
 2010-12-04 [paul]	1.0.2
 
 	* 1.0.2 released
