@@ -42,7 +42,7 @@ gint plugin_init(gchar **error)
 #endif
 	bind_textdomain_codeset(TEXTDOMAIN, "UTF-8");
 
-	if( !check_plugin_version(MAKE_NUMERIC_VERSION(3,7,6,53),
+	if( !check_plugin_version(MAKE_NUMERIC_VERSION(3,7,8,31),
 				VERSION_NUMERIC, PLUGIN_NAME, error) )
 		return -1;
 

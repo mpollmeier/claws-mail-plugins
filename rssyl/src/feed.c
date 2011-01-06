@@ -998,8 +998,8 @@ static gint rssyl_cb_feed_compare(const RSSylFeedItem *a,
 		no_link = TRUE;
 
 	if( (a->title != NULL) && (b->title != NULL) ) {
-		atit = conv_unmime_header(a->title, CS_UTF_8);
-		btit = conv_unmime_header(b->title, CS_UTF_8);
+		atit = conv_unmime_header(a->title, CS_UTF_8, FALSE);
+		btit = conv_unmime_header(b->title, CS_UTF_8, FALSE);
 		if( strcmp(atit, btit) == 0 )
 			title_eq = TRUE;
 		g_free(atit);
@@ -1049,8 +1049,8 @@ static gint rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *new_
 {
 	/* if both have title ... */
 	if( old_item->title && new_item->title ) {
-		gchar *old = conv_unmime_header(old_item->title, CS_UTF_8);
-		gchar *new = conv_unmime_header(new_item->title, CS_UTF_8);
+		gchar *old = conv_unmime_header(old_item->title, CS_UTF_8, FALSE);
+		gchar *new = conv_unmime_header(new_item->title, CS_UTF_8, FALSE);
 		if( strcmp(old, new) ) {	/* ... compare "unmimed" titles */
 			g_free(old);
 			g_free(new);
@@ -1069,8 +1069,8 @@ static gint rssyl_feed_item_changed(RSSylFeedItem *old_item, RSSylFeedItem *new_
 
 	/* if both have author ... */
 	if( old_item->author && new_item->author ) {
-		gchar *old = conv_unmime_header(old_item->author, CS_UTF_8);
-		gchar *new = conv_unmime_header(new_item->author, CS_UTF_8);
+		gchar *old = conv_unmime_header(old_item->author, CS_UTF_8, TRUE);
+		gchar *new = conv_unmime_header(new_item->author, CS_UTF_8, TRUE);
 		if( strcmp(old, new) ) {	/* ... compare "unmimed" authors */
 			g_free(old);
 			g_free(new);
