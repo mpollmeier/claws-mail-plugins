@@ -295,6 +295,7 @@ static VCalEvent *vcalviewer_get_component(const gchar *file, const gchar *chars
 	if (ferror(fp)) {
 		FILE_OP_ERROR("file stream", "fread");
 		g_byte_array_free(array, TRUE);
+		fclose(fp);
 		return NULL;
 	}
 
