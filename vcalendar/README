@@ -1,9 +1,0 @@
-This Sylpheed-Claws plugin handles the vCalendar format (or rather, the 
-meeting subset of it). It displays such mails in a nice format, lets you
-create and send meetings, and creates a virtual folder with the meetings you
-sent or received.
-
-This GTK1 version of vcalendar is in bugfix mode; the new features will only
-be added to its GTK2 version. Also, this version of vCalendar only supports
-libical-0.23 (NOT 0.24-*).
-

@@ -1,5 +1,0 @@
-src/libgtkgs/ggvutils.c
-src/libgtkgs/gtkgs.c
-src/plugin.c
-src/viewer.c
-src/viewerprefs.c

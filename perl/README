@@ -1,7 +1,0 @@
-The documentation has moved to the file sc_perl.pod and is now
-written in POD format. Use the command `perldoc ./sc_perl.pod' in
-the top level directory of this distribution to read
-it. Alternatively, you can use `pod2man' (which is part of the
-Perl distribution) to generate a man page.
-
-Also, don't forget to check out the NEWS file.
