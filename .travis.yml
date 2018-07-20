@@ -2,8 +2,6 @@ language: scala
 jdk:
 - oraclejdk8
 before_install:
-- openssl aes-256-cbc -K $encrypted_453466e09072_key -iv $encrypted_453466e09072_iv
-  -in gpg.priv.enc -out gpg.priv -d
 - git fetch --tags
 env:
   global:
