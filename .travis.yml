@@ -13,6 +13,7 @@ env:
   - PATH="${PROTOC_TARGET}/bin:${PATH}"
 install:
 - gpg --version
+- gpg --list-keys
 - gpg --import gpg.priv
 - gpg --list-keys
 - rm -rf $HOME/protoc
